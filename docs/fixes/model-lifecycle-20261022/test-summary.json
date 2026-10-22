@@ -1,0 +1,231 @@
+[
+  {
+    "name": "test-ai-boundaries",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-ai-boundaries.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.7,
+    "log": "test-ai-boundaries.log"
+  },
+  {
+    "name": "test-decision-audit",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-decision-audit.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.25,
+    "log": "test-decision-audit.log"
+  },
+  {
+    "name": "test-decision-state-fingerprint",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-decision-state-fingerprint.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.09,
+    "log": "test-decision-state-fingerprint.log"
+  },
+  {
+    "name": "test-friendly-strip-plan",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-friendly-strip-plan.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.17,
+    "log": "test-friendly-strip-plan.log"
+  },
+  {
+    "name": "test-identity",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-identity.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.66,
+    "log": "test-identity.log"
+  },
+  {
+    "name": "test-ingest-contract",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-ingest-contract.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.05,
+    "log": "test-ingest-contract.log"
+  },
+  {
+    "name": "test-jiedao-pair",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-jiedao-pair.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.22,
+    "log": "test-jiedao-pair.log"
+  },
+  {
+    "name": "test-jiedao-response",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-jiedao-response.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.19,
+    "log": "test-jiedao-response.log"
+  },
+  {
+    "name": "test-manual-fire-control",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-manual-fire-control.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.16,
+    "log": "test-manual-fire-control.log"
+  },
+  {
+    "name": "test-model-lifecycle",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-model-lifecycle.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 13.42,
+    "log": "test-model-lifecycle.log"
+  },
+  {
+    "name": "test-regressions",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-regressions.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 1.16,
+    "log": "test-regressions.log"
+  },
+  {
+    "name": "test-removal-cooperation",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-removal-cooperation.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.17,
+    "log": "test-removal-cooperation.log"
+  },
+  {
+    "name": "test-response-material-packing",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-response-material-packing.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.66,
+    "log": "test-response-material-packing.log"
+  },
+  {
+    "name": "test-suggestion-fusion",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-suggestion-fusion.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.19,
+    "log": "test-suggestion-fusion.log"
+  },
+  {
+    "name": "test-trick-boundaries",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-trick-boundaries.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.2,
+    "log": "test-trick-boundaries.log"
+  },
+  {
+    "name": "test-trick-cooperation",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-trick-cooperation.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.58,
+    "log": "test-trick-cooperation.log"
+  },
+  {
+    "name": "test-utility-boundaries",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-utility-boundaries.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.11,
+    "log": "test-utility-boundaries.log"
+  },
+  {
+    "name": "test-weights",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-weights.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 1.41,
+    "log": "test-weights.log"
+  },
+  {
+    "name": "test-wuxie-player-intent",
+    "command": [
+      "node",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\tools\\test-wuxie-player-intent.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.19,
+    "log": "test-wuxie-player-intent.log"
+  },
+  {
+    "name": "python-audit",
+    "command": [
+      "C:\\Users\\32360\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "exitCode": 0,
+    "seconds": 0.12,
+    "log": "python-audit.log"
+  },
+  {
+    "name": "audit-scope",
+    "command": [
+      "node",
+      "--test",
+      "--test-name-pattern",
+      "134维|两版候选|IndexedDB|声称134",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\docs\\audit-20261021\\model-regression.test.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.61,
+    "log": "audit-scope.log"
+  },
+  {
+    "name": "audit-all",
+    "command": [
+      "node",
+      "--test",
+      "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app\\extension\\无名AI\\docs\\audit-20261021\\model-regression.test.mjs"
+    ],
+    "exitCode": 1,
+    "seconds": 0.64,
+    "log": "audit-all.log"
+  }
+]

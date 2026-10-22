@@ -1,0 +1,18 @@
+{
+  "baseHead": "372cc9bf12b191dcdbe6369bb0c558e68ab862fe",
+  "branch": "fix/model-lifecycle",
+  "preservedUntracked": "docs/audit-20261021/",
+  "scope": [
+    "P1-01",
+    "P1-02",
+    "P1-06"
+  ],
+  "baselineLifecycleExit": 1,
+  "unchangedWeightBlobs": {
+    "score/model/weights/defaultWeights.js": "e62a2cecf3255ab8382c9c65b00de00f09f445fb",
+    "score/model/weights/weights.js": "79dcc68a71443f4e5cacaedc5454224e4cdf6011",
+    "shadow/decodeV5.js": "a2b4e911523b78320da1e30cf91e4eabd7db1b69",
+    "model/v5_mixup_s42.json": "96a332de849198696aa4f820b8e1d0194e7fe308",
+    "model/v5_mixup_s456.json": "5d679d0b69c020f5d8155cc06b6be1308181b4ea"
+  }
+}

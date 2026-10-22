@@ -4,7 +4,7 @@ import {game,lib} from '../../foundation/adapt/host.js?v=41a';
 import {playerKey} from '../../foundation/adapt/playerIdentity.js?v=41a';
 import {dirOf,downloadText} from '../../foundation/storage/storagePaths.js?v=41a';
 import {getSamples,getSampleDiagnostics} from './trainExport.js?v=41a';
-import {selectClassicDataset,splitClassicByGame,sampleLabel} from './modeDataset.js?v=41a';
+import {selectClassicDataset,splitClassicByGame,classicHoldoutDataset,sampleLabel} from './modeDataset.js?v=41a';
 import {createIsolatedModelSession} from '../weights/weights.js?v=41a';
 import {saveClassicCandidateDurable,retryClassicModelRestore,modeModelsReady,classicModelStorageStatus,classicCandidateInfo,createClassicCandidateSession,createClassicActiveSession,loadClassicCandidate,loadClassicActive,classicActiveInfo,promoteClassicCandidateDurable,rollbackClassicActiveDurable} from '../weights/modeModelStore.js?v=41a';
 import {modeContext,modeSessionActive} from '../../foundation/runtime/modeContext.js?v=41a';
@@ -49,7 +49,8 @@ export async function trainClassicCandidate(){
   progress={phase:'整局留出验证',trained};await pause();
   const baselineResult=await evaluate(baseline,split.validation),candidateResult=await evaluate(candidate,split.validation);
   if(candidateResult.missing||baselineResult.missing)throw Error('验证推理失败，未保存候选');
-  const report={dataset:dataset.stats,training:split.training.length,validation:split.validation.length,holdoutSessions:split.holdoutSessions,
+  const splitMetadata={...split.metadata,holdoutSessions:split.metadata.holdoutSessions.slice()};
+  const report={dataset:dataset.stats,training:split.training.length,validation:split.validation.length,holdoutSessions:splitMetadata.holdoutSessions,splitMetadata,
    baseline:baselineResult,candidate:candidateResult,quality:compareClassicMetrics(candidateResult,baselineResult),trainingMethod:{schema:'classic-float-batch-v1',parameterFormat:'float32-v1',batchSize:32,epochs:5,learningRate:lr,optimizerSteps:candidate.snapshot().adamT,holdoutUsedForTraining:false},trained,ms:Date.now()-start,datasetSignature:datasetSignature(dataset.samples),realGameAcceptance:false,note:'离线标签与价值误差，不是胜率；尚未启用专项模型'};
   const result=await saveClassicCandidateDurable({id:'DDZ-'+Date.now(),createdAt:Date.now(),snapshot:candidate.snapshot(),networkProfile,ruleKeys:[...new Set(dataset.samples.map(s=>s.m.modeContext.ruleKey))],report});
   if(!result.ok)throw Error(result.err);lastReport=report;progress={phase:report.quality.ok?'候选离线通过，可启用试用':'候选已保存，离线未通过',trained};return {...result,report,note:report.quality.ok?'保存成功，离线分组检查通过；启用后下一局参与选择，仍需实战核对。':'保存成功，但离线指标退步或分组样本不足；不能启用，继续使用原运行版本。'};
@@ -60,9 +61,10 @@ export async function validateClassicCandidate(){
  if(busy)return {ok:false,err:'请等待训练结束'};
  const storage=classicModelStorageStatus();if(storage.backend==='unavailable')return {ok:false,err:'模型恢复失败：'+storage.error};
   const info=classicCandidateInfo();if(!info)return {ok:false,err:'暂无专项候选'};
- const dataset=selectClassicDataset(getSamples()),holdout=new Set(info.report?.holdoutSessions||[]),rows=dataset.samples.filter(s=>holdout.has(s.m.sessionId)&&info.ruleKeys.includes(s.m.modeContext.ruleKey));
- if(!rows.length)return {ok:false,err:'原留出验证局的数据不在本地，请重新采集或导入原专项数据'};
- busy=true;try{const result=await evaluate(createClassicCandidateSession(),rows),baseline=await evaluate(createIsolatedModelSession(null,loadClassicCandidate().networkProfile),rows),quality=compareClassicMetrics(result,baseline),signature=datasetSignature(dataset.samples);if(signature!==info.report?.datasetSignature){quality.ok=false;quality.regressions.push('训练后有效样本或标签发生变化，需重新训练');}if(rows.length<30){quality.ok=false;quality.regressions.push('整局留出样本不足 30 条');}return {ok:!result.missing&&!baseline.missing,result,baseline,quality,datasetSignature:signature,note:quality.ok?'留出局质量检查通过；可尝试启用，启用时还会检查当前试用版。离线通过不代表胜率改善。':'留出局质量检查未通过；候选不能启用，保留原运行版本。'};}finally{busy=false;}
+ const dataset=selectClassicDataset(getSamples()),holdout=classicHoldoutDataset(dataset.samples,info.report,info.ruleKeys);
+ if(!holdout.ok)return holdout;
+ const rows=holdout.rows;
+ busy=true;try{const result=await evaluate(createClassicCandidateSession(),rows),baseline=await evaluate(createIsolatedModelSession(null,loadClassicCandidate().networkProfile),rows),quality=compareClassicMetrics(result,baseline),signature=datasetSignature(dataset.samples);if(signature!==info.report?.datasetSignature){quality.ok=false;quality.regressions.push('训练后有效样本或标签发生变化，需重新训练');}return {ok:!result.missing&&!baseline.missing&&quality.ok,...(!quality.ok?{err:quality.regressions.join('；')}:{}),result,baseline,quality,datasetSignature:signature,note:quality.ok?'留出局质量检查通过；可尝试启用，启用时还会检查当前试用版。离线通过不代表胜率改善。':'留出局质量检查未通过；候选不能启用，保留原运行版本。'};}finally{busy=false;}
 }
 export async function exportClassicData(){const dataset=selectClassicDataset(getSamples());const payload={schema:'classic-doudizhu-export-v1',createdAt:Date.now(),stats:dataset.stats,samples:dataset.samples,candidate:classicCandidateInfo(),active:classicActiveInfo()};return writeTrainingSnapshot(game,downloadText,dirOf('modes/doudizhu-classic/datasets'),'常规斗地主_'+Date.now()+'.json',JSON.stringify(payload,null,2));}
 let shadowSession=null,shadowId=null;
@@ -97,19 +99,21 @@ export function compareClassicMetrics(candidate,baseline){
 export async function activateClassicCandidate({enable=true}={}){
  if(!classicModelStorageStatus().ready)await modeModelsReady;
  if(busy||modeSessionActive())return {ok:false,err:'请在对局结束且训练完成后启用，下一局生效'};
- const info=classicCandidateInfo(),report=info?.report,current=loadClassicActive();if(!report||report.validation<450)return {ok:false,err:'候选缺少完整离线验证报告（验证≥450），请先训练'};
+ const info=classicCandidateInfo(),report=info?.report,current=loadClassicActive();if(!report||!Number.isSafeInteger(report.validation)||report.validation<450)return {ok:false,err:'候选缺少完整离线验证报告（验证≥450），请先训练'};
  const check=await validateClassicCandidate();if(!check.ok)return check;
  if(modeSessionActive()||busy)return {ok:false,err:'验证期间已开始新对局或训练，未切换版本'};
  if(check.datasetSignature!==report.datasetSignature)return {ok:false,err:'有效样本或标签在训练后发生变化，请重新训练'};
  const publicCheck=compareClassicMetrics(check.result,report.baseline);if(!publicCheck.ok)return {ok:false,err:'留出局指标劣于公共基线或分组证据不足，保留原版本',comparison:publicCheck};
  busy=true;
  try{
-  const activationData=selectClassicDataset(getSamples()),activationHoldout=new Set(report.holdoutSessions),activationRows=activationData.samples.filter(s=>activationHoldout.has(s.m.sessionId)&&info.ruleKeys.includes(s.m.modeContext.ruleKey));
+  const activationData=selectClassicDataset(getSamples()),activationHoldout=classicHoldoutDataset(activationData.samples,report,info.ruleKeys);
+  if(!activationHoldout.ok)return activationHoldout;
+  const activationRows=activationHoldout.rows;
   const livePublicBaseline=await evaluate(createIsolatedModelSession(null,loadClassicCandidate().networkProfile),activationRows),livePublicCheck=compareClassicMetrics(check.result,livePublicBaseline);
   if(!livePublicCheck.ok)return {ok:false,err:'指标劣于当前公共基线，保留原版本',comparison:livePublicCheck};
   let previousComparison={status:'no-active-version'};
   if(current&&current.id!==info.id){
-   const dataset=selectClassicDataset(getSamples()),holdout=new Set(report.holdoutSessions),rows=dataset.samples.filter(s=>holdout.has(s.m.sessionId)&&current.ruleKeys.includes(s.m.modeContext.ruleKey));
+   const holdout=new Set(activationHoldout.holdoutSessions),rows=activationData.samples.filter(s=>holdout.has(s.m.sessionId)&&current.ruleKeys.includes(s.m.modeContext.ruleKey));
    if(rows.length){
     if(rows.length<30)return {ok:false,err:'与当前试用版共同适用的留出样本不足 30 条，保留原版本'};
     const candidateResult=await evaluate(createClassicCandidateSession(),rows),previousResult=await evaluate(createClassicActiveSession(current),rows),comparison=compareClassicMetrics(candidateResult,previousResult);

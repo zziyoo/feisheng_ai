@@ -1,0 +1,19 @@
+PASS 134 float snapshot decodes with full moments
+PASS save, reload, activate two versions and rollback preserve model
+PASS malformed 130 model reports field and sizes without replacing valid candidate
+PASS corrupt moments and nonfinite parameters are rejected
+PASS failed storage write keeps active version and candidate unchanged
+PASS cold localStorage restore reports incompatible fields and retains raw records
+PASS damaged cached candidate cannot silently use public weights or replace stable
+PASS 130 Array/TypedArray preserve values and label missing identity features
+PASS 134 identity features survive, malformed and experimental vectors rejected
+PASS strict dataset accepts compatible historical Array and TypedArray
+[trainExport] ✅ 已接入 14 个扩展训练模块 + 导入/导出功能
+PASS normal import accepts 130 with durable adaptation markers and rejects 142
+PASS cold startup adapts and persists historical samples through production loader
+PASS training report persists complete split metadata and validates after storage reload
+PASS valid complete holdout activates without enabling unrelated model switches
+PASS missing holdout session, partial row count or conflicting metadata cannot activate
+PASS new split metadata cannot substitute trained sessions for original holdout
+PASS partial validation rows are refused and original top-level-only reports remain readable
+Model lifecycle: 17 passed, 0 failed

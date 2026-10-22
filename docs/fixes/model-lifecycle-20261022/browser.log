@@ -1,0 +1,59 @@
+{
+  "status": "passed",
+  "scope": "real browser IndexedDB and browser process restart; synthetic models; not full game acceptance",
+  "browserVersion": "155.0.8059.86",
+  "unexpectedRequests": 0,
+  "results": [
+    {
+      "step": "save-two-versions",
+      "storage": "IndexedDB",
+      "active": {
+        "id": "browser-v2",
+        "previousId": "browser-v1",
+        "ruleKeys": [
+          "audit-rule"
+        ],
+        "state": "已启用试用版本",
+        "activatedAt": 1792666023797,
+        "validation": null
+      },
+      "rows": 2
+    },
+    {
+      "step": "restart-and-rollback",
+      "active": "browser-v1",
+      "candidate": "browser-v2",
+      "metadata": {
+        "holdoutSessions": [
+          "synthetic-holdout"
+        ],
+        "seed": 20261019,
+        "holdoutRatio": 0.2
+      },
+      "rejected": "W1：期望长度 17152，实际长度 16640（需参数数组）",
+      "failedWritePreservedRows": true
+    },
+    {
+      "step": "corrupt-candidate-cold-restore",
+      "candidate": null,
+      "active": "browser-v1",
+      "status": {
+        "ready": true,
+        "backend": "IndexedDB",
+        "error": "candidate：W1：期望长度 17152，实际长度 16640（需参数数组）",
+        "records": 2,
+        "invalidKeys": [
+          "candidate"
+        ],
+        "invalidRecords": [
+          {
+            "key": "candidate",
+            "error": "W1：期望长度 17152，实际长度 16640（需参数数组）"
+          }
+        ],
+        "origin": "http://lifecycle.invalid"
+      },
+      "storedCandidateW1": 16640
+    }
+  ]
+}

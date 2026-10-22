@@ -1,0 +1,60 @@
+✔ 134维合法快照应被专项存储解码接受 (0.5724ms)
+✔ 134维候选保存、读取和启用应成功 (0.0927ms)
+✔ 两版候选激活后可回滚上一版本 (0.0756ms)
+✔ IndexedDB恢复合法134维候选和活动模型 (0.4525ms)
+✔ 声称134却只有130形状的快照应被拒绝 (0.0771ms)
+✖ 关闭训练模型时deepThink不应调用公共模型 (0.6442ms)
+✖ 智能面板模型就绪状态应与运行模型一致 (0.1608ms)
+✔ 隔离会话合成训练不得改变公共模型和持久化 (0.1464ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 6
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 584.7094
+
+✖ failing tests:
+
+test at docs\audit-20261021\model-regression.test.mjs:21:1
+✖ 关闭训练模型时deepThink不应调用公共模型 (0.6442ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  2 !== 0
+
+      at TestContext.<anonymous> (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/docs/audit-20261021/model-regression.test.mjs:21:44)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:787:18)
+      at Test.postRun (node:internal/test_runner/test:1247:19)
+      at Test.run (node:internal/test_runner/test:1175:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at docs\audit-20261021\model-regression.test.mjs:22:1
+✖ 智能面板模型就绪状态应与运行模型一致 (0.1608ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  false !== true
+
+      at TestContext.<anonymous> (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/docs/audit-20261021/model-regression.test.mjs:22:38)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:787:18)
+      at Test.postRun (node:internal/test_runner/test:1247:19)
+      at Test.run (node:internal/test_runner/test:1175:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

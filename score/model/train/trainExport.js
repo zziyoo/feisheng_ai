@@ -22,6 +22,7 @@ import { cfg } from '../../foundation/config/util.js?v=41a';    /* ★ 读取配
 import { dirOf, downloadText, fileOf } from '../../foundation/storage/storagePaths.js?v=41a';  /* ★ 统一导出路径（手机端兜底下载） */
 import { safeGet as _lsGet, safeSet as _lsSet, safeRemove as _lsRemove } from '../../foundation/storage/storage.js?v=41a';  /* ★ P2-31：中央存储抽象，业务层禁止直触 localStorage */
 import { FEATURE_DIM } from '../features/features.js?v=41a';  /* ★ 4.0.24 根因修复：维度单一来源改从 features.js 导入（130→134，fix7 目标身份四维）。旧硬编码 130 与 features.js 134 失配，导致 trainRecordSample 入口全拒、样本线 15:18 起全灭 */
+import { adaptToCurrentDim } from '../features/dimensionAdapter.js?v=41a';
 
 /* ================= 训练数据缓冲（1万样本自动导出版） ================= */
 
@@ -96,10 +97,10 @@ function loadFromStorage() {
             const san = _sanitizeBuffer(arr);
             BUFFER = san.list.concat(BUFFER);
             _keyIndex.clear();
-            if (san.repaired) saveToStorage();
+            if (san.repaired||san.dimAdaptedCount) saveToStorage();
             /* 内存索引在下次 push 时按需重建 */
             console.log('[trainExport] ✅ 从 IndexedDB 加载了 ' + BUFFER.length + ' 条历史样本' +
-                ((san.repaired || san.dropped) ? '（数据隔离：修复 reward ' + san.repaired + ' 条，丢弃污染 ' + san.dropped + ' 条）' : ''));
+                ((san.repaired || san.dropped||san.dimAdaptedCount) ? '（数据隔离：修复 reward ' + san.repaired + ' 条，适配历史维度 '+san.dimAdaptedCount+' 条，丢弃污染 ' + san.dropped + ' 条）' : ''));
             /* 释放旧的超大 localStorage 键，腾出存储配额 */
             try { _lsRemove(STORAGE_KEY); } catch (e) { if (typeof window !== 'undefined' && window.__DJSC && window.__DJSC.swallow) window.__DJSC.swallow(e); }
         } else {
@@ -122,7 +123,7 @@ function _loadFromStorageFallback() {
                 saveToStorage();
                 _keyIndex.clear();
                 console.log('[trainExport] ✅ 从本地加载了 ' + BUFFER.length + ' 条历史样本（回退模式）' +
-                    ((san.repaired || san.dropped) ? '（数据隔离：修复 reward ' + san.repaired + ' 条，丢弃污染 ' + san.dropped + ' 条）' : ''));
+                    ((san.repaired || san.dropped||san.dimAdaptedCount) ? '（数据隔离：修复 reward ' + san.repaired + ' 条，适配历史维度 '+san.dimAdaptedCount+' 条，丢弃污染 ' + san.dropped + ' 条）' : ''));
             }
         }
     } catch (e) {
@@ -222,8 +223,8 @@ const REWARD_REPAIR_TOL = 1;
 function _sanitizeSample(s) {
     if (!s || typeof s !== 'object') return { sample: null };
     const f = s.f || s.features;
-    if (!Array.isArray(f) || f.length !== FEATURE_DIM) return { sample: null, wrongDim: true };
-    for (let i = 0; i < FEATURE_DIM; i++) if (!Number.isFinite(f[i])) return { sample: null, nonFinite: true };
+    const adapted = adaptToCurrentDim({...s,f});
+    if(adapted.error)return {sample:null,...(adapted.error==='invalid-features'?{nonFinite:true}:{wrongDim:true})};
     const ms = s.m && s.m.score;
     let r = (typeof s.r === 'number') ? s.r : ((typeof s.reward === 'number') ? s.reward : NaN);
     let repaired = false;
@@ -232,25 +233,30 @@ function _sanitizeSample(s) {
         if (!Number.isFinite(r) || Math.abs(r - rFixed) > REWARD_REPAIR_TOL) { r = rFixed; repaired = true; samplePersistence.dirty(s); }
     }
     if (!Number.isFinite(r)) return { sample: null, nonFinite: true };
-    s.f = f;
+    s.f = Array.from(adapted.sample.f);
+    if(adapted.sample._dimAdapted===true){
+        s._dimAdapted=true;s._originalDim=adapted.sample._originalDim;
+        s._missingFeatureIndices=adapted.sample._missingFeatureIndices?.slice()||[130,131,132,133];
+    }
+    if(adapted.adapted)samplePersistence.dirty(s);
     s.r = _clampR(Math.round(r), -REWARD_BOUND, REWARD_BOUND);
-    return { sample: s, repaired: repaired };
+    return { sample: s, repaired: repaired, adapted:adapted.adapted };
 }
 
 function _sanitizeBuffer(arr) {
     const list = [];
-    let repaired = 0, dropped = 0, dimMismatch = 0;
+    let repaired = 0, dropped = 0, dimMismatch = 0, dimAdaptedCount=0;
     for (let i = 0; i < arr.length; i++) {
         const r = _sanitizeSample(arr[i]);
         if (!r.sample) { dropped++; continue; }
-        /* ★ 4.0.24：丢弃与当前 FEATURE_DIM 不符的存量样本（旧 130 维已在服务器合并池有备份，
-           留在缓冲只会与 134 维新样本混维，训练端无法对齐） */
+        /* 入库统一为正式维度；历史130维已由显式适配保留缺失身份标记。 */
         if (r.sample.f && Array.isArray(r.sample.f) && r.sample.f.length !== FEATURE_DIM) { dimMismatch++; continue; }
         if (r.repaired) repaired++;
+        if(r.adapted)dimAdaptedCount++;
         list.push(r.sample);
     }
     if (dimMismatch) console.log('[trainExport] 丢弃旧维度样本 ' + dimMismatch + ' 条（当前 FEATURE_DIM=' + FEATURE_DIM + '）');
-    return { list: list, repaired: repaired, dropped: dropped, dimMismatch: dimMismatch };
+    return { list: list, repaired: repaired, dropped: dropped, dimMismatch: dimMismatch, dimAdaptedCount };
 }
 
 /* 导入只恢复白名单训练字段，不能相信文件携带的数据库主键/已保存标记。 */
@@ -267,7 +273,8 @@ function _normalizeImportedSample(raw) {
     const fbAsync = valid(raw.fbAsync, false, x => typeof x === 'boolean');
     if ([target, conf, count, ts, fbAsync].some(x => x === undefined) || (fbAsync && target === null)) return { sample: null, invalidLabels: true };
     return { ...sanitized, sample: { f: source.f.slice(), r: source.r, m: source.m,
-        value_target: target, fbAsync, conf, count, ts, _persisted: false } };
+        value_target: target, fbAsync, conf, count, ts, _persisted: false,
+        ...(source._dimAdapted===true?{_dimAdapted:true,_originalDim:source._originalDim,_missingFeatureIndices:source._missingFeatureIndices.slice()}:{}) } };
 }
 
 function _importMergeKey(sample) {
@@ -1060,7 +1067,7 @@ export function importFromJson(jsonStr) {
             return { ok: false, err: '格式错误：找不到样本数组（请确认是导出的训练文件）' };
         }
 
-        let added = 0, merged = 0, skipped = 0, repaired = 0;
+        let added = 0, merged = 0, skipped = 0, repaired = 0, adaptedCount=0;
         /* ★ P1-19：导入强校验——维度必须等于 FEATURE_DIM(134)，且每项都是有限数。
          * 否则旧 48/96 维样本或含 NaN/字符串的样本会被静默零填充成伪 134 维样本污染训练。
          * ★ 数据隔离：统一过 _sanitizeSample——旧版 reward 损坏样本（reward 与 meta.score 脱节）
@@ -1083,6 +1090,7 @@ export function importFromJson(jsonStr) {
                 continue;
             }
             if (san.repaired) repaired++;
+            if(san.adapted)adaptedCount++;
             const sample = san.sample, key = _importMergeKey(sample);
             const existing = existingSamples.get(key);
             if (existing) {
@@ -1109,6 +1117,7 @@ export function importFromJson(jsonStr) {
             skippedNonFinite: skippedNonFinite,
             skippedInvalidLabels: skippedInvalidLabels,
             repairedReward: repaired,   /* ★ 数据隔离：以 meta.score 为准修复的旧版损坏 reward 条数 */
+            adaptedCount,
             total: BUFFER.length,
         };
     } catch (e) {

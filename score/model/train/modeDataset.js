@@ -29,6 +29,8 @@ export function selectClassicDataset(samples) {
   const reject=(r)=>{rejected[r]=(rejected[r]||0)+1;};
   for (const s of samples||[]) {
     const m=s?.m, c=m?.modeContext;
+    // 历史TypedArray仅在输入边界归一为Array；收益/执行资格仍走同一门禁。
+    const source=ArrayBuffer.isView(s?.f)&&Number.isInteger(s.f.length)?{...s,f:Array.from(s.f)}:s;
     const featureDim=detectDim(s);
     let reason=null;
     if (!c || c.schema!=='mode-context-v1' || c.captured!==true) reason='模式来源未知';
@@ -37,7 +39,7 @@ export function selectClassicDataset(samples) {
     else if (!['landlord','farmer'].includes(c.role)) reason='角色未确认';
     else if (!c.ruleKey || c.ruleVersion!==1) reason='规则版本不兼容';
     else if (!SUPPORTED_DIMS.includes(featureDim)) reason='特征维度不支持:'+featureDim;
-    else reason=championSampleEligibility(s);
+    else reason=championSampleEligibility(source);
     if (featureDim===130) dimStats.dim130++;
     else if (featureDim===134) dimStats.dim134++;
     else if (c) dimStats.other++;
@@ -49,10 +51,10 @@ export function selectClassicDataset(samples) {
       }
       continue;
     }
-    const adapted=adaptToCurrentDim(s);
+    const adapted=adaptToCurrentDim(source);
     if (adapted.error) { reject('维度适配失败:'+adapted.error); continue; }
     const sample=adapted.sample;
-    if (adapted.adapted) dimAdaptedCount++;
+    if (adapted.adapted||sample._dimAdapted===true) dimAdaptedCount++;
     const key=JSON.stringify([m.sessionId,m.actorId,m.transactionId]);
     const identity=JSON.stringify({f:Array.from(sample.f),r:sample.r,value:sample.value_target,
       id:m.id,type:m.type||m.action,target:m.target,c});
@@ -98,5 +100,34 @@ export function splitClassicByGame(samples, options={}) {
     trainingSessions:sessions.length-holdout.size,trainingSamples:training.length,
     validationSamples:validation.length,splitMethod:'session-level-deterministic-hash',
   }};
+}
+// 新报告以splitMetadata为权威；旧报告只有顶层ID时仍需完整原留出行。
+// 不因metadata缺失而重新抽样，否则可能把已训练局混进验证集。
+export function classicHoldoutDataset(samples,report,ruleKeys){
+  const fail=err=>({ok:false,err,rows:[]});
+  const metadata=report?.splitMetadata,ids=metadata===undefined?report?.holdoutSessions:metadata?.holdoutSessions;
+  if(!Array.isArray(ids)||!ids.length||ids.some(id=>typeof id!=='string'||!id)||new Set(ids).size!==ids.length)
+    return fail('候选留出验证局ID缺失或无效，请重新训练；未切换版本');
+  const sameIds=(a,b)=>Array.isArray(a)&&a.length===b.length&&a.every(id=>b.includes(id));
+  if(report.holdoutSessions!==undefined&&!sameIds(report.holdoutSessions,ids))
+    return fail('候选holdoutSessions与splitMetadata不一致，未切换版本');
+  if(!Number.isSafeInteger(report.validation)||report.validation<450)
+    return fail('候选留出验证样本计数无效（验证≥450），未切换版本');
+  if(metadata!==undefined&&(!metadata||metadata.splitMethod!=='session-level-deterministic-hash'||metadata.seed===undefined||
+      !Number.isFinite(metadata.holdoutRatio)||metadata.holdoutRatio<0||metadata.holdoutRatio>1||
+      !Number.isSafeInteger(metadata.totalSessions)||!Number.isSafeInteger(metadata.trainingSessions)||metadata.trainingSessions<0||
+      metadata.totalSessions!==metadata.trainingSessions+ids.length||metadata.validationSamples!==report.validation||
+      !Number.isSafeInteger(metadata.trainingSamples)||metadata.trainingSamples!==report.training))
+    return fail('候选留出验证metadata不完整或计数不一致，未切换版本');
+  if(metadata!==undefined){
+    const expected=splitClassicByGame(samples,{seed:metadata.seed,holdoutRatio:metadata.holdoutRatio}).metadata;
+    if(!sameIds(ids,expected.holdoutSessions)||expected.trainingSamples!==metadata.trainingSamples||expected.validationSamples!==metadata.validationSamples||expected.totalSessions!==metadata.totalSessions)
+      return fail('候选留出验证metadata与原整局划分不一致，未切换版本');
+  }
+  const holdout=new Set(ids),rows=(samples||[]).filter(s=>holdout.has(s.m?.sessionId)&&ruleKeys?.includes(s.m?.modeContext?.ruleKey));
+  const present=new Set(rows.map(s=>s.m.sessionId));
+  if(ids.some(id=>!present.has(id)))return fail('原留出验证局的数据不在本地或不完整，请恢复原专项数据；未切换版本');
+  if(rows.length!==report.validation)return fail('原留出验证数据不完整：期望 '+report.validation+' 条，实际 '+rows.length+' 条；未切换版本');
+  return {ok:true,rows,holdoutSessions:ids.slice()};
 }
 export function sampleLabel(s) { return trainingLabelOf(s); }

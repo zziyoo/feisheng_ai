@@ -1,0 +1,26 @@
+
+test_load_invalid_jsonl (test_audit.TestJsonlRoundTrip.test_load_invalid_jsonl) ... ok
+test_load_valid_jsonl (test_audit.TestJsonlRoundTrip.test_load_valid_jsonl) ... ok
+test_experimental_142_fails (test_audit.TestModelContract.test_experimental_142_fails) ... ok
+test_formal_134_passes (test_audit.TestModelContract.test_formal_134_passes) ... ok
+test_infer_from_W_format (test_audit.TestModelContract.test_infer_from_W_format) ... ok
+test_legacy_130_fails_formal (test_audit.TestModelContract.test_legacy_130_fails_formal) ... ok
+test_missing_critic_fails (test_audit.TestModelContract.test_missing_critic_fails) ... ok
+test_null_weights_fails (test_audit.TestModelContract.test_null_weights_fails) ... ok
+test_unrecognized_format_fails (test_audit.TestModelContract.test_unrecognized_format_fails) ... ok
+test_wrong_action_outputs_fails (test_audit.TestModelContract.test_wrong_action_outputs_fails) ... ok
+test_conflict_detection (test_audit.TestSampleEligibility.test_conflict_detection) ... ok
+test_dimension_distribution (test_audit.TestSampleEligibility.test_dimension_distribution) ... ok
+test_duplicate_detection (test_audit.TestSampleEligibility.test_duplicate_detection) ... ok
+test_required_fields_missing (test_audit.TestSampleEligibility.test_required_fields_missing) ... ok
+test_done_boolean_type (test_audit.TestTdValidation.test_done_boolean_type) ... ok
+test_done_without_next_state (test_audit.TestTdValidation.test_done_without_next_state) ... ok
+test_missing_fields (test_audit.TestTdValidation.test_missing_fields) ... ok
+test_reward_non_number (test_audit.TestTdValidation.test_reward_non_number) ... ok
+test_reward_out_of_range (test_audit.TestTdValidation.test_reward_out_of_range) ... ok
+test_valid_transition (test_audit.TestTdValidation.test_valid_transition) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.005s
+
+OK

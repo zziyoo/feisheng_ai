@@ -1,0 +1,74 @@
+PASS corrupt moments and nonfinite parameters are rejected
+PASS failed storage write keeps active version and candidate unchanged
+[trainExport] ✅ 已接入 14 个扩展训练模块 + 导入/导出功能
+Model lifecycle: 2 passed, 10 failed
+
+FAIL 134 float snapshot decodes with full moments
+TypeError: Cannot read properties of null (reading 'W1')
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:23:149
+    at check (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:22:41)
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:23:7
+FAIL save, reload, activate two versions and rollback preserve model
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert((await store.saveClassicCandidateDurable(record('v1'))).ok)
+
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:25:2
+    at async check (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:22:35)
+    at async file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:24:1
+FAIL malformed 130 model reports field and sizes without replacing valid candidate
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert((await store.saveClassicCandidateDurable(record('safe'))).ok)
+
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:33:2
+    at async check (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:22:35)
+    at async file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:32:1
+FAIL 130 Array/TypedArray preserve values and label missing identity features
+TypeError: sample.f.subarray is not a function
+    at Module.adaptToCurrentDim (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/score/model/features/dimensionAdapter.js?v=41a:55:20)
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:53:27
+    at check (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:22:41)
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:51:7
+FAIL 134 identity features survive, malformed and experimental vectors rejected
+TypeError: sample.f.subarray is not a function
+    at Module.adaptToCurrentDim (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/score/model/features/dimensionAdapter.js?v=41a:55:20)
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:59:98
+    at check (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:22:41)
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:57:7
+FAIL strict dataset accepts compatible historical Array and TypedArray
+TypeError: sample.f.subarray is not a function
+    at adaptToCurrentDim (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/score/model/features/dimensionAdapter.js?v=41a:55:20)
+    at Module.selectClassicDataset (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/score/model/train/modeDataset.js?v=41a:52:19)
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:64:50
+    at check (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:22:41)
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:62:7
+FAIL normal import accepts 130 with durable adaptation markers and rejects 142
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+1 !== 2
+
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:72:9
+    at check (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:22:41)
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:70:7
+FAIL training report persists complete split metadata and validates after storage reload
+AssertionError [ERR_ASSERTION]: 候选模型或规则元数据不完整
+
+false !== true
+
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:83:57
+    at async check (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:22:35)
+    at async file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:80:1
+FAIL valid complete holdout activates without enabling unrelated model switches
+AssertionError [ERR_ASSERTION]: 候选缺少完整离线验证报告（验证≥450），请先训练
+
+false !== true
+
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:91:74
+    at async check (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:22:35)
+    at async file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:90:1
+FAIL missing holdout session, partial row count or conflicting metadata cannot activate
+AssertionError [ERR_ASSERTION]: training report required
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:94:2
+    at check (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:22:41)
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:93:7

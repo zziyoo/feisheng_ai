@@ -1,0 +1,37 @@
+PASS 134 float snapshot decodes with full moments
+PASS save, reload, activate two versions and rollback preserve model
+PASS malformed 130 model reports field and sizes without replacing valid candidate
+PASS corrupt moments and nonfinite parameters are rejected
+PASS failed storage write keeps active version and candidate unchanged
+FAIL cold localStorage restore reports incompatible fields and retains raw records
+AssertionError [ERR_ASSERTION]: The "string" argument must be of type string. Received type object (null)
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:54:61
+    at async check (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:22:35)
+    at async file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:51:1
+PASS 130 Array/TypedArray preserve values and label missing identity features
+FAIL 134 identity features survive, malformed and experimental vectors rejected
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ undefined
+- 'unsupported-dim'
+
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:67:9
+    at check (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:22:41)
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:63:7
+PASS strict dataset accepts compatible historical Array and TypedArray
+[trainExport] ✅ 已接入 14 个扩展训练模块 + 导入/导出功能
+PASS normal import accepts 130 with durable adaptation markers and rejects 142
+PASS training report persists complete split metadata and validates after storage reload
+PASS valid complete holdout activates without enabling unrelated model switches
+PASS missing holdout session, partial row count or conflicting metadata cannot activate
+FAIL new split metadata cannot substitute trained sessions for original holdout
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+true !== false
+
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:113:9
+    at check (file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:22:41)
+    at file:///C:/Users/32360/Desktop/%E6%97%A0%E5%90%8D%E6%9D%80-win32-x64/resources/app/extension/%E6%97%A0%E5%90%8DAI/tools/test-model-lifecycle.mjs:108:7
+PASS partial validation rows are refused and original top-level-only reports remain readable
+Model lifecycle: 12 passed, 3 failed
