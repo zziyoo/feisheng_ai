@@ -1,0 +1,105 @@
+{
+  "repository": "libnoname/noname",
+  "default_branch": "main",
+  "commit": "b481b17552dd46e7d9ca805d5d7975b742168256",
+  "scope": "proposal_only_no_extension_changes",
+  "date": "2026-10-28",
+  "files": [
+    {
+      "path": "apps/core/character/standard/sort.js",
+      "git_blob_sha": "33254ae2620ab8f75701cfea0784637f8a603cf1",
+      "characters": 686,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/sort.js"
+    },
+    {
+      "path": "apps/core/character/standard/character.js",
+      "git_blob_sha": "64695767a3fb90dcf0c946028dc2c4c9f7473a1a",
+      "characters": 3223,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/character.js"
+    },
+    {
+      "path": "apps/core/character/standard/skill.js",
+      "git_blob_sha": "7aed7603e02ae1e45c5f9e666bbf8ef80a0b9575",
+      "characters": 60509,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js"
+    },
+    {
+      "path": "apps/core/character/standard/translate.js",
+      "git_blob_sha": "797de788ecbee19047b018689bb4017849813f0f",
+      "characters": 5091,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/translate.js"
+    },
+    {
+      "path": "apps/core/character/shenhua/sort.js",
+      "git_blob_sha": "3b7bb26379b5854da77a4f541d2cb4cda6098405",
+      "characters": 939,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/sort.js"
+    },
+    {
+      "path": "apps/core/character/shenhua/character.js",
+      "git_blob_sha": "57c844d1884e07e531c58a6ab40ce2e461f8e81f",
+      "characters": 5172,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/character.js"
+    },
+    {
+      "path": "apps/core/character/shenhua/skill.js",
+      "git_blob_sha": "8156731489270d16589d6e1f67c2d23618b4cd0a",
+      "characters": 247381,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js"
+    },
+    {
+      "path": "apps/core/character/shenhua/translate.js",
+      "git_blob_sha": "d6870cfef7c9e8d323167beebd993da43f2463bb",
+      "characters": 15066,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/translate.js"
+    },
+    {
+      "path": "apps/core/character/refresh/sort.js",
+      "git_blob_sha": "38d2f812b4c94dce3fa10862ba12eeb499a308ab",
+      "characters": 2536,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/sort.js"
+    },
+    {
+      "path": "apps/core/character/refresh/character.js",
+      "git_blob_sha": "fcd3754969a295c192baa182584b6ea396197c2b",
+      "characters": 13361,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/character.js"
+    },
+    {
+      "path": "apps/core/character/refresh/skill.js",
+      "git_blob_sha": "c4b410936c2cae756367812fd1ede82ce703f866",
+      "characters": 478529,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js"
+    },
+    {
+      "path": "apps/core/character/refresh/translate.js",
+      "git_blob_sha": "db21eed79055220e9dc7bdf20c2bfe31774c99c1",
+      "characters": 34100,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/translate.js"
+    },
+    {
+      "path": "apps/core/character/sp/skill.js",
+      "git_blob_sha": "d61360f5bea204dfa19db3e785376401a602bc6c",
+      "characters": 1384573,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/sp/skill.js"
+    },
+    {
+      "path": "apps/core/character/sp/translate.js",
+      "git_blob_sha": "108b23955c1446014ff45803ee78bc268998ae34",
+      "characters": 81372,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/sp/translate.js"
+    },
+    {
+      "path": "apps/core/character/tw/skill.js",
+      "git_blob_sha": "1d1a0945eefe00d6e7e55e4c386dbdd1e3dec27a",
+      "characters": 866132,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/tw/skill.js"
+    },
+    {
+      "path": "apps/core/character/tw/translate.js",
+      "git_blob_sha": "fe8812a444f4ac4b536eb6b384e17dd4a48da52b",
+      "characters": 54175,
+      "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/tw/translate.js"
+    }
+  ]
+}

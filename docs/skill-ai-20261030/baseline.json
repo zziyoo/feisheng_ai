@@ -1,0 +1,120 @@
+{
+  "generated_at": "2026-10-30",
+  "extension_version": "4.4.4",
+  "v4_4_4_tag_commit": "22cf3798445321385ed01582aaf35afdd5b7f63d",
+  "upstream_master_commit": "1fe5292eb3022dd8d1db494617b21a12be912e61",
+  "installed_extension_dir": "C:/Users/32360/Desktop/无名杀-win32-x64/resources/app/extension/无名AI",
+  "installed_runtime_equals_v4_4_4": true,
+  "note": "工作区 Git HEAD 为旧线 codex/final-client-stability；运行时代码按 CRLF 归一化后与 v4.4.4 逐文件比对；本次改动在独立工作树 codex/release-v4.4.4 中。",
+  "host": {
+    "app_package_version": "1.11.0",
+    "runtime_lib_version": "1.11.7（真实宿主探针 lib.version）",
+    "core_path": "C:/Users/32360/Desktop/无名杀-win32-x64/resources/app"
+  },
+  "proposal_upstream_baseline": "libnoname/noname b481b17552dd46e7d9ca805d5d7975b742168256（原方案参考；不是本机宿主版本）",
+  "files": [
+    {
+      "path": "extension.js",
+      "installed_sha256": "256b1aea5a732ed2989e19e3597ceedb5344e0ee93fb5aeced37b377941bccde",
+      "v4_4_4_sha256": "256b1aea5a732ed2989e19e3597ceedb5344e0ee93fb5aeced37b377941bccde",
+      "identical": true
+    },
+    {
+      "path": "info.json",
+      "installed_sha256": "a6ff8d8b92eeb9df7efa572f42598030544dccf3c16e114d6a9c66c9e1ee8c22",
+      "v4_4_4_sha256": "a6ff8d8b92eeb9df7efa572f42598030544dccf3c16e114d6a9c66c9e1ee8c22",
+      "identical": true
+    },
+    {
+      "path": "score/index.js",
+      "installed_sha256": "a2fa58e4b122a04a34559479ece7052eb6d200dd3b078cd668ade80ccfcc80cc",
+      "v4_4_4_sha256": "a2fa58e4b122a04a34559479ece7052eb6d200dd3b078cd668ade80ccfcc80cc",
+      "identical": true
+    },
+    {
+      "path": "score/decision/safety/aiOverride.js",
+      "installed_sha256": "64f96c998d53adf7b9df34b2b7c01c47aaa0ca47c7e5e027668651d7fd8a2ca3",
+      "v4_4_4_sha256": "64f96c998d53adf7b9df34b2b7c01c47aaa0ca47c7e5e027668651d7fd8a2ca3",
+      "identical": true
+    },
+    {
+      "path": "score/decision/override/use.js",
+      "installed_sha256": "b70cd0dccec6d0226c337340da5b542efa367f93e443d493a25f3f02217cae9a",
+      "v4_4_4_sha256": "b70cd0dccec6d0226c337340da5b542efa367f93e443d493a25f3f02217cae9a",
+      "identical": true
+    },
+    {
+      "path": "score/decision/skills/skills.js",
+      "installed_sha256": "68bdb9ae55162435b1f63488ffe7a5795d7ce2d47ce8dc88f3389373f71b57af",
+      "v4_4_4_sha256": "68bdb9ae55162435b1f63488ffe7a5795d7ce2d47ce8dc88f3389373f71b57af",
+      "identical": true
+    },
+    {
+      "path": "score/decision/engine/engine.js",
+      "installed_sha256": "7e82b5d2e8ca36ac021a5acf99ad1319342c279fb5b5bf5372bb5efada71b682",
+      "v4_4_4_sha256": "7e82b5d2e8ca36ac021a5acf99ad1319342c279fb5b5bf5372bb5efada71b682",
+      "identical": true
+    },
+    {
+      "path": "score/model/features/features.js",
+      "installed_sha256": "7693d7b7b92c1e9c45221a08ee5aa3010bfed7e77059ebc060361fc9a9237c51",
+      "v4_4_4_sha256": "7693d7b7b92c1e9c45221a08ee5aa3010bfed7e77059ebc060361fc9a9237c51",
+      "identical": true
+    },
+    {
+      "path": "score/model/features/dimensionAdapter.js",
+      "installed_sha256": "2272a7d714037d31f7e89f33d97f91cbe3e6854422bb7916b50fe7793a673930",
+      "v4_4_4_sha256": "2272a7d714037d31f7e89f33d97f91cbe3e6854422bb7916b50fe7793a673930",
+      "identical": true
+    },
+    {
+      "path": "score/model/net/policyModelV3.js",
+      "installed_sha256": "d9bc053fda7d7b9abfbc6e0bf22943eb296e7c0443dca594483cc1692be4c4f3",
+      "v4_4_4_sha256": "d9bc053fda7d7b9abfbc6e0bf22943eb296e7c0443dca594483cc1692be4c4f3",
+      "identical": true
+    },
+    {
+      "path": "score/decision/state/decisionEvaluation.js",
+      "installed_sha256": "13dfc9091524acd1a8dcb8a0d00c1640aee118b4579fa3ad68a54f1d1e608cbe",
+      "v4_4_4_sha256": "13dfc9091524acd1a8dcb8a0d00c1640aee118b4579fa3ad68a54f1d1e608cbe",
+      "identical": true
+    }
+  ],
+  "deliverable_files": [
+    {
+      "path": "score/index.js",
+      "exists": true,
+      "sha256": "3d14121f986b4766871a269b7d0818f594e4c34f6059b15b1600d014efec0b64"
+    },
+    {
+      "path": "score/decision/skills/skillAIPolicies.js",
+      "exists": true,
+      "sha256": "1b06aab3a45f1cca307915506c6be1a6494c71861614c29557579537ce05d2cf"
+    },
+    {
+      "path": "score/decision/skills/skillAIPolicyRules.js",
+      "exists": true,
+      "sha256": "d93207b2525ef39e383e0c67bf004fad2cadc329b61cdd99ead5e18457b96b6b"
+    },
+    {
+      "path": "tools/trick-real-host-smoke.mjs",
+      "exists": true,
+      "sha256": "0537fbddf032823b6296e2d9ce94edfec4a6134c5ed02cfbf5b988b762ba05e4"
+    },
+    {
+      "path": "tools/skill-ai-host-scenes.mjs",
+      "exists": true,
+      "sha256": "b0978a96ffd234d6324d800ccdfb2ba394b21751e219af21450ca7020d35d9b5"
+    },
+    {
+      "path": "tools/test-skill-ai-policies.mjs",
+      "exists": true,
+      "sha256": "398960738bb079f26518e1f16cf7dcbf4cc6acf2d2d34f53883fb7e96ca540ab"
+    },
+    {
+      "path": "tools/bench-skill-ai-policies.mjs",
+      "exists": true,
+      "sha256": "89b9f700e3e1ca48c6ee10e6628efdf5d59874558d11014fe43a4108d9cb7b48"
+    }
+  ]
+}
