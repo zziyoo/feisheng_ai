@@ -14,6 +14,7 @@ import { installHooks, uninstallHooks, startSettleWatch, stopSettleWatch, bestAc
 import { openScorePanel } from './view/panel/panel.js?v=41a';  /* ★ P0-02：debug bridge / dialog guard 移交 panelPlugin 生命周期管理 */
 import { scanReset } from './decision/skills/skills.js?v=41a';
 import { installAIOverride, uninstallAIOverride } from './decision/safety/aiOverride.js?v=41a';
+import { installSkillAIPolicies, uninstallSkillAIPolicies } from './decision/skills/skillAIPolicies.js?v=41a';
 import { warnConflicts, shouldDisableOverride, applyCompatPatches } from './foundation/adapt/compat.js?v=41a';
 import { log } from './foundation/diag/logger.js?v=41a';
 import { reg } from './foundation/runtime/registry.js?v=41a';   /* ★ 唯一挂载总线：__DJSC 挂载统一入口 */
@@ -86,6 +87,7 @@ export function installScoreEngine() {
 		if (!shouldDisableOverride()) {
 			// 软接管：永远安装（保底层，不破坏本体）
 			installAIOverride();
+			try { installSkillAIPolicies(); } catch (e) { if (typeof window !== 'undefined' && window.__DJSC && window.__DJSC.swallow) window.__DJSC.swallow(e); }
 			// 硬接管：逐层安装（每层独立熔断，自动重试）
 			installOverrideLayers();
 		} else {
@@ -360,6 +362,7 @@ export function uninstallScoreEngine() {
 	/* ★ P0-02：debug bridge / dialog guard 的清理随插件统一逆序卸载 */
 	try { uninstallAllPlugins(); } catch (e) { if (typeof window !== 'undefined' && window.__DJSC && window.__DJSC.swallow) window.__DJSC.swallow(e); }
 	try { uninstallAIOverride(); } catch (e) { if (typeof window !== 'undefined' && window.__DJSC && window.__DJSC.swallow) window.__DJSC.swallow(e); }
+	try { uninstallSkillAIPolicies(); } catch (e) { if (typeof window !== 'undefined' && window.__DJSC && window.__DJSC.swallow) window.__DJSC.swallow(e); }
 	/* ★ M08：监督员对称下班（还原所有被换装的 chooseTo* 决策点） */
 	try {
 		if (window.__DJSC && window.__DJSC.decisionHook && typeof window.__DJSC.decisionHook.uninstall === 'function') {

@@ -1,0 +1,298 @@
+import { lib, game, get, _status } from '../../foundation/adapt/host.js?v=41a';
+import { resolveActiveSkillId } from '../safety/aiOverride.js?v=41a';
+import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore } from './skillAIPolicyRules.js?v=41a';
+
+/*
+ * 技能AI薄策略层：只修正宿主技能自带的 check(card) 与发动评分，
+ * 不改技能规则、不改 filterCard/filterTarget、不读取隐藏手牌。
+ *
+ * 当前策略：
+ * - 标准制衡 / 界制衡：低体力时保留【桃】【闪】；若手里只剩这些防御牌，
+ *   直接放弃本次换牌，避免“丢唯一防御换一张未知牌”。
+ * - 界制衡在 4 血及以上仍保留原生“全手换牌”路线。
+ * - 界鲁肃缔盟：混合后的暗牌只按位置/玩家 id 做稳定公平选择，不读牌面价值。
+ * - 其他技能不注册，完全走宿主原生 AI。
+ */
+
+const CHECK_POLICIES = DEFENSE_RULES;
+
+let _installed = false;
+const _backups = [];
+let _chooseButtonBackup = null;
+let _chooseTargetBackup = null;
+let _olkongshengBackup = null;
+const TARGET_POLICIES = new Set(['new_retuxi', 'retuxi']);
+let _stats = { keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0, fairRedimeng: 0, retuxiTargetBonus: 0, olkongshengCostCalls: 0, calls: 0, last: [] };
+
+/* 周妃【箜声·旧版 olkongsheng】成本 AI 的宿主笔误：
+ * getExpansions("olkongsheng") 返回数组，直接 + 数字会变成字符串，
+ * 导致“是否已到良姻回复阈值”的数量比较失真。
+ * 只在这一次 cost 调用期间给返回数组加 valueOf/toString=长度，
+ * 不复制宿主技能函数，也不改变数组本身的迭代/取值行为。 */
+function _hookOlkongshengCost() {
+	try {
+		const info = lib.skill && lib.skill.olkongsheng;
+		if (!info || typeof info.cost !== 'function') return;
+		const original = info.cost;
+		const wrapped = async function (event, trigger, player) {
+			const originalGet = player.getExpansions;
+			if (typeof originalGet === 'function') {
+				player.getExpansions = function (name) {
+					const result = originalGet.apply(this, arguments);
+					if (name === 'olkongsheng' && Array.isArray(result)) {
+						const clone = result.slice();
+						clone.valueOf = function () { return clone.length; };
+						clone.toString = function () { return String(clone.length); };
+						return clone;
+					}
+					return result;
+				};
+			}
+			try {
+				_stats.olkongshengCostCalls++;
+				return await original.apply(this, arguments);
+			} finally {
+				if (originalGet) player.getExpansions = originalGet;
+			}
+		};
+		info.cost = wrapped;
+		_olkongshengBackup = { info, original, wrapped };
+	} catch (e) {}
+}
+
+/* 界鲁肃【缔盟】混合后的手牌对选择者应是暗牌。
+ * 宿主原生 AI 用 get.value(button.link) 直接挑最高价值牌，等于看牌；
+ * 这里只给 AI 一个与牌面无关、与按钮位置/玩家 id 有关的稳定分数。 */
+function _fairButtonScore(buttons, button, player) {
+	const index = Math.max(0, (buttons || []).indexOf(button));
+	return fairButtonScore((player && player.playerid) || '', index);
+}
+
+function _hookFairRedimengChoice() {
+	try {
+		const proto = lib.element && lib.element.Player && lib.element.Player.prototype;
+		if (!proto || typeof proto.chooseButton !== 'function') return;
+		const original = proto.chooseButton;
+		const wrapped = function (...args) {
+			const next = original.apply(this, args);
+			try {
+				if (!next || next.__djscFairRedimeng) return next;
+				if (this === game.me && !_status.auto) return next;
+				if (resolveActiveSkillId(this, _status.event) !== 'redimeng') return next;
+				const player = this;
+				const score = function (button) {
+					return _fairButtonScore(next.buttons || [], button, player);
+				};
+				next.ai = score;
+				if (typeof next.set === 'function' && !next.__djscFairRedimengSet) {
+					const originalSet = next.set;
+					next.set = function (key, value) {
+						if (key === 'ai') value = score;
+						return originalSet.call(this, key, value);
+					};
+					next.__djscFairRedimengSet = true;
+				}
+				next.__djscFairRedimeng = true;
+				_stats.fairRedimeng++;
+			} catch (e) {}
+			return next;
+		};
+		proto.chooseButton = wrapped;
+		_chooseButtonBackup = { proto, original, wrapped };
+		if (!proto.__djscFairRedimengHook) proto.__djscFairRedimengHook = true;
+	} catch (e) {}
+}
+
+/* 【突袭】目标选择：原生 AI 只看态度，同等敌意下不比较公开手牌数。
+ * 只对敌人按手牌数加一个 0~2 的有界小分，不改变合法目标集合。 */
+function _hookRetuxiTargetChoice() {
+	try {
+		const proto = lib.element && lib.element.Player && lib.element.Player.prototype;
+		if (!proto || typeof proto.chooseTarget !== 'function') return;
+		const original = proto.chooseTarget;
+		const wrapped = function (...args) {
+			const next = original.apply(this, args);
+			try {
+				if (!next || next.__djscRetuxiTarget) return next;
+				const player = this;
+				if (player === game.me && !_status.auto) return next;
+				const sid = resolveActiveSkillId(player, _status.event);
+				if (!TARGET_POLICIES.has(sid)) return next;
+				const apply = function (baseAI) {
+					return function (target) {
+						let score = 0;
+						try { if (typeof baseAI === 'function') score = Number(baseAI.apply(this, arguments)) || 0; } catch (e) {}
+						try {
+							if (target && target.countCards('h') > 0 && get.attitude(player, target) < 0) {
+								score += Math.min(2, target.countCards('h') * 0.25);
+								_stats.retuxiTargetBonus++;
+							}
+						} catch (e) {}
+						return score;
+					};
+				};
+				if (typeof next.ai === 'function') next.ai = apply(next.ai);
+				if (typeof next.set === 'function' && !next.__djscRetuxiTargetSet) {
+					const originalSet = next.set;
+					next.set = function (key, value) {
+						if (key === 'ai') value = apply(value);
+						return originalSet.call(this, key, value);
+					};
+					next.__djscRetuxiTargetSet = true;
+				}
+				next.__djscRetuxiTarget = true;
+			} catch (e) {}
+			return next;
+		};
+		proto.chooseTarget = wrapped;
+		_chooseTargetBackup = { proto, original, wrapped };
+	} catch (e) {}
+}
+
+function _playerOf(card) {
+	try {
+		if (card && typeof get.owner === 'function') {
+			const owner = get.owner(card);
+			if (owner) return owner;
+		}
+	} catch (e) {}
+	try {
+		if (typeof get.player === 'function') {
+			const p = get.player();
+			if (p) return p;
+		}
+	} catch (e) {}
+	try { return (_status && _status.event && _status.event.player) || null; } catch (e) { return null; }
+}
+
+function _cardName(card, player) {
+	try {
+		if (typeof get.name === 'function') {
+			const n = get.name(card, player);
+			if (n) return n;
+		}
+	} catch (e) {}
+	return card && card.name ? card.name : '';
+}
+
+export function skillDefenseRetentionAdjustment(card, player, base, rule) {
+	try {
+		if (!player || !card || !rule) return base;
+		const position = typeof get.position === 'function' ? get.position(card) : null;
+		return retentionAdjustment(_cardName(card, player), player.hp, position, base, rule);
+	} catch (e) { return base; }
+}
+
+export function shouldSkipDefenseOnlyExchange(player, rule) {
+	try {
+		if (!player || !rule) return false;
+		const handNames = player.getCards('h').map(card => _cardName(card, player));
+		return shouldSkipExchange(player.hp, handNames, rule);
+	} catch (e) { return false; }
+}
+
+export function installSkillAIPolicies() {
+	if (_installed) return;
+	_installed = true;
+	_stats = { keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0, fairRedimeng: 0, retuxiTargetBonus: 0, olkongshengCostCalls: 0, calls: 0, last: [] };
+	try {
+		_hookFairRedimengChoice();
+		_hookRetuxiTargetChoice();
+		_hookOlkongshengCost();
+		for (const [sid, rule] of Object.entries(CHECK_POLICIES)) {
+			const info = lib.skill && lib.skill[sid];
+			if (!info) continue;
+			if (typeof info.check === 'function') {
+				const original = info.check;
+				const wrapped = function (card) {
+					let base;
+					try { base = original.apply(this, arguments); } catch (e) { return original.apply(this, arguments); }
+					try {
+						_stats.calls++;
+						const player = _playerOf(card);
+						const adjusted = skillDefenseRetentionAdjustment(card, player, base, rule);
+						if (adjusted !== base) {
+							const name = _cardName(card, player);
+							if (name === 'tao') _stats.keptTao++;
+							else if (name === 'shan') _stats.keptShan++;
+						}
+						if (_stats.last.length < 20) _stats.last.push({ sid, card: _cardName(card, player), hp: player && player.hp, pos: typeof get.position === 'function' ? get.position(card) : null, base, adjusted });
+						return adjusted;
+					} catch (e) { return base; }
+				};
+				info.check = wrapped;
+				_backups.push({ owner: info, key: 'check', original, wrapped });
+			}
+			const ai = info.ai;
+			if (ai && ai.order != null) {
+				const original = ai.order;
+				const baseOf = typeof original === 'function' ? original : function () { return original; };
+				const wrapped = function (item, player) {
+					let base;
+					try { base = baseOf.apply(this, arguments); } catch (e) { return typeof original === 'function' ? 0 : original; }
+					try {
+						if (shouldSkipDefenseOnlyExchange(player || _playerOf(), rule)) {
+							_stats.skippedOrder++;
+							return -1;
+						}
+					} catch (e) {}
+					return base;
+				};
+				ai.order = wrapped;
+				_backups.push({ owner: ai, key: 'order', original, wrapped });
+			}
+			const result = ai && ai.result;
+			if (result && result.player != null) {
+				const original = result.player;
+				const baseOf = typeof original === 'function' ? original : function () { return original; };
+				const wrapped = function (player) {
+					let base;
+					try { base = baseOf.apply(this, arguments); } catch (e) { return typeof original === 'function' ? 0 : original; }
+					try {
+						if (shouldSkipDefenseOnlyExchange(player || _playerOf(), rule)) {
+							_stats.skippedExchange++;
+							return Math.min(Number(base), -1);
+						}
+					} catch (e) {}
+					return base;
+				};
+				result.player = wrapped;
+				_backups.push({ owner: result, key: 'player', original, wrapped });
+			}
+		}
+	} catch (e) {
+		_installed = false;
+	}
+}
+
+export function uninstallSkillAIPolicies() {
+	for (const backup of _backups.splice(0)) {
+		try {
+			if (backup.owner && backup.owner[backup.key] === backup.wrapped) backup.owner[backup.key] = backup.original;
+		} catch (e) {}
+	}
+	try {
+		if (_chooseButtonBackup && _chooseButtonBackup.proto.chooseButton === _chooseButtonBackup.wrapped) {
+			_chooseButtonBackup.proto.chooseButton = _chooseButtonBackup.original;
+			try { delete _chooseButtonBackup.proto.__djscFairRedimengHook; } catch (e) {}
+		}
+	} catch (e) {}
+	_chooseButtonBackup = null;
+	try {
+		if (_chooseTargetBackup && _chooseTargetBackup.proto.chooseTarget === _chooseTargetBackup.wrapped) {
+			_chooseTargetBackup.proto.chooseTarget = _chooseTargetBackup.original;
+		}
+	} catch (e) {}
+	_chooseTargetBackup = null;
+	try {
+		if (_olkongshengBackup && _olkongshengBackup.info.cost === _olkongshengBackup.wrapped) {
+			_olkongshengBackup.info.cost = _olkongshengBackup.original;
+		}
+	} catch (e) {}
+	_olkongshengBackup = null;
+	_installed = false;
+}
+
+export function skillAIPolicyStats() {
+	return Object.assign({ installed: _installed }, _stats);
+}
