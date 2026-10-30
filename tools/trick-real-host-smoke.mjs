@@ -48,7 +48,7 @@ const server=http.createServer(async(req,res)=>{
             res.setHeader('Content-Type','application/json');res.end(JSON.stringify({success:true,data}));
         } else {
             data=await fs.readFile(filename);
-            if(relative==='game/config.json'){const config=JSON.parse(data.toString());config.mode=hostMode;config.extensions=[];config.extension_auto_import=false;config.mode_config.doudizhu.doudizhu_mode='normal';config.mode_config.versus.versus_mode='two';config.mode_config.versus.two_assign=false;data=Buffer.from(JSON.stringify(config));}
+            if(relative==='game/config.json'){const config=JSON.parse(data.toString());config.mode=hostMode;config.extensions=[];config.extension_auto_import=false;if(!config.mode_config.doudizhu)config.mode_config.doudizhu={};if(!config.mode_config.versus)config.mode_config.versus={};if(config.mode_config.doudizhu)config.mode_config.doudizhu.doudizhu_mode='normal';if(config.mode_config.versus){config.mode_config.versus.versus_mode='two';config.mode_config.versus.two_assign=false;}data=Buffer.from(JSON.stringify(config));}
             res.setHeader('Content-Type',mime[path.extname(filename)] || 'application/octet-stream');
             res.setHeader('Cache-Control','no-store');res.end(data);
         }
@@ -108,6 +108,14 @@ try {
       const result={completedAt:new Date().toISOString(),status:errors.length?'failed':'passed',scope:'实际模式初始化、固定公开局面与原生结算；非完整对局或联机测试',browserVersion:await browser.version(),...report,errors};
       if(option('output'))await fs.writeFile(option('output'),JSON.stringify(result,null,2)+'\n');
       console.log(JSON.stringify(result,null,2));assert.deepEqual(errors,[]);
+    }else if(args.includes('--skill-ai')){
+      const {runSkillAiScenes}=await import('./skill-ai-host-scenes.mjs');
+      const withExtension=args.includes('--skill-ai-extension');
+      const policyOnly=args.includes('--skill-ai-policy');
+      const report=await runSkillAiScenes(page,{installExtension:withExtension,policyOnly});
+      const result={completedAt:new Date().toISOString(),status:errors.length?'failed':'passed',scope:'真实身份局宿主、固定公开局面、技能AI选择与结算观察；'+(withExtension?'已安装无名AI决策引擎':(policyOnly?'仅技能AI薄策略层':'原生AI基线')),browserVersion:await browser.version(),...report,errors};
+      if(option('output'))await fs.writeFile(option('output'),JSON.stringify(result,null,2)+'\n');
+      console.log(JSON.stringify(result,null,2));assert.deepEqual(errors,[]);
     }else if(args.includes('--manual')){
       const {runManualIntentScenes}=await import('./manual-intent-host-scenes.mjs');
       const report=await runManualIntentScenes(page);
@@ -138,8 +146,8 @@ try {
         try{await page.waitForFunction(()=>smokeMatch.done||smokeMatch.error,{},{timeout:20000});break;}
         catch(error){if(!error.message.includes('Timeout'))throw error;console.error('[autoplay]',await page.evaluate(()=>({phases:smokeMatch.phases,uses:smokeMatch.uses,event:realHost._status.event?.name,paused:realHost._status.paused})));}
       }
-      const report=await page.evaluate(()=>({...smokeMatch,elapsedMs:Date.now()-smokeMatch.startedAt,hostVersion:realHost.lib.version,mode:realHost.get.mode(),submode:realHost._status.mode,
-        decisions:smokeEngine.getDecisionLog().length,overrideStats:realHost._status.djsc_overrideStats,alive:realHost.game.players.map(p=>({role:p.identity,hp:p.hp})),dead:realHost.game.dead.map(p=>({role:p.identity,hp:p.hp}))}));
+      const report=await page.evaluate(()=>{const log=smokeEngine.getDecisionLog();return {...smokeMatch,elapsedMs:Date.now()-smokeMatch.startedAt,hostVersion:realHost.lib.version,mode:realHost.get.mode(),submode:realHost._status.mode,
+        decisions:log.length,decisionTimesMs:log.map(e=>Number(e.elapsedMs)).filter(Number.isFinite),overrideStats:realHost._status.djsc_overrideStats,alive:realHost.game.players.map(p=>({role:p.identity,hp:p.hp})),dead:realHost.game.dead.map(p=>({role:p.identity,hp:p.hp}))};});
       const result={completedAt:new Date().toISOString(),status:report.done&&!report.error&&!errors.length&&report.phases>0&&report.uses>0&&report.decisions>0?'passed':'incomplete',scope:'真实斗地主宿主完整托管对局烟测；非胜率或全配置验证',browserVersion:await browser.version(),report,errors};
       if(option('output'))await fs.writeFile(option('output'),JSON.stringify(result,null,2)+'\n');
       console.log(JSON.stringify(result,null,2));assert.equal(result.status,'passed');assert(report.phases>0&&report.uses>0);assert(report.decisions>0);assert.deepEqual(errors,[]);
