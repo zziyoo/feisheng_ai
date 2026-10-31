@@ -129,6 +129,45 @@ node tools/trick-real-host-smoke.mjs --mode identity --skill-ai --skill-ai-exten
 | 策略层卸载/重装 | — | policy-lifecycle true→false→true；full-engine-lifecycle false→true | 通过 |
 | 启用门禁 | — | `isScoreEngineEnabled` true→false→true | 通过 |
 
+## 3.1 第二批：生命支付与爆发时机（独立页面运行器，2026-10-31）
+
+批内 68 场景套件曾在多技能连续运行时互相污染（技能次数、目标列表、死亡玩家、`game.over`），第二批改用**每个场景独立浏览器上下文**的运行器重新取证。
+
+```bash
+node tools/skill-ai-hp-real-host.mjs --mode identity --variant native|policy|extension \
+  [--scenario <name> | --scenarios a,b,c] \
+  --host-root "$HOST" --extension-root "$EXT" --browser "$CHROME" --playwright "$PW" \
+  --seed 20261030 --output <json>
+```
+
+结果（原生 native → 策略 policy / 完整扩展 extension）：
+
+| 场景 | 原生 | 优化后 | 判定 |
+|---|---|---|---|
+| 界魏延 qimou：目标距离4/血3、3杀、狂骨 | 全程 0 动作（cardUsable 阻塞） | 发动、付3、3杀击杀、狂骨回血（policy 与 extension 一致） | 已修复；正向 |
+| 界魏延 qimou：距离3/血2、2杀 | 0 动作 | 发动、付2、连击2杀 | 已修复；正向 |
+| 界魏延 qimou：距离4/血4（反向） | 0 动作 | 仍 0 动作（杀不够击杀，不放宽） | 反向保持 |
+| 界魏延 qimou：目标在射程内 / 杀次数耗尽 | 原生路径 | 不放宽/不重复放宽 | 反向保持 |
+| OL界魏延 reqimou：目标贴脸 hp2（near1） | 支付3（固定 hp-1） | 支付1并完成击杀 | 已修复；正向 |
+| OL界魏延 reqimou：距离2 hp2（near2） | 支付3 | 支付1并完成击杀 | 已修复；正向 |
+| OL界魏延 reqimou：距离4 hp3、手杀2 | 支付3 | 保留原生3（手杀不足以击杀，回退安全） | 回退保持 |
+| OL界魏延 reqimou：距离4 hp4+八卦+闪 | 支付3 | 保留原生3 | 回退保持 |
+| 标准黄盖 kurou：4/3/2血 × 手牌数 | 2血不发动；3血1牌/4血发动；3血2牌不发动；3血连发被回血终止 | 不变 | 验证无问题 |
+| 标准黄盖 kurou：3血1牌+敌方反击 | 发动后敌方杀命中，剩1血存活 | 不变 | 验证无问题（风险可接受） |
+| 界黄盖 rekurou：4/3/2血 | 4/3血发动；2血无目标不发动 | 不变 | 验证无问题 |
+| 界黄盖 rekurou：2血+爆发目标+敌反击 | 发动（纳入诈降收益），反击后存活 | 不变 | 验证无问题 |
+| 界黄盖 rekurou：红杀+直击 | 诈降摸3、红杀无距离限制、额外杀次数兑现 | 不变 | 验证无问题 |
+| 典韦 qiangxix：2血对1血（有桃/无桃） | 支付并击杀/目标用桃 | 不变 | 验证无问题 |
+| 典韦 qiangxix：2对2、3对3、1血无武器、武器替代 | 分层全部符合设计 | 不变 | 验证无问题 |
+| 界典韦 olqiangxi：同上 7 场景 | 同上；确认走 damage 而非 loseHp | 不变 | 验证无问题 |
+
+夹具缺陷记录（取证过程中发现并修复，写入运行器）：
+
+1. **击杀触发 game.over 挂起**：若被击杀目标是场上唯一反贼，宿主进入胜负结算且看门狗的 `page.evaluate` 也无法返回（主线程被占死）；运行器现保留两个远处反贼座位。
+2. **连续场景状态残留**：技能次数（`player.stat`）、限定技觉醒标记、死亡玩家、目标列表会跨场景泄漏；独立页面根除。
+3. **身份可见性**：`identityShown` 未设置时 `get.attitude` 返回 0，AI 把目标当中立——所有评分探针失效；已修正。
+4. 对 `target` 的方法包装必须整体 try/catch，否则死亡流程中抛错会让宿主进入重试循环。
+
 ## 4. 托管局性能
 
 完整扩展，真实宿主，自动托管直到 `game.over` 或 180s 上限；耗时取 `engine.getDecisionLog()[].elapsedMs`（决策入口 `bestAction`）。每模式合并多局样本。
@@ -170,6 +209,22 @@ node tools/trick-real-host-smoke.mjs --mode versus --autoplay ...
 - 回滚：`python tools/rollback-skill-ai-live.py` 先打印计划，确认后加 `--apply`；会校验当前/备份哈希后再恢复/删除。
 - 未改版本号、更新公告、发布标签；这是本地试验安装，不是公开发行。
 
+### 4.2 `client_policy_model_v2.js` 可达性取证（2026-10-31）
+
+命令：`node tools/test-policy-model-v2-reachability.mjs [--root <目录>]`
+
+| 项 | release-444 工作区 | 安装目录 |
+|---|---|---|
+| `client_policy_model_v2.js`（7.0MB 权重） | 存在 | **缺失** |
+| `policyModelV2.js` 适配器 | 存在 | 存在 |
+| 适配器动态 import 目标 | `./client_policy_model_v2.js?v=41a` | 同左（目标缺失，必然 reject→null） |
+| 业务运行时 import/require 适配器 | **0 处** | **0 处** |
+| `extension.js` 引用 | 只有 `policyModelV3` | 只有 `policyModelV3` |
+| 配置项 `policyModelV2Mode/Shadow` | 无 | 无 |
+| 打包排除 | `manual-package.yml` + `build-delivery.py` 均排除 | — |
+
+结论：v2 权重在安装目录不可达，且**即使在位也没有任何设置/降级/动态导入路径能加载它**——`policyModelV2` 适配器本身未被运行入口引用（`ruleGate.js:9` 的注释是陈旧描述）。保留证据，本轮不做模型改动；若未来要接 v2，需同时补权重文件与适配器接线两件事。
+
 ## 5. 测试基础设施能力与限制
 
 已支持：
@@ -179,11 +234,16 @@ node tools/trick-real-host-smoke.mjs --mode versus --autoplay ...
 - 记录选中的技能/牌/目标、结算后的公开手牌/体力/装备、策略命中计数、场景耗时。
 - 原生/仅策略/完整扩展三种对照；同一夹具重复运行。
 - 捕获页面异常、宿主错误、非法目标、队友误伤、错误支付等。
-- `--seed 20261030`：在页面加载前替换 `Math.random`，同一 seed 的两次 policy-only 运行在制衡、缔盟、箜声、突袭、响应、门禁等关键场景输出一致；不伪造摸牌结果。
+- `--seed 20261030`（实际控制范围，2026-10-31 修订）：
+  - 控制方式：`context.addInitScript` 在页面脚本执行前整体替换 `Math.random`（LCG）。宿主洗牌（`library/index.js:11913` `Math.random()-0.5`）、AI 随机平票（`content.js` 内 `event.ai ??= () => Math.random()`）、`GameEvent._rand` 等所有走 `Math.random` 的入口都被固定。
+  - 固定场景：手牌/体力/装备/技能/身份全部由 `game.createCard`+`gain` 直接布置，不经随机。
+  - 不控制：`Date.now` 与定时器调度（动画已关闭，不影响决策）、OS/浏览器调度抖动、宿主启动期消费随机数的次数（同一宿主版本+同一启动路径下稳定）。
+  - 不伪造摸牌：只固定随机序列，不在任何场景里注入“理想手牌”；同一 seed 的两次 policy-only 运行在制衡、缔盟、箜声、突袭、响应、门禁等关键场景输出一致。
+  - 独立页面运行器每场景一个全新 context（含 fresh localStorage），seed 序列从 0 开始，可复现性优于共享页面。
 
 未覆盖/限制：
 
-- 没有固定随机种子；卡牌抽取仍是真随机，**没有伪造理想摸牌**。固定的是局面和输入牌。
+- 固定的是局面、输入牌与随机序列；卡牌抽取仍是真随机（seed 固定后的可重放随机），**没有伪造理想摸牌**。
 - 新增长场景包含完整 `phaseUse`（标准/界制衡、击杀、防具、回复机会）；但敌方回合/濒死救援仍不是每个技能都有完整回合。
 - 身份局有 1 局到 180s 测试上限仍未结束；新版已能标记 `stalled`/`timedOut`，但不能据此宣称长时间稳定性。
 - 未跑 Android 真机长时多局；v4.4.4 的 Android 长时间稳定性仍未验收，本报告不宣传为全面性能验证。

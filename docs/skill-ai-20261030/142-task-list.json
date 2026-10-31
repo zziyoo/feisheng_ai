@@ -1,7 +1,7 @@
 {
-  "schema_version": "2.0",
-  "record_kind": "reviewed_inventory_not_confirmed_defects",
-  "generated_at": "2026-10-30",
+  "schema_version": "3.0",
+  "record_kind": "reviewed_inventory_with_skill_level_status",
+  "generated_at": "2026-10-31",
   "baseline": {
     "extension": "无名AI v4.4.4 (1fe5292eb3022dd8d1db494617b21a12be912e61)",
     "host": "无名杀 1.11.7 (lib.version; app package 1.11.0)",
@@ -13,6 +13,7 @@
   },
   "counts": {
     "total": 142,
+    "skills_total": 280,
     "priority_revised": {
       "P0": 0,
       "P1": 3,
@@ -20,21 +21,37 @@
       "P3": 90
     },
     "review_status": {
-      "验证无问题": 4,
-      "尚待验证": 1,
-      "尚未验证": 134,
-      "已复现": 3
+      "已验证无问题": 4,
+      "部分通过": 8,
+      "尚未验证": 129,
+      "已修复": 1
     },
     "implementation_status": {
       "无需改动": 4,
-      "未改动": 135,
-      "已实施": 3
+      "部分实施": 8,
+      "未改动": 129,
+      "已实施": 1
     },
     "test_status": {
-      "真实宿主通过": 6,
-      "真实宿主完整回合通过": 1,
-      "部分通过": 1,
-      "未测试": 134
+      "真实宿主通过": 2,
+      "部分通过": 8,
+      "真实宿主完整回合通过": 3,
+      "未测试": 129
+    },
+    "skill_status": {
+      "已验证无问题": 9,
+      "尚未验证": 266,
+      "已修复": 5
+    },
+    "skill_implementation": {
+      "无需改动": 9,
+      "未改动": 266,
+      "已实施": 5
+    },
+    "skill_test": {
+      "真实宿主通过": 7,
+      "未测试": 266,
+      "真实宿主完整回合通过": 7
     }
   },
   "out_of_scope_findings": [
@@ -43,10 +60,21 @@
       "skill_name": "缔盟",
       "character": "活动武将/界鲁肃（非142清单ID）",
       "priority_revised": "P0",
-      "review_status": "已复现",
+      "review_status": "已修复",
       "implementation_status": "已实施",
       "test_status": "真实宿主通过",
-      "evidence": "混合后的暗牌选择中，原生AI用 get.value(button.link) 直接挑最高价值牌；真实验证第一个选择者拿走桃+无中生有，人类同界面为暗牌。公平钩子改为按位置/玩家id的稳定分数；同一局面置换暗牌牌面后，两次选择的索引一致（2,0 / 1,3）。",
+      "skill_statuses": [
+        {
+          "id": "redimeng",
+          "name": "缔盟",
+          "status": "已修复",
+          "implementation": "已实施",
+          "test": "真实宿主通过",
+          "evidence": "混合后的暗牌选择中，原生AI用 get.value(button.link) 直接挑最高价值牌；真实验证第一个选择者拿走桃+无中生有，人类同界面为暗牌。公平钩子改为按位置/玩家id的稳定分数；同一局面置换暗牌牌面后，两次选择的索引一致。",
+          "notes": "只对AI选择者生效；人类路径不变；卸载还原；选择器异常不调用原生看牌评分。"
+        }
+      ],
+      "evidence": "混合后的暗牌选择中，原生AI用 get.value(button.link) 直接挑最高价值牌；公平钩子改为按位置/玩家id的稳定分数；同一局面置换暗牌牌面后，两次选择的索引一致。",
       "notes": "只对AI选择者生效；人类路径不变；卸载还原；选择器异常不调用原生看牌评分。"
     }
   ],
@@ -80,19 +108,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L607"
           },
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "仅友方有手牌时原生突袭放弃并正常摸2；两敌人1/4手牌时偷1+1，符合跳过摸牌的成本。",
+          "notes": "不叠加重复优化。",
           "host_line_1117": 786
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P3",
-      "review_status": "验证无问题",
+      "review_status": "已验证无问题",
       "reviewed_skills": [
         "tuxi"
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "仅友方有手牌时原生突袭放弃并正常摸2；两敌人1/4手牌时偷1+1，符合跳过摸牌的成本。",
-      "notes": "不叠加重复优化。"
+      "evidence": "突袭：仅友方有手牌时原生突袭放弃并正常摸2；两敌人1/4手牌时偷1+1，符合跳过摸牌的成本。",
+      "notes": "突袭：不叠加重复优化。"
     },
     {
       "task_id": "AI-liubei",
@@ -123,6 +156,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L961"
           },
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "3血2无懈、敌人空手、队友3手牌时，原生仁德把牌交给队友并回复1血；未把牌交给敌人。",
+          "notes": "本轮不重复修改。",
           "host_line_1117": 1121
         },
         {
@@ -146,19 +184,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1080"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "本轮未建立 jijiang 的真实宿主固定局面。",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P3",
-      "review_status": "验证无问题",
+      "review_status": "部分通过",
       "reviewed_skills": [
         "rende"
       ],
-      "implementation_status": "无需改动",
-      "test_status": "真实宿主通过",
-      "evidence": "3血2无懈、敌人空手、队友3手牌时，原生仁德把牌交给队友并回复1血；未把牌交给敌人。",
-      "notes": "jijiang 未审查。"
+      "implementation_status": "部分实施",
+      "test_status": "部分通过",
+      "evidence": "仁德：3血2无懈、敌人空手、队友3手牌时，原生仁德把牌交给队友并回复1血；未把牌交给敌人。；激将：本轮未建立 jijiang 的真实宿主固定局面。",
+      "notes": "仁德：本轮不重复修改。；激将：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-sunquan",
@@ -189,6 +232,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1576"
           },
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主完整回合通过",
+          "evidence": "完整 phaseUse 七种局面：3血会弃两杀保留桃；3血/4上限会先用桃回血；1血会先用桃；1血混合牌不发动；击杀/防具场景正常。未复现“弃闪/桃”缺陷。",
+          "notes": "上一轮隔离 chooseToUse 的“选闪”是夹具假象；已移除标准制衡策略，只保留界制衡。",
           "host_line_1117": 1727
         },
         {
@@ -212,19 +260,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1622"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "本轮未建立 jiuyuan 的真实宿主固定局面。",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P3",
-      "review_status": "验证无问题",
+      "review_status": "部分通过",
       "reviewed_skills": [
         "zhiheng"
       ],
-      "implementation_status": "无需改动",
-      "test_status": "真实宿主完整回合通过",
-      "evidence": "完整 phaseUse 七种局面：3血会弃两杀保留桃；3血/4上限会先用桃回血；1血会先用桃；1血混合牌不发动；击杀/防具场景正常。未复现“弃闪/桃”缺陷。",
-      "notes": "上一轮隔离 chooseToUse 的“选闪”是夹具假象；已移除标准制衡策略，只保留界制衡。jiuyuan 未审查。"
+      "implementation_status": "部分实施",
+      "test_status": "部分通过",
+      "evidence": "制衡：完整 phaseUse 七种局面：3血会弃两杀保留桃；3血/4上限会先用桃回血；1血会先用桃；1血混合牌不发动；击杀/防具场景正常。未复现“弃闪/桃”缺陷。；救援：本轮未建立 jiuyuan 的真实宿主固定局面。",
+      "notes": "制衡：上一轮隔离 chooseToUse 的“选闪”是夹具假象；已移除标准制衡策略，只保留界制衡。；救援：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-huanggai",
@@ -255,19 +308,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1686"
           },
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主完整回合通过",
+          "evidence": "独立页面完整 phaseUse：2血1牌不发动（原生 hp<3 停止条件成立）；3血1牌发动、3血2牌不发动（手牌>=体力-1）；4血发动；3血连发被中间回血终止；敌方反击后存活。未复现“无明确收益仍过度掉血”。",
+          "notes": "摸2本身是防御/资源来源，不因“可能摸不到防御”而抬高停止阈值；保持原生 hp<3。",
           "host_line_1117": 1837
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚待验证",
+      "review_status": "已验证无问题",
       "reviewed_skills": [
         "kurou"
       ],
-      "implementation_status": "未改动",
-      "test_status": "部分通过",
-      "evidence": "3血1手牌时原生会发动苦肉，降到2血摸2；未发现明确越权或非法决策，按“验证后决定”保留。",
-      "notes": "低血生存与桃/救援的联合估值仍需更多真实回合样本。"
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主完整回合通过",
+      "evidence": "苦肉：独立页面完整 phaseUse：2血1牌不发动（原生 hp<3 停止条件成立）；3血1牌发动、3血2牌不发动（手牌>=体力-1）；4血发动；3血连发被中间回血终止；敌方反击后存活。未复现“无明确收益仍过度掉血”。",
+      "notes": "苦肉：摸2本身是防御/资源来源，不因“可能摸不到防御”而抬高停止阈值；保持原生 hp<3。"
     },
     {
       "task_id": "AI-daqiao",
@@ -298,6 +356,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1799"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -321,6 +384,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1818"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -331,7 +399,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "国色：保留原实现；未取得复现证据。；流离：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-diaochan",
@@ -362,6 +430,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L2253"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -385,6 +458,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L2308"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -395,7 +473,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "离间：保留原实现；未取得复现证据。；闭月：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_yuanshu",
@@ -426,6 +504,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L142"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -449,6 +532,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L188"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -459,7 +547,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "妄尊：保留原实现；未取得复现证据。；同疾：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-sp_zhangjiao",
@@ -490,6 +578,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7483"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -513,6 +606,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8701"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -536,6 +634,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8837"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -546,7 +649,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "雷击：保留原实现；未取得复现证据。；鬼道：保留原实现；未取得复现证据。；黄天：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_yuji",
@@ -577,6 +680,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8901"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -587,7 +695,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "蛊惑：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_xiahouyuan",
@@ -621,6 +729,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7601"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -631,7 +744,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "神速：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-xiaoqiao",
@@ -662,6 +775,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7913"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -685,6 +803,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8234"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -695,7 +818,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "天香：保留原实现；未取得复现证据。；红颜：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_weiyan",
@@ -726,7 +849,12 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3720"
           },
-          "host_line_1117": null
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "狂骨仅在 qimou 修复场景的结算中被顺带观察到（伤害后回血），未单独建立固定局面。",
+          "notes": "不在 qimou 通过后自动视为狂骨通过。",
+          "host_line_1117": 3745
         },
         {
           "id": "qimou",
@@ -749,17 +877,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3630"
           },
+          "status": "已修复",
+          "implementation": "已实施",
+          "test": "真实宿主通过",
+          "evidence": "独立页面复现：目标在3-4距离外、手上有杀且杀次数未用完时，原生 ai.result.player 因 cardUsable 直接返回0，奇谋永不发动（三个场景0动作）。策略只在“杀次数可用恰为唯一阻塞、且支付能兑换成击杀”时放宽：far4-3sha-hp3 修复后发动并3杀击杀，far3-2sha-hp2 同理；反向 far4-hp4、目标在射程内、杀次数耗尽均保持原生。",
+          "notes": "只覆盖 ai.result.player 的否决分支；不复制技能主体、不改支付档位（档位由宿主 content 决定）。",
           "host_line_1117": 3661
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "代码复核显示奇谋在1血返回0、只在低血敌人且在解锁距离内考虑；未取得真实回合复现。",
-      "notes": "保留原实现。"
+      "review_status": "部分通过",
+      "reviewed_skills": [
+        "qimou"
+      ],
+      "implementation_status": "部分实施",
+      "test_status": "部分通过",
+      "evidence": "狂骨：狂骨仅在 qimou 修复场景的结算中被顺带观察到（伤害后回血），未单独建立固定局面。；奇谋：独立页面复现：目标在3-4距离外、手上有杀且杀次数未用完时，原生 ai.result.player 因 cardUsable 直接返回0，奇谋永不发动（三个场景0动作）。策略只在“杀次数可用恰为唯一阻塞、且支付能兑换成击杀”时放宽：far4-3sha-hp3 修复后发动并3杀击杀，far3-2sha-hp2 同理；反向 far4-hp4、目标在射程内、杀次数耗尽均保持原生。",
+      "notes": "狂骨：不在 qimou 通过后自动视为狂骨通过。；奇谋：只覆盖 ai.result.player 的否决分支；不复制技能主体、不改支付档位（档位由宿主 content 决定）。"
     },
     {
       "task_id": "AI-dianwei",
@@ -790,17 +925,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6858"
           },
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主完整回合通过",
+          "evidence": "独立页面：2血对1血执行体力支付并完成击杀（目标有桃/无桃两种）；2血对2血、1血无武器拒绝支付（不自尽）；2血/1血持武器时改用武器0掉血；3血对3血按原生支付1伤。失去体力与弃装备的触发差异也已记录。",
+          "notes": "原生评分已实现“低血不付体力、优先装备、能击杀才付”的分层，不叠加策略。",
           "host_line_1117": 6701
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "代码复核显示强袭在2血及以下对体力支付返回-10，优先用装备；未取得真实回合复现。",
-      "notes": "保留原实现。"
+      "review_status": "已验证无问题",
+      "reviewed_skills": [
+        "qiangxix"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主完整回合通过",
+      "evidence": "强袭：独立页面：2血对1血执行体力支付并完成击杀（目标有桃/无桃两种）；2血对2血、1血无武器拒绝支付（不自尽）；2血/1血持武器时改用武器0掉血；3血对3血按原生支付1伤。失去体力与弃装备的触发差异也已记录。",
+      "notes": "强袭：原生评分已实现“低血不付体力、优先装备、能击杀才付”的分层，不叠加策略。"
     },
     {
       "task_id": "AI-xunyu",
@@ -831,6 +973,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6696"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -854,6 +1001,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6796"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -864,7 +1016,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "驱虎：保留原实现；未取得复现证据。；节命：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-pangtong",
@@ -895,6 +1047,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -918,6 +1075,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6643"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -928,7 +1090,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "连环：保留原实现；未取得复现证据。；涅槃：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-taishici",
@@ -959,6 +1121,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7073"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -969,7 +1136,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "天义：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-yanwen",
@@ -1000,6 +1167,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7166"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -1010,7 +1182,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "双雄：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_yuanshao",
@@ -1041,6 +1213,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7318"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1064,6 +1241,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7371"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -1074,7 +1256,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "乱击：保留原实现；未取得复现证据。；血裔：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_lusu",
@@ -1105,6 +1287,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5745"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "本轮未建立 haoshi 的真实宿主固定局面。",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1128,19 +1315,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5811"
           },
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "标准缔盟只读公开手牌数量；队友1手/敌人3手时正确交换，未读取隐藏牌面。",
+          "notes": "隐藏手牌读取实际出现在活动武将的 redimeng（清单外），已单独修复。",
           "host_line_1117": 5713
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P3",
-      "review_status": "验证无问题",
+      "review_status": "部分通过",
       "reviewed_skills": [
         "dimeng"
       ],
-      "implementation_status": "无需改动",
-      "test_status": "真实宿主通过",
-      "evidence": "标准缔盟只读公开手牌数量；队友1手/敌人3手时正确交换，未读取隐藏牌面。",
-      "notes": "haoshi 未审查；隐藏手牌读取实际出现在活动武将的 redimeng（清单外），已单独修复。"
+      "implementation_status": "部分实施",
+      "test_status": "部分通过",
+      "evidence": "好施：本轮未建立 haoshi 的真实宿主固定局面。；缔盟：标准缔盟只读公开手牌数量；队友1手/敌人3手时正确交换，未读取隐藏牌面。",
+      "notes": "好施：保留原实现；未取得复现证据。；缔盟：隐藏手牌读取实际出现在活动武将的 redimeng（清单外），已单独修复。"
     },
     {
       "task_id": "AI-dongzhuo",
@@ -1171,6 +1363,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6143"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1194,6 +1391,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6168"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1217,6 +1419,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6210"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1240,6 +1447,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6249"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -1250,7 +1462,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "酒池：保留原实现；未取得复现证据。；肉林：保留原实现；未取得复现证据。；崩坏：保留原实现；未取得复现证据。；暴虐：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-jiaxu",
@@ -1281,6 +1493,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6290"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1304,6 +1521,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6388"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1327,6 +1549,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6421"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -1337,7 +1564,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "乱武：保留原实现；未取得复现证据。；完杀：保留原实现；未取得复现证据。；帷幕：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-zhanghe",
@@ -1368,6 +1595,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L4107"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -1378,7 +1610,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "巧变：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-liushan",
@@ -1409,6 +1641,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3933"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1432,6 +1669,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3997"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1455,6 +1697,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L4086"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -1465,7 +1712,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "享乐：保留原实现；未取得复现证据。；放权：保留原实现；未取得复现证据。；若愚：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-zuoci",
@@ -1496,6 +1743,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L4901"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1519,6 +1771,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5348"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -1529,7 +1786,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "化身：保留原实现；未取得复现证据。；新生：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-wangji",
@@ -1555,6 +1812,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/sp/skill.js#L39873"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1573,6 +1835,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/sp/skill.js#L39919"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -1583,7 +1850,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "奇制：保留原实现；未取得复现证据。；进趋：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-sunliang",
@@ -1614,6 +1881,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L2387"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1637,6 +1909,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L2494"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1660,6 +1937,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L2534"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -1670,7 +1952,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "溃诛：保留原实现；未取得复现证据。；掣政：保留原实现；未取得复现证据。；立军：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-xuyou",
@@ -1701,6 +1983,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L2621"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1724,6 +2011,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L2725"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1747,6 +2039,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L2846"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -1757,7 +2054,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "成略：保留原实现；未取得复现证据。；恃才：保留原实现；未取得复现证据。；寸目：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-guanqiujian",
@@ -1788,6 +2085,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L640"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1811,6 +2113,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L692"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -1821,7 +2128,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "征荣：保留原实现；未取得复现证据。；鸿举：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-chendao",
@@ -1852,6 +2159,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L145"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -1862,7 +2174,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "往烈：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-lukang",
@@ -1893,6 +2205,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L1204"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1916,6 +2233,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L1248"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -1939,6 +2261,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L1398"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -1949,7 +2276,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "谦节：保留原实现；未取得复现证据。；决堰：保留原实现；未取得复现证据。；破势：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-zhoufei",
@@ -1980,6 +2307,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L293"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "本轮未建立 olliangyin 的真实宿主固定局面。",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -2003,19 +2335,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L517"
           },
+          "status": "已修复",
+          "implementation": "已实施",
+          "test": "真实宿主通过",
+          "evidence": "olkongsheng.cost 中 getExpansions() 返回数组却直接加数字，阈值比较失真；原生成本AI选3张，修正后选1张；重复调用均为1张，异常后补丁作用域恢复，数组语义（索引/长度/迭代/JSON）保持不变。",
+          "notes": "已加宿主成本指纹，表达式变化时跳过；不复制技能函数。",
           "host_line_1117": 787
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P1",
-      "review_status": "已复现",
+      "review_status": "部分通过",
       "reviewed_skills": [
         "olkongsheng"
       ],
-      "implementation_status": "已实施",
-      "test_status": "真实宿主通过",
-      "evidence": "olkongsheng.cost 中 getExpansions() 返回数组却直接加数字，阈值比较失真；原生成本AI选3张，修正后选1张；重复调用均为1张，异常后补丁作用域恢复，数组语义（索引/长度/迭代/JSON）保持不变。",
-      "notes": "olliangyin 未审查；kongsheng（新版）未改动；已加宿主成本指纹，表达式变化时跳过。"
+      "implementation_status": "部分实施",
+      "test_status": "部分通过",
+      "evidence": "良姻：本轮未建立 olliangyin 的真实宿主固定局面。；箜声：olkongsheng.cost 中 getExpansions() 返回数组却直接加数字，阈值比较失真；原生成本AI选3张，修正后选1张；重复调用均为1张，异常后补丁作用域恢复，数组语义（索引/长度/迭代/JSON）保持不变。",
+      "notes": "良姻：保留原实现；未取得复现证据。；箜声：已加宿主成本指纹，表达式变化时跳过；不复制技能函数。"
     },
     {
       "task_id": "AI-zhangxiu",
@@ -2046,6 +2383,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L1592"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -2069,6 +2411,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L1719"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -2087,6 +2434,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/tw/skill.js#L12789"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -2097,7 +2449,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "雄乱：保留原实现；未取得复现证据。；从谏：保留原实现；未取得复现证据。；踞襄：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-yl_yuanshu",
@@ -2128,6 +2480,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L1448"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -2151,6 +2508,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L1507"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -2161,7 +2523,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "庸肆：保留原实现；未取得复现证据。；伪帝：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_zhangliao",
@@ -2192,19 +2554,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L14254"
           },
+          "status": "已修复",
+          "implementation": "已实施",
+          "test": "真实宿主通过",
+          "evidence": "三名敌人手牌1/4/2时，原生选1+2并跳过4；优化后选4+2；屯田目标不叠加手牌奖励；只有友方、单目标、零目标原生均正常放弃/正常摸牌。",
+          "notes": "共享目标策略只对敌人按公开手牌数加0~2分，不改变合法目标集合；没有添加无证据的发动护栏。",
           "host_line_1117": 13861
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P1",
-      "review_status": "已复现",
+      "review_status": "已修复",
       "reviewed_skills": [
         "new_retuxi"
       ],
       "implementation_status": "已实施",
       "test_status": "真实宿主通过",
-      "evidence": "三名敌人手牌1/4/2时，原生选1+2并跳过4；优化后选4+2；屯田目标不叠加手牌奖励；只有友方、单目标、零目标原生均正常放弃/正常摸牌。",
-      "notes": "共享目标策略只对敌人按公开手牌数加0~2分，不改变合法目标集合；没有添加无证据的发动护栏。"
+      "evidence": "突袭：三名敌人手牌1/4/2时，原生选1+2并跳过4；优化后选4+2；屯田目标不叠加手牌奖励；只有友方、单目标、零目标原生均正常放弃/正常摸牌。",
+      "notes": "突袭：共享目标策略只对敌人按公开手牌数加0~2分，不改变合法目标集合；没有添加无证据的发动护栏。"
     },
     {
       "task_id": "AI-re_daqiao",
@@ -2235,6 +2602,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L17191"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -2258,6 +2630,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1818"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -2268,7 +2645,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "国色：保留原实现；未取得复现证据。；流离：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_huanggai",
@@ -2299,6 +2676,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L16949"
           },
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主完整回合通过",
+          "evidence": "独立页面：4血/3血发动并兑现诈降（摸3、额外杀、红杀无距离限制）；2血仅在场上存在爆发目标时发动（主动纳入诈降收益，而非照抄标准苦肉阈值）；2血无目标不发动；敌方反击后存活。",
+          "notes": "未复现“套用标准阈值导致漏发”；观察项：原生 check 8-价值会优先弃杀保无懈，属原生取舍，本轮不改。",
           "host_line_1117": 16350
         },
         {
@@ -2322,17 +2704,25 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L16974"
           },
-          "host_line_1117": null
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主完整回合通过",
+          "evidence": "与 rekurou 同结算观察：loseHpEnd 摸3、isPhaseUsing 时加临时技、红色杀无距离限制与直击在真实回合兑现；额外出杀次数被实际使用。",
+          "notes": "不因 rekurou 通过而自动标为通过——诈降的结算分支在同一回合内被单独确认。",
+          "host_line_1117": 16375
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "界苦肉依赖诈降摸3，不能套用标准苦肉的停止条件；未建立真实场景。",
-      "notes": "保留原实现，避免误伤既有爆发路线。"
+      "review_status": "已验证无问题",
+      "reviewed_skills": [
+        "rekurou",
+        "zhaxiang"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主完整回合通过",
+      "evidence": "苦肉：独立页面：4血/3血发动并兑现诈降（摸3、额外杀、红杀无距离限制）；2血仅在场上存在爆发目标时发动（主动纳入诈降收益，而非照抄标准苦肉阈值）；2血无目标不发动；敌方反击后存活。；诈降：与 rekurou 同结算观察：loseHpEnd 摸3、isPhaseUsing 时加临时技、红色杀无距离限制与直击在真实回合兑现；额外出杀次数被实际使用。",
+      "notes": "苦肉：未复现“套用标准阈值导致漏发”；观察项：原生 check 8-价值会优先弃杀保无懈，属原生取舍，本轮不改。；诈降：不因 rekurou 通过而自动标为通过——诈降的结算分支在同一回合内被单独确认。"
     },
     {
       "task_id": "AI-re_liubei",
@@ -2363,6 +2753,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L15511"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "rerende 未建立固定局面场景。",
+          "notes": "保留原实现。",
           "host_line_1117": 15023
         },
         {
@@ -2386,6 +2781,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L5886"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "rejijiang 未建立固定局面场景。",
+          "notes": "保留原实现。",
           "host_line_1117": null
         }
       ],
@@ -2395,8 +2795,8 @@
       "reviewed_skills": [],
       "implementation_status": "未改动",
       "test_status": "未测试",
-      "evidence": "rerende 未建立固定局面场景。",
-      "notes": "保留原实现。"
+      "evidence": "仁德：rerende 未建立固定局面场景。；激将：rejijiang 未建立固定局面场景。",
+      "notes": "仁德：保留原实现。；激将：保留原实现。"
     },
     {
       "task_id": "AI-re_diaochan",
@@ -2427,6 +2827,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L2253"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -2450,6 +2855,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L15502"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -2460,7 +2870,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "离间：保留原实现；未取得复现证据。；闭月：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_sunquan",
@@ -2491,6 +2901,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L15319"
           },
+          "status": "已修复",
+          "implementation": "已实施",
+          "test": "真实宿主完整回合通过",
+          "evidence": "完整 phaseUse：3血持桃+两杀时原生弃桃+杀并摸3，优化后保留桃、只弃非防御牌摸1；1/2血、只桃/只闪、含回复、防具场景均保留防御；4血负向对照仍走原生全手换牌。",
+          "notes": "共享低血防御保留策略；策略只注册 rezhiheng，不注册标准制衡。",
           "host_line_1117": 14842
         },
         {
@@ -2514,19 +2929,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L15291"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "本轮未建立 rejiuyuan 的真实宿主固定局面。",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P1",
-      "review_status": "已复现",
+      "review_status": "部分通过",
       "reviewed_skills": [
         "rezhiheng"
       ],
-      "implementation_status": "已实施",
-      "test_status": "真实宿主通过",
-      "evidence": "完整 phaseUse：3血持桃+两杀时原生弃桃+杀并摸3，优化后保留桃、只弃非防御牌摸1；1/2血、只桃/只闪、含回复、防具场景均保留防御；4血负向对照仍走原生全手换牌。",
-      "notes": "共享低血防御保留策略；标准制衡已验证无需改动；rejiuyuan 未审查。"
+      "implementation_status": "部分实施",
+      "test_status": "部分通过",
+      "evidence": "制衡：完整 phaseUse：3血持桃+两杀时原生弃桃+杀并摸3，优化后保留桃、只弃非防御牌摸1；1/2血、只桃/只闪、含回复、防具场景均保留防御；4血负向对照仍走原生全手换牌。；救援：本轮未建立 rejiuyuan 的真实宿主固定局面。",
+      "notes": "制衡：共享低血防御保留策略；策略只注册 rezhiheng，不注册标准制衡。；救援：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_xiahouyuan",
@@ -2560,6 +2980,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7601"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -2583,6 +3008,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L11791"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -2593,7 +3023,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "神速：保留原实现；未取得复现证据。；设变：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_weiyan",
@@ -2624,7 +3054,12 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3720"
           },
-          "host_line_1117": null
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "狂骨仅在 reqimou 修复场景的结算中被顺带观察到，未单独建立固定局面。",
+          "notes": "不在 reqimou 通过后自动视为狂骨通过。",
+          "host_line_1117": 3745
         },
         {
           "id": "reqimou",
@@ -2647,17 +3082,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L11413"
           },
-          "host_line_1117": null
+          "status": "已修复",
+          "implementation": "已实施",
+          "test": "真实宿主通过",
+          "evidence": "独立页面复现：原生 processAI 固定支付 hp-1——目标贴脸2血只需1点（1次额外出杀）也支付3点；gate 只要4距离内有效果>0的目标就放行。策略：无目标需要支付时 gate 拦截；支付收紧为 max(1, 达距所需, 击杀所需) 且上限 hp-1、只考虑手杀可击杀的目标。near1/near2 从付3降为付1并完成击杀；far4 手杀不足以击杀时保留原生档位（降级安全），far4-防守目标同样回退原生。",
+          "notes": "通过包装 reqimou content 内的 chooseNumbers 作用域收紧档位，不复制技能主体；gate 只拦截“无需支付”，不引入固定血线。",
+          "host_line_1117": 11274
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "review_status": "部分通过",
+      "reviewed_skills": [
+        "reqimou"
+      ],
+      "implementation_status": "部分实施",
+      "test_status": "部分通过",
+      "evidence": "狂骨：狂骨仅在 reqimou 修复场景的结算中被顺带观察到，未单独建立固定局面。；奇谋：独立页面复现：原生 processAI 固定支付 hp-1——目标贴脸2血只需1点（1次额外出杀）也支付3点；gate 只要4距离内有效果>0的目标就放行。策略：无目标需要支付时 gate 拦截；支付收紧为 max(1, 达距所需, 击杀所需) 且上限 hp-1、只考虑手杀可击杀的目标。near1/near2 从付3降为付1并完成击杀；far4 手杀不足以击杀时保留原生档位（降级安全），far4-防守目标同样回退原生。",
+      "notes": "狂骨：不在 reqimou 通过后自动视为狂骨通过。；奇谋：通过包装 reqimou content 内的 chooseNumbers 作用域收紧档位，不复制技能主体；gate 只拦截“无需支付”，不引入固定血线。"
     },
     {
       "task_id": "AI-ol_xiaoqiao",
@@ -2688,6 +3130,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L9607"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -2711,6 +3158,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L9729"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -2734,6 +3186,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L9748"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -2744,7 +3201,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "天香：保留原实现；未取得复现证据。；红颜：保留原实现；未取得复现证据。；飘零：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_zhangjiao",
@@ -2775,6 +3232,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L13386"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -2798,6 +3260,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L13557"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -2821,6 +3288,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L5820"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -2831,7 +3303,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "雷击：保留原实现；未取得复现证据。；鬼道：保留原实现；未取得复现证据。；黄天：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-xin_yuji",
@@ -2862,6 +3334,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L13043"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -2872,7 +3349,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "蛊惑：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_xunyu",
@@ -2903,6 +3380,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6696"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -2926,6 +3408,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L3009"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -2936,7 +3423,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "驱虎：保留原实现；未取得复现证据。；节命：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_dianwei",
@@ -2967,7 +3454,12 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L2718"
           },
-          "host_line_1117": null
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主完整回合通过",
+          "evidence": "独立页面：2血对1血用自伤完成击杀并存活；武器优先（2血/1血持武器0掉血）；2血对2血、1血无武器拒绝；3血对3血按原生自伤1伤。确认 olqiangxi 走“受到伤害”而非“失去体力”（actor damage nosource 被记录）。",
+          "notes": "与标准 qiangxix 分开评估；未共用阈值。",
+          "host_line_1117": 3374
         },
         {
           "id": "olninge",
@@ -2990,17 +3482,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L2793"
           },
-          "host_line_1117": null
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "olninge 未建立固定局面场景。",
+          "notes": "保留原实现；未取得复现证据。",
+          "host_line_1117": 3356
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "review_status": "部分通过",
+      "reviewed_skills": [
+        "olqiangxi"
+      ],
+      "implementation_status": "部分实施",
+      "test_status": "部分通过",
+      "evidence": "强袭：独立页面：2血对1血用自伤完成击杀并存活；武器优先（2血/1血持武器0掉血）；2血对2血、1血无武器拒绝；3血对3血按原生自伤1伤。确认 olqiangxi 走“受到伤害”而非“失去体力”（actor damage nosource 被记录）。；狞恶：olninge 未建立固定局面场景。",
+      "notes": "强袭：与标准 qiangxix 分开评估；未共用阈值。；狞恶：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_yanwen",
@@ -3031,6 +3530,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L1219"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3041,7 +3545,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "双雄：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_pangtong",
@@ -3074,6 +3578,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L5"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3097,6 +3606,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L11476"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3107,7 +3621,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "连环：保留原实现；未取得复现证据。；涅槃：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_yuanshao",
@@ -3140,6 +3654,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L12278"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3163,6 +3682,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L12315"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3173,7 +3697,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "乱击：保留原实现；未取得复现证据。；血裔：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_taishici",
@@ -3204,6 +3728,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7073"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3227,6 +3756,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L10114"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3237,7 +3771,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "天义：保留原实现；未取得复现证据。；酣战：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_dongzhuo",
@@ -3268,6 +3802,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L17837"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3291,6 +3830,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6168"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3314,6 +3858,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6210"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3337,6 +3886,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L9831"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3347,7 +3901,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "酒池：保留原实现；未取得复现证据。；肉林：保留原实现；未取得复现证据。；崩坏：保留原实现；未取得复现证据。；暴虐：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_jiaxu",
@@ -3380,6 +3934,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L6257"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3405,6 +3964,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L6316"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3428,6 +3992,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L6323"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3438,7 +4007,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "完杀：保留原实现；未取得复现证据。；乱武：保留原实现；未取得复现证据。；帷幕：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_lusu",
@@ -3469,6 +4038,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L6003"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3492,6 +4066,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L6171"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3502,7 +4081,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "好施：保留原实现；未取得复现证据。；缔盟：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_liushan",
@@ -3533,6 +4112,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3933"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3556,6 +4140,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L12180"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3579,6 +4168,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L12153"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3589,7 +4183,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "享乐：保留原实现；未取得复现证据。；放权：保留原实现；未取得复现证据。；若愚：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_zuoci",
@@ -3620,6 +4214,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L12571"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3645,6 +4244,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L13036"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3655,7 +4259,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "化身：保留原实现；未取得复现证据。；新生：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_zhanghe",
@@ -3686,6 +4290,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L4101"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3696,7 +4305,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "巧变：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-caocao",
@@ -3727,6 +4336,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L331"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3750,6 +4364,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L246"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3760,7 +4379,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "奸雄：保留原实现；未取得复现证据。；护驾：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-simayi",
@@ -3791,6 +4410,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L360"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3814,6 +4438,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L391"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3824,7 +4453,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "反馈：保留原实现；未取得复现证据。；鬼才：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-xiahoudun",
@@ -3855,6 +4484,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L473"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3865,7 +4499,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "刚烈：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-xuzhu",
@@ -3896,6 +4530,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L649"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3906,7 +4545,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "裸衣：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-guojia",
@@ -3937,6 +4576,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L685"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -3960,6 +4604,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L707"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -3970,7 +4619,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "天妒：保留原实现；未取得复现证据。；遗计：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-zhugeliang",
@@ -4001,6 +4650,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1329"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -4024,6 +4678,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1347"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4034,7 +4693,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "观星：保留原实现；未取得复现证据。；空城：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ganning",
@@ -4065,6 +4724,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1643"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4075,7 +4739,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "奇袭：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-lvmeng",
@@ -4106,6 +4770,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1663"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4116,7 +4785,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "克己：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-zhouyu",
@@ -4147,6 +4816,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1716"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -4170,6 +4844,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1731"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4180,7 +4859,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "英姿：保留原实现；未取得复现证据。；反间：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-sunshangxiang",
@@ -4211,6 +4890,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1967"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -4234,6 +4918,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1997"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4244,7 +4933,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "枭姬：保留原实现；未取得复现证据。；结姻：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-huatuo",
@@ -4275,6 +4964,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L2049"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -4298,6 +4992,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L2082"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4308,7 +5007,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "青囊：保留原实现；未取得复现证据。；急救：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-lvbu",
@@ -4339,6 +5038,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L2124"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4349,7 +5053,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "无双：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-old_re_lidian",
@@ -4380,6 +5084,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L17339"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -4403,6 +5112,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L17378"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4413,7 +5127,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "恂恂：保留原实现；未取得复现证据。；忘隙：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-xf_yiji",
@@ -4444,6 +5158,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L2421"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -4467,6 +5186,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L2470"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4477,7 +5201,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "机捷：保留原实现；未取得复现证据。；急援：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-std_panfeng",
@@ -4508,6 +5232,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L115"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4518,7 +5247,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "狂斧：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ganfuren",
@@ -4549,6 +5278,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L92"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -4567,6 +5301,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/sp/skill.js#L44698"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4577,7 +5316,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "淑慎：保留原实现；未取得复现证据。；神智：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-std_yuejin",
@@ -4608,6 +5347,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L21"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4618,7 +5362,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "骁果：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-old_caoren",
@@ -4649,6 +5393,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7735"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4659,7 +5408,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "据守：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-sp_zhugeliang",
@@ -4690,6 +5439,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6474"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -4713,6 +5467,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6449"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -4736,6 +5495,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6539"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4746,7 +5510,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "八阵：保留原实现；未取得复现证据。；火计：保留原实现；未取得复现证据。；看破：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_pangde",
@@ -4777,6 +5541,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1489"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -4800,6 +5569,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3257"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4810,7 +5584,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "马术：保留原实现；未取得复现证据。；鞬出：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-caopi",
@@ -4841,6 +5615,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5524"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -4864,6 +5643,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5538"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -4887,6 +5671,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5637"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4897,7 +5686,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "行殇：保留原实现；未取得复现证据。；放逐：保留原实现；未取得复现证据。；颂威：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_xuhuang",
@@ -4928,6 +5717,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5691"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -4951,6 +5745,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5672"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -4961,7 +5760,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "断粮：保留原实现；未取得复现证据。；截辎：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-menghuo",
@@ -4992,6 +5791,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5362"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5017,6 +5821,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5406"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5035,6 +5844,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/tw/skill.js#L12876"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5045,7 +5859,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "祸首：保留原实现；未取得复现证据。；再起：保留原实现；未取得复现证据。；酋首：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-zhurong",
@@ -5076,6 +5890,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5459"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5099,6 +5918,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5503"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5109,7 +5933,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "巨象：保留原实现；未取得复现证据。；烈刃：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-sunjian",
@@ -5140,6 +5964,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6049"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5150,7 +5979,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "英魂：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-dengai",
@@ -5181,6 +6010,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L4215"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5204,6 +6038,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L4357"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5214,7 +6053,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "屯田：保留原实现；未取得复现证据。；凿险：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-jiangwei",
@@ -5245,6 +6084,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3851"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5268,6 +6112,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3911"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5278,7 +6127,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "挑衅：保留原实现；未取得复现证据。；志继：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-zhangzhang",
@@ -5309,6 +6158,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L4622"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5332,6 +6186,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L4669"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5342,7 +6201,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "直谏：保留原实现；未取得复现证据。；固政：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-sunce",
@@ -5373,6 +6232,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L4426"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5396,6 +6260,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L4467"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5419,6 +6288,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L4507"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5429,7 +6303,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "激昂：保留原实现；未取得复现证据。；魂姿：保留原实现；未取得复现证据。；制霸：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-caiwenji",
@@ -5460,6 +6334,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L4814"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5483,6 +6362,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L4861"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5493,7 +6377,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "悲歌：保留原实现；未取得复现证据。；断肠：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-kuailiangkuaiyue",
@@ -5524,6 +6408,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3054"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5547,6 +6436,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3074"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5557,7 +6451,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "荐降：保留原实现；未取得复现证据。；审时：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-yanyan",
@@ -5588,6 +6482,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L2033"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5598,7 +6497,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "拒战：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-wangping",
@@ -5629,6 +6528,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L2101"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5652,6 +6556,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L2246"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5662,7 +6571,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "飞军：保留原实现；未取得复现证据。；兵略：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-luji",
@@ -5693,6 +6602,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L2281"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5716,6 +6630,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L2325"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5739,6 +6658,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L2368"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5749,7 +6673,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "怀橘：保留原实现；未取得复现证据。；遗礼：保留原实现；未取得复现证据。；整论：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-yl_luzhi",
@@ -5780,6 +6704,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L2865"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5803,6 +6732,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L2964"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5813,7 +6747,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "明任：保留原实现；未取得复现证据。；贞良：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-haozhao",
@@ -5844,6 +6778,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L936"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5854,7 +6793,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "镇骨：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-zhugezhan",
@@ -5885,6 +6824,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L1009"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5908,6 +6852,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L1136"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5918,7 +6867,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "罪论：保留原实现；未取得复现证据。；父荫：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_caocao",
@@ -5949,6 +6898,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L14453"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -5974,6 +6928,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L5475"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -5984,7 +6943,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "奸雄：保留原实现；未取得复现证据。；护驾：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_simayi",
@@ -6015,6 +6974,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L15824"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6038,6 +7002,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L15751"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6048,7 +7017,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "反馈：保留原实现；未取得复现证据。；鬼才：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_guojia",
@@ -6079,6 +7048,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L685"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6102,6 +7076,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L14311"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6112,7 +7091,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "天妒：保留原实现；未取得复现证据。；遗计：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_xuzhu",
@@ -6145,6 +7124,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L14499"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6155,7 +7139,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "裸衣：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_xiahoudun",
@@ -6186,6 +7170,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L15919"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6209,6 +7198,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L14852"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6219,7 +7213,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "刚烈：保留原实现；未取得复现证据。；清俭：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_zhangfei",
@@ -6250,6 +7244,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L10706"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6273,6 +7272,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L10742"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6283,7 +7287,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "咆哮：保留原实现；未取得复现证据。；替身：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_zhaoyun",
@@ -6314,6 +7318,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L10460"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6337,6 +7346,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L10618"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6347,7 +7361,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "龙胆：保留原实现；未取得复现证据。；涯角：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_guanyu",
@@ -6378,6 +7392,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L14538"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6401,6 +7420,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L14605"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6411,7 +7435,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "武圣：保留原实现；未取得复现证据。；义绝：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_machao",
@@ -6442,6 +7466,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1489"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6465,6 +7494,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L16796"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6475,7 +7509,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "马术：保留原实现；未取得复现证据。；铁骑：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_zhouyu",
@@ -6506,6 +7540,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L16078"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6529,6 +7568,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L16106"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6539,7 +7583,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "英姿：保留原实现；未取得复现证据。；反间：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_lvmeng",
@@ -6570,6 +7614,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1663"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6593,6 +7642,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L15980"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6616,6 +7670,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L4835"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6626,7 +7685,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "克己：保留原实现；未取得复现证据。；勤学：保留原实现；未取得复现证据。；博图：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_ganning",
@@ -6657,6 +7716,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1643"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6680,6 +7744,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L17240"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6690,7 +7759,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "奇袭：保留原实现；未取得复现证据。；奋威：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_luxun",
@@ -6721,6 +7790,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L16195"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6744,6 +7818,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L16277"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6754,7 +7833,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "谦逊：保留原实现；未取得复现证据。；连营：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_lvbu",
@@ -6785,6 +7864,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L2124"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6808,6 +7892,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L14167"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6818,7 +7907,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "无双：保留原实现；未取得复现证据。；利驭：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_huatuo",
@@ -6849,6 +7938,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L2082"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6872,6 +7966,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L14936"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6882,7 +7981,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "急救：保留原实现；未取得复现证据。；青囊：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_huangyueying",
@@ -6913,6 +8012,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L15440"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -6936,6 +8040,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L15424"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -6946,7 +8055,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "集智：保留原实现；未取得复现证据。；奇才：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_sunshangxiang",
@@ -6977,6 +8086,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1967"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7000,6 +8114,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L15159"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -7010,7 +8129,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "枭姬：保留原实现；未取得复现证据。；结姻：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_zhenji",
@@ -7041,6 +8160,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L15082"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7064,6 +8188,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L898"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -7074,7 +8203,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "洛神：保留原实现；未取得复现证据。；倾国：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_zhugeliang",
@@ -7105,6 +8234,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L15054"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7128,6 +8262,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1347"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -7138,7 +8277,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "观星：保留原实现；未取得复现证据。；空城：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_huaxiong",
@@ -7169,6 +8308,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L14988"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7192,6 +8336,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L3099"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -7202,7 +8351,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "耀武：保留原实现；未取得复现证据。；势斩：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_gongsunzan",
@@ -7233,6 +8382,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L16894"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7256,6 +8410,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L16869"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -7266,7 +8425,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "趫猛：保留原实现；未取得复现证据。；义从：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_lidian",
@@ -7297,6 +8456,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L17339"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7322,6 +8486,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L1346"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -7332,7 +8501,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "恂恂：保留原实现；未取得复现证据。；忘隙：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_xushu",
@@ -7363,6 +8532,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L17053"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7386,6 +8560,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L17085"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -7396,7 +8575,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "诛害：保留原实现；未取得复现证据。；潜心：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-caoren",
@@ -7427,6 +8606,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3188"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7450,6 +8634,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3214"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -7460,7 +8649,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "据守：保留原实现；未取得复现证据。；解围：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-zhoutai",
@@ -7491,6 +8680,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8428"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7514,6 +8708,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8493"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -7524,7 +8723,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "不屈：保留原实现；未取得复现证据。；奋激：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_huangzhong",
@@ -7555,6 +8754,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3759"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7578,6 +8782,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L1593"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -7588,7 +8797,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "烈弓：保留原实现；未取得复现证据。；没矢：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_sp_zhugeliang",
@@ -7619,6 +8828,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6474"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7644,6 +8858,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L1358"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7669,6 +8888,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L1413"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7692,6 +8916,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L11762"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -7702,7 +8931,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "八阵：保留原实现；未取得复现证据。；火计：保留原实现；未取得复现证据。；看破：保留原实现；未取得复现证据。；藏拙：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_pangde",
@@ -7733,6 +8962,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1489"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7756,6 +8990,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L10264"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -7766,7 +9005,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "马术：保留原实现；未取得复现证据。；鞬出：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_menghuo",
@@ -7797,6 +9036,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5362"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7820,6 +9064,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L17924"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7838,6 +9087,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/tw/skill.js#L12876"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -7848,7 +9102,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "祸首：保留原实现；未取得复现证据。；再起：保留原实现；未取得复现证据。；酋首：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_sunjian",
@@ -7879,6 +9133,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6049"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7902,6 +9161,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L10339"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7920,6 +9184,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/tw/skill.js#L12838"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -7930,7 +9199,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "英魂：保留原实现；未取得复现证据。；武烈：保留原实现；未取得复现证据。；破虏：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_caopi",
@@ -7961,6 +9230,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L17635"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -7984,6 +9258,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L17683"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -8007,6 +9286,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5637"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8017,7 +9301,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "行殇：保留原实现；未取得复现证据。；放逐：保留原实现；未取得复现证据。；颂威：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_xuhuang",
@@ -8048,6 +9332,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L5396"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -8071,6 +9360,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L5423"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8081,7 +9375,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "断粮：保留原实现；未取得复现证据。；截辎：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_zhurong",
@@ -8112,6 +9406,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5459"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -8135,6 +9434,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L5503"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -8158,6 +9462,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L7727"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8168,7 +9477,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "巨象：保留原实现；未取得复现证据。；烈刃：保留原实现；未取得复现证据。；长标：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_jiangwei",
@@ -8199,6 +9508,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L7163"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -8222,6 +9536,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L7236"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8232,7 +9551,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "挑衅：保留原实现；未取得复现证据。；志继：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_caiwenji",
@@ -8263,6 +9582,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L3957"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -8286,6 +9610,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L4861"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8296,7 +9625,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "悲歌：保留原实现；未取得复现证据。；断肠：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_zhangzhang",
@@ -8327,6 +9656,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L739"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -8350,6 +9684,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L787"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8360,7 +9699,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "直谏：保留原实现；未取得复现证据。；固政：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_sunce",
@@ -8393,6 +9732,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L2368"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -8418,6 +9762,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L12360"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -8441,6 +9790,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L12383"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8451,7 +9805,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "激昂：保留原实现；未取得复现证据。；魂姿：保留原实现；未取得复现证据。；制霸：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-ol_dengai",
@@ -8484,6 +9838,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L9263"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -8509,6 +9868,11 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L9286"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8519,7 +9883,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "屯田：保留原实现；未取得复现证据。；凿险：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-zhenji",
@@ -8550,6 +9914,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L839"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -8573,6 +9942,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L898"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8583,7 +9957,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "洛神：保留原实现；未取得复现证据。；倾国：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-guanyu",
@@ -8614,6 +9988,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1194"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8624,7 +10003,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "武圣：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-zhangfei",
@@ -8655,6 +10034,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1291"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8665,7 +10049,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "咆哮：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-zhaoyun",
@@ -8696,6 +10080,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1391"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8706,7 +10095,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "龙胆：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-machao",
@@ -8737,6 +10126,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1489"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -8760,6 +10154,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1503"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8770,7 +10169,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "马术：保留原实现；未取得复现证据。；铁骑：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-huangyueying",
@@ -8801,6 +10200,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1547"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -8824,6 +10228,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1567"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8834,7 +10243,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "集智：保留原实现；未取得复现证据。；奇才：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-luxun",
@@ -8865,6 +10274,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1916"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         },
         {
@@ -8888,6 +10302,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1926"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8898,7 +10317,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "谦逊：保留原实现；未取得复现证据。；连营：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-huaxiong",
@@ -8929,6 +10348,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L2317"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8939,7 +10363,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "耀武：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-gongsunzan",
@@ -8970,6 +10394,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/refresh/skill.js#L16869"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -8980,7 +10409,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "义从：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-old_zhoutai",
@@ -9011,6 +10440,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8313"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -9021,7 +10455,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "不屈：保留原实现；未取得复现证据。"
     },
     {
       "task_id": "AI-re_huangzhong",
@@ -9052,6 +10486,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3759"
           },
+          "status": "尚未验证",
+          "implementation": "未改动",
+          "test": "未测试",
+          "evidence": "",
+          "notes": "保留原实现；未取得复现证据。",
           "host_line_1117": null
         }
       ],
@@ -9062,7 +10501,7 @@
       "implementation_status": "未改动",
       "test_status": "未测试",
       "evidence": "",
-      "notes": "保留原实现；未取得复现证据。"
+      "notes": "烈弓：保留原实现；未取得复现证据。"
     }
   ]
 }
