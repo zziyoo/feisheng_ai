@@ -6,8 +6,9 @@
 - 本地 15 条临时分支已确认被 v4.4.4 语义吸收或本身就是 v4.4.4 祖先，已建立 `refs/archive/*` 归档引用后删除。
 - 本地 `master` 不是上游 master：它停在 `466317e`，相对 v4.4.4 独有 22 个提交、缺少 56 个上游提交，属于旧线 QA 集成，**保留不动**。
 - 当前主工作树分支 `codex/final-client-stability`（`3edbc6e`）保留；工作区有上一轮未提交审计资料，本次未覆盖、未清理。
-- 本次开发落在既有分支 `codex/release-v4.4.4`（从 `v4.4.4` 起 3 个提交），没有新建分支。
-- Fork 主线同步和远端分支删除**未执行**：执行器把 `git push origin v4.4.4:refs/heads/master` 识别为需要显式确认的破坏性操作并拦截。命令与目标已列在文末，等待用户确认。
+- 本次开发落在既有分支 `codex/release-v4.4.4`（从 `v4.4.4` 起 8 个提交），没有新建分支。
+- Fork 分支收尾**已执行**：`origin/master` 从 `78c141f` 非强制快进到 `1fe5292`；`origin/feature/manual-full-package-20261017`（`ceef378`，独有 0）已删除；`origin/fix/model-lifecycle` 按要求保留。执行使用 `gh auth git-credential` 临时凭据助手，没有 force push、没有删除标签。
+- `origin/fix/model-lifecycle` 的独有提交 `976d7eb` 已复核：`modeModelStore` 动态维度、dataset/export 关键修改已存在于 v4.4.4；未发现值得单独移植的独有功能，暂保留远端分支。
 
 ## 2. 判定方法
 
@@ -45,7 +46,7 @@
 | fix/model-lifecycle | `976d7eb` | 372cc9b | 1 | `modeModelStore` 动态维度逐字在 v4.4.4 | 归档后删除 | `archive/fix-model-lifecycle` |
 | codex/mobile-performance-443 | `4d3aae7` | v4.4.4 祖先 | 0 | 直接祖先 | 删除分支并移除干净工作树 | 已删除 |
 | fix/mobile-performance-4.4.3 | `636b636` | v4.4.4 祖先 | 0 | 直接祖先 | 删除分支并移除干净工作树 | 已删除 |
-| codex/release-v4.4.4 | `1fe5292` | v4.4.4 自身 | 0 | 既有发布分支 | 保留并作为本次开发分支 | 4 个新提交（3 代码/测试 + 本报告） |
+| codex/release-v4.4.4 | `1fe5292` | v4.4.4 自身 | 0 | 既有发布分支 | 保留并作为本次开发分支 | 8 个新提交（首批 4 + 二次补修 4） |
 | master | `466317e` | d3dbad6 | 22 | 旧线 QA 集成，缺 56 个上游提交；不是上游 master | 保留，不 reset/不强推 | 未改动 |
 
 恢复方式（任选一条归档）：
@@ -64,24 +65,37 @@ git switch -c recover/<原名> refs/archive/<原名>
 | upstream/feat/weique-2v2-complete | `36a9c2f` | PR #13 MERGED，v4.4.4 祖先 | 可删 | 无权限，不操作 |
 | upstream/release/4.4.0 | `00468cc` | v4.4.4 祖先，发布历史 | 保留 | 无 |
 | upstream/fix/client-align-142 | `25cae88` | 2 个独有提交，未合并 | **保留**；142 维与 v4.4.4 的 134 维契约冲突，待模型/特征契约升级后再评估 | 无 |
-| origin/master | `78c141f` | v4.4.4 祖先，落后 | 快进到 v4.4.4 | **待确认**（被拦截） |
-| origin/feature/manual-full-package-20261017 | `ceef378` | PR #3 MERGED，v4.4.4 祖先 | 可删 | **待确认** |
-| origin/fix/model-lifecycle | `976d7eb` | 语义已吸收；本地已归档删除 | 可删 | **待确认** |
+| origin/master | `78c141f` → `1fe5292` | v4.4.4 祖先，落后 121、独有 0 | 非强制快进 | **已执行**（`78c141f..1fe5292`） |
+| origin/feature/manual-full-package-20261017 | `ceef378` | PR #3 MERGED，v4.4.4 祖先，独有 0 | 删除 | **已执行**（远端已删） |
+| origin/fix/model-lifecycle | `976d7eb` | 相对 v4.4.4 独有 1；核心修改已在 v4.4.4 | 暂保留，复核后再决定 | **保留** |
 
-## 5. 待确认的远端命令
+## 5. 已执行的远端操作
 
-执行器要求显式确认以下目标；本次没有执行，也没有 force push：
+下列命令在用户明确授权后执行；使用 `GIT_TERMINAL_PROMPT=0` + `gh auth git-credential` 临时凭据助手，没有 force push、没有删除标签：
 
 ```bash
-git push origin v4.4.4:refs/heads/master          # 快进 origin/master 到 1fe5292
-git push origin --delete feature/manual-full-package-20261017
-git push origin --delete fix/model-lifecycle
+# 执行前：origin/master = 78c141f95058e0660680615760d819c785b98057
+#          origin/feature/... = ceef378ca2031944315dd0097172cbff32097aa2
+GIT_TERMINAL_PROMPT=0 git -c credential.helper='!gh auth git-credential' \
+  push origin 1fe5292eb3022dd8d1db494617b21a12be912e61:refs/heads/master
+# 结果：78c141f..1fe5292（fast-forward）
+
+GIT_TERMINAL_PROMPT=0 git -c credential.helper='!gh auth git-credential' \
+  push origin --delete feature/manual-full-package-20261017
+# 结果：deleted feature/manual-full-package-20261017
+
+# 按要求保留 origin/fix/model-lifecycle（976d7eb），未删除。
 ```
 
-`origin/master` 是 v4.4.4 的祖先，上述第一条是 fast-forward，不是重写；但当前权限门禁把它归为“写主分支”，需要用户明确确认。
+复核 `fix/model-lifecycle` 的独有提交 `976d7eb`：
+
+- 代码文件 5 个：`dimensionAdapter.js`、`modeDataset.js`、`modeTraining.js`、`trainExport.js`、`modeModelStore.js`。
+- 新增行在 v4.4.4 的命中：12/12、32/32、10/12、21/21、39/39；缺失的两行是长表达式，已被 v4.4.4 的等价重写覆盖。
+- 旧实现 `const fields={W1:16640,...}` 已不在 v4.4.4；v4.4.4 使用 `MODEL_SCHEMA.dims` 动态维度。
+- 结论：没有发现值得单独移植的独有功能；保持远端分支，待用户决定是否在后续删除。
 
 ## 6. 未处理的本地状态
 
 - 主工作树 `codex/final-client-stability` 仍有上一轮的未提交审计资料（99 个 staged 文件、53 个内容修改、若干未跟踪文件）。本次没有 commit、reset、clean 或覆盖这些内容。
-- 主工作树运行时代码按 CRLF 归一化后与 v4.4.4 逐文件一致；详见 `baseline.json`。
+- 安装目录运行时代码：384 个运行文件中 383 个与 v4.4.4 一致，1 个已知缺失（`client_policy_model_v2.js`，见 `baseline.json`）；本地试验安装已额外部署 3 个策略文件，详见 `live-install/`。
 - 本地 `master` 与 `codex/final-client-stability` 都保留，避免丢失上一轮审计/QA 资料。

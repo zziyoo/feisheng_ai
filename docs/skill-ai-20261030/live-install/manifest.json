@@ -1,0 +1,34 @@
+{
+  "installed_at": "2026-10-31T17:31:31",
+  "deployed_from_commit": "aed71a8c55028fb99ac0f9e5ff2480a32debf0e7",
+  "baseline_commit": "1fe5292eb3022dd8d1db494617b21a12be912e61",
+  "live_install_dir": "C:/Users/32360/Desktop/无名杀-win32-x64/resources/app/extension/无名AI",
+  "files": [
+    {
+      "path": "score/index.js",
+      "pre_absent": false,
+      "pre_sha256": "a2fa58e4b122a04a34559479ece7052eb6d200dd3b078cd668ade80ccfcc80cc",
+      "post_sha256": "3d14121f986b4766871a269b7d0818f594e4c34f6059b15b1600d014efec0b64",
+      "head_blob_sha256": "3d14121f986b4766871a269b7d0818f594e4c34f6059b15b1600d014efec0b64",
+      "backup": "backup/score__index.js.v444"
+    },
+    {
+      "path": "score/decision/skills/skillAIPolicies.js",
+      "pre_absent": true,
+      "pre_sha256": null,
+      "post_sha256": "6f403e4d7369210a2137fa4303ea2e0b3781453f196e794dede51ff8c46f1e34",
+      "head_blob_sha256": "6f403e4d7369210a2137fa4303ea2e0b3781453f196e794dede51ff8c46f1e34",
+      "backup": null
+    },
+    {
+      "path": "score/decision/skills/skillAIPolicyRules.js",
+      "pre_absent": true,
+      "pre_sha256": null,
+      "post_sha256": "92d5db6d1b2445c6e870e3d1ccc3cf4374cfa9be624429c238a472022d63b3a6",
+      "head_blob_sha256": "92d5db6d1b2445c6e870e3d1ccc3cf4374cfa9be624429c238a472022d63b3a6",
+      "backup": null
+    }
+  ],
+  "rollback": "python tools/rollback-skill-ai-live.py  # 先看计划；确认后加 --apply",
+  "note": "仅本地试验安装；未改版本号、更新公告、标签。"
+}

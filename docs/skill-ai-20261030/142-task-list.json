@@ -16,24 +16,24 @@
     "priority_revised": {
       "P0": 0,
       "P1": 3,
-      "P2": 50,
-      "P3": 89
+      "P2": 49,
+      "P3": 90
     },
     "review_status": {
-      "验证无问题": 3,
-      "已复现": 4,
+      "验证无问题": 4,
       "尚待验证": 1,
-      "尚未验证": 134
+      "尚未验证": 134,
+      "已复现": 3
     },
     "implementation_status": {
-      "无需改动": 3,
-      "已实施（结算后置条件待复核）": 1,
+      "无需改动": 4,
       "未改动": 135,
       "已实施": 3
     },
     "test_status": {
       "真实宿主通过": 6,
-      "部分通过": 2,
+      "真实宿主完整回合通过": 1,
+      "部分通过": 1,
       "未测试": 134
     }
   },
@@ -46,8 +46,8 @@
       "review_status": "已复现",
       "implementation_status": "已实施",
       "test_status": "真实宿主通过",
-      "evidence": "混合后的暗牌选择中，原生AI用 get.value(button.link) 直接挑最高价值牌；真实验证第一个选择者拿走桃+无中生有，人类同界面为暗牌。公平钩子改为按位置/玩家id的稳定分数。",
-      "notes": "只对AI选择者生效；人类选择路径不变；卸载还原。"
+      "evidence": "混合后的暗牌选择中，原生AI用 get.value(button.link) 直接挑最高价值牌；真实验证第一个选择者拿走桃+无中生有，人类同界面为暗牌。公平钩子改为按位置/玩家id的稳定分数；同一局面置换暗牌牌面后，两次选择的索引一致（2,0 / 1,3）。",
+      "notes": "只对AI选择者生效；人类路径不变；卸载还原；选择器异常不调用原生看牌评分。"
     }
   ],
   "records": [
@@ -216,15 +216,15 @@
         }
       ],
       "priority_original": "P1",
-      "priority_revised": "P2",
-      "review_status": "已复现",
+      "priority_revised": "P3",
+      "review_status": "验证无问题",
       "reviewed_skills": [
         "zhiheng"
       ],
-      "implementation_status": "已实施（结算后置条件待复核）",
-      "test_status": "部分通过",
-      "evidence": "1血持闪+桃时原生AI选中闪作为成本；共享策略的 ai.order 护栏在真实宿主命中（skippedOrder=1）。隔离夹具的结算后置条件受宿主试探性选牌影响，未作为完整结算通过。",
-      "notes": "jiuyuan 未审查；建议后续用完整 phaseUse 回合复核后置条件。"
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主完整回合通过",
+      "evidence": "完整 phaseUse 七种局面：3血会弃两杀保留桃；3血/4上限会先用桃回血；1血会先用桃；1血混合牌不发动；击杀/防具场景正常。未复现“弃闪/桃”缺陷。",
+      "notes": "上一轮隔离 chooseToUse 的“选闪”是夹具假象；已移除标准制衡策略，只保留界制衡。jiuyuan 未审查。"
     },
     {
       "task_id": "AI-huanggai",
@@ -2014,8 +2014,8 @@
       ],
       "implementation_status": "已实施",
       "test_status": "真实宿主通过",
-      "evidence": "olkongsheng.cost 中 getExpansions() 返回数组却直接加数字，阈值比较失真；真实宿主原生成本AI选3张，修正后选1张。",
-      "notes": "olliangyin 未审查；kongsheng（新版）仅做过表达式复核，未作为已修复项。"
+      "evidence": "olkongsheng.cost 中 getExpansions() 返回数组却直接加数字，阈值比较失真；原生成本AI选3张，修正后选1张；重复调用均为1张，异常后补丁作用域恢复，数组语义（索引/长度/迭代/JSON）保持不变。",
+      "notes": "olliangyin 未审查；kongsheng（新版）未改动；已加宿主成本指纹，表达式变化时跳过。"
     },
     {
       "task_id": "AI-zhangxiu",
@@ -2203,8 +2203,8 @@
       ],
       "implementation_status": "已实施",
       "test_status": "真实宿主通过",
-      "evidence": "三名敌人手牌1/4/2时，原生选1+2并跳过4；优化后选4+2。",
-      "notes": "共享目标策略只对敌人按公开手牌数加0~2分，不改变合法目标集合。"
+      "evidence": "三名敌人手牌1/4/2时，原生选1+2并跳过4；优化后选4+2；屯田目标不叠加手牌奖励；只有友方、单目标、零目标原生均正常放弃/正常摸牌。",
+      "notes": "共享目标策略只对敌人按公开手牌数加0~2分，不改变合法目标集合；没有添加无证据的发动护栏。"
     },
     {
       "task_id": "AI-re_daqiao",
@@ -2525,8 +2525,8 @@
       ],
       "implementation_status": "已实施",
       "test_status": "真实宿主通过",
-      "evidence": "3血持桃+两杀时，原生界制衡弃掉桃+两杀并摸4；优化后保留桃、弃两杀摸2。4血负向对照保持原行为。",
-      "notes": "共享低血防御保留策略；rejiuyuan 未审查。"
+      "evidence": "完整 phaseUse：3血持桃+两杀时原生弃桃+杀并摸3，优化后保留桃、只弃非防御牌摸1；1/2血、只桃/只闪、含回复、防具场景均保留防御；4血负向对照仍走原生全手换牌。",
+      "notes": "共享低血防御保留策略；标准制衡已验证无需改动；rejiuyuan 未审查。"
     },
     {
       "task_id": "AI-ol_xiahouyuan",

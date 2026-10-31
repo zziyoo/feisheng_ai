@@ -17,6 +17,7 @@
 
 ```bash
 node --experimental-vm-modules tools/test-skill-ai-policies.mjs
+node --experimental-vm-modules tools/test-skill-ai-architecture.mjs
 node --experimental-vm-modules tools/test-regressions.mjs
 node --experimental-vm-modules tools/test-2v2-reentry.mjs
 node --experimental-vm-modules tools/test-response-lifecycle.mjs
@@ -58,11 +59,12 @@ node --experimental-vm-modules tools/test-friendly-strip-plan.mjs
 node --experimental-vm-modules tools/test-utility-boundaries.mjs
 ```
 
-结果：**40 个入口全部 exit=0，0 FAIL**。带计数的代表结果：
+结果：**41 个入口全部 exit=0，0 FAIL**。带计数的代表结果：
 
 | 测试 | 结果 |
 |---|---:|
-| test-skill-ai-policies（本次新增，纯规则） | 10 PASS |
+| test-skill-ai-policies（本次新增，纯规则） | 14 PASS |
+| test-skill-ai-architecture（本次新增，134 维/接线契约） | 8 PASS |
 | test-regressions（自报） | PASS 94 / FAIL 0 |
 | test-response-lifecycle | 45 passed / 0 failed |
 | test-weights | ALL PASS (637) |
@@ -112,16 +114,18 @@ node tools/trick-real-host-smoke.mjs --mode identity --skill-ai --skill-ai-exten
 
 | 场景 | 原生行为 | 优化后 | 判定 |
 |---|---|---|---|
-| 界孙权 3血 [桃,杀,杀] | 全手换牌，弃桃+两杀，摸4 | 保留桃，弃两杀，摸2 | 已修复；4血负向对照不变 |
-| 周妃旧版箜声：已有1张箜，3张无懈，受伤队友1手 | 成本AI选3张无懈 | 只选1张，命中良姻回复阈值 | 已修复（数组+数字笔误） |
-| 界鲁肃 redimeng：混合池[桃,杀,闪,无中] | 第一个选择者拿走桃+无中 | 公平分配为[闪,桃]/[杀,无中] | 已修复（隐藏牌面） |
-| 界张辽 new_retuxi：敌人手牌 1/4/2 | 选1+2，跳过4 | 选4+2 | 已修复（目标收益） |
+| 界孙权完整 phaseUse：3血/max3 [桃,杀,杀] | 弃桃+两杀，摸3 | 弃两杀、保留桃，摸1 | 已修复；完整回合 |
+| 界孙权 1/2血、只桃/只闪、含回复、防具 | 低血可能弃防御 | 保留桃/闪，只弃非防御；4血仍全手换牌 | 已修复；4血负向对照 |
+| 周妃旧版箜声：1张箜、3张无懈、受伤队友1手 | 成本AI选3张无懈 | 选1张；重复调用 [1,1]；异常后作用域恢复 | 已修复（数组+数字）；宿主指纹保护 |
+| 界鲁肃 redimeng：混合池[桃,杀,闪,无中] | 第一个选择者拿走桃+无中 | 公平分配；同位置置换牌面后选择索引仍为 (2,0)/(1,3) | 已修复（隐藏牌面） |
+| 界张辽 new_retuxi：敌人手牌 1/4/2 | 选1+2，跳过4 | 选4+2；屯田目标 0 失牌 | 已修复（目标收益） |
+| 界张辽：只有友方、单目标、零目标、中立目标 | 原生放弃/正常摸牌 | 不变，友方手牌不被拿 | 验证无问题；没有加发动护栏 |
 | 标准张辽 tuxi：只有队友有手牌 | 放弃发动，正常摸2 | 不变 | 验证无问题 |
 | 标准刘备 rende：敌人空手、队友3手 | 把牌给队友并回复1血 | 不变 | 验证无问题 |
 | 标准鲁肃 dimeng：队友1手/敌人3手 | 正确交换，只读公开数量 | 不变 | 验证无问题 |
-| 标准周妃 kongsheng（新版） | 暂存数组/数量判断正常 | 不变 | 验证无问题（旧版 olkongsheng 另修） |
-| 标准孙权 zhiheng 1血 [闪,桃] | 原生选中闪作为成本 | 策略的 ai.order 护栏命中（skippedOrder=1）；隔离夹具结算后置条件受宿主试探性选牌影响 | **部分通过，未宣称完整修复** |
-| 标准黄盖 kurou 3血1手 | 发动，降到2血摸2 | 不变 | 待验证，无明显越权 |
+| 标准周妃 kongsheng（新版） | 暂存数组/数量判断正常 | 不变 | 验证无问题（旧版另修） |
+| 标准孙权完整 phaseUse：3血/1血/击杀/防具 | 3血弃两杀保留桃；1血先用桃；击杀/防具正常 | 不做策略改动 | 验证无问题；上一轮“选闪”是隔离夹具假象 |
+| 策略层卸载/重装 | — | policy-lifecycle true→false→true；full-engine-lifecycle false→true | 通过 |
 
 ## 4. 托管局性能
 
@@ -135,11 +139,13 @@ node tools/trick-real-host-smoke.mjs --mode versus --autoplay ...
 
 | 模式 | 局数/完成 | 决策样本 | p50 | p95 | p99 | 最大 | 备注 |
 |---|---:|---:|---:|---:|---:|---:|---|
-| 身份 | 2 局，1 完成 1 到 180s 上限 | 40 | 32.0ms | 47.1ms | 50.4ms | 52ms | 超时局已 106 回合、无错误，仍在进行；不当作挂起 |
-| 斗地主 | 3/3 完成 | 53 | 20.0ms | 33.8ms | 56.1ms | 66ms | 6–15 回合/局 |
-| 2V2 | 3/3 完成 | 50 | 28.5ms | 61.0ms | 79.0ms | 81ms | 8–19 回合/局 |
+| 身份 | 3 局（2 完成；1 旧版 runner 到 180s 上限） | 44 | 37.0ms | 171.1ms | 194.7ms | 199ms | 含 4 个 live 样本；超时局已 106 回合/112 用牌，未标记停滞 |
+| 斗地主 | 4/4 完成 | 73 | 23.0ms | 63.6ms | 74.5ms | 81ms | 6–15 回合/局 |
+| 2V2 | 4/4 完成 | 65 | 32.0ms | 100.0ms | 135.5ms | 147ms | 7–19 回合/局 |
 
-结论：最坏单次决策 81ms，远低于硬接管 `800ms` 超时阈值；没有出现 `timeout`、`error`、`blocked` 或页面异常。样本量 40–53；p99 接近最大值，统计意义有限，后续应扩大样本。
+结论：本轮观测最坏单次决策 199ms，仍低于硬接管 `800ms` 超时阈值；`overrideStats` 未出现 `timeout`/`error`，live 局的 stall/timeout 标记均为空。样本量 44–73，且包含机器负载不同的多轮运行（live 样本含策略钩子，早期样本为引擎-only），p99 不能视为长期性能保证；后续需在固定机器和更多局数下复测。
+
+停滞/超时区分：新版 runner 每 20s 采样 `phases/uses/event/paused`，同类状态持续 60s 才标记 `stalled`；到 180s 仍未 `done` 标记 `timedOut`。旧版那次 180s 身份局已到 106 回合/112 用牌，未显示停滞迹象，但当时还没有该诊断字段，只能按“长局到测试上限”记录。
 
 策略纯规则微基准（`node tools/bench-skill-ai-policies.mjs`，20 万次，三项规则一批）：
 
@@ -151,6 +157,16 @@ node tools/trick-real-host-smoke.mjs --mode versus --autoplay ...
 | 最大 | 3027µs（GC/调度噪声，单次离群；不在决策路径） |
 
 场景总耗时（含清场、发牌、UI/延时/结算）p50 约 1.15s、p95 约 2.8s、最大 4.5s；这不是决策耗时，不能与上表混读。最慢场景 `rende-target` 约 4.5s，主要是宿主结算/动画/延时。
+
+### 4.1 本地试验安装验证
+
+- 部署集合：`git diff --name-only 1fe5292..aed71a8 -- score js shadow css assets model extension.js info.json` 只有 3 个文件：`score/index.js`、`score/decision/skills/skillAIPolicies.js`、`score/decision/skills/skillAIPolicyRules.js`。
+- 安装前：安装目录 `score/index.js` 归一化 SHA256 = `a2fa58e4...`（与 v4.4.4 一致）；两个策略文件不存在。
+- 安装后：3 个文件与 `aed71a8` 的 blob 一致；`live-install/manifest.json` 记录了 pre/post 哈希与备份路径。
+- 用**安装目录本身**作为 extension-root 跑 38 个场景：`status=passed`、`errors=[]`；`policyStats`：`keptTao=18`、`keptShan=3`、`fairRedimeng=9`、`retuxiTargetBonus=14`、`olkongshengCostCalls=4`、`redimengMaskFailed=0`。
+- `policy-lifecycle`：true → uninstall false → reinstall true；`full-engine-lifecycle`：uninstall false → reinstall true，`error=null`。
+- 回滚：`python tools/rollback-skill-ai-live.py` 先打印计划，确认后加 `--apply`；会校验当前/备份哈希后再恢复/删除。
+- 未改版本号、更新公告、发布标签；这是本地试验安装，不是公开发行。
 
 ## 5. 测试基础设施能力与限制
 
@@ -165,8 +181,8 @@ node tools/trick-real-host-smoke.mjs --mode versus --autoplay ...
 未覆盖/限制：
 
 - 没有固定随机种子；卡牌抽取仍是真随机，**没有伪造理想摸牌**。固定的是局面和输入牌。
-- 多数场景是单事件/单阶段，不是完整回合；标准孙权 zhiheng 的结算后置条件因此未作为完整通过。
-- 身份局有 1 局到 180s 测试上限仍未结束；不能据此宣称长时间稳定性。
+- 新增长场景包含完整 `phaseUse`（标准/界制衡、击杀、防具、回复机会）；但敌方回合/濒死救援仍不是每个技能都有完整回合。
+- 身份局有 1 局到 180s 测试上限仍未结束；新版已能标记 `stalled`/`timedOut`，但不能据此宣称长时间稳定性。
 - 未跑 Android 真机长时多局；v4.4.4 的 Android 长时间稳定性仍未验收，本报告不宣传为全面性能验证。
 - 未做联机/远端玩家测试；`redimeng` 公平钩子在联机禁用接管时不会安装。
 - 2V2 只测了本地真实宿主的 4 人 two 队模式，未测联机 2V2。

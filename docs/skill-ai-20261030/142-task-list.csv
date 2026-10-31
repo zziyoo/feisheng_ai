@@ -1,7 +1,7 @@
 ﻿task_id,character_id,character_name,category,skills,priority_original,priority_revised,review_status,implementation_status,test_status,evidence,notes
 AI-zhangliao,zhangliao,张辽,standard_2008,tuxi,P1,P3,验证无问题,无需改动,真实宿主通过,仅友方有手牌时原生突袭放弃并正常摸2；两敌人1/4手牌时偷1+1，符合跳过摸牌的成本。,不叠加重复优化。
 AI-liubei,liubei,刘备,standard_2008,rende|jijiang,P1,P3,验证无问题,无需改动,真实宿主通过,3血2无懈、敌人空手、队友3手牌时，原生仁德把牌交给队友并回复1血；未把牌交给敌人。,jijiang 未审查。
-AI-sunquan,sunquan,孙权,standard_2008,zhiheng|jiuyuan,P1,P2,已复现,已实施（结算后置条件待复核）,部分通过,1血持闪+桃时原生AI选中闪作为成本；共享策略的 ai.order 护栏在真实宿主命中（skippedOrder=1）。隔离夹具的结算后置条件受宿主试探性选牌影响，未作为完整结算通过。,jiuyuan 未审查；建议后续用完整 phaseUse 回合复核后置条件。
+AI-sunquan,sunquan,孙权,standard_2008,zhiheng|jiuyuan,P1,P3,验证无问题,无需改动,真实宿主完整回合通过,完整 phaseUse 七种局面：3血会弃两杀保留桃；3血/4上限会先用桃回血；1血会先用桃；1血混合牌不发动；击杀/防具场景正常。未复现“弃闪/桃”缺陷。,上一轮隔离 chooseToUse 的“选闪”是夹具假象；已移除标准制衡策略，只保留界制衡。jiuyuan 未审查。
 AI-huanggai,huanggai,黄盖,standard_2008,kurou,P1,P2,尚待验证,未改动,部分通过,3血1手牌时原生会发动苦肉，降到2血摸2；未发现明确越权或非法决策，按“验证后决定”保留。,低血生存与桃/救援的联合估值仍需更多真实回合样本。
 AI-daqiao,daqiao,大乔,standard_2008,guose|liuli,P1,P2,尚未验证,未改动,未测试,,保留原实现；未取得复现证据。
 AI-diaochan,diaochan,貂蝉,standard_2008,lijian|biyue,P1,P2,尚未验证,未改动,未测试,,保留原实现；未取得复现证据。
@@ -29,15 +29,15 @@ AI-xuyou,xuyou,许攸,shenhua_yin,nzry_chenglve|nzry_shicai|nzry_cunmu,P1,P2,尚
 AI-guanqiujian,guanqiujian,毌丘俭,shenhua_lei,zhengrong|hongju,P1,P2,尚未验证,未改动,未测试,,保留原实现；未取得复现证据。
 AI-chendao,chendao,陈到,shenhua_lei,dcwanglie,P1,P2,尚未验证,未改动,未测试,,保留原实现；未取得复现证据。
 AI-lukang,lukang,陆抗,shenhua_lei,drlt_qianjie|drlt_jueyan|drlt_poshi,P1,P2,尚未验证,未改动,未测试,,保留原实现；未取得复现证据。
-AI-zhoufei,zhoufei,周妃,shenhua_lei,olliangyin|olkongsheng,P1,P1,已复现,已实施,真实宿主通过,olkongsheng.cost 中 getExpansions() 返回数组却直接加数字，阈值比较失真；真实宿主原生成本AI选3张，修正后选1张。,olliangyin 未审查；kongsheng（新版）仅做过表达式复核，未作为已修复项。
+AI-zhoufei,zhoufei,周妃,shenhua_lei,olliangyin|olkongsheng,P1,P1,已复现,已实施,真实宿主通过,olkongsheng.cost 中 getExpansions() 返回数组却直接加数字，阈值比较失真；原生成本AI选3张，修正后选1张；重复调用均为1张，异常后补丁作用域恢复，数组语义（索引/长度/迭代/JSON）保持不变。,olliangyin 未审查；kongsheng（新版）未改动；已加宿主成本指纹，表达式变化时跳过。
 AI-zhangxiu,zhangxiu,张绣,shenhua_lei,drlt_xiongluan|drlt_congjian|twjuxiang,P1,P2,尚未验证,未改动,未测试,,保留原实现；未取得复现证据。
 AI-yl_yuanshu,yl_yuanshu,新杀袁术,shenhua_lei,drlt_yongsi|drlt_weidi,P1,P2,尚未验证,未改动,未测试,,保留原实现；未取得复现证据。
-AI-re_zhangliao,re_zhangliao,界张辽,refresh_standard,new_retuxi,P1,P1,已复现,已实施,真实宿主通过,三名敌人手牌1/4/2时，原生选1+2并跳过4；优化后选4+2。,共享目标策略只对敌人按公开手牌数加0~2分，不改变合法目标集合。
+AI-re_zhangliao,re_zhangliao,界张辽,refresh_standard,new_retuxi,P1,P1,已复现,已实施,真实宿主通过,三名敌人手牌1/4/2时，原生选1+2并跳过4；优化后选4+2；屯田目标不叠加手牌奖励；只有友方、单目标、零目标原生均正常放弃/正常摸牌。,共享目标策略只对敌人按公开手牌数加0~2分，不改变合法目标集合；没有添加无证据的发动护栏。
 AI-re_daqiao,re_daqiao,界大乔,refresh_standard,reguose|liuli,P1,P2,尚未验证,未改动,未测试,,保留原实现；未取得复现证据。
 AI-re_huanggai,re_huanggai,界黄盖,refresh_standard,rekurou|zhaxiang,P1,P2,尚未验证,未改动,未测试,界苦肉依赖诈降摸3，不能套用标准苦肉的停止条件；未建立真实场景。,保留原实现，避免误伤既有爆发路线。
 AI-re_liubei,re_liubei,界刘备,refresh_standard,rerende|rejijiang,P1,P2,尚未验证,未改动,未测试,rerende 未建立固定局面场景。,保留原实现。
 AI-re_diaochan,re_diaochan,界貂蝉,refresh_standard,lijian|rebiyue,P1,P2,尚未验证,未改动,未测试,,保留原实现；未取得复现证据。
-AI-re_sunquan,re_sunquan,界孙权,refresh_standard,rezhiheng|rejiuyuan,P1,P1,已复现,已实施,真实宿主通过,3血持桃+两杀时，原生界制衡弃掉桃+两杀并摸4；优化后保留桃、弃两杀摸2。4血负向对照保持原行为。,共享低血防御保留策略；rejiuyuan 未审查。
+AI-re_sunquan,re_sunquan,界孙权,refresh_standard,rezhiheng|rejiuyuan,P1,P1,已复现,已实施,真实宿主通过,完整 phaseUse：3血持桃+两杀时原生弃桃+杀并摸3，优化后保留桃、只弃非防御牌摸1；1/2血、只桃/只闪、含回复、防具场景均保留防御；4血负向对照仍走原生全手换牌。,共享低血防御保留策略；标准制衡已验证无需改动；rejiuyuan 未审查。
 AI-ol_xiahouyuan,ol_xiahouyuan,界夏侯渊,refresh_feng,xinshensu|shebian,P1,P2,尚未验证,未改动,未测试,,保留原实现；未取得复现证据。
 AI-ol_weiyan,ol_weiyan,界魏延,refresh_feng,xinkuanggu|reqimou,P1,P2,尚未验证,未改动,未测试,,保留原实现；未取得复现证据。
 AI-ol_xiaoqiao,ol_xiaoqiao,界小乔,refresh_feng,oltianxiang|olhongyan|piaoling,P1,P2,尚未验证,未改动,未测试,,保留原实现；未取得复现证据。
