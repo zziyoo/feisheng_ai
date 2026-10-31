@@ -112,8 +112,9 @@ try {
       const {runSkillAiScenes}=await import('./skill-ai-host-scenes.mjs');
       const withExtension=args.includes('--skill-ai-extension');
       const policyOnly=args.includes('--skill-ai-policy');
-      const report=await runSkillAiScenes(page,{installExtension:withExtension,policyOnly});
-      const result={completedAt:new Date().toISOString(),status:errors.length?'failed':'passed',scope:'真实身份局宿主、固定公开局面、技能AI选择与结算观察；'+(withExtension?'已安装无名AI决策引擎':(policyOnly?'仅技能AI薄策略层':'原生AI基线')),browserVersion:await browser.version(),...report,errors};
+      const fullLifecycle=args.includes('--skill-ai-full-lifecycle');
+      const report=await runSkillAiScenes(page,{installExtension:withExtension,policyOnly,fullLifecycle});
+      const result={completedAt:new Date().toISOString(),status:errors.length?'failed':'passed',scope:'真实身份局宿主、固定公开局面、技能AI选择与结算观察；'+(withExtension?'已安装无名AI决策引擎':(policyOnly?'仅技能AI薄策略层':'原生AI基线'))+(fullLifecycle?'；含完整引擎卸载/重装':'') ,browserVersion:await browser.version(),...report,errors};
       if(option('output'))await fs.writeFile(option('output'),JSON.stringify(result,null,2)+'\n');
       console.log(JSON.stringify(result,null,2));assert.deepEqual(errors,[]);
     }else if(args.includes('--manual')){

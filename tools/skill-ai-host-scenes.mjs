@@ -547,6 +547,18 @@ export async function runSkillAiScenes(page, options = {}) {
 				statsAfterReinstall: policyModule.skillAIPolicyStats(),
 			});
 		}
+		if (opts.fullLifecycle && policyModule) {
+			let error = null, afterUninstall = null, afterReinstall = null;
+			try {
+				const score = await import('/extension/无名AI/score/index.js?v=41a');
+				score.uninstallScoreEngine();
+				afterUninstall = policyModule.skillAIPolicyStats().installed;
+				score.installScoreEngine();
+				await new Promise(resolve => setTimeout(resolve, 300));
+				afterReinstall = policyModule.skillAIPolicyStats().installed;
+			} catch (e) { error = String(e); }
+			scenes.push({ name: 'full-engine-lifecycle', afterUninstall, afterReinstall, error });
+		}
 
 		return {
 			hostVersion: lib.version,
@@ -556,7 +568,7 @@ export async function runSkillAiScenes(page, options = {}) {
 			policyStats,
 			scenes,
 		};
-	}, { installExtension: !!options.installExtension, policyOnly: !!options.policyOnly });
+	}, { installExtension: !!options.installExtension, policyOnly: !!options.policyOnly, fullLifecycle: !!options.fullLifecycle });
 
 	assert.equal(report.mode, 'identity');
 	assert(report.players >= 6);
