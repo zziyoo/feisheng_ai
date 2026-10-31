@@ -1,6 +1,6 @@
 import { lib, game, get, _status } from '../../foundation/adapt/host.js?v=41a';
 import { resolveActiveSkillId } from '../safety/aiOverride.js?v=41a';
-import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus } from './skillAIPolicyRules.js?v=41a';
+import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus, qimouTargetX, shouldBypassQimouCountBlock, reqimouNeedsPayment, reqimouOptimalX } from './skillAIPolicyRules.js?v=41a';
 
 /*
  * 技能AI薄策略层：只修正宿主技能自带的 check(card) 与发动评分，
@@ -12,6 +12,10 @@ import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore
  *   标准制衡经完整 phaseUse 复核未复现缺陷，不注册。
  * - 界制衡在 4 血及以上仍保留原生“全手换牌”路线。
  * - 界鲁肃缔盟：混合后的暗牌只按位置/玩家 id 做稳定公平选择，不读牌面价值。
+ * - 界张辽突袭：按公开手牌数比较目标收益（只对敌人）。
+ * - 界魏延奇谋：杀次数未用完但目标在射程外时，若支付能兑换成击杀则放宽原生阻塞。
+ * - OL界魏延奇谋：目标贴脸且一发杀可收割时不支付；支付档位收紧为
+ *   max(1, 达距所需, 击杀所需)，上限 hp-1。
  * - 其他技能不注册，完全走宿主原生 AI。
  */
 
@@ -22,6 +26,9 @@ const _backups = [];
 let _chooseButtonBackup = null;
 let _chooseTargetBackup = null;
 let _olkongshengBackup = null;
+let _qimouBackup = null;
+let _reqimouGateBackup = null;
+let _reqimouContentBackup = null;
 const TARGET_POLICIES = new Set(['new_retuxi']);
 function _freshStats() {
 	return {
@@ -29,6 +36,7 @@ function _freshStats() {
 		fairRedimeng: 0, redimengMaskFailed: 0, redimengTrace: [],
 		retuxiTargetBonus: 0,
 		olkongshengCostCalls: 0, olkongshengCompatible: null,
+		qimouBypass: 0, reqimouGateSkip: 0, reqimouClamp: 0, reqimouClampCalls: 0,
 		calls: 0, last: [],
 	};
 }
@@ -70,6 +78,163 @@ function _hookOlkongshengCost() {
 		try { wrapped.__djscSkillPolicy = 'olkongsheng:cost'; } catch (e) {}
 		info.cost = wrapped;
 		_olkongshengBackup = { info, original, wrapped };
+	} catch (e) {}
+}
+
+/* ===== 第二批：生命支付与爆发时机 ===== */
+
+function _aliveEnemiesAndOthers(player) {
+	const list = [];
+	try {
+		for (const current of game.players) {
+			if (!current || current === player || typeof current.isIn !== 'function' || !current.isIn()) continue;
+			list.push(current);
+		}
+	} catch (e) {}
+	return list;
+}
+
+function _qimouTargets(player, shaCard) {
+	return _aliveEnemiesAndOthers(player).map(target => {
+		let record = null;
+		try {
+			record = {
+				currentlyInRange: !!player.canUse(shaCard, target),
+				canUseIgnoringDistance: !!player.canUse(shaCard, target, false),
+				effect: get.effect(target, shaCard, player, player),
+				attackDistance: get.distance(player, target, 'attack'),
+				hp: target.hp,
+			};
+		} catch (e) { record = null; }
+		return record;
+	}).filter(Boolean);
+}
+
+function _reqimouTargets(player) {
+	const baseUses = (typeof player.getCardUsable === 'function' && (() => { try { return player.getCardUsable('sha'); } catch (e) { return 1; } })()) || 1;
+	return _aliveEnemiesAndOthers(player).map(target => {
+		let record = null;
+		try {
+			record = {
+				currentlyInRange: !!player.canUse('sha', target),
+				canUseIgnoringDistance: !!player.canUse('sha', target, false),
+				effect: get.effect(target, { name: 'sha' }, player, player),
+				distance: get.distance(player, target),
+				attackRange: typeof player.attackRange === 'number' ? player.attackRange : 1,
+				hp: target.hp,
+				baseUses,
+			};
+		} catch (e) { record = null; }
+		return record;
+	}).filter(Boolean);
+}
+
+/* 界魏延【奇谋 qimou】：杀次数未用完时原生直接否决，即使目标在射程外。
+ * 只放宽这一条阻塞：其余原生条件与“支付兑换成击杀”必须成立。 */
+function _hookQimouActivation() {
+	try {
+		const info = lib.skill && lib.skill.qimou;
+		const result = info && info.ai && info.ai.result;
+		if (!result || typeof result.player !== 'function') return;
+		const original = result.player;
+		const wrapped = function (player) {
+			const native = original.apply(this, arguments);
+			try {
+				if (Number(native) > 0) return native;
+				const shas = player.getCards('h', 'sha');
+				const shaCount = shas.length;
+				if (!shaCount) return native;
+				const shaCard = shas[0];
+				const cardEnabled = lib.filter.cardEnabled(shaCard, player);
+				const cardUsable = lib.filter.cardUsable(shaCard, player);
+				if (!cardEnabled || !cardUsable) return native;
+				const bypass = shouldBypassQimouCountBlock({
+					nativeResult: native, hp: player.hp, shaCount, cardEnabled, cardUsable,
+					targets: _qimouTargets(player, shaCard),
+				});
+				if (bypass) {
+					_stats.qimouBypass++;
+					return 1;
+				}
+			} catch (e) {}
+			return native;
+		};
+		try { wrapped.__djscSkillPolicy = 'qimou:result'; } catch (e) {}
+		result.player = wrapped;
+		_qimouBackup = { owner: result, key: 'player', original, wrapped };
+	} catch (e) {}
+}
+
+/* OL界魏延【奇谋 reqimou】gate：目标贴脸且一发杀可收割时不支付。 */
+function _hookReqimouGate() {
+	try {
+		const info = lib.skill && lib.skill.reqimou;
+		const result = info && info.ai && info.ai.result;
+		if (!result || typeof result.player !== 'function') return;
+		const original = result.player;
+		const wrapped = function (player) {
+			const native = original.apply(this, arguments);
+			try {
+				if (Number(native) > 0 && !reqimouNeedsPayment(_reqimouTargets(player))) {
+					_stats.reqimouGateSkip++;
+					return 0;
+				}
+			} catch (e) {}
+			return native;
+		};
+		try { wrapped.__djscSkillPolicy = 'reqimou:gate'; } catch (e) {}
+		result.player = wrapped;
+		_reqimouGateBackup = { owner: result, key: 'player', original, wrapped };
+	} catch (e) {}
+}
+
+/* OL界魏延【奇谋 reqimou】支付档位：把 processAI 的 hp-1 收紧为
+ * max(1, 达距所需, 击杀所需)，上限 hp-1；找不到可击杀目标时保留原生档位。 */
+function _hookReqimouNumbers() {
+	try {
+		const info = lib.skill && lib.skill.reqimou;
+		if (!info || typeof info.content !== 'function') return;
+		const originalContent = info.content;
+		const wrapped = async function (event, trigger, player) {
+			const originalChooseNumbers = typeof player.chooseNumbers === 'function' ? player.chooseNumbers : null;
+			if (originalChooseNumbers) {
+				player.chooseNumbers = function (...args) {
+					const next = originalChooseNumbers.apply(this, args);
+					const originalForResult = typeof next.forResult === 'function' ? next.forResult : null;
+					if (originalForResult) {
+						next.forResult = async function (...forArgs) {
+							const result = await originalForResult.apply(this, forArgs);
+							try {
+								_stats.reqimouClampCalls++;
+								const shaCount = player.countCards('hs', card => _cardName(card, player) === 'sha');
+								const optimal = reqimouOptimalX({
+									hp: player.hp, shaCount,
+									baseUses: (typeof player.getCardUsable === 'function' && (() => { try { return player.getCardUsable('sha'); } catch (e) { return 1; } })()) || 1,
+									targets: _reqimouTargets(player),
+								});
+								if (optimal != null && result && Array.isArray(result.numbers) && result.numbers.length) {
+									const paid = Number(result.numbers[0]);
+									if (Number.isFinite(paid) && paid > optimal) {
+										result.numbers[0] = optimal;
+										_stats.reqimouClamp++;
+									}
+								}
+							} catch (e) {}
+							return result;
+						};
+					}
+					return next;
+				};
+			}
+			try {
+				return await originalContent.apply(this, arguments);
+			} finally {
+				if (originalChooseNumbers) player.chooseNumbers = originalChooseNumbers;
+			}
+		};
+		try { wrapped.__djscSkillPolicy = 'reqimou:content'; } catch (e) {}
+		info.content = wrapped;
+		_reqimouContentBackup = { owner: info, key: 'content', original: originalContent, wrapped };
 	} catch (e) {}
 }
 
@@ -259,6 +424,9 @@ export function installSkillAIPolicies() {
 		_hookFairRedimengChoice();
 		_hookRetuxiTargetChoice();
 		_hookOlkongshengCost();
+		_hookQimouActivation();
+		_hookReqimouGate();
+		_hookReqimouNumbers();
 		for (const [sid, rule] of Object.entries(CHECK_POLICIES)) {
 			const info = lib.skill && lib.skill[sid];
 			if (!info) continue;
@@ -353,6 +521,14 @@ export function uninstallSkillAIPolicies() {
 		}
 	} catch (e) {}
 	_olkongshengBackup = null;
+	for (const backup of [_qimouBackup, _reqimouGateBackup, _reqimouContentBackup]) {
+		try {
+			if (backup && backup.owner[backup.key] === backup.wrapped) backup.owner[backup.key] = backup.original;
+		} catch (e) {}
+	}
+	_qimouBackup = null;
+	_reqimouGateBackup = null;
+	_reqimouContentBackup = null;
 	_installed = false;
 }
 
