@@ -142,10 +142,24 @@ try {
         game.loop(event).catch(error=>{smokeMatch.error=error.stack||String(error);});
       });
       const deadline=Date.now()+180000;
+      let lastSignature='',lastChange=Date.now();
       while(Date.now()<deadline){
         try{await page.waitForFunction(()=>smokeMatch.done||smokeMatch.error,{},{timeout:20000});break;}
-        catch(error){if(!error.message.includes('Timeout'))throw error;console.error('[autoplay]',await page.evaluate(()=>({phases:smokeMatch.phases,uses:smokeMatch.uses,event:realHost._status.event?.name,paused:realHost._status.paused})));}
+        catch(error){
+          if(!error.message.includes('Timeout'))throw error;
+          const snap=await page.evaluate(()=>({phases:smokeMatch.phases,uses:smokeMatch.uses,event:realHost._status.event?.name,paused:realHost._status.paused,decision:realHost._status.event?.player?.name||null}));
+          const signature=JSON.stringify(snap);
+          if(signature!==lastSignature){lastSignature=signature;lastChange=Date.now();}
+          else if(Date.now()-lastChange>60000){
+            await page.evaluate(info=>{smokeMatch.stalled=true;smokeMatch.stallInfo=info;},snap);
+            console.error('[autoplay] stalled',JSON.stringify(snap));
+            break;
+          }
+          console.error('[autoplay]',JSON.stringify(snap));
+        }
       }
+      const stillRunning=await page.evaluate(()=>!smokeMatch.done&&!smokeMatch.error&&!smokeMatch.stalled);
+      if(stillRunning)await page.evaluate(()=>{smokeMatch.timedOut=true;});
       const report=await page.evaluate(()=>{const log=smokeEngine.getDecisionLog();return {...smokeMatch,elapsedMs:Date.now()-smokeMatch.startedAt,hostVersion:realHost.lib.version,mode:realHost.get.mode(),submode:realHost._status.mode,
         decisions:log.length,decisionTimesMs:log.map(e=>Number(e.elapsedMs)).filter(Number.isFinite),overrideStats:realHost._status.djsc_overrideStats,alive:realHost.game.players.map(p=>({role:p.identity,hp:p.hp})),dead:realHost.game.dead.map(p=>({role:p.identity,hp:p.hp}))};});
       const result={completedAt:new Date().toISOString(),status:report.done&&!report.error&&!errors.length&&report.phases>0&&report.uses>0&&report.decisions>0?'passed':'incomplete',scope:'真实斗地主宿主完整托管对局烟测；非胜率或全配置验证',browserVersion:await browser.version(),report,errors};

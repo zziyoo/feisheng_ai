@@ -16,6 +16,7 @@ export async function runSkillAiScenes(page, options = {}) {
 			policyModule = await import('/extension/无名AI/score/decision/skills/skillAIPolicies.js?v=41a');
 			await new Promise(resolve => setTimeout(resolve, 500));
 		}
+		try { window.__skillAiPolicies = policyModule; } catch (e) {}
 		const { game, lib, get, _status } = realHost;
 		const [actor, ally, enemy1, enemy2] = game.players;
 		const run = async (name, player, content) => {
@@ -31,6 +32,13 @@ export async function runSkillAiScenes(page, options = {}) {
 		const reset = async () => {
 			for (const p of game.players) {
 				p.clearSkills(true);
+				try {
+					p.dead = false;
+					if (Array.isArray(game.dead)) {
+						const index = game.dead.indexOf(p);
+						if (index >= 0) game.dead.splice(index, 1);
+					}
+				} catch (e) {}
 				const cards = p.getCards('hej');
 				if (cards.length) await p.discard(cards);
 				p.hp = p.maxHp = 4;
@@ -89,6 +97,39 @@ export async function runSkillAiScenes(page, options = {}) {
 			});
 			rec.durationMs = Math.round((performance.now() - startedAt) * 100) / 100;
 			scenes.push(rec);
+		};
+		const describeArgs = args => args.map(a => {
+			if (Array.isArray(a)) return a.map(c => c && (c.name || c.playerid || c));
+			if (a && get.itemtype && get.itemtype(a) === 'player') return 'P:' + a.playerid;
+			if (a && a.name) return a.name;
+			return a;
+		});
+		const instrument = player => {
+			const log = [];
+			const backups = {};
+			for (const method of ['discard', 'lose', 'draw', 'useSkill', 'useCard', 'gain']) {
+				if (typeof player[method] !== 'function') continue;
+				backups[method] = player[method];
+				player[method] = function (...args) {
+					if (log.length < 100) log.push({ op: method, args: describeArgs(args) });
+					return backups[method].apply(this, args);
+				};
+			}
+			return { log, restore() { for (const [name, fn] of Object.entries(backups)) player[name] = fn; } };
+		};
+		const clearHand = async player => {
+			const cards = player.getCards('h');
+			if (cards.length) await player.discard(cards);
+		};
+		const phaseTurn = async rec => {
+			const probe = instrument(actor);
+			try { await actor.phaseUse(); } finally { probe.restore(); }
+			rec.ops = probe.log;
+			rec.turn = {
+				hand: hand(actor), hp: actor.hp, maxHp: actor.maxHp,
+				armor: actor.getEquip(2)?.name || null,
+				dead: game.dead.map(p => p.playerid),
+			};
 		};
 		const choosePhase = async (rec, extra = {}) => {
 			_status.currentPhase = actor;
@@ -180,6 +221,43 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.expansion = actor.getExpansions('olkongsheng').length;
 		});
 
+		await scene('olkongsheng-repeat', async () => {
+			actor.addSkill('olkongsheng');
+			const expansionEvent = actor.addToExpansion([card('sha', 'spade', 35)], actor, 'give');
+			expansionEvent.gaintag.add('olkongsheng');
+			await expansionEvent;
+			await give(actor, [['wuxie', 'spade', 36], ['wuxie', 'heart', 37], ['wuxie', 'club', 38]]);
+			ally.hp = 3; ally.maxHp = 4;
+			await give(ally, [['sha', 'diamond', 39]]);
+			ally.update();
+		}, async rec => {
+			const runs = [], scopes = [];
+			for (let i = 0; i < 2; i++) {
+				const costEvent = { skill: 'olkongsheng' };
+				await lib.skill.olkongsheng.cost(costEvent, {}, actor);
+				runs.push((costEvent.result?.cards || []).length);
+				scopes.push(!actor.getExpansions.__djscOlkongshengScope);
+			}
+			rec.runs = runs;
+			rec.scopeRestored = scopes.every(Boolean);
+		});
+		await scene('olkongsheng-cost-error', async () => {
+			actor.addSkill('olkongsheng');
+			const expansionEvent = actor.addToExpansion([card('sha', 'spade', 57)], actor, 'give');
+			expansionEvent.gaintag.add('olkongsheng');
+			await expansionEvent;
+			await give(actor, [['wuxie', 'spade', 58]]);
+		}, async rec => {
+			const originalChooseCard = actor.chooseCard;
+			let threw = false;
+			actor.chooseCard = function () { throw new Error('fixture-choose-card'); };
+			try { await lib.skill.olkongsheng.cost({ skill: 'olkongsheng' }, {}, actor); }
+			catch (e) { threw = true; }
+			finally { actor.chooseCard = originalChooseCard; }
+			rec.threw = threw;
+			rec.scopeRestored = !actor.getExpansions.__djscOlkongshengScope;
+		});
+
 		// 8) 标准制衡：1血持闪+桃时，原生AI是否弃闪换牌。
 		await scene('zhiheng-lowhp', async () => {
 			actor.addSkill('zhiheng');
@@ -233,6 +311,147 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.gained = { [ally.playerid]: hand(ally), [enemy1.playerid]: hand(enemy1) };
 		});
 
+		await scene('redimeng-permute-values', async rec => {
+			actor.addSkill('redimeng');
+			rec.runs = [];
+		}, async rec => {
+			const runOnce = async (allyList, enemyList) => {
+				await clearHand(actor); await clearHand(ally); await clearHand(enemy1);
+				await give(actor, [['wuxie', 'spade', 77], ['wuxie', 'heart', 78]]);
+				await give(ally, allyList);
+				await give(enemy1, enemyList);
+				const pool = [...ally.getCards('h'), ...enemy1.getCards('h')];
+				const pm = window.__skillAiPolicies;
+				const before = pm ? pm.skillAIPolicyStats().redimengTrace.length : 0;
+				await actor.useSkill('redimeng', actor.getCards('h'), [ally, enemy1]);
+				const gained = {
+					[ally.playerid]: hand(ally),
+					[enemy1.playerid]: hand(enemy1),
+				};
+				const indices = {
+					[ally.playerid]: ally.getCards('h').map(c => pool.indexOf(c)),
+					[enemy1.playerid]: enemy1.getCards('h').map(c => pool.indexOf(c)),
+				};
+				const trace = pm ? pm.skillAIPolicyStats().redimengTrace.slice(before) : [];
+				return { gained, indices, trace, fairMasked: !!pm };
+			};
+			rec.runs.push(await runOnce([['tao', 'heart', 80]], [['sha', 'spade', 81], ['shan', 'diamond', 82], ['wuzhong', 'heart', 83]]));
+			rec.runs.push(await runOnce([['sha', 'club', 84]], [['tao', 'diamond', 85], ['wuzhong', 'spade', 86], ['shan', 'heart', 87]]));
+		});
+
+		// 8b) 标准制衡完整 phaseUse：低血/桃/闪/混合/击杀/防具。
+		const blockNeighborSha = () => {
+			for (const index of [1, 7]) {
+				const p = game.players[index];
+				if (!p) continue;
+				p.identity = 'zhong';
+				try { p.setIdentity('zhong'); } catch (e) {}
+				p.update();
+			}
+		};
+		await scene('zhiheng-full-3hp-max3', async () => {
+			blockNeighborSha();
+			actor.addSkill('zhiheng');
+			actor.hp = 3; actor.maxHp = 3;
+			await give(actor, [['tao', 'heart', 40], ['sha', 'spade', 41], ['sha', 'club', 42]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+		await scene('zhiheng-full-3hp-max4', async () => {
+			blockNeighborSha();
+			actor.addSkill('zhiheng');
+			actor.hp = 3; actor.maxHp = 4;
+			await give(actor, [['tao', 'heart', 43], ['sha', 'spade', 44], ['sha', 'club', 45]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+		await scene('zhiheng-full-1hp-defense', async () => {
+			blockNeighborSha();
+			actor.addSkill('zhiheng');
+			actor.hp = 1; actor.maxHp = 4;
+			await give(actor, [['shan', 'diamond', 46], ['tao', 'heart', 47]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+		await scene('zhiheng-full-1hp-mixed', async () => {
+			blockNeighborSha();
+			actor.addSkill('zhiheng');
+			actor.hp = 1; actor.maxHp = 4;
+			await give(actor, [['shan', 'diamond', 48], ['wuxie', 'spade', 49]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+		await scene('zhiheng-full-armor', async () => {
+			blockNeighborSha();
+			actor.addSkill('zhiheng');
+			actor.hp = 3; actor.maxHp = 3;
+			await actor.equip(card('bagua', 'spade', 52));
+			await give(actor, [['tao', 'heart', 53], ['sha', 'club', 54]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+		await scene('zhiheng-full-1hp-max1', async () => {
+			blockNeighborSha();
+			actor.addSkill('zhiheng');
+			actor.hp = 1; actor.maxHp = 1;
+			await give(actor, [['shan', 'diamond', 55], ['tao', 'heart', 56]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+
+		await scene('rezhiheng-full-3hp-max3', async () => {
+			blockNeighborSha();
+			actor.addSkill('rezhiheng');
+			actor.hp = 3; actor.maxHp = 3;
+			await give(actor, [['tao', 'heart', 88], ['sha', 'spade', 89], ['sha', 'club', 90]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+		await scene('rezhiheng-full-4hp-max4', async () => {
+			blockNeighborSha();
+			actor.addSkill('rezhiheng');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['tao', 'heart', 91], ['sha', 'spade', 92], ['sha', 'club', 93]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+
+		await scene('rezhiheng-full-1hp-max1', async () => {
+			blockNeighborSha();
+			actor.addSkill('rezhiheng');
+			actor.hp = 1; actor.maxHp = 1;
+			await give(actor, [['tao', 'heart', 94], ['shan', 'diamond', 95]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+		await scene('rezhiheng-full-2hp-max2-mixed', async () => {
+			blockNeighborSha();
+			actor.addSkill('rezhiheng');
+			actor.hp = 2; actor.maxHp = 2;
+			await give(actor, [['tao', 'heart', 96], ['sha', 'spade', 97], ['sha', 'club', 98]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+		await scene('rezhiheng-full-2hp-only-tao', async () => {
+			blockNeighborSha();
+			actor.addSkill('rezhiheng');
+			actor.hp = 2; actor.maxHp = 2;
+			await give(actor, [['tao', 'heart', 99], ['sha', 'spade', 100]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+		await scene('rezhiheng-full-2hp-only-shan', async () => {
+			blockNeighborSha();
+			actor.addSkill('rezhiheng');
+			actor.hp = 2; actor.maxHp = 2;
+			await give(actor, [['shan', 'diamond', 101], ['sha', 'club', 102]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+		await scene('rezhiheng-full-3hp-max4-recovery', async () => {
+			blockNeighborSha();
+			actor.addSkill('rezhiheng');
+			actor.hp = 3; actor.maxHp = 4;
+			await give(actor, [['tao', 'heart', 103], ['sha', 'spade', 104], ['sha', 'club', 105]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+		await scene('rezhiheng-full-armor', async () => {
+			blockNeighborSha();
+			actor.addSkill('rezhiheng');
+			actor.hp = 3; actor.maxHp = 3;
+			await actor.equip(card('bagua', 'spade', 106));
+			await give(actor, [['tao', 'heart', 107], ['sha', 'club', 108]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+
 		// 10) 界张辽突袭：三名敌人手牌 1/4/2，原生AI按什么顺序选目标。
 		await scene('new-retuxi-order', async rec => {
 			const enemy3 = game.players[4];
@@ -252,12 +471,89 @@ export async function runSkillAiScenes(page, options = {}) {
 			}));
 		});
 
+		await scene('new-retuxi-special', async () => {
+			const enemy3 = game.players[4];
+			enemy3.identity = 'fan';
+			try { enemy3.setIdentity('fan'); } catch (e) {}
+			enemy3.update();
+			enemy1.addSkill('tuntian');
+			actor.addSkill('new_retuxi');
+			await give(enemy1, [['sha', 'spade', 60], ['shan', 'diamond', 61], ['tao', 'heart', 62], ['wuzhong', 'heart', 63]]);
+			await give(enemy2, [['sha', 'club', 64], ['shan', 'spade', 65], ['tao', 'diamond', 66]]);
+			await give(enemy3, [['sha', 'heart', 67]]);
+		}, async rec => {
+			await actor.phaseDraw();
+			rec.tuntian = enemy1.hasSkill('tuntian');
+			rec.lost = Object.fromEntries([enemy1, enemy2, game.players[4]].map(p => [p.playerid, (p === enemy1 ? 4 : p === enemy2 ? 3 : 1) - p.countCards('h')]));
+		});
+		await scene('new-retuxi-only-ally', async () => {
+			actor.addSkill('new_retuxi');
+			await give(ally, [['sha', 'club', 68], ['shan', 'diamond', 69]]);
+		}, async rec => {
+			await actor.phaseDraw();
+			rec.allyHand = hand(ally);
+			rec.actorHand = hand(actor);
+		});
+		await scene('new-retuxi-single', async () => {
+			actor.addSkill('new_retuxi');
+			await give(enemy1, [['sha', 'spade', 70], ['shan', 'diamond', 71], ['tao', 'heart', 72]]);
+		}, async rec => {
+			await actor.phaseDraw();
+			rec.enemyLost = 3 - enemy1.countCards('h');
+			rec.actorHand = hand(actor);
+		});
+		await scene('new-retuxi-neutral', async () => {
+			enemy1.identity = 'nei';
+			try { enemy1.setIdentity('nei'); } catch (e) {}
+			enemy1.update();
+			actor.addSkill('new_retuxi');
+			await give(enemy1, [['sha', 'spade', 73], ['shan', 'diamond', 74], ['tao', 'heart', 75], ['wuzhong', 'heart', 76]]);
+		}, async rec => {
+			await actor.phaseDraw();
+			rec.enemyLost = 4 - enemy1.countCards('h');
+			rec.attitude = get.attitude(actor, enemy1);
+		});
+		await scene('new-retuxi-zero', async () => {
+			actor.addSkill('new_retuxi');
+		}, async rec => {
+			await actor.phaseDraw();
+			rec.actorHand = hand(actor);
+		});
+
+		// 击杀场景放在最后：避免死亡玩家从 game.players 移除后污染后续夹具。
+		await scene('zhiheng-full-kill', async () => {
+			actor.addSkill('zhiheng');
+			actor.hp = 3; actor.maxHp = 4;
+			ally.identity = 'fan';
+			try { ally.setIdentity('fan'); } catch (e) {}
+			ally.hp = 1;
+			ally.update();
+			await give(actor, [['sha', 'spade', 50], ['sha', 'club', 51]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+
+		const policyStats = policyModule ? policyModule.skillAIPolicyStats() : null;
+		if (policyModule) {
+			const marked = () => !!(lib.skill.rezhiheng && lib.skill.rezhiheng.check && lib.skill.rezhiheng.check.__djscSkillPolicy);
+			const before = marked();
+			policyModule.uninstallSkillAIPolicies();
+			const afterUninstall = marked();
+			policyModule.installSkillAIPolicies();
+			const afterReinstall = marked();
+			scenes.push({
+				name: 'policy-lifecycle',
+				before, afterUninstall, afterReinstall,
+				stats: policyStats,
+				statsAfterReinstall: policyModule.skillAIPolicyStats(),
+			});
+		}
+
 		return {
 			hostVersion: lib.version,
 			mode: get.mode(),
 			players: game.players.length,
 			extensionInstalled: !!installExtension,
-			policyStats: policyModule ? policyModule.skillAIPolicyStats() : null,
+			policyStats,
 			scenes,
 		};
 	}, { installExtension: !!options.installExtension, policyOnly: !!options.policyOnly });
