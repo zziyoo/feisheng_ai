@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore } from '../score/decision/skills/skillAIPolicyRules.js';
+import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus } from '../score/decision/skills/skillAIPolicyRules.js';
 
 let passed = 0;
 const check = (name, fn) => {
@@ -52,6 +52,41 @@ check('公平选择只依赖玩家与位置', () => {
 	assert.notEqual(a, c);
 	assert.notEqual(a, d);
 	assert(a >= 0 && a < 1);
+});
+
+check('箜声成本指纹只在原表达式存在时命中', () => {
+	assert.equal(olkongshengCostNeedsFix('const n = player.getExpansions("olkongsheng") + ui.selected.cards.length;'), true);
+	assert.equal(olkongshengCostNeedsFix('const n = player.getExpansions("olkongsheng").length + ui.selected.cards.length;'), false);
+	assert.equal(olkongshengCostNeedsFix('const n = other();'), false);
+});
+check('箜声数组视图保留数组语义', () => {
+	const original = [{ name: 'tao' }, { name: 'sha' }];
+	const view = olkongshengExpansionView(original);
+	assert.equal(Array.isArray(view), true);
+	assert.equal(view.length, 2);
+	assert.equal(view[0], original[0]);
+	assert.equal([...view].length, 2);
+	assert.deepEqual(view.map(c => c.name), ['tao', 'sha']);
+	assert.equal(JSON.stringify(view), '[{"name":"tao"},{"name":"sha"}]');
+	assert.equal(view + 1, 3);
+	assert.equal(String(view), '2');
+	assert.equal(view.valueOf(), 2);
+	assert.equal(original.length, 2);
+	assert.equal(original.valueOf(), original);
+});
+check('缔盟遮蔽只对 AI 且只在 redimeng 上下文', () => {
+	assert.equal(shouldMaskHiddenButtonChoice(false, false, ['redimeng']), true);
+	assert.equal(shouldMaskHiddenButtonChoice(true, false, ['redimeng']), false);
+	assert.equal(shouldMaskHiddenButtonChoice(true, true, ['redimeng']), true);
+	assert.equal(shouldMaskHiddenButtonChoice(false, false, ['dimeng']), false);
+	assert.equal(shouldMaskHiddenButtonChoice(false, false, null), false);
+});
+check('突袭手牌奖励有界且避开特殊失牌收益', () => {
+	assert.equal(retuxiHandBonus(4, true, false), 1);
+	assert.equal(retuxiHandBonus(100, true, false), 2);
+	assert.equal(retuxiHandBonus(4, false, false), 0);
+	assert.equal(retuxiHandBonus(4, true, true), 0);
+	assert.equal(retuxiHandBonus(0, true, false), 0);
 });
 
 console.log('ALL PASS (' + passed + ')');

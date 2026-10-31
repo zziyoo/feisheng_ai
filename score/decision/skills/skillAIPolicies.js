@@ -1,14 +1,15 @@
 import { lib, game, get, _status } from '../../foundation/adapt/host.js?v=41a';
 import { resolveActiveSkillId } from '../safety/aiOverride.js?v=41a';
-import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore } from './skillAIPolicyRules.js?v=41a';
+import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus } from './skillAIPolicyRules.js?v=41a';
 
 /*
  * 技能AI薄策略层：只修正宿主技能自带的 check(card) 与发动评分，
  * 不改技能规则、不改 filterCard/filterTarget、不读取隐藏手牌。
  *
  * 当前策略：
- * - 标准制衡 / 界制衡：低体力时保留【桃】【闪】；若手里只剩这些防御牌，
+ * - 界制衡：低体力时保留【桃】【闪】；若手里只剩这些防御牌，
  *   直接放弃本次换牌，避免“丢唯一防御换一张未知牌”。
+ *   标准制衡经完整 phaseUse 复核未复现缺陷，不注册。
  * - 界制衡在 4 血及以上仍保留原生“全手换牌”路线。
  * - 界鲁肃缔盟：混合后的暗牌只按位置/玩家 id 做稳定公平选择，不读牌面价值。
  * - 其他技能不注册，完全走宿主原生 AI。
@@ -21,8 +22,17 @@ const _backups = [];
 let _chooseButtonBackup = null;
 let _chooseTargetBackup = null;
 let _olkongshengBackup = null;
-const TARGET_POLICIES = new Set(['new_retuxi', 'retuxi']);
-let _stats = { keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0, fairRedimeng: 0, retuxiTargetBonus: 0, olkongshengCostCalls: 0, calls: 0, last: [] };
+const TARGET_POLICIES = new Set(['new_retuxi']);
+function _freshStats() {
+	return {
+		keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0,
+		fairRedimeng: 0, redimengMaskFailed: 0, redimengTrace: [],
+		retuxiTargetBonus: 0,
+		olkongshengCostCalls: 0, olkongshengCompatible: null,
+		calls: 0, last: [],
+	};
+}
+let _stats = _freshStats();
 
 /* 周妃【箜声·旧版 olkongsheng】成本 AI 的宿主笔误：
  * getExpansions("olkongsheng") 返回数组，直接 + 数字会变成字符串，
@@ -34,19 +44,21 @@ function _hookOlkongshengCost() {
 		const info = lib.skill && lib.skill.olkongsheng;
 		if (!info || typeof info.cost !== 'function') return;
 		const original = info.cost;
+		_stats.olkongshengCompatible = olkongshengCostNeedsFix(String(original));
+		if (!_stats.olkongshengCompatible) {
+			try { console.warn('[无名AI·技能策略] olkongsheng.cost 形态已变化，跳过箜声数量修正'); } catch (e) {}
+			return;
+		}
 		const wrapped = async function (event, trigger, player) {
 			const originalGet = player.getExpansions;
 			if (typeof originalGet === 'function') {
-				player.getExpansions = function (name) {
+				const scopedGet = function (name) {
 					const result = originalGet.apply(this, arguments);
-					if (name === 'olkongsheng' && Array.isArray(result)) {
-						const clone = result.slice();
-						clone.valueOf = function () { return clone.length; };
-						clone.toString = function () { return String(clone.length); };
-						return clone;
-					}
+					if (name === 'olkongsheng' && Array.isArray(result)) return olkongshengExpansionView(result);
 					return result;
 				};
+				try { Object.defineProperty(scopedGet, '__djscOlkongshengScope', { value: true, configurable: true }); } catch (e) {}
+				player.getExpansions = scopedGet;
 			}
 			try {
 				_stats.olkongshengCostCalls++;
@@ -55,6 +67,7 @@ function _hookOlkongshengCost() {
 				if (originalGet) player.getExpansions = originalGet;
 			}
 		};
+		try { wrapped.__djscSkillPolicy = 'olkongsheng:cost'; } catch (e) {}
 		info.cost = wrapped;
 		_olkongshengBackup = { info, original, wrapped };
 	} catch (e) {}
@@ -64,8 +77,24 @@ function _hookOlkongshengCost() {
  * 宿主原生 AI 用 get.value(button.link) 直接挑最高价值牌，等于看牌；
  * 这里只给 AI 一个与牌面无关、与按钮位置/玩家 id 有关的稳定分数。 */
 function _fairButtonScore(buttons, button, player) {
-	const index = Math.max(0, (buttons || []).indexOf(button));
-	return fairButtonScore((player && player.playerid) || '', index);
+	try {
+		const index = Math.max(0, (buttons || []).indexOf(button));
+		return fairButtonScore((player && player.playerid) || '', index);
+	} catch (e) { return 0.5; }
+}
+
+function _activeSkillIds(player, startEvent) {
+	const ids = [];
+	try {
+		let ev = startEvent || (_status && _status.event) || null;
+		for (let depth = 0; ev && depth < 8; depth++) {
+			for (const cand of [ev.skill, ev.sourceSkill, ev.skillName, ev.name]) {
+				if (typeof cand === 'string' && cand && lib.skill && lib.skill[cand] && typeof lib.skill[cand] === 'object' && !ids.includes(cand)) ids.push(cand);
+			}
+			ev = typeof ev.getParent === 'function' ? ev.getParent() : (ev.parent || null);
+		}
+	} catch (e) {}
+	return ids;
 }
 
 function _hookFairRedimengChoice() {
@@ -78,25 +107,44 @@ function _hookFairRedimengChoice() {
 			try {
 				if (!next || next.__djscFairRedimeng) return next;
 				if (this === game.me && !_status.auto) return next;
-				if (resolveActiveSkillId(this, _status.event) !== 'redimeng') return next;
+				const ids = _activeSkillIds(this, _status.event);
+				try {
+					const sid = resolveActiveSkillId(this, _status.event);
+					if (sid && !ids.includes(sid)) ids.push(sid);
+				} catch (e) {}
+				if (!shouldMaskHiddenButtonChoice(this === game.me, !!_status.auto, ids)) return next;
 				const player = this;
 				const score = function (button) {
-					return _fairButtonScore(next.buttons || [], button, player);
+					let index = 0, value = 0.5;
+					try { index = Math.max(0, (next.buttons || []).indexOf(button)); } catch (e) {}
+					try { value = _fairButtonScore(next.buttons || [], button, player); } catch (e) { value = 0.5; }
+					try {
+						if (_stats.redimengTrace.length < 24) _stats.redimengTrace.push({ playerid: (player && player.playerid) || '', index, score: value });
+					} catch (e) {}
+					return value;
 				};
-				next.ai = score;
+				let attached = false;
+				try { next.ai = score; attached = next.ai === score; } catch (e) {}
 				if (typeof next.set === 'function' && !next.__djscFairRedimengSet) {
 					const originalSet = next.set;
-					next.set = function (key, value) {
-						if (key === 'ai') value = score;
-						return originalSet.call(this, key, value);
-					};
-					next.__djscFairRedimengSet = true;
+					try {
+						next.set = function (key, value) {
+							if (key === 'ai') value = score;
+							try { return originalSet.call(this, key, value); } catch (e) { _stats.redimengMaskFailed++; return this; }
+						};
+						next.__djscFairRedimengSet = true;
+					} catch (e) {}
 				}
+				if (!attached && typeof next.set === 'function') {
+					try { next.set('ai', score); attached = next.ai === score; } catch (e) {}
+				}
+				if (!attached) { _stats.redimengMaskFailed++; return next; }
 				next.__djscFairRedimeng = true;
 				_stats.fairRedimeng++;
 			} catch (e) {}
 			return next;
 		};
+		try { wrapped.__djscSkillPolicy = 'redimeng:button'; } catch (e) {}
 		proto.chooseButton = wrapped;
 		_chooseButtonBackup = { proto, original, wrapped };
 		if (!proto.__djscFairRedimengHook) proto.__djscFairRedimengHook = true;
@@ -123,10 +171,9 @@ function _hookRetuxiTargetChoice() {
 						let score = 0;
 						try { if (typeof baseAI === 'function') score = Number(baseAI.apply(this, arguments)) || 0; } catch (e) {}
 						try {
-							if (target && target.countCards('h') > 0 && get.attitude(player, target) < 0) {
-								score += Math.min(2, target.countCards('h') * 0.25);
-								_stats.retuxiTargetBonus++;
-							}
+							const hasLossBenefit = !!(target && ((typeof target.hasSkill === 'function' && target.hasSkill('tuntian')) || (typeof target.hasSkillTag === 'function' && target.hasSkillTag('nocard'))));
+							const bonus = retuxiHandBonus(target ? target.countCards('h') : 0, !!target && get.attitude(player, target) < 0, hasLossBenefit);
+							if (bonus) { score += bonus; _stats.retuxiTargetBonus++; }
 						} catch (e) {}
 						return score;
 					};
@@ -144,10 +191,12 @@ function _hookRetuxiTargetChoice() {
 			} catch (e) {}
 			return next;
 		};
+		try { wrapped.__djscSkillPolicy = 'retuxi:target'; } catch (e) {}
 		proto.chooseTarget = wrapped;
 		_chooseTargetBackup = { proto, original, wrapped };
 	} catch (e) {}
 }
+
 
 function _playerOf(card) {
 	try {
@@ -194,7 +243,7 @@ export function shouldSkipDefenseOnlyExchange(player, rule) {
 export function installSkillAIPolicies() {
 	if (_installed) return;
 	_installed = true;
-	_stats = { keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0, fairRedimeng: 0, retuxiTargetBonus: 0, olkongshengCostCalls: 0, calls: 0, last: [] };
+	_stats = _freshStats();
 	try {
 		_hookFairRedimengChoice();
 		_hookRetuxiTargetChoice();
@@ -220,6 +269,7 @@ export function installSkillAIPolicies() {
 						return adjusted;
 					} catch (e) { return base; }
 				};
+				try { wrapped.__djscSkillPolicy = sid + ':check'; } catch (e) {}
 				info.check = wrapped;
 				_backups.push({ owner: info, key: 'check', original, wrapped });
 			}
@@ -238,6 +288,7 @@ export function installSkillAIPolicies() {
 					} catch (e) {}
 					return base;
 				};
+				try { wrapped.__djscSkillPolicy = sid + ':order'; } catch (e) {}
 				ai.order = wrapped;
 				_backups.push({ owner: ai, key: 'order', original, wrapped });
 			}
@@ -256,6 +307,7 @@ export function installSkillAIPolicies() {
 					} catch (e) {}
 					return base;
 				};
+				try { wrapped.__djscSkillPolicy = sid + ':result'; } catch (e) {}
 				result.player = wrapped;
 				_backups.push({ owner: result, key: 'player', original, wrapped });
 			}
