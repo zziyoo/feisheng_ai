@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus, qimouTargetX, shouldBypassQimouCountBlock, reqimouNeedsPayment, reqimouOptimalX } from '../score/decision/skills/skillAIPolicyRules.js';
+import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus, qimouTargetX, shouldBypassQimouCountBlock, reqimouNeedsPayment, reqimouOptimalX, reqimouKillableByHand } from '../score/decision/skills/skillAIPolicyRules.js';
 
 let passed = 0;
 const check = (name, fn) => {
@@ -176,11 +176,40 @@ check('奇谋OL：需要额外出杀或减距离时 gate 放行', () => {
 	assert.equal(reqimouNeedsPayment([]), false);
 });
 check('奇谋OL：支付档位按距离与击杀收紧', () => {
-	const mk = (distance, hp) => ({ effect: 1, canUseIgnoringDistance: true, distance, attackRange: 1, hp });
+	const mk = (distance, hp, range = 1) => ({ effect: 1, canUseIgnoringDistance: true, distance, attackRange: range, hp });
 	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [mk(1, 2)] }), 1);
 	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [mk(2, 2)] }), 1);
 	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, targets: [mk(4, 3)] }), 3);
 	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [mk(4, 3)] }), null, '手杀不足时回退原生档位');
+});
+check('奇谋OL：长武器按真实攻击范围缩短支付', () => {
+	const mk = (distance, hp, range) => ({ effect: 1, canUseIgnoringDistance: true, distance, attackRange: range, hp });
+	/* 审查复现：距离4、攻击范围3、目标2血、基础1杀 → 支付1即可 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [mk(4, 2, 3)] }), 1);
+	/* 目标+1马距离5、攻击范围3 → 支付2 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [mk(5, 2, 3)] }), 2);
+	/* 无武器距离4、攻击范围1、目标2血、体力4 → 支付3（可达且可承受） */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [mk(4, 2, 1)] }), 3);
+});
+check('奇谋OL：不可承受的候选绝不截断（P1 回归）', () => {
+	const mk = (distance, hp) => ({ effect: 1, canUseIgnoringDistance: true, distance, attackRange: 1, hp });
+	/* 审查复现：体力3、3杀、距离4、攻击范围1、目标2血 → 需付3，但只允许hp-1=2 */
+	assert.equal(reqimouOptimalX({ hp: 3, shaCount: 3, baseUses: 1, targets: [mk(4, 2)] }), null);
+	/* 体力3、距离5、范围1 → 需付4，更不可承受 */
+	assert.equal(reqimouOptimalX({ hp: 3, shaCount: 3, baseUses: 1, targets: [mk(5, 2)] }), null);
+	/* 存在一个可承受目标时，仍选择可承受的最小档位 */
+	assert.equal(reqimouOptimalX({
+		hp: 3, shaCount: 3, baseUses: 1,
+		targets: [mk(4, 2), { effect: 1, canUseIgnoringDistance: true, distance: 2, attackRange: 1, hp: 2 }],
+	}), 1);
+});
+check('奇谋OL：手杀可击杀判定用于 gate 分级', () => {
+	const target = (hp, extra = {}) => ({ effect: 1, canUseIgnoringDistance: true, distance: 4, attackRange: 1, hp, ...extra });
+	assert.equal(reqimouKillableByHand(3, [target(2)]), true);
+	assert.equal(reqimouKillableByHand(2, [target(3)]), false);
+	assert.equal(reqimouKillableByHand(0, [target(2)]), false);
+	assert.equal(reqimouKillableByHand(3, [target(2, { canUseIgnoringDistance: false })]), false);
+	assert.equal(reqimouKillableByHand(3, [target(2, { effect: 0 })]), false);
 });
 check('奇谋OL：手杀不足以击杀时保留原生行为', () => {
 	assert.equal(reqimouOptimalX({
@@ -190,10 +219,11 @@ check('奇谋OL：手杀不足以击杀时保留原生行为', () => {
 	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [] }), null);
 });
 check('奇谋OL：支付不超过 hp-1 且低体力一律回退原生', () => {
+	/* 体力3、距离5、范围1 → 达距需4 > hp-1=2：不可承受，返回 null 而不是截断为 2 */
 	assert.equal(reqimouOptimalX({
 		hp: 3, shaCount: 5, baseUses: 1,
 		targets: [{ effect: 1, canUseIgnoringDistance: true, distance: 5, attackRange: 1, hp: 3 }],
-	}), 2);
+	}), null);
 	assert.equal(reqimouOptimalX({
 		hp: 1, shaCount: 5, baseUses: 1,
 		targets: [{ effect: 1, canUseIgnoringDistance: true, distance: 1, attackRange: 1, hp: 1 }],

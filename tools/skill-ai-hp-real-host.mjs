@@ -92,6 +92,13 @@ const SCENARIOS = {
 	'reqimou-far4-2sha-hp3': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 229], ['sha', 'heart', 230]], target: { index: 4, hp: 3, hand: [['tao', 'heart', 231]] } },
 	'reqimou-near1-2sha-hp2': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 244], ['sha', 'heart', 245]], target: { index: 1, hp: 2 } },
 	'reqimou-near2-2sha-hp2': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 246], ['sha', 'heart', 247]], target: { index: 2, hp: 2 } },
+	'reqimou-far4-hp4-2sha-hp2-zhangba': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 248], ['sha', 'heart', 249]], weapon: ['zhangba', 'spade', 250], target: { index: 4, hp: 2 } },
+	'reqimou-far5-hp4-2sha-hp2-zhangba-horse': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 251], ['sha', 'heart', 252]], weapon: ['zhangba', 'spade', 253], target: { index: 4, hp: 2, equips: [['jueying', 'spade', 254]] } },
+	'reqimou-far3-hp4-2sha-hp2-chitu': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 255], ['sha', 'heart', 256]], actorEquips: [['chitu', 'heart', 257]], target: { index: 4, hp: 2 } },
+	'reqimou-far4-hp4-2sha-hp2-noweapon': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 258], ['sha', 'heart', 259]], target: { index: 4, hp: 2 } },
+	'reqimou-far4-hp4-2sha-hp2-kongcheng': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 260], ['sha', 'heart', 261]], target: { index: 4, hp: 2, skills: ['kongcheng'] } },
+	'reqimou-blocked-far4-hp3-3sha-tao-hp2': { skills: ['reqimou', 'xinkuanggu'], hp: 3, hand: [['sha', 'spade', 262], ['sha', 'heart', 263], ['sha', 'club', 264], ['tao', 'heart', 265]], target: { index: 4, hp: 2 } },
+	'reqimou-blocked-far5-hp4-3sha-tao-hp2-horse': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 266], ['sha', 'heart', 267], ['sha', 'club', 268], ['tao', 'heart', 269]], target: { index: 4, hp: 2, equips: [['jueying', 'spade', 270]] } },
 	'reqimou-far4-2sha-hp4-defense': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 232], ['sha', 'heart', 233]], target: { index: 4, hp: 4, equip: ['bagua', 'spade', 234], hand: [['shan', 'diamond', 235], ['shan', 'club', 236], ['tao', 'heart', 237]] } },
 	'qiangxix-2hp-target1-save': { skills: ['qiangxix'], hp: 2, target: { index: 1, hp: 1, hand: [['tao', 'heart', 238]] } },
 	'qiangxix-2hp-target2': { skills: ['qiangxix'], hp: 2, target: { index: 1, hp: 2 } },
@@ -292,11 +299,14 @@ try {
 				actor.maxHp = config.maxHp || 4;
 				await give(actor, config.hand);
 				if (config.weapon) await actor.equip(card(...config.weapon));
+				for (const equip of config.actorEquips || []) await actor.equip(card(...equip));
 				if (target) {
 					target.hp = config.target.hp || 4;
 					target.maxHp = config.target.maxHp || 4;
 					await give(target, config.target.hand);
 					if (config.target.equip) await target.equip(card(...config.target.equip));
+					for (const equip of config.target.equips || []) await target.equip(card(...equip));
+					for (const skill of config.target.skills || []) target.addSkill(skill);
 					target.update();
 				}
 				actor.update();
@@ -304,6 +314,7 @@ try {
 					actor: snapshot(actor), target: target ? snapshot(target) : null,
 					distance: target ? get.distance(actor, target) : null,
 					attackDistance: target ? get.distance(actor, target, 'attack') : null,
+					attackRange: typeof actor.getAttackRange === 'function' ? (() => { try { return actor.getAttackRange(); } catch (e) { return null; } })() : null,
 					attitude: target ? get.attitude(actor, target) : null,
 					skillGate: Object.fromEntries((config.skills || []).map(skill => {
 						let enabled = null, error = null;

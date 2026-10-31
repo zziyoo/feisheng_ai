@@ -47,6 +47,10 @@ check('第二批奇谋策略只放宽阻塞且不改技能规则', () => {
 	assert(source.includes('shouldBypassQimouCountBlock'));
 	assert(source.includes('reqimouNeedsPayment'));
 	assert(source.includes('reqimouOptimalX'));
+	assert(source.includes('reqimouKillableByHand'));
+	/* 攻击范围必须走宿主真实 API getAttackRange()，不得读取不存在的 player.attackRange 属性 */
+	assert(/player\.getAttackRange\(\)/.test(source));
+	assert(!/player\.attackRange\b/.test(source));
 	/* 规则层只做数值判断，不直接改写 lib.skill */
 	assert(!rules.includes('lib.skill'));
 	/* 生命周期可还原：qimou/reqimou 的 result.player 与 reqimou.content 都有备份 */
@@ -56,8 +60,11 @@ check('第二批奇谋策略只放宽阻塞且不改技能规则', () => {
 	/* chooseNumbers 包装必须一次性作用域且人类路径不 clamp */
 	assert(/player\.chooseNumbers = originalChooseNumbers;\s*\n\s*const next/.test(source));
 	assert(/const isHuman = player === game\.me && !_status\.auto;/.test(source));
-	/* gate 枚举为空时保留原生，不误拦 */
-	assert(/targets\.length && !reqimouNeedsPayment\(targets\)/.test(source));
+	/* gate 枚举为空时保留原生；不可承受支付时阻止无收益发动 */
+	assert(/Number\(native\) > 0 && targets\.length/.test(source));
+	assert(/!reqimouNeedsPayment\(targets\)/.test(source));
+	assert(source.includes('reqimouInfeasible'));
+	assert(/candidate > maxPayment\) continue/.test(rules));
 });
 check('v2 模型未接线，运行时只有 v3', () => {
 	const extension = read('extension.js');

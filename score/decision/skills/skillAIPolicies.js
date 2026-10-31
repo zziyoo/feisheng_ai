@@ -1,6 +1,6 @@
 import { lib, game, get, _status } from '../../foundation/adapt/host.js?v=41a';
 import { resolveActiveSkillId } from '../safety/aiOverride.js?v=41a';
-import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus, qimouTargetX, shouldBypassQimouCountBlock, reqimouNeedsPayment, reqimouOptimalX } from './skillAIPolicyRules.js?v=41a';
+import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus, qimouTargetX, shouldBypassQimouCountBlock, reqimouNeedsPayment, reqimouOptimalX, reqimouKillableByHand } from './skillAIPolicyRules.js?v=41a';
 
 /*
  * 技能AI薄策略层：只修正宿主技能自带的 check(card) 与发动评分，
@@ -36,7 +36,7 @@ function _freshStats() {
 		fairRedimeng: 0, redimengMaskFailed: 0, redimengTrace: [],
 		retuxiTargetBonus: 0,
 		olkongshengCostCalls: 0, olkongshengCompatible: null,
-		qimouBypass: 0, reqimouGateSkip: 0, reqimouClamp: 0, reqimouClampCalls: 0,
+		qimouBypass: 0, reqimouGateSkip: 0, reqimouInfeasible: 0, reqimouClamp: 0, reqimouClampCalls: 0,
 		calls: 0, last: [],
 	};
 }
@@ -110,8 +110,30 @@ function _qimouTargets(player, shaCard) {
 	}).filter(Boolean);
 }
 
+function _reqimouBaseUses(player) {
+	try {
+		if (typeof player.getCardUsable === 'function') {
+			const num = Number(player.getCardUsable('sha'));
+			if (Number.isFinite(num) && num >= 1) return num;
+		}
+	} catch (e) {}
+	return 1;
+}
+
+function _reqimouAttackRange(player) {
+	try {
+		/* 宿主真实 API：含武器与 attackRange/attackRangeFinal 修正；
+		 * 1.11.7 没有名为 attackRange 的数值属性，不能回退读取它。 */
+		if (typeof player.getAttackRange === 'function') {
+			const num = Number(player.getAttackRange());
+			if (Number.isFinite(num)) return num;
+		}
+	} catch (e) {}
+	return 1;
+}
+
 function _reqimouTargets(player) {
-	const baseUses = (typeof player.getCardUsable === 'function' && (() => { try { return player.getCardUsable('sha'); } catch (e) { return 1; } })()) || 1;
+	const baseUses = _reqimouBaseUses(player);
 	return _aliveEnemiesAndOthers(player).map(target => {
 		let record = null;
 		try {
@@ -120,7 +142,7 @@ function _reqimouTargets(player) {
 				canUseIgnoringDistance: !!player.canUse('sha', target, false),
 				effect: get.effect(target, { name: 'sha' }, player, player),
 				distance: get.distance(player, target),
-				attackRange: typeof player.attackRange === 'number' ? player.attackRange : 1,
+				attackRange: _reqimouAttackRange(player),
 				hp: target.hp,
 				baseUses,
 			};
@@ -177,9 +199,19 @@ function _hookReqimouGate() {
 			try {
 				const targets = _reqimouTargets(player);
 				/* 目标枚举为空说明读局失败，保留原生 gate，不误拦。 */
-				if (Number(native) > 0 && targets.length && !reqimouNeedsPayment(targets)) {
-					_stats.reqimouGateSkip++;
-					return 0;
+				if (Number(native) > 0 && targets.length) {
+					if (!reqimouNeedsPayment(targets)) {
+						_stats.reqimouGateSkip++;
+						return 0;
+					}
+					/* 手杀足以击杀、但任何可承受支付都无法兑现（如距离4/攻击范围1/体力3）：
+					 * 原生会支付 hp-1 仍打不到，属无收益发动 → 阻止。 */
+					const shaCount = player.countCards('hs', card => _cardName(card, player) === 'sha');
+					if (reqimouKillableByHand(shaCount, targets)
+						&& reqimouOptimalX({ hp: player.hp, shaCount, baseUses: _reqimouBaseUses(player), targets }) == null) {
+						_stats.reqimouInfeasible++;
+						return 0;
+					}
 				}
 			} catch (e) {}
 			return native;
@@ -215,7 +247,7 @@ function _hookReqimouNumbers() {
 								const shaCount = player.countCards('hs', card => _cardName(card, player) === 'sha');
 								const optimal = reqimouOptimalX({
 									hp: player.hp, shaCount,
-									baseUses: (typeof player.getCardUsable === 'function' && (() => { try { return player.getCardUsable('sha'); } catch (e) { return 1; } })()) || 1,
+									baseUses: _reqimouBaseUses(player),
 									targets: _reqimouTargets(player),
 								});
 								if (optimal != null && result && Array.isArray(result.numbers) && result.numbers.length) {

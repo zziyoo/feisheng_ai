@@ -117,9 +117,12 @@ export function shouldBypassQimouCountBlock(input) {
  * OL界魏延【奇谋 reqimou】的两个缺陷（2026-10-31 真实宿主复现）：
  * 1. gate 只要“存在 4 距离内可打的目标”就放行，目标贴脸且一发杀可收割时也会支付；
  * 2. processAI 固定支付 hp-1（有桃/酒时甚至支付全部体力），与“距离/击杀实际需要”无关。
- * 约束：gate 只在“没有任何目标需要支付”时拦截；支付档位收紧为
- * max(1, 达距所需, 击杀所需)，且只考虑当前手杀数足够击杀的目标，不超过 hp-1。
- * 找不到可击杀目标时返回 null，由调用方保留原生行为。
+ * 约束：
+ * - 支付档位 = max(1, 达距所需, 击杀所需)，只接受 <= hp-1 的可行候选；
+ *   不可承受的候选直接跳过，绝不截断成“付得起但达不到目标”的档位；
+ * - 攻击范围使用宿主真实 API `getAttackRange()`（含武器/技能修正），距离用 `get.distance`；
+ * - 返回 null 表示没有可行候选：调用方保留原生档位；若同时存在“手杀可击杀”的目标，
+ *   说明任何可承受支付都无法兑现击杀，gate 会阻止这次无收益发动。
  */
 export function reqimouNeedsPayment(targets) {
 	for (const target of Array.isArray(targets) ? targets : []) {
@@ -140,20 +143,38 @@ export function reqimouOptimalX(input) {
 	const life = Number(hp);
 	/* hp-1 至少要剩 1 点体力；1 血及以下一律回退原生（gate 本身也会拦截 hp<3）。 */
 	if (!Number.isFinite(life) || life < 2) return null;
+	const maxPayment = Math.max(1, life - 1);
 	let best = null;
 	for (const target of Array.isArray(targets) ? targets : []) {
 		if (!target || typeof target !== 'object') continue;
 		if (!(Number(target.effect) > 0)) continue;
 		if (!target.canUseIgnoringDistance) continue;
 		const targetHp = Math.max(0, Math.floor(Number(target.hp) || 0));
-		if (targetHp > sha) continue; // 手杀不足，永远无法兑换成击杀
+		if (targetHp > sha) continue; // 手杀不足，静态不可击杀，不参与档位
 		const distance = Math.max(0, Number(target.distance) || 0);
-		const range = Math.max(1, Number(target.attackRange) || 1);
+		const range = Number.isFinite(Number(target.attackRange)) ? Math.max(0, Number(target.attackRange)) : 1;
 		const xReach = Math.max(0, distance - range);
 		const xKill = Math.max(0, targetHp - uses);
 		const candidate = Math.max(1, xReach, xKill);
+		/* 不可承受的候选直接跳过，绝不截断成“付得起但达不到目标”的档位。 */
+		if (candidate > maxPayment) continue;
 		if (best === null || candidate < best) best = candidate;
 	}
-	if (best === null) return null;
-	return Math.max(1, Math.min(best, Math.max(1, life - 1)));
+	return best;
+}
+
+/* 是否存在“当前手杀数足以击杀”的目标（静态口径）。
+ * 用于 gate 区分两类空结果：手杀可击杀但支付不可承受 → 阻止无收益发动；
+ * 手杀不足以击杀 → 保留原生爆发/摸牌路线。 */
+export function reqimouKillableByHand(shaCount, targets) {
+	const sha = Math.max(0, Math.floor(Number(shaCount) || 0));
+	if (!sha) return false;
+	for (const target of Array.isArray(targets) ? targets : []) {
+		if (!target || typeof target !== 'object') continue;
+		if (!(Number(target.effect) > 0)) continue;
+		if (!target.canUseIgnoringDistance) continue;
+		const hp = Number(target.hp);
+		if (Number.isFinite(hp) && hp <= sha) return true;
+	}
+	return false;
 }
