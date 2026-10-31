@@ -53,6 +53,11 @@ check('第二批奇谋策略只放宽阻塞且不改技能规则', () => {
 	assert(source.includes('_qimouBackup'));
 	assert(source.includes('_reqimouGateBackup'));
 	assert(source.includes('_reqimouContentBackup'));
+	/* chooseNumbers 包装必须一次性作用域且人类路径不 clamp */
+	assert(/player\.chooseNumbers = originalChooseNumbers;\s*\n\s*const next/.test(source));
+	assert(/const isHuman = player === game\.me && !_status\.auto;/.test(source));
+	/* gate 枚举为空时保留原生，不误拦 */
+	assert(/targets\.length && !reqimouNeedsPayment\(targets\)/.test(source));
 });
 check('v2 模型未接线，运行时只有 v3', () => {
 	const extension = read('extension.js');

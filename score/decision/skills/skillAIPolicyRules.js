@@ -138,7 +138,8 @@ export function reqimouOptimalX(input) {
 	const sha = Math.max(0, Math.floor(Number(shaCount) || 0));
 	const uses = Math.max(1, Math.floor(Number(baseUses) || 1));
 	const life = Number(hp);
-	if (!Number.isFinite(life) || life < 1) return null;
+	/* hp-1 至少要剩 1 点体力；1 血及以下一律回退原生（gate 本身也会拦截 hp<3）。 */
+	if (!Number.isFinite(life) || life < 2) return null;
 	let best = null;
 	for (const target of Array.isArray(targets) ? targets : []) {
 		if (!target || typeof target !== 'object') continue;

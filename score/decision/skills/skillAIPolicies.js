@@ -175,7 +175,9 @@ function _hookReqimouGate() {
 		const wrapped = function (player) {
 			const native = original.apply(this, arguments);
 			try {
-				if (Number(native) > 0 && !reqimouNeedsPayment(_reqimouTargets(player))) {
+				const targets = _reqimouTargets(player);
+				/* 目标枚举为空说明读局失败，保留原生 gate，不误拦。 */
+				if (Number(native) > 0 && targets.length && !reqimouNeedsPayment(targets)) {
 					_stats.reqimouGateSkip++;
 					return 0;
 				}
@@ -199,9 +201,13 @@ function _hookReqimouNumbers() {
 			const originalChooseNumbers = typeof player.chooseNumbers === 'function' ? player.chooseNumbers : null;
 			if (originalChooseNumbers) {
 				player.chooseNumbers = function (...args) {
+					/* 一次性作用域：进入即还原，reqimou 结算窗口内其他事件的
+					 * chooseNumbers（如触发技询问）不会被本策略改写。 */
+					player.chooseNumbers = originalChooseNumbers;
 					const next = originalChooseNumbers.apply(this, args);
 					const originalForResult = typeof next.forResult === 'function' ? next.forResult : null;
-					if (originalForResult) {
+					const isHuman = player === game.me && !_status.auto;
+					if (originalForResult && !isHuman) {
 						next.forResult = async function (...forArgs) {
 							const result = await originalForResult.apply(this, forArgs);
 							try {

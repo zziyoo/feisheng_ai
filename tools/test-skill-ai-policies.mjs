@@ -189,11 +189,16 @@ check('奇谋OL：手杀不足以击杀时保留原生行为', () => {
 	}), null);
 	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [] }), null);
 });
-check('奇谋OL：支付不超过 hp-1', () => {
+check('奇谋OL：支付不超过 hp-1 且低体力一律回退原生', () => {
 	assert.equal(reqimouOptimalX({
 		hp: 3, shaCount: 5, baseUses: 1,
 		targets: [{ effect: 1, canUseIgnoringDistance: true, distance: 5, attackRange: 1, hp: 3 }],
 	}), 2);
+	assert.equal(reqimouOptimalX({
+		hp: 1, shaCount: 5, baseUses: 1,
+		targets: [{ effect: 1, canUseIgnoringDistance: true, distance: 1, attackRange: 1, hp: 1 }],
+	}), null, '1血支付会致死，回退原生');
+	assert.equal(reqimouOptimalX({ hp: 0, shaCount: 5, baseUses: 1, targets: [] }), null);
 });
 
 console.log('ALL PASS (' + passed + ')');
