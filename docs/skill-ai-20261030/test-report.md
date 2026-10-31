@@ -168,6 +168,44 @@ node tools/skill-ai-hp-real-host.mjs --mode identity --variant native|policy|ext
 3. **身份可见性**：`identityShown` 未设置时 `get.attitude` 返回 0，AI 把目标当中立——所有评分探针失效；已修正。
 4. 对 `target` 的方法包装必须整体 try/catch，否则死亡流程中抛错会让宿主进入重试循环。
 
+## 3.2 独立审查补修（2026-11-01，提交 356d487 起）
+
+外部审查发现两处确定缺陷，均已最小修复并补真实宿主证据。
+
+### 3.2.1 reqimou 支付档位截断（P1）
+
+旧实现先取 `candidate=max(1,达距,击杀)` 再统一截到 `hp-1`。审查复现：体力3、3杀、距离4、攻击范围1、目标2血 → 需要支付3才够到，函数却返回2；支付2后距离仍为2，打不到。修复：只接受 `<=hp-1` 的可行候选，不可承受的候选直接跳过、绝不截断；返回 null 表示无可行候选。
+
+宿主决策链的明确选择：
+- 手杀数足以击杀、但没有任何 ≤hp-1 的可行支付 → gate 返回 0，**阻止无收益发动**；
+- 手杀数不足以击杀 → 保留原生档位（原生 burst/摸牌路线，静态手牌无法判定收益）。
+
+真实宿主对照（`evidence/batch2-range-native.json` / `batch2-range-policy.json`）：
+
+| 场景 | 原生 | 策略 |
+|---|---|---|
+| 满血4、3杀+桃、距离5（+1马）、范围1 | 发动、支付4（全部体力）+桃自救、击杀 | **gate 阻断**：0 支付、目标未受伤、桃保留（`reqimouInfeasible=3`） |
+| 体力3+桃、距离4 | 支付3、击杀 | 体力3时阻断（`reqimouInfeasible=3`）；先吃桃回4血后才在“4→付3”合法时发动 |
+
+### 3.2.2 攻击范围读取（P1）
+
+旧代码读不存在的 `player.attackRange` 属性，长武器场景恒按范围1计算。本机 1.11.7 的真实 API 为 `player.getAttackRange()`（含武器与 `attackRange/attackRangeFinal` 修正）；`get.distance(from,to)` 已含马匹与 globalFrom/globalTo，`get.distance(...,'attack')` 仅额外叠加 attackFrom/attackTo（原生 qimou 口径）。修复后真实宿主对照：
+
+| 场景 | 距离/范围 | 原生支付 | 策略支付 | 结果 |
+|---|---|---|---|---|
+| 丈八蛇矛（范围3）、目标2血 | 4 / 3 | 3 | **1**（`reqimouClamp=1`） | 均击杀 |
+| 丈八+目标+1马 | 5 / 3 | 3 | **2** | 均击杀 |
+| 赤兔-1马、无武器 | 3 / 1 | 3 | **2** | 均击杀 |
+| 无武器 | 4 / 1 | 3 | 3（可达且可承受，与原生一致） | 均击杀 |
+| 目标空城（无手牌不可成为杀目标） | 4 / 1 | 3（无收益，目标反被桃园回血） | 3（有另一个有效敌人→按原生 burst 路线） | 未修复项，如实记录 |
+
+完整扩展对照：丈八场景由引擎先对另一敌人出杀，发动 reqimou 时手杀只剩1张（静态不足以击杀）→ 按规则回退原生档位付3；阻断场景扩展同样 0 支付（`reqimouInfeasible=3`）。
+
+### 3.2.3 校验与包内复现（P2）
+
+- `verify.py --zip` 修复：只认包根 `manifest.json`，不再取第一个以 `manifest.json` 结尾的成员；`tests/test-verify-zip.py` 覆盖“根清单 + 两个嵌套同名 manifest”和“根清单缺失必须失败”两个回归。
+- 新增 `tests/run-package-tests.mjs`：用包内 `source/` 自动组装临时仓库形状，运行纯规则与契约两组测试（仅需 Node，无需浏览器/完整仓库）。其余 39 个 Node 入口与全部宿主场景依赖完整仓库与宿主机，见 COMMANDS.md。
+
 ## 4. 托管局性能
 
 完整扩展，真实宿主，自动托管直到 `game.over` 或 180s 上限；耗时取 `engine.getDecisionLog()[].elapsedMs`（决策入口 `bestAction`）。每模式合并多局样本。

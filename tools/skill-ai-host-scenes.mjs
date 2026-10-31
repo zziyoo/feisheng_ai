@@ -914,7 +914,12 @@ export async function runSkillAiScenes(page, options = {}) {
 			scenes.push({ name: 'engine-disabled-gate', error: String(e) });
 		}
 		if (policyModule) {
-			const marked = () => !!(lib.skill.rezhiheng && lib.skill.rezhiheng.check && lib.skill.rezhiheng.check.__djscSkillPolicy);
+			const marked = () => ({
+				rezhiheng: !!(lib.skill.rezhiheng && lib.skill.rezhiheng.check && lib.skill.rezhiheng.check.__djscSkillPolicy),
+				qimou: !!(lib.skill.qimou && lib.skill.qimou.ai && lib.skill.qimou.ai.result && lib.skill.qimou.ai.result.player && lib.skill.qimou.ai.result.player.__djscSkillPolicy),
+				reqimouContent: !!(lib.skill.reqimou && typeof lib.skill.reqimou.content === 'function' && lib.skill.reqimou.content.__djscSkillPolicy),
+				reqimouGate: !!(lib.skill.reqimou && lib.skill.reqimou.ai && lib.skill.reqimou.ai.result && lib.skill.reqimou.ai.result.player && lib.skill.reqimou.ai.result.player.__djscSkillPolicy),
+			});
 			const before = marked();
 			policyModule.uninstallSkillAIPolicies();
 			const afterUninstall = marked();
