@@ -46,7 +46,7 @@
 | fix/model-lifecycle | `976d7eb` | 372cc9b | 1 | `modeModelStore` 动态维度逐字在 v4.4.4 | 归档后删除 | `archive/fix-model-lifecycle` |
 | codex/mobile-performance-443 | `4d3aae7` | v4.4.4 祖先 | 0 | 直接祖先 | 删除分支并移除干净工作树 | 已删除 |
 | fix/mobile-performance-4.4.3 | `636b636` | v4.4.4 祖先 | 0 | 直接祖先 | 删除分支并移除干净工作树 | 已删除 |
-| codex/release-v4.4.4 | `1fe5292` | v4.4.4 自身 | 0 | 既有发布分支 | 保留并作为本次开发分支 | 13+ 个新提交（首批 4 + 二次补修/文档，见 git log） |
+| codex/release-v4.4.4 | `1fe5292` | v4.4.4 自身 | 0 | 既有发布分支 | 保留并作为本次开发分支 | 16 个新提交（首批 4 + 二次补修/文档 12，见 git log） |
 | master | `466317e` | d3dbad6 | 22 | 旧线 QA 集成，缺 56 个上游提交；不是上游 master | 保留，不 reset/不强推 | 未改动 |
 
 恢复方式（任选一条归档）：
