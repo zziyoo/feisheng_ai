@@ -41,6 +41,29 @@ check('箜声策略有宿主成本指纹', () => {
 	assert(source.includes('olkongshengCostNeedsFix'));
 	assert(source.includes('olkongshengExpansionView'));
 });
+check('第二批奇谋策略只放宽阻塞且不改技能规则', () => {
+	const source = read('score/decision/skills/skillAIPolicies.js');
+	const rules = read('score/decision/skills/skillAIPolicyRules.js');
+	assert(source.includes('shouldBypassQimouCountBlock'));
+	assert(source.includes('reqimouNeedsPayment'));
+	assert(source.includes('reqimouOptimalX'));
+	/* 规则层只做数值判断，不直接改写 lib.skill */
+	assert(!rules.includes('lib.skill'));
+	/* 生命周期可还原：qimou/reqimou 的 result.player 与 reqimou.content 都有备份 */
+	assert(source.includes('_qimouBackup'));
+	assert(source.includes('_reqimouGateBackup'));
+	assert(source.includes('_reqimouContentBackup'));
+});
+check('v2 模型未接线，运行时只有 v3', () => {
+	const extension = read('extension.js');
+	assert(!/policyModelV2/.test(extension));
+	assert(matchImport(extension, 'policyModelV3'));
+	const adapter = read('score/model/net/policyModelV2.js');
+	assert.match(adapter, /import\(['"]\.\/client_policy_model_v2\.js/);
+});
+function matchImport(source, name) {
+	return new RegExp('import\\s+[^;]*' + name).test(source);
+}
 check('baseline 用 tag 解引用后的提交', () => {
 	const baseline = JSON.parse(read('docs/skill-ai-20261030/baseline.json'));
 	assert.equal(baseline.tag_object, '22cf3798445321385ed01582aaf35afdd5b7f63d');

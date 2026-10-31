@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus } from '../score/decision/skills/skillAIPolicyRules.js';
+import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus, qimouTargetX, shouldBypassQimouCountBlock, reqimouNeedsPayment, reqimouOptimalX } from '../score/decision/skills/skillAIPolicyRules.js';
 
 let passed = 0;
 const check = (name, fn) => {
@@ -87,6 +87,113 @@ check('突袭手牌奖励有界且避开特殊失牌收益', () => {
 	assert.equal(retuxiHandBonus(4, false, false), 0);
 	assert.equal(retuxiHandBonus(4, true, true), 0);
 	assert.equal(retuxiHandBonus(0, true, false), 0);
+});
+
+check('奇谋支付档位复刻宿主 content', () => {
+	assert.equal(qimouTargetX(4, 3), 3);
+	assert.equal(qimouTargetX(4, 2), 2);
+	assert.equal(qimouTargetX(3, 2), 2);
+	assert.equal(qimouTargetX(3, 1), 1);
+	assert.equal(qimouTargetX(2, 3), 1);
+	assert.equal(qimouTargetX(1, 3), 1);
+});
+
+const qimouTarget = over => ({
+	currentlyInRange: false,
+	canUseIgnoringDistance: true,
+	effect: 1,
+	attackDistance: 4,
+	hp: over,
+});
+
+check('奇谋：远处可击杀目标放宽 cardUsable 阻塞（复现正向）', () => {
+	assert.equal(shouldBypassQimouCountBlock({
+		nativeResult: 0, hp: 4, shaCount: 3, cardEnabled: true, cardUsable: true,
+		targets: [qimouTarget(3)],
+	}), true);
+	assert.equal(shouldBypassQimouCountBlock({
+		nativeResult: 0, hp: 3, shaCount: 2, cardEnabled: true, cardUsable: true,
+		targets: [{ ...qimouTarget(2), attackDistance: 3 }],
+	}), true);
+});
+check('奇谋：目标过厚不放宽（复现反向）', () => {
+	assert.equal(shouldBypassQimouCountBlock({
+		nativeResult: 0, hp: 4, shaCount: 3, cardEnabled: true, cardUsable: true,
+		targets: [qimouTarget(4)],
+	}), false);
+});
+check('奇谋：目标已在射程内不放宽（杀可直接使用）', () => {
+	assert.equal(shouldBypassQimouCountBlock({
+		nativeResult: 0, hp: 4, shaCount: 3, cardEnabled: true, cardUsable: true,
+		targets: [{ ...qimouTarget(3), currentlyInRange: true }],
+	}), false);
+});
+check('奇谋：杀次数耗尽走原生路径，不重复放宽', () => {
+	assert.equal(shouldBypassQimouCountBlock({
+		nativeResult: 0, hp: 4, shaCount: 3, cardEnabled: true, cardUsable: false,
+		targets: [qimouTarget(3)],
+	}), false);
+});
+check('奇谋：1血不放宽；2血付1换击杀允许', () => {
+	assert.equal(shouldBypassQimouCountBlock({
+		nativeResult: 0, hp: 1, shaCount: 3, cardEnabled: true, cardUsable: true,
+		targets: [qimouTarget(1)],
+	}), false);
+	assert.equal(shouldBypassQimouCountBlock({
+		nativeResult: 0, hp: 2, shaCount: 3, cardEnabled: true, cardUsable: true,
+		targets: [{ ...qimouTarget(1), attackDistance: 2 }],
+	}), true, 'hp2 支付1后剩1血，与 4→1 的档位风险一致');
+});
+check('奇谋：目标距离超出档位射程不放宽', () => {
+	assert.equal(shouldBypassQimouCountBlock({
+		nativeResult: 0, hp: 4, shaCount: 3, cardEnabled: true, cardUsable: true,
+		targets: [{ ...qimouTarget(3), attackDistance: 6 }],
+	}), false);
+});
+check('奇谋：原生已放行或无杀时不干预', () => {
+	assert.equal(shouldBypassQimouCountBlock({
+		nativeResult: 1, hp: 4, shaCount: 3, cardEnabled: true, cardUsable: true,
+		targets: [qimouTarget(3)],
+	}), false);
+	assert.equal(shouldBypassQimouCountBlock({
+		nativeResult: 0, hp: 4, shaCount: 0, cardEnabled: true, cardUsable: true,
+		targets: [qimouTarget(3)],
+	}), false);
+});
+
+check('奇谋OL：贴脸且一发杀可收割时 gate 拦截（复现正向）', () => {
+	assert.equal(reqimouNeedsPayment([{
+		effect: 1, canUseIgnoringDistance: true, currentlyInRange: true, hp: 1, baseUses: 1,
+	}]), false);
+});
+check('奇谋OL：需要额外出杀或减距离时 gate 放行', () => {
+	assert.equal(reqimouNeedsPayment([{
+		effect: 1, canUseIgnoringDistance: true, currentlyInRange: true, hp: 2, baseUses: 1,
+	}]), true);
+	assert.equal(reqimouNeedsPayment([{
+		effect: 1, canUseIgnoringDistance: true, currentlyInRange: false, hp: 1, baseUses: 1,
+	}]), true);
+	assert.equal(reqimouNeedsPayment([]), false);
+});
+check('奇谋OL：支付档位按距离与击杀收紧', () => {
+	const mk = (distance, hp) => ({ effect: 1, canUseIgnoringDistance: true, distance, attackRange: 1, hp });
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [mk(1, 2)] }), 1);
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [mk(2, 2)] }), 1);
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, targets: [mk(4, 3)] }), 3);
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [mk(4, 3)] }), null, '手杀不足时回退原生档位');
+});
+check('奇谋OL：手杀不足以击杀时保留原生行为', () => {
+	assert.equal(reqimouOptimalX({
+		hp: 4, shaCount: 2, baseUses: 1,
+		targets: [{ effect: 1, canUseIgnoringDistance: true, distance: 4, attackRange: 1, hp: 4 }],
+	}), null);
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [] }), null);
+});
+check('奇谋OL：支付不超过 hp-1', () => {
+	assert.equal(reqimouOptimalX({
+		hp: 3, shaCount: 5, baseUses: 1,
+		targets: [{ effect: 1, canUseIgnoringDistance: true, distance: 5, attackRange: 1, hp: 3 }],
+	}), 2);
 });
 
 console.log('ALL PASS (' + passed + ')');

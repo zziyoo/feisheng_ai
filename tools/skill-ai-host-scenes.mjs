@@ -19,6 +19,7 @@ export async function runSkillAiScenes(page, options = {}) {
 		try { window.__skillAiPolicies = policyModule; } catch (e) {}
 		const { game, lib, get, _status } = realHost;
 		const [actor, ally, enemy1, enemy2] = game.players;
+		const roster = game.players.slice();
 		const run = async (name, player, content) => {
 			const event = game.createEvent(name, false);
 			event.player = player;
@@ -30,7 +31,12 @@ export async function runSkillAiScenes(page, options = {}) {
 		const counts = () => Object.fromEntries(game.players.map(p => [p.playerid, p.countCards('h')]));
 		const nameOf = p => p.playerid + ':' + (p.name1 || p.name || '?');
 		const reset = async () => {
-			for (const p of game.players) {
+			try {
+				if (game.players.length !== roster.length || roster.some(p => !game.players.includes(p))) {
+					game.players.splice(0, game.players.length, ...roster);
+				}
+			} catch (e) {}
+			for (const p of roster) {
 				p.clearSkills(true);
 				try {
 					p.dead = false;
@@ -43,6 +49,8 @@ export async function runSkillAiScenes(page, options = {}) {
 				if (cards.length) await p.discard(cards);
 				p.hp = p.maxHp = 4;
 				for (const key of Object.keys(p.storage || {})) delete p.storage[key];
+				try { p.stat = [{ card: {}, skill: {}, triggerSkill: {} }]; } catch (e) {}
+				try { p.awakenedSkills = []; } catch (e) {}
 				p.identity = p === actor ? 'zhu' : (p === ally ? 'zhong' : 'fan');
 				p.identityShown = true;
 				try { p.setIdentity(p.identity); } catch (e) {}
@@ -107,7 +115,7 @@ export async function runSkillAiScenes(page, options = {}) {
 		const instrument = player => {
 			const log = [];
 			const backups = {};
-			for (const method of ['discard', 'lose', 'draw', 'useSkill', 'useCard', 'gain']) {
+			for (const method of ['discard', 'lose', 'draw', 'useSkill', 'useCard', 'gain', 'loseHp', 'damage', 'recover']) {
 				if (typeof player[method] !== 'function') continue;
 				backups[method] = player[method];
 				player[method] = function (...args) {
@@ -518,6 +526,341 @@ export async function runSkillAiScenes(page, options = {}) {
 		}, async rec => {
 			await actor.phaseDraw();
 			rec.actorHand = hand(actor);
+		});
+
+		// === 第二批：生命支付与爆发时机（只固定公开局面，不伪造AI手牌/摸牌） ===
+		const hpTarget = (index, hp, maxHp = 4) => {
+			const target = game.players[index] || enemy2;
+			target.identity = 'fan';
+			try { target.setIdentity('fan'); } catch (e) {}
+			target.hp = hp;
+			target.maxHp = maxHp;
+			target.update();
+			return target;
+		};
+		const equipWeapon = async (target, name = 'zhangba', suit = 'spade', number = 400) => {
+			await target.equip(card(name, suit, number));
+			target.update();
+		};
+
+		// 标准苦肉：4/3/2血与手牌数量的停止边界。
+		await scene('hp-kurou-full-4hp-2cards', async () => {
+			blockNeighborSha();
+			actor.addSkill('kurou');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['wuxie', 'spade', 200], ['sha', 'heart', 201]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+		await scene('hp-kurou-full-3hp-1card', async () => {
+			blockNeighborSha();
+			actor.addSkill('kurou');
+			actor.hp = 3; actor.maxHp = 4;
+			await give(actor, [['wuxie', 'spade', 202]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+		await scene('hp-kurou-full-3hp-2cards', async () => {
+			blockNeighborSha();
+			actor.addSkill('kurou');
+			actor.hp = 3; actor.maxHp = 4;
+			await give(actor, [['wuxie', 'spade', 203], ['sha', 'heart', 204]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+		await scene('hp-kurou-full-2hp-1card', async () => {
+			blockNeighborSha();
+			actor.addSkill('kurou');
+			actor.hp = 2; actor.maxHp = 4;
+			await give(actor, [['wuxie', 'spade', 205]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
+
+		// 界苦肉+诈降：4/3/2血；诈降摸3和额外出杀必须纳入同一结算。
+		for (const [name, hp, hand] of [
+			['hp-rekurou-full-4hp-2cards', 4, [['wuxie', 'spade', 206], ['sha', 'heart', 207]]],
+			['hp-rekurou-full-3hp-2cards', 3, [['wuxie', 'spade', 208], ['sha', 'heart', 209]]],
+			['hp-rekurou-full-2hp-2cards', 2, [['wuxie', 'spade', 210], ['sha', 'heart', 211]]],
+		]) {
+			await scene(name, async () => {
+				blockNeighborSha();
+				actor.addSkill('rekurou');
+				actor.addSkill('zhaxiang');
+				actor.hp = hp; actor.maxHp = 4;
+				await give(actor, hand);
+				actor.update();
+			}, async rec => { await phaseTurn(rec); });
+		}
+		await scene('hp-rekurou-redsha-directhit', async () => {
+			const target = hpTarget(7, 4, 4);
+			actor.addSkill('rekurou');
+			actor.addSkill('zhaxiang');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'heart', 212], ['wuxie', 'spade', 213]]);
+			await give(target, [['shan', 'diamond', 214]]);
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, hand: roster[7] ? hand(roster[7]) : [] };
+			rec.marks = roster[7] ? roster[7].getSkills().filter(s => s.includes('zhaxiang')) : [];
+		});
+
+		// 界魏延奇谋：目标在4距离外，手上有3张杀；原生是否因“杀次数仍可用”而不发动。
+		await scene('hp-qimou-distance4-hp3', async () => {
+			blockNeighborSha();
+			const target = hpTarget(4, 3, 4);
+			actor.addSkill('qimou');
+			actor.addSkill('xinkuanggu');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 215], ['sha', 'heart', 216], ['sha', 'club', 217]]);
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[4]?.hp, dead: !!roster[4]?.dead };
+		});
+		await scene('hp-qimou-distance4-hp4-negative', async () => {
+			blockNeighborSha();
+			const target = hpTarget(4, 4, 4);
+			actor.addSkill('qimou');
+			actor.addSkill('xinkuanggu');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 218], ['sha', 'heart', 219], ['sha', 'club', 220]]);
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[4]?.hp, dead: !!roster[4]?.dead };
+		});
+		await scene('hp-qimou-distance3-hp2', async () => {
+			blockNeighborSha();
+			const target = hpTarget(3, 2, 4);
+			actor.addSkill('qimou');
+			actor.addSkill('xinkuanggu');
+			actor.hp = 3; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 221], ['sha', 'heart', 222]]);
+			await give(target, [['tao', 'heart', 223]]);
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[3]?.hp, dead: !!roster[3]?.dead };
+		});
+
+		// 界魏延奇谋（OL）：默认最大支付，目标是3血/4血+八卦时是否过度支付。
+		await scene('hp-reqimou-distance4-hp3', async () => {
+			blockNeighborSha();
+			const target = hpTarget(4, 3, 4);
+			actor.addSkill('reqimou');
+			actor.addSkill('xinkuanggu');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 224], ['sha', 'heart', 225]]);
+			await give(target, [['tao', 'heart', 226]]);
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[4]?.hp, dead: !!roster[4]?.dead };
+		});
+		await scene('hp-reqimou-distance4-hp4-defense', async () => {
+			blockNeighborSha();
+			const target = hpTarget(4, 4, 4);
+			await target.equip(card('bagua', 'spade', 227));
+			actor.addSkill('reqimou');
+			actor.addSkill('xinkuanggu');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 228], ['sha', 'heart', 229]]);
+			await give(target, [['shan', 'diamond', 230], ['shan', 'club', 231], ['tao', 'heart', 232]]);
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[4]?.hp, dead: !!roster[4]?.dead };
+		});
+
+		// 典韦强袭（qiangxix）：2血击杀、武器替代、3血均势、1血边界。
+		await scene('hp-qiangxix-2hp-target1', async () => {
+			const target = hpTarget(7, 1, 4);
+			actor.addSkill('qiangxix');
+			actor.hp = 2; actor.maxHp = 4;
+			await give(target, [['tao', 'heart', 233]]);
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, hand: roster[7] ? hand(roster[7]) : [] };
+		});
+		await scene('hp-qiangxix-2hp-weapon-target2', async () => {
+			const target = hpTarget(7, 2, 4);
+			actor.addSkill('qiangxix');
+			actor.hp = 2; actor.maxHp = 4;
+			await equipWeapon(actor, 'zhangba', 'spade', 234);
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, dead: !!roster[7]?.dead };
+			rec.weapon = actor.getEquips(1).map(c => c.name);
+		});
+		await scene('hp-qiangxix-3hp-target3', async () => {
+			const target = hpTarget(7, 3, 4);
+			actor.addSkill('qiangxix');
+			actor.hp = 3; actor.maxHp = 4;
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, dead: !!roster[7]?.dead };
+		});
+		await scene('hp-qiangxix-2hp-target2-negative', async () => {
+			const target = hpTarget(7, 2, 4);
+			actor.addSkill('qiangxix');
+			actor.hp = 2; actor.maxHp = 4;
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, dead: !!roster[7]?.dead };
+		});
+		await scene('hp-qiangxix-1hp-weapon-target2', async () => {
+			const target = hpTarget(7, 2, 4);
+			actor.addSkill('qiangxix');
+			actor.hp = 1; actor.maxHp = 4;
+			await equipWeapon(actor, 'zhangba', 'club', 235);
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, dead: !!roster[7]?.dead };
+			rec.weapon = actor.getEquips(1).map(c => c.name);
+		});
+		await scene('hp-qiangxix-1hp-no-weapon-negative', async () => {
+			const target = hpTarget(7, 2, 4);
+			actor.addSkill('qiangxix');
+			actor.hp = 1; actor.maxHp = 4;
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, dead: !!roster[7]?.dead };
+		});
+		await scene('hp-qiangxix-double-target', async rec => {
+			const left = hpTarget(1, 2, 4);
+			const right = hpTarget(7, 2, 4);
+			actor.addSkill('qiangxix');
+			actor.hp = 3; actor.maxHp = 4;
+			actor.update();
+			left.update();
+			right.update();
+			rec.extra = { left: left.playerid, right: right.playerid };
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.targets = {
+				[roster[1].playerid]: roster[1].hp,
+				[roster[7].playerid]: roster[7].hp,
+			};
+		});
+
+		// 界典韦强袭（olqiangxi）：自伤而非失去体力；与武器支付对照。
+		await scene('hp-olqiangxi-3hp-target3', async () => {
+			const target = hpTarget(7, 3, 4);
+			actor.addSkill('olqiangxi');
+			actor.hp = 3; actor.maxHp = 4;
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, dead: !!roster[7]?.dead };
+		});
+		await scene('hp-olqiangxi-2hp-weapon-target2', async () => {
+			const target = hpTarget(7, 2, 4);
+			actor.addSkill('olqiangxi');
+			actor.hp = 2; actor.maxHp = 4;
+			await equipWeapon(actor, 'zhangba', 'heart', 236);
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, dead: !!roster[7]?.dead };
+			rec.weapon = actor.getEquips(1).map(c => c.name);
+		});
+		await scene('hp-olqiangxi-2hp-target2-negative', async () => {
+			const target = hpTarget(7, 2, 4);
+			actor.addSkill('olqiangxi');
+			actor.hp = 2; actor.maxHp = 4;
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, dead: !!roster[7]?.dead };
+		});
+		await scene('hp-olqiangxi-1hp-weapon-target2', async () => {
+			const target = hpTarget(7, 2, 4);
+			actor.addSkill('olqiangxi');
+			actor.hp = 1; actor.maxHp = 4;
+			await equipWeapon(actor, 'zhangba', 'diamond', 237);
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, dead: !!roster[7]?.dead };
+			rec.weapon = actor.getEquips(1).map(c => c.name);
+		});
+		await scene('hp-olqiangxi-1hp-no-weapon-negative', async () => {
+			const target = hpTarget(7, 2, 4);
+			actor.addSkill('olqiangxi');
+			actor.hp = 1; actor.maxHp = 4;
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, dead: !!roster[7]?.dead };
+		});
+
+		// 失去体力 vs 受到伤害 vs 弃装备：用诈降/遗计观察触发差异。
+		await scene('hp-qiangxix-losehp-triggers-zhaxiang', async () => {
+			const target = hpTarget(7, 2, 4);
+			actor.addSkill('qiangxix');
+			actor.addSkill('zhaxiang');
+			actor.hp = 3; actor.maxHp = 4;
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, dead: !!roster[7]?.dead };
+			rec.zhaxiangEffect = actor.countMark('zhaxiang_effect');
+		});
+		await scene('hp-olqiangxi-damage-triggers-yiji', async () => {
+			const target = hpTarget(7, 2, 4);
+			actor.addSkill('olqiangxi');
+			actor.addSkill('yiji');
+			actor.hp = 3; actor.maxHp = 4;
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, dead: !!roster[7]?.dead };
+			rec.yijiMarks = actor.countMark('yiji');
+		});
+
+		// 第二批击杀收尾：放在所有非致死场景之后。
+		await scene('hp-qiangxix-final-kill1', async () => {
+			const target = hpTarget(7, 1, 4);
+			actor.addSkill('qiangxix');
+			actor.hp = 2; actor.maxHp = 4;
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, dead: !!roster[7]?.dead };
+		});
+		await scene('hp-olqiangxi-final-kill1', async () => {
+			const target = hpTarget(7, 1, 4);
+			actor.addSkill('olqiangxi');
+			actor.hp = 2; actor.maxHp = 4;
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[7]?.hp, dead: !!roster[7]?.dead };
 		});
 
 		await scene('response-wusheng-duel', async () => {
