@@ -235,7 +235,9 @@
 | `154dbd5` | `fix(skill-ai): 收紧策略边界、兼容指纹与134维契约测试` |
 | `fb815a1` | `test(skill-ai): 增加完整回合、暗牌置换、特殊目标与生命周期场景` |
 | `aed71a8` | `test(skill-ai): 增加完整引擎生命周期与托管停滞诊断` |
-| 本文档所在提交 | `docs(skill-ai): 二次审查、Fork 收尾与本地试验安装记录`（见 `git log -- docs/skill-ai-20261030/REPORT.md`） |
+| `ca08285` | `test(skill-ai): 托管烟测安装策略并记录策略统计` |
+| `5324996` | `docs(skill-ai): 二次审查、Fork 收尾与本地试验安装` |
+| 本文档所在提交 | `docs(skill-ai): 补记提交记录`（见 `git log -- docs/skill-ai-20261030/REPORT.md`） |
 
 本地试验安装部署自 `aed71a8` 的 3 个运行时文件；详见 `live-install/manifest.json`。没有改 `master`，没有 force push，没有删除发布标签。
 
