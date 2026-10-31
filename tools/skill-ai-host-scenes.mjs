@@ -536,6 +536,17 @@ export async function runSkillAiScenes(page, options = {}) {
 		});
 
 		// 击杀场景放在最后：避免死亡玩家从 game.players 移除后污染后续夹具。
+		await scene('rezhiheng-full-kill', async () => {
+			actor.addSkill('rezhiheng');
+			actor.hp = 3; actor.maxHp = 4;
+			const target = game.players[7];
+			target.identity = 'fan';
+			try { target.setIdentity('fan'); } catch (e) {}
+			target.hp = 1;
+			target.update();
+			await give(actor, [['sha', 'spade', 112], ['sha', 'club', 113]]);
+			actor.update();
+		}, async rec => { await phaseTurn(rec); });
 		await scene('zhiheng-full-kill', async () => {
 			actor.addSkill('zhiheng');
 			actor.hp = 3; actor.maxHp = 4;

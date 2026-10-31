@@ -10,7 +10,7 @@
 - 安装前 `score/index.js` 归一化 SHA256：`a2fa58e4b122a04a34559479ece7052eb6d200dd3b078cd668ade80ccfcc80cc`（与 v4.4.4 一致）。
 - 备份：`backup/score__index.js.v444`；两个新增文件安装前不存在。
 - 安装后/验证：[`manifest.json`](manifest.json) + [`verification.json`](verification.json)。
-- 验证：安装目录本身作为 extension-root，40 个真实宿主场景 `passed`、`errors=[]`；策略/完整引擎卸载重装 true→false→true，均无错误。
+- 验证：安装目录本身作为 extension-root，41 个真实宿主场景 `passed`、`errors=[]`；策略/完整引擎卸载重装 true→false→true，均无错误。
 - 未修改版本号、更新公告、发布标签；不是公开发行。
 
 ## 回滚
