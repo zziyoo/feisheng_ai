@@ -76,11 +76,14 @@ function _hookOlkongshengCost() {
 /* 界鲁肃【缔盟】混合后的手牌对选择者应是暗牌。
  * 宿主原生 AI 用 get.value(button.link) 直接挑最高价值牌，等于看牌；
  * 这里只给 AI 一个与牌面无关、与按钮位置/玩家 id 有关的稳定分数。 */
-function _fairButtonScore(buttons, button, player) {
-	try {
-		const index = Math.max(0, (buttons || []).indexOf(button));
-		return fairButtonScore((player && player.playerid) || '', index);
-	} catch (e) { return 0.5; }
+function _buttonIndex(buttons, button) {
+	const list = Array.isArray(buttons) ? buttons : [];
+	let index = list.indexOf(button);
+	if (index < 0 && button) {
+		const link = button.link || button;
+		index = list.findIndex(item => item === link || (item && item.link === link));
+	}
+	return Math.max(0, index);
 }
 
 function _activeSkillIds(player, startEvent) {
@@ -114,12 +117,20 @@ function _hookFairRedimengChoice() {
 				} catch (e) {}
 				if (!shouldMaskHiddenButtonChoice(this === game.me, !!_status.auto, ids)) return next;
 				const player = this;
+				const getButtons = function () {
+					try {
+						const buttons = next.dialog && next.dialog.buttons;
+						if (buttons && typeof buttons.length === 'number') return Array.prototype.slice.call(buttons);
+					} catch (e) {}
+					return next.buttons || [];
+				};
 				const score = function (button) {
 					let index = 0, value = 0.5;
-					try { index = Math.max(0, (next.buttons || []).indexOf(button)); } catch (e) {}
-					try { value = _fairButtonScore(next.buttons || [], button, player); } catch (e) { value = 0.5; }
+					const buttons = getButtons();
+					try { index = _buttonIndex(buttons, button); } catch (e) {}
+					try { value = fairButtonScore((player && player.playerid) || '', index); } catch (e) { value = 0.5; }
 					try {
-						if (_stats.redimengTrace.length < 24) _stats.redimengTrace.push({ playerid: (player && player.playerid) || '', index, score: value });
+						if (_stats.redimengTrace.length < 24) _stats.redimengTrace.push({ playerid: (player && player.playerid) || '', index, score: value, buttons: buttons.length });
 					} catch (e) {}
 					return value;
 				};

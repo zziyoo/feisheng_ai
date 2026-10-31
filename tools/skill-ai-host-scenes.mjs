@@ -520,6 +520,21 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.actorHand = hand(actor);
 		});
 
+		await scene('response-wusheng-duel', async () => {
+			actor.addSkill('wusheng');
+			await give(actor, [['tao', 'heart', 109], ['sha', 'spade', 110]]);
+			actor.hp = 4; actor.maxHp = 4;
+			actor.update();
+		}, async rec => {
+			const before = { hp: actor.hp, hand: hand(actor) };
+			await enemy1.useCard(card('juedou', 'spade', 111), actor);
+			rec.response = {
+				before,
+				after: { hp: actor.hp, hand: hand(actor) },
+				responded: actor.getHistory('respond').length > 0,
+			};
+		});
+
 		// 击杀场景放在最后：避免死亡玩家从 game.players 移除后污染后续夹具。
 		await scene('zhiheng-full-kill', async () => {
 			actor.addSkill('zhiheng');
@@ -533,6 +548,17 @@ export async function runSkillAiScenes(page, options = {}) {
 		}, async rec => { await phaseTurn(rec); });
 
 		const policyStats = policyModule ? policyModule.skillAIPolicyStats() : null;
+		try {
+			const score = await import('/extension/无名AI/score/index.js?v=41a');
+			const before = score.isScoreEngineEnabled();
+			lib.config.extension_无名AI_decisionScore = false;
+			const off = score.isScoreEngineEnabled();
+			lib.config.extension_无名AI_decisionScore = true;
+			const on = score.isScoreEngineEnabled();
+			scenes.push({ name: 'engine-disabled-gate', before, off, on });
+		} catch (e) {
+			scenes.push({ name: 'engine-disabled-gate', error: String(e) });
+		}
 		if (policyModule) {
 			const marked = () => !!(lib.skill.rezhiheng && lib.skill.rezhiheng.check && lib.skill.rezhiheng.check.__djscSkillPolicy);
 			const before = marked();

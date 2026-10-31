@@ -12,6 +12,7 @@ const args=process.argv.slice(2);
 const option=name=>{const i=args.indexOf('--'+name);return i<0?null:args[i+1];};
 const hostMode=option('mode')||'doudizhu';
 assert(['doudizhu','identity','guozhan','versus'].includes(hostMode),'unsupported smoke mode');
+const seed=option('seed')||'20261030';
 const repoRoot=fileURLToPath(new URL('../',import.meta.url));
 const hostRoot=path.resolve(option('host-root') || path.join(repoRoot,'../..'));
 const extensionRoot=path.resolve(option('extension-root')||repoRoot);
@@ -61,6 +62,12 @@ try {
     await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
     browser=await chromium.launch({headless:true,...(option('browser')?{executablePath:option('browser')}:{})});
     const context=await browser.newContext();
+    await context.addInitScript(seedValue=>{
+      let state=0;const text=String(seedValue||'20261030');
+      for(let i=0;i<text.length;i++)state=(Math.imul(state,31)+text.charCodeAt(i))>>>0;
+      if(!state)state=20261030;
+      Math.random=function(){state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};
+    },seed);
     await context.route('**/*',route=>{const url=new URL(route.request().url());return ['http:','https:'].includes(url.protocol)&&!(url.hostname==='127.0.0.1'&&Number(url.port)===server.address().port)?route.abort():route.continue();});
     const page=await context.newPage();debugPage=page;
     console.error("[smoke] browser ready");
@@ -114,7 +121,7 @@ try {
       const policyOnly=args.includes('--skill-ai-policy');
       const fullLifecycle=args.includes('--skill-ai-full-lifecycle');
       const report=await runSkillAiScenes(page,{installExtension:withExtension,policyOnly,fullLifecycle});
-      const result={completedAt:new Date().toISOString(),status:errors.length?'failed':'passed',scope:'真实身份局宿主、固定公开局面、技能AI选择与结算观察；'+(withExtension?'已安装无名AI决策引擎':(policyOnly?'仅技能AI薄策略层':'原生AI基线'))+(fullLifecycle?'；含完整引擎卸载/重装':'') ,browserVersion:await browser.version(),...report,errors};
+      const result={completedAt:new Date().toISOString(),status:errors.length?'failed':'passed',scope:'真实身份局宿主、固定公开局面、技能AI选择与结算观察；'+(withExtension?'已安装无名AI决策引擎':(policyOnly?'仅技能AI薄策略层':'原生AI基线'))+(fullLifecycle?'；含完整引擎卸载/重装':'') ,seed,browserVersion:await browser.version(),...report,errors};
       if(option('output'))await fs.writeFile(option('output'),JSON.stringify(result,null,2)+'\n');
       console.log(JSON.stringify(result,null,2));assert.deepEqual(errors,[]);
     }else if(args.includes('--manual')){
@@ -164,7 +171,7 @@ try {
       if(stillRunning)await page.evaluate(()=>{smokeMatch.timedOut=true;});
       const report=await page.evaluate(()=>{const log=smokeEngine.getDecisionLog();return {...smokeMatch,elapsedMs:Date.now()-smokeMatch.startedAt,hostVersion:realHost.lib.version,mode:realHost.get.mode(),submode:realHost._status.mode,
         decisions:log.length,decisionTimesMs:log.map(e=>Number(e.elapsedMs)).filter(Number.isFinite),overrideStats:realHost._status.djsc_overrideStats,policyStats:window.smokePolicies?window.smokePolicies.skillAIPolicyStats():null,alive:realHost.game.players.map(p=>({role:p.identity,hp:p.hp})),dead:realHost.game.dead.map(p=>({role:p.identity,hp:p.hp}))};});
-      const result={completedAt:new Date().toISOString(),status:report.done&&!report.error&&!errors.length&&report.phases>0&&report.uses>0&&report.decisions>0?'passed':'incomplete',scope:'真实斗地主宿主完整托管对局烟测；非胜率或全配置验证',browserVersion:await browser.version(),report,errors};
+      const result={completedAt:new Date().toISOString(),status:report.done&&!report.error&&!errors.length&&report.phases>0&&report.uses>0&&report.decisions>0?'passed':'incomplete',scope:'真实斗地主宿主完整托管对局烟测；非胜率或全配置验证',seed,browserVersion:await browser.version(),report,errors};
       if(option('output'))await fs.writeFile(option('output'),JSON.stringify(result,null,2)+'\n');
       console.log(JSON.stringify(result,null,2));assert.equal(result.status,'passed');assert(report.phases>0&&report.uses>0);assert(report.decisions>0);assert.deepEqual(errors,[]);
     }else{
