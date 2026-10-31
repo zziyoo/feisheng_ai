@@ -2434,5 +2434,6 @@
       "status": "identical"
     }
   ],
-  "proposal_upstream_baseline": "libnoname/noname b481b17552dd46e7d9ca805d5d7975b742168256（原方案参考；不是本机宿主版本）"
+  "proposal_upstream_baseline": "libnoname/noname b481b17552dd46e7d9ca805d5d7975b742168256（原方案参考；不是本机宿主版本）",
+  "scope_note": "本文件是本地试验安装前的安装目录基线；安装后新增/修改的 3 个运行时文件见 live-install/manifest.json。严格全等 false 仅因已知缺失的 v2 模型包，不是运行时差异。"
 }

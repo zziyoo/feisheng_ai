@@ -84,6 +84,7 @@ def main():
         core.append({'path': path, 'v4_4_4_sha256': vsha, 'installed_sha256': isha, 'identical': isha == vsha})
     doc = {
         'schema_version': '2.0',
+        'scope_note': '本文件是本地试验安装前的安装目录基线；安装后的运行时策略文件见 live-install/manifest.json。',
         'generated_by': 'tools/build-skill-ai-baseline.py',
         'generated_at': '2026-10-30',
         'tag': 'v4.4.4',

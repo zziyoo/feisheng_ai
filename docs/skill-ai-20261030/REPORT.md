@@ -29,7 +29,7 @@
 | 扩展基线提交 | `1fe5292eb3022dd8d1db494617b21a12be912e61`（= `upstream/master` = 标签 `v4.4.4^{commit}`） |
 | 标签对象 | `22cf3798445321385ed01582aaf35afdd5b7f63d`（annotated tag；不能当提交 SHA） |
 | 安装目录 | `C:/Users/32360/Desktop/无名杀-win32-x64/resources/app/extension/无名AI` |
-| 安装目录运行时代码 | 全量 384 个运行文件：383 个逐文件一致、0 个内容不同、1 个已知缺失（`score/model/net/client_policy_model_v2.js`，7,038,938 B）；严格全等为 false，行为等价为 true（该文件未被运行入口引用） |
+| 安装目录运行时代码（本地试验安装前基线） | 全量 384 个运行文件：383 个逐文件一致、0 个内容不同、1 个已知缺失（`score/model/net/client_policy_model_v2.js`，7,038,938 B）；严格全等为 false，行为等价为 true（该文件未被运行入口引用）。部署后的 3 个策略文件见 `live-install/manifest.json` |
 | 宿主 | 无名杀 `lib.version = 1.11.7`；app package 1.11.0；核心在 `resources/app` |
 | 原方案源码参考 | `libnoname/noname b481b17552dd46e7d9ca805d5d7975b742168256` |
 | 重要差异 | 原方案的行号来自 b481b17 的 `apps/core/...`，不是本机 1.11.7 的 `character/*.js`；本轮全部按本机实际文件重新定位，未沿用旧行号 |
@@ -160,7 +160,7 @@
 
 - **原始行为**：`redimeng` 混合两名角色的手牌后，当前选择者用 `get.value(button.link, player)` 直接挑最高价值牌；人类同一界面是暗牌。
 - **复现**：混合池[桃,杀,闪,无中]，原生第一个选择者拿走桃+无中；同一局面同位置置换暗牌牌面后，原生选择索引随牌值改变（(3,0)/(1,2) → (1,2)/(0,3)）。
-- **修改**：`skillAIPolicies` 的 `chooseButton` 钩子在 `redimeng` 技能上下文中，把 AI 分数改成只依赖“按钮位置+玩家id”的稳定分数；不读牌面、不使用隐藏信息。分数函数自身不抛错，不调用原生看牌评分；resolver 失败时保留 `redimengMaskFailed` 计数，不宣称安全回退。
+- **修改**：`skillAIPolicies` 的 `chooseButton` 钩子在 `redimeng` 技能上下文中，把 AI 分数改成只依赖“按钮位置+玩家id”的稳定分数；不读牌面、不使用隐藏信息。分数函数自身不抛错，不调用原生看牌评分；若 resolver 失败，本轮无法确认上下文，原生 AI 仍可能看牌，这是明确的残余边界，不视为安全回退。
 - **正向**：真实宿主公平分配；置换牌面后两次选择索引一致（本轮 seed 20261030 下为 (2,3)/(0,1)）；`fairRedimeng=9`，`redimengMaskFailed=0`。
 - **反向**：人类选择者跳过；联机禁用接管时策略不安装；卸载还原；录像若重跑 AI，分数只依赖位置/玩家 id，同按钮顺序下可复现。
 - **注意**：该技能不在 142 清单内（活动武将/界鲁肃变体），但正是用户要求检查的“界鲁肃缔盟隐藏手牌”问题。宿主原生漏洞的最小建议：在 `redimeng` 的 chooseButton AI 里只在暗牌对选择者公开时使用 `get.value(button.link)`，否则用常量/随机；本轮不修改本体。

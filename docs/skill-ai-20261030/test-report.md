@@ -164,7 +164,7 @@ node tools/trick-real-host-smoke.mjs --mode versus --autoplay ...
 
 - 部署集合：`git diff --name-only 1fe5292..116af5f -- score js shadow css assets model extension.js info.json` 只有 3 个文件：`score/index.js`、`score/decision/skills/skillAIPolicies.js`、`score/decision/skills/skillAIPolicyRules.js`。
 - 安装前：安装目录 `score/index.js` 归一化 SHA256 = `a2fa58e4...`（与 v4.4.4 一致）；两个策略文件不存在。
-- 安装后：3 个文件与 `116af5f` 的 blob 一致；`live-install/manifest.json` 记录了 pre/post 哈希与备份路径。
+- 安装后：3 个文件与 `116af5f` 的 blob 一致；后续测试/文档提交不改变这 3 个运行时文件；`live-install/manifest.json` 记录了 pre/post 哈希与备份路径。
 - 用**安装目录本身**作为 extension-root 跑 41 个场景：`status=passed`、`errors=[]`；`policyStats`：`keptTao=18`、`keptShan=3`、`fairRedimeng=9`、`retuxiTargetBonus=14`、`olkongshengCostCalls=4`、`redimengMaskFailed=0`。
 - `policy-lifecycle`：true → uninstall false → reinstall true；`full-engine-lifecycle`：uninstall false → reinstall true，`error=null`。
 - 回滚：`python tools/rollback-skill-ai-live.py` 先打印计划，确认后加 `--apply`；会校验当前/备份哈希后再恢复/删除。
