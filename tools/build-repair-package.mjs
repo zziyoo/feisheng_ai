@@ -5,17 +5,27 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 const args = process.argv.slice(2);
 const option = name => { const i = args.indexOf('--' + name); return i < 0 ? null : args[i + 1]; };
-const GIT = 'C:/Users/32360/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/git/cmd/git.exe';
-const REPO = path.resolve(option('repo') || 'C:/Users/32360/.codex/worktrees/release-444/无名AI');
-const STAGE = path.resolve(option('stage') || 'C:/Users/32360/Desktop/repair-baseline/stage/feisheng-ai-skill-audit-repair-20261101');
-const EVIDENCE = path.resolve(option('evidence') || 'C:/Users/32360/Desktop/repair-baseline/evidence');
-const PRIOR = path.resolve('C:/Users/32360/Desktop/repair-baseline/zip/feisheng-ai-skill-audit-batch1-batch2');
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const GIT = option('git') || process.env.DJSC_GIT || 'git';
+const REPO = path.resolve(option('repo') || process.env.DJSC_REPO || path.join(HERE, '..'));
+const STAGE = path.resolve(option('stage') || path.join(REPO, '..', 'stage', 'feisheng-ai-skill-audit-repair-20261101'));
+const EVIDENCE = path.resolve(option('evidence') || process.env.DJSC_EVIDENCE || path.join(REPO, '..', 'repair-baseline', 'evidence'));
+const PRIOR = path.resolve(option('prior') || process.env.DJSC_PRIOR_PACKAGE || path.join(REPO, '..', 'zip', 'feisheng-ai-skill-audit-batch1-batch2'));
 const BASELINE = '3bb24347710c8fac192a0d96196a9a1f479a4af1';
+if (!fs.existsSync(PRIOR)) throw new Error('缺少前序批二包目录：' + PRIOR + '；请用 --prior 指定');
+if (!fs.existsSync(EVIDENCE)) throw new Error('证据目录不存在：' + EVIDENCE + '；请用 --evidence 指定');
 
-const git = (args2, opts = {}) => execFileSync(GIT, args2, { cwd: REPO, encoding: 'utf8', maxBuffer: 1024 * 1024 * 64, ...opts }).toString().trim();
+const git = (args2, opts = {}) => {
+	try {
+		return execFileSync(GIT, args2, { cwd: REPO, encoding: 'utf8', maxBuffer: 1024 * 1024 * 64, ...opts }).toString().trim();
+	} catch (error) {
+		throw new Error(`git 调用失败（${GIT}）：${error.message}；请安装 Git 或用 --git 指定`);
+	}
+};
 const HEAD = git(['rev-parse', 'HEAD']);
 const fileHash = file => {
 	const data = fs.readFileSync(file);
