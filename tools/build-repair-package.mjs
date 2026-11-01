@@ -15,7 +15,7 @@ const EVIDENCE = path.resolve(option('evidence') || 'C:/Users/32360/Desktop/repa
 const PRIOR = path.resolve('C:/Users/32360/Desktop/repair-baseline/zip/feisheng-ai-skill-audit-batch1-batch2');
 const BASELINE = '3bb24347710c8fac192a0d96196a9a1f479a4af1';
 
-const git = (args2, opts = {}) => execFileSync(GIT, args2, { cwd: REPO, encoding: 'utf8', ...opts }).toString().trim();
+const git = (args2, opts = {}) => execFileSync(GIT, args2, { cwd: REPO, encoding: 'utf8', maxBuffer: 1024 * 1024 * 64, ...opts }).toString().trim();
 const HEAD = git(['rev-parse', 'HEAD']);
 const fileHash = file => {
 	const data = fs.readFileSync(file);
@@ -59,6 +59,9 @@ for (const name of ['REPORT.md', 'test-report.md', 'next-batches.md', 'README.md
 fs.mkdirSync(path.join(STAGE, 'docs/live-install'), { recursive: true });
 for (const name of ['manifest.json', 'verification.json']) fs.copyFileSync(path.join(PRIOR, 'docs/live-install', name), path.join(STAGE, 'docs/live-install', name));
 for (const name of ['REPAIR-REPORT.md', 'COMMANDS.md']) fs.copyFileSync(path.join(REPO, 'docs', 'skill-ai-repair-20261101', name), path.join(STAGE, 'docs', name));
+/* COMMANDS.md 与批二包同构放在包根；docs/ 只保留 REPAIR-REPORT.md */
+fs.copyFileSync(path.join(REPO, 'docs', 'skill-ai-repair-20261101', 'COMMANDS.md'), path.join(STAGE, 'COMMANDS.md'));
+fs.rmSync(path.join(STAGE, 'docs', 'COMMANDS.md'), { force: true });
 for (const name of ['deployment-plan.md', 'source-review.md']) fs.copyFileSync(path.join(PRIOR, 'deployment', name), path.join(STAGE, 'deployment', name));
 // verify.py / 包内交付物
 fs.copyFileSync(path.join(PRIOR, 'verify.py'), path.join(STAGE, 'verify.py'));
@@ -152,6 +155,8 @@ for (const p of ['COMMANDS.md', 'verify.py']) {
 {
 	const hash = fileHash(path.join(STAGE, 'deployment/deployment-plan.md'));
 	files.push({ path: 'deployment/deployment-plan.md', size: hash.size, sha256: hash.sha256, commit: null, batch: '交付物', purpose: '第二批→安装目录部署计划（补修沿用，不改变部署方式）' });
+	const hash2 = fileHash(path.join(STAGE, 'deployment/source-review.md'));
+	files.push({ path: 'deployment/source-review.md', size: hash2.size, sha256: hash2.sha256, commit: null, batch: '交付物', purpose: '第二批源码交付前审查记录（补修沿用）' });
 }
 files.sort((a, b) => a.path.localeCompare(b.path));
 
@@ -170,7 +175,7 @@ const manifest = {
 		extension_version: '4.4.4',
 		host_version: '1.11.7',
 		prior_package: 'feisheng-ai-skill-audit-batch1-batch2（HEAD 3bb2434，2026-10-31 补修重发版）',
-		notes: 'source/ 与 tests/ 为 git show 导出的提交内容；docs/REPAIR-REPORT.md 与 docs/COMMANDS.md 为提交内容；evidence/ 为实际运行产物，不在 Git 内。',
+		notes: 'source/ 与 tests/ 为 git show 导出的提交内容；docs/REPAIR-REPORT.md 与 COMMANDS.md 为提交内容；evidence/ 为实际运行产物，不在 Git 内。',
 	},
 	files,
 };
