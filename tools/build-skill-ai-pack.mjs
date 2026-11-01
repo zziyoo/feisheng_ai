@@ -109,7 +109,7 @@ function readme(pack, config, evidenceNames) {
 
 - \`source/score/decision/skills/policyCore.js\`：共享核心（生命周期/备份/统计）
 - \`source/score/decision/skills/skillAIPolicies.js\`：共享 facade
-- \`source/score/decision/skills/skillAIPolicyPacks.js\`：共享注册表（当前仓库包含其他分包；独立集成见下）
+- \`source/score/decision/skills/skillAIPolicyPacks.js\`：只含本分包的注册表（独立解压可 import）
 - \`source/score/decision/skills/packs/${config.module}.js\`：本分包策略模块
 - \`source/score/decision/skills/rules/${config.rules}.js\`：本分包纯规则
 - \`integration/pack-only/skillAIPolicyPacks.js\`：只包含本分包的注册表
@@ -198,6 +198,8 @@ function buildPack(config) {
 
 	const packOnlyRegistry = `// Generated for ${config.id} (${pack.pack_name}); stage package.\n// @djsc-pack-imports-begin\nimport { pack as ${config.module} } from './packs/${config.module}.js?v=41a';\n// @djsc-pack-imports-end\n\nexport const SKILL_AI_PACKS = [\n\t// @djsc-pack-registry-begin\n\t${config.module},\n\t// @djsc-pack-registry-end\n];\n`;
 	write(stage, 'integration/pack-only/skillAIPolicyPacks.js', packOnlyRegistry);
+	/* source/ 只带本分包注册表，保证独立解压后 import 图完整；完整共享注册表不随包交付。 */
+	write(stage, 'source/score/decision/skills/skillAIPolicyPacks.js', packOnlyRegistry);
 
 	const evidenceNames = [];
 	for (const name of config.evidence) {
@@ -236,7 +238,7 @@ function buildPack(config) {
 		shared_files: {
 			'policyCore.js': sha(sourceOf('score/decision/skills/policyCore.js')),
 			'skillAIPolicies.js': sha(sourceOf('score/decision/skills/skillAIPolicies.js')),
-			'skillAIPolicyPacks.js': sha(sourceOf('score/decision/skills/skillAIPolicyPacks.js')),
+			'skillAIPolicyPacks.js': sha(Buffer.from(packOnlyRegistry)),
 		},
 		pack_files: {
 			[`packs/${config.module}.js`]: sha(sourceOf(`score/decision/skills/packs/${config.module}.js`)),
