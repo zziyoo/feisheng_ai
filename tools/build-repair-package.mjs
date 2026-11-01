@@ -127,6 +127,7 @@ const EVIDENCE_COPY = [
 	'postfix-range-native-multi2-partial.log',
 	'postfix-range-policy-startupfailure.json', 'postfix-range-policy-startupfailure.log',
 	'postfix-retest-policy.json', 'postfix-retest-policy.log',
+	'postfix-retest-extension.json', 'postfix-retest-extension.log',
 	'postfix-verify-native.log', 'postfix-verify-policy.log', 'postfix-verify-extension.log',
 	'postfix-node-regressions.log',
 ];
@@ -248,6 +249,8 @@ const EVIDENCE_BATCH = {
 	'postfix-range-policy-startupfailure.log': 'policy host init 超时运行日志',
 	'postfix-retest-policy.json': 'policy wuxie 单场景 host init 超时后的重跑成功记录',
 	'postfix-retest-policy.log': 'policy wuxie 单场景重跑日志',
+	'postfix-retest-extension.json': 'extension multi3 单场景 host-init 超时后的重跑成功记录',
+	'postfix-retest-extension.log': 'extension multi3 单场景重跑日志',
 	'postfix-verify-native.log': 'native postfix 程序化验收（14条）',
 	'postfix-verify-policy.log': 'policy postfix+retest 程序化验收（14条）',
 	'postfix-verify-extension.log': 'extension postfix 程序化验收日志',
