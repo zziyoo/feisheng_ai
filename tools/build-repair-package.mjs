@@ -65,6 +65,8 @@ fs.rmSync(path.join(STAGE, 'docs', 'COMMANDS.md'), { force: true });
 for (const name of ['deployment-plan.md', 'source-review.md']) fs.copyFileSync(path.join(PRIOR, 'deployment', name), path.join(STAGE, 'deployment', name));
 // verify.py / 包内交付物
 fs.copyFileSync(path.join(PRIOR, 'verify.py'), path.join(STAGE, 'verify.py'));
+/* 清单构建脚本本身（可复核构建过程），与批二包 build-manifest.mjs 同位 */
+fs.copyFileSync(path.join(REPO, 'tools', 'build-repair-package.mjs'), path.join(STAGE, 'build-repair-package.mjs'));
 
 // 2) patches：补修净 diff + 全量 diff（3bb2434 补修基线 与 v4.4.4 上游基线）
 const diffRepair = git(['diff', `${BASELINE}..HEAD`, '--binary', '--', 'score/decision/skills', 'tools/test-skill-ai-policies.mjs', 'tools/test-skill-ai-architecture.mjs', 'tools/skill-ai-hp-real-host.mjs', 'tools/bench-skill-ai-policies.mjs']);
@@ -157,6 +159,8 @@ for (const p of ['COMMANDS.md', 'verify.py']) {
 	files.push({ path: 'deployment/deployment-plan.md', size: hash.size, sha256: hash.sha256, commit: null, batch: '交付物', purpose: '第二批→安装目录部署计划（补修沿用，不改变部署方式）' });
 	const hash2 = fileHash(path.join(STAGE, 'deployment/source-review.md'));
 	files.push({ path: 'deployment/source-review.md', size: hash2.size, sha256: hash2.sha256, commit: null, batch: '交付物', purpose: '第二批源码交付前审查记录（补修沿用）' });
+	const hash3 = fileHash(path.join(STAGE, 'build-repair-package.mjs'));
+	files.push({ path: 'build-repair-package.mjs', size: hash3.size, sha256: hash3.sha256, commit: HEAD.slice(0, 7), batch: '交付物', purpose: '本清单生成脚本（可复核清单构建过程）' });
 }
 files.sort((a, b) => a.path.localeCompare(b.path));
 
