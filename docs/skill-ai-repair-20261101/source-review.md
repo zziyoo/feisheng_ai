@@ -105,9 +105,9 @@ far4-手杀不足、far4-八卦+闪两个场景实测均保留原生档位（付
 2. 各分包只 import `../policyCore.js`、自己的 `../rules/<pack>.js` 与安全适配；不 import 其他分包或规则聚合出口。
 3. `skillAIPolicyPacks.js` 是唯一合并点，带 `@djsc-pack-imports-*` / `@djsc-pack-registry-*` marker；集成脚本只追加自己的行。
 4. 技能归属唯一：当前注册表为 `rezhiheng`、`new_retuxi`、`qimou`、`reqimou`、`olkongsheng`、`redimeng`；架构测试检查无重复。
-5. 安装/卸载：核心按逆序恢复，仅当当前值仍是本层包装时恢复；分包卸载后重装已在宿主生命周期场景验证。
-6. 共享核心与目标版本不一致时，`apply-pack.mjs` 拒绝覆盖；多包共存/回滚已用临时扩展根验证（A→B，回滚 A 保留 B）。
+5. 安装/卸载：核心 `install()` 幂等，卸载按逆序恢复且仅当当前值仍是本层包装时恢复；注册表 import 与条目一一对应、无重复。分包卸载后重装已在宿主生命周期场景与 `test-pack-install` 验证。
+6. `apply-pack.mjs` 预检共享核心版本与注册表所有 `./packs/*.js` 导入，备份将被修改文件，失败（含 `DJSC_PACK_TEST_FAIL_AFTER` 注入）自动恢复；回滚仅撤销本包，回滚最后一个包保留空注册表以免 facade 卸载后加载失败。A/B 共存、乱序回滚、重复安装、共享核心冲突共 11 条回归全 PASS。
 7. 134 维模型、`info.json` 4.4.4、v2 未接线契约不变；分包 ZIP 内含只读契约测试。
 8. `hardcoded` 检查：`refresh_feng` 禁止 `player.attackRange` / `getCardUsable('sha') || 1`；`out_of_scope` 禁止 `get.value(button`；`shenhua_feng` 禁止 `reqimou` 混入。
 9. 证据：补修 21×3 场景最终未解决 0；历史超时与末次尝试失败在 ledger 中保留，未改断言。
-10. 交付边界：5 个阶段包均标记 `阶段性`，`complete_delivery=false`；没有任何分包被标记为完整可交付。
+10. 交付边界：四个未完成包保持 `阶段性`、`complete_delivery=false`；`out_of_scope` 在逐包验收通过后按 `可交付` 生成（最终 ZIP 生成并登记前不标 `已交付`）。

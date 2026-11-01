@@ -33,7 +33,7 @@ score/decision/skills/
 | `standard_2008` / `2013` / `2019` / `2023` | 标准包各版本组 | 正在审查 / 尚未开始 | 未打包 |
 | `shenhua_feng/huo/lin/shan/yin/lei` | 神话再临六包 | 部分修复 / 正在审查 / 尚未开始 | 未打包 |
 | `refresh_standard/feng/huo/lin/shan` | 界限突破五包 | 部分修复 / 正在审查 / 尚未开始 | 未打包 |
-| `out_of_scope` | 清单外角色（活动武将/界鲁肃 `redimeng`） | 验证完成 | 阶段性 |
+| `out_of_scope` | 清单外角色（活动武将/界鲁肃 `redimeng`） | 验证完成 | 可交付 |
 
 状态口径：
 
@@ -44,26 +44,28 @@ score/decision/skills/
 - 可交付：验证完成且测试/打包验收通过。
 - 已交付：已生成并登记可复核的完整交付包（不是阶段性包）。
 
-当前没有分包达到“可交付/已交付”：`out_of_scope` 的技能审查完成，但仍按阶段性包交付，等待外部集成验收；其余包仍有大量未审查技能。**阶段包不得冒充完整交付。**
+当前 `out_of_scope` 已完成全部登记技能审查、缺陷修复、无阻塞项，并通过实际 ZIP 的逐包验收，标记为 `可交付`；最终 ZIP 生成并登记后，待外部集成回执齐全再升级 `已交付`。其余四个代码包仍有未审查技能，保持 `阶段性`。**阶段包不得冒充完整交付。**
 
 ## 三、生成分包 ZIP
 
 ```bash
-node tools/build-skill-ai-pack.mjs --pack refresh_standard
-node tools/build-skill-ai-pack.mjs --all
+node tools/build-skill-ai-pack.mjs --pack refresh_standard \
+  --repo <无名AI仓库> --evidence <证据目录> \
+  --out <输出目录> --stage-root <staging目录>
+node tools/build-skill-ai-pack.mjs --all ...
 ```
 
-默认输出 `C:/Users/32360/Desktop/feisheng-ai-packs/`。构建器要求工作区干净（运行时文件用 `git show HEAD` 导出）；测试期可用 `--worktree-source`，但不得用于正式交付。
+构建器使用系统 PATH 中的 `git`（可用 `--git` 覆盖），仓库/证据/输出/stage 目录均可配置；默认仓库为脚本所在仓库根、默认输出为仓库同级 `feisheng-ai-packs/`。构建器要求工作区干净（运行时文件用 `git show HEAD` 导出）；测试期可用 `--worktree-source`，但不得用于正式交付。
 
 每个 ZIP 包含：
 
-- `source/`：本包策略模块、纯规则、共享核心、facade、完整注册表参考；不含其他分包代码。
+- `source/`：本包策略模块、纯规则、共享核心、facade、只含本包的注册表；不含其他分包代码，也不含完整共享注册表。
 - `contract/`：只读的 `features.js`、`dimensionAdapter.js`、`info.json`（134 维/版本契约）。
 - `integration/`：`apply-pack.mjs`、`rollback-pack.mjs`、只含本包的注册表。
 - `patches/`：基线→HEAD 的本包相关 diff、`score/index.js` diff。
 - `checklist.json` / `checklist.md`：本包全部目标武将、技能 ID、状态、实现、测试、证据摘要。
 - `tests/`：本包纯规则测试、分包架构/134 维测试、跨平台 verify 回归、宿主场景运行器；`run-pack-tests.mjs` 一键执行包内测试。
-- `evidence/`：本包相关原始产物（含超时/重跑/最终台账，不删失败）。
+- `evidence/`：本包相关原始产物（含超时/重跑/最终台账、独立诊断与逐包验收结果，不删失败）。
 - `manifest.json`：每个文件的尺寸、SHA256、提交、批次、用途。
 - `verify.py`：独立 SHA256/路径校验。
 - `README.md` / `COMMANDS.md`：集成、回滚、测试与限制。
@@ -77,11 +79,15 @@ node integration/rollback-pack.mjs --extension-root <无名AI根目录>
 ```
 
 - 目标必须已有策略 facade 接线；否则先应用 `patches/score-index.diff`。
-- 共享核心版本一致才复制；不一致时拒绝写入，避免覆盖其他开发者修改。
+- 安装前预检：共享核心版本一致、注册表所有 `./packs/*.js` 导入真实存在、目标文件不冲突。
+- 将被修改的注册表备份到 `<扩展>/.djsc-pack-backups/<pack>/`；写入使用临时文件+rename。
+- 任一步失败（含测试注入 `DJSC_PACK_TEST_FAIL_AFTER`）自动恢复安装前状态；未完成事务可在下次 apply 时自动清理。
 - 注册表存在时只在 marker 内追加；不存在时写只含本包的注册表。
-- 安装记录写入 `<扩展>/.djsc-pack-backups/<pack>/record.json`。
+- 重复安装幂等；同包已有安装记录且状态不一致时拒绝继续，避免覆盖。
 - 回滚只删除本包且未被修改的文件、只移除本包注册行；共享核心保留（可能被其他包复用）。
-- 多包共存已在临时扩展根验证：A→B 安装，回滚 A 保留 B，回滚 B 保留共享核心，重新安装 A 成功。
+- 回滚最后一个分包时保留带 marker 的空注册表，保证 facade 卸载后仍可加载。
+- 多包共存已在临时扩展根验证：A→B 安装，乱序回滚 A→B/B→A 均不复活已回滚包，重新安装成功；失败注入、共享核心冲突、注册表缺模块均有回归。
+- 逐包安装/回滚回归：`node tools/test-pack-install.mjs`（11 条 PASS）。
 
 ## 五、每个分包的验收
 
@@ -95,10 +101,22 @@ node integration/rollback-pack.mjs --extension-root <无名AI根目录>
 
 阶段包只能证明“已实现部分 + 证据”，不能证明整包完成；`checklist.md` 必须显示剩余未审查技能。
 
+逐包独立验收（实际 ZIP，不是仅跑共享核心单测）：
+
+```bash
+node tools/accept-skill-ai-pack.mjs --zip <pack.zip> --repo <仓库> --workdir <临时目录> \
+  --host-root <无名杀宿主> --browser <Chrome> --playwright <Playwright目录> \
+  --out <evidence>/accept-<pack>.json
+```
+
+验收内容：ZIP 解压与 `verify.py --zip/--dir`、包内测试、干净扩展副本单包安装、宿主真实加载、
+卸载/回滚后再次加载、重装、134 维契约哈希、注册表依赖；多 ZIP 一起传入时额外验证五包共存、
+他人注册行保留与乱序回滚。
+
 ## 六、当前证据与限制
 
 - 拆分后：`split-suite-native.json` 68 场景、`split-suite-policy.json` 69 场景、`split-suite-extension.json` 69 场景，均 passed、无 pageerror；`split-manual-ui.json` 8 用例/7 断言 PASS。
-- 分包化后 21×3 全量复核：policy 20/21、native 19/21（重跑 2/2 成功）、extension 19/21；policy blocked-far5 与 extension blocked-far5/multi3 仍是看门狗超时，未解决项为 1/0/2。不得据此宣称第二批无条件可合并；详见 REPAIR-REPORT 8.4。
+- 分包化后 21×3 全量复核（历史）：policy 20/21、native 19/21（重跑 2/2 成功）、extension 19/21；policy blocked-far5 与 extension blocked-far5/multi3 曾看门狗超时。独立诊断（REPAIR-REPORT 8.5）定位为夹具 `game.over` 陷阱：反贼全灭后宿主进入结算 UI，`die` 事件不返回；Worker 心跳/CDP CPU 证明不是策略死循环。运行器默认抑制 `game.over` 后完整重跑，原始超时日志仍保留。
 - 第二轮 21×3 场景（补修代码、pre-split）：最终未解决 0；历史超时 native/policy/extension = 9/2/1；末次尝试失败 1（native multi2，此前有成功）。见 `repair-acceptance-ledger.md`。
 - Android 真机长跑、完整 142 将验收仍是公开发版前置条件。
 - 阶段包不是可直接安装的完整扩展；不得把源码补丁 ZIP 冒充扩展包。

@@ -7,23 +7,33 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { CODE_PACKS } from './skill-ai-pack-config.mjs';
 
 const args = process.argv.slice(2);
 const option = name => { const i = args.indexOf('--' + name); return i < 0 ? null : args[i + 1]; };
-const GIT = 'C:/Users/32360/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/git/cmd/git.exe';
-const REPO = path.resolve(option('repo') || 'C:/Users/32360/.codex/worktrees/release-444/无名AI');
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const GIT = option('git') || process.env.DJSC_GIT || 'git';
+const REPO = path.resolve(option('repo') || process.env.DJSC_REPO || path.join(HERE, '..'));
 const TASK_PATH = path.join(REPO, 'docs', 'skill-ai-20261030', '142-task-list.json');
-const EVIDENCE = path.resolve(option('evidence') || 'C:/Users/32360/Desktop/repair-baseline/evidence');
-const OUT = path.resolve(option('out') || 'C:/Users/32360/Desktop/feisheng-ai-packs');
-const STAGE_ROOT = path.resolve(option('stage-root') || 'C:/Users/32360/Desktop/repair-baseline/pack-stage');
-const BASELINE = '1fe5292eb3022dd8d1db494617b21a12be912e61';
+const EVIDENCE = path.resolve(option('evidence') || process.env.DJSC_EVIDENCE || path.join(REPO, 'docs', 'skill-ai-repair-20261101', 'evidence'));
+const OUT = path.resolve(option('out') || process.env.DJSC_PACK_OUT || path.join(REPO, '..', 'feisheng-ai-packs'));
+const STAGE_ROOT = path.resolve(option('stage-root') || process.env.DJSC_PACK_STAGE || path.join(OUT, '.stage'));
+const BASELINE = option('baseline') || process.env.DJSC_BASELINE || '1fe5292eb3022dd8d1db494617b21a12be912e61';
 const ALL_REGISTERED = ['rezhiheng', 'new_retuxi', 'qimou', 'reqimou', 'olkongsheng', 'redimeng'];
 const useWorktree = args.includes('--worktree-source');
 const selected = option('pack') ? [option('pack')] : (args.includes('--all') ? CODE_PACKS.map(item => item.id) : []);
-if (!selected.length) throw new Error('usage: --pack <id> | --all');
+if (!selected.length) throw new Error('usage: --pack <id> | --all [--repo <dir>] [--evidence <dir>] [--out <dir>] [--stage-root <dir>] [--git <git>]');
+if (!fs.existsSync(TASK_PATH)) throw new Error(`仓库缺少任务清单：${TASK_PATH}；请用 --repo 指向无名AI仓库根目录`);
+if (!fs.existsSync(EVIDENCE)) throw new Error(`证据目录不存在：${EVIDENCE}；请用 --evidence 指定`);
 
-const git = (params, encoding = 'utf8') => execFileSync(GIT, params, { cwd: REPO, encoding, maxBuffer: 1024 * 1024 * 128 });
+const git = (params, encoding = 'utf8') => {
+	try {
+		return execFileSync(GIT, params, { cwd: REPO, encoding, maxBuffer: 1024 * 1024 * 128 });
+	} catch (error) {
+		throw new Error(`git 调用失败（${GIT}）：${error.message}；请安装 Git 或用 --git 指定可执行文件`);
+	}
+};
 const HEAD = git(['rev-parse', 'HEAD']).trim();
 const dirty = git(['status', '--porcelain']).trim();
 if (dirty && !useWorktree) throw new Error('工作区不干净；请先提交，或仅测试时使用 --worktree-source');
@@ -92,11 +102,16 @@ function checklistMarkdown(pack, records) {
 
 function readme(pack, config, evidenceNames) {
 	const missing = pack.counts.unreviewed_skills;
-	return `# ${pack.pack_name} · 无名AI 技能 AI 分包（阶段性）
+	const deliverable = !!pack.can_mark_deliverable && ['可交付', '已交付'].includes(pack.delivery_status);
+	const intro = deliverable
+		? `**完整可交付包。** 本包登记 ${pack.counts.characters} 名武将、${pack.counts.skills} 个技能已全部审查，缺陷已解决且无阻塞项；
+源码、完整回归、安装/卸载/回滚、文件校验均已通过。Android 真机长跑等公开发版门槛不因本包单独通过而解除。`
+		: `**阶段性包，不是完整交付。** 本包只交付已实现并有真实宿主证据的策略代码；
+当前登记 ${pack.counts.characters} 名武将、${pack.counts.skills} 个技能，仍有 ${missing} 个技能未审查。
+只有这些技能全部审查、缺陷解决且无阻塞项后，才能标记完整可交付。`;
+	return `# ${pack.pack_name} · 无名AI 技能 AI 分包（${deliverable ? '可交付' : '阶段性'}）
 
-> **阶段性包，不是完整交付。** 本包只交付已实现并有本轮真实宿主证据的策略代码；
-> 当前登记 ${pack.counts.characters} 名武将、${pack.counts.skills} 个技能，仍有 ${missing} 个技能未审查。
-> 只有这些技能全部审查、缺陷解决且无阻塞项后，才能标记完整可交付。
+> ${intro}
 
 - 分包 ID：\`${pack.pack_id}\`
 - 分包状态：\`${pack.review_status}\`
@@ -128,6 +143,11 @@ node integration/apply-pack.mjs --extension-root <无名AI根目录>
 脚本只新增本分包文件，并在共享注册表的 \`@djsc-pack-*\` marker 内追加一行；
 共享核心与目标版本不一致时拒绝覆盖并退出，避免覆盖其他开发者修改。
 若目标没有注册表，会写入只含本分包的注册表。多个分包同时启用时，后续分包只追加自己的注册行。
+安装前会预检注册表引用的模块是否存在，并把将被修改的注册表备份到 \`.djsc-pack-backups/<pack>/\`；
+任一步写入失败会恢复安装前状态。重复安装为幂等操作。
+
+回滚只撤销本包安装记录内且未被他人修改的文件，并只移除本包的注册行；不会覆盖其他分包或开发者后续修改。
+回滚最后一个分包时保留带 marker 的空注册表，保证共享 facade 仍可加载；共享核心不会被删除。
 
 回滚：
 
@@ -148,13 +168,19 @@ python verify.py --zip <本包.zip>      # 全文件 SHA256
 宿主场景（需要完整无名杀宿主与 Playwright）：
 
 \`\`\`bash
+# hp-real-host 只识别其 SCENARIOS 表中的 qimou/reqimou/qiangxi/kurou 等场景；
+# 第一批场景（rezhiheng/retuxi/redimeng/olkongsheng 等）用 smoke 的完整套件。
 node tests/skill-ai-hp-real-host.mjs --mode identity --variant policy --scenarios "$(node -e "console.log(require('./pack.json').scenes.join(','))")" --host-root <宿主> --extension-root <扩展> --browser <Chrome> --playwright <Playwright> --output policy.json
 node tests/trick-real-host-smoke.mjs --mode identity --skill-ai --skill-ai-policy --host-root <宿主> --extension-root <扩展> --browser <Chrome> --playwright <Playwright>
 \`\`\`
 
+运行器默认抑制宿主 \`game.over\` 胜负对话框（\`--allow-game-over\` 可关闭）；技能机制场景不测试胜负 UI。\`--trace\` 打开 Worker 心跳、CDP 进程 CPU 与阶段 mark。
+
 ## 证据与限制
 
 包内 \`evidence/\` 为原始运行产物；\`evidence/acceptance-ledger.json\`（若存在）逐场景列出初次成功、超时失败、重跑与最终未解决数量。
+逐包/共存验收结果由 \`tools/accept-skill-ai-pack.mjs\` 对**实际 ZIP** 生成，随交付目录的 \`accept-<pack>.json\`、\`accept-combined.json\`、\`pack-acceptance-matrix.md\` 提供（不放进包内，避免 ZIP 自引用导致哈希漂移）。
+宿主运行器默认抑制宿主 \`game.over\` 胜负对话框（\`--allow-game-over\` 可关闭），技能机制场景不测试胜负 UI；这是夹具控制，不改变技能或断言。
 本包不宣称长期性能、全 142 将完成或 Android 长跑通过；这些仍是后续发布门槛。
 
 ## 文件完整性
@@ -214,13 +240,14 @@ function buildPack(config) {
 		}
 	}
 
+	const deliverable = !!pack.can_mark_deliverable && ['可交付', '已交付'].includes(pack.delivery_status);
 	const packJson = {
 		schema_version: '1.0',
 		id: config.id,
 		name: pack.pack_name,
 		group: pack.pack_group,
-		delivery_stage: '阶段性',
-		complete_delivery: false,
+		delivery_stage: deliverable ? '可交付' : '阶段性',
+		complete_delivery: deliverable,
 		pack_status: pack.review_status,
 		delivery_status: pack.delivery_status,
 		can_mark_deliverable: pack.can_mark_deliverable,
@@ -238,8 +265,8 @@ function buildPack(config) {
 		shared_files: {
 			'policyCore.js': sha(sourceOf('score/decision/skills/policyCore.js')),
 			'skillAIPolicies.js': sha(sourceOf('score/decision/skills/skillAIPolicies.js')),
-			'skillAIPolicyPacks.js': sha(Buffer.from(packOnlyRegistry)),
 		},
+		registry_template_sha256: sha(Buffer.from(packOnlyRegistry)),
 		pack_files: {
 			[`packs/${config.module}.js`]: sha(sourceOf(`score/decision/skills/packs/${config.module}.js`)),
 			[`rules/${config.rules}.js`]: sha(sourceOf(`score/decision/skills/rules/${config.rules}.js`)),
@@ -276,10 +303,13 @@ function buildPack(config) {
 		'宿主场景（需要完整无名杀宿主与 Playwright）：',
 		'```bash',
 		`SC="${config.scenes.join(',')}"`,
-		'node tests/skill-ai-hp-real-host.mjs --mode identity --variant policy --scenarios "$SC" --host-root <宿主> --extension-root <扩展> --browser <Chrome> --playwright <Playwright> --output policy.json',
+		'for v in native policy extension; do',
+		'  node tests/skill-ai-hp-real-host.mjs --mode identity --variant $v --scenarios "$SC" --host-root <宿主> --extension-root <扩展> --browser <Chrome> --playwright <Playwright> --output $v.json',
+		'done',
 		'node tests/trick-real-host-smoke.mjs --mode identity --skill-ai --skill-ai-policy --host-root <宿主> --extension-root <扩展> --browser <Chrome> --playwright <Playwright>',
 		'```', '',
-		'集成本包：`node integration/apply-pack.mjs --extension-root <扩展> --dry-run`，确认后再执行；回滚：`node integration/rollback-pack.mjs --extension-root <扩展>`。',
+		'运行器默认抑制宿主 `game.over` 胜负对话框（`--allow-game-over` 可关闭）；技能机制场景不测试胜负 UI。`--trace` 打开 Worker 心跳/CDP CPU/阶段 mark。',
+		'集成本包：`node integration/apply-pack.mjs --extension-root <扩展> --dry-run`，确认后再执行；apply 会预检注册表依赖、备份将被修改文件并在失败时恢复。回滚：`node integration/rollback-pack.mjs --extension-root <扩展>`；回滚最后一个包保留空注册表，共享核心不删除。',
 	].join('\n') + '\n');
 
 	const patchPaths = [
@@ -343,10 +373,10 @@ function buildPack(config) {
 			name: `feisheng-ai-${config.id.replace(/_/g, '-')}`,
 			pack_id: config.id,
 			pack_name: pack.pack_name,
-			delivery_stage: '阶段性',
+			delivery_stage: deliverable ? '可交付' : '阶段性',
 			pack_status: pack.review_status,
 			delivery_status: pack.delivery_status,
-			complete_delivery: false,
+			complete_delivery: deliverable,
 			target_skills: pack.target_skills,
 			implemented_skills: config.implementedSkills,
 			head: HEAD,
@@ -387,14 +417,20 @@ if (fs.existsSync(deliveryPath)) {
 delivery.packs ||= [];
 for (const result of results) {
 	const entry = delivery.packs.find(item => item.pack_id === result.pack_id) || { pack_id: result.pack_id };
+	const pack = taskPacks[result.pack_id];
+	const deliverable = !!pack.can_mark_deliverable && ['可交付', '已交付'].includes(pack.delivery_status);
+	const status = pack.delivery_status === '未打包' ? (deliverable ? '可交付' : '阶段性') : pack.delivery_status;
 	Object.assign(entry, {
-		status: '阶段性',
-		delivery_status: '阶段性',
+		status,
+		delivery_status: status,
 		zip_name: path.basename(result.zip),
 		zip_sha256: result.zip_sha256,
 		zip_size: result.zip_size,
 		built_at: new Date().toISOString(),
 	});
+	entry.note = deliverable
+		? '完整可交付包：本包登记技能已全部审查、无阻塞项，安装/卸载/回滚/宿主加载验收通过。'
+		: (entry.note || '阶段包：仍有登记技能未审查，不可标记完整交付。');
 	if (!delivery.packs.includes(entry)) delivery.packs.push(entry);
 }
 fs.writeFileSync(deliveryPath, JSON.stringify(delivery, null, 2) + '\n');

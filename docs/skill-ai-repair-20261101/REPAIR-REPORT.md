@@ -15,6 +15,7 @@
 | P1-2 支付档位与实际攻击目标不一致 | **已修复**（改为全回合收益档位 + 净收益闸） | `skillAIPolicyRules.js` `reqimouKillBenefit` + `reqimouOptimalX` 机会成本 |
 | P2 `getCardUsable` 返回 Infinity | **已修复**（四态处理） | `skillAIPolicies.js` `_reqimouBaseUses`；规则层 `interpretBaseUses` |
 | 人类手动操作回归缺失 | **已补齐**（真实 UI 点击路径） | 新增 `tools/reqimou-manual-ui.mjs`（7 用例） |
+| 分包化后 reqimou/blocked-far5 超时 | **已定位为夹具 `game.over` 陷阱并修正**；不是策略缺陷 | `tools/skill-ai-hp-real-host.mjs` 默认抑制胜负 UI；Worker 心跳/CDP CPU/事件栈证据 |
 
 ## 二、原始证据与复现
 
@@ -160,6 +161,9 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
   - `feisheng-ai-shenhua-lei.zip`
   - `feisheng-ai-out-of-scope.zip`
   它们都不是完整分包交付；未验证技能见各包 `checklist.md`。`apply-pack.mjs`/`rollback-pack.mjs` 已在临时扩展根上验证两包先后安装、回滚 A 保留 B、回滚 B 保留共享核心、重新安装 A。
+- 安装/回滚事务化（2026-11-01 深夜补修）：apply 先预检注册表所有 `./packs/*.js` 导入真实存在、备份将被修改的注册表，再用临时文件+rename 写入；失败（含 `DJSC_PACK_TEST_FAIL_AFTER` 注入）自动恢复安装前状态，未完成事务下次 apply 自动清理。回滚只撤销本包内容；回滚最后一个分包时保留带 marker 的空注册表，避免 facade 卸载后模块加载失败。`node tools/test-pack-install.mjs` 11 条全 PASS（失败注入、重复安装、A/B 共存、乱序回滚、共享核心冲突、注册表缺模块、他人修改保护）。
+- 打包器去本机路径硬编码：使用 PATH 中 `git`，仓库/证据/输出/stage 目录均可用 `--repo/--evidence/--out/--stage-root`（或 `DJSC_*` 环境变量）配置；不再要求其他开发者具备本机 Codex 路径。
+- 逐包验收工具 `tools/accept-skill-ai-pack.mjs`：对**实际 ZIP** 解压、`verify.py --zip/--dir`、包内测试、干净扩展副本单包安装、宿主真实加载、卸载后再次加载、重装、134 维契约哈希、注册表依赖；多 ZIP 模式额外验证五包共存、他人注册行保留与乱序回滚。不能用主审查包或共享核心单测替代逐包验收。
 - 拆分后宿主回归：`split-suite-native.json`（68 场景）、`split-suite-policy.json`（69 场景）、`split-suite-extension.json`（69 场景）均 `passed`、无 pageerror；`split-manual-ui.json` 8 用例/7 断言全 PASS（人类输入、托管隔离、对话框内卸载、卸载/重装字节级还原）。Node 回归与包内契约见 `repair-node-tests.json`、`repair-package-tests.log`。
 
 ### 8.4 分包化后的全量复核（2026-11-01 晚）
@@ -172,7 +176,27 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
 | native | 19/21 | 2 | `reqimou-blocked-far5-...`、`reqimou-multi2-pay1-killa` | `split-retest-native.json` 2/2 成功 | 0 |
 | extension | 19/21 | 2 | `reqimou-blocked-far5-...`、`reqimou-multi3-pay2-killab` | blocked-far5 重跑仍超时；multi3 重跑未完成（进程被停止，无 JSON） | 2 |
 
-`split-manual-ui.json` 8 用例/7 断言全 PASS。分包化后复核没有放宽任何断言；上述 3 个未解决项均为宿主启动/长回合看门狗超时，不是断言失败，但**不能据此宣称第二批已无条件可合并**。历史补修台账（8.1）仍是 final-unresolved 0（基于补修提交 pre-split 证据）；本条给出分包化后的独立复核缺口，二者分开报告。
+`split-manual-ui.json` 8 用例/7 断言全 PASS。分包化后复核没有放宽任何断言；上述 3 个未解决项均为宿主启动/长回合看门狗超时，不是断言失败，但**不能据此宣称第二批已无条件可合并**。历史补修台账（8.1）仍是 final-unresolved 0（基于补修提交 pre-split 证据）；本条给出分包化后的独立复核缺口，二者分开报告。上述未解决项已在 8.5 用独立诊断定位为夹具 `game.over` 陷阱并修正；修正后的 21×3 完整重跑结果见 8.5。
+
+### 8.5 reqimou 超时独立诊断与夹具修正（2026-11-01 深夜）
+
+8.4 的 3 个未解决项不能继续用“看门狗抖动”解释。本轮先修诊断工具，再做可复现归因：
+
+- 旧版看门狗在页面里直接读 `_status`，但页面只暴露 `realHost._status`；`page.evaluate` 的 ReferenceError 被 `.catch(() => {})` 吞掉，历史 `[hp][watchdog]` 状态实际是盲的。现改为 `realHost._status`，并增加 2s 事件栈 ticker。
+- 独立于页面主线程的证据：blob Worker 每 500ms 用绝对 origin `fetch` 心跳到 Node；Node 侧用 CDP `SystemInfo.getProcessInfo` 每秒采样浏览器/渲染进程累计 CPU。二者默认开启（`--no-diag` 可关），因此完整批次失败也会留下心跳/CPU；`--trace` 额外记录宿主就绪、场景开始、`game.loop`、`phaseUse`、技能、`chooseNumbers`、`loseHp`、`useCard`、`recover`、`die` 等阶段 mark。长套件另可用 `--browser-restart-every N` 每 N 场景重启浏览器，排除累积渲染进程状态。
+- `reqimou-multi3`（extension）稳定复现：Worker 在 60s 内送达 122 次心跳（最大间隔 1.543s），主线程未同步卡死；最后事件栈为 `die → dying → damage → sha → useCard → chooseToUse → phaseUse → hpScene`，`aliveFans=0`，3 次 `op:die`；`diag-ext-multi3-nosentinel-fastfail.json` 记录到宿主 `game.over` 调用。渲染进程在最后 mark 后 100.9s 仅增 10.918s CPU（约 10.8%），属于空闲等待而非死循环。
+- 根因是**夹具**把三个反贼全部击杀，宿主进入 `game.over` 胜负结算 UI，随后 `die` 事件不返回；不是 reqimou 策略循环，也不是分包共享核心重复包装。`reqimou-blocked-far5` 在未修正夹具的批次里同样可能杀光反贼，因此 native/policy/extension 都可能偶发；native 与 policy 的同场景 trace 均多次通过。
+- 最小夹具修正：`tools/skill-ai-hp-real-host.mjs` 默认抑制 `game.over` 对话框（`--allow-game-over` 可关闭），并保留 `fixture-stalled-in-die-after-last-enemy` 快速失败守卫。**不修改技能、AI 或断言**；反贼全灭后主循环仍结束，支付/击杀断言照常执行。曾试验的高血量 sentinel 反贼不充分（xinkuanggu 抽杀可继续击杀），已移除。
+- 拆包前后对比：用 `d396e10` 的 pre-split `skillAIPolicies.js`/`skillAIPolicyRules.js` 叠加到当前扩展（其余模块同源），相同 seed、相同场景运行；与 post-split 结果一致，未发现拆分导致的安装顺序/重复包装回归。共享核心 `install()` 幂等、注册表 import/条目一一对应、卸载只在当前包装仍是本层时恢复，已加入 16 条架构测试。
+- policy 首轮完整重跑在场景 12（clampsave）的主机初始化 `page.waitForFunction` 30s 超时，20/21 完成；该失败发生在场景开始前，不是断言失败。日志/JSON 保留为 `postfix-range-policy-startupfailure.*`。随后用 `--browser-restart-every 1`（每个场景新浏览器）重跑，以排除累积渲染进程状态；结果见台账。
+- 修正后 native 完整重跑 21/21：其中 `reqimou-blocked-far5` 与 `reqimou-multi3` 各触发 1 次 `game.over` 并被夹具抑制，随后 `phaseUse`/`game.loop` 正常结束；支付分别为 4/3，native 断言 14 条全 PASS。policy/extension 的完整重跑结果见台账与 `postfix-range-{policy,extension}.json`。
+| 变体 | 场景 | 通过 | 超时 | 其他失败 | 未解决 | 备注 |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| native | 21 | 21 | 0 | 0 | 0 | blocked-far5/multi3 各 1 次 game.over 被抑制；14 条验收 PASS |
+| policy | 21 | 20 | 0 | 1（host init） | 0 | 首轮 wuxie 在场景前 host init 30s 超时；单场景重跑通过；14 条验收 PASS |
+| extension | 21 | 20 | 0 | 1（host init） | 0 | 首轮 multi3 在场景前 host init 90s 超时；单场景重跑通过；14 条验收 PASS |
+
+- 修正后完整 21 场景 × 3 变体见 `postfix-range-{native,policy,extension}.json`；结果与历史失败分列于 `repair-acceptance-ledger.md`，不删除 `postfix-range-native-presuppress-partial.log` 与 `split-range-*` 中的超时记录。
 
 ## 九、部署与回滚
 

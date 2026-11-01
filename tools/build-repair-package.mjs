@@ -64,6 +64,8 @@ const TEST_MAP = [
 	'verify-repair-outcomes.mjs', 'run-node-regressions.mjs', 'bench-skill-ai-policies.mjs',
 	'test-policy-model-v2-reachability.mjs', 'build-skill-ai-task-list.py', 'rollback-skill-ai-live.py',
 	'build-skill-ai-acceptance-ledger.mjs', 'run-package-tests.mjs', 'test-verify-zip.py',
+	'test-pack-install.mjs', 'accept-skill-ai-pack.mjs', 'run-pack-acceptance-all.mjs',
+	'build-pack-acceptance-matrix.mjs',
 ];
 for (const name of TEST_MAP) exportFile('tools/' + name, 'tests/' + name);
 for (const name of ['build-skill-ai-pack.mjs', 'skill-ai-pack-config.mjs', 'zip-package.py']) {
@@ -110,7 +112,17 @@ const EVIDENCE_COPY = [
 	'split-retest-native.json', 'split-retest-policy.json', 'split-manual-ui.json',
 	'repair-manual-ui.json', 'repair-node-tests.json', 'repair-mode-doudizhu.json', 'repair-mode-versus.json',
 	'repair-verify-zip.log',
+	'postfix-range-native.json', 'postfix-range-policy.json', 'postfix-range-extension.json',
+	'postfix-range-native-presuppress-partial.log',
+	'postfix-range-native-multi2-partial.log',
+	'postfix-range-policy-startupfailure.json', 'postfix-range-policy-startupfailure.log',
+	'postfix-retest-policy.json', 'postfix-retest-policy.log',
+	'postfix-verify-native.log', 'postfix-verify-policy.log', 'postfix-verify-extension.log',
+	'postfix-node-regressions.log',
 ];
+for (const name of fs.readdirSync(EVIDENCE).filter(name => /^accept-.*\.json$/.test(name))) EVIDENCE_COPY.push(name);
+for (const name of ['accept-all-summary.json', 'pack-acceptance-matrix.json', 'pack-acceptance-matrix.md']) if (fs.existsSync(path.join(EVIDENCE, name))) EVIDENCE_COPY.push(name);
+for (const name of fs.readdirSync(EVIDENCE).filter(name => /^diag-.*\.json$/.test(name))) EVIDENCE_COPY.push(name);
 for (const name of EVIDENCE_COPY) {
 	const src = path.join(EVIDENCE, name);
 	if (fs.existsSync(src)) fs.copyFileSync(src, path.join(STAGE, 'evidence', name));
@@ -161,7 +173,11 @@ const PURPOSE = {
 	'tests/build-skill-ai-task-list.py': '142将技能级/分包级清单生成器（schema 4.0）',
 	'tests/rollback-skill-ai-live.py': '第一批试验安装回滚脚本',
 	'tests/build-skill-ai-acceptance-ledger.mjs': '逐场景尝试合并台账生成器',
-	'tests/run-package-tests.mjs': '包内可执行测试入口（纯规则+架构）',
+	'tests/test-pack-install.mjs': '分包安装/回滚事务性回归（11条：失败注入/重复安装/共存/乱序回滚）',
+	'tests/accept-skill-ai-pack.mjs': '实际分包 ZIP 独立验收（解压/安装/宿主加载/回滚/共存/134维契约）',
+	'tests/run-pack-acceptance-all.mjs': '五包最终 ZIP 逐包+共存验收批处理',
+	'tests/build-pack-acceptance-matrix.mjs': '分包验收矩阵生成器',
+	'tests/run-package-tests.mjs': '包内可执行测试入口（纯规则+架构+安装回滚）',
 	'tests/test-verify-zip.py': 'verify.py --zip 跨平台路径回归',
 	'pack-tools/build-skill-ai-pack.mjs': '分包 ZIP 构建器（可复核构建过程）',
 	'pack-tools/skill-ai-pack-config.mjs': '分包代码/证据/场景配置',
@@ -213,7 +229,23 @@ const EVIDENCE_BATCH = {
 	'repair-package-tests.log': '包内测试入口运行日志（构建时实际执行）',
 	'repair-verify-zip-regression.log': 'verify.py 跨平台回归日志（构建时实际执行）',
 	'repair-verify-zip.log': 'verify.py --zip 回归日志',
+	'postfix-range-native.json': '夹具修正后 21 场景完整重跑（原生对照）',
+	'postfix-range-policy.json': '夹具修正后 21 场景完整重跑（仅策略层）',
+	'postfix-range-extension.json': '夹具修正后 21 场景完整重跑（完整扩展）',
+	'postfix-range-native-presuppress-partial.log': '夹具修正前的 native 21 场景运行日志（第9场景失败后中止；保留历史失败）',
+	'postfix-range-native-multi2-partial.log': '夹具修正前 native 全量运行在 multi2 卡住的日志（保留历史失败）',
+	'postfix-range-policy-startupfailure.json': 'policy 全量重跑的 host init 30s 超时记录（场景前失败，保留）',
+	'postfix-range-policy-startupfailure.log': 'policy host init 超时运行日志',
+	'postfix-retest-policy.json': 'policy wuxie 单场景 host init 超时后的重跑成功记录',
+	'postfix-retest-policy.log': 'policy wuxie 单场景重跑日志',
+	'postfix-verify-native.log': 'native postfix 程序化验收（14条）',
+	'postfix-verify-policy.log': 'policy postfix+retest 程序化验收（14条）',
+	'postfix-verify-extension.log': 'extension postfix 程序化验收日志',
+	'postfix-node-regressions.log': '本轮 41 项 Node 回归日志',
 };
+for (const name of fs.readdirSync(EVIDENCE).filter(name => /^diag-.*\.json$/.test(name))) {
+	EVIDENCE_BATCH[name] = '独立主线程诊断证据（Worker 心跳/CDP CPU/事件栈/阶段 mark，原始产物）';
+}
 const files = [];
 const walk = rel => {
 	const full = path.join(STAGE, rel);

@@ -77,6 +77,16 @@ check('共享核心不包含任何具体技能名，生命周期可逆', () => {
 	assert(/__djscSkillPolicy/.test(core));
 	assert(/installed = false/.test(core));
 });
+check('共享核心安装幂等，注册表导入与条目一一对应且无重复', () => {
+	const core = read('score/decision/skills/policyCore.js');
+	assert(/if \(installed\) return;/.test(core), '重复安装必须直接返回');
+	const registry = read('score/decision/skills/skillAIPolicyPacks.js');
+	const imports = [...registry.matchAll(/import\s*\{\s*pack as\s+([A-Za-z0-9_$]+)\s*\}/g)].map(match => match[1]);
+	const entries = [...registry.matchAll(/^\s*([A-Za-z0-9_$]+),\s*$/gm)].map(match => match[1]);
+	assert.equal(new Set(imports).size, imports.length, 'import 别名不得重复');
+	assert.equal(new Set(entries).size, entries.length, '注册条目不得重复');
+	assert.deepEqual(new Set(imports), new Set(entries), 'import 与条目必须一一对应');
+});
 check('奇谋分包只放宽阻塞且不复制技能规则', () => {
 	const source = packSource('shenhuaFeng');
 	assert(source.includes('shouldBypassQimouCountBlock'));

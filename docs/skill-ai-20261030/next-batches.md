@@ -20,7 +20,7 @@
 - 验证无问题：标准黄盖 `kurou`、界黄盖 `rekurou`/`zhaxiang`、典韦 `qiangxix`、界典韦 `olqiangxi`（各自独立页面完整回合，原生分层已合理）。
 - 未验证：魏延/界魏延的 `xinkuanggu`（仅在奇谋结算中被顺带观察）、界典韦 `olninge`。
 - 变体核对：`qiangxi`（旧版，无主属武将）、`xinqiangxi`、手杀 `reqiangxi` 不在 142 清单内，未改动；`sbkurou` 未测。
-- 测试设施：`tools/skill-ai-hp-real-host.mjs` 独立页面运行器 + 90s 看门狗；击杀场景需保留≥2个反贼座位，否则宿主 game.over 挂起（已记录）。
+- 测试设施：`tools/skill-ai-hp-real-host.mjs` 独立页面运行器 + 看门狗；技能机制夹具默认抑制宿主 `game.over` 胜负对话框（`--allow-game-over` 可关闭）。若把所有反贼杀光，宿主会提前进入结算 UI 且 `die` 事件不返回；这是夹具问题，不是策略缺陷。看门狗现在用 `realHost._status` 读取事件栈，并用 Worker 心跳/CDP CPU 区分主线程卡死与空闲等待；反贼全灭陷阱会快速失败为 `fixture-stalled-in-die-after-last-enemy`。
 
 ## 分包交付自动流程（长期要求）
 
@@ -28,10 +28,13 @@
 
 1. 先更新该分包技能级状态与证据；只有全部目标技能审查完成、缺陷解决且无阻塞，才把分包标记为“验证完成/可交付”。
 2. 跑该包相关真实宿主场景（native/policy/extension）、包内纯规则+架构/134维、verify.py 跨平台回归、其他已交付包回归。
-3. 执行 `node tools/build-skill-ai-pack.mjs --pack <pack-id>`；构建器只导出本包代码与共享核心，生成 checklist、证据、manifest、SHA256 和集成/回滚脚本。
-4. 若仍有未验证技能，只能交付 `delivery_stage=阶段性` 的包；不得标记完整可交付。
-5. 将 ZIP、SHA256、提交 SHA、集成/回滚说明交给其他开发者；不要把整仓库、模型权重或训练数据打包。
-6. 集成用 `integration/apply-pack.mjs`，回滚用 `integration/rollback-pack.mjs`；共享核心冲突时拒绝覆盖，按 patch 合并。
+3. 执行 `node tools/build-skill-ai-pack.mjs --pack <pack-id> --repo <仓库> --evidence <证据> --out <输出> --stage-root <staging>`；构建器使用 PATH 中 git，只导出本包代码与共享核心，生成 checklist、证据、manifest、SHA256 和集成/回滚脚本。
+4. 对**实际 ZIP** 跑 `node tools/accept-skill-ai-pack.mjs --zip <zip> ...`：解压、包内测试、干净扩展副本单包安装、宿主加载、卸载/回滚、重装、134 维契约；多个 ZIP 一起跑共存与乱序回滚。不能用共享核心单测替代逐包验收。
+5. 若仍有未验证技能，只能交付 `delivery_stage=阶段性` 的包；不得标记完整可交付。证据齐全时按“可交付”生成完整包；生成并登记最终 ZIP 后才可进入“已交付”。
+6. 将 ZIP、SHA256、提交 SHA、集成/回滚说明交给其他开发者；不要把整仓库、模型权重或训练数据打包。
+7. 集成用 `integration/apply-pack.mjs`（预检/备份/事务恢复），回滚用 `integration/rollback-pack.mjs`（只撤销本包、保留共享核心与空注册表）；共享核心冲突时拒绝覆盖，按 patch 合并。
+
+当前优先级：先把已审查完成的 `out_of_scope` 交给其他开发者做集成测试；其余四个阶段包继续按技能级清单推进。下一完整目标是 **神话再临·风**：完成全部 12 个登记技能的逐项审查后再生成完整交付包。
 
 ## 第三批：信息范围审计（优先）
 

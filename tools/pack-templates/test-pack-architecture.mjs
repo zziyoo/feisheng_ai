@@ -13,7 +13,8 @@ let passed = 0;
 const check = (name, fn) => { fn(); passed++; console.log('PASS', name); };
 
 check('包元数据与目标技能一致', () => {
-	assert.equal(pack.delivery_stage, '阶段性');
+	assert(['阶段性', '可交付', '已交付'].includes(pack.delivery_stage));
+	assert.equal(pack.complete_delivery, pack.delivery_stage !== '阶段性');
 	assert(Array.isArray(pack.implemented_skills) && pack.implemented_skills.length);
 	assert(pack.target_skills.includes(pack.implemented_skills[0]));
 });

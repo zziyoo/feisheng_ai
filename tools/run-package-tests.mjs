@@ -55,6 +55,16 @@ try {
 			console.log((error.stdout || '') + (error.stderr || ''));
 		}
 	}
+	try {
+		const out = execFileSync(process.execPath, [path.join(TESTS, 'test-pack-install.mjs')], {
+			cwd: PKG, encoding: 'utf8', timeout: 180000,
+		});
+		console.log('PASS test-pack-install.mjs :: ' + (out.trim().split('\n').pop() || ''));
+	} catch (error) {
+		failed++;
+		console.log('FAIL test-pack-install.mjs');
+		console.log((error.stdout || '') + (error.stderr || ''));
+	}
 } finally {
 	fs.rmSync(temp, { recursive: true, force: true });
 }
@@ -63,4 +73,4 @@ if (failed) {
 	console.log('FAILURES:', failed);
 	process.exit(1);
 }
-console.log('ALL PASS (package-level: 2 suites; 41 repo/host suites require full repository)');
+console.log('ALL PASS (package-level: 3 suites; 41 repo/host suites require full repository)');

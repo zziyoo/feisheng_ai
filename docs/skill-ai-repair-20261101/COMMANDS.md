@@ -12,7 +12,7 @@ PW="C:/Users/32360/.cache/codex-runtimes/codex-primary-runtime/dependencies/node
 ## 0. 包内可直接运行（仅需 Node，无需完整仓库/浏览器）
 
 ```bash
-node tests/run-package-tests.mjs     # 纯规则 42 条 + 架构/134维契约 15 条
+node tests/run-package-tests.mjs     # 纯规则 42 条 + 架构/134维契约 16 条 + 安装/回滚 11 条
 python tests/test-verify-zip.py      # verify.py --zip 跨平台路径回归（POSIX/Windows 反斜杠/重复成员/尺寸）
 python verify.py                     # 校验解压目录
 python verify.py --zip feisheng-ai-skill-audit-repair-20261101.zip
@@ -22,7 +22,8 @@ python verify.py --zip feisheng-ai-skill-audit-repair-20261101.zip
 
 ```bash
 node --experimental-vm-modules tools/test-skill-ai-policies.mjs        # 42 PASS（含补修 12 条）
-node --experimental-vm-modules tools/test-skill-ai-architecture.mjs    # 15 PASS（含分包归属/134维契约）
+node --experimental-vm-modules tools/test-skill-ai-architecture.mjs    # 16 PASS（含分包归属/134维契约/注册表唯一性）
+node tools/test-pack-install.mjs                                      # 11 PASS（失败注入/重复安装/共存/乱序回滚/冲突）
 node tools/run-node-regressions.mjs                                    # 批一 41 项 Node 回归聚合
 node tools/bench-skill-ai-policies.mjs                                 # 微基准（含 reqimou 支付评估）
 node tools/test-policy-model-v2-reachability.mjs --root "$EXT"         # v2 不可达取证
@@ -36,12 +37,24 @@ SC="qimou-far4-3sha-hp3,qimou-far3-2sha-hp2,qimou-far4-3sha-hp4,reqimou-near1-2s
 for v in native policy extension; do
   node tools/skill-ai-hp-real-host.mjs --mode identity --variant $v --scenarios "$SC" --watchdog-ms 150000 \
     --host-root "$HOST" --extension-root "$EXT" --browser "$CHROME" --playwright "$PW" \
-    --seed 20261030 --output repair-range-$v.json
-  node tools/verify-repair-outcomes.mjs --evidence repair-range-$v.json --variant $v
+    --seed 20261030 --output postfix-range-$v.json
+  node tools/verify-repair-outcomes.mjs --evidence postfix-range-$v.json --variant $v
 done
-# 看门狗超时属启动/时长抖动（批二包 flaky-retest 惯例）：单独重跑同场景并以
-# --evidence 多文件合并验收（后者优先），见 REPAIR-REPORT 第七节。
+# 运行器默认抑制宿主 game.over 胜负对话框（--allow-game-over 可关闭）：
+# 技能机制场景若把所有反贼杀光，宿主会提前进入结算 UI，die 事件不返回；
+# 这是夹具问题，不是策略缺陷。Worker 心跳/CDP CPU 默认开启（--no-diag 关闭）；
+# --trace 额外记录事件栈 ticker、技能/chooseNumbers/loseHp/useCard/game.loop 阶段 mark。
+# 长套件可用 --browser-restart-every N 每 N 场景重启浏览器，排除累积渲染进程状态；
+# 宿主初始化单独用 --init-timeout-ms（默认 90s，与场景 watchdog 分开），并输出 [hp][init] 阶段日志；
+# 夹具陷阱会以 fixture-stalled-in-die-after-last-enemy 快速失败，不再等满看门狗。
+node tools/skill-ai-hp-real-host.mjs --mode identity --variant extension \
+  --scenario reqimou-multi3-pay2-killab --watchdog-ms 90000 --seed 20261030 --trace \
+  --host-root "$HOST" --extension-root "$EXT" --browser "$CHROME" --playwright "$PW" \
+  --output diag-ext-multi3.json
 ```
+
+历史超时/重跑不删除：`postfix-range-native-presuppress-partial.log` 保留夹具修正前的失败尝试；
+最终报表以 `repair-acceptance-ledger.md` 的 initial/retest/postfix 分列。不能只提高超时阈值或反复重跑直到成功。
 
 ## 3. 人类手动操作回归（真实点击路径）
 
@@ -69,19 +82,35 @@ node tools/trick-real-host-smoke.mjs --mode identity --skill-ai --skill-ai-polic
   --host-root "$HOST" --extension-root "$EXT" --browser "$CHROME" --playwright "$PW" --output repair-suite-policy.json
 ```
 
-## 6. 合并验收台账与分包
+## 6. 合并验收台账、分包构建与逐包验收
 
 ```bash
 node tools/build-skill-ai-acceptance-ledger.mjs \
   --evidence-dir "C:/Users/32360/Desktop/repair-baseline/evidence" \
   --out "C:/Users/32360/Desktop/repair-baseline/evidence/repair-acceptance-ledger.json"
+node tools/build-pack-acceptance-matrix.mjs \
+  --dir "C:/Users/32360/Desktop/repair-baseline/evidence" \
+  --out "C:/Users/32360/Desktop/repair-baseline/evidence/pack-acceptance-matrix.json"
 
-node tools/build-skill-ai-pack.mjs --pack refresh_standard   # 单包（干净工作区）
-node tools/build-skill-ai-pack.mjs --all                     # 全部分包阶段包
-node tools/build-skill-ai-pack.mjs --all --worktree-source   # 仅测试，不用于正式交付
+# 构建器使用 PATH 中 git；仓库/证据/输出/stage 均可配置
+node tools/build-skill-ai-pack.mjs --pack refresh_standard \
+  --repo "$EXT" --evidence "C:/Users/32360/Desktop/repair-baseline/evidence" \
+  --out "C:/Users/32360/Desktop/feisheng-ai-packs" \
+  --stage-root "C:/Users/32360/Desktop/repair-baseline/pack-stage"
+node tools/build-skill-ai-pack.mjs --all ...   # 全部分包阶段包
+node tools/build-skill-ai-pack.mjs --all ... --worktree-source   # 仅测试，不用于正式交付
+
+# 实际 ZIP 逐包验收（解压/包内测试/干净副本安装/宿主加载/卸载/重装/134维）
+node tools/accept-skill-ai-pack.mjs --zip <pack.zip> --repo "$EXT" \
+  --host-root "$HOST" --browser "$CHROME" --playwright "$PW" \
+  --workdir <临时目录> --out <evidence>/accept-<pack>.json
+# 多 ZIP 一起传：额外验证共存、他人注册行保留、乱序回滚
+node tools/accept-skill-ai-pack.mjs --zip a.zip --zip b.zip ... --out accept-combined.json
 ```
 
-分包 ZIP 默认输出 `C:/Users/32360/Desktop/feisheng-ai-packs/`；每包内含集成/回滚脚本、checklist、原始证据、manifest 与 verify.py。
+分包 ZIP 默认输出到仓库同级 `feisheng-ai-packs/`；每包内含集成/回滚脚本、checklist、原始证据、manifest 与 verify.py。
+`apply-pack.mjs` 预检注册表依赖并备份将被修改文件；失败自动恢复，重复安装幂等；回滚最后一个包保留空注册表。
+`DJSC_PACK_TEST_FAIL_AFTER=<n>` 仅用于失败注入测试。
 
 ## 7. 完整性校验与打包
 

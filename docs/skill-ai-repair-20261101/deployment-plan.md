@@ -35,8 +35,8 @@
    - 记录 `score/index.js` SHA256。
 2. 从 HEAD（或补修包 `source/`）复制上述 14 个文件到安装目录对应路径；`score/index.js` 仅在 SHA 一致时保留。
 3. 校验：逐文件 SHA256 与 `manifest.json` 一致；启动游戏，确认策略层 installed、无 pageerror。
-4. 若只集成某个分包，使用该分包 ZIP 的 `integration/apply-pack.mjs`，不要手工覆盖共享核心；两包共存时后装包只追加注册行。
-5. 回滚：还原备份文件并删除新增文件；或使用分包 ZIP 的 `integration/rollback-pack.mjs` 按安装记录回滚。整包回滚到 `3bb2434`：还原 `skillAIPolicies.js`/`skillAIPolicyRules.js`，删除新增核心/分包文件。
+4. 若只集成某个分包，使用该分包 ZIP 的 `integration/apply-pack.mjs --dry-run` 先看变更，再执行；它预检共享核心版本与注册表 `./packs/*.js` 依赖，备份将被修改的注册表，写入失败自动恢复；两包共存时后装包只追加注册行，重复安装幂等。
+5. 回滚：还原备份文件并删除新增文件；或使用分包 ZIP 的 `integration/rollback-pack.mjs` 按安装记录回滚（只撤销本包；回滚最后一个包保留空注册表，共享核心不删除）。整包回滚到 `3bb2434`：还原 `skillAIPolicies.js`/`skillAIPolicyRules.js`，删除新增核心/分包文件。
 
 ## 三、安装后验证
 
@@ -48,7 +48,8 @@
 
 ## 四、回滚
 
-- 分包级：`node integration/rollback-pack.mjs --extension-root <扩展>`；只删本包文件与注册行，保留共享核心和其他包。
+- 分包级：`node integration/rollback-pack.mjs --extension-root <扩展>`；只删本包文件与注册行，保留共享核心、其他包和带 marker 的空注册表。
+- 实际分包 ZIP 用 `tools/accept-skill-ai-pack.mjs` 做逐包验收：解压、`verify.py`、包内测试、干净副本安装、宿主加载、卸载后再次加载、重装与 134 维契约；多包一起传验证共存与乱序回滚。
 - 整包级：还原备份的 `skillAIPolicies.js`/`skillAIPolicyRules.js`，删除 `policyCore.js`、`skillAIPolicyPacks.js`、`packs/`、`rules/` 新增文件；`score/index.js` 若已一致则无需改动。
 - 任何回滚前先记录安装目录当前 SHA256；不要删除用户未提交的配置文件或其他扩展。
 
