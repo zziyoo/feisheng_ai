@@ -64,7 +64,26 @@ check('第二批奇谋策略只放宽阻塞且不改技能规则', () => {
 	assert(/Number\(native\) > 0 && targets\.length/.test(source));
 	assert(/!reqimouNeedsPayment\(targets\)/.test(source));
 	assert(source.includes('reqimouInfeasible'));
-	assert(/candidate > maxPayment\) continue/.test(rules));
+	/* 2026-11-01 补修：自救上限只在 reqimouOptimalX 内生效（有自救→life，无自救→hp-1），
+	 * 不可承受的档位仍绝不截断；自救牌只读自己手牌 canSaveCard */
+	assert(/selfRescue > 0 \? life : Math\.max\(1, life - 1\)/.test(rules));
+	assert(rules.includes('reqimouKillBenefit'));
+	assert(/player\.canSaveCard\(card, player\)/.test(source));
+	assert(!/getCardUsable\('sha'\) \|\| 1/.test(rules));
+});
+check('2026-11-01 补修：出杀次数四态与收益档位契约', () => {
+	const source = read('score/decision/skills/skillAIPolicies.js');
+	const rules = read('score/decision/skills/skillAIPolicyRules.js');
+	/* P2：宿主层必须原样放行 Infinity，不得把无限次数折成 1 */
+	assert(/num === Infinity\) \{[\s\S]{0,120}?return Infinity;/.test(source));
+	assert(rules.includes('interpretBaseUses'));
+	/* P1-2：档位必须按“最大确定击杀收益的最小档位”选取，预算=min(手杀,次数) */
+	assert(/for \(let x = 1; x <= maxPayment; x\+\+\)/.test(rules));
+	assert(/Math\.min\(sha, uses\)/.test(rules));
+	/* gate 与 clamp 都要传 saveCount */
+	const gateCall = source.match(/reqimouOptimalX\(\{[^}]*\}\)/g) || [];
+	assert(gateCall.length >= 2, 'gate 与 clamp 都调用 reqimouOptimalX');
+	for (const call of gateCall) assert(call.includes('saveCount'), 'reqimouOptimalX 调用必须传 saveCount: ' + call);
 });
 check('v2 模型未接线，运行时只有 v3', () => {
 	const extension = read('extension.js');

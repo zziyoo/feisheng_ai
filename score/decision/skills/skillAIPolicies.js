@@ -15,7 +15,9 @@ import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore
  * - 界张辽突袭：按公开手牌数比较目标收益（只对敌人）。
  * - 界魏延奇谋：杀次数未用完但目标在射程外时，若支付能兑换成击杀则放宽原生阻塞。
  * - OL界魏延奇谋：目标贴脸且一发杀可收割时不支付；支付档位收紧为
- *   max(1, 达距所需, 击杀所需)，上限 hp-1。
+ *   “兑现最大确定击杀收益的最小档位”——无自救牌上限 hp-1，手中有可自救的桃/酒
+ *   时允许支付全部体力（濒死后自救，与原生 processAI 同路线）；
+ *   出杀次数区分有限/0/Infinity（连弩），Infinity 不构成支付理由。
  * - 其他技能不注册，完全走宿主原生 AI。
  */
 
@@ -37,6 +39,7 @@ function _freshStats() {
 		retuxiTargetBonus: 0,
 		olkongshengCostCalls: 0, olkongshengCompatible: null,
 		qimouBypass: 0, reqimouGateSkip: 0, reqimouInfeasible: 0, reqimouClamp: 0, reqimouClampCalls: 0,
+		reqimouSelfRescue: 0, reqimouInfiniteUses: 0,
 		calls: 0, last: [],
 	};
 }
@@ -114,10 +117,33 @@ function _reqimouBaseUses(player) {
 	try {
 		if (typeof player.getCardUsable === 'function') {
 			const num = Number(player.getCardUsable('sha'));
-			if (Number.isFinite(num) && num >= 1) return num;
+			/* 1.11.7 getCardUsable = 修正后 usable − 本回合已用：
+			 * 连弩/无限杀技能返回 Infinity，用完后返回 0 或负数。
+			 * Infinity 是真实形态，绝不能回退成 1，否则次数已无限的 AI
+			 * 会误判“还需支付换次数”而无意义支付体力（2026-11-01 补修 P2）。 */
+			if (num === Infinity) {
+				_stats.reqimouInfiniteUses++;
+				return Infinity;
+			}
+			if (Number.isFinite(num)) return Math.max(0, Math.floor(num));
 		}
 	} catch (e) {}
 	return 1;
+}
+
+/* 自己手牌中的可自救牌数（桃/酒等 canSaveCard 为真的牌）。
+ * 只读自己的手牌，不读其他玩家隐藏手牌；读取失败一律按 0（无自救）保守处理。
+ * 与原生 gate 的 `player.countCards("hs", card => player.canSaveCard(card, player))` 同口径。 */
+function _reqimouSaveCount(player) {
+	try {
+		if (typeof player.countCards === 'function' && typeof player.canSaveCard === 'function') {
+			const n = Number(player.countCards('hs', card => {
+				try { return !!player.canSaveCard(card, player); } catch (e) { return false; }
+			}));
+			if (Number.isFinite(n) && n > 0) return Math.floor(n);
+		}
+	} catch (e) {}
+	return 0;
 }
 
 function _reqimouAttackRange(player) {
@@ -134,6 +160,7 @@ function _reqimouAttackRange(player) {
 
 function _reqimouTargets(player) {
 	const baseUses = _reqimouBaseUses(player);
+	const saveCount = _reqimouSaveCount(player);
 	return _aliveEnemiesAndOthers(player).map(target => {
 		let record = null;
 		try {
@@ -145,6 +172,7 @@ function _reqimouTargets(player) {
 				attackRange: _reqimouAttackRange(player),
 				hp: target.hp,
 				baseUses,
+				saveCount,
 			};
 		} catch (e) { record = null; }
 		return record;
@@ -187,7 +215,8 @@ function _hookQimouActivation() {
 	} catch (e) {}
 }
 
-/* OL界魏延【奇谋 reqimou】gate：目标贴脸且一发杀可收割时不支付。 */
+/* OL界魏延【奇谋 reqimou】gate：目标贴脸且一发杀可收割时不支付；
+ * 手杀可击杀但任何可承受支付（含自救上限）都兑现不了时也阻止。 */
 function _hookReqimouGate() {
 	try {
 		const info = lib.skill && lib.skill.reqimou;
@@ -204,11 +233,14 @@ function _hookReqimouGate() {
 						_stats.reqimouGateSkip++;
 						return 0;
 					}
-					/* 手杀足以击杀、但任何可承受支付都无法兑现（如距离4/攻击范围1/体力3）：
-					 * 原生会支付 hp-1 仍打不到，属无收益发动 → 阻止。 */
+					/* 手杀足以击杀、但任何可承受支付都无法兑现（如距离4/攻击范围1/体力3且无自救牌）：
+					 * 原生会支付 hp-1 仍打不到，属无收益发动 → 阻止。
+					 * saveCount>0 时档位上限放宽到全部体力（濒死后自救），见 reqimouOptimalX。 */
 					const shaCount = player.countCards('hs', card => _cardName(card, player) === 'sha');
+					const saveCount = _reqimouSaveCount(player);
+					if (saveCount > 0) _stats.reqimouSelfRescue++;
 					if (reqimouKillableByHand(shaCount, targets)
-						&& reqimouOptimalX({ hp: player.hp, shaCount, baseUses: _reqimouBaseUses(player), targets }) == null) {
+						&& reqimouOptimalX({ hp: player.hp, shaCount, baseUses: _reqimouBaseUses(player), saveCount, targets }) == null) {
 						_stats.reqimouInfeasible++;
 						return 0;
 					}
@@ -222,8 +254,9 @@ function _hookReqimouGate() {
 	} catch (e) {}
 }
 
-/* OL界魏延【奇谋 reqimou】支付档位：把 processAI 的 hp-1 收紧为
- * max(1, 达距所需, 击杀所需)，上限 hp-1；找不到可击杀目标时保留原生档位。 */
+/* OL界魏延【奇谋 reqimou】支付档位：把 processAI 的 hp-1/hp 收紧为
+ * “兑现最大确定击杀收益的最小档位”（上限见 reqimouOptimalX：无自救 hp-1，有自救可付满）；
+ * 找不到可兑现档位时保留原生档位；人类路径一律不 clamp。 */
 function _hookReqimouNumbers() {
 	try {
 		const info = lib.skill && lib.skill.reqimou;
@@ -248,6 +281,7 @@ function _hookReqimouNumbers() {
 								const optimal = reqimouOptimalX({
 									hp: player.hp, shaCount,
 									baseUses: _reqimouBaseUses(player),
+									saveCount: _reqimouSaveCount(player),
 									targets: _reqimouTargets(player),
 								});
 								if (optimal != null && result && Array.isArray(result.numbers) && result.numbers.length) {

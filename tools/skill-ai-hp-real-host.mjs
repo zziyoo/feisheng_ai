@@ -99,6 +99,23 @@ const SCENARIOS = {
 	'reqimou-far4-hp4-2sha-hp2-kongcheng': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 260], ['sha', 'heart', 261]], target: { index: 4, hp: 2, skills: ['kongcheng'] } },
 	'reqimou-blocked-far4-hp3-3sha-tao-hp2': { skills: ['reqimou', 'xinkuanggu'], hp: 3, hand: [['sha', 'spade', 262], ['sha', 'heart', 263], ['sha', 'club', 264], ['tao', 'heart', 265]], target: { index: 4, hp: 2 } },
 	'reqimou-blocked-far5-hp4-3sha-tao-hp2-horse': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 266], ['sha', 'heart', 267], ['sha', 'club', 268], ['tao', 'heart', 269]], target: { index: 4, hp: 2, equips: [['jueying', 'spade', 270]] } },
+	/* ===== 2026-11-01 审查补修场景 ===== */
+	/* P1：酒同样可濒死自救（canSaveCard 自救口径），原生付4 → 自救 → 击杀；策略档位上限同步放宽。 */
+	'reqimou-far5-hp4-3sha-jiu-hp2-horse': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 271], ['sha', 'heart', 272], ['sha', 'club', 273], ['jiu', 'spade', 274]], target: { index: 4, hp: 2, equips: [['jueying', 'spade', 275]] } },
+	/* P1 反向：桃位换成无懈（不可自救）；唯一敌人就是远距离目标（fanSeats=[4]），
+	 * 原生 mindist=4<5 不发动；策略付4必死，同样不发动。 */
+	'reqimou-far5-hp4-3sha-wuxie-hp2-horse': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 276], ['sha', 'heart', 277], ['sha', 'club', 278], ['wuxie', 'spade', 279]], fanSeats: [4], target: { index: 4, hp: 2, equips: [['jueying', 'spade', 280]] } },
+	/* P1：有自救但小档位足够 → clamp 收紧原生“付满”：付3即可达距且兑现3血击杀（距离4）。 */
+	'reqimou-far4-hp4-3sha-tao-hp3-clampsave': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 281], ['sha', 'heart', 282], ['sha', 'club', 283], ['tao', 'heart', 284]], target: { index: 4, hp: 3 } },
+	/* P2：诸葛连弩（无限杀次数）+ 远处2血目标：支付只按距离需要，1+3次足够击杀。 */
+	'reqimou-crossbow-far4-3sha-hp2': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 285], ['sha', 'heart', 286], ['sha', 'club', 287]], weapon: ['zhuge', 'spade', 288], target: { index: 4, hp: 2 } },
+	/* P2 反向：连弩+贴脸2血目标：次数已无限、距离可达 → 策略 gate 必须跳过（不为其无意义支付）；
+	 * 原生 gate 会放行并支付 hp-1（记录为已修正差异，见 test-report）。 */
+	'reqimou-crossbow-near1-2sha-hp2-idleskip': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 289], ['sha', 'heart', 290]], weapon: ['zhuge', 'spade', 291], target: { index: 1, hp: 2 } },
+	/* P1-2 双目标：A(座位1)距离1血1、B(座位4)距离4血3、3杀 → 付1兑现A；B在该档位不可及。 */
+	'reqimou-multi2-pay1-killa': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 292], ['sha', 'heart', 293], ['sha', 'club', 294]], fanSeats: [1, 4], targets: [{ index: 1, hp: 1 }, { index: 4, hp: 3 }] },
+	/* P1-2 三目标：A(d1,1血) B(d3,2血) C(d3,2血)、4杀 → 付2兑现 A+B 两杀。 */
+	'reqimou-multi3-pay2-killab': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 295], ['sha', 'heart', 296], ['sha', 'club', 297], ['sha', 'diamond', 298]], fanSeats: [1, 3, 5], targets: [{ index: 1, hp: 1 }, { index: 3, hp: 2 }, { index: 5, hp: 2 }] },
 	'reqimou-far4-2sha-hp4-defense': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 232], ['sha', 'heart', 233]], target: { index: 4, hp: 4, equip: ['bagua', 'spade', 234], hand: [['shan', 'diamond', 235], ['shan', 'club', 236], ['tao', 'heart', 237]] } },
 	'qiangxix-2hp-target1-save': { skills: ['qiangxix'], hp: 2, target: { index: 1, hp: 1, hand: [['tao', 'heart', 238]] } },
 	'qiangxix-2hp-target2': { skills: ['qiangxix'], hp: 2, target: { index: 1, hp: 2 } },
@@ -222,11 +239,16 @@ try {
 				const playerTag = player => player.playerid + ':' + (player.name1 || player.name || '?');
 				const all = game.players.slice();
 				const actor = all[0];
-				const target = config.target ? all[config.target.index] : null;
+				const seatOf = player => all.indexOf(player);
+				const fanSeats = new Set((config.fanSeats || [4, 5]).filter(index => index < all.length));
+				const targetSpecs = config.targets && config.targets.length
+					? config.targets
+					: (config.target ? [config.target] : []);
+				const target = targetSpecs.length ? all[targetSpecs[0].index] : null;
+				const targets = targetSpecs.map(spec => all[spec.index]);
 				const resetAll = async () => {
-					/* 主公+忠臣+至少两个远处反贼：击杀目标不会触发“反贼全灭”的 game.over。 */
-					const backupFanSeats = new Set([4, 5].filter(index => index < all.length));
-					const seatOf = player => all.indexOf(player);
+					/* 主公+忠臣+至少两个远处反贼：击杀目标不会触发“反贼全灭”的 game.over。
+					 * 2026-11-01 补修：fanSeats/targets 可配置，用于多目标 reqimou 场景。 */
 					for (const player of all) {
 						player.clearSkills(true);
 						player.dead = false;
@@ -239,8 +261,8 @@ try {
 						player.stat = [{ card: {}, skill: {}, triggerSkill: {} }];
 						player.awakenedSkills = [];
 						if (player === actor) player.identity = 'zhu';
-						else if (target && player === target) player.identity = 'fan';
-						else player.identity = backupFanSeats.has(seatOf(player)) ? 'fan' : 'zhong';
+						else if (fanSeats.has(seatOf(player))) player.identity = 'fan';
+						else player.identity = 'zhong';
 						player.identityShown = true;
 						try { player.setIdentity(player.identity); } catch (e) {}
 						player.update();
@@ -294,24 +316,44 @@ try {
 				await resetAll();
 				const actorProbe = instrument(actor);
 				const targetProbe = target ? instrument(target) : null;
+				/* reqimou 支付探针：content 先设置 storage.reqimou2 再 loseHp(支付值)。
+				 * 只记录支付值；支付后可攻击目标集合由验证脚本按
+				 * distance − paid ≤ attackRange（及 usableIgnoringDistance）确定性推导，
+				 * 不在结算栈内做同步读局，避免探针与 mod/触发器链重入。 */
+				const reqimouPayments = [];
+				const originalActorLoseHp = actor.loseHp;
+				actor.loseHp = function (...values) {
+					try {
+						if (this.storage && typeof this.storage.reqimou2 === 'number') {
+							reqimouPayments.push({ paid: this.storage.reqimou2, hpBefore: this.hp });
+						}
+					} catch (e) {}
+					return originalActorLoseHp.apply(this, values);
+				};
 				for (const skill of config.skills || []) actor.addSkill(skill);
 				actor.hp = config.hp || 4;
 				actor.maxHp = config.maxHp || 4;
 				await give(actor, config.hand);
 				if (config.weapon) await actor.equip(card(...config.weapon));
 				for (const equip of config.actorEquips || []) await actor.equip(card(...equip));
-				if (target) {
-					target.hp = config.target.hp || 4;
-					target.maxHp = config.target.maxHp || 4;
-					await give(target, config.target.hand);
-					if (config.target.equip) await target.equip(card(...config.target.equip));
-					for (const equip of config.target.equips || []) await target.equip(card(...equip));
-					for (const skill of config.target.skills || []) target.addSkill(skill);
-					target.update();
+				for (const [spec, targetPlayer] of targetSpecs.map((spec, i) => [spec, targets[i]])) {
+					targetPlayer.hp = spec.hp || 4;
+					targetPlayer.maxHp = spec.maxHp || 4;
+					await give(targetPlayer, spec.hand);
+					if (spec.equip) await targetPlayer.equip(card(...spec.equip));
+					for (const equip of spec.equips || []) await targetPlayer.equip(card(...equip));
+					for (const skill of spec.skills || []) targetPlayer.addSkill(skill);
+					targetPlayer.update();
 				}
 				actor.update();
 				const before = {
 					actor: snapshot(actor), target: target ? snapshot(target) : null,
+					enemies: all.filter(p => p !== actor && fanSeats.has(seatOf(p))).map(p => ({
+						seat: seatOf(p), ...snapshot(p),
+						distance: get.distance(actor, p),
+						currentlyInRange: !!actor.canUse('sha', p),
+						canUseIgnoringDistance: !!actor.canUse('sha', p, false),
+					})),
 					distance: target ? get.distance(actor, target) : null,
 					attackDistance: target ? get.distance(actor, target, 'attack') : null,
 					attackRange: typeof actor.getAttackRange === 'function' ? (() => { try { return actor.getAttackRange(); } catch (e) { return null; } })() : null,
@@ -388,6 +430,7 @@ try {
 				if (restoreChooseCard) restoreChooseCard();
 				const after = {
 					actor: snapshot(actor), target: target ? snapshot(target) : null,
+					enemies: all.filter(p => p !== actor && fanSeats.has(seatOf(p))).map(p => ({ seat: seatOf(p), ...snapshot(p) })),
 					dead: game.dead.map(playerTag),
 					policyStats: policyModule ? policyModule.skillAIPolicyStats() : null,
 				};
@@ -397,6 +440,7 @@ try {
 					scenario: name,
 					mode: get.mode(),
 					before, after, debug,
+					reqimouPayments,
 					actorOps: actorProbe.log,
 					targetOps: targetProbe ? targetProbe.log : [],
 					error: null,

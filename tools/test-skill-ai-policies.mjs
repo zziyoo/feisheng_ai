@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus, qimouTargetX, shouldBypassQimouCountBlock, reqimouNeedsPayment, reqimouOptimalX, reqimouKillableByHand } from '../score/decision/skills/skillAIPolicyRules.js';
+import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus, qimouTargetX, shouldBypassQimouCountBlock, reqimouNeedsPayment, reqimouOptimalX, reqimouKillableByHand, reqimouKillBenefit, interpretBaseUses } from '../score/decision/skills/skillAIPolicyRules.js';
 
 let passed = 0;
 const check = (name, fn) => {
@@ -229,6 +229,83 @@ check('奇谋OL：支付不超过 hp-1 且低体力一律回退原生', () => {
 		targets: [{ effect: 1, canUseIgnoringDistance: true, distance: 1, attackRange: 1, hp: 1 }],
 	}), null, '1血支付会致死，回退原生');
 	assert.equal(reqimouOptimalX({ hp: 0, shaCount: 5, baseUses: 1, targets: [] }), null);
+});
+
+/* ===== 2026-11-01 审查补修：自救上限 / 收益档位 / 无限杀次数 ===== */
+const mk = (distance, hp, range = 1) => ({ effect: 1, canUseIgnoringDistance: true, distance, attackRange: range, hp });
+
+check('补修P1：有自救牌时允许支付全部体力兑现击杀（审查复现正向）', () => {
+	/* 审查场景 reqimou-blocked-far5-hp4-3sha-tao-hp2-horse：
+	 * 体力4、3杀、1桃、目标距离5(+1马)、攻击范围1、2血。
+	 * 原生：付4 → 濒死 → 桃自救回1 → 距离5-4=1 → 3杀击杀2血。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, saveCount: 1, targets: [mk(5, 2)] }), 4);
+	/* 体力3、距离4、3杀、1桃 → 付3（2026-10-31 证据中 gate 曾误拦，AI 仅靠先吃桃绕过） */
+	assert.equal(reqimouOptimalX({ hp: 3, shaCount: 3, baseUses: 1, saveCount: 1, targets: [mk(4, 2)] }), 3);
+});
+check('补修P1：没有自救牌时绝不支付全部体力（审查复现反向）', () => {
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, saveCount: 0, targets: [mk(5, 2)] }), null, '无桃付4=必死，保持阻止');
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, targets: [mk(5, 2)] }), null, '未传自救牌按0处理');
+});
+check('补修P1：自救牌只在更小档位兑现不了时才用满（不因有桃就付满）', () => {
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, saveCount: 1, targets: [mk(2, 2)] }), 1, '付1即可兑现，不付满');
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, saveCount: 2, targets: [mk(2, 2)] }), 1, '多张自救牌也不加价');
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, saveCount: 2, targets: [mk(5, 2)] }), 4, '需要时付满，但不超过全部体力');
+});
+check('补修P1：自救收益档位吃掉击杀预算（付满换击杀而非平白掉血）', () => {
+	/* 体力4、1桃、3杀、目标距离1、3血：距离在范围内，档位由次数决定
+	 * （基础1次+付x ≥ 3次 → x=2），付满4不会带来更多击杀（目标只有1个）→ 最小档2。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, saveCount: 1, targets: [mk(1, 3)] }), 2);
+});
+check('补修P1-2：档位与全回合收益绑定，收益不变时不加价', () => {
+	/* A距离1血1（档位1）、B距离4血3（档位3）、3杀：任意档位最多兑现1杀 → 取最小档1。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, targets: [mk(1, 1), mk(4, 3)] }), 1);
+	/* 4杀时付3能兑现 A+B 两杀（1+3=4≤预算min(4,4)）→ 档位升到3。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 4, baseUses: 1, targets: [mk(1, 1), mk(4, 3)] }), 3);
+	/* 三目标：A(d1,1血) B(d3,2血) C(d3,2血)、4杀 → 付2兑现 A+B 两杀。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 4, baseUses: 1, targets: [mk(1, 1), mk(3, 2), mk(3, 2)] }), 2);
+});
+check('补修P1-2：预算不足时不宣称爆发收益（min(手杀,次数) 封顶）', () => {
+	/* A(d1,1血) B(d4,3血)、3杀：付3后预算3 < 1+3=4 → 仍只1杀 → 不加价。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, targets: [mk(1, 1), mk(4, 3)] }), 1);
+	/* 次数约束：2杀、基础1次、目标A(d1,1血) B(d2,2血)：付1后次数2、手杀2 → A+B=3>2 → 只1杀 → 档位1。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [mk(1, 1), mk(2, 2)] }), 1);
+});
+check('补修P1-2：击杀收益按预算贪心统计（升序消耗手杀）', () => {
+	assert.equal(reqimouKillBenefit(4, 1, 2, [mk(1, 1), mk(3, 2), mk(3, 2)]), 2);
+	assert.equal(reqimouKillBenefit(3, 1, 2, [mk(1, 1), mk(3, 2), mk(3, 2)]), 2, '1+2=3≤预算3');
+	assert.equal(reqimouKillBenefit(2, 1, 2, [mk(1, 1), mk(3, 2), mk(3, 2)]), 1, '预算2只能杀1血目标');
+	assert.equal(reqimouKillBenefit(4, 1, 2, [mk(5, 2)]), 0, '不可达不计入');
+	assert.equal(reqimouKillBenefit(4, Infinity, 1, [mk(2, 2)]), 1, '无限次数预算=手杀数（距离2可达）');
+	assert.equal(reqimouKillBenefit(4, Infinity, 1, [mk(5, 2)]), 0, '不可达不计入，与有限次数一致');
+});
+check('补修P2：出杀次数四态解释（Infinity/0/有限/异常）', () => {
+	assert.equal(interpretBaseUses(Infinity), Infinity);
+	assert.equal(interpretBaseUses(0), 0, '本回合已用完是真实值');
+	assert.equal(interpretBaseUses(-1), 0, '负数按0处理');
+	assert.equal(interpretBaseUses(2.9), 2);
+	assert.equal(interpretBaseUses(NaN), 1, '异常回退原生静态口径');
+	assert.equal(interpretBaseUses('abc'), 1);
+	assert.equal(interpretBaseUses(undefined), 1);
+});
+check('补修P2：无限次数不构成支付理由，也不再按1次误判', () => {
+	/* 连弩+范围内2血目标：次数已无限 → needsPayment=false → gate 跳过，不为加次数支付。 */
+	assert.equal(reqimouNeedsPayment([{ effect: 1, canUseIgnoringDistance: true, currentlyInRange: true, hp: 2, baseUses: Infinity }]), false);
+	/* 连弩+范围内3血目标且手杀3：次数足够 → 不需要为次数支付。 */
+	assert.equal(reqimouNeedsPayment([{ effect: 1, canUseIgnoringDistance: true, currentlyInRange: true, hp: 3, baseUses: Infinity }]), false);
+	/* 连弩但目标在射程外：支付只按距离需要 → 档位=达距所需，不叠加击杀次数需求。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: Infinity, targets: [mk(2, 3)] }), 1);
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: Infinity, saveCount: 1, targets: [mk(5, 2)] }), 4, '距离5需付4，有自救牌才可承受');
+});
+check('补修P2：0次与异常回退的行为', () => {
+	/* 次数用完（0）：范围内1血目标，付1恢复1次出杀并击杀。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 0, targets: [mk(1, 1)] }), 1);
+	assert.equal(reqimouNeedsPayment([{ effect: 1, canUseIgnoringDistance: true, currentlyInRange: true, hp: 1, baseUses: 0 }]), true, '0次时次数是支付理由');
+	/* 异常值：按1次保守回退，档位判断与原生口径一致。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 'bogus', targets: [mk(1, 2)] }), 1);
+});
+check('补修P2：无限次数不影响击杀档位上限与低血回退', () => {
+	assert.equal(reqimouOptimalX({ hp: 3, shaCount: 5, baseUses: Infinity, targets: [mk(3, 3)] }), 2, 'hp-1=2 可承受且可达（距离3）');
+	assert.equal(reqimouOptimalX({ hp: 1, shaCount: 5, baseUses: Infinity, targets: [mk(1, 1)] }), null, '低血仍回退');
 });
 
 console.log('ALL PASS (' + passed + ')');
