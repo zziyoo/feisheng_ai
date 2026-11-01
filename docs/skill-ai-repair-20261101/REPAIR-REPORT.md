@@ -92,10 +92,10 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
 
 | 验收项（审查第五节） | 结果 | 证据 |
 | --- | --- | --- |
-| 1. 包内独立规则及契约测试 | **42 + 11 全部 PASS** | `repair-package-tests.log` |
+| 1. 包内独立规则及契约测试 | **42 条纯规则 + 15 条架构/134维契约全部 PASS** | `repair-package-tests.log` |
 | 2. 第一批全部回归（41 项 Node） | **41/41 PASS** | `repair-node-tests.json` |
 | 2b. 第一批宿主级套件（41+ 场景，policy 变体） | **PASS** | `repair-suite-policy.json` |
-| 3. 第二批正向与反向宿主场景（21 场景 × 3 变体 + 程序化验收 14 项断言/变体） | **native/policy/extension 全部 ALL PASS** | `repair-range-{native,policy,extension}.json` + `verify-*.log`（flaky 重跑记录 `repair-flaky-retest-*.json`） |
+| 3. 第二批正向与反向宿主场景（21 场景 × 3 变体 + 程序化验收 14 项断言/变体） | **最终未解决 0**；初次成功 native 20/21、policy 19/21、extension 20/21；历史超时 native 9 次、policy 2 次、extension 1 次；末次尝试仍失败 1 次（native `reqimou-multi2-pay1-killa`，此前已有 2 次成功） | `repair-range-{native,policy,extension}.json` + `repair-flaky-retest-1..8.json` + `repair-final-retest-{native,policy,extension}.json` + `repair-acceptance-ledger.{json,md}` |
 | 4. 有效击杀与不值得支付两类对照 | **PASS**（far5-tao/jiu 付满自救击杀；wuxie/空城/防御目标不支付或不承诺击杀） | 同上 |
 | 5. 多目标支付及最终攻击结果验证 | **PASS**（双目标付1兑现A、B不可及且未对B出杀；三目标付2兑现两杀） | 同上 |
 | 6. 无限杀次数与装备交互 | **PASS**（连弩 far4 付3减距离击杀；near1 免费+无限次数不提前支付；丈八/赤兔/绝影档位与纯规则一致） | 同上 |
@@ -129,11 +129,41 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
 
 1. **支付档位与实际攻击目标无法强绑定**：攻击目标由宿主出牌 AI 在支付之后决定（身份模式下扩展的致命目标评估仅接入 2V2）。收益档位保证“存在可兑现的击杀计划”，不保证宿主 AI 一定按计划消耗杀（如完整扩展引擎可能先用杀攻击其他射程内目标，此时 clamp 据实判断、不收紧）。extension 变体的多目标证据（付2兑现两杀）与该限制一致。
 2. **击杀模型为静态确定口径**：不考虑闪/八卦概率（与原生 `get.effect` 口径一致）；防御性目标的“支付只买距离/伤害”行为不变。
-3. **批次运行的看门狗超时**：宿主完整加载 + 全回合演进的场景族存在启动/时长抖动（批二包已有 flaky-retest 惯例）。本轮以 `--watchdog-ms 150000` + 独立重跑记录（`repair-flaky-retest-*.json`）处置，全部场景最终以成功运行进入验收；重跑仅复跑同场景，未改断言。
+3. **批次运行的看门狗超时（逐次保留，不覆盖）**：宿主完整加载 + 全回合演进的场景族存在启动/时长抖动。初次批次运行 top-level 状态为 failed：native 1 个超时、policy 2 个超时、extension 1 个超时；独立重跑（`repair-flaky-retest-1..8.json`，以及复核时的 `repair-final-retest-*.json`）最终让 21×3 个场景都至少成功一次（最终未解决 0）。但 native `reqimou-multi2-pay1-killa` 在最近一次 240s 独立重跑中仍超时，故“末次尝试失败”保留 1 次；它此前有 2 次成功证据，不能据此宣称该场景稳定。完整逐场景尝试见 `repair-acceptance-ledger.json`，其中“最终未解决”和“末次尝试失败”分开统计。
 4. **.manual UI 套件依赖真实宿主 DOM**（技能按钮/数字 select/托管按钮），宿主 UI 结构变化需同步维护。
 
-## 八、部署与回滚
+## 八、证据收尾、verify.py 与分包机制（2026-11-01 复核）
 
-沿用批二包 `deployment/deployment-plan.md`（补修不改变部署方式：仅 `score/decision/skills/skillAIPolicies.js`、`score/decision/skills/skillAIPolicyRules.js` 两个运行时文件变化；`tools/` 全部为测试件，不进入安装目录的运行时路径）。回滚 = 还原这两个文件到 `3bb2434` 版本（见包内 patches/repair-*.diff 反向应用）。
+### 8.1 重跑证据补齐
+
+原审查包只带了 `repair-range-*.json`，看不到重跑记录；本轮已找回并纳入：
+
+- 初次批次：`repair-range-native.json`（20/21 成功，`reqimou-multi2-pay1-killa` 超时）、`repair-range-policy.json`（19/21，blocked-far5 与 clampsave 超时）、`repair-range-extension.json`（20/21，far4-2sha-hp3 超时）。
+- 历史重跑：`repair-flaky-retest-1..8.json`（其中 2/3/6 仍含超时，未删除）。
+- 复核重跑：`repair-final-retest-{native,policy,extension}.json`（policy 2/2、extension 1/1 成功；native 3/4 成功，multi2 仍超时）。
+- 合并台账：`repair-acceptance-ledger.json` / `.md`，逐场景列出 initial → retest 的每一次状态、时间、错误，分别统计“最终未解决”与“末次尝试失败”。
+
+最终计数：final-unresolved = 0/63；last-attempt-failures = 1/63（native multi2），该场景此前有 2 次成功证据。没有为了通过测试放宽断言；重跑只复跑同场景。
+
+### 8.2 verify.py 跨平台路径
+
+`verify.py` 现在先规范化 ZIP 成员/清单路径（`\`→`/`、`./`、盘符、目录项），再定位唯一包根 `manifest.json`；重复规范化成员、尺寸不符、缺失、多余均失败。回归 `python tests/test-verify-zip.py` 覆盖 POSIX、Windows 反斜杠、根 manifest、嵌套 manifest、重复成员、尺寸不符共 7 项，全部 PASS。
+
+### 8.3 分包任务结构与打包机制
+
+- `142-task-list.json` 升级为 schema 4.0：16 个真实分包（标准包 4 个版本组、神话再临 6 包、界限突破 5 包、清单外 1 类），每个分包独立状态；技能状态保留，分包状态由技能汇总，只有全包审查完成且无阻塞才 `可交付`。
+- 共享核心 + 分包注册：`policyCore.js` 只负责安装/卸载/备份/统计；`packs/<id>.js` 只注册自己的技能；`rules/<id>.js` 为纯规则；`skillAIPolicyPacks.js` 的 marker 是唯一合并点。技能归属唯一性、分包互不 import、134 维契约由架构测试覆盖。
+- `tools/build-skill-ai-pack.mjs` 按包生成独立 ZIP（代码、共享核心、patch、验收清单、原始证据、测试、manifest、verify.py、集成/回滚脚本）。当前生成 5 个**阶段性**包：
+  - `feisheng-ai-refresh-standard.zip`
+  - `feisheng-ai-shenhua-feng.zip`
+  - `feisheng-ai-refresh-feng.zip`
+  - `feisheng-ai-shenhua-lei.zip`
+  - `feisheng-ai-out-of-scope.zip`
+  它们都不是完整分包交付；未验证技能见各包 `checklist.md`。`apply-pack.mjs`/`rollback-pack.mjs` 已在临时扩展根上验证两包先后安装、回滚 A 保留 B、回滚 B 保留共享核心、重新安装 A。
+- 拆分后宿主回归：`split-suite-native.json`（68 场景）、`split-suite-policy.json`（69 场景）、`split-suite-extension.json`（69 场景）均 `passed`、无 pageerror；Node 回归与包内契约见 `repair-node-tests.json`、`repair-package-tests.log`。
+
+## 九、部署与回滚
+
+本轮已按分包拆分共享核心：运行时新增 `policyCore.js`、`skillAIPolicyPacks.js`，策略拆到 `packs/` 与 `rules/`；`skillAIPolicies.js` 只保留 facade。补修包内 `deployment/deployment-plan.md` 已更新为完整文件清单；分包交付 ZIP 另含 `integration/apply-pack.mjs` 与 `rollback-pack.mjs`，只追加本分包文件与注册行，不覆盖其他开发者修改。回滚分包使用其安装记录；整体回滚仍可还原到 `3bb2434`（见包内 patches）。
 
 **本补修不推送、不发版、不覆盖正式安装目录。**

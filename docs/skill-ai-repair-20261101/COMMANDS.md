@@ -12,8 +12,8 @@ PW="C:/Users/32360/.cache/codex-runtimes/codex-primary-runtime/dependencies/node
 ## 0. 包内可直接运行（仅需 Node，无需完整仓库/浏览器）
 
 ```bash
-node tests/run-package-tests.mjs     # 纯规则 42 条 + 架构/134维契约 11 条
-python tests/test-verify-zip.py      # verify.py --zip 多 manifest 回归（仅需 Python3）
+node tests/run-package-tests.mjs     # 纯规则 42 条 + 架构/134维契约 15 条
+python tests/test-verify-zip.py      # verify.py --zip 跨平台路径回归（POSIX/Windows 反斜杠/重复成员/尺寸）
 python verify.py                     # 校验解压目录
 python verify.py --zip feisheng-ai-skill-audit-repair-20261101.zip
 ```
@@ -22,7 +22,7 @@ python verify.py --zip feisheng-ai-skill-audit-repair-20261101.zip
 
 ```bash
 node --experimental-vm-modules tools/test-skill-ai-policies.mjs        # 42 PASS（含补修 12 条）
-node --experimental-vm-modules tools/test-skill-ai-architecture.mjs    # 11 PASS（含补修契约）
+node --experimental-vm-modules tools/test-skill-ai-architecture.mjs    # 15 PASS（含分包归属/134维契约）
 node tools/run-node-regressions.mjs                                    # 批一 41 项 Node 回归聚合
 node tools/bench-skill-ai-policies.mjs                                 # 微基准（含 reqimou 支付评估）
 node tools/test-policy-model-v2-reachability.mjs --root "$EXT"         # v2 不可达取证
@@ -69,7 +69,21 @@ node tools/trick-real-host-smoke.mjs --mode identity --skill-ai --skill-ai-polic
   --host-root "$HOST" --extension-root "$EXT" --browser "$CHROME" --playwright "$PW" --output repair-suite-policy.json
 ```
 
-## 6. 完整性校验与打包
+## 6. 合并验收台账与分包
+
+```bash
+node tools/build-skill-ai-acceptance-ledger.mjs \
+  --evidence-dir "C:/Users/32360/Desktop/repair-baseline/evidence" \
+  --out "C:/Users/32360/Desktop/repair-baseline/evidence/repair-acceptance-ledger.json"
+
+node tools/build-skill-ai-pack.mjs --pack refresh_standard   # 单包（干净工作区）
+node tools/build-skill-ai-pack.mjs --all                     # 全部分包阶段包
+node tools/build-skill-ai-pack.mjs --all --worktree-source   # 仅测试，不用于正式交付
+```
+
+分包 ZIP 默认输出 `C:/Users/32360/Desktop/feisheng-ai-packs/`；每包内含集成/回滚脚本、checklist、原始证据、manifest 与 verify.py。
+
+## 7. 完整性校验与打包
 
 ```bash
 node tools/build-repair-package.mjs          # 生成 staging + manifest.json
