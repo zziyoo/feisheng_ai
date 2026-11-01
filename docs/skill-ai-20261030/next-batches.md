@@ -22,6 +22,17 @@
 - 变体核对：`qiangxi`（旧版，无主属武将）、`xinqiangxi`、手杀 `reqiangxi` 不在 142 清单内，未改动；`sbkurou` 未测。
 - 测试设施：`tools/skill-ai-hp-real-host.mjs` 独立页面运行器 + 90s 看门狗；击杀场景需保留≥2个反贼座位，否则宿主 game.over 挂起（已记录）。
 
+## 分包交付自动流程（长期要求）
+
+每完成一个角色分包（或达到阶段性节点）：
+
+1. 先更新该分包技能级状态与证据；只有全部目标技能审查完成、缺陷解决且无阻塞，才把分包标记为“验证完成/可交付”。
+2. 跑该包相关真实宿主场景（native/policy/extension）、包内纯规则+架构/134维、verify.py 跨平台回归、其他已交付包回归。
+3. 执行 `node tools/build-skill-ai-pack.mjs --pack <pack-id>`；构建器只导出本包代码与共享核心，生成 checklist、证据、manifest、SHA256 和集成/回滚脚本。
+4. 若仍有未验证技能，只能交付 `delivery_stage=阶段性` 的包；不得标记完整可交付。
+5. 将 ZIP、SHA256、提交 SHA、集成/回滚说明交给其他开发者；不要把整仓库、模型权重或训练数据打包。
+6. 集成用 `integration/apply-pack.mjs`，回滚用 `integration/rollback-pack.mjs`；共享核心冲突时拒绝覆盖，按 patch 合并。
+
 ## 第三批：信息范围审计（优先）
 
 目标：找出所有“AI 通过 `chooseButton/chooseCard` 读取暗牌牌面”的位置。

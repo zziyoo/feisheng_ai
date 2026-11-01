@@ -97,7 +97,8 @@ node integration/rollback-pack.mjs --extension-root <无名AI根目录>
 
 ## 六、当前证据与限制
 
-- 拆分后：`split-suite-native.json` 68 场景、`split-suite-policy.json` 69 场景、`split-suite-extension.json` 69 场景，均 passed、无 pageerror。
-- 第二轮 21×3 场景：最终未解决 0；历史超时 native/policy/extension = 9/2/1；末次尝试失败 1（native multi2，此前有成功）。见 `repair-acceptance-ledger.md`。
+- 拆分后：`split-suite-native.json` 68 场景、`split-suite-policy.json` 69 场景、`split-suite-extension.json` 69 场景，均 passed、无 pageerror；`split-manual-ui.json` 8 用例/7 断言 PASS。
+- 分包化后 21×3 全量复核：policy 20/21、native 19/21（重跑 2/2 成功）、extension 19/21；policy blocked-far5 与 extension blocked-far5/multi3 仍是看门狗超时，未解决项为 1/0/2。不得据此宣称第二批无条件可合并；详见 REPAIR-REPORT 8.4。
+- 第二轮 21×3 场景（补修代码、pre-split）：最终未解决 0；历史超时 native/policy/extension = 9/2/1；末次尝试失败 1（native multi2，此前有成功）。见 `repair-acceptance-ledger.md`。
 - Android 真机长跑、完整 142 将验收仍是公开发版前置条件。
 - 阶段包不是可直接安装的完整扩展；不得把源码补丁 ZIP 冒充扩展包。

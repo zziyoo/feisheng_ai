@@ -73,10 +73,10 @@ for (const name of fs.readdirSync(path.join(REPO, 'tools', 'pack-templates'))) {
 	exportFile('tools/pack-templates/' + name, 'pack-tools/templates/' + name);
 }
 // docs：批二包 docs 原样 + 补修报告/命令（提交内容）
-for (const name of ['REPORT.md', 'test-report.md', 'next-batches.md', 'README.md', 'baseline.json']) {
+for (const name of ['REPORT.md', 'test-report.md', 'baseline.json']) {
 	fs.copyFileSync(path.join(PRIOR, 'docs', name), path.join(STAGE, 'docs', name));
 }
-for (const name of ['142-task-list.json', '142-task-list.csv', 'pack-delivery.json', 'PACK-MECHANISM.md']) {
+for (const name of ['README.md', 'next-batches.md', '142-task-list.json', '142-task-list.csv', 'pack-delivery.json', 'PACK-MECHANISM.md']) {
 	fs.copyFileSync(path.join(REPO, 'docs', 'skill-ai-20261030', name), path.join(STAGE, 'docs', name));
 }
 fs.mkdirSync(path.join(STAGE, 'docs/live-install'), { recursive: true });
@@ -106,6 +106,8 @@ const EVIDENCE_COPY = [
 	'repair-final-retest-native.json', 'repair-final-retest-policy.json', 'repair-final-retest-extension.json',
 	'repair-acceptance-ledger.json', 'repair-acceptance-ledger.md',
 	'split-suite-native.json', 'split-suite-policy.json', 'split-suite-extension.json',
+	'split-range-native.json', 'split-range-policy.json', 'split-range-extension.json',
+	'split-retest-native.json', 'split-retest-policy.json', 'split-manual-ui.json',
 	'repair-manual-ui.json', 'repair-node-tests.json', 'repair-mode-doudizhu.json', 'repair-mode-versus.json',
 	'repair-verify-zip.log',
 ];
@@ -115,6 +117,10 @@ for (const name of EVIDENCE_COPY) {
 	else console.log('[build] missing evidence: ' + name);
 	const log = path.join(EVIDENCE, name.replace(/\.(json|md)$/, '.log'));
 	if (fs.existsSync(log)) fs.copyFileSync(log, path.join(STAGE, 'evidence', path.basename(log)));
+}
+for (const name of ['split-retest-extension.log']) {
+	const src = path.join(EVIDENCE, name);
+	if (fs.existsSync(src)) fs.copyFileSync(src, path.join(STAGE, 'evidence', name));
 }
 // 包内测试入口与 verify 回归：真实执行后写入 evidence（不伪造日志）
 const pkgTests = execFileSync(process.execPath, ['tests/run-package-tests.mjs'], { cwd: STAGE, encoding: 'utf8', timeout: 180000 });
@@ -198,6 +204,12 @@ const EVIDENCE_BATCH = {
 	'split-suite-native.json': '分包化后原生宿主套件',
 	'split-suite-policy.json': '分包化后仅策略宿主套件',
 	'split-suite-extension.json': '分包化后完整扩展宿主套件',
+	'split-range-native.json': '分包化后 21 场景原生对照（含超时）',
+	'split-range-policy.json': '分包化后 21 场景仅策略（含超时）',
+	'split-range-extension.json': '分包化后 21 场景完整扩展（含超时）',
+	'split-retest-native.json': '分包化后 native 超时场景重跑成功',
+	'split-retest-policy.json': '分包化后 policy 超时场景重跑（仍超时）',
+	'split-manual-ui.json': '分包化后 reqimou 人类手动 UI 回归',
 	'repair-package-tests.log': '包内测试入口运行日志（构建时实际执行）',
 	'repair-verify-zip-regression.log': 'verify.py 跨平台回归日志（构建时实际执行）',
 	'repair-verify-zip.log': 'verify.py --zip 回归日志',

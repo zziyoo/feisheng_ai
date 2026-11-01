@@ -160,7 +160,19 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
   - `feisheng-ai-shenhua-lei.zip`
   - `feisheng-ai-out-of-scope.zip`
   它们都不是完整分包交付；未验证技能见各包 `checklist.md`。`apply-pack.mjs`/`rollback-pack.mjs` 已在临时扩展根上验证两包先后安装、回滚 A 保留 B、回滚 B 保留共享核心、重新安装 A。
-- 拆分后宿主回归：`split-suite-native.json`（68 场景）、`split-suite-policy.json`（69 场景）、`split-suite-extension.json`（69 场景）均 `passed`、无 pageerror；Node 回归与包内契约见 `repair-node-tests.json`、`repair-package-tests.log`。
+- 拆分后宿主回归：`split-suite-native.json`（68 场景）、`split-suite-policy.json`（69 场景）、`split-suite-extension.json`（69 场景）均 `passed`、无 pageerror；`split-manual-ui.json` 8 用例/7 断言全 PASS（人类输入、托管隔离、对话框内卸载、卸载/重装字节级还原）。Node 回归与包内契约见 `repair-node-tests.json`、`repair-package-tests.log`。
+
+### 8.4 分包化后的全量复核（2026-11-01 晚）
+
+拆分结构后重新跑了 21 场景 × 3 变体（`split-range-*.json`）：
+
+| 变体 | 初次成功 | 初次超时 | 超时场景 | 复核重跑 | 最终未解决 |
+| --- | ---: | ---: | --- | --- | ---: |
+| policy | 20/21 | 1 | `reqimou-blocked-far5-hp4-3sha-tao-hp2-horse` | `split-retest-policy.json` 仍超时 | 1 |
+| native | 19/21 | 2 | `reqimou-blocked-far5-...`、`reqimou-multi2-pay1-killa` | `split-retest-native.json` 2/2 成功 | 0 |
+| extension | 19/21 | 2 | `reqimou-blocked-far5-...`、`reqimou-multi3-pay2-killab` | blocked-far5 重跑仍超时；multi3 重跑未完成（进程被停止，无 JSON） | 2 |
+
+`split-manual-ui.json` 8 用例/7 断言全 PASS。分包化后复核没有放宽任何断言；上述 3 个未解决项均为宿主启动/长回合看门狗超时，不是断言失败，但**不能据此宣称第二批已无条件可合并**。历史补修台账（8.1）仍是 final-unresolved 0（基于补修提交 pre-split 证据）；本条给出分包化后的独立复核缺口，二者分开报告。
 
 ## 九、部署与回滚
 

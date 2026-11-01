@@ -35,6 +35,7 @@ export const CODE_PACKS = [
 		evidence: [
 			'split-suite-native.json', 'split-suite-policy.json', 'split-suite-extension.json',
 			'repair-range-native.json', 'repair-range-policy.json', 'repair-range-extension.json',
+			'split-range-native.json', 'split-range-policy.json', 'split-range-extension.json',
 			'repair-node-tests.json',
 		],
 		tests: ['shenhua_feng'],
@@ -65,6 +66,9 @@ export const CODE_PACKS = [
 			'repair-flaky-retest-4.json', 'repair-flaky-retest-5.json', 'repair-flaky-retest-6.json',
 			'repair-flaky-retest-7.json', 'repair-flaky-retest-8.json',
 			'repair-manual-ui.json', 'repair-mode-doudizhu.json', 'repair-mode-versus.json',
+			'split-range-native.json', 'split-range-policy.json', 'split-range-extension.json',
+			'split-retest-native.json', 'split-retest-policy.json',
+			'split-manual-ui.json',
 			'repair-node-tests.json',
 		],
 		tests: ['refresh_feng'],
