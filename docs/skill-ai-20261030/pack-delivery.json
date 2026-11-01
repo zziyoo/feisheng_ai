@@ -8,9 +8,9 @@
       "delivery_status": "阶段性",
       "zip_name": "feisheng-ai-refresh-standard.zip",
       "note": "阶段包：本包多数技能尚未审查，不可标记完整交付。",
-      "zip_sha256": "fcf49586766b665fbb054f5dc85bd6f1cb009d12c3e150e3fdf940ec2ce81245",
-      "zip_size": 188028,
-      "built_at": "2026-11-01T10:44:22.388Z"
+      "zip_sha256": "2ba756ea963b04301989ffdfa637e0ce98a05d25d7ca981019e0a50b304e3ac6",
+      "zip_size": 208269,
+      "built_at": "2026-11-01T10:48:23.411Z"
     },
     {
       "pack_id": "shenhua_feng",
@@ -18,9 +18,9 @@
       "delivery_status": "阶段性",
       "zip_name": "feisheng-ai-shenhua-feng.zip",
       "note": "阶段包：qimou 已修复，其余登记技能尚未审查。",
-      "zip_sha256": "ffa59f9e30d3276c945afc66b43cceae55ff698c42ccbebf4366701d3bfbccf8",
-      "zip_size": 241489,
-      "built_at": "2026-11-01T10:44:22.388Z"
+      "zip_sha256": "bf54bfb8c5fe14abe683bdea33b3c10278f42c46e4130f913be17ed64a1ebf51",
+      "zip_size": 261491,
+      "built_at": "2026-11-01T10:48:23.411Z"
     },
     {
       "pack_id": "refresh_feng",
@@ -28,9 +28,9 @@
       "delivery_status": "阶段性",
       "zip_name": "feisheng-ai-refresh-feng.zip",
       "note": "阶段包：reqimou 已修复，其余登记技能尚未审查。",
-      "zip_sha256": "e9efceda93f22dcd848894b84ef51bc64da654663599a6db189b7292e33ef4d9",
-      "zip_size": 313947,
-      "built_at": "2026-11-01T10:44:22.388Z"
+      "zip_sha256": "5a35555f53913138777aa658800ec0c1737e0341c6f76366d3e870fdd6d8efa7",
+      "zip_size": 335923,
+      "built_at": "2026-11-01T10:48:23.411Z"
     },
     {
       "pack_id": "shenhua_lei",
@@ -38,9 +38,9 @@
       "delivery_status": "阶段性",
       "zip_name": "feisheng-ai-shenhua-lei.zip",
       "note": "阶段包：olkongsheng 已修复，其余登记技能尚未审查。",
-      "zip_sha256": "4ef5c3a109b9626bdf1ce1b0d9655d4b8cd8dc8b34ef49f0019f1e97cd1120f4",
-      "zip_size": 181099,
-      "built_at": "2026-11-01T10:44:22.388Z"
+      "zip_sha256": "523a4a3a7323a92b850bbf1cb693f9ff73eaf63b6586cbce7e4ca12f8ace6819",
+      "zip_size": 200640,
+      "built_at": "2026-11-01T10:48:23.411Z"
     },
     {
       "pack_id": "out_of_scope",
@@ -48,9 +48,9 @@
       "delivery_status": "阶段性",
       "zip_name": "feisheng-ai-out-of-scope.zip",
       "note": "阶段包：清单外 redimeng 已修复且宿主回归通过；仍需按外部集成流程验收。",
-      "zip_sha256": "d4ff7a7adc18a496d9b51a188b4a30880bb09ae125cc7ac9af350843f15f0c75",
-      "zip_size": 178624,
-      "built_at": "2026-11-01T10:44:22.388Z"
+      "zip_sha256": "ecddf950ea92a6edc77f19297926a1ee3788ca223bbc9e900d22d399e7afedf5",
+      "zip_size": 198356,
+      "built_at": "2026-11-01T10:48:23.411Z"
     }
   ]
 }
