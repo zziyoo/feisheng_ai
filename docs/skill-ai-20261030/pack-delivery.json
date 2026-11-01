@@ -18,9 +18,9 @@
       "delivery_status": "阶段性",
       "zip_name": "feisheng-ai-shenhua-feng.zip",
       "note": "阶段包：qimou 已修复，其余登记技能尚未审查。",
-      "zip_sha256": "23c4d752f359592508a4055eec70c5a98b30ea2ac543db430116ef0d03e73dd6",
-      "zip_size": 261419,
-      "built_at": "2026-11-01T10:50:24.755Z"
+      "zip_sha256": "21e68551d57bb71218bf4341b9c9d6c85ef85040ee39025375b6927564bc3f73",
+      "zip_size": 322431,
+      "built_at": "2026-11-01T11:27:40.377Z"
     },
     {
       "pack_id": "refresh_feng",
