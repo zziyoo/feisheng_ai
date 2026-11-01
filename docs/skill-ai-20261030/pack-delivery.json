@@ -28,9 +28,9 @@
       "delivery_status": "阶段性",
       "zip_name": "feisheng-ai-refresh-feng.zip",
       "note": "阶段包：reqimou 已修复，其余登记技能尚未审查。",
-      "zip_sha256": "eebd14088890ea8fec4c70e2597316625e9d8ea004ceb196974404ce3ae48743",
-      "zip_size": 335850,
-      "built_at": "2026-11-01T10:50:24.755Z"
+      "zip_sha256": "06ebeccde2d8cefffe52adfc561c7d4df6ebfe04cad6a924482b71b05c85b811",
+      "zip_size": 407821,
+      "built_at": "2026-11-01T11:27:31.050Z"
     },
     {
       "pack_id": "shenhua_lei",
