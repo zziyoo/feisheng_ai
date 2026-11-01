@@ -106,6 +106,8 @@ node tools/accept-skill-ai-pack.mjs --zip <pack.zip> --repo "$EXT" \
   --workdir <临时目录> --out <evidence>/accept-<pack>.json
 # 多 ZIP 一起传：额外验证共存、他人注册行保留、乱序回滚
 node tools/accept-skill-ai-pack.mjs --zip a.zip --zip b.zip ... --out accept-combined.json
+# 注意：逐包验收工具需要 --repo 指向完整无名AI仓库（含 tools/ 与宿主运行器），
+# 主审查包内的 source/ 是子集，不能直接作为 --repo。
 ```
 
 分包 ZIP 默认输出到仓库同级 `feisheng-ai-packs/`；每包内含集成/回滚脚本、checklist、原始证据、manifest 与 verify.py。

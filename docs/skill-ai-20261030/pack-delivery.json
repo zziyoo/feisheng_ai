@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-11-01",
+  "updated_at": "2026-11-02",
   "packs": [
     {
       "pack_id": "refresh_standard",
@@ -8,9 +8,13 @@
       "delivery_status": "阶段性",
       "zip_name": "feisheng-ai-refresh-standard.zip",
       "note": "阶段包：本包多数技能尚未审查，不可标记完整交付。",
-      "zip_sha256": "4768503e9e2736bd64a2de87b01fde0efc72f010b377a58aa55777d25e9ec2fc",
-      "zip_size": 216640,
-      "built_at": "2026-11-01T13:59:05.569Z"
+      "zip_sha256": "42cb776916b65840c16225bc90cddb24b14ffbdfd4b28e65e978deca7bc3e376",
+      "zip_size": 304368,
+      "built_at": "2026-11-01T15:52:27.086Z",
+      "acceptance_status": "passed",
+      "acceptance_file": "accept-refresh_standard.json",
+      "acceptance_sha256": "1ba390cadd481a50ac81bda97939597f7ac0bee5fcded11c1fa35b3257f28ded",
+      "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/宿主加载/卸载回滚后再加载/重装/134维契约"
     },
     {
       "pack_id": "shenhua_feng",
@@ -18,9 +22,13 @@
       "delivery_status": "阶段性",
       "zip_name": "feisheng-ai-shenhua-feng.zip",
       "note": "阶段包：qimou 已修复，其余登记技能尚未审查。",
-      "zip_sha256": "7efa23a47f64350cfc1ca86bb83fb2d763ceda10eabeb50caa0bf881893cf675",
-      "zip_size": 330772,
-      "built_at": "2026-11-01T13:59:05.569Z"
+      "zip_sha256": "e47205f8ff6bda00bc0ff3ee65c00500907802aca0e358872c0e3471c8985cd2",
+      "zip_size": 418470,
+      "built_at": "2026-11-01T15:52:27.086Z",
+      "acceptance_status": "passed",
+      "acceptance_file": "accept-shenhua_feng.json",
+      "acceptance_sha256": "f19ad04c9c0707a8f7b23112f37ceb4fe3c0d288a1633ab18822f892b38be9e9",
+      "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/宿主加载/卸载回滚后再加载/重装/134维契约"
     },
     {
       "pack_id": "refresh_feng",
@@ -28,9 +36,13 @@
       "delivery_status": "阶段性",
       "zip_name": "feisheng-ai-refresh-feng.zip",
       "note": "阶段包：reqimou 已修复，其余登记技能尚未审查。",
-      "zip_sha256": "5eb001651df869b98a80fffb6f1c055d93a1360ee172e3bb95be4f65178e6f6f",
-      "zip_size": 416203,
-      "built_at": "2026-11-01T13:59:05.569Z"
+      "zip_sha256": "952d980a8026fa8f44aa947ab0d6804e1cbaab2a9634dcbac445591c0fc11dd8",
+      "zip_size": 655068,
+      "built_at": "2026-11-01T15:52:27.086Z",
+      "acceptance_status": "passed",
+      "acceptance_file": "accept-refresh_feng.json",
+      "acceptance_sha256": "4a4c644f371fd33484937049fa3ee32db4b082f7cc3c691ef31756d31e470e02",
+      "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/宿主加载/卸载回滚后再加载/重装/134维契约"
     },
     {
       "pack_id": "shenhua_lei",
@@ -38,19 +50,39 @@
       "delivery_status": "阶段性",
       "zip_name": "feisheng-ai-shenhua-lei.zip",
       "note": "阶段包：olkongsheng 已修复，其余登记技能尚未审查。",
-      "zip_sha256": "e72fc571f94a88ab8e9021a239e12e17c73b972a467ff51afdfbfeb9d5b739d7",
-      "zip_size": 208999,
-      "built_at": "2026-11-01T13:59:05.569Z"
+      "zip_sha256": "09d8207fcd9d713fb05eee8c234023db8b247356c28c21e98e9763deab0954cb",
+      "zip_size": 296703,
+      "built_at": "2026-11-01T15:52:27.086Z",
+      "acceptance_status": "passed",
+      "acceptance_file": "accept-shenhua_lei.json",
+      "acceptance_sha256": "846df542691028cd7c759b1f9593f947c4752519df0f629d690887ebf000a26a",
+      "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/宿主加载/卸载回滚后再加载/重装/134维契约"
     },
     {
       "pack_id": "out_of_scope",
       "status": "可交付",
       "delivery_status": "可交付",
       "zip_name": "feisheng-ai-out-of-scope.zip",
-      "note": "完整可交付包：清单外 redimeng 已审查/修复、无阻塞项；实际 ZIP 逐包验收（安装/加载/卸载/回滚/重装/134维）通过，最终 ZIP 生成并登记后等待外部集成回执。",
-      "zip_sha256": "b7c237254f461216dfa8f4c5a943334f8ba9f0161233b98c80cf23fc6502be6f",
-      "zip_size": 206717,
-      "built_at": "2026-11-01T13:59:05.569Z"
+      "note": "完整可交付包：本包登记技能已全部审查、无阻塞项，安装/卸载/回滚/宿主加载验收通过。",
+      "zip_sha256": "2df439fe930f0a010ff61e5c899a074775fedb6f6154e267917c20581a71a80b",
+      "zip_size": 294408,
+      "built_at": "2026-11-01T15:52:27.086Z",
+      "acceptance_status": "passed",
+      "acceptance_file": "accept-out_of_scope.json",
+      "acceptance_sha256": "1b961de50fdeeefa1d115720d33c2780255f898bc37c35c24de716ce3e6a5fba",
+      "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/宿主加载/卸载回滚后再加载/重装/134维契约"
     }
-  ]
+  ],
+  "coexistence": {
+    "status": "passed",
+    "file": "accept-combined.json",
+    "sha256": "8297e958e020da96791299d1caa9ca929a320e06d24b1697d786867195d5a388",
+    "scope": "五包共存安装/宿主加载/乱序回滚/他人注册行保留"
+  },
+  "acceptance_matrix": {
+    "file": "pack-acceptance-matrix.json",
+    "sha256": "5a29f2272d6dc042f98dd011ea17b740a56bc09250f41ff1881724244fddbded"
+  },
+  "build_commit": "35c1f9272046f7d82e2c1bb363982131639cb531",
+  "accepted_at": "2026-11-01T16:19:08.562Z"
 }

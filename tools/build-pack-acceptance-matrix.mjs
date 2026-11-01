@@ -8,7 +8,7 @@ const args = process.argv.slice(2);
 const option = name => { const index = args.indexOf('--' + name); return index < 0 ? null : args[index + 1]; };
 const DIR = path.resolve(option('dir') || 'C:/Users/32360/Desktop/repair-baseline/evidence');
 const OUT = path.resolve(option('out') || path.join(DIR, 'pack-acceptance-matrix.json'));
-const files = fs.readdirSync(DIR).filter(name => /^accept-.*\.json$/.test(name) && !name.includes('test')).sort();
+const files = fs.readdirSync(DIR).filter(name => /^accept-.*\.json$/.test(name) && !name.includes('test') && name !== 'accept-all-summary.json').sort();
 const rows = [];
 for (const file of files) {
 	const data = JSON.parse(fs.readFileSync(path.join(DIR, file), 'utf8'));
@@ -22,9 +22,9 @@ for (const file of files) {
 		file,
 		mode: data.mode,
 		pass: !!data.pass,
-		pack_id: pack.id || null,
+		pack_id: data.mode === 'combined' ? 'combined' : (pack.id || null),
 		delivery_stage: pack.delivery_stage || null,
-		zip_sha256: pack.zip_sha256 || null,
+		zip_sha256: data.mode === 'combined' ? 'multiple' : (pack.zip_sha256 || null),
 		zip_size: pack.zip_size || null,
 		package_tests: pack.package_tests_status === 0,
 		verify_zip: pack.verify_zip_status === 0,

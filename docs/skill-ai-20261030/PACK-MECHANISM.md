@@ -117,6 +117,8 @@ node tools/accept-skill-ai-pack.mjs --zip <pack.zip> --repo <仓库> --workdir <
 
 - 拆分后：`split-suite-native.json` 68 场景、`split-suite-policy.json` 69 场景、`split-suite-extension.json` 69 场景，均 passed、无 pageerror；`split-manual-ui.json` 8 用例/7 断言 PASS。
 - 分包化后 21×3 全量复核（历史）：policy 20/21、native 19/21（重跑 2/2 成功）、extension 19/21；policy blocked-far5 与 extension blocked-far5/multi3 曾看门狗超时。独立诊断（REPAIR-REPORT 8.5）定位为夹具 `game.over` 陷阱：反贼全灭后宿主进入结算 UI，`die` 事件不返回；Worker 心跳/CDP CPU 证明不是策略死循环。运行器默认抑制 `game.over` 后完整重跑，原始超时日志仍保留。
-- 第二轮 21×3 场景（补修代码、pre-split）：最终未解决 0；历史超时 native/policy/extension = 9/2/1；末次尝试失败 1（native multi2，此前有成功）。见 `repair-acceptance-ledger.md`。
+- 第二轮 21×3 场景（补修代码、pre-split，历史）：最终未解决 0；历史超时 native/policy/extension = 9/2/1，逐条保留。见 `repair-acceptance-ledger.md`。
+- 本轮夹具修正后完整重跑：native 21/21；policy/extension 各 20/21，唯一失败均为场景前 host-init 超时，单场景重跑通过；`final_unresolved=0`。历史失败逐条保留，见 `repair-acceptance-ledger.md` 与 `postfix-range-*`。
+- 逐包验收（实际 ZIP，2026-11-02）：五个单包均通过解压/`verify.py`/包内测试/单包安装/宿主加载/卸载回滚后再加载/重装/134 维契约；五包共存安装、乱序回滚、他人注册行保留亦 PASS。矩阵见交付目录 `pack-acceptance-matrix.md`，原始结果 `accept-<pack>.json`、`accept-combined.json`。
 - Android 真机长跑、完整 142 将验收仍是公开发版前置条件。
 - 阶段包不是可直接安装的完整扩展；不得把源码补丁 ZIP 冒充扩展包。

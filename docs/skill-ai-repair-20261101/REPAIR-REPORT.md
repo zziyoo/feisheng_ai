@@ -164,6 +164,7 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
 - 安装/回滚事务化（2026-11-01 深夜补修）：apply 先预检注册表所有 `./packs/*.js` 导入真实存在、备份将被修改的注册表，再用临时文件+rename 写入；失败（含 `DJSC_PACK_TEST_FAIL_AFTER` 注入）自动恢复安装前状态，未完成事务下次 apply 自动清理。回滚只撤销本包内容；回滚最后一个分包时保留带 marker 的空注册表，避免 facade 卸载后模块加载失败。`node tools/test-pack-install.mjs` 11 条全 PASS（失败注入、重复安装、A/B 共存、乱序回滚、共享核心冲突、注册表缺模块、他人修改保护）。
 - 打包器去本机路径硬编码：使用 PATH 中 `git`，仓库/证据/输出/stage 目录均可用 `--repo/--evidence/--out/--stage-root`（或 `DJSC_*` 环境变量）配置；不再要求其他开发者具备本机 Codex 路径。
 - 逐包验收工具 `tools/accept-skill-ai-pack.mjs`：对**实际 ZIP** 解压、`verify.py --zip/--dir`、包内测试、干净扩展副本单包安装、宿主真实加载、卸载后再次加载、重装、134 维契约哈希、注册表依赖；多 ZIP 模式额外验证五包共存、他人注册行保留与乱序回滚。不能用主审查包或共享核心单测替代逐包验收。
+- 逐包验收结果（2026-11-02）：`refresh_standard`、`shenhua_feng`、`refresh_feng`、`shenhua_lei`、`out_of_scope` 单包均 PASS；五包共存/乱序回滚/他人注册行保留 PASS。结果见 `accept-<pack>.json`、`accept-combined.json`、`pack-acceptance-matrix.md`；`out_of_scope` 因此标记 `可交付`。
 - 拆分后宿主回归：`split-suite-native.json`（68 场景）、`split-suite-policy.json`（69 场景）、`split-suite-extension.json`（69 场景）均 `passed`、无 pageerror；`split-manual-ui.json` 8 用例/7 断言全 PASS（人类输入、托管隔离、对话框内卸载、卸载/重装字节级还原）。Node 回归与包内契约见 `repair-node-tests.json`、`repair-package-tests.log`。
 
 ### 8.4 分包化后的全量复核（2026-11-01 晚）
@@ -195,6 +196,7 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
 | native | 21 | 21 | 0 | 0 | 0 | blocked-far5/multi3 各 1 次 game.over 被抑制；14 条验收 PASS |
 | policy | 21 | 20 | 0 | 1（host init） | 0 | 首轮 wuxie 在场景前 host init 30s 超时；单场景重跑通过；14 条验收 PASS |
 | extension | 21 | 20 | 0 | 1（host init） | 0 | 首轮 multi3 在场景前 host init 90s 超时；单场景重跑通过；14 条验收 PASS |
+最终台账（`repair-acceptance-ledger.json/md`）：native `postfix 21/21`；policy `postfix 20/21 + 1 次 host-init 重跑成功`；extension 同；三者 `final_unresolved=0`、`last_attempt_failures=0`；历史失败次数 native/policy/extension = 9/4/2，逐条保留（含初始超时、旧重跑、host-init 失败与 partial 日志）。
 
 - 修正后完整 21 场景 × 3 变体见 `postfix-range-{native,policy,extension}.json`；结果与历史失败分列于 `repair-acceptance-ledger.md`，不删除 `postfix-range-native-presuppress-partial.log` 与 `split-range-*` 中的超时记录。
 
