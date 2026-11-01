@@ -17,6 +17,7 @@ const variant = option('variant') || 'native';
 assert(['native', 'policy', 'extension'].includes(variant), 'unsupported variant');
 const only = option('scenario');
 const listed = option('scenarios');
+const watchdogMs = Math.max(30000, Number(option('watchdog-ms')) || 90000);
 const repoRoot = fileURLToPath(new URL('../', import.meta.url));
 const hostRoot = path.resolve(option('host-root') || path.join(repoRoot, '../..'));
 const extensionRoot = path.resolve(option('extension-root') || repoRoot);
@@ -107,13 +108,15 @@ const SCENARIOS = {
 	'reqimou-far5-hp4-3sha-wuxie-hp2-horse': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 276], ['sha', 'heart', 277], ['sha', 'club', 278], ['wuxie', 'spade', 279]], fanSeats: [4], target: { index: 4, hp: 2, equips: [['jueying', 'spade', 280]] } },
 	/* P1：有自救但小档位足够 → clamp 收紧原生“付满”：付3即可达距且兑现3血击杀（距离4）。 */
 	'reqimou-far4-hp4-3sha-tao-hp3-clampsave': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 281], ['sha', 'heart', 282], ['sha', 'club', 283], ['tao', 'heart', 284]], target: { index: 4, hp: 3 } },
-	/* P2：诸葛连弩（无限杀次数）+ 远处2血目标：支付只按距离需要，1+3次足够击杀。 */
-	'reqimou-crossbow-far4-3sha-hp2': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 285], ['sha', 'heart', 286], ['sha', 'club', 287]], weapon: ['zhuge', 'spade', 288], target: { index: 4, hp: 2 } },
+	/* P2：诸葛连弩（无限杀次数）+ 远处2血目标：支付只按距离需要，1+3次足够击杀。
+	 * 不带狂骨：连弩无限出杀 × 狂骨黑判摸牌会形成超长出杀循环，偏离本场景意图。 */
+	'reqimou-crossbow-far4-3sha-hp2': { skills: ['reqimou'], hp: 4, hand: [['sha', 'spade', 285], ['sha', 'heart', 286], ['sha', 'club', 287]], weapon: ['zhuge', 'spade', 288], target: { index: 4, hp: 2 } },
 	/* P2 反向：连弩+贴脸2血目标：次数已无限、距离可达 → 策略 gate 必须跳过（不为其无意义支付）；
-	 * 原生 gate 会放行并支付 hp-1（记录为已修正差异，见 test-report）。 */
-	'reqimou-crossbow-near1-2sha-hp2-idleskip': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 289], ['sha', 'heart', 290]], weapon: ['zhuge', 'spade', 291], target: { index: 1, hp: 2 } },
-	/* P1-2 双目标：A(座位1)距离1血1、B(座位4)距离4血3、3杀 → 付1兑现A；B在该档位不可及。 */
-	'reqimou-multi2-pay1-killa': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 292], ['sha', 'heart', 293], ['sha', 'club', 294]], fanSeats: [1, 4], targets: [{ index: 1, hp: 1 }, { index: 4, hp: 3 }] },
+	 * 原生 gate 会放行并支付 hp-1（记录为已修正差异，见 REPAIR-REPORT）。 */
+	'reqimou-crossbow-near1-2sha-hp2-idleskip': { skills: ['reqimou'], hp: 4, hand: [['sha', 'spade', 289], ['sha', 'heart', 290]], weapon: ['zhuge', 'spade', 291], target: { index: 1, hp: 2 } },
+	/* P1-2 双目标：A(座位1)距离1血2（非免费，需2次出杀）、B(座位4)距离4血3、3杀
+	 * → 付1兑现A；B在该档位不可及。第三反贼(座位6,8血)只用于避免“反贼全灭”触发 game.over。 */
+	'reqimou-multi2-pay1-killa': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 292], ['sha', 'heart', 293], ['sha', 'club', 294]], fanSeats: [1, 4, 6], targets: [{ index: 1, hp: 2 }, { index: 4, hp: 3 }, { index: 6, hp: 8 }] },
 	/* P1-2 三目标：A(d1,1血) B(d3,2血) C(d3,2血)、4杀 → 付2兑现 A+B 两杀。 */
 	'reqimou-multi3-pay2-killab': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 295], ['sha', 'heart', 296], ['sha', 'club', 297], ['sha', 'diamond', 298]], fanSeats: [1, 3, 5], targets: [{ index: 1, hp: 1 }, { index: 3, hp: 2 }, { index: 5, hp: 2 }] },
 	'reqimou-far4-2sha-hp4-defense': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 232], ['sha', 'heart', 233]], target: { index: 4, hp: 4, equip: ['bagua', 'spade', 234], hand: [['shan', 'diamond', 235], ['shan', 'club', 236], ['tao', 'heart', 237]] } },
@@ -216,7 +219,7 @@ try {
 					}).then(state => {
 						process.stderr.write('[hp][watchdog] ' + JSON.stringify(state) + '\n');
 					}).catch(() => {});
-					if (Date.now() - started > 90000) { clearInterval(timer); reject(new Error('scenario-watchdog-timeout-90s')); }
+									if (Date.now() - started > watchdogMs) { clearInterval(timer); reject(new Error('scenario-watchdog-timeout-' + watchdogMs + 'ms')); }
 				}, 10000);
 			});
 			const report = await Promise.race([
@@ -240,10 +243,11 @@ try {
 				const all = game.players.slice();
 				const actor = all[0];
 				const seatOf = player => all.indexOf(player);
-				const fanSeats = new Set((config.fanSeats || [4, 5]).filter(index => index < all.length));
 				const targetSpecs = config.targets && config.targets.length
 					? config.targets
 					: (config.target ? [config.target] : []);
+				/* 反贼座位 = 显式 fanSeats ∪ 所有目标座位（旧夹具语义：目标必为敌人） */
+				const fanSeats = new Set([...(config.fanSeats || [4, 5]), ...targetSpecs.map(spec => spec.index)].filter(index => index < all.length));
 				const target = targetSpecs.length ? all[targetSpecs[0].index] : null;
 				const targets = targetSpecs.map(spec => all[spec.index]);
 				const resetAll = async () => {

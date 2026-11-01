@@ -257,18 +257,32 @@ check('补修P1：自救收益档位吃掉击杀预算（付满换击杀而非�
 	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, saveCount: 1, targets: [mk(1, 3)] }), 2);
 });
 check('补修P1-2：档位与全回合收益绑定，收益不变时不加价', () => {
-	/* A距离1血1（档位1）、B距离4血3（档位3）、3杀：任意档位最多兑现1杀 → 取最小档1。 */
-	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, targets: [mk(1, 1), mk(4, 3)] }), 1);
-	/* 4杀时付3能兑现 A+B 两杀（1+3=4≤预算min(4,4)）→ 档位升到3。 */
+	/* A距离1血1（免费可杀）、B距离4血3、3杀：任意档位最多兑现1杀且A本就免费 → 净收益为0，不发动。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, targets: [mk(1, 1), mk(4, 3)] }), null, 'A免费可杀，支付无净收益');
+	/* 4杀时付3能兑现 A+B 两杀（1+3=4≤预算min(4,4)），净收益 2>1 → 档位3。 */
 	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 4, baseUses: 1, targets: [mk(1, 1), mk(4, 3)] }), 3);
-	/* 三目标：A(d1,1血) B(d3,2血) C(d3,2血)、4杀 → 付2兑现 A+B 两杀。 */
+	/* 三目标：A(d1,1血免费) B(d3,2血) C(d3,2血)、4杀 → 付2兑现 A+B 两杀，净收益 2>1。 */
 	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 4, baseUses: 1, targets: [mk(1, 1), mk(3, 2), mk(3, 2)] }), 2);
+	/* A不免费（2血>1次）时：付1兑现A、B不可及 → 净收益1>0 → 最小档1。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, targets: [mk(1, 2), mk(4, 3)] }), 1);
 });
 check('补修P1-2：预算不足时不宣称爆发收益（min(手杀,次数) 封顶）', () => {
-	/* A(d1,1血) B(d4,3血)、3杀：付3后预算3 < 1+3=4 → 仍只1杀 → 不加价。 */
-	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, targets: [mk(1, 1), mk(4, 3)] }), 1);
-	/* 次数约束：2杀、基础1次、目标A(d1,1血) B(d2,2血)：付1后次数2、手杀2 → A+B=3>2 → 只1杀 → 档位1。 */
-	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [mk(1, 1), mk(2, 2)] }), 1);
+	/* A(d1,1血) B(d4,3血)、3杀：付3后预算3 < 1+3=4 → 仍只1杀，与不发动等价 → 不发动。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: 1, targets: [mk(1, 1), mk(4, 3)] }), null);
+	/* 次数约束：2杀、基础1次、目标A(d1,1血免费) B(d2,2血)：任意档位最多1杀 → 净收益0 → 不发动。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [mk(1, 1), mk(2, 2)] }), null);
+	/* A不免费时（2血>1次）：不发动则0杀，付1后A/B均可及且预算2兑现1杀 → 净收益1 → 最小档1；
+	 * 4杀时付3兑现A+B两杀（2+2=4≤预算4）。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 2, baseUses: 1, targets: [mk(1, 2), mk(2, 2)] }), 1);
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 4, baseUses: 1, targets: [mk(1, 2), mk(2, 2)] }), 3, '4杀时付3兑现A+B两杀');
+});
+check('补修P1-2：机会成本——免费可得的击杀不支付（含连弩无限次数）', () => {
+	/* 连弩：贴脸1血目标免费可杀，远处目标付了也到不了 → 净收益0 → 不发动。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: Infinity, targets: [mk(1, 1), mk(4, 3)] }), null);
+	/* 连弩：贴脸2血目标免费可杀（无限次数），远处不可及 → 不发动。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: Infinity, targets: [mk(1, 2), mk(4, 3)] }), null);
+	/* 连弩：远处可杀目标是唯一收益来源 → 按达距所需支付。 */
+	assert.equal(reqimouOptimalX({ hp: 4, shaCount: 3, baseUses: Infinity, targets: [mk(1, 5), mk(4, 2)] }), 3, '贴脸5血不可杀，付3兑现远处2血');
 });
 check('补修P1-2：击杀收益按预算贪心统计（升序消耗手杀）', () => {
 	assert.equal(reqimouKillBenefit(4, 1, 2, [mk(1, 1), mk(3, 2), mk(3, 2)]), 2);

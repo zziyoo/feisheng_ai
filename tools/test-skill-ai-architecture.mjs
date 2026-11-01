@@ -77,9 +77,12 @@ check('2026-11-01 补修：出杀次数四态与收益档位契约', () => {
 	/* P2：宿主层必须原样放行 Infinity，不得把无限次数折成 1 */
 	assert(/num === Infinity\) \{[\s\S]{0,120}?return Infinity;/.test(source));
 	assert(rules.includes('interpretBaseUses'));
-	/* P1-2：档位必须按“最大确定击杀收益的最小档位”选取，预算=min(手杀,次数) */
+	/* P1-2：档位必须按“最大确定击杀收益的最小档位”选取，预算=min(手杀,次数)；
+	 * 机会成本：最大可承受收益必须严格高于不发动的免费收益，否则不支付 */
 	assert(/for \(let x = 1; x <= maxPayment; x\+\+\)/.test(rules));
 	assert(/Math\.min\(sha, uses\)/.test(rules));
+	assert(/baselineBenefit = reqimouKillBenefit\(shaCount, baseUses, 0, targets\)/.test(rules));
+	assert(/maxBenefit <= baselineBenefit\) return null/.test(rules));
 	/* gate 与 clamp 都要传 saveCount */
 	const gateCall = source.match(/reqimouOptimalX\(\{[^}]*\}\)/g) || [];
 	assert(gateCall.length >= 2, 'gate 与 clamp 都调用 reqimouOptimalX');

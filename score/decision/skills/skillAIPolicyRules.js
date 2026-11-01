@@ -201,7 +201,9 @@ export function reqimouKillBenefit(shaCount, baseUses, x, targets) {
  * 2. 档位：不再取“所有目标的最小需求”，而是“能兑现最大确定击杀收益的最小档位”。
  *    收益按全回合目标集合与手杀/次数预算评估，不绑定单一最容易攻击的目标；
  *    收益不变时绝不加价（min-x 平局），也绝不宣称预算覆盖不到的爆发收益。
- * 3. 返回 null：任何可承受档位都兑现不了击杀 → 调用方保留原生档位；
+ * 3. 机会成本：最大可承受收益必须严格高于“不发动”的免费收益（射程内、现有次数即可击杀），
+ *    否则返回 null——不为免费可得的击杀支付体力（含连弩无限次数下“为加次数”的白付）。
+ * 4. 返回 null：任何可承受档位都兑现不了净收益 → 调用方保留原生档位；
  *    若同时存在“手杀可击杀”的目标，gate 会阻止这次无收益发动。
  */
 export function reqimouOptimalX(input) {
@@ -213,8 +215,9 @@ export function reqimouOptimalX(input) {
 	if (!sha) return null;
 	const selfRescue = Math.max(0, Math.floor(Number(saveCount) || 0));
 	const maxPayment = selfRescue > 0 ? life : Math.max(1, life - 1);
+	const baselineBenefit = reqimouKillBenefit(shaCount, baseUses, 0, targets);
 	const maxBenefit = reqimouKillBenefit(shaCount, baseUses, maxPayment, targets);
-	if (!maxBenefit) return null;
+	if (!maxBenefit || maxBenefit <= baselineBenefit) return null;
 	for (let x = 1; x <= maxPayment; x++) {
 		if (reqimouKillBenefit(shaCount, baseUses, x, targets) >= maxBenefit) return x;
 	}
