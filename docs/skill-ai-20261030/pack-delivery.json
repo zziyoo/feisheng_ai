@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-11-01",
+  "packs": [
+    {
+      "pack_id": "refresh_standard",
+      "status": "阶段性",
+      "delivery_status": "阶段性",
+      "zip_name": "feisheng-ai-refresh-standard.zip",
+      "note": "阶段包：本包多数技能尚未审查，不可标记完整交付。",
+      "zip_sha256": "fcf49586766b665fbb054f5dc85bd6f1cb009d12c3e150e3fdf940ec2ce81245",
+      "zip_size": 188028,
+      "built_at": "2026-11-01T10:44:22.388Z"
+    },
+    {
+      "pack_id": "shenhua_feng",
+      "status": "阶段性",
+      "delivery_status": "阶段性",
+      "zip_name": "feisheng-ai-shenhua-feng.zip",
+      "note": "阶段包：qimou 已修复，其余登记技能尚未审查。",
+      "zip_sha256": "ffa59f9e30d3276c945afc66b43cceae55ff698c42ccbebf4366701d3bfbccf8",
+      "zip_size": 241489,
+      "built_at": "2026-11-01T10:44:22.388Z"
+    },
+    {
+      "pack_id": "refresh_feng",
+      "status": "阶段性",
+      "delivery_status": "阶段性",
+      "zip_name": "feisheng-ai-refresh-feng.zip",
+      "note": "阶段包：reqimou 已修复，其余登记技能尚未审查。",
+      "zip_sha256": "e9efceda93f22dcd848894b84ef51bc64da654663599a6db189b7292e33ef4d9",
+      "zip_size": 313947,
+      "built_at": "2026-11-01T10:44:22.388Z"
+    },
+    {
+      "pack_id": "shenhua_lei",
+      "status": "阶段性",
+      "delivery_status": "阶段性",
+      "zip_name": "feisheng-ai-shenhua-lei.zip",
+      "note": "阶段包：olkongsheng 已修复，其余登记技能尚未审查。",
+      "zip_sha256": "4ef5c3a109b9626bdf1ce1b0d9655d4b8cd8dc8b34ef49f0019f1e97cd1120f4",
+      "zip_size": 181099,
+      "built_at": "2026-11-01T10:44:22.388Z"
+    },
+    {
+      "pack_id": "out_of_scope",
+      "status": "阶段性",
+      "delivery_status": "阶段性",
+      "zip_name": "feisheng-ai-out-of-scope.zip",
+      "note": "阶段包：清单外 redimeng 已修复且宿主回归通过；仍需按外部集成流程验收。",
+      "zip_sha256": "d4ff7a7adc18a496d9b51a188b4a30880bb09ae125cc7ac9af350843f15f0c75",
+      "zip_size": 178624,
+      "built_at": "2026-11-01T10:44:22.388Z"
+    }
+  ]
+}

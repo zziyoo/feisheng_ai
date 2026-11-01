@@ -5,99 +5,151 @@ import { DEFENSE_RULES } from '../score/decision/skills/skillAIPolicyRules.js';
 const read = path => fs.readFileSync(path, 'utf8');
 let passed = 0;
 const check = (name, fn) => { fn(); passed++; console.log('PASS', name); };
+const PACK_FILES = ['refreshStandard', 'shenhuaFeng', 'refreshFeng', 'shenhuaLei', 'outOfScope'];
+const PACK_META = {
+	refreshStandard: { id: 'refresh_standard', skills: ['rezhiheng', 'new_retuxi'], rules: 'refreshStandard' },
+	shenhuaFeng: { id: 'shenhua_feng', skills: ['qimou'], rules: 'shenhuaFeng' },
+	refreshFeng: { id: 'refresh_feng', skills: ['reqimou'], rules: 'refreshFeng' },
+	shenhuaLei: { id: 'shenhua_lei', skills: ['olkongsheng'], rules: 'shenhuaLei' },
+	outOfScope: { id: 'out_of_scope', skills: ['redimeng'], rules: 'outOfScope' },
+};
+const packSource = name => read('score/decision/skills/packs/' + name + '.js');
+const packId = source => (source.match(/id:\s*'([^']+)'/) || [])[1];
+const packSkills = source => [...((source.match(/skills:\s*\[([^\]]*)\]/) || [])[1] || '').matchAll(/'([^']+)'/g)].map(m => m[1]);
+const codeLines = source => source.split('\n').filter(line => !/^\s*(\*|\/\/|\/\*)/.test(line));
 
 check('模型特征维度仍为 134', () => {
 	assert.match(read('score/model/features/features.js'), /FEATURE_DIM\s*=\s*134/);
 	assert.match(read('score/model/features/dimensionAdapter.js'), /CURRENT_DIM\s*=\s*134/);
 });
 check('扩展版本仍为 4.4.4', () => {
-	const info = JSON.parse(read('info.json'));
-	assert.equal(info.version, '4.4.4');
+	assert.equal(JSON.parse(read('info.json')).version, '4.4.4');
 });
-check('score/index.js 安装与卸载都接线策略层', () => {
-	const source = read('score/index.js');
-	assert.match(source, /import\s*\{\s*installSkillAIPolicies/);
-	assert.match(source, /installSkillAIPolicies\(\)/);
-	assert.match(source, /uninstallSkillAIPolicies\(\)/);
+check('score/index.js 仍接线策略层，facade 只依赖共享核心与注册表', () => {
+	const index = read('score/index.js');
+	assert.match(index, /import\s*\{\s*installSkillAIPolicies/);
+	assert.match(index, /installSkillAIPolicies\(\)/);
+	assert.match(index, /uninstallSkillAIPolicies\(\)/);
+	const facade = read('score/decision/skills/skillAIPolicies.js');
+	assert.match(facade, /from '\.\/policyCore\.js/);
+	assert.match(facade, /from '\.\/skillAIPolicyPacks\.js/);
+	assert(!/rules\/|\.\/packs\//.test(facade), 'facade 不得直接依赖具体分包');
 });
 check('标准制衡不注册策略，只保留界制衡', () => {
 	assert.deepEqual(Object.keys(DEFENSE_RULES), ['rezhiheng']);
 });
-check('突袭目标策略只注册 new_retuxi', () => {
-	const source = read('score/decision/skills/skillAIPolicies.js');
-	const match = source.match(/TARGET_POLICIES\s*=\s*new Set\(\[([\s\S]*?)\]\)/);
-	assert(match);
-	const ids = [...match[1].matchAll(/['"]([^'"]+)['"]/g)].map(m => m[1]);
-	assert.deepEqual(ids, ['new_retuxi']);
+check('分包注册表完整、技能归属唯一、分包字段齐全', () => {
+	const registry = read('score/decision/skills/skillAIPolicyPacks.js');
+	assert(registry.includes('@djsc-pack-imports-begin'));
+	assert(registry.includes('@djsc-pack-imports-end'));
+	assert(registry.includes('@djsc-pack-registry-begin'));
+	assert(registry.includes('@djsc-pack-registry-end'));
+	const ids = [];
+	const skills = [];
+	for (const file of PACK_FILES) {
+		const source = packSource(file);
+		assert.equal(packId(source), PACK_META[file].id, file + ' id');
+		assert.deepEqual(packSkills(source), PACK_META[file].skills, file + ' skills');
+		assert(/group:\s*'[^']+'/.test(source), file + ' group');
+		assert(/statsDefaults:\s*\{/.test(source), file + ' statsDefaults');
+		assert(/install,/.test(source), file + ' install');
+		assert(registry.includes('pack as ' + file), file + ' registered');
+		ids.push(PACK_META[file].id);
+		skills.push(...PACK_META[file].skills);
+	}
+	assert.equal(new Set(ids).size, ids.length, 'pack id 不得重复');
+	assert.equal(new Set(skills).size, skills.length, '同一技能只能由一个分包注册');
+	assert.deepEqual(new Set(skills), new Set(['rezhiheng', 'new_retuxi', 'qimou', 'reqimou', 'olkongsheng', 'redimeng']));
 });
-check('缔盟策略不调用宿主看牌评分', () => {
-	const source = read('score/decision/skills/skillAIPolicies.js');
-	const codeLines = source.split('\n').filter(line => !/^\s*(\*|\/\/)/.test(line));
-	assert(!codeLines.some(line => line.includes('get.value(button')));
-	assert(source.includes('shouldMaskHiddenButtonChoice'));
+check('分包之间不互相 import，且只 import 自己的规则文件', () => {
+	for (const file of PACK_FILES) {
+		const source = packSource(file);
+		assert(!/from ['"]\.\/packs\//.test(source), file + ' 不得 import 其他分包');
+		assert(!source.includes('skillAIPolicyRules.js'), file + ' 不得 import 规则聚合出口');
+		assert(source.includes('../rules/' + PACK_META[file].rules + '.js'), file + ' 必须 import 自己的规则文件');
+	}
 });
-check('箜声策略有宿主成本指纹', () => {
-	const source = read('score/decision/skills/skillAIPolicies.js');
-	assert(source.includes('olkongshengCostNeedsFix'));
-	assert(source.includes('olkongshengExpansionView'));
+check('共享核心不包含任何具体技能名，生命周期可逆', () => {
+	const core = read('score/decision/skills/policyCore.js');
+	assert(!/rezhiheng|new_retuxi|retuxi|olkongsheng|qimou|reqimou|redimeng/.test(core), 'core 必须与技能无关');
+	assert(/backups\.splice\(0\)\.reverse\(\)/.test(core));
+	assert(/backup\.owner\[backup\.key\] === backup\.wrapped/.test(core));
+	assert(/__djscSkillPolicy/.test(core));
+	assert(/installed = false/.test(core));
 });
-check('第二批奇谋策略只放宽阻塞且不改技能规则', () => {
-	const source = read('score/decision/skills/skillAIPolicies.js');
-	const rules = read('score/decision/skills/skillAIPolicyRules.js');
+check('奇谋分包只放宽阻塞且不复制技能规则', () => {
+	const source = packSource('shenhuaFeng');
 	assert(source.includes('shouldBypassQimouCountBlock'));
+	assert(source.includes('lib.filter.cardEnabled'));
+	assert(source.includes('lib.filter.cardUsable'));
+	assert(!source.includes('reqimou'));
+	const rules = read('score/decision/skills/rules/shenhuaFeng.js');
+	assert(rules.includes('qimouTargetX'));
+	assert(!rules.includes('lib.skill'));
+});
+check('OL界魏延分包使用真实攻击范围与一次性 chooseNumbers', () => {
+	const source = packSource('refreshFeng');
 	assert(source.includes('reqimouNeedsPayment'));
 	assert(source.includes('reqimouOptimalX'));
 	assert(source.includes('reqimouKillableByHand'));
-	/* 攻击范围必须走宿主真实 API getAttackRange()，不得读取不存在的 player.attackRange 属性 */
 	assert(/player\.getAttackRange\(\)/.test(source));
 	assert(!/player\.attackRange\b/.test(source));
-	/* 规则层只做数值判断，不直接改写 lib.skill */
-	assert(!rules.includes('lib.skill'));
-	/* 生命周期可还原：qimou/reqimou 的 result.player 与 reqimou.content 都有备份 */
-	assert(source.includes('_qimouBackup'));
-	assert(source.includes('_reqimouGateBackup'));
-	assert(source.includes('_reqimouContentBackup'));
-	/* chooseNumbers 包装必须一次性作用域且人类路径不 clamp */
 	assert(/player\.chooseNumbers = originalChooseNumbers;\s*\n\s*const next/.test(source));
 	assert(/const isHuman = player === game\.me && !_status\.auto;/.test(source));
-	/* gate 枚举为空时保留原生；不可承受支付时阻止无收益发动 */
 	assert(/Number\(native\) > 0 && targets\.length/.test(source));
 	assert(/!reqimouNeedsPayment\(targets\)/.test(source));
-	assert(source.includes('reqimouInfeasible'));
-	/* 2026-11-01 补修：自救上限只在 reqimouOptimalX 内生效（有自救→life，无自救→hp-1），
-	 * 不可承受的档位仍绝不截断；自救牌只读自己手牌 canSaveCard */
+	assert(/player\.canSaveCard\(card, player\)/.test(source));
+	const rules = read('score/decision/skills/rules/refreshFeng.js');
 	assert(/selfRescue > 0 \? life : Math\.max\(1, life - 1\)/.test(rules));
 	assert(rules.includes('reqimouKillBenefit'));
-	assert(/player\.canSaveCard\(card, player\)/.test(source));
-	assert(!/getCardUsable\('sha'\) \|\| 1/.test(rules));
-});
-check('2026-11-01 补修：出杀次数四态与收益档位契约', () => {
-	const source = read('score/decision/skills/skillAIPolicies.js');
-	const rules = read('score/decision/skills/skillAIPolicyRules.js');
-	/* P2：宿主层必须原样放行 Infinity，不得把无限次数折成 1 */
-	assert(/num === Infinity\) \{[\s\S]{0,120}?return Infinity;/.test(source));
-	assert(rules.includes('interpretBaseUses'));
-	/* P1-2：档位必须按“最大确定击杀收益的最小档位”选取，预算=min(手杀,次数)；
-	 * 机会成本：最大可承受收益必须严格高于不发动的免费收益，否则不支付 */
 	assert(/for \(let x = 1; x <= maxPayment; x\+\+\)/.test(rules));
 	assert(/Math\.min\(sha, uses\)/.test(rules));
 	assert(/baselineBenefit = reqimouKillBenefit\(shaCount, baseUses, 0, targets\)/.test(rules));
 	assert(/maxBenefit <= baselineBenefit\) return null/.test(rules));
-	/* gate 与 clamp 都要传 saveCount */
-	const gateCall = source.match(/reqimouOptimalX\(\{[^}]*\}\)/g) || [];
-	assert(gateCall.length >= 2, 'gate 与 clamp 都调用 reqimouOptimalX');
-	for (const call of gateCall) assert(call.includes('saveCount'), 'reqimouOptimalX 调用必须传 saveCount: ' + call);
+	assert(rules.includes('interpretBaseUses'));
+	assert(!/getCardUsable\('sha'\) \|\| 1/.test(rules));
+	assert(!rules.includes('lib.skill'));
+	const calls = source.match(/reqimouOptimalX\(\{[^}]*\}\)/g) || [];
+	assert(calls.length >= 2, 'gate 与 clamp 都调用 reqimouOptimalX');
+	for (const call of calls) assert(call.includes('saveCount'), 'reqimouOptimalX 调用必须传 saveCount: ' + call);
+});
+check('缔盟分包不调用宿主看牌评分', () => {
+	const source = packSource('outOfScope');
+	assert(!codeLines(source).some(line => line.includes('get.value(button')));
+	assert(source.includes('shouldMaskHiddenButtonChoice'));
+	assert(source.includes('fairButtonScore'));
+});
+check('箜声分包保留宿主成本指纹与数组视图', () => {
+	const source = packSource('shenhuaLei');
+	assert(source.includes('olkongshengCostNeedsFix'));
+	assert(source.includes('olkongshengExpansionView'));
+	const rules = read('score/decision/skills/rules/shenhuaLei.js');
+	assert(rules.includes('olkongshengCostNeedsFix'));
+	assert(!rules.includes('lib.skill'));
+});
+check('突袭目标策略只注册 new_retuxi', () => {
+	const source = packSource('refreshStandard');
+	const match = source.match(/TARGET_POLICIES\s*=\s*new Set\(\[([\s\S]*?)\]\)/);
+	assert(match);
+	assert.deepEqual([...match[1].matchAll(/['"]([^'"]+)['"]/g)].map(m => m[1]), ['new_retuxi']);
+	const rules = read('score/decision/skills/rules/refreshStandard.js');
+	assert(rules.includes('retuxiHandBonus'));
+	assert(!rules.includes('lib.skill'));
+});
+check('规则层保持纯函数，不含宿主实现', () => {
+	for (const file of fs.readdirSync('score/decision/skills/rules')) {
+		if (!file.endsWith('.js')) continue;
+		const rules = read('score/decision/skills/rules/' + file);
+		assert(!rules.includes('lib.skill'), file + ' 不应包含 lib.skill');
+		assert(!rules.includes('player.getCards'), file + ' 不应读取宿主手牌');
+	}
 });
 check('v2 模型未接线，运行时只有 v3', () => {
 	const extension = read('extension.js');
 	assert(!/policyModelV2/.test(extension));
-	assert(matchImport(extension, 'policyModelV3'));
-	const adapter = read('score/model/net/policyModelV2.js');
-	assert.match(adapter, /import\(['"]\.\/client_policy_model_v2\.js/);
+	assert(new RegExp('import\\s+[^;]*policyModelV3').test(extension));
+	assert.match(read('score/model/net/policyModelV2.js'), /import\(['"]\.\/client_policy_model_v2\.js/);
 });
-function matchImport(source, name) {
-	return new RegExp('import\\s+[^;]*' + name).test(source);
-}
 check('baseline 用 tag 解引用后的提交', () => {
 	const baseline = JSON.parse(read('docs/skill-ai-20261030/baseline.json'));
 	assert.equal(baseline.tag_object, '22cf3798445321385ed01582aaf35afdd5b7f63d');

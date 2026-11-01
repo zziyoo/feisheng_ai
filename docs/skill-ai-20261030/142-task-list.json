@@ -1,7 +1,7 @@
 {
-  "schema_version": "3.0",
-  "record_kind": "reviewed_inventory_with_skill_level_status",
-  "generated_at": "2026-10-31",
+  "schema_version": "4.0",
+  "record_kind": "packed_review_inventory_with_skill_level_status",
+  "generated_at": "2026-11-01",
   "baseline": {
     "extension": "无名AI v4.4.4 (1fe5292eb3022dd8d1db494617b21a12be912e61)",
     "host": "无名杀 1.11.7 (lib.version; app package 1.11.0)",
@@ -52,8 +52,1390 @@
       "真实宿主通过": 7,
       "未测试": 266,
       "真实宿主完整回合通过": 7
-    }
+    },
+    "pack_status": {
+      "正在审查": 4,
+      "尚未开始": 7,
+      "部分修复": 4,
+      "验证完成": 1
+    },
+    "packs_total": 16
   },
+  "packs": [
+    {
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "标准包",
+      "category": "standard_2008",
+      "target_characters": [
+        {
+          "character_id": "zhangliao",
+          "character_name": "张辽"
+        },
+        {
+          "character_id": "liubei",
+          "character_name": "刘备"
+        },
+        {
+          "character_id": "sunquan",
+          "character_name": "孙权"
+        },
+        {
+          "character_id": "huanggai",
+          "character_name": "黄盖"
+        },
+        {
+          "character_id": "daqiao",
+          "character_name": "大乔"
+        },
+        {
+          "character_id": "diaochan",
+          "character_name": "貂蝉"
+        },
+        {
+          "character_id": "caocao",
+          "character_name": "曹操"
+        },
+        {
+          "character_id": "simayi",
+          "character_name": "司马懿"
+        },
+        {
+          "character_id": "xiahoudun",
+          "character_name": "夏侯惇"
+        },
+        {
+          "character_id": "xuzhu",
+          "character_name": "许褚"
+        },
+        {
+          "character_id": "guojia",
+          "character_name": "郭嘉"
+        },
+        {
+          "character_id": "zhugeliang",
+          "character_name": "诸葛亮"
+        },
+        {
+          "character_id": "ganning",
+          "character_name": "甘宁"
+        },
+        {
+          "character_id": "lvmeng",
+          "character_name": "吕蒙"
+        },
+        {
+          "character_id": "zhouyu",
+          "character_name": "周瑜"
+        },
+        {
+          "character_id": "sunshangxiang",
+          "character_name": "孙尚香"
+        },
+        {
+          "character_id": "huatuo",
+          "character_name": "华佗"
+        },
+        {
+          "character_id": "lvbu",
+          "character_name": "吕布"
+        },
+        {
+          "character_id": "zhenji",
+          "character_name": "甄宓"
+        },
+        {
+          "character_id": "guanyu",
+          "character_name": "关羽"
+        },
+        {
+          "character_id": "zhangfei",
+          "character_name": "张飞"
+        },
+        {
+          "character_id": "zhaoyun",
+          "character_name": "赵云"
+        },
+        {
+          "character_id": "machao",
+          "character_name": "马超"
+        },
+        {
+          "character_id": "huangyueying",
+          "character_name": "黄月英"
+        },
+        {
+          "character_id": "luxun",
+          "character_name": "陆逊"
+        }
+      ],
+      "target_skills": [
+        "tuxi",
+        "rende",
+        "jijiang",
+        "zhiheng",
+        "jiuyuan",
+        "kurou",
+        "guose",
+        "liuli",
+        "lijian",
+        "biyue",
+        "jianxiong",
+        "hujia",
+        "fankui",
+        "guicai",
+        "ganglie",
+        "luoyi",
+        "tiandu",
+        "yiji",
+        "guanxing",
+        "kongcheng",
+        "qixi",
+        "keji",
+        "yingzi",
+        "fanjian",
+        "xiaoji",
+        "jieyin",
+        "qingnang",
+        "jijiu",
+        "wushuang",
+        "luoshen",
+        "qingguo",
+        "wusheng",
+        "paoxiao",
+        "longdan",
+        "mashu",
+        "tieji",
+        "jizhi",
+        "qicai",
+        "qianxun",
+        "lianying"
+      ],
+      "counts": {
+        "characters": 25,
+        "skills": 40,
+        "reviewed_skills": 4,
+        "fixed_skills": 0,
+        "verified_skills": 4,
+        "unreviewed_skills": 36,
+        "skill_status": {
+          "已验证无问题": 4,
+          "尚未验证": 36
+        }
+      },
+      "review_status": "正在审查",
+      "status": "正在审查",
+      "delivery_status": "未打包",
+      "delivery": {
+        "pack_id": "standard_2008",
+        "status": "未打包"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "standard_2013",
+      "pack_name": "标准包·2013版",
+      "pack_group": "标准包",
+      "category": "standard_2013",
+      "target_characters": [
+        {
+          "character_id": "re_yuanshu",
+          "character_name": "袁术"
+        },
+        {
+          "character_id": "old_re_lidian",
+          "character_name": "李典"
+        },
+        {
+          "character_id": "huaxiong",
+          "character_name": "华雄"
+        }
+      ],
+      "target_skills": [
+        "rewangzun",
+        "retongji",
+        "xunxun",
+        "wangxi",
+        "yaowu"
+      ],
+      "counts": {
+        "characters": 3,
+        "skills": 5,
+        "reviewed_skills": 0,
+        "fixed_skills": 0,
+        "verified_skills": 0,
+        "unreviewed_skills": 5,
+        "skill_status": {
+          "尚未验证": 5
+        }
+      },
+      "review_status": "尚未开始",
+      "status": "尚未开始",
+      "delivery_status": "未打包",
+      "delivery": {
+        "pack_id": "standard_2013",
+        "status": "未打包"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "standard_2019",
+      "pack_name": "标准包·2019版",
+      "pack_group": "标准包",
+      "category": "standard_2019",
+      "target_characters": [
+        {
+          "character_id": "xf_yiji",
+          "character_name": "伊籍"
+        },
+        {
+          "character_id": "gongsunzan",
+          "character_name": "公孙瓒"
+        }
+      ],
+      "target_skills": [
+        "xinfu_jijie",
+        "xinfu_jiyuan",
+        "reyicong"
+      ],
+      "counts": {
+        "characters": 2,
+        "skills": 3,
+        "reviewed_skills": 0,
+        "fixed_skills": 0,
+        "verified_skills": 0,
+        "unreviewed_skills": 3,
+        "skill_status": {
+          "尚未验证": 3
+        }
+      },
+      "review_status": "尚未开始",
+      "status": "尚未开始",
+      "delivery_status": "未打包",
+      "delivery": {
+        "pack_id": "standard_2019",
+        "status": "未打包"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "standard_2023",
+      "pack_name": "标准包·2023版",
+      "pack_group": "标准包",
+      "category": "standard_2023",
+      "target_characters": [
+        {
+          "character_id": "std_panfeng",
+          "character_name": "标潘凤"
+        },
+        {
+          "character_id": "ganfuren",
+          "character_name": "标甘夫人"
+        },
+        {
+          "character_id": "std_yuejin",
+          "character_name": "标乐进"
+        }
+      ],
+      "target_skills": [
+        "stdkuangfu",
+        "stdshushen",
+        "shenzhi",
+        "stdxiaoguo"
+      ],
+      "counts": {
+        "characters": 3,
+        "skills": 4,
+        "reviewed_skills": 0,
+        "fixed_skills": 0,
+        "verified_skills": 0,
+        "unreviewed_skills": 4,
+        "skill_status": {
+          "尚未验证": 4
+        }
+      },
+      "review_status": "尚未开始",
+      "status": "尚未开始",
+      "delivery_status": "未打包",
+      "delivery": {
+        "pack_id": "standard_2023",
+        "status": "未打包"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "shenhua_feng",
+      "pack_name": "神话再临·风",
+      "pack_group": "神话再临",
+      "category": "shenhua_feng",
+      "target_characters": [
+        {
+          "character_id": "sp_zhangjiao",
+          "character_name": "张角"
+        },
+        {
+          "character_id": "re_yuji",
+          "character_name": "于吉"
+        },
+        {
+          "character_id": "re_xiahouyuan",
+          "character_name": "夏侯渊"
+        },
+        {
+          "character_id": "xiaoqiao",
+          "character_name": "小乔"
+        },
+        {
+          "character_id": "re_weiyan",
+          "character_name": "魏延"
+        },
+        {
+          "character_id": "old_caoren",
+          "character_name": "曹仁"
+        },
+        {
+          "character_id": "old_zhoutai",
+          "character_name": "周泰"
+        },
+        {
+          "character_id": "re_huangzhong",
+          "character_name": "黄忠"
+        }
+      ],
+      "target_skills": [
+        "releiji",
+        "guidao",
+        "huangtian",
+        "xinfu_guhuo",
+        "xinshensu",
+        "retianxiang",
+        "hongyan",
+        "xinkuanggu",
+        "qimou",
+        "jushou",
+        "gzbuqu",
+        "xinliegong"
+      ],
+      "counts": {
+        "characters": 8,
+        "skills": 12,
+        "reviewed_skills": 1,
+        "fixed_skills": 1,
+        "verified_skills": 0,
+        "unreviewed_skills": 11,
+        "skill_status": {
+          "尚未验证": 11,
+          "已修复": 1
+        }
+      },
+      "review_status": "部分修复",
+      "status": "部分修复",
+      "delivery_status": "阶段性",
+      "delivery": {
+        "pack_id": "shenhua_feng",
+        "status": "阶段性",
+        "delivery_status": "阶段性",
+        "zip_name": "feisheng-ai-shenhua-feng.zip",
+        "note": "阶段包：qimou 已修复，其余登记技能尚未审查。"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "shenhua_huo",
+      "pack_name": "神话再临·火",
+      "pack_group": "神话再临",
+      "category": "shenhua_huo",
+      "target_characters": [
+        {
+          "character_id": "dianwei",
+          "character_name": "典韦"
+        },
+        {
+          "character_id": "xunyu",
+          "character_name": "荀彧"
+        },
+        {
+          "character_id": "pangtong",
+          "character_name": "庞统"
+        },
+        {
+          "character_id": "taishici",
+          "character_name": "太史慈"
+        },
+        {
+          "character_id": "yanwen",
+          "character_name": "颜良文丑"
+        },
+        {
+          "character_id": "re_yuanshao",
+          "character_name": "袁绍"
+        },
+        {
+          "character_id": "sp_zhugeliang",
+          "character_name": "卧龙"
+        },
+        {
+          "character_id": "re_pangde",
+          "character_name": "庞德"
+        }
+      ],
+      "target_skills": [
+        "qiangxix",
+        "quhu",
+        "jieming",
+        "lianhuan",
+        "oldniepan",
+        "tianyi",
+        "shuangxiong",
+        "luanji",
+        "xueyi",
+        "bazhen",
+        "huoji",
+        "kanpo",
+        "mashu",
+        "jianchu"
+      ],
+      "counts": {
+        "characters": 8,
+        "skills": 14,
+        "reviewed_skills": 1,
+        "fixed_skills": 0,
+        "verified_skills": 1,
+        "unreviewed_skills": 13,
+        "skill_status": {
+          "已验证无问题": 1,
+          "尚未验证": 13
+        }
+      },
+      "review_status": "正在审查",
+      "status": "正在审查",
+      "delivery_status": "未打包",
+      "delivery": {
+        "pack_id": "shenhua_huo",
+        "status": "未打包"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "shenhua_lin",
+      "pack_name": "神话再临·林",
+      "pack_group": "神话再临",
+      "category": "shenhua_lin",
+      "target_characters": [
+        {
+          "character_id": "re_lusu",
+          "character_name": "鲁肃"
+        },
+        {
+          "character_id": "dongzhuo",
+          "character_name": "董卓"
+        },
+        {
+          "character_id": "jiaxu",
+          "character_name": "贾诩"
+        },
+        {
+          "character_id": "caopi",
+          "character_name": "曹丕"
+        },
+        {
+          "character_id": "re_xuhuang",
+          "character_name": "徐晃"
+        },
+        {
+          "character_id": "menghuo",
+          "character_name": "孟获"
+        },
+        {
+          "character_id": "zhurong",
+          "character_name": "祝融"
+        },
+        {
+          "character_id": "sunjian",
+          "character_name": "孙坚"
+        }
+      ],
+      "target_skills": [
+        "haoshi",
+        "dimeng",
+        "jiuchi",
+        "roulin",
+        "benghuai",
+        "baonue",
+        "luanwu",
+        "wansha",
+        "weimu",
+        "xingshang",
+        "fangzhu",
+        "songwei",
+        "duanliang",
+        "jiezi",
+        "huoshou",
+        "zaiqixx",
+        "twqiushou",
+        "juxiang",
+        "lieren",
+        "gzyinghun"
+      ],
+      "counts": {
+        "characters": 8,
+        "skills": 20,
+        "reviewed_skills": 1,
+        "fixed_skills": 0,
+        "verified_skills": 1,
+        "unreviewed_skills": 19,
+        "skill_status": {
+          "尚未验证": 19,
+          "已验证无问题": 1
+        }
+      },
+      "review_status": "正在审查",
+      "status": "正在审查",
+      "delivery_status": "未打包",
+      "delivery": {
+        "pack_id": "shenhua_lin",
+        "status": "未打包"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "shenhua_shan",
+      "pack_name": "神话再临·山",
+      "pack_group": "神话再临",
+      "category": "shenhua_shan",
+      "target_characters": [
+        {
+          "character_id": "zhanghe",
+          "character_name": "张郃"
+        },
+        {
+          "character_id": "liushan",
+          "character_name": "刘禅"
+        },
+        {
+          "character_id": "zuoci",
+          "character_name": "左慈"
+        },
+        {
+          "character_id": "dengai",
+          "character_name": "邓艾"
+        },
+        {
+          "character_id": "jiangwei",
+          "character_name": "姜维"
+        },
+        {
+          "character_id": "zhangzhang",
+          "character_name": "张昭张纮"
+        },
+        {
+          "character_id": "sunce",
+          "character_name": "孙策"
+        },
+        {
+          "character_id": "caiwenji",
+          "character_name": "蔡琰"
+        }
+      ],
+      "target_skills": [
+        "qiaobian",
+        "xiangle",
+        "fangquan",
+        "ruoyu",
+        "huashen",
+        "xinsheng",
+        "tuntian",
+        "zaoxian",
+        "tiaoxin",
+        "zhiji",
+        "zhijian",
+        "guzheng",
+        "jiang",
+        "hunzi",
+        "zhiba",
+        "beige",
+        "duanchang"
+      ],
+      "counts": {
+        "characters": 8,
+        "skills": 17,
+        "reviewed_skills": 0,
+        "fixed_skills": 0,
+        "verified_skills": 0,
+        "unreviewed_skills": 17,
+        "skill_status": {
+          "尚未验证": 17
+        }
+      },
+      "review_status": "尚未开始",
+      "status": "尚未开始",
+      "delivery_status": "未打包",
+      "delivery": {
+        "pack_id": "shenhua_shan",
+        "status": "未打包"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "shenhua_yin",
+      "pack_name": "神话再临·阴",
+      "pack_group": "神话再临",
+      "category": "shenhua_yin",
+      "target_characters": [
+        {
+          "character_id": "wangji",
+          "character_name": "王基"
+        },
+        {
+          "character_id": "sunliang",
+          "character_name": "孙亮"
+        },
+        {
+          "character_id": "xuyou",
+          "character_name": "许攸"
+        },
+        {
+          "character_id": "kuailiangkuaiyue",
+          "character_name": "蒯良蒯越"
+        },
+        {
+          "character_id": "yanyan",
+          "character_name": "严颜"
+        },
+        {
+          "character_id": "wangping",
+          "character_name": "王平"
+        },
+        {
+          "character_id": "luji",
+          "character_name": "陆绩"
+        },
+        {
+          "character_id": "yl_luzhi",
+          "character_name": "卢植"
+        }
+      ],
+      "target_skills": [
+        "qizhi",
+        "jinqu",
+        "nzry_kuizhu",
+        "nzry_zhizheng",
+        "nzry_lijun",
+        "nzry_chenglve",
+        "nzry_shicai",
+        "nzry_cunmu",
+        "nzry_jianxiang",
+        "nzry_shenshi",
+        "nzry_juzhan",
+        "nzry_feijun",
+        "nzry_binglve",
+        "nzry_huaiju",
+        "nzry_yili",
+        "nzry_zhenglun",
+        "nzry_mingren",
+        "nzry_zhenliang"
+      ],
+      "counts": {
+        "characters": 8,
+        "skills": 18,
+        "reviewed_skills": 0,
+        "fixed_skills": 0,
+        "verified_skills": 0,
+        "unreviewed_skills": 18,
+        "skill_status": {
+          "尚未验证": 18
+        }
+      },
+      "review_status": "尚未开始",
+      "status": "尚未开始",
+      "delivery_status": "未打包",
+      "delivery": {
+        "pack_id": "shenhua_yin",
+        "status": "未打包"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "shenhua_lei",
+      "pack_name": "神话再临·雷",
+      "pack_group": "神话再临",
+      "category": "shenhua_lei",
+      "target_characters": [
+        {
+          "character_id": "guanqiujian",
+          "character_name": "毌丘俭"
+        },
+        {
+          "character_id": "chendao",
+          "character_name": "陈到"
+        },
+        {
+          "character_id": "lukang",
+          "character_name": "陆抗"
+        },
+        {
+          "character_id": "zhoufei",
+          "character_name": "周妃"
+        },
+        {
+          "character_id": "zhangxiu",
+          "character_name": "张绣"
+        },
+        {
+          "character_id": "yl_yuanshu",
+          "character_name": "新杀袁术"
+        },
+        {
+          "character_id": "haozhao",
+          "character_name": "郝昭"
+        },
+        {
+          "character_id": "zhugezhan",
+          "character_name": "诸葛瞻"
+        }
+      ],
+      "target_skills": [
+        "zhengrong",
+        "hongju",
+        "dcwanglie",
+        "drlt_qianjie",
+        "drlt_jueyan",
+        "drlt_poshi",
+        "olliangyin",
+        "olkongsheng",
+        "drlt_xiongluan",
+        "drlt_congjian",
+        "twjuxiang",
+        "drlt_yongsi",
+        "drlt_weidi",
+        "drlt_zhengu",
+        "xinfu_zuilun",
+        "xinfu_fuyin"
+      ],
+      "counts": {
+        "characters": 8,
+        "skills": 16,
+        "reviewed_skills": 1,
+        "fixed_skills": 1,
+        "verified_skills": 0,
+        "unreviewed_skills": 15,
+        "skill_status": {
+          "尚未验证": 15,
+          "已修复": 1
+        }
+      },
+      "review_status": "部分修复",
+      "status": "部分修复",
+      "delivery_status": "阶段性",
+      "delivery": {
+        "pack_id": "shenhua_lei",
+        "status": "阶段性",
+        "delivery_status": "阶段性",
+        "zip_name": "feisheng-ai-shenhua-lei.zip",
+        "note": "阶段包：olkongsheng 已修复，其余登记技能尚未审查。"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "界限突破",
+      "category": "refresh_standard",
+      "target_characters": [
+        {
+          "character_id": "re_zhangliao",
+          "character_name": "界张辽"
+        },
+        {
+          "character_id": "re_daqiao",
+          "character_name": "界大乔"
+        },
+        {
+          "character_id": "re_huanggai",
+          "character_name": "界黄盖"
+        },
+        {
+          "character_id": "re_liubei",
+          "character_name": "界刘备"
+        },
+        {
+          "character_id": "re_diaochan",
+          "character_name": "界貂蝉"
+        },
+        {
+          "character_id": "re_sunquan",
+          "character_name": "界孙权"
+        },
+        {
+          "character_id": "re_caocao",
+          "character_name": "界曹操"
+        },
+        {
+          "character_id": "re_simayi",
+          "character_name": "界司马懿"
+        },
+        {
+          "character_id": "re_guojia",
+          "character_name": "界郭嘉"
+        },
+        {
+          "character_id": "re_xuzhu",
+          "character_name": "界许褚"
+        },
+        {
+          "character_id": "re_xiahoudun",
+          "character_name": "界夏侯惇"
+        },
+        {
+          "character_id": "re_zhangfei",
+          "character_name": "界张飞"
+        },
+        {
+          "character_id": "re_zhaoyun",
+          "character_name": "界赵云"
+        },
+        {
+          "character_id": "re_guanyu",
+          "character_name": "界关羽"
+        },
+        {
+          "character_id": "re_machao",
+          "character_name": "界马超"
+        },
+        {
+          "character_id": "re_zhouyu",
+          "character_name": "界周瑜"
+        },
+        {
+          "character_id": "re_lvmeng",
+          "character_name": "界吕蒙"
+        },
+        {
+          "character_id": "re_ganning",
+          "character_name": "界甘宁"
+        },
+        {
+          "character_id": "re_luxun",
+          "character_name": "界陆逊"
+        },
+        {
+          "character_id": "re_lvbu",
+          "character_name": "界吕布"
+        },
+        {
+          "character_id": "re_huatuo",
+          "character_name": "界华佗"
+        },
+        {
+          "character_id": "re_huangyueying",
+          "character_name": "界黄月英"
+        },
+        {
+          "character_id": "re_sunshangxiang",
+          "character_name": "界孙尚香"
+        },
+        {
+          "character_id": "re_zhenji",
+          "character_name": "界甄宓"
+        },
+        {
+          "character_id": "re_zhugeliang",
+          "character_name": "界诸葛亮"
+        },
+        {
+          "character_id": "re_huaxiong",
+          "character_name": "界华雄"
+        },
+        {
+          "character_id": "re_gongsunzan",
+          "character_name": "界公孙瓒"
+        },
+        {
+          "character_id": "re_lidian",
+          "character_name": "界李典"
+        },
+        {
+          "character_id": "re_xushu",
+          "character_name": "界徐庶"
+        }
+      ],
+      "target_skills": [
+        "new_retuxi",
+        "reguose",
+        "liuli",
+        "rekurou",
+        "zhaxiang",
+        "rerende",
+        "rejijiang",
+        "lijian",
+        "rebiyue",
+        "rezhiheng",
+        "rejiuyuan",
+        "new_rejianxiong",
+        "rehujia",
+        "refankui",
+        "reguicai",
+        "tiandu",
+        "new_reyiji",
+        "new_reluoyi",
+        "reganglie",
+        "new_qingjian",
+        "olpaoxiao",
+        "oltishen",
+        "ollongdan",
+        "olyajiao",
+        "new_rewusheng",
+        "new_yijue",
+        "mashu",
+        "retieji",
+        "reyingzi",
+        "refanjian",
+        "keji",
+        "qinxue",
+        "rebotu",
+        "qixi",
+        "fenwei",
+        "reqianxun",
+        "relianying",
+        "wushuang",
+        "new_liyu",
+        "jijiu",
+        "new_reqingnang",
+        "rejizhi",
+        "reqicai",
+        "xiaoji",
+        "rejieyin",
+        "reluoshen",
+        "qingguo",
+        "reguanxing",
+        "kongcheng",
+        "reyaowu",
+        "shizhan",
+        "reqiaomeng",
+        "reyicong",
+        "xunxun",
+        "xinwangxi",
+        "zhuhai",
+        "qianxin"
+      ],
+      "counts": {
+        "characters": 29,
+        "skills": 57,
+        "reviewed_skills": 4,
+        "fixed_skills": 2,
+        "verified_skills": 2,
+        "unreviewed_skills": 53,
+        "skill_status": {
+          "已修复": 2,
+          "尚未验证": 53,
+          "已验证无问题": 2
+        }
+      },
+      "review_status": "部分修复",
+      "status": "部分修复",
+      "delivery_status": "阶段性",
+      "delivery": {
+        "pack_id": "refresh_standard",
+        "status": "阶段性",
+        "delivery_status": "阶段性",
+        "zip_name": "feisheng-ai-refresh-standard.zip",
+        "note": "阶段包：本包多数技能尚未审查，不可标记完整交付。"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "refresh_feng",
+      "pack_name": "界限突破·风",
+      "pack_group": "界限突破",
+      "category": "refresh_feng",
+      "target_characters": [
+        {
+          "character_id": "ol_xiahouyuan",
+          "character_name": "界夏侯渊"
+        },
+        {
+          "character_id": "ol_weiyan",
+          "character_name": "界魏延"
+        },
+        {
+          "character_id": "ol_xiaoqiao",
+          "character_name": "界小乔"
+        },
+        {
+          "character_id": "re_zhangjiao",
+          "character_name": "界张角"
+        },
+        {
+          "character_id": "xin_yuji",
+          "character_name": "界于吉"
+        },
+        {
+          "character_id": "caoren",
+          "character_name": "界曹仁"
+        },
+        {
+          "character_id": "zhoutai",
+          "character_name": "界周泰"
+        },
+        {
+          "character_id": "ol_huangzhong",
+          "character_name": "界黄忠"
+        }
+      ],
+      "target_skills": [
+        "xinshensu",
+        "shebian",
+        "xinkuanggu",
+        "reqimou",
+        "oltianxiang",
+        "olhongyan",
+        "piaoling",
+        "xinleiji",
+        "xinguidao",
+        "xinhuangtian",
+        "reguhuo",
+        "xinjushou",
+        "xinjiewei",
+        "buqu",
+        "fenji",
+        "xinliegong",
+        "remoshi"
+      ],
+      "counts": {
+        "characters": 8,
+        "skills": 17,
+        "reviewed_skills": 1,
+        "fixed_skills": 1,
+        "verified_skills": 0,
+        "unreviewed_skills": 16,
+        "skill_status": {
+          "尚未验证": 16,
+          "已修复": 1
+        }
+      },
+      "review_status": "部分修复",
+      "status": "部分修复",
+      "delivery_status": "阶段性",
+      "delivery": {
+        "pack_id": "refresh_feng",
+        "status": "阶段性",
+        "delivery_status": "阶段性",
+        "zip_name": "feisheng-ai-refresh-feng.zip",
+        "note": "阶段包：reqimou 已修复，其余登记技能尚未审查。"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "refresh_huo",
+      "pack_name": "界限突破·火",
+      "pack_group": "界限突破",
+      "category": "refresh_huo",
+      "target_characters": [
+        {
+          "character_id": "ol_xunyu",
+          "character_name": "界荀彧"
+        },
+        {
+          "character_id": "ol_dianwei",
+          "character_name": "界典韦"
+        },
+        {
+          "character_id": "ol_yanwen",
+          "character_name": "界颜良文丑"
+        },
+        {
+          "character_id": "ol_pangtong",
+          "character_name": "界庞统"
+        },
+        {
+          "character_id": "ol_yuanshao",
+          "character_name": "界袁绍"
+        },
+        {
+          "character_id": "re_taishici",
+          "character_name": "界太史慈"
+        },
+        {
+          "character_id": "ol_sp_zhugeliang",
+          "character_name": "界卧龙"
+        },
+        {
+          "character_id": "ol_pangde",
+          "character_name": "界庞德"
+        }
+      ],
+      "target_skills": [
+        "quhu",
+        "oljieming",
+        "olqiangxi",
+        "olninge",
+        "olshuangxiong",
+        "ollianhuan",
+        "olniepan",
+        "olluanji",
+        "olxueyi",
+        "tianyi",
+        "hanzhan",
+        "bazhen",
+        "olhuoji",
+        "olkanpo",
+        "cangzhuo",
+        "mashu",
+        "rejianchu"
+      ],
+      "counts": {
+        "characters": 8,
+        "skills": 17,
+        "reviewed_skills": 1,
+        "fixed_skills": 0,
+        "verified_skills": 1,
+        "unreviewed_skills": 16,
+        "skill_status": {
+          "尚未验证": 16,
+          "已验证无问题": 1
+        }
+      },
+      "review_status": "正在审查",
+      "status": "正在审查",
+      "delivery_status": "未打包",
+      "delivery": {
+        "pack_id": "refresh_huo",
+        "status": "未打包"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "refresh_lin",
+      "pack_name": "界限突破·林",
+      "pack_group": "界限突破",
+      "category": "refresh_lin",
+      "target_characters": [
+        {
+          "character_id": "ol_dongzhuo",
+          "character_name": "界董卓"
+        },
+        {
+          "character_id": "re_jiaxu",
+          "character_name": "界贾诩"
+        },
+        {
+          "character_id": "ol_lusu",
+          "character_name": "界鲁肃"
+        },
+        {
+          "character_id": "re_menghuo",
+          "character_name": "界孟获"
+        },
+        {
+          "character_id": "ol_sunjian",
+          "character_name": "界孙坚"
+        },
+        {
+          "character_id": "re_caopi",
+          "character_name": "界曹丕"
+        },
+        {
+          "character_id": "ol_xuhuang",
+          "character_name": "界徐晃"
+        },
+        {
+          "character_id": "ol_zhurong",
+          "character_name": "界祝融"
+        }
+      ],
+      "target_skills": [
+        "oljiuchi",
+        "roulin",
+        "benghuai",
+        "olbaonue",
+        "rewansha",
+        "reluanwu",
+        "reweimu",
+        "olhaoshi",
+        "oldimeng",
+        "huoshou",
+        "rezaiqi",
+        "twqiushou",
+        "gzyinghun",
+        "wulie",
+        "twpolu",
+        "rexingshang",
+        "refangzhu",
+        "songwei",
+        "olduanliang",
+        "oljiezi",
+        "juxiang",
+        "lieren",
+        "changbiao"
+      ],
+      "counts": {
+        "characters": 8,
+        "skills": 23,
+        "reviewed_skills": 0,
+        "fixed_skills": 0,
+        "verified_skills": 0,
+        "unreviewed_skills": 23,
+        "skill_status": {
+          "尚未验证": 23
+        }
+      },
+      "review_status": "尚未开始",
+      "status": "尚未开始",
+      "delivery_status": "未打包",
+      "delivery": {
+        "pack_id": "refresh_lin",
+        "status": "未打包"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "refresh_shan",
+      "pack_name": "界限突破·山",
+      "pack_group": "界限突破",
+      "category": "refresh_shan",
+      "target_characters": [
+        {
+          "character_id": "ol_liushan",
+          "character_name": "界刘禅"
+        },
+        {
+          "character_id": "re_zuoci",
+          "character_name": "界左慈"
+        },
+        {
+          "character_id": "re_zhanghe",
+          "character_name": "界张郃"
+        },
+        {
+          "character_id": "ol_jiangwei",
+          "character_name": "界姜维"
+        },
+        {
+          "character_id": "ol_caiwenji",
+          "character_name": "界蔡琰"
+        },
+        {
+          "character_id": "ol_zhangzhang",
+          "character_name": "界张昭张纮"
+        },
+        {
+          "character_id": "re_sunce",
+          "character_name": "界孙策"
+        },
+        {
+          "character_id": "ol_dengai",
+          "character_name": "界邓艾"
+        }
+      ],
+      "target_skills": [
+        "xiangle",
+        "olfangquan",
+        "olruoyu",
+        "rehuashen",
+        "rexinsheng",
+        "reqiaobian",
+        "oltiaoxin",
+        "olzhiji",
+        "olbeige",
+        "duanchang",
+        "olzhijian",
+        "olguzheng",
+        "oljiang",
+        "olhunzi",
+        "olzhiba",
+        "oltuntian",
+        "olzaoxian"
+      ],
+      "counts": {
+        "characters": 8,
+        "skills": 17,
+        "reviewed_skills": 0,
+        "fixed_skills": 0,
+        "verified_skills": 0,
+        "unreviewed_skills": 17,
+        "skill_status": {
+          "尚未验证": 17
+        }
+      },
+      "review_status": "尚未开始",
+      "status": "尚未开始",
+      "delivery_status": "未打包",
+      "delivery": {
+        "pack_id": "refresh_shan",
+        "status": "未打包"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": false,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    },
+    {
+      "pack_id": "out_of_scope",
+      "pack_name": "清单外角色",
+      "pack_group": "清单外角色",
+      "category": null,
+      "target_characters": [
+        {
+          "character_id": "activity_lusu",
+          "character_name": "活动武将/界鲁肃（非142清单ID）"
+        }
+      ],
+      "target_skills": [
+        "redimeng"
+      ],
+      "counts": {
+        "characters": 1,
+        "skills": 1,
+        "reviewed_skills": 1,
+        "fixed_skills": 1,
+        "verified_skills": 0,
+        "unreviewed_skills": 0,
+        "skill_status": {
+          "已修复": 1
+        }
+      },
+      "review_status": "验证完成",
+      "status": "验证完成",
+      "delivery_status": "阶段性",
+      "delivery": {
+        "pack_id": "out_of_scope",
+        "status": "阶段性",
+        "delivery_status": "阶段性",
+        "zip_name": "feisheng-ai-out-of-scope.zip",
+        "note": "阶段包：清单外 redimeng 已修复且宿主回归通过；仍需按外部集成流程验收。"
+      },
+      "blocking_issues": [],
+      "can_mark_deliverable": true,
+      "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
+    }
+  ],
   "out_of_scope_findings": [
     {
       "skill_id": "redimeng",
@@ -84,6 +1466,9 @@
       "character_id": "zhangliao",
       "character_name": "张辽",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "优先更新候选",
       "mechanism": "夺牌与失牌触发",
       "skills": [
@@ -132,6 +1517,9 @@
       "character_id": "liubei",
       "character_name": "刘备",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "优先更新候选",
       "mechanism": "赠牌与阈值奖励",
       "skills": [
@@ -208,6 +1596,9 @@
       "character_id": "sunquan",
       "character_name": "孙权",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "优先更新候选",
       "mechanism": "换牌与全手奖励",
       "skills": [
@@ -284,6 +1675,9 @@
       "character_id": "huanggai",
       "character_name": "黄盖",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "优先更新候选",
       "mechanism": "失血换牌循环",
       "skills": [
@@ -332,6 +1726,9 @@
       "character_id": "daqiao",
       "character_name": "大乔",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "优先更新候选",
       "mechanism": "控制与伤害转移",
       "skills": [
@@ -406,6 +1803,9 @@
       "character_id": "diaochan",
       "character_name": "貂蝉",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "优先更新候选",
       "mechanism": "双目标决斗",
       "skills": [
@@ -480,6 +1880,9 @@
       "character_id": "re_yuanshu",
       "character_name": "袁术",
       "category": "standard_2013",
+      "pack_id": "standard_2013",
+      "pack_name": "标准包·2013版",
+      "pack_group": "standard",
       "classification_original": "优先更新候选",
       "mechanism": "手牌上限与分配",
       "skills": [
@@ -554,6 +1957,9 @@
       "character_id": "sp_zhangjiao",
       "character_name": "张角",
       "category": "shenhua_feng",
+      "pack_id": "shenhua_feng",
+      "pack_name": "神话再临·风",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "改判与雷击",
       "skills": [
@@ -656,6 +2062,9 @@
       "character_id": "re_yuji",
       "character_name": "于吉",
       "category": "shenhua_feng",
+      "pack_id": "shenhua_feng",
+      "pack_name": "神话再临·风",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "声明与质疑",
       "skills": [
@@ -702,6 +2111,9 @@
       "character_id": "re_xiahouyuan",
       "character_name": "夏侯渊",
       "category": "shenhua_feng",
+      "pack_id": "shenhua_feng",
+      "pack_name": "神话再临·风",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "跳阶段换攻击",
       "skills": [
@@ -751,6 +2163,9 @@
       "character_id": "xiaoqiao",
       "character_name": "小乔",
       "category": "shenhua_feng",
+      "pack_id": "shenhua_feng",
+      "pack_name": "神话再临·风",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "伤害转移与收益",
       "skills": [
@@ -825,6 +2240,9 @@
       "character_id": "re_weiyan",
       "character_name": "魏延",
       "category": "shenhua_feng",
+      "pack_id": "shenhua_feng",
+      "pack_name": "神话再临·风",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "失血爆发与回复",
       "skills": [
@@ -901,6 +2319,9 @@
       "character_id": "dianwei",
       "character_name": "典韦",
       "category": "shenhua_huo",
+      "pack_id": "shenhua_huo",
+      "pack_name": "神话再临·火",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "失血或弃装备造成伤害",
       "skills": [
@@ -949,6 +2370,9 @@
       "character_id": "xunyu",
       "character_name": "荀彧",
       "category": "shenhua_huo",
+      "pack_id": "shenhua_huo",
+      "pack_name": "神话再临·火",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "拼点与补牌支援",
       "skills": [
@@ -1023,6 +2447,9 @@
       "character_id": "pangtong",
       "character_name": "庞统",
       "category": "shenhua_huo",
+      "pack_id": "shenhua_huo",
+      "pack_name": "神话再临·火",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "连环用途与重铸",
       "skills": [
@@ -1097,6 +2524,9 @@
       "character_id": "taishici",
       "character_name": "太史慈",
       "category": "shenhua_huo",
+      "pack_id": "shenhua_huo",
+      "pack_name": "神话再临·火",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "拼点后攻击路线",
       "skills": [
@@ -1143,6 +2573,9 @@
       "character_id": "yanwen",
       "character_name": "颜良文丑",
       "category": "shenhua_huo",
+      "pack_id": "shenhua_huo",
+      "pack_name": "神话再临·火",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "颜色资源与决斗循环",
       "skills": [
@@ -1189,6 +2622,9 @@
       "character_id": "re_yuanshao",
       "character_name": "袁绍",
       "category": "shenhua_huo",
+      "pack_id": "shenhua_huo",
+      "pack_name": "神话再临·火",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "双牌转群体锦囊",
       "skills": [
@@ -1263,6 +2699,9 @@
       "character_id": "re_lusu",
       "character_name": "鲁肃",
       "category": "shenhua_lin",
+      "pack_id": "shenhua_lin",
+      "pack_name": "神话再临·林",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "分牌与手牌交换",
       "skills": [
@@ -1339,6 +2778,9 @@
       "character_id": "dongzhuo",
       "character_name": "董卓",
       "category": "shenhua_lin",
+      "pack_id": "shenhua_lin",
+      "pack_name": "神话再临·林",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "生命资源与酒杀",
       "skills": [
@@ -1469,6 +2911,9 @@
       "character_id": "jiaxu",
       "character_name": "贾诩",
       "category": "shenhua_lin",
+      "pack_id": "shenhua_lin",
+      "pack_name": "神话再临·林",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "群体强制行动",
       "skills": [
@@ -1571,6 +3016,9 @@
       "character_id": "zhanghe",
       "character_name": "张郃",
       "category": "shenhua_shan",
+      "pack_id": "shenhua_shan",
+      "pack_name": "神话再临·山",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "阶段替代与移牌",
       "skills": [
@@ -1617,6 +3065,9 @@
       "character_id": "liushan",
       "character_name": "刘禅",
       "category": "shenhua_shan",
+      "pack_id": "shenhua_shan",
+      "pack_name": "神话再临·山",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "让回合与觉醒",
       "skills": [
@@ -1719,6 +3170,9 @@
       "character_id": "zuoci",
       "character_name": "左慈",
       "category": "shenhua_shan",
+      "pack_id": "shenhua_shan",
+      "pack_name": "神话再临·山",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "候选技能与阶段切换",
       "skills": [
@@ -1793,6 +3247,9 @@
       "character_id": "wangji",
       "character_name": "王基",
       "category": "shenhua_yin",
+      "pack_id": "shenhua_yin",
+      "pack_name": "神话再临·阴",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "用牌触发与回合末补牌",
       "skills": [
@@ -1857,6 +3314,9 @@
       "character_id": "sunliang",
       "character_name": "孙亮",
       "category": "shenhua_yin",
+      "pack_id": "shenhua_yin",
+      "pack_name": "神话再临·阴",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "弃牌记录与群体分配",
       "skills": [
@@ -1959,6 +3419,9 @@
       "character_id": "xuyou",
       "character_name": "许攸",
       "category": "shenhua_yin",
+      "pack_id": "shenhua_yin",
+      "pack_name": "神话再临·阴",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "花色解锁与牌序循环",
       "skills": [
@@ -2061,6 +3524,9 @@
       "character_id": "guanqiujian",
       "character_name": "毌丘俭",
       "category": "shenhua_lei",
+      "pack_id": "shenhua_lei",
+      "pack_name": "神话再临·雷",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "标记与觉醒兑换",
       "skills": [
@@ -2135,6 +3601,9 @@
       "character_id": "chendao",
       "character_name": "陈到",
       "category": "shenhua_lei",
+      "pack_id": "shenhua_lei",
+      "pack_name": "神话再临·雷",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "出牌顺序与后续禁用",
       "skills": [
@@ -2181,6 +3650,9 @@
       "character_id": "lukang",
       "character_name": "陆抗",
       "category": "shenhua_lei",
+      "pack_id": "shenhua_lei",
+      "pack_name": "神话再临·雷",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "装备栏资源与爆发",
       "skills": [
@@ -2283,6 +3755,9 @@
       "character_id": "zhoufei",
       "character_name": "周妃",
       "category": "shenhua_lei",
+      "pack_id": "shenhua_lei",
+      "pack_name": "神话再临·雷",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "暂存牌与手牌阈值",
       "skills": [
@@ -2359,6 +3834,9 @@
       "character_id": "zhangxiu",
       "character_name": "张绣",
       "category": "shenhua_lei",
+      "pack_id": "shenhua_lei",
+      "pack_name": "神话再临·雷",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "限定爆发与失去技能",
       "skills": [
@@ -2456,6 +3934,9 @@
       "character_id": "yl_yuanshu",
       "character_name": "新杀袁术",
       "category": "shenhua_lei",
+      "pack_id": "shenhua_lei",
+      "pack_name": "神话再临·雷",
+      "pack_group": "shenhua",
       "classification_original": "优先更新候选",
       "mechanism": "手牌上限与分配",
       "skills": [
@@ -2530,6 +4011,9 @@
       "character_id": "re_zhangliao",
       "character_name": "界张辽",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "夺牌与失牌触发",
       "skills": [
@@ -2578,6 +4062,9 @@
       "character_id": "re_daqiao",
       "character_name": "界大乔",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "控制与伤害转移",
       "skills": [
@@ -2652,6 +4139,9 @@
       "character_id": "re_huanggai",
       "character_name": "界黄盖",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "失血换牌循环",
       "skills": [
@@ -2729,6 +4219,9 @@
       "character_id": "re_liubei",
       "character_name": "界刘备",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "赠牌与阈值奖励",
       "skills": [
@@ -2803,6 +4296,9 @@
       "character_id": "re_diaochan",
       "character_name": "界貂蝉",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "双目标决斗",
       "skills": [
@@ -2877,6 +4373,9 @@
       "character_id": "re_sunquan",
       "character_name": "界孙权",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "换牌与全手奖励",
       "skills": [
@@ -2953,6 +4452,9 @@
       "character_id": "ol_xiahouyuan",
       "character_name": "界夏侯渊",
       "category": "refresh_feng",
+      "pack_id": "refresh_feng",
+      "pack_name": "界限突破·风",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "跳阶段换攻击",
       "skills": [
@@ -3030,6 +4532,9 @@
       "character_id": "ol_weiyan",
       "character_name": "界魏延",
       "category": "refresh_feng",
+      "pack_id": "refresh_feng",
+      "pack_name": "界限突破·风",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "失血爆发与回复",
       "skills": [
@@ -3106,6 +4611,9 @@
       "character_id": "ol_xiaoqiao",
       "character_name": "界小乔",
       "category": "refresh_feng",
+      "pack_id": "refresh_feng",
+      "pack_name": "界限突破·风",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "伤害转移与收益",
       "skills": [
@@ -3208,6 +4716,9 @@
       "character_id": "re_zhangjiao",
       "character_name": "界张角",
       "category": "refresh_feng",
+      "pack_id": "refresh_feng",
+      "pack_name": "界限突破·风",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "改判与雷击",
       "skills": [
@@ -3310,6 +4821,9 @@
       "character_id": "xin_yuji",
       "character_name": "界于吉",
       "category": "refresh_feng",
+      "pack_id": "refresh_feng",
+      "pack_name": "界限突破·风",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "声明与质疑",
       "skills": [
@@ -3356,6 +4870,9 @@
       "character_id": "ol_xunyu",
       "character_name": "界荀彧",
       "category": "refresh_huo",
+      "pack_id": "refresh_huo",
+      "pack_name": "界限突破·火",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "拼点与补牌支援",
       "skills": [
@@ -3430,6 +4947,9 @@
       "character_id": "ol_dianwei",
       "character_name": "界典韦",
       "category": "refresh_huo",
+      "pack_id": "refresh_huo",
+      "pack_name": "界限突破·火",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "失血或弃装备造成伤害",
       "skills": [
@@ -3506,6 +5026,9 @@
       "character_id": "ol_yanwen",
       "character_name": "界颜良文丑",
       "category": "refresh_huo",
+      "pack_id": "refresh_huo",
+      "pack_name": "界限突破·火",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "颜色资源与决斗循环",
       "skills": [
@@ -3552,6 +5075,9 @@
       "character_id": "ol_pangtong",
       "character_name": "界庞统",
       "category": "refresh_huo",
+      "pack_id": "refresh_huo",
+      "pack_name": "界限突破·火",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "连环用途与重铸",
       "skills": [
@@ -3628,6 +5154,9 @@
       "character_id": "ol_yuanshao",
       "character_name": "界袁绍",
       "category": "refresh_huo",
+      "pack_id": "refresh_huo",
+      "pack_name": "界限突破·火",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "双牌转群体锦囊",
       "skills": [
@@ -3704,6 +5233,9 @@
       "character_id": "re_taishici",
       "character_name": "界太史慈",
       "category": "refresh_huo",
+      "pack_id": "refresh_huo",
+      "pack_name": "界限突破·火",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "拼点后攻击路线",
       "skills": [
@@ -3778,6 +5310,9 @@
       "character_id": "ol_dongzhuo",
       "character_name": "界董卓",
       "category": "refresh_lin",
+      "pack_id": "refresh_lin",
+      "pack_name": "界限突破·林",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "生命资源与酒杀",
       "skills": [
@@ -3908,6 +5443,9 @@
       "character_id": "re_jiaxu",
       "character_name": "界贾诩",
       "category": "refresh_lin",
+      "pack_id": "refresh_lin",
+      "pack_name": "界限突破·林",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "群体强制行动",
       "skills": [
@@ -4014,6 +5552,9 @@
       "character_id": "ol_lusu",
       "character_name": "界鲁肃",
       "category": "refresh_lin",
+      "pack_id": "refresh_lin",
+      "pack_name": "界限突破·林",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "分牌与手牌交换",
       "skills": [
@@ -4088,6 +5629,9 @@
       "character_id": "ol_liushan",
       "character_name": "界刘禅",
       "category": "refresh_shan",
+      "pack_id": "refresh_shan",
+      "pack_name": "界限突破·山",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "让回合与觉醒",
       "skills": [
@@ -4190,6 +5734,9 @@
       "character_id": "re_zuoci",
       "character_name": "界左慈",
       "category": "refresh_shan",
+      "pack_id": "refresh_shan",
+      "pack_name": "界限突破·山",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "候选技能与阶段切换",
       "skills": [
@@ -4266,6 +5813,9 @@
       "character_id": "re_zhanghe",
       "character_name": "界张郃",
       "category": "refresh_shan",
+      "pack_id": "refresh_shan",
+      "pack_name": "界限突破·山",
+      "pack_group": "refresh",
       "classification_original": "优先更新候选",
       "mechanism": "阶段替代与移牌",
       "skills": [
@@ -4312,6 +5862,9 @@
       "character_id": "caocao",
       "character_name": "曹操",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "受伤收益与协防",
       "skills": [
@@ -4386,6 +5939,9 @@
       "character_id": "simayi",
       "character_name": "司马懿",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "夺牌与改判",
       "skills": [
@@ -4460,6 +6016,9 @@
       "character_id": "xiahoudun",
       "character_name": "夏侯惇",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "反击与转移资源",
       "skills": [
@@ -4506,6 +6065,9 @@
       "character_id": "xuzhu",
       "character_name": "许褚",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "增伤与摸牌取舍",
       "skills": [
@@ -4552,6 +6114,9 @@
       "character_id": "guojia",
       "character_name": "郭嘉",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "卖血与分牌",
       "skills": [
@@ -4626,6 +6191,9 @@
       "character_id": "zhugeliang",
       "character_name": "诸葛亮",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "牌序与空城",
       "skills": [
@@ -4700,6 +6268,9 @@
       "character_id": "ganning",
       "character_name": "甘宁",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "拆牌与防护",
       "skills": [
@@ -4746,6 +6317,9 @@
       "character_id": "lvmeng",
       "character_name": "吕蒙",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "跳过攻击与觉醒",
       "skills": [
@@ -4792,6 +6366,9 @@
       "character_id": "zhouyu",
       "character_name": "周瑜",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "过牌与反间",
       "skills": [
@@ -4866,6 +6443,9 @@
       "character_id": "sunshangxiang",
       "character_name": "孙尚香",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "失装备与联合回复",
       "skills": [
@@ -4940,6 +6520,9 @@
       "character_id": "huatuo",
       "character_name": "华佗",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "回复与救援",
       "skills": [
@@ -5014,6 +6597,9 @@
       "character_id": "lvbu",
       "character_name": "吕布",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "响应需求与追加决斗",
       "skills": [
@@ -5060,6 +6646,9 @@
       "character_id": "old_re_lidian",
       "character_name": "李典",
       "category": "standard_2013",
+      "pack_id": "standard_2013",
+      "pack_name": "标准包·2013版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "选牌与双方补牌",
       "skills": [
@@ -5134,6 +6723,9 @@
       "character_id": "xf_yiji",
       "character_name": "伊籍",
       "category": "standard_2019",
+      "pack_id": "standard_2019",
+      "pack_name": "标准包·2019版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "看牌与定向支援",
       "skills": [
@@ -5208,6 +6800,9 @@
       "character_id": "std_panfeng",
       "character_name": "标潘凤",
       "category": "standard_2023",
+      "pack_id": "standard_2023",
+      "pack_name": "标准包·2023版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "装备与用杀",
       "skills": [
@@ -5254,6 +6849,9 @@
       "character_id": "ganfuren",
       "character_name": "标甘夫人",
       "category": "standard_2023",
+      "pack_id": "standard_2023",
+      "pack_name": "标准包·2023版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "弃手回血与支援",
       "skills": [
@@ -5323,6 +6921,9 @@
       "character_id": "std_yuejin",
       "character_name": "标乐进",
       "category": "standard_2023",
+      "pack_id": "standard_2023",
+      "pack_name": "标准包·2023版",
+      "pack_group": "standard",
       "classification_original": "验证后决定",
       "mechanism": "支付与对方选择",
       "skills": [
@@ -5369,6 +6970,9 @@
       "character_id": "old_caoren",
       "character_name": "曹仁",
       "category": "shenhua_feng",
+      "pack_id": "shenhua_feng",
+      "pack_name": "神话再临·风",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "翻面与装备操作",
       "skills": [
@@ -5415,6 +7019,9 @@
       "character_id": "sp_zhugeliang",
       "character_name": "卧龙",
       "category": "shenhua_huo",
+      "pack_id": "shenhua_huo",
+      "pack_name": "神话再临·火",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "锦囊转化与响应保留",
       "skills": [
@@ -5517,6 +7124,9 @@
       "character_id": "re_pangde",
       "character_name": "庞德",
       "category": "shenhua_huo",
+      "pack_id": "shenhua_huo",
+      "pack_name": "神话再临·火",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "拆装备与命中",
       "skills": [
@@ -5591,6 +7201,9 @@
       "character_id": "caopi",
       "character_name": "曹丕",
       "category": "shenhua_lin",
+      "pack_id": "shenhua_lin",
+      "pack_name": "神话再临·林",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "翻面与遗产",
       "skills": [
@@ -5693,6 +7306,9 @@
       "character_id": "re_xuhuang",
       "character_name": "徐晃",
       "category": "shenhua_lin",
+      "pack_id": "shenhua_lin",
+      "pack_name": "神话再临·林",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "延时控制与阶段收益",
       "skills": [
@@ -5767,6 +7383,9 @@
       "character_id": "menghuo",
       "character_name": "孟获",
       "category": "shenhua_lin",
+      "pack_id": "shenhua_lin",
+      "pack_name": "神话再临·林",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "替换摸牌与群体效果",
       "skills": [
@@ -5866,6 +7485,9 @@
       "character_id": "zhurong",
       "character_name": "祝融",
       "category": "shenhua_lin",
+      "pack_id": "shenhua_lin",
+      "pack_name": "神话再临·林",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "拼点夺牌与多目标",
       "skills": [
@@ -5940,6 +7562,9 @@
       "character_id": "sunjian",
       "character_name": "孙坚",
       "category": "shenhua_lin",
+      "pack_id": "shenhua_lin",
+      "pack_name": "神话再临·林",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "失血量与英魂选择",
       "skills": [
@@ -5986,6 +7611,9 @@
       "character_id": "dengai",
       "character_name": "邓艾",
       "category": "shenhua_shan",
+      "pack_id": "shenhua_shan",
+      "pack_name": "神话再临·山",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "屯田与觉醒",
       "skills": [
@@ -6060,6 +7688,9 @@
       "character_id": "jiangwei",
       "character_name": "姜维",
       "category": "shenhua_shan",
+      "pack_id": "shenhua_shan",
+      "pack_name": "神话再临·山",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "挑衅与空手觉醒",
       "skills": [
@@ -6134,6 +7765,9 @@
       "character_id": "zhangzhang",
       "character_name": "张昭张纮",
       "category": "shenhua_shan",
+      "pack_id": "shenhua_shan",
+      "pack_name": "神话再临·山",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "装备转移与弃牌回收",
       "skills": [
@@ -6208,6 +7842,9 @@
       "character_id": "sunce",
       "character_name": "孙策",
       "category": "shenhua_shan",
+      "pack_id": "shenhua_shan",
+      "pack_name": "神话再临·山",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "拼点与觉醒前后",
       "skills": [
@@ -6310,6 +7947,9 @@
       "character_id": "caiwenji",
       "character_name": "蔡琰",
       "category": "shenhua_shan",
+      "pack_id": "shenhua_shan",
+      "pack_name": "神话再临·山",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "弃牌保护与死亡代价",
       "skills": [
@@ -6384,6 +8024,9 @@
       "character_id": "kuailiangkuaiyue",
       "character_name": "蒯良蒯越",
       "category": "shenhua_yin",
+      "pack_id": "shenhua_yin",
+      "pack_name": "神话再临·阴",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "支援与延迟奖惩",
       "skills": [
@@ -6458,6 +8101,9 @@
       "character_id": "yanyan",
       "character_name": "严颜",
       "category": "shenhua_yin",
+      "pack_id": "shenhua_yin",
+      "pack_name": "神话再临·阴",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "转换状态与相互禁选",
       "skills": [
@@ -6504,6 +8150,9 @@
       "character_id": "wangping",
       "character_name": "王平",
       "category": "shenhua_yin",
+      "pack_id": "shenhua_yin",
+      "pack_name": "神话再临·阴",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "选目标与分支效果",
       "skills": [
@@ -6578,6 +8227,9 @@
       "character_id": "luji",
       "character_name": "陆绩",
       "category": "shenhua_yin",
+      "pack_id": "shenhua_yin",
+      "pack_name": "神话再临·阴",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "标记资源与阶段收益",
       "skills": [
@@ -6680,6 +8332,9 @@
       "character_id": "yl_luzhi",
       "character_name": "卢植",
       "category": "shenhua_yin",
+      "pack_id": "shenhua_yin",
+      "pack_name": "神话再临·阴",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "颜色标记与转换状态",
       "skills": [
@@ -6754,6 +8409,9 @@
       "character_id": "haozhao",
       "character_name": "郝昭",
       "category": "shenhua_lei",
+      "pack_id": "shenhua_lei",
+      "pack_name": "神话再临·雷",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "回合末手牌调节",
       "skills": [
@@ -6800,6 +8458,9 @@
       "character_id": "zhugezhan",
       "character_name": "诸葛瞻",
       "category": "shenhua_lei",
+      "pack_id": "shenhua_lei",
+      "pack_name": "神话再临·雷",
+      "pack_group": "shenhua",
       "classification_original": "验证后决定",
       "mechanism": "罪论三选与防护",
       "skills": [
@@ -6874,6 +8535,9 @@
       "character_id": "re_caocao",
       "character_name": "界曹操",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "受伤收益与协防",
       "skills": [
@@ -6950,6 +8614,9 @@
       "character_id": "re_simayi",
       "character_name": "界司马懿",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "夺牌与改判",
       "skills": [
@@ -7024,6 +8691,9 @@
       "character_id": "re_guojia",
       "character_name": "界郭嘉",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "卖血与分牌",
       "skills": [
@@ -7098,6 +8768,9 @@
       "character_id": "re_xuzhu",
       "character_name": "界许褚",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "增伤与摸牌取舍",
       "skills": [
@@ -7146,6 +8819,9 @@
       "character_id": "re_xiahoudun",
       "character_name": "界夏侯惇",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "反击与转移资源",
       "skills": [
@@ -7220,6 +8896,9 @@
       "character_id": "re_zhangfei",
       "character_name": "界张飞",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "连续用杀",
       "skills": [
@@ -7294,6 +8973,9 @@
       "character_id": "re_zhaoyun",
       "character_name": "界赵云",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "双向响应转化",
       "skills": [
@@ -7368,6 +9050,9 @@
       "character_id": "re_guanyu",
       "character_name": "界关羽",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "杀转化",
       "skills": [
@@ -7442,6 +9127,9 @@
       "character_id": "re_machao",
       "character_name": "界马超",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "距离与不可响应",
       "skills": [
@@ -7516,6 +9204,9 @@
       "character_id": "re_zhouyu",
       "character_name": "界周瑜",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "过牌与反间",
       "skills": [
@@ -7590,6 +9281,9 @@
       "character_id": "re_lvmeng",
       "character_name": "界吕蒙",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "跳过攻击与觉醒",
       "skills": [
@@ -7692,6 +9386,9 @@
       "character_id": "re_ganning",
       "character_name": "界甘宁",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "拆牌与防护",
       "skills": [
@@ -7766,6 +9463,9 @@
       "character_id": "re_luxun",
       "character_name": "界陆逊",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "被动防护与空手补牌",
       "skills": [
@@ -7840,6 +9540,9 @@
       "character_id": "re_lvbu",
       "character_name": "界吕布",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "响应需求与追加决斗",
       "skills": [
@@ -7914,6 +9617,9 @@
       "character_id": "re_huatuo",
       "character_name": "界华佗",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "回复与救援",
       "skills": [
@@ -7988,6 +9694,9 @@
       "character_id": "re_huangyueying",
       "character_name": "界黄月英",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "用锦囊补牌",
       "skills": [
@@ -8062,6 +9771,9 @@
       "character_id": "re_sunshangxiang",
       "character_name": "界孙尚香",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "失装备与联合回复",
       "skills": [
@@ -8136,6 +9848,9 @@
       "character_id": "re_zhenji",
       "character_name": "界甄宓",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "判定与响应转化",
       "skills": [
@@ -8210,6 +9925,9 @@
       "character_id": "re_zhugeliang",
       "character_name": "界诸葛亮",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "牌序与空城",
       "skills": [
@@ -8284,6 +10002,9 @@
       "character_id": "re_huaxiong",
       "character_name": "界华雄",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "被动受伤修正",
       "skills": [
@@ -8358,6 +10079,9 @@
       "character_id": "re_gongsunzan",
       "character_name": "界公孙瓒",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "距离与装备弃置",
       "skills": [
@@ -8432,6 +10156,9 @@
       "character_id": "re_lidian",
       "character_name": "界李典",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "选牌与双方补牌",
       "skills": [
@@ -8508,6 +10235,9 @@
       "character_id": "re_xushu",
       "character_name": "界徐庶",
       "category": "refresh_standard",
+      "pack_id": "refresh_standard",
+      "pack_name": "界限突破·标准",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "回合外追击与觉醒",
       "skills": [
@@ -8582,6 +10312,9 @@
       "character_id": "caoren",
       "character_name": "界曹仁",
       "category": "refresh_feng",
+      "pack_id": "refresh_feng",
+      "pack_name": "界限突破·风",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "翻面与装备操作",
       "skills": [
@@ -8656,6 +10389,9 @@
       "character_id": "zhoutai",
       "character_name": "界周泰",
       "category": "refresh_feng",
+      "pack_id": "refresh_feng",
+      "pack_name": "界限突破·风",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "存活与支援",
       "skills": [
@@ -8730,6 +10466,9 @@
       "character_id": "ol_huangzhong",
       "character_name": "界黄忠",
       "category": "refresh_feng",
+      "pack_id": "refresh_feng",
+      "pack_name": "界限突破·风",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "命中能力与追加收益",
       "skills": [
@@ -8804,6 +10543,9 @@
       "character_id": "ol_sp_zhugeliang",
       "character_name": "界卧龙",
       "category": "refresh_huo",
+      "pack_id": "refresh_huo",
+      "pack_name": "界限突破·火",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "锦囊转化与响应保留",
       "skills": [
@@ -8938,6 +10680,9 @@
       "character_id": "ol_pangde",
       "character_name": "界庞德",
       "category": "refresh_huo",
+      "pack_id": "refresh_huo",
+      "pack_name": "界限突破·火",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "拆装备与命中",
       "skills": [
@@ -9012,6 +10757,9 @@
       "character_id": "re_menghuo",
       "character_name": "界孟获",
       "category": "refresh_lin",
+      "pack_id": "refresh_lin",
+      "pack_name": "界限突破·林",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "替换摸牌与群体效果",
       "skills": [
@@ -9109,6 +10857,9 @@
       "character_id": "ol_sunjian",
       "character_name": "界孙坚",
       "category": "refresh_lin",
+      "pack_id": "refresh_lin",
+      "pack_name": "界限突破·林",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "失血量与英魂选择",
       "skills": [
@@ -9206,6 +10957,9 @@
       "character_id": "re_caopi",
       "character_name": "界曹丕",
       "category": "refresh_lin",
+      "pack_id": "refresh_lin",
+      "pack_name": "界限突破·林",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "翻面与遗产",
       "skills": [
@@ -9308,6 +11062,9 @@
       "character_id": "ol_xuhuang",
       "character_name": "界徐晃",
       "category": "refresh_lin",
+      "pack_id": "refresh_lin",
+      "pack_name": "界限突破·林",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "延时控制与阶段收益",
       "skills": [
@@ -9382,6 +11139,9 @@
       "character_id": "ol_zhurong",
       "character_name": "界祝融",
       "category": "refresh_lin",
+      "pack_id": "refresh_lin",
+      "pack_name": "界限突破·林",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "拼点夺牌与多目标",
       "skills": [
@@ -9484,6 +11244,9 @@
       "character_id": "ol_jiangwei",
       "character_name": "界姜维",
       "category": "refresh_shan",
+      "pack_id": "refresh_shan",
+      "pack_name": "界限突破·山",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "挑衅与空手觉醒",
       "skills": [
@@ -9558,6 +11321,9 @@
       "character_id": "ol_caiwenji",
       "character_name": "界蔡琰",
       "category": "refresh_shan",
+      "pack_id": "refresh_shan",
+      "pack_name": "界限突破·山",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "弃牌保护与死亡代价",
       "skills": [
@@ -9632,6 +11398,9 @@
       "character_id": "ol_zhangzhang",
       "character_name": "界张昭张纮",
       "category": "refresh_shan",
+      "pack_id": "refresh_shan",
+      "pack_name": "界限突破·山",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "装备转移与弃牌回收",
       "skills": [
@@ -9706,6 +11475,9 @@
       "character_id": "re_sunce",
       "character_name": "界孙策",
       "category": "refresh_shan",
+      "pack_id": "refresh_shan",
+      "pack_name": "界限突破·山",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "拼点与觉醒前后",
       "skills": [
@@ -9812,6 +11584,9 @@
       "character_id": "ol_dengai",
       "character_name": "界邓艾",
       "category": "refresh_shan",
+      "pack_id": "refresh_shan",
+      "pack_name": "界限突破·山",
+      "pack_group": "refresh",
       "classification_original": "验证后决定",
       "mechanism": "屯田与觉醒",
       "skills": [
@@ -9890,6 +11665,9 @@
       "character_id": "zhenji",
       "character_name": "甄宓",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "暂保留与回归",
       "mechanism": "判定与响应转化",
       "skills": [
@@ -9964,6 +11742,9 @@
       "character_id": "guanyu",
       "character_name": "关羽",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "暂保留与回归",
       "mechanism": "杀转化",
       "skills": [
@@ -10010,6 +11791,9 @@
       "character_id": "zhangfei",
       "character_name": "张飞",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "暂保留与回归",
       "mechanism": "连续用杀",
       "skills": [
@@ -10056,6 +11840,9 @@
       "character_id": "zhaoyun",
       "character_name": "赵云",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "暂保留与回归",
       "mechanism": "双向响应转化",
       "skills": [
@@ -10102,6 +11889,9 @@
       "character_id": "machao",
       "character_name": "马超",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "暂保留与回归",
       "mechanism": "距离与不可响应",
       "skills": [
@@ -10176,6 +11966,9 @@
       "character_id": "huangyueying",
       "character_name": "黄月英",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "暂保留与回归",
       "mechanism": "用锦囊补牌",
       "skills": [
@@ -10250,6 +12043,9 @@
       "character_id": "luxun",
       "character_name": "陆逊",
       "category": "standard_2008",
+      "pack_id": "standard_2008",
+      "pack_name": "标准包·2008版",
+      "pack_group": "standard",
       "classification_original": "暂保留与回归",
       "mechanism": "被动防护与空手补牌",
       "skills": [
@@ -10324,6 +12120,9 @@
       "character_id": "huaxiong",
       "character_name": "华雄",
       "category": "standard_2013",
+      "pack_id": "standard_2013",
+      "pack_name": "标准包·2013版",
+      "pack_group": "standard",
       "classification_original": "暂保留与回归",
       "mechanism": "被动受伤修正",
       "skills": [
@@ -10370,6 +12169,9 @@
       "character_id": "gongsunzan",
       "character_name": "公孙瓒",
       "category": "standard_2019",
+      "pack_id": "standard_2019",
+      "pack_name": "标准包·2019版",
+      "pack_group": "standard",
       "classification_original": "暂保留与回归",
       "mechanism": "距离与装备弃置",
       "skills": [
@@ -10416,6 +12218,9 @@
       "character_id": "old_zhoutai",
       "character_name": "周泰",
       "category": "shenhua_feng",
+      "pack_id": "shenhua_feng",
+      "pack_name": "神话再临·风",
+      "pack_group": "shenhua",
       "classification_original": "暂保留与回归",
       "mechanism": "存活与支援",
       "skills": [
@@ -10462,6 +12267,9 @@
       "character_id": "re_huangzhong",
       "character_name": "黄忠",
       "category": "shenhua_feng",
+      "pack_id": "shenhua_feng",
+      "pack_name": "神话再临·风",
+      "pack_group": "shenhua",
       "classification_original": "暂保留与回归",
       "mechanism": "命中能力与追加收益",
       "skills": [

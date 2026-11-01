@@ -218,6 +218,77 @@ OUT_OF_SCOPE = [{
 }]
 
 
+PACK_GROUPS = {
+    'standard': '标准包',
+    'shenhua': '神话再临',
+    'refresh': '界限突破',
+    'out_of_scope': '清单外角色',
+}
+PACK_ORDER = [
+    'standard_2008', 'standard_2013', 'standard_2019', 'standard_2023',
+    'shenhua_feng', 'shenhua_huo', 'shenhua_lin', 'shenhua_shan', 'shenhua_yin', 'shenhua_lei',
+    'refresh_standard', 'refresh_feng', 'refresh_huo', 'refresh_lin', 'refresh_shan',
+    'out_of_scope',
+]
+CATEGORY_PACKS = {
+    'standard_2008': ('standard', '标准包·2008版'),
+    'standard_2013': ('standard', '标准包·2013版'),
+    'standard_2019': ('standard', '标准包·2019版'),
+    'standard_2023': ('standard', '标准包·2023版'),
+    'shenhua_feng': ('shenhua', '神话再临·风'),
+    'shenhua_huo': ('shenhua', '神话再临·火'),
+    'shenhua_lin': ('shenhua', '神话再临·林'),
+    'shenhua_shan': ('shenhua', '神话再临·山'),
+    'shenhua_yin': ('shenhua', '神话再临·阴'),
+    'shenhua_lei': ('shenhua', '神话再临·雷'),
+    'refresh_standard': ('refresh', '界限突破·标准'),
+    'refresh_feng': ('refresh', '界限突破·风'),
+    'refresh_huo': ('refresh', '界限突破·火'),
+    'refresh_lin': ('refresh', '界限突破·林'),
+    'refresh_shan': ('refresh', '界限突破·山'),
+    'out_of_scope': ('out_of_scope', '清单外角色'),
+}
+COMPLETE_SKILL_STATUSES = {'已验证无问题', '已修复'}
+COMPLETE_TESTS = {'真实宿主通过', '真实宿主完整回合通过'}
+
+
+def pack_status(skills, blockers):
+    """分包审查状态；可交付/已交付由交付记录另行追加。"""
+    if not skills:
+        return '尚未开始'
+    reviewed = [s for s in skills if s['status'] != '尚未验证']
+    if not reviewed:
+        return '尚未开始'
+    resolved = [
+        s for s in skills
+        if s['status'] in COMPLETE_SKILL_STATUSES
+        and s.get('implementation') in ('无需改动', '已实施')
+        and s.get('test') in COMPLETE_TESTS
+    ]
+    if len(resolved) == len(skills) and not blockers:
+        return '验证完成'
+    if any(s['status'] == '已修复' for s in skills):
+        return '部分修复'
+    return '正在审查'
+
+
+def apply_delivery(review_status, delivery):
+    if review_status == '验证完成' and delivery.get('status') in ('可交付', '已交付'):
+        return delivery['status']
+    return review_status
+
+
+def load_delivery():
+    path = os.path.join(DOC, 'pack-delivery.json')
+    if not os.path.exists(path):
+        return {}
+    try:
+        data = json.load(open(path, encoding='utf-8'))
+        return {item['pack_id']: item for item in data.get('packs', [])}
+    except Exception:
+        return {}
+
+
 def sha256(path):
     h = hashlib.sha256()
     with open(path, 'rb') as f:
@@ -292,6 +363,7 @@ def main():
         original_priority = task.get('priority', 'P1' if c['classification'] == '优先更新候选' else 'P3')
         priority = char_override.get('priority_revised', 'P2' if original_priority == 'P1' else 'P3')
         skills = [skill_record(s, skill_overrides.get(s['id'], {})) for s in c['skills_for_location']]
+        pack_group, pack_name = CATEGORY_PACKS[c['category']]
         statuses = [s['status'] for s in skills]
         implementations = [s['implementation'] for s in skills]
         tests = [s['test'] for s in skills]
@@ -301,6 +373,9 @@ def main():
             'character_id': c['character_id'],
             'character_name': c['character_name'],
             'category': c['category'],
+            'pack_id': c['category'],
+            'pack_name': pack_name,
+            'pack_group': pack_group,
             'classification_original': c['classification'],
             'mechanism': task.get('mechanism', ''),
             'skills': skills,
@@ -314,6 +389,50 @@ def main():
             'notes': '；'.join(f"{s['name'] or s['id']}：{s['notes']}" for s in skills if s['notes']),
         })
     all_skills = [skill for record in records for skill in record['skills']]
+    delivery = load_delivery()
+    packs = []
+    for pack_id in PACK_ORDER:
+        group, name = CATEGORY_PACKS[pack_id]
+        if pack_id == 'out_of_scope':
+            characters = [{'character_id': 'activity_lusu', 'character_name': '活动武将/界鲁肃（非142清单ID）'}]
+            pack_skills = [dict(skill) for skill in OUT_OF_SCOPE[0]['skill_statuses']]
+        else:
+            characters = [{'character_id': r['character_id'], 'character_name': r['character_name']} for r in records if r['pack_id'] == pack_id]
+            pack_skills = [skill for r in records if r['pack_id'] == pack_id for skill in r['skills']]
+        blockers = [s['id'] for s in pack_skills if s['status'] == '已复现']
+        review = pack_status(pack_skills, blockers)
+        delivery_entry = delivery.get(pack_id, {'pack_id': pack_id, 'status': '未打包'})
+        status_counts = {}
+        for skill in pack_skills:
+            status_counts[skill['status']] = status_counts.get(skill['status'], 0) + 1
+        packs.append({
+            'pack_id': pack_id,
+            'pack_name': name,
+            'pack_group': PACK_GROUPS[group],
+            'category': None if pack_id == 'out_of_scope' else pack_id,
+            'target_characters': characters,
+            'target_skills': [skill['id'] for skill in pack_skills],
+            'counts': {
+                'characters': len(characters),
+                'skills': len(pack_skills),
+                'reviewed_skills': sum(1 for skill in pack_skills if skill['status'] != '尚未验证'),
+                'fixed_skills': sum(1 for skill in pack_skills if skill['status'] == '已修复'),
+                'verified_skills': sum(1 for skill in pack_skills if skill['status'] == '已验证无问题'),
+                'unreviewed_skills': sum(1 for skill in pack_skills if skill['status'] == '尚未验证'),
+                'skill_status': status_counts,
+            },
+            'review_status': review,
+            'status': apply_delivery(review, delivery_entry),
+            'delivery_status': delivery_entry.get('status', '未打包'),
+            'delivery': delivery_entry,
+            'blocking_issues': blockers,
+            'can_mark_deliverable': review == '验证完成' and not blockers,
+            'criteria': '该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。',
+        })
+    pack_counts = {}
+    for pack in packs:
+        value = pack['status']
+        pack_counts[value] = pack_counts.get(value, 0) + 1
     counts = {
         'total': len(records),
         'skills_total': len(all_skills),
@@ -324,6 +443,8 @@ def main():
         'skill_status': {},
         'skill_implementation': {},
         'skill_test': {},
+        'pack_status': pack_counts,
+        'packs_total': len(packs),
     }
     for key, source in (
         ('review_status', records), ('implementation_status', records), ('test_status', records),
@@ -334,9 +455,9 @@ def main():
             value = item[field]
             counts[key][value] = counts[key].get(value, 0) + 1
     doc = {
-        'schema_version': '3.0',
-        'record_kind': 'reviewed_inventory_with_skill_level_status',
-        'generated_at': '2026-10-31',
+        'schema_version': '4.0',
+        'record_kind': 'packed_review_inventory_with_skill_level_status',
+        'generated_at': '2026-11-01',
         'baseline': {
             'extension': '无名AI v4.4.4 (1fe5292eb3022dd8d1db494617b21a12be912e61)',
             'host': '无名杀 1.11.7 (lib.version; app package 1.11.0)',
@@ -347,6 +468,7 @@ def main():
             'task_sha256': sha256(os.path.join(SRC, '测试任务清单.json')),
         },
         'counts': counts,
+        'packs': packs,
         'out_of_scope_findings': OUT_OF_SCOPE,
         'records': records,
     }
@@ -357,13 +479,13 @@ def main():
     out_csv = os.path.join(DOC, '142-task-list.csv')
     with open(out_csv, 'w', encoding='utf-8-sig', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['task_id', 'character_id', 'character_name', 'category', 'skills', 'skill_statuses',
+        writer.writerow(['task_id', 'character_id', 'character_name', 'category', 'pack_id', 'pack_name', 'skills', 'skill_statuses',
                          'priority_original', 'priority_revised', 'review_status', 'implementation_status',
                          'test_status', 'evidence', 'notes'])
         for r in records:
             skill_statuses = '|'.join(f"{s['id']}:{s['status']}/{s['implementation']}/{s['test']}" for s in r['skills'])
             writer.writerow([
-                r['task_id'], r['character_id'], r['character_name'], r['category'],
+                r['task_id'], r['character_id'], r['character_name'], r['category'], r['pack_id'], r['pack_name'],
                 '|'.join(s['id'] for s in r['skills']), skill_statuses,
                 r['priority_original'], r['priority_revised'], r['review_status'],
                 r['implementation_status'], r['test_status'], r['evidence'], r['notes'],
