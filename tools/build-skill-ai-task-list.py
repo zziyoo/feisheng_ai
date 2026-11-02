@@ -521,7 +521,7 @@ def main():
     doc = {
         'schema_version': '4.0',
         'record_kind': 'packed_review_inventory_with_skill_level_status',
-        'generated_at': '2026-11-01',
+        'generated_at': '2026-11-02',
         'baseline': {
             'extension': '无名AI v4.4.4 (1fe5292eb3022dd8d1db494617b21a12be912e61)',
             'host': '无名杀 1.11.7 (lib.version; app package 1.11.0)',
