@@ -130,11 +130,54 @@ SKILL_OVERRIDES = {
             'notes': '保留原实现；未取得复现证据。',
         },
     },
+    'sp_zhangjiao': {
+        'releiji': {
+            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'evidence': 'shenhua-feng-review.json / shenhua-releiji-target：张角持闪，友方与敌方均在座；releiji.cost 的 chooseTarget AI 只选敌方 seat4，未选友方。',
+            'notes': '目标选择符合敌我关系；未复现雷击目标缺陷。',
+        },
+        'guidao': {
+            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'evidence': 'shenhua-feng-review.json / shenhua-guidao-replace：友方判定为红桃无懈，张角持黑桃杀；AI chooseCard 选黑桃杀替换，原判定牌进入张角手牌。',
+            'notes': '只在有利方向改判；未复现误判或资敌。',
+        },
+        'huangtian': {
+            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'evidence': 'shenhua-feng-review.json / shenhua-huangtian-give：黄天主公在场，群势力角色持闪；出牌阶段 huangtian2 将闪交给主公并施加黄天3。',
+            'notes': '未复现漏发或把闪交给非主公。',
+        },
+    },
+    're_yuji': {
+        'xinfu_guhuo': {
+            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'evidence': 'shenhua-feng-review.json / shenhua-guhuo-claim、shenhua-guhuo-phase：于吉持闪无杀；蛊惑按钮 AI 选择声称【杀】（button bool=true），外层 chooseToUse 在该保守局面放弃；未读取隐藏牌面，未出现非法目标。',
+            'notes': 'check/ai1 使用 Math.random 作为诈唬权重属于原生随机策略；本轮未确认应改缺陷，保留并记录。',
+        },
+    },
+    're_xiahouyuan': {
+        'xinshensu': {
+            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'evidence': 'shenhua-feng-review.json / shenhua-shensu-skip：夏侯渊有乐不思蜀判定、3张杀；shensu1 取消判定与摸牌，视作杀命中敌方（目标4→3），手牌未消耗。',
+            'notes': '跳阶段与虚拟杀结算正常；未复现错误目标或未跳过。',
+        },
+    },
+    'xiaoqiao': {
+        'retianxiang': {
+            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'evidence': 'shenhua-feng-review.json / shenhua-tianxiang-redirect：小乔持桃受敌方1伤；AI 选敌方目标及“失去1体力并获得弃置桃”，小乔未掉血，敌方4→3并获得桃。',
+            'notes': '未把伤害转给友方或错误结算；保留原生目标/选项评分。',
+        },
+        'hongyan': {
+            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'evidence': 'shenhua-feng-review.json / shenhua-hongyan-suit：红颜被动下黑桃杀经 get.suit/get.color 变为红桃/红色。',
+            'notes': '纯被动，无 AI 分支；未复现规则偏差。',
+        },
+    },
     're_weiyan': {
         'xinkuanggu': {
-            'status': '尚未验证', 'implementation': '未改动', 'test': '未测试',
-            'evidence': '狂骨仅在 qimou 修复场景的结算中被顺带观察到（伤害后回血），未单独建立固定局面。',
-            'notes': '不在 qimou 通过后自动视为狂骨通过。',
+            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'evidence': 'shenhua-feng-review.json / shenhua-kuanggu-draw、shenhua-kuanggu-recover：3/4血魏延持连弩时杀中目标后选择摸1；无连弩时持杀杀中目标后选择回复1。',
+            'notes': '两条分支均在真实伤害事件中兑现；未复现漏发或错误选择。',
         },
         'qimou': {
             'status': '已修复', 'implementation': '已实施', 'test': '真实宿主通过',
@@ -195,6 +238,27 @@ SKILL_OVERRIDES = {
             'status': '尚未验证', 'implementation': '未改动', 'test': '未测试',
             'evidence': 'olninge 未建立固定局面场景。',
             'notes': '保留原实现；未取得复现证据。',
+        },
+    },
+    'old_caoren': {
+        'jushou': {
+            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'evidence': 'shenhua-feng-review.json / shenhua-jushou-4hp-empty、shenhua-jushou-lowhp：4血0手牌结束阶段不发动；3血0手牌发动摸3并翻面。',
+            'notes': '原生 hp+手牌<4 阈值与保留下一回合的取舍一致；未复现可证应发动而未发动的缺陷。',
+        },
+    },
+    'old_zhoutai': {
+        'gzbuqu': {
+            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'evidence': 'shenhua-feng-review.json / shenhua-buqu-damage：1血周泰受1伤，不屈翻出1张“创”，HP0但未进入濒死、未死亡。',
+            'notes': '不屈主体为强制结算；“创”的移除 AI 仅在回复分支，未复现结算异常。',
+        },
+    },
+    're_huangzhong': {
+        'xinliegong': {
+            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'evidence': 'shenhua-feng-review.json / shenhua-liegong-hit、shenhua-liegong-negative：3血2手牌对4血0手牌敌人出杀触发不可响应+加伤，目标4→2；反向目标3手牌/2血对4血1手牌黄忠只造成1伤。',
+            'notes': '正向/反向条件均按原生 filter 兑现；未复现错误触发或漏发。',
         },
     },
 }

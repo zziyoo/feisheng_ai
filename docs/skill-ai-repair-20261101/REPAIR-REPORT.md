@@ -200,6 +200,15 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
 
 - 修正后完整 21 场景 × 3 变体见 `postfix-range-{native,policy,extension}.json`；结果与历史失败分列于 `repair-acceptance-ledger.md`，不删除 `postfix-range-native-presuppress-partial.log` 与 `split-range-*` 中的超时记录。
 
+### 8.6 交付边界补修与神话再临·风审查（2026-11-02）
+
+- **注册表一致性漏洞**：第三方复现“注册表预存本包 import/注册行、分包模块缺失”时，旧 apply 会补齐模块并成功，旧 rollback 因 `mode=already` 不删注册行，最终留下悬空导入。现改为安装前一致性拒绝：注册表已含本包任一行且本包文件缺失时不写任何文件；旧安装记录遇到同类状态回滚时硬性阻止删除（`--force` 也不放行）。新增 2 条回归，安装/回滚测试 13/13 PASS。
+- **逐包真实技能场景**：acceptance 按包绑定场景，`refresh_standard=rezhiheng-3hp,new-retuxi-order`、`shenhua_feng=hp-qimou-distance4-hp3`、`refresh_feng=hp-reqimou-distance4-hp3`、`shenhua_lei=olkongsheng-array-count,olkongsheng-repeat`、`out_of_scope=redimeng-hidden-info,redimeng-permute-values`；组合验收取并集并逐包对照单包签名。redimeng 单包结果：`fairRedimeng=9`、`redimengMaskFailed=0`，同位置置换索引一致（(2,3)/(0,1)），结算前后牌张守恒。
+- **上游 1fe5292**：新增 `--base-ref 1fe5292 --wire-index-diff`。在干净归档上先确认未接线 apply 拒绝，再应用包内 `score/index.diff`，随后逐包安装、真实技能场景、卸载/回滚、重装；五包单包与组合全部 PASS。上游源码包必须显式接线，不是直接安装包。
+- **验收矩阵口径**：新增 `contract.single` / `contract.combined`，矩阵单包契约与组合契约分列；未执行显示“未执行”，不把未运行项误报为失败。组合行 `contract_passed=true` 来自实际共存安装/134 维检查。
+- **不抑制 game.over 的完整对局**：新增 `tools/test-fullgame-settlement.mjs`，斗地主 seed 20261030：`done=true`、`overCalls=1`、`result=true`、3 phases / 17 uses / 12 decisions，无 pageerror。默认抑制夹具仍保留，二者互不替代。
+- **神话再临·风**：12 项登记技能全部审查。`qimou` 已修复；`releiji/guidao/huangtian/xinfu_guhuo/xinshensu/retianxiang/hongyan/xinkuanggu/jushou/gzbuqu/xinliegong` 均建立真实宿主固定局面，原生与已安装扩展的决策语义一致（神速/天香仅对称敌人目标座位不同），未复现需改缺陷，状态为 `已验证无问题`。证据见 `shenhua-feng-review.json`、`shenhua-feng-review-native.json`、`shenhua-feng-review-compare.json`；分包状态升级为 `可交付`，待外部集成回执后再考虑 `已交付`。
+
 ## 九、部署与回滚
 
 本轮已按分包拆分共享核心：运行时新增 `policyCore.js`、`skillAIPolicyPacks.js`，策略拆到 `packs/` 与 `rules/`；`skillAIPolicies.js` 只保留 facade。补修包内 `deployment/deployment-plan.md` 已更新为完整文件清单；分包交付 ZIP 另含 `integration/apply-pack.mjs` 与 `rollback-pack.mjs`，只追加本分包文件与注册行，不覆盖其他开发者修改。回滚分包使用其安装记录；整体回滚仍可还原到 `3bb2434`（见包内 patches）。

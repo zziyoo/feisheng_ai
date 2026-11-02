@@ -21,43 +21,43 @@
       "P3": 90
     },
     "review_status": {
-      "已验证无问题": 4,
-      "部分通过": 8,
-      "尚未验证": 129,
-      "已修复": 1
+      "已验证无问题": 11,
+      "部分通过": 7,
+      "尚未验证": 122,
+      "已修复": 2
     },
     "implementation_status": {
-      "无需改动": 4,
+      "无需改动": 11,
       "部分实施": 8,
-      "未改动": 129,
+      "未改动": 122,
       "已实施": 1
     },
     "test_status": {
-      "真实宿主通过": 2,
-      "部分通过": 8,
+      "真实宿主通过": 10,
+      "部分通过": 7,
       "真实宿主完整回合通过": 3,
-      "未测试": 129
+      "未测试": 122
     },
     "skill_status": {
-      "已验证无问题": 9,
-      "尚未验证": 266,
+      "已验证无问题": 20,
+      "尚未验证": 255,
       "已修复": 5
     },
     "skill_implementation": {
-      "无需改动": 9,
-      "未改动": 266,
+      "无需改动": 20,
+      "未改动": 255,
       "已实施": 5
     },
     "skill_test": {
-      "真实宿主通过": 7,
-      "未测试": 266,
+      "真实宿主通过": 18,
+      "未测试": 255,
       "真实宿主完整回合通过": 7
     },
     "pack_status": {
       "正在审查": 4,
       "尚未开始": 7,
-      "部分修复": 4,
-      "可交付": 1
+      "可交付": 2,
+      "部分修复": 3
     },
     "packs_total": 16
   },
@@ -427,30 +427,34 @@
       "counts": {
         "characters": 8,
         "skills": 12,
-        "reviewed_skills": 1,
+        "reviewed_skills": 12,
         "fixed_skills": 1,
-        "verified_skills": 0,
-        "unreviewed_skills": 11,
+        "verified_skills": 11,
+        "unreviewed_skills": 0,
         "skill_status": {
-          "尚未验证": 11,
+          "已验证无问题": 11,
           "已修复": 1
         }
       },
-      "review_status": "部分修复",
-      "status": "部分修复",
-      "delivery_status": "阶段性",
+      "review_status": "验证完成",
+      "status": "可交付",
+      "delivery_status": "可交付",
       "delivery": {
         "pack_id": "shenhua_feng",
-        "status": "阶段性",
-        "delivery_status": "阶段性",
+        "status": "可交付",
+        "delivery_status": "可交付",
         "zip_name": "feisheng-ai-shenhua-feng.zip",
-        "note": "阶段包：qimou 已修复，其余登记技能尚未审查。",
-        "zip_sha256": "7efa23a47f64350cfc1ca86bb83fb2d763ceda10eabeb50caa0bf881893cf675",
-        "zip_size": 330772,
-        "built_at": "2026-11-01T13:59:05.569Z"
+        "note": "完整可交付包：12项登记技能已逐项审查，qimou 已修复，其余11项已验证无问题；单包/共存/上游1fe5292安装回滚与技能场景验收通过。",
+        "zip_sha256": "e47205f8ff6bda00bc0ff3ee65c00500907802aca0e358872c0e3471c8985cd2",
+        "zip_size": 418470,
+        "built_at": "2026-11-01T15:52:27.086Z",
+        "acceptance_status": "passed",
+        "acceptance_file": "accept-shenhua_feng.json",
+        "acceptance_sha256": "f19ad04c9c0707a8f7b23112f37ceb4fe3c0d288a1633ab18822f892b38be9e9",
+        "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/宿主加载/卸载回滚后再加载/重装/134维契约"
       },
       "blocking_issues": [],
-      "can_mark_deliverable": false,
+      "can_mark_deliverable": true,
       "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
     },
     {
@@ -854,9 +858,13 @@
         "delivery_status": "阶段性",
         "zip_name": "feisheng-ai-shenhua-lei.zip",
         "note": "阶段包：olkongsheng 已修复，其余登记技能尚未审查。",
-        "zip_sha256": "e72fc571f94a88ab8e9021a239e12e17c73b972a467ff51afdfbfeb9d5b739d7",
-        "zip_size": 208999,
-        "built_at": "2026-11-01T13:59:05.569Z"
+        "zip_sha256": "09d8207fcd9d713fb05eee8c234023db8b247356c28c21e98e9763deab0954cb",
+        "zip_size": 296703,
+        "built_at": "2026-11-01T15:52:27.086Z",
+        "acceptance_status": "passed",
+        "acceptance_file": "accept-shenhua_lei.json",
+        "acceptance_sha256": "846df542691028cd7c759b1f9593f947c4752519df0f629d690887ebf000a26a",
+        "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/宿主加载/卸载回滚后再加载/重装/134维契约"
       },
       "blocking_issues": [],
       "can_mark_deliverable": false,
@@ -1066,9 +1074,13 @@
         "delivery_status": "阶段性",
         "zip_name": "feisheng-ai-refresh-standard.zip",
         "note": "阶段包：本包多数技能尚未审查，不可标记完整交付。",
-        "zip_sha256": "4768503e9e2736bd64a2de87b01fde0efc72f010b377a58aa55777d25e9ec2fc",
-        "zip_size": 216640,
-        "built_at": "2026-11-01T13:59:05.569Z"
+        "zip_sha256": "42cb776916b65840c16225bc90cddb24b14ffbdfd4b28e65e978deca7bc3e376",
+        "zip_size": 304368,
+        "built_at": "2026-11-01T15:52:27.086Z",
+        "acceptance_status": "passed",
+        "acceptance_file": "accept-refresh_standard.json",
+        "acceptance_sha256": "1ba390cadd481a50ac81bda97939597f7ac0bee5fcded11c1fa35b3257f28ded",
+        "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/宿主加载/卸载回滚后再加载/重装/134维契约"
       },
       "blocking_issues": [],
       "can_mark_deliverable": false,
@@ -1153,9 +1165,13 @@
         "delivery_status": "阶段性",
         "zip_name": "feisheng-ai-refresh-feng.zip",
         "note": "阶段包：reqimou 已修复，其余登记技能尚未审查。",
-        "zip_sha256": "5eb001651df869b98a80fffb6f1c055d93a1360ee172e3bb95be4f65178e6f6f",
-        "zip_size": 416203,
-        "built_at": "2026-11-01T13:59:05.569Z"
+        "zip_sha256": "952d980a8026fa8f44aa947ab0d6804e1cbaab2a9634dcbac445591c0fc11dd8",
+        "zip_size": 655068,
+        "built_at": "2026-11-01T15:52:27.086Z",
+        "acceptance_status": "passed",
+        "acceptance_file": "accept-refresh_feng.json",
+        "acceptance_sha256": "4a4c644f371fd33484937049fa3ee32db4b082f7cc3c691ef31756d31e470e02",
+        "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/宿主加载/卸载回滚后再加载/重装/134维契约"
       },
       "blocking_issues": [],
       "can_mark_deliverable": false,
@@ -1441,10 +1457,14 @@
         "status": "可交付",
         "delivery_status": "可交付",
         "zip_name": "feisheng-ai-out-of-scope.zip",
-        "note": "完整可交付包：清单外 redimeng 已审查/修复、无阻塞项；实际 ZIP 逐包验收（安装/加载/卸载/回滚/重装/134维）通过，最终 ZIP 生成并登记后等待外部集成回执。",
-        "zip_sha256": "b7c237254f461216dfa8f4c5a943334f8ba9f0161233b98c80cf23fc6502be6f",
-        "zip_size": 206717,
-        "built_at": "2026-11-01T13:59:05.569Z"
+        "note": "完整可交付包：本包登记技能已全部审查、无阻塞项，安装/卸载/回滚/宿主加载验收通过。",
+        "zip_sha256": "2df439fe930f0a010ff61e5c899a074775fedb6f6154e267917c20581a71a80b",
+        "zip_size": 294408,
+        "built_at": "2026-11-01T15:52:27.086Z",
+        "acceptance_status": "passed",
+        "acceptance_file": "accept-out_of_scope.json",
+        "acceptance_sha256": "1b961de50fdeeefa1d115720d33c2780255f898bc37c35c24de716ce3e6a5fba",
+        "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/宿主加载/卸载回滚后再加载/重装/134维契约"
       },
       "blocking_issues": [],
       "can_mark_deliverable": true,
@@ -1999,11 +2019,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7483"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-feng-review.json / shenhua-releiji-target：张角持闪，友方与敌方均在座；releiji.cost 的 chooseTarget AI 只选敌方 seat4，未选友方。",
+          "notes": "目标选择符合敌我关系；未复现雷击目标缺陷。",
           "host_line_1117": null
         },
         {
@@ -2027,11 +2047,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8701"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-feng-review.json / shenhua-guidao-replace：友方判定为红桃无懈，张角持黑桃杀；AI chooseCard 选黑桃杀替换，原判定牌进入张角手牌。",
+          "notes": "只在有利方向改判；未复现误判或资敌。",
           "host_line_1117": null
         },
         {
@@ -2055,22 +2075,26 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8837"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-feng-review.json / shenhua-huangtian-give：黄天主公在场，群势力角色持闪；出牌阶段 huangtian2 将闪交给主公并施加黄天3。",
+          "notes": "未复现漏发或把闪交给非主公。",
           "host_line_1117": null
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "雷击：保留原实现；未取得复现证据。；鬼道：保留原实现；未取得复现证据。；黄天：保留原实现；未取得复现证据。"
+      "review_status": "已验证无问题",
+      "reviewed_skills": [
+        "releiji",
+        "guidao",
+        "huangtian"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主通过",
+      "evidence": "雷击：shenhua-feng-review.json / shenhua-releiji-target：张角持闪，友方与敌方均在座；releiji.cost 的 chooseTarget AI 只选敌方 seat4，未选友方。；鬼道：shenhua-feng-review.json / shenhua-guidao-replace：友方判定为红桃无懈，张角持黑桃杀；AI chooseCard 选黑桃杀替换，原判定牌进入张角手牌。；黄天：shenhua-feng-review.json / shenhua-huangtian-give：黄天主公在场，群势力角色持闪；出牌阶段 huangtian2 将闪交给主公并施加黄天3。",
+      "notes": "雷击：目标选择符合敌我关系；未复现雷击目标缺陷。；鬼道：只在有利方向改判；未复现误判或资敌。；黄天：未复现漏发或把闪交给非主公。"
     },
     {
       "task_id": "AI-re_yuji",
@@ -2104,22 +2128,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8901"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-feng-review.json / shenhua-guhuo-claim、shenhua-guhuo-phase：于吉持闪无杀；蛊惑按钮 AI 选择声称【杀】（button bool=true），外层 chooseToUse 在该保守局面放弃；未读取隐藏牌面，未出现非法目标。",
+          "notes": "check/ai1 使用 Math.random 作为诈唬权重属于原生随机策略；本轮未确认应改缺陷，保留并记录。",
           "host_line_1117": null
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "蛊惑：保留原实现；未取得复现证据。"
+      "review_status": "已验证无问题",
+      "reviewed_skills": [
+        "xinfu_guhuo"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主通过",
+      "evidence": "蛊惑：shenhua-feng-review.json / shenhua-guhuo-claim、shenhua-guhuo-phase：于吉持闪无杀；蛊惑按钮 AI 选择声称【杀】（button bool=true），外层 chooseToUse 在该保守局面放弃；未读取隐藏牌面，未出现非法目标。",
+      "notes": "蛊惑：check/ai1 使用 Math.random 作为诈唬权重属于原生随机策略；本轮未确认应改缺陷，保留并记录。"
     },
     {
       "task_id": "AI-re_xiahouyuan",
@@ -2156,22 +2182,24 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7601"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-feng-review.json / shenhua-shensu-skip：夏侯渊有乐不思蜀判定、3张杀；shensu1 取消判定与摸牌，视作杀命中敌方（目标4→3），手牌未消耗。",
+          "notes": "跳阶段与虚拟杀结算正常；未复现错误目标或未跳过。",
           "host_line_1117": null
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "神速：保留原实现；未取得复现证据。"
+      "review_status": "已验证无问题",
+      "reviewed_skills": [
+        "xinshensu"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主通过",
+      "evidence": "神速：shenhua-feng-review.json / shenhua-shensu-skip：夏侯渊有乐不思蜀判定、3张杀；shensu1 取消判定与摸牌，视作杀命中敌方（目标4→3），手牌未消耗。",
+      "notes": "神速：跳阶段与虚拟杀结算正常；未复现错误目标或未跳过。"
     },
     {
       "task_id": "AI-xiaoqiao",
@@ -2205,11 +2233,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7913"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-feng-review.json / shenhua-tianxiang-redirect：小乔持桃受敌方1伤；AI 选敌方目标及“失去1体力并获得弃置桃”，小乔未掉血，敌方4→3并获得桃。",
+          "notes": "未把伤害转给友方或错误结算；保留原生目标/选项评分。",
           "host_line_1117": null
         },
         {
@@ -2233,22 +2261,25 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8234"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-feng-review.json / shenhua-hongyan-suit：红颜被动下黑桃杀经 get.suit/get.color 变为红桃/红色。",
+          "notes": "纯被动，无 AI 分支；未复现规则偏差。",
           "host_line_1117": null
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "天香：保留原实现；未取得复现证据。；红颜：保留原实现；未取得复现证据。"
+      "review_status": "已验证无问题",
+      "reviewed_skills": [
+        "retianxiang",
+        "hongyan"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主通过",
+      "evidence": "天香：shenhua-feng-review.json / shenhua-tianxiang-redirect：小乔持桃受敌方1伤；AI 选敌方目标及“失去1体力并获得弃置桃”，小乔未掉血，敌方4→3并获得桃。；红颜：shenhua-feng-review.json / shenhua-hongyan-suit：红颜被动下黑桃杀经 get.suit/get.color 变为红桃/红色。",
+      "notes": "天香：未把伤害转给友方或错误结算；保留原生目标/选项评分。；红颜：纯被动，无 AI 分支；未复现规则偏差。"
     },
     {
       "task_id": "AI-re_weiyan",
@@ -2282,11 +2313,11 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3720"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "狂骨仅在 qimou 修复场景的结算中被顺带观察到（伤害后回血），未单独建立固定局面。",
-          "notes": "不在 qimou 通过后自动视为狂骨通过。",
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-feng-review.json / shenhua-kuanggu-draw、shenhua-kuanggu-recover：3/4血魏延持连弩时杀中目标后选择摸1；无连弩时持杀杀中目标后选择回复1。",
+          "notes": "两条分支均在真实伤害事件中兑现；未复现漏发或错误选择。",
           "host_line_1117": 3745
         },
         {
@@ -2320,14 +2351,15 @@
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "部分通过",
+      "review_status": "已修复",
       "reviewed_skills": [
+        "xinkuanggu",
         "qimou"
       ],
       "implementation_status": "部分实施",
-      "test_status": "部分通过",
-      "evidence": "狂骨：狂骨仅在 qimou 修复场景的结算中被顺带观察到（伤害后回血），未单独建立固定局面。；奇谋：独立页面复现：目标在3-4距离外、手上有杀且杀次数未用完时，原生 ai.result.player 因 cardUsable 直接返回0，奇谋永不发动（三个场景0动作）。策略只在“杀次数可用恰为唯一阻塞、且支付能兑换成击杀”时放宽：far4-3sha-hp3 修复后发动并3杀击杀，far3-2sha-hp2 同理；反向 far4-hp4、目标在射程内、杀次数耗尽均保持原生。",
-      "notes": "狂骨：不在 qimou 通过后自动视为狂骨通过。；奇谋：只覆盖 ai.result.player 的否决分支；不复制技能主体、不改支付档位（档位由宿主 content 决定）。"
+      "test_status": "真实宿主通过",
+      "evidence": "狂骨：shenhua-feng-review.json / shenhua-kuanggu-draw、shenhua-kuanggu-recover：3/4血魏延持连弩时杀中目标后选择摸1；无连弩时持杀杀中目标后选择回复1。；奇谋：独立页面复现：目标在3-4距离外、手上有杀且杀次数未用完时，原生 ai.result.player 因 cardUsable 直接返回0，奇谋永不发动（三个场景0动作）。策略只在“杀次数可用恰为唯一阻塞、且支付能兑换成击杀”时放宽：far4-3sha-hp3 修复后发动并3杀击杀，far3-2sha-hp2 同理；反向 far4-hp4、目标在射程内、杀次数耗尽均保持原生。",
+      "notes": "狂骨：两条分支均在真实伤害事件中兑现；未复现漏发或错误选择。；奇谋：只覆盖 ai.result.player 的否决分支；不复制技能主体、不改支付档位（档位由宿主 content 决定）。"
     },
     {
       "task_id": "AI-dianwei",
@@ -7012,22 +7044,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7735"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-feng-review.json / shenhua-jushou-4hp-empty、shenhua-jushou-lowhp：4血0手牌结束阶段不发动；3血0手牌发动摸3并翻面。",
+          "notes": "原生 hp+手牌<4 阈值与保留下一回合的取舍一致；未复现可证应发动而未发动的缺陷。",
           "host_line_1117": null
         }
       ],
       "priority_original": "P2",
       "priority_revised": "P3",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "据守：保留原实现；未取得复现证据。"
+      "review_status": "已验证无问题",
+      "reviewed_skills": [
+        "jushou"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主通过",
+      "evidence": "据守：shenhua-feng-review.json / shenhua-jushou-4hp-empty、shenhua-jushou-lowhp：4血0手牌结束阶段不发动；3血0手牌发动摸3并翻面。",
+      "notes": "据守：原生 hp+手牌<4 阈值与保留下一回合的取舍一致；未复现可证应发动而未发动的缺陷。"
     },
     {
       "task_id": "AI-sp_zhugeliang",
@@ -12260,22 +12294,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8313"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-feng-review.json / shenhua-buqu-damage：1血周泰受1伤，不屈翻出1张“创”，HP0但未进入濒死、未死亡。",
+          "notes": "不屈主体为强制结算；“创”的移除 AI 仅在回复分支，未复现结算异常。",
           "host_line_1117": null
         }
       ],
       "priority_original": "P3",
       "priority_revised": "P3",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "不屈：保留原实现；未取得复现证据。"
+      "review_status": "已验证无问题",
+      "reviewed_skills": [
+        "gzbuqu"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主通过",
+      "evidence": "不屈：shenhua-feng-review.json / shenhua-buqu-damage：1血周泰受1伤，不屈翻出1张“创”，HP0但未进入濒死、未死亡。",
+      "notes": "不屈：不屈主体为强制结算；“创”的移除 AI 仅在回复分支，未复现结算异常。"
     },
     {
       "task_id": "AI-re_huangzhong",
@@ -12309,22 +12345,24 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3759"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
+          "status": "已验证无问题",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-feng-review.json / shenhua-liegong-hit、shenhua-liegong-negative：3血2手牌对4血0手牌敌人出杀触发不可响应+加伤，目标4→2；反向目标3手牌/2血对4血1手牌黄忠只造成1伤。",
+          "notes": "正向/反向条件均按原生 filter 兑现；未复现错误触发或漏发。",
           "host_line_1117": null
         }
       ],
       "priority_original": "P3",
       "priority_revised": "P3",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "烈弓：保留原实现；未取得复现证据。"
+      "review_status": "已验证无问题",
+      "reviewed_skills": [
+        "xinliegong"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主通过",
+      "evidence": "烈弓：shenhua-feng-review.json / shenhua-liegong-hit、shenhua-liegong-negative：3血2手牌对4血0手牌敌人出杀触发不可响应+加伤，目标4→2；反向目标3手牌/2血对4血1手牌黄忠只造成1伤。",
+      "notes": "烈弓：正向/反向条件均按原生 filter 兑现；未复现错误触发或漏发。"
     }
   ]
 }
