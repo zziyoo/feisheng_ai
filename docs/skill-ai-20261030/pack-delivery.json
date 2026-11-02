@@ -87,6 +87,16 @@
       "upstream_acceptance_status": "passed",
       "upstream_acceptance_file": "accept-upstream-out_of_scope.json",
       "upstream_acceptance_sha256": "518b5701cc05c8325162c4f36d25703100b3e89ac23e6b0d5c51504c9ebdf413"
+    },
+    {
+      "pack_id": "shenhua_huo",
+      "status": "可交付",
+      "delivery_status": "可交付",
+      "zip_name": "feisheng-ai-shenhua-huo.zip",
+      "zip_sha256": "c3193691ccbbefe405c5673fd54e8c25f6ce611ef8c83ca15fd077b62e20e326",
+      "zip_size": 199851,
+      "built_at": "2026-11-02T12:38:04.466Z",
+      "note": "完整可交付包：14项登记技能已全部审查；lianhuan 已修复并回归；单包安装/卸载/重装/回滚、原生/扩展对照与有界完整对局通过。"
     }
   ],
   "coexistence": {

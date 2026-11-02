@@ -21,7 +21,7 @@ const BASE_REF = option('base-ref') || null;
 const PREFIX = option('prefix') || (BASE_REF ? 'accept-upstream-' : 'accept-');
 const BASELINE_PREFIX = option('baseline-prefix') || PREFIX;
 const WORK_TAG = BASE_REF ? 'upstream' : 'head';
-const IDS = ['refresh_standard', 'shenhua_feng', 'refresh_feng', 'shenhua_lei', 'out_of_scope'];
+const IDS = ['refresh_standard', 'shenhua_feng', 'shenhua_huo', 'refresh_feng', 'shenhua_lei', 'out_of_scope'];
 const SCENES = {
 	refresh_standard: ['rezhiheng-3hp', 'new-retuxi-order'],
 	shenhua_feng: [
@@ -36,6 +36,21 @@ const SCENES = {
 		'shenhua-jushou-4hp-empty', 'shenhua-jushou-lowhp',
 		'shenhua-buqu-damage', 'shenhua-buqu-negative', 'shenhua-buqu-recover-choice',
 		'shenhua-liegong-hit', 'shenhua-liegong-negative',
+	],
+	shenhua_huo: [
+		'hp-qiangxix-2hp-target1', 'hp-qiangxix-2hp-weapon-target2',
+		'shenhua-huo-quhu-compare', 'shenhua-huo-quhu-no-target', 'shenhua-huo-quhu-risky-decline',
+		'shenhua-huo-jieming-damage', 'shenhua-huo-jieming-no-benefit',
+		'shenhua-huo-lianhuan-tiesuo', 'shenhua-huo-lianhuan-ally-risk', 'shenhua-huo-lianhuan-recast',
+		'shenhua-huo-oldniepan-dying', 'shenhua-huo-oldniepan-tao',
+		'shenhua-huo-tianyi-compare', 'shenhua-huo-tianyi-win-sha', 'shenhua-huo-tianyi-lose-sha', 'shenhua-huo-tianyi-lose-content',
+		'shenhua-huo-shuangxiong-judge', 'shenhua-huo-shuangxiong-duel', 'shenhua-huo-shuangxiong-no-judge',
+		'shenhua-huo-luanji-wanjian', 'shenhua-huo-luanji-wanjian-use', 'shenhua-huo-luanji-no-pair',
+		'shenhua-huo-huoji-red', 'shenhua-huo-huoji-use', 'shenhua-huo-huoji-no-red',
+		'shenhua-huo-kanpo-response', 'shenhua-huo-kanpo-no-black',
+		'shenhua-huo-bazhen-bagua', 'shenhua-huo-bazhen-armor-negative',
+		'shenhua-huo-jianchu-sha', 'shenhua-huo-jianchu-no-equip',
+		'shenhua-huo-passive-rules',
 	],
 	refresh_feng: ['hp-reqimou-distance4-hp3'],
 	shenhua_lei: ['olkongsheng-array-count', 'olkongsheng-repeat'],

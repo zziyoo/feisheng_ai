@@ -217,15 +217,18 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
 - **蛊惑不再“按钮选了就算过”**：新增 `shenhua-guhuo-ai-use`（AI 实际声明杀并使用隐藏牌命中敌方，目标属于敌方且非自己）、`shenhua-guhuo-real-questioned`（真杀被质疑后仍命中、质疑者获得缠怨）、`shenhua-guhuo-fake-questioned`（假声明被质疑：原生取消；扩展 AI 在确定质疑下选择放弃，二者均无伤害、无缠怨）。`shenhua-guhuo-claim/-phase` 保留为历史观察，不再作为“已验证”的唯一依据。
 - **其他技能**：雷击补目标+2 雷电伤害结算；黄天补交闪/黄天3/无闪不发动；神速补跳判定+虚拟杀命中/手牌不足不发动；天香补敌方目标+失去体力/无红桃正常受伤；狂骨补距离 1 伤害后摸牌/回复两分支；据守补满血不发动/低血摸3翻面；不屈补翻创存活/未到0血不翻/回复时 chooseCardButton 移创 AI；烈弓补 directHit+extraDamage=1 与负向 1 点伤害。红颜明确为纯被动规则验证，不新增无意义 AI 策略。
 - **验收执行**：`accept-skill-ai-pack` 对风包执行 3 个奇谋场景 + 24 个固定审查场景，共 23 条技能级检查（含奇谋）；原生/扩展逐场景对照 `semantic_all=true`、`exact_all=false`，差异单列为：天香对称目标座位不同；蛊惑假声明场景原生取消/扩展放弃（策略差异）。奇谋场景会改变后续 AI 决策上下文，acceptance 将奇谋与非奇谋场景分成两个宿主进程运行，避免跨场景影响；这不是放宽断言。
+- **奇谋比较不再无条件放行**：`shenhua-feng-review-semantics.mjs` 只允许两条已登记奇谋修复差异，并要求扩展实际发动、支付档位正确、支付后目标可达、实际敌方体力损失、角色存活；负向场景必须语义一致。新增 `tools/test-shenhua-feng-compare.mjs` 9 条负向测试，覆盖错误档位、无收益、不可达、自尽、负向场景发动、原生基线反向、正向未发动、未登记场景；全部 PASS。
 - **状态口径**：新增 `validation_level`：`规则结算验证通过`、`AI决策验证通过`、`正反向决策验证通过`、`部分验证`、`确认缺陷并已修复`。风包 12 项：qimou=确认缺陷并已修复；hongyan=规则结算验证通过；releiji/xinkuanggu/gzbuqu=AI决策验证通过；其余 7 项=正反向决策验证通过。`142-task-list` 与分包 `checklist.md` 已写入该字段；未覆盖关键 AI 分支的技能不再笼统写“完全验证无问题”。
 
-最终执行结果（2026-11-02）：风包单包 acceptance `pass=true`，23 条技能级断言；原生/扩展 `semantic_all=true`、`exact_all=false`（天香座位、蛊惑假声明取消/放弃、奇谋修复差异均单列）；五包共存 34 场景 `pass=true`，5/5 单包签名对照通过；上游 `1fe5292` 单包与组合均通过“未接线拒绝→应用 `score/index.diff`→安装→场景→卸载/回滚→重装”；矩阵 12/12 PASS；不抑制 `game.over` 的完整对局 `done=true`、`overCalls=1`、`result=true`（40 phases/92 uses/20 decisions）。正式 ZIP SHA256 `71c61f3db22266a77ba3074beda92237d3ae41af49862ac245b25d4c153d46a1`。
+最终执行结果（2026-11-02）：风包单包 acceptance `pass=true`，25 条技能级断言（含两条奇谋正向、奇谋负向）；原生/扩展 `semantic_all=true`、`exact_all=false`（天香座位、蛊惑假声明取消/放弃、奇谋修复差异均单列）；五包共存 34 场景 `pass=true`，5/5 单包签名对照通过；上游 `1fe5292` 单包与组合均通过“未接线拒绝→应用 `score/index.diff`→安装→场景→卸载/回滚→重装”；矩阵 12/12 PASS；不抑制 `game.over` 的完整对局 `done=true`、`overCalls=1`、`result=true`（40 phases/92 uses/20 decisions）。正式 ZIP SHA256 `71c61f3db22266a77ba3074beda92237d3ae41af49862ac245b25d4c153d46a1`。
 
-### 8.8 神话再临·火首轮审查（2026-11-02 晚）
+### 8.8 神话再临·火最终审查与分包交付（2026-11-02 晚）
 
-- 按 142 技能级清单审查 14 项登记技能，先跑原生固定局面，未修改任何 AI 代码。`qiangxix` 沿用既有完整回合验证；`quhu`（发动/拼点/伤害）、`jieming`（受伤选友方 drawTo）、`oldniepan`（濒死限定技）、`tianyi`（拼点/临时技）、`shuangxiong`（判定/颜色记录）、`jianchu`（弃装备/directHit）、`lianhuan`（梅花当铁索）均有真实发动与结算。
-- `luanji`/`huoji` 在保守局面 AI 未发动；`bazhen`/`kanpo` 只验证前置；`mashu`/`xueyi` 只验证被动规则。上述 13 项统一记为 `部分验证`，不写成“完全验证无问题”；本轮没有确认缺陷，因此不改代码。
-- 证据：`shenhua-huo-review-native-1.json`（10 个固定局面、0 页面错误）。下一步需补反向/强制结算和原生/扩展对照，再决定是否构建完整包；`shenhua_huo` 仍为 `正在审查/未打包`。
+- 保留首轮 10 个固定局面，新增 22 个正反向场景；14 项登记技能全部审查。`qiangxix` 回归完整回合；`quhu`/`jieming`/`oldniepan`/`tianyi`/`shuangxiong`/`luanji`/`huoji`/`kanpo`/`jianchu` 均取得实际发动、目标/支付/结算或明确负向不发动；`bazhen`/`mashu`/`xueyi` 为规则/被动验证。
+- **确认缺陷并修复**：`lianhuan` 在全部目标已横置时，原生 AI 仍把♣牌当铁索指定已横置友方，弃牌且不摸牌。新增 `shenhuaHuo` 分包，只把已横置目标的 `ai2` 评分压低；未横置目标继续用原生评分，宿主走重铸分支并实际摸 1 张。策略统计 `lianhuanLinkedSkip=13`。
+- **比较断言**：luanji/huoji 正向场景在独立宿主进程中验证，避免跨场景 AI 状态污染；32 场景合并对照 `semantic_all=true`、`exact_all=false`，唯一策略差异是已登记 `lianhuan-recast-fix`，无随机差异。
+- **验收**：主组 30 场景、乱击/火计正向各 1 场景分别 acceptance PASS；合并 32 条技能级断言；安装/卸载/重装/回滚、134 维契约、包内测试、`verify.py` 均 PASS；不抑制 `game.over` 的有界完整对局 PASS。证据：`shenhua-huo-review.json`、`shenhua-huo-review-native.json`、`shenhua-huo-review-compare.json`、`accept-shenhua_huo*.json`、`shenhua-huo-fullgame.json`。
+- 分包状态 `验证完成`，交付状态 `可交付`；待外部集成回执后再考虑 `已交付`。
 
 ## 九、部署与回滚
 

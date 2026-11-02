@@ -69,7 +69,7 @@ for (const repoPath of [
 ]) exportFile(repoPath, 'source/contract/' + repoPath);
 // tests：tools/ 导出映射 + 包内交付物
 const TEST_MAP = [
-	'test-skill-ai-policies.mjs', 'test-skill-ai-architecture.mjs', 'skill-ai-hp-real-host.mjs',
+	'test-skill-ai-policies.mjs', 'test-skill-ai-architecture.mjs', 'test-shenhua-feng-compare.mjs', 'skill-ai-hp-real-host.mjs',
 	'skill-ai-host-scenes.mjs', 'trick-real-host-smoke.mjs', 'reqimou-manual-ui.mjs',
 	'verify-repair-outcomes.mjs', 'run-node-regressions.mjs', 'bench-skill-ai-policies.mjs',
 	'test-policy-model-v2-reachability.mjs', 'build-skill-ai-task-list.py', 'rollback-skill-ai-live.py',
@@ -133,6 +133,8 @@ const EVIDENCE_COPY = [
 	'postfix-node-regressions.log',
 	'shenhua-feng-review.json', 'shenhua-feng-review-native.json', 'shenhua-feng-review-compare.json',
 	'fullgame-settlement.json', 'shenhua-huo-review-native-1.json',
+	'shenhua-huo-review.json', 'shenhua-huo-review-native.json', 'shenhua-huo-review-compare.json',
+	'accept-shenhua_huo.json', 'shenhua-huo-fullgame.json', 'shenhua-huo-node-regressions.log',
 ];
 for (const name of fs.readdirSync(EVIDENCE).filter(name => /^accept-.*\.json$/.test(name))) EVIDENCE_COPY.push(name);
 for (const name of ['accept-all-summary.json', 'pack-acceptance-matrix.json', 'pack-acceptance-matrix.md']) if (fs.existsSync(path.join(EVIDENCE, name))) EVIDENCE_COPY.push(name);
@@ -193,7 +195,8 @@ const PURPOSE = {
 	'tests/build-pack-acceptance-matrix.mjs': '分包验收矩阵生成器（单包/组合契约分列）',
 	'tests/test-fullgame-settlement.mjs': '不抑制 game.over 的有界完整对局测试',
 	'tests/compare-shenhua-feng-review.mjs': '神话再临·风原生/扩展逐场景语义对照',
-	'tests/shenhua-feng-review-semantics.mjs': '风包对照语义定义（供 acceptance 与独立 CLI 共用）',
+	'tests/shenhua-feng-review-semantics.mjs': '风/火包对照语义定义（供 acceptance 与独立 CLI 共用）',
+	'tests/test-shenhua-feng-compare.mjs': '奇谋比较负向回归（9条）',
 	'tests/run-package-tests.mjs': '包内可执行测试入口（纯规则+架构+安装回滚）',
 	'tests/test-verify-zip.py': 'verify.py --zip 跨平台路径回归',
 	'pack-tools/build-skill-ai-pack.mjs': '分包 ZIP 构建器（可复核构建过程）',
@@ -222,6 +225,11 @@ const EVIDENCE_BATCH = {
 	'shenhua-feng-review.json': '神话再临·风24项固定局面/12技能（已安装扩展）',
 	'shenhua-feng-review-native.json': '神话再临·风24项固定局面/12技能（原生对照）',
 	'shenhua-feng-review-compare.json': '神话再临·风原生/扩展决策语义对照（随机座位与策略差异单列）',
+	'shenhua-huo-review.json': '神话再临·火32项固定局面/14技能（已安装扩展）',
+	'shenhua-huo-review-native.json': '神话再临·火32项固定局面/14技能（原生对照）',
+	'shenhua-huo-review-compare.json': '神话再临·火原生/扩展决策语义对照（仅登记连环重铸差异）',
+	'accept-shenhua_huo.json': '神话再临·火单包验收合并结果（主组+乱击+火计）',
+	'shenhua-huo-fullgame.json': '不抑制game.over的有界完整对局（火包）',
 	'fullgame-settlement.json': '不抑制 game.over 的有界完整对局，真实胜负结算',
 	'shenhua-huo-review-native-1.json': '神话再临·火首轮14技能原生固定局面',
 	'repair-mode-doudizhu.json': '三模式托管（斗地主）',

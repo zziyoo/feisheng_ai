@@ -69,12 +69,22 @@ node tools/compare-shenhua-feng-review.mjs shenhua-feng-review-native.json shenh
 # 断言覆盖：AI 目标/声明/支付、真实结算、正反向分支；红颜为纯被动规则验证。
 ```
 
-神话再临·火首轮原生固定局面（2026-11-02）：
+神话再临·火首轮与最终场景（2026-11-02）：
 
 ```bash
-SC_HUO="shenhua-huo-quhu-compare,shenhua-huo-jieming-damage,shenhua-huo-oldniepan-dying,shenhua-huo-tianyi-compare,shenhua-huo-shuangxiong-judge,shenhua-huo-luanji-wanjian,shenhua-huo-jianchu-sha,shenhua-huo-lianhuan-tiesuo,shenhua-huo-huoji-red,shenhua-huo-passive-rules"
-node tools/trick-real-host-smoke.mjs --mode identity --skill-ai --scenes "$SC_HUO"   --host-root "$HOST" --extension-root "$EXT" --browser "$CHROME" --playwright "$PW"   --output shenhua-huo-review-native-1.json
-# 首轮结果：7 项有实际发动/结算，luanji/huoji 保守局面未发动，bazhen/kanpo/mashu/xueyi 只验证前置或被动规则；13 项记“部分验证”。
+# 首轮 10 场景（保留历史证据）：7 项有实际发动/结算，luanji/huoji 保守局面未发动，
+# bazhen/kanpo/mashu/xueyi 只验证前置或被动规则。
+SC_HUO_FIRST="shenhua-huo-quhu-compare,shenhua-huo-jieming-damage,shenhua-huo-oldniepan-dying,shenhua-huo-tianyi-compare,shenhua-huo-shuangxiong-judge,shenhua-huo-luanji-wanjian,shenhua-huo-jianchu-sha,shenhua-huo-lianhuan-tiesuo,shenhua-huo-huoji-red,shenhua-huo-passive-rules"
+node tools/trick-real-host-smoke.mjs --mode identity --skill-ai --scenes "$SC_HUO_FIRST"   --host-root "$HOST" --extension-root "$EXT" --browser "$CHROME" --playwright "$PW"   --output shenhua-huo-review-native-1.json
+
+# 最终主组（30 场景；乱击/火计正向单独进程，避免跨场景 AI 状态污染）：
+SC_HUO_MAIN="hp-qiangxix-2hp-target1,hp-qiangxix-2hp-weapon-target2,shenhua-huo-quhu-compare,shenhua-huo-quhu-no-target,shenhua-huo-quhu-risky-decline,shenhua-huo-jieming-damage,shenhua-huo-jieming-no-benefit,shenhua-huo-lianhuan-tiesuo,shenhua-huo-lianhuan-ally-risk,shenhua-huo-lianhuan-recast,shenhua-huo-oldniepan-dying,shenhua-huo-oldniepan-tao,shenhua-huo-tianyi-compare,shenhua-huo-tianyi-win-sha,shenhua-huo-tianyi-lose-sha,shenhua-huo-tianyi-lose-content,shenhua-huo-shuangxiong-judge,shenhua-huo-shuangxiong-duel,shenhua-huo-shuangxiong-no-judge,shenhua-huo-luanji-wanjian,shenhua-huo-luanji-no-pair,shenhua-huo-huoji-red,shenhua-huo-huoji-no-red,shenhua-huo-kanpo-response,shenhua-huo-kanpo-no-black,shenhua-huo-bazhen-bagua,shenhua-huo-bazhen-armor-negative,shenhua-huo-jianchu-sha,shenhua-huo-jianchu-no-equip,shenhua-huo-passive-rules"
+# acceptance 的 groupOf 会额外把 shenhua-huo-luanji-wanjian-use / shenhua-huo-huoji-use 各拆成独立宿主进程。
+
+# 风包比较断言负向测试（9 条）：
+node tools/test-shenhua-feng-compare.mjs
+# 最终合并对照（32 场景；预期 semantic_all=true、exact_all=false，唯一策略差异 lianhuan-recast-fix）：
+node tools/compare-shenhua-feng-review.mjs shenhua-huo-review-native.json shenhua-huo-review.json shenhua-huo-review-compare.json
 ```
 
 ## 3. 人类手动操作回归（真实点击路径）

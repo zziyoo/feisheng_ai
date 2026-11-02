@@ -32,9 +32,10 @@ score/decision/skills/
 | --- | --- | --- | --- |
 | `standard_2008` / `2013` / `2019` / `2023` | 标准包各版本组 | 正在审查 / 尚未开始 | 未打包 |
 | `shenhua_feng` | 神话再临·风 | 验证完成（qimou 已修复；其余 11 项按规则/AI/正反向分级验证） | 可交付 |
-| `shenhua_huo/lin/shan/yin/lei` | 神话再临其余五包 | 部分修复 / 正在审查 / 尚未开始 | 未打包 |
+| `shenhua_huo` | 神话再临·火 | 验证完成（lianhuan 已修复；其余 13 项按规则/AI/正反向分级验证） | 可交付 |
+| `shenhua_lin/shan/yin/lei` | 神话再临其余四包 | 正在审查 / 尚未开始 | 未打包 |
 
-神话再临·火首轮（2026-11-02）：14 项登记技能均已审查，`qiangxix` 维持完整回合验证；`quhu`/`jieming`/`oldniepan`/`tianyi`/`shuangxiong`/`jianchu`/`lianhuan` 已有真实发动与结算，`luanji`/`huoji` 在保守局面未发动，`bazhen`/`kanpo` 只验证前置，`mashu`/`xueyi` 只验证被动规则，13 项统一记为 `部分验证`，无确认缺陷。其余四包尚未开始。
+神话再临·火最终验收（2026-11-02）：14 项登记技能全部审查；`lianhuan` 修复“全部目标已横置时仍对友方空用铁索”，扩展改为重铸并实际摸 1 张；`qiangxix` 回归通过；`quhu`/`jieming`/`oldniepan`/`tianyi`/`shuangxiong`/`luanji`/`huoji`/`kanpo`/`jianchu` 有正向发动与负向不发动或失败分支；`bazhen`/`mashu`/`xueyi` 为规则验证。acceptance 主组 30 场景、乱击/火计正向各 1 场景分别 PASS；合并 32 场景、32 条技能级断言；原生/扩展语义一致，仅登记 `lianhuan` 重铸差异。其余三包尚未开始。
 | `refresh_standard/feng/huo/lin/shan` | 界限突破五包 | 部分修复 / 正在审查 / 尚未开始 | 未打包 |
 | `out_of_scope` | 清单外角色（活动武将/界鲁肃 `redimeng`） | 验证完成 | 可交付 |
 
@@ -139,5 +140,7 @@ node tools/accept-skill-ai-pack.mjs --zip <pack.zip> --repo <仓库> --workdir <
 - 不抑制 `game.over` 的有界完整对局（斗地主，seed 20261030）：`done=true`、`overCalls=1`、`result=true`、3 phases / 17 uses / 12 decisions，无页面错误；该测试独立于技能固定场景，不修改奇谋断言。见 `fullgame-settlement.json`。
 - 神话再临·风：12 项登记技能全部审查；`qimou` 已修复；`hongyan` 为纯被动规则验证；`releiji`/`xinkuanggu`/`gzbuqu` 为 AI 决策验证；其余 7 项为正反向决策验证。acceptance 共 23 条技能级检查，原生/扩展逐场景对照 `semantic_all=true`，差异单列为天香对称目标座位和蛊惑假声明场景“原生取消/扩展放弃”。证据 `shenhua-feng-review.json`、`shenhua-feng-review-native.json`、`shenhua-feng-review-compare.json`；分包清单含 `validation_level`。
 - 风包最终验收（2026-11-02）：单包 23 条技能级断言 PASS；五包共存 34 场景 PASS 且 5/5 单包签名对照通过；上游 `1fe5292` 单包与 34 场景组合均通过接线/安装/场景/卸载/回滚/重装；矩阵 12/12 PASS；不抑制 `game.over` 完整对局 `done=true`、`overCalls=1`、`result=true`（40 phases/92 uses/20 decisions）。正式 ZIP SHA256 `71c61f3db22266a77ba3074beda92237d3ae41af49862ac245b25d4c153d46a1`。
+- 风包比较断言加固（2026-11-02）：删除“任意奇谋差异一律放行”；只允许 `hp-qimou-distance4-hp3`（付3、目标可达、敌方体力损失≥1）和 `hp-qimou-distance3-hp2`（付2、指定目标受伤）两条登记差异，并新增 9 条负向测试（错误支付档位、无收益、不可达、自尽、负向场景发动、原生基线反向、正向未发动、未登记场景）全部 PASS。重跑风 acceptance：27 场景、23 条检查、`semantic_all=true`，差异仍只有两条奇谋修复与蛊惑假声明策略差异。
+- 火包最终验收（2026-11-02）：单包主组 30 场景 + 乱击/火计正向各 1 场景分别 PASS；合并 32 场景、32 条技能级检查、`semantic_all=true`、`exact_all=false`（唯一策略差异为已登记连环重铸修复）；安装/卸载/重装/回滚/134 维契约均 PASS；不抑制 `game.over` 有界完整对局 PASS。正式 ZIP 见分包交付台账。
 - Android 真机长跑、完整 142 将验收仍是公开发版前置条件。
 - 阶段包不是可直接安装的完整扩展；不得把源码补丁 ZIP 冒充扩展包。

@@ -78,12 +78,164 @@ export function shenhuaSceneSemantic(name, scene) {
 			return { damage: damage && damage.num, directHit: !!(scene.useCard && scene.useCard.directHit && scene.useCard.directHit.length), extraDamage: scene.useCard && scene.useCard.extraDamage, hpDelta: damage ? hpDelta(damage.player) : null };
 		case 'shenhua-liegong-negative':
 			return { damage: damage && damage.num, directHit: !!(scene.useCard && scene.useCard.directHit && scene.useCard.directHit.length), extraDamage: scene.useCard && scene.useCard.extraDamage, hpDelta: damage ? hpDelta(damage.player) : null };
+		case 'shenhua-huo-luanji-wanjian-use': {
+			const data = scene.result || scene;
+			const wanjian = (data.ops || scene.ops || []).filter(item => item && item.op === 'useCard' && item.args && item.args[0] === 'wanjian');
+			const firstTargets = wanjian[0] && wanjian[0].args[2] || [];
+			const hits = (data.damage || scene.damage || []).filter(item => item && isEnemy(item.player));
+			return { used: wanjian.length > 0, skill: wanjian.every(item => item.args[3] === 'luanji'), targetCount: firstTargets.length, multiTarget: firstTargets.length >= 2, enemyDamaged: hits.length > 0 };
+		}
+		case 'shenhua-huo-luanji-wanjian':
+			return { used: opUsed('useCard', item => item.args && item.args[0] === 'wanjian'), handCount: hand(scene.after, actor).length };
+		case 'shenhua-huo-luanji-no-pair':
+			return { used: opUsed('useCard', item => item.args && item.args[0] === 'wanjian'), handCount: hand(scene.after, actor).length };
+		case 'shenhua-huo-huoji-use': {
+			const data = scene.result || scene;
+			const hits = (data.damage || scene.damage || []).filter(item => item && item.nature === 'fire' && isEnemy(item.player));
+			return { usedHuogong: (data.ops || scene.ops || []).some(item => item && item.op === 'useCard' && item.args && item.args[0] === 'huogong'), fireDamage: hits.length > 0, enemyHpLoss: Object.keys(scene.before.hp).filter(id => isEnemy(id)).reduce((sum, id) => sum + Math.max(0, Number(scene.before.hp[id]) - Number(scene.after.hp[id] || 0)), 0) };
+		}
+		case 'shenhua-huo-huoji-red':
+			return { usedHuogong: opUsed('useCard', item => item.args && item.args[0] === 'huogong') };
+		case 'shenhua-huo-huoji-no-red':
+			return { usedHuogong: opUsed('useCard', item => item.args && item.args[0] === 'huogong') };
+		case 'shenhua-huo-kanpo-response': {
+			const data = scene.result || scene;
+			return { usedWuxie: (data.ops || scene.ops || []).some(item => item && item.op === 'useCard' && item.args && item.args[0] === 'wuxie' && item.args[3] === 'kanpo'), damageCount: (data.damage || scene.damage || []).length, actorHpDelta: hpDelta(actor) };
+		}
+		case 'shenhua-huo-kanpo-no-black': {
+			const data = scene.result || scene;
+			return { usedWuxie: (data.ops || scene.ops || []).some(item => item && item.op === 'useCard' && item.args && item.args[0] === 'wuxie'), damageCount: (data.damage || scene.damage || []).length, actorHpDelta: hpDelta(actor) };
+		}
+		case 'shenhua-huo-bazhen-bagua':
+		case 'shenhua-huo-bazhen-armor-negative': {
+			const data = scene.result || scene;
+			return { extraSkill: !!scene.setup.bazhenExtra, judged: ((data.judges || scene.judges || []).length > 0), damageCount: (data.damage || scene.damage || []).length, actorHpDelta: hpDelta(actor) };
+		}
+		case 'shenhua-huo-quhu-compare': {
+			const data = scene.result || scene;
+			const list = (data.targets || scene.targets || []).flat().map(idOnly);
+			return { usedQuhu: (data.ops || scene.ops || []).some(item => item && item.op === 'useSkill' && item.args && item.args[0] === 'quhu'), targetEnemy: list.every(isEnemy), damage: (data.damage || scene.damage || []).length };
+		}
+		case 'shenhua-huo-quhu-no-target':
+		case 'shenhua-huo-quhu-risky-decline':
+			return { usedQuhu: ((scene.result || scene).ops || []).some(item => item && item.op === 'useSkill' && item.args && item.args[0] === 'quhu'), actorHp: (scene.result || scene).actorHp };
+		case 'shenhua-huo-jieming-damage': {
+			const data = scene.result || scene;
+			const list = (data.targets || []).flat().map(idOnly);
+			return { targetAlly: list.length > 0 && list.every(id => id === ally), allyDraw: hand(scene.after, ally).length - hand(scene.before, ally).length };
+		}
+		case 'shenhua-huo-jieming-no-benefit': {
+			const data = scene.result || scene;
+			const list = (data.targets || []).flat().filter(Boolean).map(idOnly);
+			return { targetCount: list.length, allyHandDelta: hand(scene.after, ally).length - hand(scene.before, ally).length, enemyHandDelta: Object.keys(scene.before.hp).filter(id => isEnemy(id) && scene.before.hand[id]).reduce((sum, id) => sum + hand(scene.after, id).length - hand(scene.before, id).length, 0), drawCalls: (data.ops || scene.ops || []).filter(item => item && item.op === 'draw').length };
+		}
+		case 'shenhua-huo-oldniepan-dying':
+			return { usedOldniepan: ((scene.result || scene).ops || []).some(item => item && item.op === 'useSkill' && item.args && item.args[0] === 'oldniepan'), hp: (scene.result || scene).hp, handCount: hand(scene.after, actor).length, alive: !!(scene.result || scene).alive };
+		case 'shenhua-huo-oldniepan-tao':
+			return { usedOldniepan: ((scene.result || scene).ops || []).some(item => item && item.op === 'useSkill' && item.args && item.args[0] === 'oldniepan'), usedTao: ((scene.result || scene).ops || []).some(item => item && item.op === 'useCard' && item.args && item.args[0] === 'tao'), hp: (scene.result || scene).hp };
+		case 'shenhua-huo-tianyi-compare': {
+			const data = scene.result || scene;
+			return { tianyi2: !!data.tianyi2, tianyi3: !!data.tianyi3, handCount: hand(scene.after, actor).length };
+		}
+		case 'shenhua-huo-tianyi-win-sha':
+		case 'shenhua-huo-tianyi-lose-sha': {
+			const data = scene.result || scene;
+			const enemyHpLoss = Object.keys(scene.before.hp).filter(id => isEnemy(id)).reduce((sum, id) => sum + Math.max(0, Number(scene.before.hp[id]) - Number(scene.after.hp[id] || 0)), 0);
+			return { usedTianyi: (data.ops || scene.ops || []).some(item => item && item.op === 'useSkill' && item.args && item.args[0] === 'tianyi'), tianyi2: !!data.tianyi2, tianyi3: !!data.tianyi3, shaUsed: (data.ops || scene.ops || []).some(item => item && item.op === 'useCard' && item.args && item.args[0] === 'sha'), enemyDamaged: enemyHpLoss > 0 };
+		}
+		case 'shenhua-huo-tianyi-lose-content':
+			return { tianyi3: !!(scene.result || scene).tianyi3, shaEnabled: (scene.result || scene).shaEnabled };
+		case 'shenhua-huo-shuangxiong-judge':
+			return { viewas: !!(scene.result || scene).viewas };
+		case 'shenhua-huo-shuangxiong-duel': {
+			const data = scene.result || scene;
+			const juedou = (data.ops || scene.ops || []).filter(item => item && item.op === 'useCard' && item.args && item.args[0] === 'juedou' && item.args[3] === 'shuangxiong_viewas');
+			const enemyHpLoss = Object.keys(scene.before.hp).filter(id => isEnemy(id)).reduce((sum, id) => sum + Math.max(0, Number(scene.before.hp[id]) - Number(scene.after.hp[id] || 0)), 0);
+			return { judged: ((data.judges || scene.judges || []).length > 0), viewas: !!data.viewas, juedouUsed: juedou.length > 0, enemyDamaged: enemyHpLoss > 0 };
+		}
+		case 'shenhua-huo-shuangxiong-no-judge':
+			return { judged: ((scene.result || scene).judges || []).length > 0, viewas: !!(scene.result || scene).viewas };
+		case 'shenhua-huo-jianchu-sha': {
+			const data = scene.result || scene;
+			return { directHit: (data.directHit || []).length > 0, equips: (data.equips || []).length, enemyHpDelta: Object.keys(scene.before.hp).filter(id => isEnemy(id)).reduce((sum, id) => sum + Math.max(0, Number(scene.before.hp[id]) - Number(scene.after.hp[id] || 0)), 0) };
+		}
+		case 'shenhua-huo-jianchu-no-equip': {
+			const data = scene.result || scene;
+			return { directHit: (data.directHit || []).length > 0, enemyGainedSha: (data.enemyHand || []).includes('sha'), enemyHpDelta: Object.keys(scene.before.hp).filter(id => isEnemy(id)).reduce((sum, id) => sum + Math.max(0, Number(scene.before.hp[id]) - Number(scene.after.hp[id] || 0)), 0) };
+		}
+		case 'shenhua-huo-lianhuan-tiesuo': {
+			const data = scene.result || scene;
+			const targetsList = (data.tiesuoTargets || []).flat().map(idOnly);
+			return { usedTiesuo: targetsList.length > 0, targetCount: targetsList.length, targetsAllEnemies: targetsList.every(isEnemy), recast: !!data.recast };
+		}
+		case 'shenhua-huo-lianhuan-ally-risk': {
+			const data = scene.result || scene;
+			const targetsList = (data.tiesuoTargets || []).flat().map(idOnly);
+			return { usedTiesuo: targetsList.length > 0, recast: !!data.recast, allyTargeted: targetsList.includes(ally), draws: Number(data.draws) || 0 };
+		}
+		case 'shenhua-huo-lianhuan-recast': {
+			const data = scene.result || scene;
+			return { usedTiesuo: (data.tiesuoTargets || []).length > 0, recast: !!data.recast, draws: Number(data.draws) || 0, handCount: hand(scene.after, actor).length };
+		}
+		case 'shenhua-huo-passive-rules':
+			return { baseDistance: scene.setup.baseDistance, mashuDistance: scene.setup.mashuDistance, maxHandcard: scene.setup.maxHandcard, bazhenExtra: !!(scene.setup.bazhenExtra), kanpoView: !!(scene.setup.kanpoView) };
+		case 'hp-qiangxix-2hp-target1':
+		case 'hp-qiangxix-2hp-weapon-target2': {
+			const ops = scene.ops || [];
+			return { used: ops.some(item => item && item.op === 'useSkill' && item.args && item.args[0] === 'qiangxix'), loseHp: ops.some(item => item && item.op === 'loseHp'), weaponDiscarded: ops.some(item => item && item.op === 'discard' && (item.args[0] || []).includes('zhangba')), targetHp: scene.target && scene.target.hp, actorHp: scene.turn && scene.turn.hp };
+		}
 		default:
 			if (name.startsWith('hp-qimou') || name.startsWith('qimou-')) {
-				return { usedQimou: opUsesSkill('qimou'), paid: opLoseHp() };
+				const qimou = scene.qimou || {};
+				const actorId = Object.keys(scene.before && scene.before.skills || {})[0];
+				const targetHpBefore = Number(qimou.targetHpBefore);
+				const targetHpAfter = Number(qimou.targetHpAfter);
+				return {
+					usedQimou: opUsesSkill('qimou'),
+					paid: opLoseHp(),
+					targetReachable: qimou.reachableAfter === true,
+					targetHpDelta: Number.isFinite(targetHpBefore) && Number.isFinite(targetHpAfter) ? targetHpAfter - targetHpBefore : null,
+					enemyHpLoss: Number(qimou.enemyHpLoss) || 0,
+					shaUses: Number(qimou.shaUses) || 0,
+					actorHpBefore: Number(qimou.actorHpBefore ?? (scene.before && scene.before.hp && scene.before.hp[actorId])),
+					actorAlive: qimou.actorAlive !== false,
+				};
 			}
 			return null;
 	}
+}
+
+// 已登记的奇谋修复差异：只有这些场景允许原生否决、扩展支付。
+// 支付档位、支付后可达、实际敌方体力损失、角色存活都是硬条件。
+const REGISTERED_QIMOU_FIXES = {
+	'hp-qimou-distance4-hp3': { paid: 3, minEnemyHpLoss: 1, targetMustBeHit: false },
+	'hp-qimou-distance3-hp2': { paid: 2, minEnemyHpLoss: 1, targetMustBeHit: true },
+};
+
+export function validateHuoDifference(name, native, extension) {
+	if (name !== 'shenhua-huo-lianhuan-recast') return null;
+	if (native.usedTiesuo !== true || native.recast !== false) return '原生基线未复现“对已横置目标使用铁索”的缺陷';
+	if (extension.usedTiesuo !== false || extension.recast !== true) return '扩展未改走重铸分支';
+	if (extension.draws !== 1) return '扩展重铸未实际摸 1 张';
+	if (!(extension.handCount > native.handCount)) return '扩展重铸未保留手牌收益';
+	return null;
+}
+
+export function validateQimouDifference(name, native, extension) {
+	const registered = REGISTERED_QIMOU_FIXES[name];
+	if (!registered) {
+		const same = JSON.stringify(native) === JSON.stringify(extension);
+		return same ? null : '未登记的奇谋场景出现原生/扩展差异';
+	}
+	if (native.usedQimou !== false || native.paid !== 0) return '原生基线不再是未发动/未支付';
+	if (extension.usedQimou !== true) return '扩展未实际发动奇谋';
+	if (extension.paid !== registered.paid) return '支付档位不符：期望 ' + registered.paid + '，实际 ' + extension.paid;
+	if (!(extension.paid < extension.actorHpBefore)) return '支付会耗尽体力';
+	if (!extension.actorAlive) return '支付后角色死亡';
+	if (!extension.targetReachable) return '支付后目标仍不可达';
+	if (!(extension.enemyHpLoss >= registered.minEnemyHpLoss)) return '未造成预期敌方体力损失';
+	if (registered.targetMustBeHit && !(extension.targetHpDelta < 0)) return '指定目标未受到伤害';
+	return null;
 }
 
 export function rawSceneTargets(scene) {
@@ -111,16 +263,35 @@ export function compareNativeExtension(nativeReport, extensionReport, scenes) {
 		const rawTargetsEqual = JSON.stringify(rawSceneTargets(nativeScene)) === JSON.stringify(rawSceneTargets(extensionScene));
 		const rawDrawsEqual = JSON.stringify(rawSceneDraws(nativeScene)) === JSON.stringify(rawSceneDraws(extensionScene));
 		const exactMatch = semanticMatch && rawTargetsEqual && rawDrawsEqual;
+		const qimouScene = name.startsWith('hp-qimou') || name.startsWith('qimou-');
+		const huoScene = name.startsWith('shenhua-huo-') || name.startsWith('hp-qiangxix');
+		let qimouError = null;
+		let huoError = null;
 		let allowed = semanticMatch;
 		let note = semanticMatch ? '语义一致' : null;
-		if (!allowed) {
-			const qimouScene = name.startsWith('hp-qimou') || name.startsWith('qimou-');
-			const guhuoDecline = name === 'shenhua-guhuo-fake-questioned' && native.noDamage && extension.noDamage && native.noChanyuan && extension.noChanyuan && native.declaredSha && extension.declaredSha && native.outcome === 'cancelled' && extension.outcome === 'declined';
-			if (qimouScene) {
+		if (huoScene) {
+			huoError = validateHuoDifference(name, native, extension);
+			if (huoError) {
+				allowed = false;
+				note = huoError;
+			} else if (name === 'shenhua-huo-lianhuan-recast' && !semanticMatch) {
 				allowed = true;
-				note = '奇谋为已确认并修复的策略差异：扩展在唯一阻塞是杀次数时允许支付，原生保持否决。';
+				note = '已登记的连环修复差异：原生对已横置目标使用铁索，扩展改走重铸并实际摸 1 张。';
+				strategyDifferences.push({ scene: name, type: 'lianhuan-recast-fix', native, extension, note });
+			}
+		} else if (qimouScene) {
+			qimouError = validateQimouDifference(name, native, extension);
+			if (qimouError) {
+				allowed = false;
+				note = qimouError;
+			} else if (!semanticMatch) {
+				allowed = true;
+				note = '已登记的奇谋修复差异：扩展在支付档位正确、目标支付后可达且取得实际伤害时允许支付，原生保持否决。';
 				strategyDifferences.push({ scene: name, type: 'qimou-policy-fix', native, extension, note });
-			} else if (guhuoDecline) {
+			}
+		} else if (!allowed) {
+			const guhuoDecline = name === 'shenhua-guhuo-fake-questioned' && native.noDamage && extension.noDamage && native.noChanyuan && extension.noChanyuan && native.declaredSha && extension.declaredSha && native.outcome === 'cancelled' && extension.outcome === 'declined';
+			if (guhuoDecline) {
 				allowed = true;
 				note = '策略差异：原生先发动假声明再被质疑取消，扩展 AI 选择放弃；两者均未造成伤害、质疑者均未获得缠怨。';
 				strategyDifferences.push({ scene: name, type: 'guhuo-fake-questioned-decline', native, extension, note });
@@ -130,7 +301,7 @@ export function compareNativeExtension(nativeReport, extensionReport, scenes) {
 		if (!exactMatch) exactAll = false;
 		if (!rawTargetsEqual) randomDifferences.push({ scene: name, type: '对称目标座位不同', native: rawSceneTargets(nativeScene), extension: rawSceneTargets(extensionScene) });
 		if (!rawDrawsEqual) randomDifferences.push({ scene: name, type: '摸牌/获得牌面随机不同', native: rawSceneDraws(nativeScene), extension: rawSceneDraws(extensionScene) });
-		rows.push({ scene: name, exact_match: exactMatch, semantic_match: allowed, native, extension, note });
+		rows.push({ scene: name, exact_match: exactMatch, semantic_match: allowed, native, extension, note, qimou_error: qimouError || undefined, huo_error: huoError || undefined });
 	}
 	return { rows, exact_all: exactAll, semantic_all: semanticAll, allowed_random_differences: randomDifferences, strategy_differences: strategyDifferences };
 }

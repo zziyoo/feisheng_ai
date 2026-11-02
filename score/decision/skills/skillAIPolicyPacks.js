@@ -6,6 +6,7 @@ import { pack as refreshStandard } from './packs/refreshStandard.js?v=41a';
 import { pack as shenhuaLei } from './packs/shenhuaLei.js?v=41a';
 import { pack as shenhuaFeng } from './packs/shenhuaFeng.js?v=41a';
 import { pack as refreshFeng } from './packs/refreshFeng.js?v=41a';
+import { pack as shenhuaHuo } from './packs/shenhuaHuo.js?v=41a';
 // @djsc-pack-imports-end
 
 export const SKILL_AI_PACKS = [
@@ -15,5 +16,6 @@ export const SKILL_AI_PACKS = [
 	shenhuaLei,
 	shenhuaFeng,
 	refreshFeng,
+	shenhuaHuo,
 	// @djsc-pack-registry-end
 ];

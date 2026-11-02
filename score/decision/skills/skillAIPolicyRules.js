@@ -7,4 +7,5 @@ export * from './rules/refreshStandard.js';
 export * from './rules/shenhuaLei.js';
 export * from './rules/shenhuaFeng.js';
 export * from './rules/refreshFeng.js';
+export * from './rules/shenhuaHuo.js';
 export * from './rules/outOfScope.js';

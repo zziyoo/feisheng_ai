@@ -13,7 +13,7 @@ const output = option('output');
 const tools = path.dirname(fileURLToPath(import.meta.url));
 
 const SUITES = [
-	'test-skill-ai-policies.mjs', 'test-skill-ai-architecture.mjs', 'test-regressions.mjs',
+	'test-skill-ai-policies.mjs', 'test-skill-ai-architecture.mjs', 'test-shenhua-feng-compare.mjs', 'test-regressions.mjs',
 	'test-2v2-reentry.mjs', 'test-response-lifecycle.mjs', 'test-weights.mjs',
 	'test-extension-shadow-lifecycle.mjs', 'test-guard-runtime-failure.mjs', 'test-ai-boundaries.mjs',
 	'test-trick-boundaries.mjs', 'test-policy-model-v3.mjs', 'test-mobile-performance.mjs',

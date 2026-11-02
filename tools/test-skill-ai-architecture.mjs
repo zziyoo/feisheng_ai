@@ -5,13 +5,14 @@ import { DEFENSE_RULES } from '../score/decision/skills/skillAIPolicyRules.js';
 const read = path => fs.readFileSync(path, 'utf8');
 let passed = 0;
 const check = (name, fn) => { fn(); passed++; console.log('PASS', name); };
-const PACK_FILES = ['refreshStandard', 'shenhuaFeng', 'refreshFeng', 'shenhuaLei', 'outOfScope'];
+const PACK_FILES = ['refreshStandard', 'shenhuaFeng', 'refreshFeng', 'shenhuaLei', 'outOfScope', 'shenhuaHuo'];
 const PACK_META = {
 	refreshStandard: { id: 'refresh_standard', skills: ['rezhiheng', 'new_retuxi'], rules: 'refreshStandard' },
 	shenhuaFeng: { id: 'shenhua_feng', skills: ['qimou'], rules: 'shenhuaFeng' },
 	refreshFeng: { id: 'refresh_feng', skills: ['reqimou'], rules: 'refreshFeng' },
 	shenhuaLei: { id: 'shenhua_lei', skills: ['olkongsheng'], rules: 'shenhuaLei' },
 	outOfScope: { id: 'out_of_scope', skills: ['redimeng'], rules: 'outOfScope' },
+	shenhuaHuo: { id: 'shenhua_huo', skills: ['lianhuan'], rules: 'shenhuaHuo' },
 };
 const packSource = name => read('score/decision/skills/packs/' + name + '.js');
 const packId = source => (source.match(/id:\s*'([^']+)'/) || [])[1];
@@ -59,7 +60,7 @@ check('分包注册表完整、技能归属唯一、分包字段齐全', () => {
 	}
 	assert.equal(new Set(ids).size, ids.length, 'pack id 不得重复');
 	assert.equal(new Set(skills).size, skills.length, '同一技能只能由一个分包注册');
-	assert.deepEqual(new Set(skills), new Set(['rezhiheng', 'new_retuxi', 'qimou', 'reqimou', 'olkongsheng', 'redimeng']));
+	assert.deepEqual(new Set(skills), new Set(['rezhiheng', 'new_retuxi', 'qimou', 'reqimou', 'olkongsheng', 'redimeng', 'lianhuan']));
 });
 check('分包之间不互相 import，且只 import 自己的规则文件', () => {
 	for (const file of PACK_FILES) {
@@ -95,6 +96,15 @@ check('奇谋分包只放宽阻塞且不复制技能规则', () => {
 	assert(!source.includes('reqimou'));
 	const rules = read('score/decision/skills/rules/shenhuaFeng.js');
 	assert(rules.includes('qimouTargetX'));
+	assert(!rules.includes('lib.skill'));
+});
+check('火分包只跳过已横置的连环目标并保留重铸', () => {
+	const source = packSource('shenhuaHuo');
+	assert(source.includes('lianhuanLinkedTargetSkip'));
+	assert(source.includes("from '../rules/shenhuaHuo.js"));
+	assert(!source.includes('userHand') && !source.includes('get.value(button'));
+	const rules = read('score/decision/skills/rules/shenhuaHuo.js');
+	assert(rules.includes('isLinked'));
 	assert(!rules.includes('lib.skill'));
 });
 check('OL界魏延分包使用真实攻击范围与一次性 chooseNumbers', () => {

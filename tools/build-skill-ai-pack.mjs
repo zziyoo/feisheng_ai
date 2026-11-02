@@ -20,7 +20,7 @@ const EVIDENCE = path.resolve(option('evidence') || process.env.DJSC_EVIDENCE ||
 const OUT = path.resolve(option('out') || process.env.DJSC_PACK_OUT || path.join(REPO, '..', 'feisheng-ai-packs'));
 const STAGE_ROOT = path.resolve(option('stage-root') || process.env.DJSC_PACK_STAGE || path.join(OUT, '.stage'));
 const BASELINE = option('baseline') || process.env.DJSC_BASELINE || '1fe5292eb3022dd8d1db494617b21a12be912e61';
-const ALL_REGISTERED = ['rezhiheng', 'new_retuxi', 'qimou', 'reqimou', 'olkongsheng', 'redimeng'];
+const ALL_REGISTERED = ['rezhiheng', 'new_retuxi', 'qimou', 'reqimou', 'olkongsheng', 'redimeng', 'lianhuan'];
 const useWorktree = args.includes('--worktree-source');
 const selected = option('pack') ? [option('pack')] : (args.includes('--all') ? CODE_PACKS.map(item => item.id) : []);
 if (!selected.length) throw new Error('usage: --pack <id> | --all [--repo <dir>] [--evidence <dir>] [--out <dir>] [--stage-root <dir>] [--git <git>]');
@@ -63,6 +63,10 @@ const CONSTRAINTS = {
 	shenhua_feng: {
 		required: ['shouldBypassQimouCountBlock', 'lib.filter.cardUsable'],
 		forbidden: ['reqimou'],
+	},
+	shenhua_huo: {
+		required: ['lianhuanLinkedTargetSkip', 'isLinked'],
+		forbidden: ['get.value(button'],
 	},
 	refresh_feng: {
 		required: ['reqimouOptimalX', 'player.getAttackRange()', 'player.canSaveCard(card, player)'],
