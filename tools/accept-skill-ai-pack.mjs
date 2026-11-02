@@ -8,6 +8,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { compareNativeExtension } from './shenhua-feng-review-semantics.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(option('repo') || process.env.DJSC_REPO || path.join(HERE, '..'));
@@ -24,7 +25,19 @@ const BASELINE_PREFIX = option('baseline-prefix') || 'accept-';
 const EXPLICIT_SCENES = option('scenes') ? option('scenes').split(',').map(item => item.trim()).filter(Boolean) : null;
 const DEFAULT_SCENES = {
 	refresh_standard: ['rezhiheng-3hp', 'new-retuxi-order'],
-	shenhua_feng: ['hp-qimou-distance4-hp3'],
+	shenhua_feng: [
+		'hp-qimou-distance4-hp3', 'hp-qimou-distance4-hp4-negative', 'hp-qimou-distance3-hp2',
+		'shenhua-releiji-target', 'shenhua-guidao-replace', 'shenhua-guidao-decline',
+		'shenhua-huangtian-give', 'shenhua-huangtian-negative',
+		'shenhua-guhuo-claim', 'shenhua-guhuo-ai-use', 'shenhua-guhuo-real-questioned',
+		'shenhua-guhuo-fake-questioned', 'shenhua-guhuo-phase',
+		'shenhua-shensu-skip', 'shenhua-shensu-negative',
+		'shenhua-tianxiang-redirect', 'shenhua-tianxiang-negative', 'shenhua-hongyan-suit',
+		'shenhua-kuanggu-draw', 'shenhua-kuanggu-recover',
+		'shenhua-jushou-4hp-empty', 'shenhua-jushou-lowhp',
+		'shenhua-buqu-damage', 'shenhua-buqu-negative', 'shenhua-buqu-recover-choice',
+		'shenhua-liegong-hit', 'shenhua-liegong-negative',
+	],
 	refresh_feng: ['hp-reqimou-distance4-hp3'],
 	shenhua_lei: ['olkongsheng-array-count', 'olkongsheng-repeat'],
 	out_of_scope: ['redimeng-hidden-info', 'redimeng-permute-values'],
@@ -242,6 +255,296 @@ function opLoseHp(scene) {
 	return (scene.ops || []).filter(item => item && item.op === 'loseHp').reduce((sum, item) => sum + (Number(item.args && item.args[0]) || 0), 0);
 }
 
+function analyzeShenhuaFengScenes(report, requestedScenes, stats) {
+	const checks = [];
+	const pass = (name, detail) => checks.push({ name, passed: true, detail });
+	const fail = message => { throw new Error(message); };
+	const wanted = new Set(requestedScenes);
+	const want = name => wanted.has(name);
+	const signature = {};
+	const validation = {};
+	const actorId = scene => Object.keys(scene.before && scene.before.skills || {})[0];
+	const allyId = scene => Object.keys(scene.before && scene.before.skills || {})[1];
+	const idOnly = value => String(value || '').split(':')[0];
+	const handOf = (snapshot, id) => snapshot && snapshot.hand && snapshot.hand[id] || [];
+	const opUsed = (scene, op, predicate) => (scene.ops || []).some(item => item && item.op === op && (!predicate || predicate(item)));
+	const damageEvent = scene => (scene.damage || [])[0];
+	const isEnemyTarget = (scene, id) => !!id && id !== actorId(scene) && id !== allyId(scene);
+
+	if (want('hp-qimou-distance4-hp3')) {
+		const scene = findScene(report, 'hp-qimou-distance4-hp3');
+		if (!(Number(stats.qimouBypass) > 0)) fail('qimou 策略未执行');
+		if (!opUsesSkill(scene, 'qimou')) fail('qimou 场景未实际发动技能');
+		const paid = opLoseHp(scene);
+		if (!(paid > 0)) fail('qimou 场景未实际支付体力');
+		pass('qimou-settlement', { qimouBypass: stats.qimouBypass, paid });
+		signature.qimou = { qimouBypass: stats.qimouBypass, usedQimou: true, paid };
+		validation.qimou = { level: '确认缺陷并已修复', rule_settlement: true, ai_decision: true, positive_negative: true };
+	}
+
+	if (want('shenhua-releiji-target')) {
+		const scene = findScene(report, 'shenhua-releiji-target');
+		const actor = actorId(scene);
+		const targets = (scene.selected || []).map(idOnly);
+		if (targets.length !== 1) fail('雷击目标数不是 1');
+		if (!isEnemyTarget(scene, targets[0])) fail('雷击选择了友方或自己');
+		const damage = (scene.damage || []).find(item => item && item.player === targets[0]);
+		if (!damage || damage.num !== 2 || damage.nature !== 'thunder' || damage.source !== actor) {
+			fail('雷击未按黑桃判定造成 2 点雷电伤害：' + JSON.stringify(scene.damage));
+		}
+		const beforeHp = scene.before.hp[targets[0]];
+		const afterHp = scene.after.hp[targets[0]];
+		if (afterHp !== beforeHp - 2) fail('雷击目标体力变化不是 -2');
+		pass('releiji-target-settlement', { targetEnemy: true, damage: { num: 2, nature: 'thunder' }, hpDelta: -2 });
+		signature.releiji = { targetEnemy: true, thunderDamage: 2 };
+		validation.releiji = { level: 'AI决策验证通过', rule_settlement: true, ai_decision: true, positive_negative: false, note: '目标选择与黑桃判定后的 2 点雷电伤害均有真实结算断言；未额外构造无目标负向场景。' };
+	}
+
+	if (want('shenhua-guidao-replace')) {
+		const scene = findScene(report, 'shenhua-guidao-replace');
+		const picked = (scene.picked || []).flat();
+		if (!scene.replaced) fail('鬼道未替换判定牌');
+		if (!scene.judging || scene.judging.suit !== 'spade') fail('鬼道判定结果不是黑桃');
+		if (!picked.some(card => card && card.name === 'sha' && card.suit === 'spade')) fail('鬼道未选择黑桃杀替换');
+		if (!scene.gainedOriginal) fail('鬼道未获得原判定牌');
+		const actor = actorId(scene);
+		if (!handOf(scene.after, actor).includes('wuxie')) fail('原判定牌未进入张角手牌');
+		pass('guidao-replace-settlement', { replaced: true, judgingSuit: 'spade', gainedOriginal: true, picked });
+		validation.guidao = { level: '正反向决策验证通过', rule_settlement: true, ai_decision: true, positive_negative: true };
+	}
+	if (want('shenhua-guidao-decline')) {
+		const scene = findScene(report, 'shenhua-guidao-decline');
+		const picked = (scene.picked || []).flat();
+		if (scene.replaced || picked.length) fail('鬼道在无收益改判时仍替换判定牌');
+		if (!scene.judging || scene.judging.suit !== 'spade') fail('鬼道负向场景判定结果不是黑桃');
+		const actor = actorId(scene);
+		if (!handOf(scene.after, actor).includes('sha')) fail('鬼道负向场景错误消耗了黑桃牌');
+		if (handOf(scene.after, actor).includes('wuxie')) fail('鬼道负向场景错误获得了原判定牌');
+		pass('guidao-decline-settlement', { replaced: false, handKept: true });
+		signature.guidao = { replaced: true, gainedOriginal: true, declineWhenEqual: true };
+	}
+
+	if (want('shenhua-huangtian-give')) {
+		const scene = findScene(report, 'shenhua-huangtian-give');
+		const actor = actorId(scene);
+		const ally = allyId(scene);
+		if (!opUsed(scene, 'useSkill', item => item.args && item.args[0] === 'huangtian2')) fail('黄天未实际发动');
+		if (!(scene.tempCalls || []).some(item => item.skill === 'huangtian3')) fail('黄天未给主公施加黄天3');
+		if (handOf(scene.after, actor).includes('shan')) fail('黄天发动后闪仍在原角色手中');
+		if (!handOf(scene.after, ally).includes('shan')) fail('黄天未把闪交给主公');
+		pass('huangtian-give-settlement', { used: true, tempSkill: true, gaveToZhu: true });
+		validation.huangtian = { level: '正反向决策验证通过', rule_settlement: true, ai_decision: true, positive_negative: true };
+	}
+	if (want('shenhua-huangtian-negative')) {
+		const scene = findScene(report, 'shenhua-huangtian-negative');
+		const ally = allyId(scene);
+		if (opUsed(scene, 'useSkill', item => item.args && item.args[0] === 'huangtian2')) fail('黄天在没有闪时仍发动');
+		if ((scene.tempCalls || []).length) fail('黄天负向场景仍施加了黄天3');
+		if (handOf(scene.after, ally).length) fail('黄天负向场景错误交给了主公牌');
+		pass('huangtian-negative-settlement', { used: false });
+		signature.huangtian = { used: true, tempSkill: true, gaveToZhu: true, noShanDecline: true };
+	}
+
+	if (want('shenhua-guhuo-ai-use')) {
+		const scene = findScene(report, 'shenhua-guhuo-ai-use');
+		const actor = actorId(scene);
+		const targets = (scene.choice && scene.choice.targets || []).map(idOnly);
+		const beforeHand = handOf(scene.before, actor);
+		const afterHand = handOf(scene.after, actor);
+		const hidden = scene.choice && scene.choice.cards || [];
+		if (!scene.used) fail('蛊惑 AI 未实际使用');
+		if (scene.declared !== 'sha') fail('蛊惑 AI 未声明杀');
+		if (!(scene.buttonChoices || []).flat().includes('sha')) fail('蛊惑按钮未记录杀的声明');
+		if (targets.length !== 1) fail('蛊惑目标数不是 1');
+		if (!isEnemyTarget(scene, targets[0])) fail('蛊惑选择了友方或自己');
+		if ((scene.targetAttitudes || []).some(value => value >= 0)) fail('蛊惑目标态度不是敌对');
+		if (scene.targetsSelf) fail('蛊惑目标包含自己');
+		const damage = damageEvent(scene);
+		if (!damage || damage.num !== 1 || damage.player !== targets[0]) fail('蛊惑声明杀后未对目标造成 1 点伤害');
+		if (!scene.guhuoPhase) fail('蛊惑未进入 guhuo_phase');
+		if (beforeHand.length - afterHand.length !== 1) fail('蛊惑未消耗一张隐藏手牌');
+		if (!hidden.length || hidden.includes('sha')) fail('蛊惑 AI 实际使用了真杀而非隐藏牌');
+		pass('guhuo-ai-use-settlement', { used: true, declared: 'sha', targetEnemy: true, damage: 1, hidden });
+		validation.xinfu_guhuo = { level: '正反向决策验证通过', rule_settlement: true, ai_decision: true, positive_negative: true, note: 'AI 实际发动假声明；另用真实牌验证质疑成功、用假牌验证质疑取消；扩展在假牌+确定质疑场景选择放弃，单独记录为策略差异。' };
+	}
+
+	if (want('shenhua-guhuo-real-questioned')) {
+		const scene = findScene(report, 'shenhua-guhuo-real-questioned');
+		const actor = actorId(scene);
+		const damage = damageEvent(scene);
+		if (scene.declared !== 'sha' || scene.hidden !== 'sha') fail('蛊惑真声明场景未使用真实杀');
+		if (!scene.enemyChanyuan) fail('蛊惑真声明被质疑后质疑者未获得缠怨');
+		if (scene.cancelled) fail('蛊惑真声明被质疑后仍被取消');
+		if (!damage || damage.num !== 1) fail('蛊惑真声明未造成 1 点伤害');
+		if (damage.player === actor || damage.player === allyId(scene)) fail('蛊惑真声明伤害了友方或自己');
+		if (handOf(scene.after, actor).length) fail('蛊惑真声明未消耗真实杀');
+		pass('guhuo-real-questioned-settlement', { declaredSha: true, chanyuan: true, damage: 1, cancelled: false });
+		signature.guhuoReal = { declaredSha: true, chanyuan: true, damage: 1, cancelled: false };
+	}
+
+	if (want('shenhua-guhuo-fake-questioned')) {
+		const scene = findScene(report, 'shenhua-guhuo-fake-questioned');
+		const actor = actorId(scene);
+		const declared = (scene.buttonChoices || []).flat().includes('sha') || scene.declared === 'sha';
+		if (!declared) fail('蛊惑假声明场景未记录杀声明');
+		if ((scene.damage || []).length) fail('蛊惑假声明遭质疑后仍造成伤害');
+		if (scene.enemyChanyuan) fail('蛊惑假声明遭质疑后质疑者错误获得缠怨');
+		const beforeHand = handOf(scene.before, actor);
+		const afterHand = handOf(scene.after, actor);
+		const hiddenLost = afterHand.length === beforeHand.length - 1;
+		const activated = hiddenLost || scene.guhuoPhase || (scene.useCalls || []).length > 0;
+		if (!activated) {
+			pass('guhuo-fake-questioned-declined', { declaredSha: true, declined: true, noDamage: true });
+			signature.guhuoFake = { declaredSha: true, noDamage: true, noChanyuan: true, outcome: 'declined' };
+		} else {
+			if (!scene.cancelled) fail('蛊惑假声明遭质疑后未取消');
+			pass('guhuo-fake-questioned-cancelled', { declaredSha: true, cancelled: true, hiddenLost });
+			signature.guhuoFake = { declaredSha: true, noDamage: true, noChanyuan: true, outcome: 'cancelled' };
+		}
+	}
+
+	if (want('shenhua-shensu-skip')) {
+		const scene = findScene(report, 'shenhua-shensu-skip');
+		const used = (scene.ops || []).find(item => item && item.op === 'useCard' && item.args && item.args[0] === 'sha');
+		if (!used) fail('神速未实际使用虚拟杀');
+		const target = String(used.args[1] || '').replace(/^P:/, '');
+		if (!isEnemyTarget(scene, target)) fail('神速虚拟杀目标不是敌方');
+		if (scene.after.hp[target] !== scene.before.hp[target] - 1) fail('神速虚拟杀未造成 1 点伤害');
+		if (scene.shensuAfter.judge !== 1) fail('神速未跳过判定阶段（乐不思蜀仍在判定区）');
+		pass('shensu-skip-settlement', { usedSha: true, targetEnemy: true, hpDelta: -1, judgeSkipped: true });
+		validation.xinshensu = { level: '正反向决策验证通过', rule_settlement: true, ai_decision: true, positive_negative: true };
+	}
+	if (want('shenhua-shensu-negative')) {
+		const scene = findScene(report, 'shenhua-shensu-negative');
+		if ((scene.ops || []).some(item => item && item.op === 'useCard' && item.args && item.args[0] === 'sha')) fail('神速在手牌不足时仍使用虚拟杀');
+		if (scene.shensuAfter.judge !== 0) fail('神速负向场景未正常结算判定牌');
+		if (handOf(scene.after, actorId(scene)).length !== 2) fail('神速负向场景错误消耗手牌');
+		pass('shensu-negative-settlement', { usedSha: false, judgeResolved: true });
+		signature.shensu = { usedSha: true, targetHpDelta: -1, judgeSkipped: true, lowHandDecline: true };
+	}
+
+	if (want('shenhua-tianxiang-redirect')) {
+		const scene = findScene(report, 'shenhua-tianxiang-redirect');
+		const actor = actorId(scene);
+		const target = (scene.targets || []).flat().map(idOnly)[0];
+		if (!isEnemyTarget(scene, target)) fail('天香转移目标不是敌方');
+		if (!(scene.controls || []).includes(1)) fail('天香未选择失去体力并获得弃置牌');
+		if (scene.after.hp[actor] !== scene.before.hp[actor]) fail('天香发动后小乔仍受到伤害');
+		if (scene.after.hp[target] !== scene.before.hp[target] - 1) fail('天香目标未失去 1 点体力');
+		if (!handOf(scene.after, target).includes('tao')) fail('天香目标未获得弃置的桃');
+		pass('tianxiang-redirect-settlement', { targetEnemy: true, control: 1, actorHpDelta: 0, targetHpDelta: -1 });
+		validation.retianxiang = { level: '正反向决策验证通过', rule_settlement: true, ai_decision: true, positive_negative: true };
+	}
+	if (want('shenhua-tianxiang-negative')) {
+		const scene = findScene(report, 'shenhua-tianxiang-negative');
+		const actor = actorId(scene);
+		if ((scene.targets || []).length) fail('天香在没有红桃牌时仍转移伤害');
+		if (scene.after.hp[actor] !== scene.before.hp[actor] - 1) fail('天香负向场景未正常受到伤害');
+		if (handOf(scene.after, actor).length !== handOf(scene.before, actor).length) fail('天香负向场景错误弃牌');
+		pass('tianxiang-negative-settlement', { noTarget: true, damageProceeded: true });
+		signature.tianxiang = { targetEnemy: true, control: 1, actorHpDelta: 0, targetHpDelta: -1, noHeartDamage: true };
+	}
+
+	if (want('shenhua-hongyan-suit')) {
+		const scene = findScene(report, 'shenhua-hongyan-suit');
+		if (scene.suits.spade !== 'heart' || scene.suits.heart !== 'heart') fail('红颜未把黑桃视为红桃');
+		if (scene.colors.spade !== 'red' || scene.colors.heart !== 'red') fail('红颜未把黑桃视为红色');
+		pass('hongyan-passive-rule', { spadeAsHeart: true, spadeAsRed: true });
+		validation.hongyan = { level: '规则结算验证通过', rule_settlement: true, ai_decision: false, positive_negative: false, note: '纯被动规则，无独立 AI 决策入口；只验证花色/颜色规则。' };
+		signature.hongyan = { spadeAsHeart: true, spadeAsRed: true };
+	}
+
+	if (want('shenhua-kuanggu-draw')) {
+		const scene = findScene(report, 'shenhua-kuanggu-draw');
+		const damage = damageEvent(scene);
+		if (!damage || !damage.checkKuanggu || damage.num !== 1) fail('狂骨摸牌场景未命中距离 1 伤害');
+		if (!(scene.choices || []).includes('draw_card')) fail('狂骨未选择摸牌');
+		if (!opUsed(scene, 'draw', item => Number(item.args && item.args[0]) === 1)) fail('狂骨摸牌未实际摸 1 张');
+		if (scene.after.hp[damage.player] !== scene.before.hp[damage.player] - 1) fail('狂骨摸牌场景目标未受伤');
+		pass('kuanggu-draw-settlement', { choice: 'draw_card', damage: 1, draw: 1 });
+		validation.xinkuanggu = { level: 'AI决策验证通过', rule_settlement: true, ai_decision: true, positive_negative: false, note: '摸牌/回复两个 AI 分支均有真实结算断言。' };
+	}
+	if (want('shenhua-kuanggu-recover')) {
+		const scene = findScene(report, 'shenhua-kuanggu-recover');
+		const actor = actorId(scene);
+		const damage = damageEvent(scene);
+		if (!damage || !damage.checkKuanggu || damage.num !== 1) fail('狂骨回复场景未命中距离 1 伤害');
+		if (!(scene.choices || []).includes('recover_hp')) fail('狂骨未选择回复体力');
+		if (!opUsed(scene, 'recover', item => Number(item.args && item.args[0]) === 1)) fail('狂骨未实际回复 1 点体力');
+		if (scene.after.hp[actor] !== scene.before.hp[actor] + 1) fail('狂骨回复后体力未增加 1');
+		if (opUsed(scene, 'draw', item => Number(item.args && item.args[0]) > 0)) fail('狂骨回复分支错误摸牌');
+		pass('kuanggu-recover-settlement', { choice: 'recover_hp', hpDelta: 1, draw: 0 });
+		signature.kuanggu = { drawChoice: 'draw_card', recoverChoice: 'recover_hp', draw: 1, recover: 1 };
+	}
+
+	if (want('shenhua-jushou-4hp-empty')) {
+		const scene = findScene(report, 'shenhua-jushou-4hp-empty');
+		if ((scene.ops || []).some(item => item && (item.op === 'draw' || item.op === 'recover'))) fail('据守在满血空手时仍发动');
+		if (scene.jushouAfter.turnedOver) fail('据守负向场景仍翻面');
+		if (handOf(scene.after, actorId(scene)).length) fail('据守负向场景错误摸牌');
+		pass('jushou-empty-settlement', { triggered: false, turnedOver: false });
+		validation.jushou = { level: '正反向决策验证通过', rule_settlement: true, ai_decision: true, positive_negative: true };
+	}
+	if (want('shenhua-jushou-lowhp')) {
+		const scene = findScene(report, 'shenhua-jushou-lowhp');
+		if (!opUsed(scene, 'draw', item => Number(item.args && item.args[0]) === 3)) fail('据守未摸 3 张');
+		if (handOf(scene.after, actorId(scene)).length !== 3) fail('据守后手牌不是 3 张');
+		if (!scene.jushouAfter.turnedOver) fail('据守未翻面');
+		pass('jushou-lowhp-settlement', { draw: 3, turnedOver: true });
+		signature.jushou = { emptyTriggered: false, draw: 3, turnedOver: true };
+	}
+
+	if (want('shenhua-buqu-damage')) {
+		const scene = findScene(report, 'shenhua-buqu-damage');
+		if (!(scene.buquAfter.expansions || []).length) fail('不屈未翻出创');
+		if (scene.buquAfter.hp > 0) fail('不屈场景未进入 0 体力');
+		if (scene.buquAfter.dying) fail('不屈翻出创后仍进入濒死');
+		if (!scene.buquAfter.alive) fail('不屈翻出创后角色死亡');
+		pass('buqu-damage-settlement', { hp: scene.buquAfter.hp, expansions: scene.buquAfter.expansions.length, dying: false, alive: true });
+		validation.gzbuqu = { level: 'AI决策验证通过', rule_settlement: true, ai_decision: true, positive_negative: true, note: '主触发为锁定技；额外验证回复后移创的 chooseCardButton AI 选择。' };
+	}
+	if (want('shenhua-buqu-negative')) {
+		const scene = findScene(report, 'shenhua-buqu-negative');
+		if (scene.buquAfter.hp !== 1) fail('不屈负向场景体力不是 1');
+		if ((scene.buquAfter.expansions || []).length) fail('不屈在未进入 0 体力时错误翻创');
+		pass('buqu-negative-settlement', { hp: 1, expansions: 0 });
+	}
+	if (want('shenhua-buqu-recover-choice')) {
+		const scene = findScene(report, 'shenhua-buqu-recover-choice');
+		const picks = (scene.recoverPicks || []).flat();
+		if (picks.length !== 1) fail('不屈回复时未选择 1 张创');
+		if ((scene.buquAfter.expansions || []).length !== 1) fail('不屈回复后创数量不是 1');
+		if (scene.buquAfter.hp !== 2) fail('不屈回复后体力不是 2');
+		if (!opUsed(scene, 'recover', item => Number(item.args && item.args[0]) === 1)) fail('不屈场景未实际回复 1 点体力');
+		pass('buqu-recover-choice-settlement', { picks, expansions: 1, hp: 2 });
+		signature.buqu = { damageExpansions: true, negativeExpansions: 0, recoverPick: 1, recoverHp: 2 };
+	}
+
+	if (want('shenhua-liegong-hit')) {
+		const scene = findScene(report, 'shenhua-liegong-hit');
+		const damage = damageEvent(scene);
+		const target = damage && damage.player;
+		if (!damage || damage.num !== 2) fail('烈弓命中场景伤害不是 2');
+		if (!(scene.useCard && scene.useCard.directHit || []).some(value => idOnly(value) === target)) fail('烈弓未记录不可响应');
+		if (scene.useCard.extraDamage !== 1) fail('烈弓未记录加伤 1');
+		if (scene.after.hp[target] !== scene.before.hp[target] - 2) fail('烈弓命中后目标体力不是 -2');
+		pass('liegong-hit-settlement', { damage: 2, directHit: true, extraDamage: 1 });
+		validation.xinliegong = { level: '正反向决策验证通过', rule_settlement: true, ai_decision: true, positive_negative: true };
+	}
+	if (want('shenhua-liegong-negative')) {
+		const scene = findScene(report, 'shenhua-liegong-negative');
+		const damage = damageEvent(scene);
+		if (!damage || damage.num !== 1) fail('烈弓负向场景伤害不是 1');
+		if ((scene.useCard && scene.useCard.directHit || []).length) fail('烈弓负向场景错误不可响应');
+		if (scene.useCard.extraDamage) fail('烈弓负向场景错误加伤');
+		if (scene.after.hp[damage.player] !== scene.before.hp[damage.player] - 1) fail('烈弓负向场景目标体力变化不是 -1');
+		pass('liegong-negative-settlement', { damage: 1, directHit: false });
+		signature.liegong = { hitDamage: 2, hitDirect: true, negativeDamage: 1, negativeDirect: false };
+	}
+
+	return { checks, signature, validation };
+}
+
 function analyzePackScenes(packId, report, requestedScenes) {
 	const stats = report.policyStats && report.policyStats.packs && report.policyStats.packs[packId];
 	if (!stats) throw new Error('策略统计缺少分包：' + packId);
@@ -298,13 +601,8 @@ function analyzePackScenes(packId, report, requestedScenes) {
 		};
 	}
 	if (packId === 'shenhua_feng') {
-		const scene = findScene(report, 'hp-qimou-distance4-hp3');
-		if (!(Number(stats.qimouBypass) > 0)) throw new Error('qimou 策略未执行');
-		if (!opUsesSkill(scene, 'qimou')) throw new Error('qimou 场景未实际发动技能');
-		const paid = opLoseHp(scene);
-		if (!(paid > 0)) throw new Error('qimou 场景未实际支付体力');
-		pass('policy-counters', { qimouBypass: stats.qimouBypass, paid });
-		return { packId, checks, signature: { qimouBypass: stats.qimouBypass, usedQimou: true, paid } };
+		const detailed = analyzeShenhuaFengScenes(report, requestedScenes, stats);
+		return { packId, checks, ...detailed };
 	}
 	if (packId === 'refresh_feng') {
 		const scene = findScene(report, 'hp-reqimou-distance4-hp3');
@@ -363,34 +661,38 @@ function compareWithBaseline(packId, skillCheck) {
 	return { pack_id: packId, baseline: path.relative(WORK, file), signature_match: true };
 }
 
-function loadSkillScenes(root, label, scenes, expectedPacks) {
+function loadSkillScenes(root, label, scenes, expectedPacks, options = {}) {
 	if (!HOST || !CHROME || !PLAYWRIGHT) return { status: 'skipped', reason: '未提供 --host-root/--browser/--playwright', scenes };
 	if (!scenes || !scenes.length) throw new Error('未指定技能级宿主场景');
 	const output = path.join(WORK, 'host-' + label + '.json');
-	const result = runNode(path.join(REPO, 'tools/trick-real-host-smoke.mjs'), [
-		'--mode', 'identity', '--skill-ai', '--skill-ai-extension',
+	const args = ['--mode', 'identity', '--skill-ai'];
+	if (!options.native) args.push('--skill-ai-extension');
+	args.push(
 		'--scenes', scenes.join(','), '--seed', '20261030',
 		'--host-root', HOST, '--extension-root', root,
 		'--browser', CHROME, '--playwright', PLAYWRIGHT, '--output', output,
-	], { cwd: REPO, timeout: 420000 });
+	);
+	const result = runNode(path.join(REPO, 'tools/trick-real-host-smoke.mjs'), args, { cwd: REPO, timeout: 420000 });
 	let report = null;
 	try { report = jsonOf(output); } catch (error) {}
 	if (result.status !== 0 || !report || report.status !== 'passed') throw new Error('宿主技能场景失败 [' + label + ']：' + String(result.stderr || result.stdout || '').slice(-1200));
 	if (report.errors && report.errors.length) throw new Error('宿主技能场景出现错误 [' + label + ']：' + report.errors.join('; '));
 	for (const name of scenes) findScene(report, name);
 	const packIds = Object.keys((report.policyStats && report.policyStats.packs) || {}).sort();
-	if (expectedPacks) {
+	if (expectedPacks && expectedPacks.length) {
 		const wanted = expectedPacks.slice().sort();
 		if (JSON.stringify(packIds) !== JSON.stringify(wanted)) throw new Error('策略分包集合不符 [' + label + ']：' + JSON.stringify(packIds) + '，期望 ' + JSON.stringify(wanted));
 	}
 	const skillChecks = {};
 	if (expectedPacks && expectedPacks.length) for (const packId of expectedPacks) skillChecks[packId] = analyzePackScenes(packId, report, scenes);
-	return {
+	const base = {
 		status: 'passed', scenes,
 		policyStats: report.policyStats,
 		skillChecks,
 		output: path.relative(WORK, output),
 	};
+	if (options.includeReport) base.report = report;
+	return base;
 }
 
 function packSummary(zip, root) {
@@ -425,6 +727,7 @@ const result = {
 	contract: { single: null, combined: null },
 	skillChecks: {},
 	baseline_comparison: [],
+	native_comparison: null,
 	packs: [],
 	steps: [],
 	pass: false,
@@ -455,6 +758,11 @@ try {
 		result.scenes = EXPLICIT_SCENES || DEFAULT_SCENES[pack.id] || null;
 		const target = makeCleanTarget('single-' + pack.id, BASE_REF);
 		const contract = captureContract(target);
+		let nativeLoad = null;
+		if (pack.id === 'shenhua_feng' && HOST && CHROME && PLAYWRIGHT) {
+			nativeLoad = loadSkillScenesGrouped(target, 'single-' + pack.id + '-native', result.scenes, [], { native: true, includeReport: true });
+			result.steps.push({ step: 'native-baseline', pack: pack.id, status: nativeLoad.status, output: nativeLoad.output });
+		}
 		if (WIRE_INDEX) {
 			const beforeWiring = runJson(path.join(pack.root, 'integration/apply-pack.mjs'), ['--extension-root', target], { cwd: pack.root });
 			if (beforeWiring.status === 0) throw new Error('基线未接线时 apply 不应成功');
@@ -469,15 +777,23 @@ try {
 		const installed = assertInstalled(target, pack, pack.packJson, contract);
 		result.steps.push({ step: 'install-check', pack: pack.id, status: 'passed', ...installed });
 		result.contract.single = true;
-		const load = loadSkillScenes(target, 'single-' + pack.id + '-installed', result.scenes, [pack.id]);
-		result.steps.push({ step: 'host-load-installed', pack: pack.id, ...load });
+		const load = loadSkillScenesGrouped(target, 'single-' + pack.id + '-installed', result.scenes, [pack.id], { includeReport: true });
+		const loadStep = Object.assign({}, load);
+		delete loadStep.report;
+		result.steps.push({ step: 'host-load-installed', pack: pack.id, ...loadStep });
 		if (load.status === 'passed') result.skillChecks[pack.id] = load.skillChecks[pack.id];
+		if (nativeLoad && nativeLoad.report && load.status === 'passed' && load.report) {
+			const comparison = compareNativeExtension(nativeLoad.report, load.report, result.scenes);
+			result.native_comparison = comparison;
+			result.steps.push({ step: 'native-comparison', pack: pack.id, status: comparison.semantic_all ? 'passed' : 'failed', exact_all: comparison.exact_all, semantic_all: comparison.semantic_all, allowed_random_differences: comparison.allowed_random_differences, strategy_differences: comparison.strategy_differences });
+			if (!comparison.semantic_all) throw new Error('原生/扩展语义对照失败：' + JSON.stringify(comparison.rows.filter(row => !row.semantic_match)));
+		}
 		const rolled = runJson(path.join(pack.root, 'integration/rollback-pack.mjs'), ['--extension-root', target], { cwd: pack.root });
 		if (rolled.status !== 0 || rolled.json.status !== 'rolled-back') throw new Error('回滚失败：' + rolled.stderr);
 		result.steps.push({ step: 'rollback', pack: pack.id, status: 'passed', output: rolled.json });
 		const after = assertRolledBack(target, pack, []);
 		result.steps.push({ step: 'rollback-check', pack: pack.id, status: 'passed', imports: after });
-		const loadAfter = loadSkillScenes(target, 'single-' + pack.id + '-rolledback', result.scenes, []);
+		const loadAfter = loadSkillScenesGrouped(target, 'single-' + pack.id + '-rolledback', result.scenes, []);
 		result.steps.push({ step: 'host-load-rolledback', pack: pack.id, ...loadAfter });
 		const reinstall = runJson(path.join(pack.root, 'integration/apply-pack.mjs'), ['--extension-root', target], { cwd: pack.root });
 		if (reinstall.status !== 0 || !['applied', 'already-installed'].includes(reinstall.json.status)) throw new Error('重装失败：' + reinstall.stderr);
@@ -519,7 +835,7 @@ try {
 		const registryText = read(path.join(target, 'score/decision/skills/skillAIPolicyPacks.js')).toString('utf8');
 		if (!registryText.includes('developer,')) throw new Error('共存安装覆盖了开发者注册行');
 		if (verifyImports(target).length !== prepared.length + 1) throw new Error('共存注册表导入数不符');
-		const load = loadSkillScenes(target, 'combined-installed', result.scenes, prepared.map(item => item.id));
+		const load = loadSkillScenesGrouped(target, 'combined-installed', result.scenes, prepared.map(item => item.id));
 		result.steps.push({ step: 'host-load-installed', pack: prepared.map(item => item.id).join(','), ...load });
 		if (load.status === 'passed') {
 			result.skillChecks = load.skillChecks;
@@ -545,7 +861,7 @@ try {
 		}
 		const afterText = read(path.join(target, 'score/decision/skills/skillAIPolicyPacks.js')).toString('utf8');
 		if (!afterText.includes('developer,')) throw new Error('回滚误删开发者注册行');
-		const loadAfter = loadSkillScenes(target, 'combined-rolledback', result.scenes, []);
+		const loadAfter = loadSkillScenesGrouped(target, 'combined-rolledback', result.scenes, []);
 		result.steps.push({ step: 'host-load-rolledback', pack: 'combined', ...loadAfter });
 		result.target = target;
 	}

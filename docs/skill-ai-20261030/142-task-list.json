@@ -1548,6 +1548,8 @@
           "test": "真实宿主通过",
           "evidence": "仅友方有手牌时原生突袭放弃并正常摸2；两敌人1/4手牌时偷1+1，符合跳过摸牌的成本。",
           "notes": "不叠加重复优化。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 786
         }
       ],
@@ -1599,6 +1601,8 @@
           "test": "真实宿主通过",
           "evidence": "3血2无懈、敌人空手、队友3手牌时，原生仁德把牌交给队友并回复1血；未把牌交给敌人。",
           "notes": "本轮不重复修改。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 1121
         },
         {
@@ -1627,6 +1631,8 @@
           "test": "未测试",
           "evidence": "本轮未建立 jijiang 的真实宿主固定局面。",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -1678,6 +1684,8 @@
           "test": "真实宿主完整回合通过",
           "evidence": "完整 phaseUse 七种局面：3血会弃两杀保留桃；3血/4上限会先用桃回血；1血会先用桃；1血混合牌不发动；击杀/防具场景正常。未复现“弃闪/桃”缺陷。",
           "notes": "上一轮隔离 chooseToUse 的“选闪”是夹具假象；已移除标准制衡策略，只保留界制衡。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 1727
         },
         {
@@ -1706,6 +1714,8 @@
           "test": "未测试",
           "evidence": "本轮未建立 jiuyuan 的真实宿主固定局面。",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -1757,6 +1767,8 @@
           "test": "真实宿主完整回合通过",
           "evidence": "独立页面完整 phaseUse：2血1牌不发动（原生 hp<3 停止条件成立）；3血1牌发动、3血2牌不发动（手牌>=体力-1）；4血发动；3血连发被中间回血终止；敌方反击后存活。未复现“无明确收益仍过度掉血”。",
           "notes": "摸2本身是防御/资源来源，不因“可能摸不到防御”而抬高停止阈值；保持原生 hp<3。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 1837
         }
       ],
@@ -1808,6 +1820,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -1836,6 +1850,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -1885,6 +1901,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -1913,6 +1931,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -1962,6 +1982,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -1990,6 +2012,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -2037,8 +2061,15 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-releiji-target：张角持闪，友方与敌方均在座；releiji.cost 的 chooseTarget AI 只选敌方 seat4，未选友方。",
+          "evidence": "shenhua-feng-review.json / shenhua-releiji-target：AI 选敌方 seat，黑桃判定后造成 2 点雷电伤害，目标体力 4→2；未选友方。",
           "notes": "目标选择符合敌我关系；未复现雷击目标缺陷。",
+          "validation_level": "AI决策验证通过",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": false,
+            "note": "目标选择与黑桃判定后的 2 点雷电伤害均有真实结算断言；未额外构造无目标负向场景。"
+          },
           "host_line_1117": null
         },
         {
@@ -2065,8 +2096,14 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-guidao-replace：友方判定为红桃无懈，张角持黑桃杀；AI chooseCard 选黑桃杀替换，原判定牌进入张角手牌。",
+          "evidence": "shenhua-feng-review.json / shenhua-guidao-replace、shenhua-guidao-decline：有利改判时 AI 用黑桃杀替换并获原判定牌；判定同为黑桃时放弃改判、保留手牌。",
           "notes": "只在有利方向改判；未复现误判或资敌。",
+          "validation_level": "正反向决策验证通过",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": true
+          },
           "host_line_1117": null
         },
         {
@@ -2093,8 +2130,14 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-huangtian-give：黄天主公在场，群势力角色持闪；出牌阶段 huangtian2 将闪交给主公并施加黄天3。",
+          "evidence": "shenhua-feng-review.json / shenhua-huangtian-give、shenhua-huangtian-negative：黄天主公在场，群势力角色有闪时发动 huangtian2、交出闪并施加黄天3；无闪时不发动、不交牌。",
           "notes": "未复现漏发或把闪交给非主公。",
+          "validation_level": "正反向决策验证通过",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": true
+          },
           "host_line_1117": null
         }
       ],
@@ -2108,7 +2151,7 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "雷击：shenhua-feng-review.json / shenhua-releiji-target：张角持闪，友方与敌方均在座；releiji.cost 的 chooseTarget AI 只选敌方 seat4，未选友方。；鬼道：shenhua-feng-review.json / shenhua-guidao-replace：友方判定为红桃无懈，张角持黑桃杀；AI chooseCard 选黑桃杀替换，原判定牌进入张角手牌。；黄天：shenhua-feng-review.json / shenhua-huangtian-give：黄天主公在场，群势力角色持闪；出牌阶段 huangtian2 将闪交给主公并施加黄天3。",
+      "evidence": "雷击：shenhua-feng-review.json / shenhua-releiji-target：AI 选敌方 seat，黑桃判定后造成 2 点雷电伤害，目标体力 4→2；未选友方。；鬼道：shenhua-feng-review.json / shenhua-guidao-replace、shenhua-guidao-decline：有利改判时 AI 用黑桃杀替换并获原判定牌；判定同为黑桃时放弃改判、保留手牌。；黄天：shenhua-feng-review.json / shenhua-huangtian-give、shenhua-huangtian-negative：黄天主公在场，群势力角色有闪时发动 huangtian2、交出闪并施加黄天3；无闪时不发动、不交牌。",
       "notes": "雷击：目标选择符合敌我关系；未复现雷击目标缺陷。；鬼道：只在有利方向改判；未复现误判或资敌。；黄天：未复现漏发或把闪交给非主公。"
     },
     {
@@ -2146,8 +2189,15 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-guhuo-claim、shenhua-guhuo-phase：于吉持闪无杀；蛊惑按钮 AI 选择声称【杀】（button bool=true），外层 chooseToUse 在该保守局面放弃；未读取隐藏牌面，未出现非法目标。",
-          "notes": "check/ai1 使用 Math.random 作为诈唬权重属于原生随机策略；本轮未确认应改缺陷，保留并记录。",
+          "evidence": "shenhua-feng-review.json / shenhua-guhuo-ai-use、shenhua-guhuo-real-questioned、shenhua-guhuo-fake-questioned：AI 声称杀并实际使用假牌命中敌方（目标体力 2→1）；真声明被质疑后仍命中且质疑者获缠怨；假声明遭质疑时取消或被 AI 放弃，均无伤害、无缠怨。",
+          "notes": "check/ai1 使用 Math.random 作为诈唬权重属于原生随机策略；扩展在“假声明+确定质疑”局面选择放弃是一次策略决策差异，已记录，不据此改宿主技能。",
+          "validation_level": "正反向决策验证通过",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": true,
+            "note": "AI 实际发动假声明；真声明被质疑后命中并施加缠怨；假声明遭质疑时原生取消，扩展 AI 在确定质疑下选择放弃，均无伤害。"
+          },
           "host_line_1117": null
         }
       ],
@@ -2159,8 +2209,8 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "蛊惑：shenhua-feng-review.json / shenhua-guhuo-claim、shenhua-guhuo-phase：于吉持闪无杀；蛊惑按钮 AI 选择声称【杀】（button bool=true），外层 chooseToUse 在该保守局面放弃；未读取隐藏牌面，未出现非法目标。",
-      "notes": "蛊惑：check/ai1 使用 Math.random 作为诈唬权重属于原生随机策略；本轮未确认应改缺陷，保留并记录。"
+      "evidence": "蛊惑：shenhua-feng-review.json / shenhua-guhuo-ai-use、shenhua-guhuo-real-questioned、shenhua-guhuo-fake-questioned：AI 声称杀并实际使用假牌命中敌方（目标体力 2→1）；真声明被质疑后仍命中且质疑者获缠怨；假声明遭质疑时取消或被 AI 放弃，均无伤害、无缠怨。",
+      "notes": "蛊惑：check/ai1 使用 Math.random 作为诈唬权重属于原生随机策略；扩展在“假声明+确定质疑”局面选择放弃是一次策略决策差异，已记录，不据此改宿主技能。"
     },
     {
       "task_id": "AI-re_xiahouyuan",
@@ -2200,8 +2250,14 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-shensu-skip：夏侯渊有乐不思蜀判定、3张杀；shensu1 取消判定与摸牌，视作杀命中敌方（目标4→3），手牌未消耗。",
+          "evidence": "shenhua-feng-review.json / shenhua-shensu-skip、shenhua-shensu-negative：3 杀时 shensu1 跳过判定/摸牌并虚拟杀命中敌方（4→3）；2 杀时不发动，判定牌正常结算且手牌不变。",
           "notes": "跳阶段与虚拟杀结算正常；未复现错误目标或未跳过。",
+          "validation_level": "正反向决策验证通过",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": true
+          },
           "host_line_1117": null
         }
       ],
@@ -2213,7 +2269,7 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "神速：shenhua-feng-review.json / shenhua-shensu-skip：夏侯渊有乐不思蜀判定、3张杀；shensu1 取消判定与摸牌，视作杀命中敌方（目标4→3），手牌未消耗。",
+      "evidence": "神速：shenhua-feng-review.json / shenhua-shensu-skip、shenhua-shensu-negative：3 杀时 shensu1 跳过判定/摸牌并虚拟杀命中敌方（4→3）；2 杀时不发动，判定牌正常结算且手牌不变。",
       "notes": "神速：跳阶段与虚拟杀结算正常；未复现错误目标或未跳过。"
     },
     {
@@ -2251,8 +2307,14 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-tianxiang-redirect：小乔持桃受敌方1伤；AI 选敌方目标及“失去1体力并获得弃置桃”，小乔未掉血，敌方4→3并获得桃。",
+          "evidence": "shenhua-feng-review.json / shenhua-tianxiang-redirect、shenhua-tianxiang-negative：持红桃牌受 1 伤时 AI 转给敌方、选择“失去1体力并获得弃置桃”，小乔不掉血、目标 4→3 并获得桃；无红桃时不发动并正常受伤。",
           "notes": "未把伤害转给友方或错误结算；保留原生目标/选项评分。",
+          "validation_level": "正反向决策验证通过",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": true
+          },
           "host_line_1117": null
         },
         {
@@ -2281,6 +2343,14 @@
           "test": "真实宿主通过",
           "evidence": "shenhua-feng-review.json / shenhua-hongyan-suit：红颜被动下黑桃杀经 get.suit/get.color 变为红桃/红色。",
           "notes": "纯被动，无 AI 分支；未复现规则偏差。",
+          "validation_level": "规则结算验证通过",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": false,
+            "positive_negative": false,
+            "passive": true,
+            "note": "纯被动规则，无独立 AI 决策入口。"
+          },
           "host_line_1117": null
         }
       ],
@@ -2293,7 +2363,7 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "天香：shenhua-feng-review.json / shenhua-tianxiang-redirect：小乔持桃受敌方1伤；AI 选敌方目标及“失去1体力并获得弃置桃”，小乔未掉血，敌方4→3并获得桃。；红颜：shenhua-feng-review.json / shenhua-hongyan-suit：红颜被动下黑桃杀经 get.suit/get.color 变为红桃/红色。",
+      "evidence": "天香：shenhua-feng-review.json / shenhua-tianxiang-redirect、shenhua-tianxiang-negative：持红桃牌受 1 伤时 AI 转给敌方、选择“失去1体力并获得弃置桃”，小乔不掉血、目标 4→3 并获得桃；无红桃时不发动并正常受伤。；红颜：shenhua-feng-review.json / shenhua-hongyan-suit：红颜被动下黑桃杀经 get.suit/get.color 变为红桃/红色。",
       "notes": "天香：未把伤害转给友方或错误结算；保留原生目标/选项评分。；红颜：纯被动，无 AI 分支；未复现规则偏差。"
     },
     {
@@ -2331,8 +2401,19 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-kuanggu-draw、shenhua-kuanggu-recover：3/4血魏延持连弩时杀中目标后选择摸1；无连弩时持杀杀中目标后选择回复1。",
+          "evidence": "shenhua-feng-review.json / shenhua-kuanggu-draw、shenhua-kuanggu-recover：3/4血魏延持连弩时杀中距离1敌方后选择摸1；无连弩时杀中后选择回复1；两次伤害均记录 checkKuanggu。",
           "notes": "两条分支均在真实伤害事件中兑现；未复现漏发或错误选择。",
+          "validation_level": "AI决策验证通过",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": false,
+            "branches": [
+              "draw",
+              "recover"
+            ],
+            "note": "摸牌/回复两个 AI 分支均有真实结算断言。"
+          },
           "host_line_1117": 3745
         },
         {
@@ -2361,6 +2442,13 @@
           "test": "真实宿主通过",
           "evidence": "独立页面复现：目标在3-4距离外、手上有杀且杀次数未用完时，原生 ai.result.player 因 cardUsable 直接返回0，奇谋永不发动（三个场景0动作）。策略只在“杀次数可用恰为唯一阻塞、且支付能兑换成击杀”时放宽：far4-3sha-hp3 修复后发动并3杀击杀，far3-2sha-hp2 同理；反向 far4-hp4、目标在射程内、杀次数耗尽均保持原生。",
           "notes": "只覆盖 ai.result.player 的否决分支；不复制技能主体、不改支付档位（档位由宿主 content 决定）。",
+          "validation_level": "确认缺陷并已修复",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": true,
+            "fixed": true
+          },
           "host_line_1117": 3661
         }
       ],
@@ -2373,7 +2461,7 @@
       ],
       "implementation_status": "部分实施",
       "test_status": "真实宿主通过",
-      "evidence": "狂骨：shenhua-feng-review.json / shenhua-kuanggu-draw、shenhua-kuanggu-recover：3/4血魏延持连弩时杀中目标后选择摸1；无连弩时持杀杀中目标后选择回复1。；奇谋：独立页面复现：目标在3-4距离外、手上有杀且杀次数未用完时，原生 ai.result.player 因 cardUsable 直接返回0，奇谋永不发动（三个场景0动作）。策略只在“杀次数可用恰为唯一阻塞、且支付能兑换成击杀”时放宽：far4-3sha-hp3 修复后发动并3杀击杀，far3-2sha-hp2 同理；反向 far4-hp4、目标在射程内、杀次数耗尽均保持原生。",
+      "evidence": "狂骨：shenhua-feng-review.json / shenhua-kuanggu-draw、shenhua-kuanggu-recover：3/4血魏延持连弩时杀中距离1敌方后选择摸1；无连弩时杀中后选择回复1；两次伤害均记录 checkKuanggu。；奇谋：独立页面复现：目标在3-4距离外、手上有杀且杀次数未用完时，原生 ai.result.player 因 cardUsable 直接返回0，奇谋永不发动（三个场景0动作）。策略只在“杀次数可用恰为唯一阻塞、且支付能兑换成击杀”时放宽：far4-3sha-hp3 修复后发动并3杀击杀，far3-2sha-hp2 同理；反向 far4-hp4、目标在射程内、杀次数耗尽均保持原生。",
       "notes": "狂骨：两条分支均在真实伤害事件中兑现；未复现漏发或错误选择。；奇谋：只覆盖 ai.result.player 的否决分支；不复制技能主体、不改支付档位（档位由宿主 content 决定）。"
     },
     {
@@ -2413,6 +2501,8 @@
           "test": "真实宿主完整回合通过",
           "evidence": "独立页面：2血对1血执行体力支付并完成击杀（目标有桃/无桃两种）；2血对2血、1血无武器拒绝支付（不自尽）；2血/1血持武器时改用武器0掉血；3血对3血按原生支付1伤。失去体力与弃装备的触发差异也已记录。",
           "notes": "原生评分已实现“低血不付体力、优先装备、能击杀才付”的分层，不叠加策略。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 6701
         }
       ],
@@ -2464,6 +2554,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -2492,6 +2584,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -2541,6 +2635,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -2569,6 +2665,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -2618,6 +2716,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -2667,6 +2767,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -2716,6 +2818,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -2744,6 +2848,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -2793,6 +2899,8 @@
           "test": "未测试",
           "evidence": "本轮未建立 haoshi 的真实宿主固定局面。",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -2821,6 +2929,8 @@
           "test": "真实宿主通过",
           "evidence": "标准缔盟只读公开手牌数量；队友1手/敌人3手时正确交换，未读取隐藏牌面。",
           "notes": "隐藏手牌读取实际出现在活动武将的 redimeng（清单外），已单独修复。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 5713
         }
       ],
@@ -2872,6 +2982,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -2900,6 +3012,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -2928,6 +3042,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -2956,6 +3072,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -3005,6 +3123,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3033,6 +3153,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3061,6 +3183,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -3110,6 +3234,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -3159,6 +3285,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3187,6 +3315,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3215,6 +3345,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -3264,6 +3396,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3292,6 +3426,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -3336,6 +3472,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3359,6 +3497,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -3408,6 +3548,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3436,6 +3578,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3464,6 +3608,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -3513,6 +3659,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3541,6 +3689,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3569,6 +3719,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -3618,6 +3770,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3646,6 +3800,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -3695,6 +3851,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -3744,6 +3902,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3772,6 +3932,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3800,6 +3962,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -3849,6 +4013,8 @@
           "test": "未测试",
           "evidence": "本轮未建立 olliangyin 的真实宿主固定局面。",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3877,6 +4043,8 @@
           "test": "真实宿主通过",
           "evidence": "olkongsheng.cost 中 getExpansions() 返回数组却直接加数字，阈值比较失真；原生成本AI选3张，修正后选1张；重复调用均为1张，异常后补丁作用域恢复，数组语义（索引/长度/迭代/JSON）保持不变。",
           "notes": "已加宿主成本指纹，表达式变化时跳过；不复制技能函数。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 787
         }
       ],
@@ -3928,6 +4096,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3956,6 +4126,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -3979,6 +4151,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -4028,6 +4202,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -4056,6 +4232,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -4105,6 +4283,8 @@
           "test": "真实宿主通过",
           "evidence": "三名敌人手牌1/4/2时，原生选1+2并跳过4；优化后选4+2；屯田目标不叠加手牌奖励；只有友方、单目标、零目标原生均正常放弃/正常摸牌。",
           "notes": "共享目标策略只对敌人按公开手牌数加0~2分，不改变合法目标集合；没有添加无证据的发动护栏。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 13861
         }
       ],
@@ -4156,6 +4336,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -4184,6 +4366,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -4233,6 +4417,8 @@
           "test": "真实宿主完整回合通过",
           "evidence": "独立页面：4血/3血发动并兑现诈降（摸3、额外杀、红杀无距离限制）；2血仅在场上存在爆发目标时发动（主动纳入诈降收益，而非照抄标准苦肉阈值）；2血无目标不发动；敌方反击后存活。",
           "notes": "未复现“套用标准阈值导致漏发”；观察项：原生 check 8-价值会优先弃杀保无懈，属原生取舍，本轮不改。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 16350
         },
         {
@@ -4261,6 +4447,8 @@
           "test": "真实宿主完整回合通过",
           "evidence": "与 rekurou 同结算观察：loseHpEnd 摸3、isPhaseUsing 时加临时技、红色杀无距离限制与直击在真实回合兑现；额外出杀次数被实际使用。",
           "notes": "不因 rekurou 通过而自动标为通过——诈降的结算分支在同一回合内被单独确认。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 16375
         }
       ],
@@ -4313,6 +4501,8 @@
           "test": "未测试",
           "evidence": "rerende 未建立固定局面场景。",
           "notes": "保留原实现。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 15023
         },
         {
@@ -4341,6 +4531,8 @@
           "test": "未测试",
           "evidence": "rejijiang 未建立固定局面场景。",
           "notes": "保留原实现。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -4390,6 +4582,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -4418,6 +4612,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -4467,6 +4663,8 @@
           "test": "真实宿主完整回合通过",
           "evidence": "完整 phaseUse：3血持桃+两杀时原生弃桃+杀并摸3，优化后保留桃、只弃非防御牌摸1；1/2血、只桃/只闪、含回复、防具场景均保留防御；4血负向对照仍走原生全手换牌。",
           "notes": "共享低血防御保留策略；策略只注册 rezhiheng，不注册标准制衡。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 14842
         },
         {
@@ -4495,6 +4693,8 @@
           "test": "未测试",
           "evidence": "本轮未建立 rejiuyuan 的真实宿主固定局面。",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -4549,6 +4749,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -4577,6 +4779,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -4626,6 +4830,8 @@
           "test": "未测试",
           "evidence": "狂骨仅在 reqimou 修复场景的结算中被顺带观察到，未单独建立固定局面。",
           "notes": "不在 reqimou 通过后自动视为狂骨通过。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 3745
         },
         {
@@ -4654,6 +4860,8 @@
           "test": "真实宿主通过",
           "evidence": "独立页面复现：原生 processAI 固定支付 hp-1——目标贴脸2血只需1点（1次额外出杀）也支付3点；gate 只要4距离内有效果>0的目标就放行。策略：无目标需要支付时 gate 拦截；支付收紧为 max(1, 达距所需, 击杀所需) 且上限 hp-1、只考虑手杀可击杀的目标。near1/near2 从付3降为付1并完成击杀；far4 手杀不足以击杀时保留原生档位（降级安全），far4-防守目标同样回退原生。",
           "notes": "通过包装 reqimou content 内的 chooseNumbers 作用域收紧档位，不复制技能主体；gate 只拦截“无需支付”，不引入固定血线。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 11274
         }
       ],
@@ -4705,6 +4913,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -4733,6 +4943,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -4761,6 +4973,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -4810,6 +5024,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -4838,6 +5054,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -4866,6 +5084,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -4915,6 +5135,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -4964,6 +5186,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -4992,6 +5216,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -5041,6 +5267,8 @@
           "test": "真实宿主完整回合通过",
           "evidence": "独立页面：2血对1血用自伤完成击杀并存活；武器优先（2血/1血持武器0掉血）；2血对2血、1血无武器拒绝；3血对3血按原生自伤1伤。确认 olqiangxi 走“受到伤害”而非“失去体力”（actor damage nosource 被记录）。",
           "notes": "与标准 qiangxix 分开评估；未共用阈值。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 3374
         },
         {
@@ -5069,6 +5297,8 @@
           "test": "未测试",
           "evidence": "olninge 未建立固定局面场景。",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": 3356
         }
       ],
@@ -5120,6 +5350,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -5171,6 +5403,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -5199,6 +5433,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -5250,6 +5486,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -5278,6 +5516,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -5327,6 +5567,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -5355,6 +5597,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -5404,6 +5648,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -5432,6 +5678,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -5460,6 +5708,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -5488,6 +5738,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -5539,6 +5791,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -5569,6 +5823,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -5597,6 +5853,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -5646,6 +5904,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -5674,6 +5934,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -5723,6 +5985,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -5751,6 +6015,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -5779,6 +6045,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -5828,6 +6096,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -5858,6 +6128,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -5907,6 +6179,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -5956,6 +6230,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -5984,6 +6260,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6033,6 +6311,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -6061,6 +6341,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6110,6 +6392,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6159,6 +6443,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6208,6 +6494,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -6236,6 +6524,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6285,6 +6575,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -6313,6 +6605,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6362,6 +6656,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6411,6 +6707,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6460,6 +6758,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -6488,6 +6788,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6537,6 +6839,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -6565,6 +6869,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6614,6 +6920,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -6642,6 +6950,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6691,6 +7001,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6740,6 +7052,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -6768,6 +7082,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6817,6 +7133,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -6845,6 +7163,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6894,6 +7214,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -6943,6 +7265,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -6966,6 +7290,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -7015,6 +7341,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -7062,8 +7390,14 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-jushou-4hp-empty、shenhua-jushou-lowhp：4血0手牌结束阶段不发动；3血0手牌发动摸3并翻面。",
-          "notes": "原生 hp+手牌<4 阈值与保留下一回合的取舍一致；未复现可证应发动而未发动的缺陷。",
+          "evidence": "shenhua-feng-review.json / shenhua-jushou-4hp-empty、shenhua-jushou-lowhp：4 血空手时 check 为 false，不摸牌不翻面；3 血空手时摸 3 张并翻面。",
+          "notes": "未复现满血误发动或低血漏发。",
+          "validation_level": "正反向决策验证通过",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": true
+          },
           "host_line_1117": null
         }
       ],
@@ -7075,8 +7409,8 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "据守：shenhua-feng-review.json / shenhua-jushou-4hp-empty、shenhua-jushou-lowhp：4血0手牌结束阶段不发动；3血0手牌发动摸3并翻面。",
-      "notes": "据守：原生 hp+手牌<4 阈值与保留下一回合的取舍一致；未复现可证应发动而未发动的缺陷。"
+      "evidence": "据守：shenhua-feng-review.json / shenhua-jushou-4hp-empty、shenhua-jushou-lowhp：4 血空手时 check 为 false，不摸牌不翻面；3 血空手时摸 3 张并翻面。",
+      "notes": "据守：未复现满血误发动或低血漏发。"
     },
     {
       "task_id": "AI-sp_zhugeliang",
@@ -7115,6 +7449,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -7143,6 +7479,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -7171,6 +7509,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -7220,6 +7560,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -7248,6 +7590,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -7297,6 +7641,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -7325,6 +7671,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -7353,6 +7701,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -7402,6 +7752,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -7430,6 +7782,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -7479,6 +7833,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -7509,6 +7865,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -7532,6 +7890,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -7581,6 +7941,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -7609,6 +7971,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -7658,6 +8022,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -7707,6 +8073,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -7735,6 +8103,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -7784,6 +8154,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -7812,6 +8184,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -7861,6 +8235,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -7889,6 +8265,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -7938,6 +8316,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -7966,6 +8346,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -7994,6 +8376,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -8043,6 +8427,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -8071,6 +8457,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -8120,6 +8508,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -8148,6 +8538,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -8197,6 +8589,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -8246,6 +8640,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -8274,6 +8670,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -8323,6 +8721,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -8351,6 +8751,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -8379,6 +8781,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -8428,6 +8832,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -8456,6 +8862,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -8505,6 +8913,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -8554,6 +8964,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -8582,6 +8994,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -8631,6 +9045,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -8661,6 +9077,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -8710,6 +9128,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -8738,6 +9158,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -8787,6 +9209,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -8815,6 +9239,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -8866,6 +9292,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -8915,6 +9343,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -8943,6 +9373,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -8992,6 +9424,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -9020,6 +9454,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -9069,6 +9505,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -9097,6 +9535,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -9146,6 +9586,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -9174,6 +9616,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -9223,6 +9667,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -9251,6 +9697,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -9300,6 +9748,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -9328,6 +9778,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -9377,6 +9829,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -9405,6 +9859,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -9433,6 +9889,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -9482,6 +9940,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -9510,6 +9970,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -9559,6 +10021,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -9587,6 +10051,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -9636,6 +10102,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -9664,6 +10132,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -9713,6 +10183,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -9741,6 +10213,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -9790,6 +10264,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -9818,6 +10294,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -9867,6 +10345,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -9895,6 +10375,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -9944,6 +10426,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -9972,6 +10456,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -10021,6 +10507,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10049,6 +10537,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -10098,6 +10588,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10126,6 +10618,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -10175,6 +10669,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10203,6 +10699,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -10252,6 +10750,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10282,6 +10782,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -10331,6 +10833,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10359,6 +10863,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -10408,6 +10914,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10436,6 +10944,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -10485,6 +10995,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10513,6 +11025,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -10562,6 +11076,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10590,6 +11106,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -10639,6 +11157,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10669,6 +11189,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10699,6 +11221,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10727,6 +11251,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -10776,6 +11302,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10804,6 +11332,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -10853,6 +11383,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10881,6 +11413,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10904,6 +11438,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -10953,6 +11489,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -10981,6 +11519,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -11004,6 +11544,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -11053,6 +11595,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -11081,6 +11625,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -11109,6 +11655,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -11158,6 +11706,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -11186,6 +11736,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -11235,6 +11787,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -11263,6 +11817,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -11291,6 +11847,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -11340,6 +11898,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -11368,6 +11928,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -11417,6 +11979,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -11445,6 +12009,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -11494,6 +12060,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -11522,6 +12090,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -11573,6 +12143,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -11603,6 +12175,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -11631,6 +12205,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -11682,6 +12258,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -11712,6 +12290,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -11761,6 +12341,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -11789,6 +12371,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -11838,6 +12422,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -11887,6 +12473,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -11936,6 +12524,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -11985,6 +12575,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -12013,6 +12605,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -12062,6 +12656,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -12090,6 +12686,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -12139,6 +12737,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         },
         {
@@ -12167,6 +12767,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -12216,6 +12818,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -12265,6 +12869,8 @@
           "test": "未测试",
           "evidence": "",
           "notes": "保留原实现；未取得复现证据。",
+          "validation_level": null,
+          "validation": {},
           "host_line_1117": null
         }
       ],
@@ -12312,8 +12918,16 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-buqu-damage：1血周泰受1伤，不屈翻出1张“创”，HP0但未进入濒死、未死亡。",
-          "notes": "不屈主体为强制结算；“创”的移除 AI 仅在回复分支，未复现结算异常。",
+          "evidence": "shenhua-feng-review.json / shenhua-buqu-damage、shenhua-buqu-negative、shenhua-buqu-recover-choice：1 血受 1 伤后翻出“创”并留在 0 体力存活；2 血受伤不翻创；回复时 AI 从两张同点数“创”中选择移除 1 张，最后保留 1 张并回到 2 体力。",
+          "notes": "主触发没有可选 AI 入口，属于锁定规则；后续移创分支存在 chooseCardButton AI，已单独验证。",
+          "validation_level": "AI决策验证通过",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": true,
+            "forced_main": true,
+            "note": "主触发为锁定技；额外验证回复后移创的 chooseCardButton AI 选择。"
+          },
           "host_line_1117": null
         }
       ],
@@ -12325,8 +12939,8 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "不屈：shenhua-feng-review.json / shenhua-buqu-damage：1血周泰受1伤，不屈翻出1张“创”，HP0但未进入濒死、未死亡。",
-      "notes": "不屈：不屈主体为强制结算；“创”的移除 AI 仅在回复分支，未复现结算异常。"
+      "evidence": "不屈：shenhua-feng-review.json / shenhua-buqu-damage、shenhua-buqu-negative、shenhua-buqu-recover-choice：1 血受 1 伤后翻出“创”并留在 0 体力存活；2 血受伤不翻创；回复时 AI 从两张同点数“创”中选择移除 1 张，最后保留 1 张并回到 2 体力。",
+      "notes": "不屈：主触发没有可选 AI 入口，属于锁定规则；后续移创分支存在 chooseCardButton AI，已单独验证。"
     },
     {
       "task_id": "AI-re_huangzhong",
@@ -12363,8 +12977,14 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-liegong-hit、shenhua-liegong-negative：3血2手牌对4血0手牌敌人出杀触发不可响应+加伤，目标4→2；反向目标3手牌/2血对4血1手牌黄忠只造成1伤。",
-          "notes": "正向/反向条件均按原生 filter 兑现；未复现错误触发或漏发。",
+          "evidence": "shenhua-feng-review.json / shenhua-liegong-hit、shenhua-liegong-negative：满足手牌/体力条件时记录 directHit 与 extraDamage=1，杀造成 2 点伤害；不满足时无直击/加伤，只造成 1 点。",
+          "notes": "未复现条件误判或加伤丢失。",
+          "validation_level": "正反向决策验证通过",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": true
+          },
           "host_line_1117": null
         }
       ],
@@ -12376,8 +12996,8 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "烈弓：shenhua-feng-review.json / shenhua-liegong-hit、shenhua-liegong-negative：3血2手牌对4血0手牌敌人出杀触发不可响应+加伤，目标4→2；反向目标3手牌/2血对4血1手牌黄忠只造成1伤。",
-      "notes": "烈弓：正向/反向条件均按原生 filter 兑现；未复现错误触发或漏发。"
+      "evidence": "烈弓：shenhua-feng-review.json / shenhua-liegong-hit、shenhua-liegong-negative：满足手牌/体力条件时记录 directHit 与 extraDamage=1，杀造成 2 点伤害；不满足时无直击/加伤，只造成 1 点。",
+      "notes": "烈弓：未复现条件误判或加伤丢失。"
     }
   ]
 }

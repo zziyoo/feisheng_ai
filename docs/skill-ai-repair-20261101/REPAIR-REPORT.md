@@ -203,11 +203,21 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
 ### 8.6 交付边界补修与神话再临·风审查（2026-11-02）
 
 - **注册表一致性漏洞**：第三方复现“注册表预存本包 import/注册行、分包模块缺失”时，旧 apply 会补齐模块并成功，旧 rollback 因 `mode=already` 不删注册行，最终留下悬空导入。现改为安装前一致性拒绝：注册表已含本包任一行且本包文件缺失时不写任何文件；旧安装记录遇到同类状态回滚时硬性阻止删除（`--force` 也不放行）。新增 2 条回归，安装/回滚测试 13/13 PASS。
-- **逐包真实技能场景**：acceptance 按包绑定场景，`refresh_standard=rezhiheng-3hp,new-retuxi-order`、`shenhua_feng=hp-qimou-distance4-hp3`、`refresh_feng=hp-reqimou-distance4-hp3`、`shenhua_lei=olkongsheng-array-count,olkongsheng-repeat`、`out_of_scope=redimeng-hidden-info,redimeng-permute-values`；组合验收取并集并逐包对照单包签名。redimeng 单包结果：`fairRedimeng=9`、`redimengMaskFailed=0`，同位置置换索引一致（(2,3)/(0,1)），结算前后牌张守恒。
+- **逐包真实技能场景**：acceptance 按包绑定场景，`refresh_standard=rezhiheng-3hp,new-retuxi-order`、`shenhua_feng=hp-qimou-* + 24 个固定审查场景`、`refresh_feng=hp-reqimou-distance4-hp3`、`shenhua_lei=olkongsheng-array-count,olkongsheng-repeat`、`out_of_scope=redimeng-hidden-info,redimeng-permute-values`；组合验收取并集并逐包对照单包签名。redimeng 单包结果：`fairRedimeng=9`、`redimengMaskFailed=0`，同位置置换索引一致（(2,3)/(0,1)），结算前后牌张守恒。
 - **上游 1fe5292**：新增 `--base-ref 1fe5292 --wire-index-diff`。在干净归档上先确认未接线 apply 拒绝，再应用包内 `score/index.diff`，随后逐包安装、真实技能场景、卸载/回滚、重装；五包单包与组合全部 PASS。上游源码包必须显式接线，不是直接安装包。
 - **验收矩阵口径**：新增 `contract.single` / `contract.combined`，矩阵单包契约与组合契约分列；未执行显示“未执行”，不把未运行项误报为失败。组合行 `contract_passed=true` 来自实际共存安装/134 维检查。
 - **不抑制 game.over 的完整对局**：新增 `tools/test-fullgame-settlement.mjs`，斗地主 seed 20261030：`done=true`、`overCalls=1`、`result=true`、3 phases / 17 uses / 12 decisions，无 pageerror。默认抑制夹具仍保留，二者互不替代。
-- **神话再临·风**：12 项登记技能全部审查。`qimou` 已修复；`releiji/guidao/huangtian/xinfu_guhuo/xinshensu/retianxiang/hongyan/xinkuanggu/jushou/gzbuqu/xinliegong` 均建立真实宿主固定局面，原生与已安装扩展的决策语义一致（神速/天香仅对称敌人目标座位不同），未复现需改缺陷，状态为 `已验证无问题`。证据见 `shenhua-feng-review.json`、`shenhua-feng-review-native.json`、`shenhua-feng-review-compare.json`；分包状态升级为 `可交付`，待外部集成回执后再考虑 `已交付`。
+- **神话再临·风**：12 项登记技能全部审查。`qimou` 已修复；`releiji/guidao/huangtian/xinfu_guhuo/xinshensu/retianxiang/hongyan/xinkuanggu/jushou/gzbuqu/xinliegong` 均建立真实宿主固定局面，原生与已安装扩展的决策语义一致（天香仅对称敌人目标座位不同；蛊惑假声明+确定质疑时原生取消、扩展放弃，单列为策略差异），未复现需改缺陷，状态为 `已验证无问题`。证据见 `shenhua-feng-review.json`、`shenhua-feng-review-native.json`、`shenhua-feng-review-compare.json`；分包状态升级为 `可交付`，待外部集成回执后再考虑 `已交付`。
+
+### 8.7 神话再临·风技能级验收补强（2026-11-02 晚）
+
+本节回答“16 个场景都执行了，是否等于 11 项技能都验证过”的问题。结论：旧版只记录了场景数据，acceptance 仍主要断言奇谋；本轮把逐技能关键行为写成可执行断言，并保留旧证据不改写。
+
+- **鬼道记录根因**：旧夹具写 `result = await ally.judge(...)`，宿主的 `await event` 返回 `undefined`，真正判定结果在 `judgeEvent.result`。因此旧证据出现 `judging={}`、`replaced=false`，但手牌已经交换（黑桃杀换入、原红桃无懈进入张角手牌）。现改为读取 `judgeEvent.result`，并同时断言判定花色/点数、AI 选牌、获得原判定牌三件事；新增 `shenhua-guidao-decline`：判定已是黑桃时 AI 放弃无收益改判、手牌不变。
+- **蛊惑不再“按钮选了就算过”**：新增 `shenhua-guhuo-ai-use`（AI 实际声明杀并使用隐藏牌命中敌方，目标属于敌方且非自己）、`shenhua-guhuo-real-questioned`（真杀被质疑后仍命中、质疑者获得缠怨）、`shenhua-guhuo-fake-questioned`（假声明被质疑：原生取消；扩展 AI 在确定质疑下选择放弃，二者均无伤害、无缠怨）。`shenhua-guhuo-claim/-phase` 保留为历史观察，不再作为“已验证”的唯一依据。
+- **其他技能**：雷击补目标+2 雷电伤害结算；黄天补交闪/黄天3/无闪不发动；神速补跳判定+虚拟杀命中/手牌不足不发动；天香补敌方目标+失去体力/无红桃正常受伤；狂骨补距离 1 伤害后摸牌/回复两分支；据守补满血不发动/低血摸3翻面；不屈补翻创存活/未到0血不翻/回复时 chooseCardButton 移创 AI；烈弓补 directHit+extraDamage=1 与负向 1 点伤害。红颜明确为纯被动规则验证，不新增无意义 AI 策略。
+- **验收执行**：`accept-skill-ai-pack` 对风包执行 3 个奇谋场景 + 24 个固定审查场景，共 23 条技能级检查（含奇谋）；原生/扩展逐场景对照 `semantic_all=true`、`exact_all=false`，差异单列为：天香对称目标座位不同；蛊惑假声明场景原生取消/扩展放弃（策略差异）。奇谋场景会改变后续 AI 决策上下文，acceptance 将奇谋与非奇谋场景分成两个宿主进程运行，避免跨场景影响；这不是放宽断言。
+- **状态口径**：新增 `validation_level`：`规则结算验证通过`、`AI决策验证通过`、`正反向决策验证通过`、`部分验证`、`确认缺陷并已修复`。风包 12 项：qimou=确认缺陷并已修复；hongyan=规则结算验证通过；releiji/xinkuanggu/gzbuqu=AI决策验证通过；其余 7 项=正反向决策验证通过。`142-task-list` 与分包 `checklist.md` 已写入该字段；未覆盖关键 AI 分支的技能不再笼统写“完全验证无问题”。
 
 ## 九、部署与回滚
 

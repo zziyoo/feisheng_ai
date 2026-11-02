@@ -56,14 +56,17 @@ node tools/skill-ai-hp-real-host.mjs --mode identity --variant extension \
 历史超时/重跑不删除：`postfix-range-native-presuppress-partial.log` 保留夹具修正前的失败尝试；
 最终报表以 `repair-acceptance-ledger.md` 的 initial/retest/postfix 分列。不能只提高超时阈值或反复重跑直到成功。
 
-神话再临·风 11 项逐技能固定局面（原生/扩展对照；redimeng 使用 `out_of_scope` 场景）：
+神话再临·风 12 项登记技能逐技能固定局面（原生/扩展对照；redimeng 使用 `out_of_scope` 场景）：
 
 ```bash
-SC_REVIEW="shenhua-releiji-target,shenhua-guidao-replace,shenhua-huangtian-give,shenhua-guhuo-claim,shenhua-guhuo-phase,shenhua-shensu-skip,shenhua-tianxiang-redirect,shenhua-hongyan-suit,shenhua-kuanggu-draw,shenhua-kuanggu-recover,shenhua-jushou-4hp-empty,shenhua-jushou-lowhp,shenhua-buqu-damage,shenhua-liegong-hit,shenhua-liegong-negative"
+SC_REVIEW="shenhua-releiji-target,shenhua-guidao-replace,shenhua-guidao-decline,shenhua-huangtian-give,shenhua-huangtian-negative,shenhua-guhuo-claim,shenhua-guhuo-ai-use,shenhua-guhuo-real-questioned,shenhua-guhuo-fake-questioned,shenhua-guhuo-phase,shenhua-shensu-skip,shenhua-shensu-negative,shenhua-tianxiang-redirect,shenhua-tianxiang-negative,shenhua-hongyan-suit,shenhua-kuanggu-draw,shenhua-kuanggu-recover,shenhua-jushou-4hp-empty,shenhua-jushou-lowhp,shenhua-buqu-damage,shenhua-buqu-negative,shenhua-buqu-recover-choice,shenhua-liegong-hit,shenhua-liegong-negative"
 node tools/trick-real-host-smoke.mjs --mode identity --skill-ai --skill-ai-extension --scenes "$SC_REVIEW" \
   --host-root "$HOST" --extension-root "$EXT" --browser "$CHROME" --playwright "$PW" \
   --output shenhua-feng-review.json
-# 去掉 --skill-ai-extension 再跑一次为原生对照；compare 证据见 shenhua-feng-review-compare.json
+# 去掉 --skill-ai-extension 再跑一次为原生对照
+node tools/compare-shenhua-feng-review.mjs shenhua-feng-review-native.json shenhua-feng-review.json shenhua-feng-review-compare.json
+# 奇谋场景会改变后续 AI 决策上下文；acceptance 会把非奇谋固定局面与奇谋场景分成两个宿主进程运行。
+# 断言覆盖：AI 目标/声明/支付、真实结算、正反向分支；红颜为纯被动规则验证。
 ```
 
 ## 3. 人类手动操作回归（真实点击路径）

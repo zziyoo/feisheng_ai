@@ -84,17 +84,25 @@ function recordsFor(packId) {
 }
 
 function checklistMarkdown(pack, records) {
-	const lines = [`# ${pack.pack_name} 技能验收清单`, '', `- 分包状态：${pack.review_status}`, `- 交付状态：${pack.delivery_status}`, `- 完整可交付：${pack.can_mark_deliverable ? '是' : '否'}`, ''];
-	lines.push('| 武将 | 技能ID | 技能 | 审查状态 | 实现 | 测试 | 证据摘要 |');
-	lines.push('| --- | --- | --- | --- | --- | --- | --- |');
+	const levels = {};
+	for (const record of records) {
+		const skills = record.out_of_scope ? record.skill_statuses : record.skills;
+		for (const skill of skills) {
+			const level = skill.validation_level || '未标注';
+			levels[level] = (levels[level] || 0) + 1;
+		}
+	}
+	const lines = [`# ${pack.pack_name} 技能验收清单`, '', `- 分包状态：${pack.review_status}`, `- 交付状态：${pack.delivery_status}`, `- 完整可交付：${pack.can_mark_deliverable ? '是' : '否'}`, `- 验证级别汇总：${Object.entries(levels).map(([level, count]) => `${level} ${count}`).join('；')}`, ''];
+	lines.push('| 武将 | 技能ID | 技能 | 审查状态 | 验证级别 | 实现 | 测试 | 证据摘要 |');
+	lines.push('| --- | --- | --- | --- | --- | --- | --- | --- |');
 	for (const record of records) {
 		if (record.out_of_scope) {
 			const skill = record.skill_statuses[0];
-			lines.push(`| ${record.character} | ${skill.id} | ${skill.name} | ${skill.status} | ${skill.implementation} | ${skill.test} | ${String(skill.evidence || '').replace(/\|/g, '/').slice(0, 120)} |`);
+			lines.push(`| ${record.character} | ${skill.id} | ${skill.name} | ${skill.status} | ${skill.validation_level || '-'} | ${skill.implementation} | ${skill.test} | ${String(skill.evidence || '').replace(/\|/g, '/').slice(0, 120)} |`);
 			continue;
 		}
 		for (const skill of record.skills) {
-			lines.push(`| ${record.character_name} (${record.character_id}) | ${skill.id} | ${skill.name} | ${skill.status} | ${skill.implementation} | ${skill.test} | ${String(skill.evidence || '').replace(/\|/g, '/').slice(0, 120)} |`);
+			lines.push(`| ${record.character_name} (${record.character_id}) | ${skill.id} | ${skill.name} | ${skill.status} | ${skill.validation_level || '-'} | ${skill.implementation} | ${skill.test} | ${String(skill.evidence || '').replace(/\|/g, '/').slice(0, 120)} |`);
 		}
 	}
 	return lines.join('\n') + '\n';

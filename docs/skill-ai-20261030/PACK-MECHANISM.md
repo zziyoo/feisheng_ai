@@ -31,7 +31,7 @@ score/decision/skills/
 | 分包 ID | 名称 | 状态 | 交付状态 |
 | --- | --- | --- | --- |
 | `standard_2008` / `2013` / `2019` / `2023` | 标准包各版本组 | 正在审查 / 尚未开始 | 未打包 |
-| `shenhua_feng` | 神话再临·风 | 验证完成（qimou 已修复；其余 11 项已验证无问题） | 可交付 |
+| `shenhua_feng` | 神话再临·风 | 验证完成（qimou 已修复；其余 11 项按规则/AI/正反向分级验证） | 可交付 |
 | `shenhua_huo/lin/shan/yin/lei` | 神话再临其余五包 | 部分修复 / 正在审查 / 尚未开始 | 未打包 |
 | `refresh_standard/feng/huo/lin/shan` | 界限突破五包 | 部分修复 / 正在审查 / 尚未开始 | 未打包 |
 | `out_of_scope` | 清单外角色（活动武将/界鲁肃 `redimeng`） | 验证完成 | 可交付 |
@@ -45,7 +45,7 @@ score/decision/skills/
 - 可交付：验证完成且测试/打包验收通过。
 - 已交付：已生成并登记可复核的完整交付包（不是阶段性包）。
 
-当前 `out_of_scope` 与 `shenhua_feng` 已完成全部登记技能审查、缺陷修复/验证、无阻塞项，并通过实际 ZIP 的逐包与上游 1fe5292 验收，标记为 `可交付`；最终 ZIP 生成并登记后，待外部集成回执齐全再升级 `已交付`。`shenhua_feng` 的 12 项登记技能中，`qimou` 已修复，`xinkuanggu` 及张角/于吉/夏侯渊/小乔/曹仁/周泰/黄忠共 11 项为已验证无问题。其余三个代码包仍有未审查技能，保持 `阶段性`。**阶段包不得冒充完整交付。**
+当前 `out_of_scope` 与 `shenhua_feng` 已完成全部登记技能审查、缺陷修复/验证、无阻塞项，并通过实际 ZIP 的逐包与上游 1fe5292 验收，标记为 `可交付`；最终 ZIP 生成并登记后，待外部集成回执齐全再升级 `已交付`。`shenhua_feng` 的 12 项登记技能中，`qimou` 已修复；`hongyan` 为纯被动规则验证；`releiji`/`xinkuanggu`/`gzbuqu` 为 AI 决策验证；其余 7 项为正反向决策验证。分包清单写入 `validation_level`，不再把“场景执行”直接等同于“技能完全验证”。其余三个代码包仍有未审查技能，保持 `阶段性`。**阶段包不得冒充完整交付。**
 
 ## 三、生成分包 ZIP
 
@@ -118,11 +118,12 @@ node tools/accept-skill-ai-pack.mjs --zip <pack.zip> --repo <仓库> --workdir <
 `patches/score-index.diff`，随后执行安装、宿主场景、卸载与回滚。上游源码包必须先接线，不能描述成直接安装包。
 
 每包绑定的默认场景：`refresh_standard=rezhiheng-3hp,new-retuxi-order`；
-`shenhua_feng=hp-qimou-distance4-hp3`；`refresh_feng=hp-reqimou-distance4-hp3`；
+`shenhua_feng=hp-qimou-* + 24 个固定审查场景`（acceptance 将奇谋与非奇谋场景分成两个宿主进程）；`refresh_feng=hp-reqimou-distance4-hp3`；
 `shenhua_lei=olkongsheng-array-count,olkongsheng-repeat`；
 `out_of_scope=redimeng-hidden-info,redimeng-permute-values`（校验 `fairRedimeng>0`、
 `redimengMaskFailed=0`、同位置置换索引一致、结算前后牌张守恒）。五包共存时场景取并集，
-并逐包对照单包签名，防止其他分包改变结果。
+并逐包对照单包签名，防止其他分包改变结果。风包 acceptance 逐项断言技能选择、目标、支付、
+伤害/回复和技能结算，不再只检查场景存在；原生/扩展对照见 `shenhua-feng-review-compare.json`。
 
 ## 六、当前证据与限制
 
@@ -134,6 +135,6 @@ node tools/accept-skill-ai-pack.mjs --zip <pack.zip> --repo <仓库> --workdir <
 - 上游 v4.4.4 `1fe5292`（2026-11-02）：五个单包与五包组合均通过“未接线 apply 拒绝 → 应用 `score/index.diff` → 安装 → 宿主场景 → 卸载/回滚 → 重装”；上游干净副本不依赖已交付的其他分包。
 - 矩阵（`pack-acceptance-matrix.md`）：单包契约与组合契约分列，未执行显示“未执行”，不把未运行项目误报为失败；组合行 `contract_passed=true` 来自实际共存安装/134 维检查。
 - 不抑制 `game.over` 的有界完整对局（斗地主，seed 20261030）：`done=true`、`overCalls=1`、`result=true`、3 phases / 17 uses / 12 decisions，无页面错误；该测试独立于技能固定场景，不修改奇谋断言。见 `fullgame-settlement.json`。
-- 神话再临·风：12 项登记技能全部审查；`qimou` 已修复，其余 11 项有真实宿主固定局面且未复现缺陷，状态为 `已验证无问题`。证据 `shenhua-feng-review.json`、`shenhua-feng-review-native.json`、`shenhua-feng-review-compare.json`（原生/扩展逐场景对照，对称敌人座位差异单列）。
+- 神话再临·风：12 项登记技能全部审查；`qimou` 已修复；`hongyan` 为纯被动规则验证；`releiji`/`xinkuanggu`/`gzbuqu` 为 AI 决策验证；其余 7 项为正反向决策验证。acceptance 共 23 条技能级检查，原生/扩展逐场景对照 `semantic_all=true`，差异单列为天香对称目标座位和蛊惑假声明场景“原生取消/扩展放弃”。证据 `shenhua-feng-review.json`、`shenhua-feng-review-native.json`、`shenhua-feng-review-compare.json`；分包清单含 `validation_level`。
 - Android 真机长跑、完整 142 将验收仍是公开发版前置条件。
 - 阶段包不是可直接安装的完整扩展；不得把源码补丁 ZIP 冒充扩展包。
