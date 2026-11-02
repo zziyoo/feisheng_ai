@@ -69,6 +69,14 @@ node tools/compare-shenhua-feng-review.mjs shenhua-feng-review-native.json shenh
 # 断言覆盖：AI 目标/声明/支付、真实结算、正反向分支；红颜为纯被动规则验证。
 ```
 
+神话再临·火首轮原生固定局面（2026-11-02）：
+
+```bash
+SC_HUO="shenhua-huo-quhu-compare,shenhua-huo-jieming-damage,shenhua-huo-oldniepan-dying,shenhua-huo-tianyi-compare,shenhua-huo-shuangxiong-judge,shenhua-huo-luanji-wanjian,shenhua-huo-jianchu-sha,shenhua-huo-lianhuan-tiesuo,shenhua-huo-huoji-red,shenhua-huo-passive-rules"
+node tools/trick-real-host-smoke.mjs --mode identity --skill-ai --scenes "$SC_HUO"   --host-root "$HOST" --extension-root "$EXT" --browser "$CHROME" --playwright "$PW"   --output shenhua-huo-review-native-1.json
+# 首轮结果：7 项有实际发动/结算，luanji/huoji 保守局面未发动，bazhen/kanpo/mashu/xueyi 只验证前置或被动规则；13 项记“部分验证”。
+```
+
 ## 3. 人类手动操作回归（真实点击路径）
 
 ```bash

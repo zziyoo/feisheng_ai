@@ -76,6 +76,7 @@ const TEST_MAP = [
 	'build-skill-ai-acceptance-ledger.mjs', 'run-package-tests.mjs', 'test-verify-zip.py',
 	'test-pack-install.mjs', 'accept-skill-ai-pack.mjs', 'run-pack-acceptance-all.mjs',
 	'build-pack-acceptance-matrix.mjs', 'test-fullgame-settlement.mjs',
+	'compare-shenhua-feng-review.mjs', 'shenhua-feng-review-semantics.mjs',
 ];
 for (const name of TEST_MAP) exportFile('tools/' + name, 'tests/' + name);
 for (const name of ['build-skill-ai-pack.mjs', 'skill-ai-pack-config.mjs', 'zip-package.py']) {
@@ -131,7 +132,7 @@ const EVIDENCE_COPY = [
 	'postfix-verify-native.log', 'postfix-verify-policy.log', 'postfix-verify-extension.log',
 	'postfix-node-regressions.log',
 	'shenhua-feng-review.json', 'shenhua-feng-review-native.json', 'shenhua-feng-review-compare.json',
-	'fullgame-settlement.json',
+	'fullgame-settlement.json', 'shenhua-huo-review-native-1.json',
 ];
 for (const name of fs.readdirSync(EVIDENCE).filter(name => /^accept-.*\.json$/.test(name))) EVIDENCE_COPY.push(name);
 for (const name of ['accept-all-summary.json', 'pack-acceptance-matrix.json', 'pack-acceptance-matrix.md']) if (fs.existsSync(path.join(EVIDENCE, name))) EVIDENCE_COPY.push(name);
@@ -191,6 +192,8 @@ const PURPOSE = {
 	'tests/run-pack-acceptance-all.mjs': '五包最终 ZIP 逐包+共存+上游 1fe5292 验收批处理',
 	'tests/build-pack-acceptance-matrix.mjs': '分包验收矩阵生成器（单包/组合契约分列）',
 	'tests/test-fullgame-settlement.mjs': '不抑制 game.over 的有界完整对局测试',
+	'tests/compare-shenhua-feng-review.mjs': '神话再临·风原生/扩展逐场景语义对照',
+	'tests/shenhua-feng-review-semantics.mjs': '风包对照语义定义（供 acceptance 与独立 CLI 共用）',
 	'tests/run-package-tests.mjs': '包内可执行测试入口（纯规则+架构+安装回滚）',
 	'tests/test-verify-zip.py': 'verify.py --zip 跨平台路径回归',
 	'pack-tools/build-skill-ai-pack.mjs': '分包 ZIP 构建器（可复核构建过程）',
@@ -216,10 +219,11 @@ const EVIDENCE_BATCH = {
 	'repair-range-extension.json': '补修后 reqimou/qimou 场景组（完整扩展）',
 	'repair-manual-ui.json': 'reqimou 人类手动 UI 回归（真实点击路径）',
 	'repair-node-tests.json': '批一41项Node回归汇总',
-	'shenhua-feng-review.json': '神话再临·风11项固定局面（已安装扩展）',
-	'shenhua-feng-review-native.json': '神话再临·风11项固定局面（原生对照）',
-	'shenhua-feng-review-compare.json': '神话再临·风原生/扩展决策对照（对称目标差异单列）',
+	'shenhua-feng-review.json': '神话再临·风24项固定局面/12技能（已安装扩展）',
+	'shenhua-feng-review-native.json': '神话再临·风24项固定局面/12技能（原生对照）',
+	'shenhua-feng-review-compare.json': '神话再临·风原生/扩展决策语义对照（随机座位与策略差异单列）',
 	'fullgame-settlement.json': '不抑制 game.over 的有界完整对局，真实胜负结算',
+	'shenhua-huo-review-native-1.json': '神话再临·火首轮14技能原生固定局面',
 	'repair-mode-doudizhu.json': '三模式托管（斗地主）',
 	'repair-mode-versus.json': '三模式托管（2V2）',
 	'repair-flaky-retest-1.json': '历史重跑 1（未删除失败）',

@@ -219,6 +219,14 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
 - **验收执行**：`accept-skill-ai-pack` 对风包执行 3 个奇谋场景 + 24 个固定审查场景，共 23 条技能级检查（含奇谋）；原生/扩展逐场景对照 `semantic_all=true`、`exact_all=false`，差异单列为：天香对称目标座位不同；蛊惑假声明场景原生取消/扩展放弃（策略差异）。奇谋场景会改变后续 AI 决策上下文，acceptance 将奇谋与非奇谋场景分成两个宿主进程运行，避免跨场景影响；这不是放宽断言。
 - **状态口径**：新增 `validation_level`：`规则结算验证通过`、`AI决策验证通过`、`正反向决策验证通过`、`部分验证`、`确认缺陷并已修复`。风包 12 项：qimou=确认缺陷并已修复；hongyan=规则结算验证通过；releiji/xinkuanggu/gzbuqu=AI决策验证通过；其余 7 项=正反向决策验证通过。`142-task-list` 与分包 `checklist.md` 已写入该字段；未覆盖关键 AI 分支的技能不再笼统写“完全验证无问题”。
 
+最终执行结果（2026-11-02）：风包单包 acceptance `pass=true`，23 条技能级断言；原生/扩展 `semantic_all=true`、`exact_all=false`（天香座位、蛊惑假声明取消/放弃、奇谋修复差异均单列）；五包共存 34 场景 `pass=true`，5/5 单包签名对照通过；上游 `1fe5292` 单包与组合均通过“未接线拒绝→应用 `score/index.diff`→安装→场景→卸载/回滚→重装”；矩阵 12/12 PASS；不抑制 `game.over` 的完整对局 `done=true`、`overCalls=1`、`result=true`（40 phases/92 uses/20 decisions）。正式 ZIP SHA256 `71c61f3db22266a77ba3074beda92237d3ae41af49862ac245b25d4c153d46a1`。
+
+### 8.8 神话再临·火首轮审查（2026-11-02 晚）
+
+- 按 142 技能级清单审查 14 项登记技能，先跑原生固定局面，未修改任何 AI 代码。`qiangxix` 沿用既有完整回合验证；`quhu`（发动/拼点/伤害）、`jieming`（受伤选友方 drawTo）、`oldniepan`（濒死限定技）、`tianyi`（拼点/临时技）、`shuangxiong`（判定/颜色记录）、`jianchu`（弃装备/directHit）、`lianhuan`（梅花当铁索）均有真实发动与结算。
+- `luanji`/`huoji` 在保守局面 AI 未发动；`bazhen`/`kanpo` 只验证前置；`mashu`/`xueyi` 只验证被动规则。上述 13 项统一记为 `部分验证`，不写成“完全验证无问题”；本轮没有确认缺陷，因此不改代码。
+- 证据：`shenhua-huo-review-native-1.json`（10 个固定局面、0 页面错误）。下一步需补反向/强制结算和原生/扩展对照，再决定是否构建完整包；`shenhua_huo` 仍为 `正在审查/未打包`。
+
 ## 九、部署与回滚
 
 本轮已按分包拆分共享核心：运行时新增 `policyCore.js`、`skillAIPolicyPacks.js`，策略拆到 `packs/` 与 `rules/`；`skillAIPolicies.js` 只保留 facade。补修包内 `deployment/deployment-plan.md` 已更新为完整文件清单；分包交付 ZIP 另含 `integration/apply-pack.mjs` 与 `rollback-pack.mjs`，只追加本分包文件与注册行，不覆盖其他开发者修改。回滚分包使用其安装记录；整体回滚仍可还原到 `3bb2434`（见包内 patches）。

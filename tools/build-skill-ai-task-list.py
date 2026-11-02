@@ -233,8 +233,115 @@ SKILL_OVERRIDES = {
     'dianwei': {
         'qiangxix': {
             'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主完整回合通过',
+            'validation_level': '正反向决策验证通过',
+            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True},
             'evidence': '独立页面：2血对1血执行体力支付并完成击杀（目标有桃/无桃两种）；2血对2血、1血无武器拒绝支付（不自尽）；2血/1血持武器时改用武器0掉血；3血对3血按原生支付1伤。失去体力与弃装备的触发差异也已记录。',
             'notes': '原生评分已实现“低血不付体力、优先装备、能击杀才付”的分层，不叠加策略。',
+        },
+    },
+    'xunyu': {
+        'quhu': {
+            'status': '部分验证', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '部分验证',
+            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': False},
+            'evidence': 'shenhua-huo-review-native-1.json / shenhua-huo-quhu-compare：3血敌方、2血荀彧持无懈；AI 发动 quhu，选敌方并完成拼点，随后造成 1 点伤害（目标4→3），未读取隐藏牌面。',
+            'notes': '首轮只覆盖正向发动/拼点/伤害；拼点失败与无可转伤目标的反向分支未建立，先记部分验证。',
+        },
+        'jieming': {
+            'status': '部分验证', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '部分验证',
+            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': False},
+            'evidence': 'shenhua-huo-review-native-1.json / shenhua-huo-jieming-damage：荀彧受1伤后 AI 选友方嘉宠，drawTo 使友方从0手牌补到4；未选敌方。',
+            'notes': '首轮只覆盖受伤后正向发动；无友方/满手牌负向未建立。',
+        },
+    },
+    'pangtong': {
+        'lianhuan': {
+            'status': '部分验证', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '部分验证',
+            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': False},
+            'evidence': 'shenhua-huo-review-native-1.json / shenhua-huo-lianhuan-tiesuo：庞统持梅花闪时 AI 以 lianhuan 将闪当铁索连环使用，目标为两名敌方，随后正常使用杀。',
+            'notes': '首轮覆盖正向转化/目标；重铸与无梅花手牌负向未建立。',
+        },
+        'oldniepan': {
+            'status': '部分验证', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '部分验证',
+            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': False},
+            'evidence': 'shenhua-huo-review-native-1.json / shenhua-huo-oldniepan-dying：1血庞统受2伤进入濒死，AI 发动限定技 oldniepan，弃置全部手牌/装备、重置、摸3并回复到3血，存活。',
+            'notes': '首轮覆盖濒死发动与结算；已发动后再次濒死不重复发动的负向未建立。',
+        },
+    },
+    'taishici': {
+        'tianyi': {
+            'status': '部分验证', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '部分验证',
+            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': False},
+            'evidence': 'shenhua-huo-review-native-1.json / shenhua-huo-tianyi-compare：直接调用 tianyi content 完成真实拼点，太史慈赢后获得 tianyi2（杀无距离/额外出杀）；此前 phaseUse 保守局面 AI 优先使用杀，未主动发动 tianyi。',
+            'notes': '首轮验证拼点与赢后临时技；AI 主动发动时机、输后 tianyi3 负向未建立。',
+        },
+    },
+    'yanwen': {
+        'shuangxiong': {
+            'status': '部分验证', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '部分验证',
+            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': False},
+            'evidence': 'shenhua-huo-review-native-1.json / shenhua-huo-shuangxiong-judge：颜良文丑手牌5>体力4，摸牌阶段 AI 发动判定，获得判定牌并获得 shuangxiong_viewas，storage 记录红色。',
+            'notes': '首轮覆盖判定/获得/颜色记录；决斗转化使用与无手牌负向未建立。',
+        },
+    },
+    're_yuanshao': {
+        'luanji': {
+            'status': '部分验证', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '部分验证',
+            'validation': {'rule_settlement': False, 'ai_decision': False, 'positive_negative': False},
+            'evidence': 'shenhua-huo-review-native-1.json / shenhua-huo-luanji-wanjian：袁绍持两张同花色非杀牌，保守局面 phaseUse 未发动 luanji，手牌与敌方体力均未变化；未观察到异常，但也未取得发动结算。',
+            'notes': '首轮仅确认保守局面不发动；需要更明确的收益局面或直接 viewAs 结算后再升级状态。',
+        },
+        'xueyi': {
+            'status': '部分验证', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '规则结算验证通过',
+            'validation': {'rule_settlement': True, 'ai_decision': False, 'positive_negative': False, 'passive': True},
+            'evidence': 'shenhua-huo-review-native-1.json / shenhua-huo-passive-rules：袁绍为主公且场上有其他群势力时，手牌上限由体力基数提高到10（4+2×3），符合 xueyi 的被动加值。',
+            'notes': '纯被动规则；弃牌阶段实际弃牌与无群势力负向未建立。',
+        },
+    },
+    'sp_zhugeliang': {
+        'bazhen': {
+            'status': '部分验证', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '部分验证',
+            'validation': {'rule_settlement': True, 'ai_decision': False, 'positive_negative': False},
+            'evidence': 'shenhua-huo-review-native-1.json / shenhua-huo-passive-rules：空护甲槽时获得 bazhen 后存在 bazhen_bagua 额外装备技能。',
+            'notes': '首轮只验证额外装备挂载；八卦判定响应路径未建立。',
+        },
+        'huoji': {
+            'status': '部分验证', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '部分验证',
+            'validation': {'rule_settlement': False, 'ai_decision': False, 'positive_negative': False},
+            'evidence': 'shenhua-huo-review-native-1.json / shenhua-huo-huoji-red：诸葛亮持红色无懈、目标有手牌，保守局面 phaseUse 未发动 huoji，手牌与目标状态未变化。',
+            'notes': '首轮仅确认保守局面不发动；火攻转化/花色结算未取得证据。',
+        },
+        'kanpo': {
+            'status': '部分验证', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '部分验证',
+            'validation': {'rule_settlement': True, 'ai_decision': False, 'positive_negative': False},
+            'evidence': 'shenhua-huo-review-native-1.json / shenhua-huo-passive-rules：持黑色无懈时 kanpo.viewAsFilter 为 true，满足黑色手牌当无懈使用的前置。',
+            'notes': '首轮只验证转化前置；实际响应锦囊/无懈结算未建立。',
+        },
+    },
+    're_pangde': {
+        'mashu': {
+            'status': '部分验证', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '规则结算验证通过',
+            'validation': {'rule_settlement': True, 'ai_decision': False, 'positive_negative': False, 'passive': True},
+            'evidence': 'shenhua-huo-review-native-1.json / shenhua-huo-passive-rules：庞德获得 mashu 后到同一敌方距离由2降为1。',
+            'notes': '纯被动距离规则；多目标/装备叠加未建立。',
+        },
+        'jianchu': {
+            'status': '部分验证', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '部分验证',
+            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': False},
+            'evidence': 'shenhua-huo-review-native-1.json / shenhua-huo-jianchu-sha：庞德杀带诸葛连弩的敌方，AI 发动 jianchu 弃置装备，记录 directHit，杀造成1点伤害且目标装备清空。',
+            'notes': '首轮覆盖装备分支；弃手牌分支与无牌可弃负向未建立。',
         },
     },
     're_liubei': {

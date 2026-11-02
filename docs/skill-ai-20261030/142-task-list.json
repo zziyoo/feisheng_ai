@@ -22,35 +22,36 @@
     },
     "review_status": {
       "已验证无问题": 11,
-      "部分通过": 7,
-      "尚未验证": 122,
+      "部分通过": 14,
+      "尚未验证": 115,
       "已修复": 2
     },
     "implementation_status": {
-      "无需改动": 11,
+      "无需改动": 18,
       "部分实施": 8,
-      "未改动": 122,
+      "未改动": 115,
       "已实施": 1
     },
     "test_status": {
-      "真实宿主通过": 10,
+      "真实宿主通过": 17,
       "部分通过": 7,
       "真实宿主完整回合通过": 3,
-      "未测试": 122
+      "未测试": 115
     },
     "skill_status": {
       "已验证无问题": 20,
-      "尚未验证": 255,
-      "已修复": 5
+      "尚未验证": 242,
+      "已修复": 5,
+      "部分验证": 13
     },
     "skill_implementation": {
-      "无需改动": 20,
-      "未改动": 255,
+      "无需改动": 33,
+      "未改动": 242,
       "已实施": 5
     },
     "skill_test": {
-      "真实宿主通过": 18,
-      "未测试": 255,
+      "真实宿主通过": 31,
+      "未测试": 242,
       "真实宿主完整回合通过": 7
     },
     "pack_status": {
@@ -445,16 +446,17 @@
         "delivery_status": "可交付",
         "zip_name": "feisheng-ai-shenhua-feng.zip",
         "note": "完整可交付包：本包登记技能已全部审查、无阻塞项，安装/卸载/回滚/宿主加载验收通过。",
-        "zip_sha256": "1afa45e6f6d826380e033082215b2f84fcf674f467ec157e0686f3cea7b91847",
-        "zip_size": 439850,
-        "built_at": "2026-11-02T04:21:30.195Z",
+        "zip_sha256": "71c61f3db22266a77ba3074beda92237d3ae41af49862ac245b25d4c153d46a1",
+        "zip_size": 448662,
+        "built_at": "2026-11-02T08:20:00.222Z",
         "acceptance_status": "passed",
         "acceptance_file": "accept-shenhua_feng.json",
-        "acceptance_sha256": "97cfd6f0ba66809763415ffe00584d4adcf4da48ec9cb291ffc85c052ad4b592",
+        "acceptance_sha256": "4fe39b1af5616dbdf229df10a7b43ae8916a4213b3b2cd61667cb69f1374d2fc",
         "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/对应技能真实宿主场景/卸载回滚后再加载/重装/单包契约/134维；上游1fe5292接线/安装/卸载/回滚；五包共存与单包签名对照",
         "upstream_acceptance_status": "passed",
         "upstream_acceptance_file": "accept-upstream-shenhua_feng.json",
-        "upstream_acceptance_sha256": "f37303269d25d831bad5873a07951b5659120e175761488ddb9daa4276ea4f28"
+        "upstream_acceptance_sha256": "0115be039bdc24bab5a984cf77d53b69e3ea623cdcc36d47949222334ad1f5e8",
+        "acceptance_note": "23 条技能级断言；原生/扩展 semantic_all=true；五包共存 34 场景与 5/5 单包签名对照通过"
       },
       "blocking_issues": [],
       "can_mark_deliverable": true,
@@ -518,13 +520,13 @@
       "counts": {
         "characters": 8,
         "skills": 14,
-        "reviewed_skills": 1,
+        "reviewed_skills": 14,
         "fixed_skills": 0,
         "verified_skills": 1,
-        "unreviewed_skills": 13,
+        "unreviewed_skills": 0,
         "skill_status": {
           "已验证无问题": 1,
-          "尚未验证": 13
+          "部分验证": 13
         }
       },
       "review_status": "正在审查",
@@ -2501,8 +2503,12 @@
           "test": "真实宿主完整回合通过",
           "evidence": "独立页面：2血对1血执行体力支付并完成击杀（目标有桃/无桃两种）；2血对2血、1血无武器拒绝支付（不自尽）；2血/1血持武器时改用武器0掉血；3血对3血按原生支付1伤。失去体力与弃装备的触发差异也已记录。",
           "notes": "原生评分已实现“低血不付体力、优先装备、能击杀才付”的分层，不叠加策略。",
-          "validation_level": null,
-          "validation": {},
+          "validation_level": "正反向决策验证通过",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": true
+          },
           "host_line_1117": 6701
         }
       ],
@@ -2549,13 +2555,17 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6696"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
-          "validation_level": null,
-          "validation": {},
+          "status": "部分验证",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-huo-review-native-1.json / shenhua-huo-quhu-compare：3血敌方、2血荀彧持无懈；AI 发动 quhu，选敌方并完成拼点，随后造成 1 点伤害（目标4→3），未读取隐藏牌面。",
+          "notes": "首轮只覆盖正向发动/拼点/伤害；拼点失败与无可转伤目标的反向分支未建立，先记部分验证。",
+          "validation_level": "部分验证",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": false
+          },
           "host_line_1117": null
         },
         {
@@ -2579,24 +2589,31 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6796"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
-          "validation_level": null,
-          "validation": {},
+          "status": "部分验证",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-huo-review-native-1.json / shenhua-huo-jieming-damage：荀彧受1伤后 AI 选友方嘉宠，drawTo 使友方从0手牌补到4；未选敌方。",
+          "notes": "首轮只覆盖受伤后正向发动；无友方/满手牌负向未建立。",
+          "validation_level": "部分验证",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": false
+          },
           "host_line_1117": null
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "驱虎：保留原实现；未取得复现证据。；节命：保留原实现；未取得复现证据。"
+      "review_status": "部分通过",
+      "reviewed_skills": [
+        "quhu",
+        "jieming"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主通过",
+      "evidence": "驱虎：shenhua-huo-review-native-1.json / shenhua-huo-quhu-compare：3血敌方、2血荀彧持无懈；AI 发动 quhu，选敌方并完成拼点，随后造成 1 点伤害（目标4→3），未读取隐藏牌面。；节命：shenhua-huo-review-native-1.json / shenhua-huo-jieming-damage：荀彧受1伤后 AI 选友方嘉宠，drawTo 使友方从0手牌补到4；未选敌方。",
+      "notes": "驱虎：首轮只覆盖正向发动/拼点/伤害；拼点失败与无可转伤目标的反向分支未建立，先记部分验证。；节命：首轮只覆盖受伤后正向发动；无友方/满手牌负向未建立。"
     },
     {
       "task_id": "AI-pangtong",
@@ -2630,13 +2647,17 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
-          "validation_level": null,
-          "validation": {},
+          "status": "部分验证",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-huo-review-native-1.json / shenhua-huo-lianhuan-tiesuo：庞统持梅花闪时 AI 以 lianhuan 将闪当铁索连环使用，目标为两名敌方，随后正常使用杀。",
+          "notes": "首轮覆盖正向转化/目标；重铸与无梅花手牌负向未建立。",
+          "validation_level": "部分验证",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": false
+          },
           "host_line_1117": null
         },
         {
@@ -2660,24 +2681,31 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6643"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
-          "validation_level": null,
-          "validation": {},
+          "status": "部分验证",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-huo-review-native-1.json / shenhua-huo-oldniepan-dying：1血庞统受2伤进入濒死，AI 发动限定技 oldniepan，弃置全部手牌/装备、重置、摸3并回复到3血，存活。",
+          "notes": "首轮覆盖濒死发动与结算；已发动后再次濒死不重复发动的负向未建立。",
+          "validation_level": "部分验证",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": false
+          },
           "host_line_1117": null
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "连环：保留原实现；未取得复现证据。；涅槃：保留原实现；未取得复现证据。"
+      "review_status": "部分通过",
+      "reviewed_skills": [
+        "lianhuan",
+        "oldniepan"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主通过",
+      "evidence": "连环：shenhua-huo-review-native-1.json / shenhua-huo-lianhuan-tiesuo：庞统持梅花闪时 AI 以 lianhuan 将闪当铁索连环使用，目标为两名敌方，随后正常使用杀。；涅槃：shenhua-huo-review-native-1.json / shenhua-huo-oldniepan-dying：1血庞统受2伤进入濒死，AI 发动限定技 oldniepan，弃置全部手牌/装备、重置、摸3并回复到3血，存活。",
+      "notes": "连环：首轮覆盖正向转化/目标；重铸与无梅花手牌负向未建立。；涅槃：首轮覆盖濒死发动与结算；已发动后再次濒死不重复发动的负向未建立。"
     },
     {
       "task_id": "AI-taishici",
@@ -2711,24 +2739,30 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7073"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
-          "validation_level": null,
-          "validation": {},
+          "status": "部分验证",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-huo-review-native-1.json / shenhua-huo-tianyi-compare：直接调用 tianyi content 完成真实拼点，太史慈赢后获得 tianyi2（杀无距离/额外出杀）；此前 phaseUse 保守局面 AI 优先使用杀，未主动发动 tianyi。",
+          "notes": "首轮验证拼点与赢后临时技；AI 主动发动时机、输后 tianyi3 负向未建立。",
+          "validation_level": "部分验证",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": false
+          },
           "host_line_1117": null
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "天义：保留原实现；未取得复现证据。"
+      "review_status": "部分通过",
+      "reviewed_skills": [
+        "tianyi"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主通过",
+      "evidence": "天义：shenhua-huo-review-native-1.json / shenhua-huo-tianyi-compare：直接调用 tianyi content 完成真实拼点，太史慈赢后获得 tianyi2（杀无距离/额外出杀）；此前 phaseUse 保守局面 AI 优先使用杀，未主动发动 tianyi。",
+      "notes": "天义：首轮验证拼点与赢后临时技；AI 主动发动时机、输后 tianyi3 负向未建立。"
     },
     {
       "task_id": "AI-yanwen",
@@ -2762,24 +2796,30 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7166"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
-          "validation_level": null,
-          "validation": {},
+          "status": "部分验证",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-huo-review-native-1.json / shenhua-huo-shuangxiong-judge：颜良文丑手牌5>体力4，摸牌阶段 AI 发动判定，获得判定牌并获得 shuangxiong_viewas，storage 记录红色。",
+          "notes": "首轮覆盖判定/获得/颜色记录；决斗转化使用与无手牌负向未建立。",
+          "validation_level": "部分验证",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": false
+          },
           "host_line_1117": null
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "双雄：保留原实现；未取得复现证据。"
+      "review_status": "部分通过",
+      "reviewed_skills": [
+        "shuangxiong"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主通过",
+      "evidence": "双雄：shenhua-huo-review-native-1.json / shenhua-huo-shuangxiong-judge：颜良文丑手牌5>体力4，摸牌阶段 AI 发动判定，获得判定牌并获得 shuangxiong_viewas，storage 记录红色。",
+      "notes": "双雄：首轮覆盖判定/获得/颜色记录；决斗转化使用与无手牌负向未建立。"
     },
     {
       "task_id": "AI-re_yuanshao",
@@ -2813,13 +2853,17 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7318"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
-          "validation_level": null,
-          "validation": {},
+          "status": "部分验证",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-huo-review-native-1.json / shenhua-huo-luanji-wanjian：袁绍持两张同花色非杀牌，保守局面 phaseUse 未发动 luanji，手牌与敌方体力均未变化；未观察到异常，但也未取得发动结算。",
+          "notes": "首轮仅确认保守局面不发动；需要更明确的收益局面或直接 viewAs 结算后再升级状态。",
+          "validation_level": "部分验证",
+          "validation": {
+            "rule_settlement": false,
+            "ai_decision": false,
+            "positive_negative": false
+          },
           "host_line_1117": null
         },
         {
@@ -2843,24 +2887,32 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7371"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
-          "validation_level": null,
-          "validation": {},
+          "status": "部分验证",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-huo-review-native-1.json / shenhua-huo-passive-rules：袁绍为主公且场上有其他群势力时，手牌上限由体力基数提高到10（4+2×3），符合 xueyi 的被动加值。",
+          "notes": "纯被动规则；弃牌阶段实际弃牌与无群势力负向未建立。",
+          "validation_level": "规则结算验证通过",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": false,
+            "positive_negative": false,
+            "passive": true
+          },
           "host_line_1117": null
         }
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "乱击：保留原实现；未取得复现证据。；血裔：保留原实现；未取得复现证据。"
+      "review_status": "部分通过",
+      "reviewed_skills": [
+        "luanji",
+        "xueyi"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主通过",
+      "evidence": "乱击：shenhua-huo-review-native-1.json / shenhua-huo-luanji-wanjian：袁绍持两张同花色非杀牌，保守局面 phaseUse 未发动 luanji，手牌与敌方体力均未变化；未观察到异常，但也未取得发动结算。；血裔：shenhua-huo-review-native-1.json / shenhua-huo-passive-rules：袁绍为主公且场上有其他群势力时，手牌上限由体力基数提高到10（4+2×3），符合 xueyi 的被动加值。",
+      "notes": "乱击：首轮仅确认保守局面不发动；需要更明确的收益局面或直接 viewAs 结算后再升级状态。；血裔：纯被动规则；弃牌阶段实际弃牌与无群势力负向未建立。"
     },
     {
       "task_id": "AI-re_lusu",
@@ -7444,13 +7496,17 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6474"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
-          "validation_level": null,
-          "validation": {},
+          "status": "部分验证",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-huo-review-native-1.json / shenhua-huo-passive-rules：空护甲槽时获得 bazhen 后存在 bazhen_bagua 额外装备技能。",
+          "notes": "首轮只验证额外装备挂载；八卦判定响应路径未建立。",
+          "validation_level": "部分验证",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": false,
+            "positive_negative": false
+          },
           "host_line_1117": null
         },
         {
@@ -7474,13 +7530,17 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6449"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
-          "validation_level": null,
-          "validation": {},
+          "status": "部分验证",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-huo-review-native-1.json / shenhua-huo-huoji-red：诸葛亮持红色无懈、目标有手牌，保守局面 phaseUse 未发动 huoji，手牌与目标状态未变化。",
+          "notes": "首轮仅确认保守局面不发动；火攻转化/花色结算未取得证据。",
+          "validation_level": "部分验证",
+          "validation": {
+            "rule_settlement": false,
+            "ai_decision": false,
+            "positive_negative": false
+          },
           "host_line_1117": null
         },
         {
@@ -7504,24 +7564,32 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6539"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
-          "validation_level": null,
-          "validation": {},
+          "status": "部分验证",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-huo-review-native-1.json / shenhua-huo-passive-rules：持黑色无懈时 kanpo.viewAsFilter 为 true，满足黑色手牌当无懈使用的前置。",
+          "notes": "首轮只验证转化前置；实际响应锦囊/无懈结算未建立。",
+          "validation_level": "部分验证",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": false,
+            "positive_negative": false
+          },
           "host_line_1117": null
         }
       ],
       "priority_original": "P2",
       "priority_revised": "P3",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "八阵：保留原实现；未取得复现证据。；火计：保留原实现；未取得复现证据。；看破：保留原实现；未取得复现证据。"
+      "review_status": "部分通过",
+      "reviewed_skills": [
+        "bazhen",
+        "huoji",
+        "kanpo"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主通过",
+      "evidence": "八阵：shenhua-huo-review-native-1.json / shenhua-huo-passive-rules：空护甲槽时获得 bazhen 后存在 bazhen_bagua 额外装备技能。；火计：shenhua-huo-review-native-1.json / shenhua-huo-huoji-red：诸葛亮持红色无懈、目标有手牌，保守局面 phaseUse 未发动 huoji，手牌与目标状态未变化。；看破：shenhua-huo-review-native-1.json / shenhua-huo-passive-rules：持黑色无懈时 kanpo.viewAsFilter 为 true，满足黑色手牌当无懈使用的前置。",
+      "notes": "八阵：首轮只验证额外装备挂载；八卦判定响应路径未建立。；火计：首轮仅确认保守局面不发动；火攻转化/花色结算未取得证据。；看破：首轮只验证转化前置；实际响应锦囊/无懈结算未建立。"
     },
     {
       "task_id": "AI-re_pangde",
@@ -7555,13 +7623,18 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/standard/skill.js#L1489"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
-          "validation_level": null,
-          "validation": {},
+          "status": "部分验证",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-huo-review-native-1.json / shenhua-huo-passive-rules：庞德获得 mashu 后到同一敌方距离由2降为1。",
+          "notes": "纯被动距离规则；多目标/装备叠加未建立。",
+          "validation_level": "规则结算验证通过",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": false,
+            "positive_negative": false,
+            "passive": true
+          },
           "host_line_1117": null
         },
         {
@@ -7585,24 +7658,31 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3257"
           },
-          "status": "尚未验证",
-          "implementation": "未改动",
-          "test": "未测试",
-          "evidence": "",
-          "notes": "保留原实现；未取得复现证据。",
-          "validation_level": null,
-          "validation": {},
+          "status": "部分验证",
+          "implementation": "无需改动",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-huo-review-native-1.json / shenhua-huo-jianchu-sha：庞德杀带诸葛连弩的敌方，AI 发动 jianchu 弃置装备，记录 directHit，杀造成1点伤害且目标装备清空。",
+          "notes": "首轮覆盖装备分支；弃手牌分支与无牌可弃负向未建立。",
+          "validation_level": "部分验证",
+          "validation": {
+            "rule_settlement": true,
+            "ai_decision": true,
+            "positive_negative": false
+          },
           "host_line_1117": null
         }
       ],
       "priority_original": "P2",
       "priority_revised": "P3",
-      "review_status": "尚未验证",
-      "reviewed_skills": [],
-      "implementation_status": "未改动",
-      "test_status": "未测试",
-      "evidence": "",
-      "notes": "马术：保留原实现；未取得复现证据。；鞬出：保留原实现；未取得复现证据。"
+      "review_status": "部分通过",
+      "reviewed_skills": [
+        "mashu",
+        "jianchu"
+      ],
+      "implementation_status": "无需改动",
+      "test_status": "真实宿主通过",
+      "evidence": "马术：shenhua-huo-review-native-1.json / shenhua-huo-passive-rules：庞德获得 mashu 后到同一敌方距离由2降为1。；鞬出：shenhua-huo-review-native-1.json / shenhua-huo-jianchu-sha：庞德杀带诸葛连弩的敌方，AI 发动 jianchu 弃置装备，记录 directHit，杀造成1点伤害且目标装备清空。",
+      "notes": "马术：纯被动距离规则；多目标/装备叠加未建立。；鞬出：首轮覆盖装备分支；弃手牌分支与无牌可弃负向未建立。"
     },
     {
       "task_id": "AI-caopi",

@@ -33,6 +33,8 @@ score/decision/skills/
 | `standard_2008` / `2013` / `2019` / `2023` | 标准包各版本组 | 正在审查 / 尚未开始 | 未打包 |
 | `shenhua_feng` | 神话再临·风 | 验证完成（qimou 已修复；其余 11 项按规则/AI/正反向分级验证） | 可交付 |
 | `shenhua_huo/lin/shan/yin/lei` | 神话再临其余五包 | 部分修复 / 正在审查 / 尚未开始 | 未打包 |
+
+神话再临·火首轮（2026-11-02）：14 项登记技能均已审查，`qiangxix` 维持完整回合验证；`quhu`/`jieming`/`oldniepan`/`tianyi`/`shuangxiong`/`jianchu`/`lianhuan` 已有真实发动与结算，`luanji`/`huoji` 在保守局面未发动，`bazhen`/`kanpo` 只验证前置，`mashu`/`xueyi` 只验证被动规则，13 项统一记为 `部分验证`，无确认缺陷。其余四包尚未开始。
 | `refresh_standard/feng/huo/lin/shan` | 界限突破五包 | 部分修复 / 正在审查 / 尚未开始 | 未打包 |
 | `out_of_scope` | 清单外角色（活动武将/界鲁肃 `redimeng`） | 验证完成 | 可交付 |
 
@@ -136,5 +138,6 @@ node tools/accept-skill-ai-pack.mjs --zip <pack.zip> --repo <仓库> --workdir <
 - 矩阵（`pack-acceptance-matrix.md`）：单包契约与组合契约分列，未执行显示“未执行”，不把未运行项目误报为失败；组合行 `contract_passed=true` 来自实际共存安装/134 维检查。
 - 不抑制 `game.over` 的有界完整对局（斗地主，seed 20261030）：`done=true`、`overCalls=1`、`result=true`、3 phases / 17 uses / 12 decisions，无页面错误；该测试独立于技能固定场景，不修改奇谋断言。见 `fullgame-settlement.json`。
 - 神话再临·风：12 项登记技能全部审查；`qimou` 已修复；`hongyan` 为纯被动规则验证；`releiji`/`xinkuanggu`/`gzbuqu` 为 AI 决策验证；其余 7 项为正反向决策验证。acceptance 共 23 条技能级检查，原生/扩展逐场景对照 `semantic_all=true`，差异单列为天香对称目标座位和蛊惑假声明场景“原生取消/扩展放弃”。证据 `shenhua-feng-review.json`、`shenhua-feng-review-native.json`、`shenhua-feng-review-compare.json`；分包清单含 `validation_level`。
+- 风包最终验收（2026-11-02）：单包 23 条技能级断言 PASS；五包共存 34 场景 PASS 且 5/5 单包签名对照通过；上游 `1fe5292` 单包与 34 场景组合均通过接线/安装/场景/卸载/回滚/重装；矩阵 12/12 PASS；不抑制 `game.over` 完整对局 `done=true`、`overCalls=1`、`result=true`（40 phases/92 uses/20 decisions）。正式 ZIP SHA256 `71c61f3db22266a77ba3074beda92237d3ae41af49862ac245b25d4c153d46a1`。
 - Android 真机长跑、完整 142 将验收仍是公开发版前置条件。
 - 阶段包不是可直接安装的完整扩展；不得把源码补丁 ZIP 冒充扩展包。

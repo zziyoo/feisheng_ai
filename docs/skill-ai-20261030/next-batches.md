@@ -34,7 +34,7 @@
 6. 将 ZIP、SHA256、提交 SHA、集成/回滚说明交给其他开发者；不要把整仓库、模型权重或训练数据打包。
 7. 集成用 `integration/apply-pack.mjs`（预检/备份/事务恢复），回滚用 `integration/rollback-pack.mjs`（只撤销本包、保留共享核心与空注册表）；共享核心冲突时拒绝覆盖，按 patch 合并。
 
-当前优先级：`out_of_scope` 与 `shenhua_feng` 已按完整包交付，交给其他开发者做集成测试；其余阶段包继续按技能级清单推进。下一个完整目标是 **神话再临·火**：先逐项审查其登记技能，只有真实宿主复现出缺陷才修改，完成后再生成完整交付包。`shenhua_feng` 的 12 项登记技能已全部审查：`qimou` 已修复，其余 11 项已验证无问题；详细固定局面与原生/扩展对照见 `shenhua-feng-review*.json`。
+当前优先级：`out_of_scope` 与 `shenhua_feng` 已按完整包交付，交给其他开发者做集成测试；其余阶段包继续按技能级清单推进。**神话再临·火首轮已完成**：14 项登记技能全部取得首轮结论，`qiangxix` 沿用完整回合验证；`quhu`/`jieming`/`oldniepan`/`tianyi`/`shuangxiong`/`jianchu`/`lianhuan` 有真实宿主发动与结算；`luanji`/`huoji` 在保守局面未发动；`bazhen`/`kanpo` 只验证前置；`mashu`/`xueyi` 只验证被动规则。13 项统一记为 `部分验证`，没有确认到需要修改的缺陷，因此本轮不修改 AI 代码。证据见 `shenhua-huo-review-native-1.json`。下一步：补齐上述技能的反向/强制结算场景，跑原生/扩展对照，再决定是否生成完整包。`shenhua_feng` 的 12 项登记技能已全部审查：`qimou` 已修复，其余 11 项按验证级别登记；详细固定局面与原生/扩展对照见 `shenhua-feng-review*.json`。
 
 ## 第三批：信息范围审计（优先）
 
