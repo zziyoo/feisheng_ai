@@ -100,7 +100,6 @@ export const CODE_PACKS = [
 			'shenhua-huo-review-native.json',
 			'shenhua-huo-review.json',
 			'shenhua-huo-review-compare.json',
-			'accept-shenhua_huo.json',
 			'shenhua-huo-fullgame.json',
 			'shenhua-huo-node-regressions.log',
 		],
