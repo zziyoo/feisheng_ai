@@ -695,6 +695,80 @@ function loadSkillScenes(root, label, scenes, expectedPacks, options = {}) {
 	return base;
 }
 
+function mergeHostReports(reports) {
+	const merged = {
+		...reports[0],
+		status: reports.every(report => report.status === 'passed') ? 'passed' : 'failed',
+		scenes: [],
+		errors: reports.flatMap(report => report.errors || []),
+	};
+	const seen = new Set();
+	for (const report of reports) {
+		for (const scene of report.scenes || []) {
+			if (!scene || !scene.name) continue;
+			if (['engine-disabled-gate', 'policy-lifecycle', 'full-engine-lifecycle'].includes(scene.name)) {
+				if (seen.has(scene.name)) continue;
+				seen.add(scene.name);
+			}
+			merged.scenes.push(scene);
+		}
+	}
+	if (reports[0].policyStats) {
+		merged.policyStats = JSON.parse(JSON.stringify(reports[0].policyStats));
+		for (const report of reports.slice(1)) {
+			const stats = report.policyStats;
+			if (!stats) continue;
+			if (stats.installed) merged.policyStats.installed = true;
+			for (const [key, value] of Object.entries(stats)) {
+				if (key === 'packs') continue;
+				if (typeof value === 'number') merged.policyStats[key] = (Number(merged.policyStats[key]) || 0) + value;
+				else if (merged.policyStats[key] == null) merged.policyStats[key] = value;
+			}
+			merged.policyStats.packs = merged.policyStats.packs || {};
+			for (const [packId, packStats] of Object.entries(stats.packs || {})) {
+				merged.policyStats.packs[packId] = merged.policyStats.packs[packId] || {};
+				for (const [key, value] of Object.entries(packStats || {})) {
+					if (typeof value === 'number') merged.policyStats.packs[packId][key] = (Number(merged.policyStats.packs[packId][key]) || 0) + value;
+					else if (merged.policyStats.packs[packId][key] == null) merged.policyStats.packs[packId][key] = value;
+				}
+			}
+		}
+	}
+	merged.extensionInstalled = reports.some(report => report.extensionInstalled);
+	return merged;
+}
+
+function loadSkillScenesGrouped(root, label, scenes, expectedPacks, options = {}) {
+	const qimou = scenes.filter(name => name.startsWith('hp-qimou') || name.startsWith('qimou-'));
+	const review = scenes.filter(name => !qimou.includes(name));
+	// 奇谋场景会改变后续 AI 决策上下文；与神话再临·风固定局面分开运行，避免跨场景影响。
+	const groups = [];
+	if (review.length) groups.push({ name: 'review', scenes: review });
+	if (qimou.length) groups.push({ name: 'qimou', scenes: qimou });
+	if (groups.length <= 1) return loadSkillScenes(root, label, scenes, expectedPacks, options);
+	const loads = [];
+	for (const group of groups) {
+		const load = loadSkillScenes(root, label + '-' + group.name, group.scenes, [], Object.assign({}, options, { includeReport: true }));
+		loads.push(load);
+	}
+	const report = mergeHostReports(loads.map(load => load.report));
+	const skillChecks = {};
+	if (expectedPacks && expectedPacks.length) {
+		const packIds = Object.keys((report.policyStats && report.policyStats.packs) || {}).sort();
+		const wanted = expectedPacks.slice().sort();
+		if (JSON.stringify(packIds) !== JSON.stringify(wanted)) throw new Error('策略分包集合不符 [' + label + ']：' + JSON.stringify(packIds) + '，期望 ' + JSON.stringify(wanted));
+		for (const packId of expectedPacks) skillChecks[packId] = analyzePackScenes(packId, report, scenes);
+	}
+	const base = {
+		status: 'passed', scenes,
+		policyStats: report.policyStats,
+		skillChecks,
+		output: loads.map(load => load.output),
+	};
+	if (options.includeReport) base.report = report;
+	return base;
+}
+
 function packSummary(zip, root) {
 	const packJson = jsonOf(path.join(root, 'pack.json'));
 	return {
