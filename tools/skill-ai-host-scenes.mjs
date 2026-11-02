@@ -20,6 +20,7 @@ export async function runSkillAiScenes(page, options = {}) {
 		const { game, lib, get, _status } = realHost;
 		const [actor, ally, enemy1, enemy2] = game.players;
 		const roster = game.players.slice();
+		const rosterGroups = roster.map(p => p.group);
 		const run = async (name, player, content) => {
 			const event = game.createEvent(name, false);
 			event.player = player;
@@ -48,6 +49,8 @@ export async function runSkillAiScenes(page, options = {}) {
 				const cards = p.getCards('hej');
 				if (cards.length) await p.discard(cards);
 				p.hp = p.maxHp = 4;
+				try { p.group = rosterGroups[roster.indexOf(p)] || p.group; } catch (e) {}
+				try { p.classList.remove('turnedover'); } catch (e) {}
 				for (const key of Object.keys(p.storage || {})) delete p.storage[key];
 				try { p.stat = [{ card: {}, skill: {}, triggerSkill: {} }]; } catch (e) {}
 				try { p.awakenedSkills = []; } catch (e) {}

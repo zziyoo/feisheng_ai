@@ -24,7 +24,14 @@ const WORK_TAG = BASE_REF ? 'upstream' : 'head';
 const IDS = ['refresh_standard', 'shenhua_feng', 'refresh_feng', 'shenhua_lei', 'out_of_scope'];
 const SCENES = {
 	refresh_standard: ['rezhiheng-3hp', 'new-retuxi-order'],
-	shenhua_feng: ['hp-qimou-distance4-hp3'],
+	shenhua_feng: [
+		'hp-qimou-distance4-hp3',
+		'shenhua-releiji-target', 'shenhua-guidao-replace', 'shenhua-huangtian-give',
+		'shenhua-guhuo-claim', 'shenhua-guhuo-phase', 'shenhua-shensu-skip',
+		'shenhua-tianxiang-redirect', 'shenhua-hongyan-suit', 'shenhua-kuanggu-draw',
+		'shenhua-kuanggu-recover', 'shenhua-jushou-4hp-empty', 'shenhua-jushou-lowhp',
+		'shenhua-buqu-damage', 'shenhua-liegong-hit', 'shenhua-liegong-negative',
+	],
 	refresh_feng: ['hp-reqimou-distance4-hp3'],
 	shenhua_lei: ['olkongsheng-array-count', 'olkongsheng-repeat'],
 	out_of_scope: ['redimeng-hidden-info', 'redimeng-permute-values'],
