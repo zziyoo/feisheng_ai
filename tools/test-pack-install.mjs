@@ -178,6 +178,47 @@ check('共享核心冲突：拒绝安装且不改注册表', () => {
 	assert.equal(readRegistry(root), beforeRegistry);
 });
 
+check('注册表预存本包行但模块缺失：安装前拒绝且不改文件', () => {
+	const root = makeTarget();
+	const preexisting = `// @djsc-pack-imports-begin\nimport { pack as ${A} } from './packs/${A}.js?v=41a';\n// @djsc-pack-imports-end\n\nexport const SKILL_AI_PACKS = [\n\t// @djsc-pack-registry-begin\n\t${A},\n\t// @djsc-pack-registry-end\n];\n`;
+	write(registryPath(root), preexisting);
+	const result = apply(pkgA, root);
+	assert.equal(result.status, 1, '注册表预存本包行而模块缺失时必须在安装前拒绝');
+	assert(result.stderr.includes('注册表已包含本分包') || result.stderr.includes('模块缺失'), result.stderr);
+	assert.equal(fs.existsSync(targetFile(root, A)), false, '拒绝安装不得补齐模块');
+	assert.equal(fs.existsSync(targetRules(root, A)), false, '拒绝安装不得补齐规则');
+	assert.equal(readRegistry(root), preexisting, '拒绝安装不得改注册表');
+	assert.equal(fs.existsSync(path.join(root, '.djsc-pack-backups', 'A')), false, '拒绝安装不得留下安装记录');
+});
+
+check('注册表预存本包行但模块缺失：旧记录回滚也不得留下悬空导入', () => {
+	const root = makeTarget();
+	const preexisting = `// @djsc-pack-imports-begin\nimport { pack as ${A} } from './packs/${A}.js?v=41a';\n// @djsc-pack-imports-end\n\nexport const SKILL_AI_PACKS = [\n\t// @djsc-pack-registry-begin\n\t${A},\n\t// @djsc-pack-registry-end\n];\n`;
+	write(registryPath(root), preexisting);
+	write(targetFile(root, A), pkgA.packFile);
+	write(targetRules(root, A), pkgA.rulesFile);
+	write(path.join(root, '.djsc-pack-backups', 'A', 'record.json'), JSON.stringify({
+		pack_id: 'A',
+		created: [
+			{ target: `score/decision/skills/packs/${A}.js`, hash: sha(pkgA.packFile), kind: '分包' },
+			{ target: `score/decision/skills/rules/${A}.js`, hash: sha(pkgA.rulesFile), kind: '分包' },
+		],
+		registry: {
+			mode: 'already',
+			importLine: `import { pack as ${A} } from './packs/${A}.js?v=41a';`,
+			entryLine: `${A},`,
+			installedHash: sha(Buffer.from(preexisting)),
+			beforeHash: sha(Buffer.from(preexisting)),
+			before: preexisting,
+		},
+	}, null, 2));
+	const result = rollback(pkgA, root);
+	assert.equal(result.status, 1, '删除模块会留下悬空导入，必须阻止');
+	assert(result.stderr.includes('悬空') || result.stderr.includes('注册表'), result.stderr);
+	assert.equal(fs.existsSync(targetFile(root, A)), true, '阻止回滚时模块必须保留');
+	assert.equal(readRegistry(root), preexisting, '阻止回滚时注册表必须原样保留');
+});
+
 check('注册表引用缺失模块：预检失败且不写文件', () => {
 	const root = makeTarget();
 	write(registryPath(root), `// @djsc-pack-imports-begin\nimport { pack as ghost } from './packs/ghost.js?v=41a';\n// @djsc-pack-imports-end\n\nexport const SKILL_AI_PACKS = [\n\t// @djsc-pack-registry-begin\n\tghost,\n\t// @djsc-pack-registry-end\n];\n`);

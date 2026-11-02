@@ -124,6 +124,12 @@ function buildPlan() {
 		verifyRegistryImports(text, pendingModules);
 		const hasImport = text.includes(importLine);
 		const hasEntry = new RegExp('^\\s*' + pack.module + ',\\s*$', 'm').test(text);
+		/* 注册表已声明本包但文件缺失属于不一致的预存状态：若补齐后回滚，注册行会指向已删除模块。
+		   安装前拒绝，避免制造无法安全回滚的记录。 */
+		const missingOwnFiles = plan.creates.filter(action => action.kind === '分包');
+		if ((hasImport || hasEntry) && missingOwnFiles.length) {
+			fail('注册表已包含本分包的导入/注册行，但分包文件缺失：' + missingOwnFiles.map(action => action.targetRel).join('、') + '\n  这是不一致的预存状态；拒绝安装。请先移除注册表中的本包行，或补齐相同版本的分包文件后重试。');
+		}
 		if (hasImport && hasEntry) {
 			plan.registry = { mode: 'already', importLine, entryLine, before, after: before, installedHash: sha(before) };
 		} else {
