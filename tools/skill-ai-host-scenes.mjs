@@ -50,6 +50,10 @@ export async function runSkillAiScenes(page, options = {}) {
 				} catch (e) {}
 				p.clearSkills(true);
 				try {
+					const remaining = p.getSkills(null, false, false).filter(skill => lib.skill[skill] && lib.skill[skill].superCharlotte);
+					if (remaining.length) p.removeSkill(remaining);
+				} catch (e) {}
+				try {
 					p.dead = false;
 					if (Array.isArray(game.dead)) {
 						const index = game.dead.indexOf(p);
