@@ -1119,6 +1119,9 @@ function mergeHostReports(reports) {
 }
 
 function loadSkillScenesGrouped(root, label, scenes, expectedPacks, options = {}) {
+	if (!HOST || !CHROME || !PLAYWRIGHT) {
+		return { status: 'skipped', reason: '未提供 --host-root/--browser/--playwright', scenes, skillChecks: {}, policyStats: null, output: [] };
+	}
 	const groupOf = name => {
 		if (name.startsWith('hp-qimou') || name.startsWith('qimou-')) return 'shenhua_feng-qimou';
 		if (name === 'shenhua-huo-luanji-wanjian-use') return 'shenhua_huo-luanji-positive';
