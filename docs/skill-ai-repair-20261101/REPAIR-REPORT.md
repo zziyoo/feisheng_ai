@@ -228,7 +228,7 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
 - **确认缺陷并修复**：`lianhuan` 在全部目标已横置时，原生 AI 仍把♣牌当铁索指定已横置友方，弃牌且不摸牌。新增 `shenhuaHuo` 分包，只把已横置目标的 `ai2` 评分压低；未横置目标继续用原生评分，宿主走重铸分支并实际摸 1 张。策略统计 `lianhuanLinkedSkip=13`。
 - **比较断言**：luanji/huoji 正向场景在独立宿主进程中验证，避免跨场景 AI 状态污染；32 场景合并对照 `semantic_all=true`、`exact_all=false`，唯一策略差异是已登记 `lianhuan-recast-fix`，无随机差异。
 - **验收**：主组 30 场景、乱击/火计正向各 1 场景分别 acceptance PASS；合并 32 条技能级断言；安装/卸载/重装/回滚、134 维契约、包内测试、`verify.py` 均 PASS；不抑制 `game.over` 的有界完整对局 PASS。证据：`shenhua-huo-review.json`、`shenhua-huo-review-native.json`、`shenhua-huo-review-compare.json`、`accept-shenhua_huo*.json`、`shenhua-huo-fullgame.json`。
-- 分包状态 `验证完成`，交付状态 `可交付`；六包共存安装/乱序回滚 PASS，35 场景宿主加载 6/6 包、0 页面错误；上游 `1fe5292` 主组 30 场景通过接线/安装/宿主/卸载回滚/重装。正式 ZIP SHA256 `729ddf96f981c7f6839731c8d330e51e7969b53281c98b722b66e5a62adb4248`（36 文件、7 证据、`VERIFY PASS`）。待外部集成回执后再考虑 `已交付`。
+- 分包状态 `验证完成`，交付状态 `可交付`；六包共存安装/乱序回滚 PASS，35 场景宿主加载 6/6 包、0 页面错误；上游 `1fe5292` 主组 30 场景通过接线/安装/宿主/卸载回滚/重装。正式 ZIP SHA256 `c0dbb386437505e42b8ac3660629181f1caf43a18c2fd19f8ac32a047c066e12`（35 文件、6 证据、`VERIFY PASS`）。待外部集成回执后再考虑 `已交付`。
 
 ## 九、部署与回滚
 
