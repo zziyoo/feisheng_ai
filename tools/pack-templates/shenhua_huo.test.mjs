@@ -1,20 +1,19 @@
 import assert from 'node:assert/strict';
-import { lianhuanLinkedTargetSkip } from '../source/score/decision/skills/rules/shenhuaHuo.js';
+import { pack } from '../source/score/decision/skills/packs/shenhuaHuo.js';
+import { SHENHUA_HUO_POLICY_RULES } from '../source/score/decision/skills/rules/shenhuaHuo.js';
 
 let passed = 0;
 const check = (name, fn) => { fn(); passed++; console.log('PASS', name); };
 
-check('已横置目标跳过铁索转化', () => {
-	assert.equal(lianhuanLinkedTargetSkip({ isLinked: () => true }), true);
-	assert.equal(lianhuanLinkedTargetSkip({ isLinked: () => false }), false);
+check('火包不注册任何连环覆盖', () => {
+	assert.equal(pack.id, 'shenhua_huo');
+	assert.deepEqual(pack.skills, []);
+	assert.equal(typeof pack.install, 'function');
+	assert.deepEqual(Object.keys(SHENHUA_HUO_POLICY_RULES), []);
 });
-check('自己/空目标跳过，未横置目标保留原生评分', () => {
-	const player = { isLinked: () => false };
-	assert.equal(lianhuanLinkedTargetSkip(player, player), true);
-	assert.equal(lianhuanLinkedTargetSkip(null, player), true);
-	assert.equal(lianhuanLinkedTargetSkip({ isLinked: () => false }, player), false);
-});
-check('缺少 isLinked 时不误判为已横置', () => {
-	assert.equal(lianhuanLinkedTargetSkip({}), false);
+check('空安装入口不接触宿主对象', () => {
+	let touched = false;
+	pack.install({ get wrap() { touched = true; } }, {});
+	assert.equal(touched, false);
 });
 console.log('ALL PASS (' + passed + ')');

@@ -171,11 +171,74 @@ export function shenhuaSceneSemantic(name, scene) {
 		case 'shenhua-huo-lianhuan-ally-risk': {
 			const data = scene.result || scene;
 			const targetsList = (data.tiesuoTargets || []).flat().map(idOnly);
-			return { usedTiesuo: targetsList.length > 0, recast: !!data.recast, allyTargeted: targetsList.includes(ally), draws: Number(data.draws) || 0 };
+			return { usedTiesuo: targetsList.length > 0, recast: !!data.recast, allyTargeted: targetsList.includes(ally) };
 		}
 		case 'shenhua-huo-lianhuan-recast': {
 			const data = scene.result || scene;
-			return { usedTiesuo: (data.tiesuoTargets || []).length > 0, recast: !!data.recast, draws: Number(data.draws) || 0, handCount: hand(scene.after, actor).length };
+			const targetsList = (data.targetIds || (data.tiesuoTargets || []).flat()).map(idOnly);
+			return { usedTiesuo: targetsList.length > 0, targetAlly: targetsList.includes(ally), recast: !!data.recast, draws: Number(data.draws) || 0, allyLinkedAfter: (data.links || {})[ally] };
+		}
+		case 'shenhua-huo-lianhuan-unlink-ally-risk': {
+			const data = scene.result || scene;
+			const targetsList = (data.targetIds || []).map(idOnly);
+			return { usedTiesuo: targetsList.length > 0, targetAlly: targetsList.includes(ally), recast: !!data.recast, draws: Number(data.draws) || 0, allyLinkedAfter: data.allyLinked };
+		}
+		case 'shenhua-huo-lianhuan-keep-enemy-linked': {
+			const data = scene.result || scene;
+			const enemy1 = Object.keys(scene.before.hp || {})[2];
+			const enemy2 = Object.keys(scene.before.hp || {})[3];
+			return {
+				usedTiesuo: (data.targetIds || []).length > 0,
+				recast: !!data.recast,
+				enemy1Linked: (data.links || {})[enemy1],
+				enemy2Linked: (data.links || {})[enemy2],
+				chainDamage: data.chain ? [Number(data.chain.after[enemy1]) - Number(data.chain.before[enemy1]), Number(data.chain.after[enemy2]) - Number(data.chain.before[enemy2])] : null,
+			};
+		}
+		case 'shenhua-huo-lianhuan-full-linked-recast': {
+			const data = scene.result || scene;
+			return {
+				usedTiesuo: (data.targetIds || []).length > 0,
+				recast: !!data.recast,
+				allLinked: Object.values(data.links || {}).every(Boolean),
+				allImmune: !!(scene.setup && scene.setup.allImmune),
+			};
+		}
+		case 'shenhua-huo-lianhuan-link-enemies': {
+			const data = scene.result || scene;
+			const enemy1 = Object.keys(scene.before.hp || {})[2];
+			const enemy2 = Object.keys(scene.before.hp || {})[3];
+			const targetsList = (data.targetIds || []).map(idOnly);
+			return {
+				usedTiesuo: targetsList.length > 0,
+				targetCount: targetsList.length,
+				targetsAllEnemies: targetsList.every(isEnemy),
+				enemy1Linked: (data.links || {})[enemy1],
+				enemy2Linked: (data.links || {})[enemy2],
+				recast: !!data.recast,
+				chainDamage: data.chain ? [Number(data.chain.after[enemy1]) - Number(data.chain.before[enemy1]), Number(data.chain.after[enemy2]) - Number(data.chain.before[enemy2])] : null,
+			};
+		}
+		case 'shenhua-huo-lianhuan-unlinked-ally-only': {
+			const data = scene.result || scene;
+			return { usedTiesuo: (data.targetIds || []).length > 0, recast: !!data.recast, allyLinkedAfter: (data.links || {})[ally] };
+		}
+		case 'shenhua-huo-lianhuan-self-linked': {
+			const data = scene.result || scene;
+			const targetsList = (data.targetIds || []).map(idOnly);
+			return { targetSelf: targetsList.includes(actor), targetCount: targetsList.length, recast: !!data.recast, actorLinkedAfter: data.actorLinked };
+		}
+		case 'shenhua-huo-lianhuan-recast-blocked': {
+			const data = scene.result || scene;
+			const targetsList = (data.targetIds || []).map(idOnly);
+			return {
+				targetCount: targetsList.length,
+				targetsActorOrAlly: targetsList.every(id => id === actor || id === ally),
+				recast: !!data.recast,
+				draws: Number(data.draws) || 0,
+				actorLinkedAfter: data.actorLinked,
+				allyLinkedAfter: data.allyLinked,
+			};
 		}
 		case 'shenhua-huo-passive-rules':
 			return { baseDistance: scene.setup.baseDistance, mashuDistance: scene.setup.mashuDistance, maxHandcard: scene.setup.maxHandcard, bazhenExtra: !!(scene.setup.bazhenExtra), kanpoView: !!(scene.setup.kanpoView) };
@@ -211,15 +274,6 @@ const REGISTERED_QIMOU_FIXES = {
 	'hp-qimou-distance4-hp3': { paid: 3, minEnemyHpLoss: 1, targetMustBeHit: false },
 	'hp-qimou-distance3-hp2': { paid: 2, minEnemyHpLoss: 1, targetMustBeHit: true },
 };
-
-export function validateHuoDifference(name, native, extension) {
-	if (name !== 'shenhua-huo-lianhuan-recast') return null;
-	if (native.usedTiesuo !== true || native.recast !== false) return '原生基线未复现“对已横置目标使用铁索”的缺陷';
-	if (extension.usedTiesuo !== false || extension.recast !== true) return '扩展未改走重铸分支';
-	if (extension.draws !== 1) return '扩展重铸未实际摸 1 张';
-	if (!(extension.handCount > native.handCount)) return '扩展重铸未保留手牌收益';
-	return null;
-}
 
 export function validateQimouDifference(name, native, extension) {
 	const registered = REGISTERED_QIMOU_FIXES[name];
@@ -264,22 +318,10 @@ export function compareNativeExtension(nativeReport, extensionReport, scenes) {
 		const rawDrawsEqual = JSON.stringify(rawSceneDraws(nativeScene)) === JSON.stringify(rawSceneDraws(extensionScene));
 		const exactMatch = semanticMatch && rawTargetsEqual && rawDrawsEqual;
 		const qimouScene = name.startsWith('hp-qimou') || name.startsWith('qimou-');
-		const huoScene = name.startsWith('shenhua-huo-') || name.startsWith('hp-qiangxix');
 		let qimouError = null;
-		let huoError = null;
 		let allowed = semanticMatch;
 		let note = semanticMatch ? '语义一致' : null;
-		if (huoScene) {
-			huoError = validateHuoDifference(name, native, extension);
-			if (huoError) {
-				allowed = false;
-				note = huoError;
-			} else if (name === 'shenhua-huo-lianhuan-recast' && !semanticMatch) {
-				allowed = true;
-				note = '已登记的连环修复差异：原生对已横置目标使用铁索，扩展改走重铸并实际摸 1 张。';
-				strategyDifferences.push({ scene: name, type: 'lianhuan-recast-fix', native, extension, note });
-			}
-		} else if (qimouScene) {
+		if (qimouScene) {
 			qimouError = validateQimouDifference(name, native, extension);
 			if (qimouError) {
 				allowed = false;
@@ -301,7 +343,7 @@ export function compareNativeExtension(nativeReport, extensionReport, scenes) {
 		if (!exactMatch) exactAll = false;
 		if (!rawTargetsEqual) randomDifferences.push({ scene: name, type: '对称目标座位不同', native: rawSceneTargets(nativeScene), extension: rawSceneTargets(extensionScene) });
 		if (!rawDrawsEqual) randomDifferences.push({ scene: name, type: '摸牌/获得牌面随机不同', native: rawSceneDraws(nativeScene), extension: rawSceneDraws(extensionScene) });
-		rows.push({ scene: name, exact_match: exactMatch, semantic_match: allowed, native, extension, note, qimou_error: qimouError || undefined, huo_error: huoError || undefined });
+		rows.push({ scene: name, exact_match: exactMatch, semantic_match: allowed, native, extension, note, qimou_error: qimouError || undefined });
 	}
 	return { rows, exact_all: exactAll, semantic_all: semanticAll, allowed_random_differences: randomDifferences, strategy_differences: strategyDifferences };
 }

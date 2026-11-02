@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus, qimouTargetX, shouldBypassQimouCountBlock, reqimouNeedsPayment, reqimouOptimalX, reqimouKillableByHand, reqimouKillBenefit, interpretBaseUses, lianhuanLinkedTargetSkip } from '../score/decision/skills/skillAIPolicyRules.js';
+import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus, qimouTargetX, shouldBypassQimouCountBlock, reqimouNeedsPayment, reqimouOptimalX, reqimouKillableByHand, reqimouKillBenefit, interpretBaseUses } from '../score/decision/skills/skillAIPolicyRules.js';
 
 let passed = 0;
 const check = (name, fn) => {
@@ -322,11 +322,4 @@ check('补修P2：无限次数不影响击杀档位上限与低血回退', () =>
 	assert.equal(reqimouOptimalX({ hp: 1, shaCount: 5, baseUses: Infinity, targets: [mk(1, 1)] }), null, '低血仍回退');
 });
 
-check('火分包：已横置目标不再空用铁索', () => {
-	assert.equal(lianhuanLinkedTargetSkip({ isLinked: () => true }), true);
-	assert.equal(lianhuanLinkedTargetSkip({ isLinked: () => false }), false);
-	const player = { isLinked: () => true };
-	assert.equal(lianhuanLinkedTargetSkip(player, player), true, '自己不作为连环目标');
-	assert.equal(lianhuanLinkedTargetSkip({}), false, '无 isLinked 时不误判');
-});
 console.log('ALL PASS (' + passed + ')');

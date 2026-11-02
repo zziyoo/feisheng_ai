@@ -1,29 +1,14 @@
-import { lib } from '../policyCore.js?v=41a';
-import { lianhuanLinkedTargetSkip } from '../rules/shenhuaHuo.js?v=41a';
+/* 神话再临·火复核包：14 项登记技能均已在真实宿主取得结论。
+ * 连环的已横置目标由宿主 get.effect 按敌我、体力和手牌评估；解除队友或自身横置
+ * 在连锁属性伤害风险下是正向收益，重铸并非总是更优。复核后未保留任何 ai2 覆盖。
+ * 本包保留空策略入口，仅用于分包注册、验收与安装回滚，不改变宿主原生出牌。 */
+function install() {}
 
 export const pack = {
 	id: 'shenhua_huo',
 	name: '神话再临·火',
 	group: 'shenhua',
-	skills: ['lianhuan'],
-	statsDefaults: { lianhuanLinkedSkip: 0 },
+	skills: [],
+	statsDefaults: {},
 	install,
 };
-
-/* 庞统【连环 lianhuan】：真实宿主复现时，所有目标均已横置，
- * AI 仍把♣牌当铁索连环指定已横置的友方，白白弃牌且不摸牌。
- * 只把“已横置”目标的评分压到不可选，让宿主走重铸分支；未横置目标仍用原生评分。 */
-function install(host, stats) {
-	const lianhuan = lib.skill && lib.skill.lianhuan;
-	if (lianhuan && typeof lianhuan.ai2 === 'function') {
-		host.wrap(lianhuan, 'ai2', 'lianhuan:ai2', original => function (target) {
-			try {
-				if (lianhuanLinkedTargetSkip(target)) {
-					stats.lianhuanLinkedSkip++;
-					return -100;
-				}
-			} catch (e) {}
-			return original.apply(this, arguments);
-		});
-	}
-}

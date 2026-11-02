@@ -20,7 +20,7 @@ const EVIDENCE = path.resolve(option('evidence') || process.env.DJSC_EVIDENCE ||
 const OUT = path.resolve(option('out') || process.env.DJSC_PACK_OUT || path.join(REPO, '..', 'feisheng-ai-packs'));
 const STAGE_ROOT = path.resolve(option('stage-root') || process.env.DJSC_PACK_STAGE || path.join(OUT, '.stage'));
 const BASELINE = option('baseline') || process.env.DJSC_BASELINE || '1fe5292eb3022dd8d1db494617b21a12be912e61';
-const ALL_REGISTERED = ['rezhiheng', 'new_retuxi', 'qimou', 'reqimou', 'olkongsheng', 'redimeng', 'lianhuan'];
+const ALL_REGISTERED = ['rezhiheng', 'new_retuxi', 'qimou', 'reqimou', 'olkongsheng', 'redimeng'];
 const useWorktree = args.includes('--worktree-source');
 const selected = option('pack') ? [option('pack')] : (args.includes('--all') ? CODE_PACKS.map(item => item.id) : []);
 if (!selected.length) throw new Error('usage: --pack <id> | --all [--repo <dir>] [--evidence <dir>] [--out <dir>] [--stage-root <dir>] [--git <git>]');
@@ -65,8 +65,8 @@ const CONSTRAINTS = {
 		forbidden: ['reqimou'],
 	},
 	shenhua_huo: {
-		required: ['lianhuanLinkedTargetSkip', 'isLinked'],
-		forbidden: ['get.value(button'],
+		required: [],
+		forbidden: ['host.wrap', 'lianhuanLinkedTargetSkip', 'get.value(button'],
 	},
 	refresh_feng: {
 		required: ['reqimouOptimalX', 'player.getAttackRange()', 'player.canSaveCard(card, player)'],
@@ -115,9 +115,13 @@ function checklistMarkdown(pack, records) {
 function readme(pack, config, evidenceNames) {
 	const missing = pack.counts.unreviewed_skills;
 	const deliverable = !!pack.can_mark_deliverable && ['可交付', '已交付'].includes(pack.delivery_status);
+	const reviewOnly = config.implementedSkills.length === 0;
 	const intro = deliverable
-		? `**完整可交付包。** 本包登记 ${pack.counts.characters} 名武将、${pack.counts.skills} 个技能已全部审查，缺陷已解决且无阻塞项；
+		? (reviewOnly
+			? `**完整复核包。** 本包登记 ${pack.counts.characters} 名武将、${pack.counts.skills} 个技能已全部审查；复核后未发现需要覆盖的 AI 缺陷，因此本包不包含运行时策略覆盖。
 源码、完整回归、安装/卸载/回滚、文件校验均已通过。Android 真机长跑等公开发版门槛不因本包单独通过而解除。`
+			: `**完整可交付包。** 本包登记 ${pack.counts.characters} 名武将、${pack.counts.skills} 个技能已全部审查，缺陷已解决且无阻塞项；
+源码、完整回归、安装/卸载/回滚、文件校验均已通过。Android 真机长跑等公开发版门槛不因本包单独通过而解除。`)
 		: `**阶段性包，不是完整交付。** 本包只交付已实现并有真实宿主证据的策略代码；
 当前登记 ${pack.counts.characters} 名武将、${pack.counts.skills} 个技能，仍有 ${missing} 个技能未审查。
 只有这些技能全部审查、缺陷解决且无阻塞项后，才能标记完整可交付。`;
@@ -129,7 +133,7 @@ function readme(pack, config, evidenceNames) {
 - 分包状态：\`${pack.review_status}\`
 - 交付状态：\`${pack.delivery_status}\`
 - 基线：\`${BASELINE}\`；HEAD：\`${HEAD}\`
-- 已实现策略：${config.implementedSkills.map(id => '`' + id + '`').join('、')}
+- 已实现策略：${config.implementedSkills.length ? config.implementedSkills.map(id => '`' + id + '`').join('、') : '无（复核包，不覆盖宿主 AI）'}
 - 版本：无名AI 4.4.4 / 无名杀 1.11.7；134 维模型契约未改
 
 ## 代码交付
@@ -246,7 +250,7 @@ function buildPack(config) {
 		copyDisk(stage, source, `evidence/${name}`);
 		evidenceNames.push(name);
 		const log = path.join(EVIDENCE, name.replace(/\.json$/, '.log'));
-		if (fs.existsSync(log)) {
+		if (fs.existsSync(log) && path.basename(log) !== name && !evidenceNames.includes(path.basename(log))) {
 			copyDisk(stage, log, `evidence/${path.basename(log)}`);
 			evidenceNames.push(path.basename(log));
 		}
@@ -266,6 +270,7 @@ function buildPack(config) {
 		module: config.module,
 		rules: config.rules,
 		implemented_skills: config.implementedSkills,
+		review_only: config.implementedSkills.length === 0,
 		audited_skills: config.auditedSkills,
 		target_skills: pack.target_skills,
 		target_characters: pack.target_characters,
@@ -342,8 +347,7 @@ function buildPack(config) {
 		'score/decision/skills/skillAIPolicyRules.js',
 		'tools/verify.py', 'tools/test-verify-zip.py', 'tools/zip-package.py',
 		'tools/pack-templates', 'tools/skill-ai-pack-config.mjs', 'tools/build-skill-ai-pack.mjs',
-		'docs/skill-ai-20261030/142-task-list.json', 'docs/skill-ai-20261030/142-task-list.csv',
-		'docs/skill-ai-20261030/pack-delivery.json', 'tools/build-skill-ai-task-list.py',
+		'tools/build-skill-ai-task-list.py',
 	];
 	write(stage, `patches/pack-code.diff`, git(['diff', `${BASELINE}..${HEAD}`, '--binary', '--', ...patchPaths], null));
 	write(stage, 'patches/score-index.diff', git(['diff', `${BASELINE}..${HEAD}`, '--binary', '--', 'score/index.js'], null));
@@ -403,6 +407,7 @@ function buildPack(config) {
 			complete_delivery: deliverable,
 			target_skills: pack.target_skills,
 			implemented_skills: config.implementedSkills,
+			review_only: config.implementedSkills.length === 0,
 			head: HEAD,
 			baseline_commit: BASELINE,
 			head_short: short,

@@ -30,6 +30,36 @@ export async function runSkillAiScenes(page, options = {}) {
 		const card = (name, suit = 'spade', number = 1) => game.createCard(name, suit, number);
 		const hand = player => player.getCards('h').map(c => c.name);
 		const counts = () => Object.fromEntries(game.players.map(p => [p.playerid, p.countCards('h')]));
+		const links = () => Object.fromEntries(game.players.map(p => [p.playerid, p.isLinked()]));
+		const describePlayer = p => ({
+			id: p.playerid,
+			name: p.name1 || p.name || '?',
+			identity: p.identity,
+			hp: p.hp,
+			hand: p.countCards('h'),
+			linked: p.isLinked(),
+			attitude: get.attitude(actor, p),
+		});
+		const captureTiesuoTargets = player => {
+			const targets = [];
+			const originalUseCard = player.useCard;
+			player.useCard = function (cardInfo, cards, cardTargets, skill) {
+				try {
+					if (cardInfo && cardInfo.name === 'tiesuo') targets.push((cardTargets || []).slice());
+				} catch (e) {}
+				return originalUseCard.apply(this, arguments);
+			};
+			return {
+				targets,
+				restore() { player.useCard = originalUseCard; },
+			};
+		};
+		const linkPlayers = async list => {
+			for (const player of list) {
+				if (!player.isLinked()) await player.link(true);
+				player.update();
+			}
+		};
 		const nameOf = p => p.playerid + ':' + (p.name1 || p.name || '?');
 		const reset = async () => {
 			try {
@@ -2047,18 +2077,189 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.setup = { hand: hand(actor), linked: game.players.filter(player => player.isLinked()).length };
 		}, async rec => {
 			const probe = instrument(actor);
-			const tiesuoTargets = [];
-			const originalUseCard = actor.useCard;
-			actor.useCard = function (cardInfo, cards, cardTargets, skill) {
-				try { if (cardInfo && cardInfo.name === 'tiesuo') tiesuoTargets.push((cardTargets || []).map(nameOf)); } catch (e) {}
-				return originalUseCard.apply(this, arguments);
-			};
-			try { await actor.phaseUse(); } finally { actor.useCard = originalUseCard; probe.restore(); }
+			const capture = captureTiesuoTargets(actor);
+			try { await actor.phaseUse(); } finally { capture.restore(); probe.restore(); }
+			const targets = capture.targets.flat();
 			rec.result = {
 				ops: probe.log, hand: hand(actor), linked: game.players.filter(player => player.isLinked()).length,
-				tiesuoTargets,
+				targets: targets.map(describePlayer), targetIds: targets.map(player => player.playerid),
+				links: links(),
 				recast: (probe.log || []).some(item => item && item.op === 'recast'),
 				draws: (probe.log || []).filter(item => item && item.op === 'draw').length,
+			};
+		});
+
+		await scene('shenhua-huo-lianhuan-unlink-ally-risk', async rec => {
+			actor.addSkill('lianhuan');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['shan', 'club', 900]]);
+			ally.hp = 1; ally.maxHp = 4;
+			enemy1.addSkill('huoji');
+			await give(enemy1, [['sha', 'heart', 901]]);
+			await linkPlayers(game.players.filter(player => player !== actor));
+			rec.setup = {
+				hand: hand(actor), allyHp: ally.hp,
+				enemyFireSkill: enemy1.hasSkill('huoji'),
+				links: links(),
+			};
+		}, async rec => {
+			const probe = instrument(actor);
+			const capture = captureTiesuoTargets(actor);
+			try { await actor.phaseUse(); } finally { capture.restore(); probe.restore(); }
+			const targets = capture.targets.flat();
+			rec.result = {
+				ops: probe.log, targets: targets.map(describePlayer), targetIds: targets.map(player => player.playerid),
+				recast: (probe.log || []).some(item => item && item.op === 'recast'),
+				draws: (probe.log || []).filter(item => item && item.op === 'draw').length,
+				links: links(), allyHp: ally.hp, allyLinked: ally.isLinked(),
+			};
+		});
+
+		await scene('shenhua-huo-lianhuan-keep-enemy-linked', async rec => {
+			actor.addSkill('lianhuan');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['shan', 'club', 910]]);
+			enemy1.hp = 2; enemy2.hp = 2;
+			await linkPlayers(game.players.filter(player => player !== actor && player !== ally));
+			rec.setup = { hand: hand(actor), links: links(), enemyHp: { [enemy1.playerid]: enemy1.hp, [enemy2.playerid]: enemy2.hp } };
+		}, async rec => {
+			const probe = instrument(actor);
+			const capture = captureTiesuoTargets(actor);
+			try { await actor.phaseUse(); } finally { capture.restore(); probe.restore(); }
+			const targets = capture.targets.flat();
+			const linkedBeforeDamage = links();
+			let chain = null;
+			if (enemy1.isLinked() && enemy2.isLinked()) {
+				const before = { [enemy1.playerid]: enemy1.hp, [enemy2.playerid]: enemy2.hp };
+				await enemy1.damage(1, 'fire', actor);
+				chain = {
+					before,
+					after: { [enemy1.playerid]: enemy1.hp, [enemy2.playerid]: enemy2.hp },
+					links: links(),
+				};
+			}
+			rec.result = {
+				ops: probe.log, targets: targets.map(describePlayer), targetIds: targets.map(player => player.playerid),
+				recast: (probe.log || []).some(item => item && item.op === 'recast'),
+				draws: (probe.log || []).filter(item => item && item.op === 'draw').length,
+				links: linkedBeforeDamage, chain,
+			};
+		});
+
+		await scene('shenhua-huo-lianhuan-full-linked-recast', async rec => {
+			actor.addSkill('lianhuan');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['shan', 'club', 920]]);
+			for (const player of game.players) player.addSkill('ns_xiandao');
+			const others = game.players.filter(player => player !== actor);
+			for (let index = 0; index < others.length; index++) {
+				const player = others[index];
+				await give(player, [0, 1, 2, 3].map(offset => ['shan', 'diamond', 921 + index * 10 + offset]));
+			}
+			await linkPlayers(game.players);
+			rec.setup = {
+				hand: hand(actor), links: links(), allImmune: game.players.every(player => player.hasSkillTag('nofire') && player.hasSkillTag('nothunder')),
+				otherHands: Object.fromEntries(others.map(player => [player.playerid, player.countCards('h')])),
+			};
+		}, async rec => {
+			const probe = instrument(actor);
+			const capture = captureTiesuoTargets(actor);
+			try { await actor.phaseUse(); } finally { capture.restore(); probe.restore(); }
+			const targets = capture.targets.flat();
+			rec.result = {
+				ops: probe.log, targets: targets.map(describePlayer), targetIds: targets.map(player => player.playerid),
+				recast: (probe.log || []).some(item => item && item.op === 'recast'),
+				draws: (probe.log || []).filter(item => item && item.op === 'draw').length,
+				links: links(), hand: hand(actor),
+			};
+		});
+
+		await scene('shenhua-huo-lianhuan-link-enemies', async rec => {
+			actor.addSkill('lianhuan');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['shan', 'club', 950]]);
+			enemy1.hp = 2; enemy2.hp = 2;
+			await linkPlayers(game.players.filter(player => player !== actor && player !== enemy1 && player !== enemy2));
+			rec.setup = { hand: hand(actor), links: links(), enemyHp: { [enemy1.playerid]: enemy1.hp, [enemy2.playerid]: enemy2.hp } };
+		}, async rec => {
+			const probe = instrument(actor);
+			const capture = captureTiesuoTargets(actor);
+			try { await actor.phaseUse(); } finally { capture.restore(); probe.restore(); }
+			const targets = capture.targets.flat();
+			const linkedBeforeDamage = links();
+			let chain = null;
+			if (enemy1.isLinked() && enemy2.isLinked()) {
+				const before = { [enemy1.playerid]: enemy1.hp, [enemy2.playerid]: enemy2.hp };
+				await enemy1.damage(1, 'fire', actor);
+				chain = {
+					before,
+					after: { [enemy1.playerid]: enemy1.hp, [enemy2.playerid]: enemy2.hp },
+					links: links(),
+				};
+			}
+			rec.result = {
+				ops: probe.log, targets: targets.map(describePlayer), targetIds: targets.map(player => player.playerid),
+				recast: (probe.log || []).some(item => item && item.op === 'recast'),
+				links: linkedBeforeDamage, chain,
+			};
+		});
+
+		await scene('shenhua-huo-lianhuan-unlinked-ally-only', async rec => {
+			actor.addSkill('lianhuan');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['shan', 'club', 960]]);
+			await linkPlayers(game.players.filter(player => player !== actor && player !== ally));
+			rec.setup = { hand: hand(actor), allyLinked: ally.isLinked(), links: links() };
+		}, async rec => {
+			const probe = instrument(actor);
+			const capture = captureTiesuoTargets(actor);
+			try { await actor.phaseUse(); } finally { capture.restore(); probe.restore(); }
+			const targets = capture.targets.flat();
+			rec.result = {
+				ops: probe.log, targets: targets.map(describePlayer), targetIds: targets.map(player => player.playerid),
+				recast: (probe.log || []).some(item => item && item.op === 'recast'),
+				draws: (probe.log || []).filter(item => item && item.op === 'draw').length,
+				links: links(),
+			};
+		});
+
+		await scene('shenhua-huo-lianhuan-self-linked', async rec => {
+			actor.addSkill('lianhuan');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['shan', 'club', 970]]);
+			await linkPlayers(game.players.filter(player => player !== ally));
+			rec.setup = { hand: hand(actor), actorLinked: actor.isLinked(), allyLinked: ally.isLinked(), links: links() };
+		}, async rec => {
+			const probe = instrument(actor);
+			const capture = captureTiesuoTargets(actor);
+			try { await actor.phaseUse(); } finally { capture.restore(); probe.restore(); }
+			const targets = capture.targets.flat();
+			rec.result = {
+				ops: probe.log, targets: targets.map(describePlayer), targetIds: targets.map(player => player.playerid),
+				recast: (probe.log || []).some(item => item && item.op === 'recast'),
+				draws: (probe.log || []).filter(item => item && item.op === 'draw').length,
+				links: links(), actorLinked: actor.isLinked(),
+			};
+		});
+
+		await scene('shenhua-huo-lianhuan-recast-blocked', async rec => {
+			actor.addSkill('lianhuan');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['shan', 'club', 980]]);
+			await linkPlayers(game.players.slice());
+			rec.setup = { hand: hand(actor), links: links(), recastBlocked: true };
+		}, async rec => {
+			const probe = instrument(actor);
+			const capture = captureTiesuoTargets(actor);
+			const originalCanRecast = actor.canRecast;
+			actor.canRecast = () => false;
+			try { await actor.phaseUse(); } finally { actor.canRecast = originalCanRecast; capture.restore(); probe.restore(); }
+			const targets = capture.targets.flat();
+			rec.result = {
+				ops: probe.log, targets: targets.map(describePlayer), targetIds: targets.map(player => player.playerid),
+				recast: (probe.log || []).some(item => item && item.op === 'recast'),
+				draws: (probe.log || []).filter(item => item && item.op === 'draw').length,
+				links: links(), actorLinked: actor.isLinked(), allyLinked: ally.isLinked(),
 			};
 		});
 

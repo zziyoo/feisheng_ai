@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 对五个最终分包 ZIP 逐包验收 + 五包共存验收；任一失败即非零退出。
+// 对六个最终分包 ZIP 逐包验收 + 六包共存验收；任一失败即非零退出。
 // 用法：node tools/run-pack-acceptance-all.mjs --packs-dir <dir> --evidence <dir>
 //   [--repo <worktree>] [--host-root <dir>] [--browser <chrome>] [--playwright <dir>]
 //   [--base-ref <git-ref> --prefix accept-upstream-]  # 在上游干净副本上验证接线/安装/回滚
@@ -42,6 +42,10 @@ const SCENES = {
 		'shenhua-huo-quhu-compare', 'shenhua-huo-quhu-no-target', 'shenhua-huo-quhu-risky-decline',
 		'shenhua-huo-jieming-damage', 'shenhua-huo-jieming-no-benefit',
 		'shenhua-huo-lianhuan-tiesuo', 'shenhua-huo-lianhuan-ally-risk', 'shenhua-huo-lianhuan-recast',
+		'shenhua-huo-lianhuan-unlink-ally-risk', 'shenhua-huo-lianhuan-keep-enemy-linked',
+		'shenhua-huo-lianhuan-full-linked-recast', 'shenhua-huo-lianhuan-link-enemies',
+		'shenhua-huo-lianhuan-unlinked-ally-only', 'shenhua-huo-lianhuan-self-linked',
+		'shenhua-huo-lianhuan-recast-blocked',
 		'shenhua-huo-oldniepan-dying', 'shenhua-huo-oldniepan-tao',
 		'shenhua-huo-tianyi-compare', 'shenhua-huo-tianyi-win-sha', 'shenhua-huo-tianyi-lose-sha', 'shenhua-huo-tianyi-lose-content',
 		'shenhua-huo-shuangxiong-judge', 'shenhua-huo-shuangxiong-duel', 'shenhua-huo-shuangxiong-no-judge',

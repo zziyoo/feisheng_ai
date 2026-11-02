@@ -225,10 +225,12 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
 ### 8.8 神话再临·火最终审查与分包交付（2026-11-02 晚）
 
 - 保留首轮 10 个固定局面，新增 22 个正反向场景；14 项登记技能全部审查。`qiangxix` 回归完整回合；`quhu`/`jieming`/`oldniepan`/`tianyi`/`shuangxiong`/`luanji`/`huoji`/`kanpo`/`jianchu` 均取得实际发动、目标/支付/结算或明确负向不发动；`bazhen`/`mashu`/`xueyi` 为规则/被动验证。
-- **确认缺陷并修复**：`lianhuan` 在全部目标已横置时，原生 AI 仍把♣牌当铁索指定已横置友方，弃牌且不摸牌。新增 `shenhuaHuo` 分包，只把已横置目标的 `ai2` 评分压低；未横置目标继续用原生评分，宿主走重铸分支并实际摸 1 张。策略统计 `lianhuanLinkedSkip=13`。
-- **比较断言**：luanji/huoji 正向场景在独立宿主进程中验证，避免跨场景 AI 状态污染；32 场景合并对照 `semantic_all=true`、`exact_all=false`，唯一策略差异是已登记 `lianhuan-recast-fix`，无随机差异。
-- **验收**：主组 30 场景、乱击/火计正向各 1 场景分别 acceptance PASS；合并 32 条技能级断言；安装/卸载/重装/回滚、134 维契约、包内测试、`verify.py` 均 PASS；不抑制 `game.over` 的有界完整对局 PASS。证据：`shenhua-huo-review.json`、`shenhua-huo-review-native.json`、`shenhua-huo-review-compare.json`、`accept-shenhua_huo*.json`、`shenhua-huo-fullgame.json`。
-- 分包状态 `验证完成`，交付状态 `可交付`；六包共存安装/乱序回滚 PASS，35 场景宿主加载 6/6 包、0 页面错误；上游 `1fe5292` 主组 30 场景通过接线/安装/宿主/卸载回滚/重装。正式 ZIP SHA256 `c0dbb386437505e42b8ac3660629181f1caf43a18c2fd19f8ac32a047c066e12`（35 文件、6 证据、`VERIFY PASS`）。待外部集成回执后再考虑 `已交付`。
+- **连环边界复核（纠正首轮结论）**：首轮把“原生对已横置友方使用铁索”判为空用并一律把已横置目标压到 `-100`。复核发现该判断忽略了铁索的“解除横置”效果：`get.effect` 对已横置友方/自己给出正向保护收益，对已横置敌方给出负向，原生已经区分敌我、血量和手牌；无属性伤害收益时，原生在免疫/无目标局面选择重铸。
+- **真实退化**：新增 7 个固定局面后复现三类退化——低血友方有火计威胁时被重铸而不解除横置；自己已横置时被重铸而不解除自身；重铸被禁用时全部目标被拦截导致空过。原规则函数还遗漏 `player` 参数，规则测试的“自己目标”语义与真实包装不一致。
+- **修复方式**：删除 `shenhuaHuo` 的 `lianhuan.ai2` 覆盖与纯规则，保留空复核包入口；不修改铁索规则、目标合法性、其他 13 项技能或 134 维模型契约。火包运行时不再注册任何 AI 覆盖，行为与原生一致。
+- **比较断言**：luanji/huoji 正向场景继续在独立宿主进程中验证；10 个连环固定局面原生/扩展 `semantic_all=true`、`exact_all=true`。合并 39 场景后 `semantic_all=true`、`exact_all=false`，唯一差异是重铸后随机摸牌导致的后续动作不同，不是策略差异。
+- **验收**：主组 37 场景、乱击/火计正向各 1 场景分别 acceptance PASS；合并 39 条技能级断言；安装/卸载/重装/回滚、134 维契约、包内测试、`verify.py` 均 PASS；不抑制 `game.over` 的有界完整对局 PASS。证据：`shenhua-huo-review.json`、`shenhua-huo-review-native.json`、`shenhua-huo-review-compare.json`、`shenhua-huo-lianhuan-boundary*.json`、`accept-shenhua_huo*.json`、`shenhua-huo-fullgame.json`。
+- 分包状态 `验证完成`，交付状态 `可交付`；六包共存安装/乱序回滚 PASS，宿主加载 6/6 包、0 页面错误；上游 `1fe5292` 通过接线/安装/宿主/卸载回滚/重装。最终 ZIP 文件、SHA256 与提交 SHA 以交付台账为准；待外部集成回执后再考虑 `已交付`。
 
 ## 九、部署与回滚
 

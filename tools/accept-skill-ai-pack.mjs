@@ -43,6 +43,10 @@ const DEFAULT_SCENES = {
 		'shenhua-huo-quhu-compare', 'shenhua-huo-quhu-no-target', 'shenhua-huo-quhu-risky-decline',
 		'shenhua-huo-jieming-damage', 'shenhua-huo-jieming-no-benefit',
 		'shenhua-huo-lianhuan-tiesuo', 'shenhua-huo-lianhuan-ally-risk', 'shenhua-huo-lianhuan-recast',
+		'shenhua-huo-lianhuan-unlink-ally-risk', 'shenhua-huo-lianhuan-keep-enemy-linked',
+		'shenhua-huo-lianhuan-full-linked-recast', 'shenhua-huo-lianhuan-link-enemies',
+		'shenhua-huo-lianhuan-unlinked-ally-only', 'shenhua-huo-lianhuan-self-linked',
+		'shenhua-huo-lianhuan-recast-blocked',
 		'shenhua-huo-oldniepan-dying', 'shenhua-huo-oldniepan-tao',
 		'shenhua-huo-tianyi-compare', 'shenhua-huo-tianyi-win-sha', 'shenhua-huo-tianyi-lose-sha', 'shenhua-huo-tianyi-lose-content',
 		'shenhua-huo-shuangxiong-judge', 'shenhua-huo-shuangxiong-duel', 'shenhua-huo-shuangxiong-no-judge',
@@ -673,6 +677,9 @@ function analyzeShenhuaHuoScenes(report, requestedScenes, stats) {
 		signature.jieming = Object.assign(signature.jieming || {}, { noBenefitDecline: true });
 	}
 
+	const targetIdsOf = data => (data.targetIds || []).map(String).filter(Boolean);
+	const linksOf = data => data.links || {};
+
 	if (want('shenhua-huo-lianhuan-tiesuo')) {
 		const scene = findScene(report, 'shenhua-huo-lianhuan-tiesuo');
 		const data = dataOf(scene);
@@ -683,7 +690,6 @@ function analyzeShenhuaHuoScenes(report, requestedScenes, stats) {
 		if (data.recast) fail('连环正向场景错误重铸');
 		pass('lianhuan-tiesuo-settlement', { targetEnemy: true, targets: targets.length });
 		signature.lianhuan = { usedOnEnemies: true, targetCount: 2 };
-		validation.lianhuan = { level: '确认缺陷并已修复', rule_settlement: true, ai_decision: true, positive_negative: true, note: '已横置目标导致原生对友方空用铁索；扩展改为重铸并实际摸 1 张。' };
 	}
 	if (want('shenhua-huo-lianhuan-ally-risk')) {
 		const scene = findScene(report, 'shenhua-huo-lianhuan-ally-risk');
@@ -691,20 +697,108 @@ function analyzeShenhuaHuoScenes(report, requestedScenes, stats) {
 		const targets = (data.tiesuoTargets || []).flat().filter(Boolean).map(idOnly);
 		if (!data.recast) fail('连环在只剩友方未横置时未重铸');
 		if (targets.includes(allyId(scene))) fail('连环把友方作为目标');
-		if (Number(data.draws) !== 1) fail('连环重铸未实际摸 1 张');
+		if (!(Number(data.draws) >= 1)) fail('连环重铸未实际摸牌');
 		pass('lianhuan-ally-risk-recast', { recast: true, allyTargeted: false });
 		signature.lianhuan = Object.assign(signature.lianhuan || {}, { allyRiskRecast: true });
 	}
 	if (want('shenhua-huo-lianhuan-recast')) {
 		const scene = findScene(report, 'shenhua-huo-lianhuan-recast');
 		const data = dataOf(scene);
-		if (!data.recast) fail('连环在全部目标已横置时未重铸');
-		if ((data.tiesuoTargets || []).flat().filter(Boolean).length) fail('连环仍对已横置目标使用铁索');
-		if (Number(data.draws) !== 1) fail('连环重铸未摸 1 张');
-		if (handOf(scene.after, actorId(scene)).length !== 1) fail('连环重铸后手牌不是 1 张');
-		if (!(Number(stats.lianhuanLinkedSkip) > 0)) fail('连环策略未命中已横置目标');
-		pass('lianhuan-recast-settlement', { recast: true, draws: data.draws, lianhuanLinkedSkip: stats.lianhuanLinkedSkip });
-		signature.lianhuan = Object.assign(signature.lianhuan || {}, { recastOnLinked: true, lianhuanLinkedSkip: stats.lianhuanLinkedSkip });
+		const ids = targetIdsOf(data);
+		const ally = allyId(scene);
+		if (data.recast) fail('连环在已横置友方可解除时错误改走重铸');
+		if (!ids.includes(ally)) fail('连环未对已横置友方使用铁索解除横置');
+		if (Number(data.draws)) fail('连环解除横置时错误摸牌');
+		if (linksOf(data)[ally] !== false) fail('连环未实际解除友方横置');
+		pass('lianhuan-unlink-settlement', { targetAlly: true, unlinked: true, recast: false });
+		signature.lianhuan = Object.assign(signature.lianhuan || {}, { unlinkAlly: true });
+	}
+	if (want('shenhua-huo-lianhuan-unlink-ally-risk')) {
+		const scene = findScene(report, 'shenhua-huo-lianhuan-unlink-ally-risk');
+		const data = dataOf(scene);
+		const ids = targetIdsOf(data);
+		const ally = allyId(scene);
+		if (!ids.includes(ally)) fail('连环未在低血友方+火计威胁下解除友方横置');
+		if (data.recast || Number(data.draws)) fail('连环在有解除收益时错误重铸');
+		if (data.allyLinked !== false || linksOf(data)[ally] !== false) fail('连环未实际解除低血友方横置');
+		if (!scene.setup || scene.setup.enemyFireSkill !== true || scene.setup.allyHp !== 1) fail('低血友方属性伤害风险夹具不完整');
+		pass('lianhuan-unlink-ally-risk', { targetAlly: true, allyHp: scene.setup.allyHp, enemyFireSkill: true });
+		signature.lianhuan = Object.assign(signature.lianhuan || {}, { unlinkLowHpAlly: true });
+	}
+	if (want('shenhua-huo-lianhuan-keep-enemy-linked')) {
+		const scene = findScene(report, 'shenhua-huo-lianhuan-keep-enemy-linked');
+		const data = dataOf(scene);
+		const enemy1 = Object.keys(scene.before.hp || {})[2];
+		const enemy2 = Object.keys(scene.before.hp || {})[3];
+		if (!data.recast) fail('连环在仅有已横置敌方时未重铸');
+		if (targetIdsOf(data).length) fail('连环解除了不应解除的敌方横置');
+		if (!linksOf(data)[enemy1] || !linksOf(data)[enemy2]) fail('连环重铸后敌方横置状态丢失');
+		if (!data.chain) fail('连环敌方横置后续属性伤害未结算');
+		if (!(Number(data.chain.after[enemy1]) < Number(data.chain.before[enemy1]))) fail('连环传导未伤害首个敌方');
+		if (!(Number(data.chain.after[enemy2]) < Number(data.chain.before[enemy2]))) fail('连环传导未伤害另一个敌方');
+		pass('lianhuan-keep-enemy-linked', { recast: true, chainTargets: 2 });
+		signature.lianhuan = Object.assign(signature.lianhuan || {}, { keepEnemyLinked: true });
+	}
+	if (want('shenhua-huo-lianhuan-full-linked-recast')) {
+		const scene = findScene(report, 'shenhua-huo-lianhuan-full-linked-recast');
+		const data = dataOf(scene);
+		if (!scene.setup || scene.setup.allImmune !== true) fail('全场已横置无解除收益夹具不完整');
+		if (!data.recast) fail('连环在全场无解除收益时未重铸');
+		if (targetIdsOf(data).length) fail('连环在无解除收益时仍指定目标');
+		if (!(Number(data.draws) >= 1)) fail('连环无收益重铸未实际摸牌');
+		pass('lianhuan-full-linked-recast', { recast: true, targets: 0, draws: 1 });
+		signature.lianhuan = Object.assign(signature.lianhuan || {}, { fullLinkedRecast: true });
+	}
+	if (want('shenhua-huo-lianhuan-link-enemies')) {
+		const scene = findScene(report, 'shenhua-huo-lianhuan-link-enemies');
+		const data = dataOf(scene);
+		const ids = targetIdsOf(data);
+		const enemy1 = Object.keys(scene.before.hp || {})[2];
+		const enemy2 = Object.keys(scene.before.hp || {})[3];
+		if (ids.length !== 2) fail('连环未把两名未横置敌方建立连环：' + ids.length);
+		if (ids.some(id => !isEnemy(scene, id))) fail('连环建立敌方连环时包含友方或自己');
+		if (!ids.every(id => linksOf(data)[id] === true)) fail('连环未实际横置两名敌方');
+		if (data.recast) fail('连环在可建立敌方连环时错误重铸');
+		if (!data.chain) fail('连环建立后后续属性伤害未结算');
+		if (!(Number(data.chain.after[enemy1]) < Number(data.chain.before[enemy1]))) fail('连环建立后首个敌方未受伤');
+		if (!(Number(data.chain.after[enemy2]) < Number(data.chain.before[enemy2]))) fail('连环建立后另一个敌方未受伤');
+		pass('lianhuan-link-enemies', { targets: ids.length, chainTargets: 2 });
+		signature.lianhuan = Object.assign(signature.lianhuan || {}, { linkEnemies: true });
+	}
+	if (want('shenhua-huo-lianhuan-unlinked-ally-only')) {
+		const scene = findScene(report, 'shenhua-huo-lianhuan-unlinked-ally-only');
+		const data = dataOf(scene);
+		if (!data.recast) fail('仅有未横置友方时未重铸');
+		if (targetIdsOf(data).length) fail('仅有未横置友方时仍指定目标');
+		if (!(Number(data.draws) >= 1)) fail('仅有未横置友方时重铸未实际摸牌');
+		pass('lianhuan-unlinked-ally-only', { recast: true, targets: 0 });
+		signature.lianhuan = Object.assign(signature.lianhuan || {}, { unlinkedAllyRecast: true });
+	}
+	if (want('shenhua-huo-lianhuan-self-linked')) {
+		const scene = findScene(report, 'shenhua-huo-lianhuan-self-linked');
+		const data = dataOf(scene);
+		const actor = actorId(scene);
+		if (!targetIdsOf(data).includes(actor)) fail('自己已横置时未解除自身连环');
+		if (data.recast) fail('自己已横置时错误改走重铸');
+		if (data.actorLinked !== false || linksOf(data)[actor] !== false) fail('自己已横置时未实际解除连环');
+		pass('lianhuan-self-linked', { targetSelf: true, unlinked: true });
+		signature.lianhuan = Object.assign(signature.lianhuan || {}, { unlinkSelf: true });
+	}
+	if (want('shenhua-huo-lianhuan-recast-blocked')) {
+		const scene = findScene(report, 'shenhua-huo-lianhuan-recast-blocked');
+		const data = dataOf(scene);
+		const ids = targetIdsOf(data);
+		const actor = actorId(scene);
+		const ally = allyId(scene);
+		if (!ids.length) fail('重铸被禁用时仍空过，未使用合法铁索');
+		if (data.recast || Number(data.draws)) fail('重铸被禁用时仍记录重铸/摸牌');
+		if (ids.some(id => id !== actor && id !== ally)) fail('重铸被禁用时铁索目标不是自己/友方');
+		if (data.actorLinked !== false && data.allyLinked !== false) fail('重铸被禁用时未实际解除任何横置');
+		pass('lianhuan-recast-blocked', { targets: ids.length, actorLinked: data.actorLinked, allyLinked: data.allyLinked });
+		signature.lianhuan = Object.assign(signature.lianhuan || {}, { recastBlockedStillUses: true });
+	}
+	if (signature.lianhuan) {
+		validation.lianhuan = { level: '验证无问题', rule_settlement: true, ai_decision: true, positive_negative: true, note: '原生 get.effect 已区分解除友方/自身横置的保护收益与解除敌方的损失；7 个边界局面由原生与扩展逐场景对照，未保留任何 ai2 覆盖。' };
 	}
 
 	if (want('shenhua-huo-oldniepan-dying')) {

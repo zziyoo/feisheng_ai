@@ -257,11 +257,11 @@ SKILL_OVERRIDES = {
     },
     'pangtong': {
         'lianhuan': {
-            'status': '已修复', 'implementation': '已实施', 'test': '真实宿主通过',
-            'validation_level': '确认缺陷并已修复',
+            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '正反向决策验证通过',
             'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True},
-            'evidence': 'shenhua-huo-review-native-5.json / shenhua-huo-lianhuan-recast：所有目标已横置时原生仍对友方使用铁索并弃牌；扩展跳过已横置目标后走重铸，实际摸1张，手牌由0变为1；lianhuan-tiesuo 仍对两名敌方正常转化，ally-risk 在仅友方未横置时选择重铸。',
-            'notes': '只压低已横置目标的 ai2 评分，不复制技能实现；未横置目标继续使用原生评分。',
+            'evidence': 'shenhua-huo-lianhuan-boundary-native.json / shenhua-huo-lianhuan-boundary.json：原策略对所有已横置目标返回 -100，复现出“低血友方+火计威胁不解除”“自己已横置不解除”“禁用重铸时空过”三类退化；删除覆盖后原生与扩展 10 个连环局面语义完全一致。另覆盖已横置敌方保持连环、重铸收益、未横置敌方建立连环、仅未横置友方重铸等分支。',
+            'notes': '复核纠正：已横置友方/自身的解除横置是连锁属性伤害风险下的保护收益，不能仅按是否摸牌判断；删除原过度策略，保留宿主 get.effect。',
         },
         'oldniepan': {
             'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',

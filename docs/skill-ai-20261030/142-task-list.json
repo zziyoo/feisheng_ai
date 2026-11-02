@@ -21,14 +21,14 @@
       "P3": 90
     },
     "review_status": {
-      "已验证无问题": 17,
+      "已验证无问题": 18,
       "部分通过": 7,
       "尚未验证": 115,
-      "已修复": 3
+      "已修复": 2
     },
     "implementation_status": {
-      "无需改动": 17,
-      "部分实施": 9,
+      "无需改动": 18,
+      "部分实施": 8,
       "未改动": 115,
       "已实施": 1
     },
@@ -39,14 +39,14 @@
       "未测试": 115
     },
     "skill_status": {
-      "已验证无问题": 32,
+      "已验证无问题": 33,
       "尚未验证": 242,
-      "已修复": 6
+      "已修复": 5
     },
     "skill_implementation": {
-      "无需改动": 32,
+      "无需改动": 33,
       "未改动": 242,
-      "已实施": 6
+      "已实施": 5
     },
     "skill_test": {
       "真实宿主通过": 31,
@@ -520,12 +520,11 @@
         "characters": 8,
         "skills": 14,
         "reviewed_skills": 14,
-        "fixed_skills": 1,
-        "verified_skills": 13,
+        "fixed_skills": 0,
+        "verified_skills": 14,
         "unreviewed_skills": 0,
         "skill_status": {
-          "已验证无问题": 13,
-          "已修复": 1
+          "已验证无问题": 14
         }
       },
       "review_status": "验证完成",
@@ -536,10 +535,10 @@
         "status": "可交付",
         "delivery_status": "可交付",
         "zip_name": "feisheng-ai-shenhua-huo.zip",
-        "zip_sha256": "c3193691ccbbefe405c5673fd54e8c25f6ce611ef8c83ca15fd077b62e20e326",
-        "zip_size": 199851,
-        "built_at": "2026-11-02T12:38:04.466Z",
-        "note": "完整可交付包：14项登记技能已全部审查；lianhuan 已修复并回归；单包安装/卸载/重装/回滚、原生/扩展对照与有界完整对局通过。"
+        "zip_sha256": "c0dbb386437505e42b8ac3660629181f1caf43a18c2fd19f8ac32a047c066e12",
+        "zip_size": 202466,
+        "built_at": "2026-11-02T13:30:45.264Z",
+        "note": "完整可交付包：本包登记技能已全部审查、无阻塞项，安装/卸载/回滚/宿主加载验收通过。"
       },
       "blocking_issues": [],
       "can_mark_deliverable": true,
@@ -2652,12 +2651,12 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L6"
           },
-          "status": "已修复",
-          "implementation": "已实施",
+          "status": "已验证无问题",
+          "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native-5.json / shenhua-huo-lianhuan-recast：所有目标已横置时原生仍对友方使用铁索并弃牌；扩展跳过已横置目标后走重铸，实际摸1张，手牌由0变为1；lianhuan-tiesuo 仍对两名敌方正常转化，ally-risk 在仅友方未横置时选择重铸。",
-          "notes": "只压低已横置目标的 ai2 评分，不复制技能实现；未横置目标继续使用原生评分。",
-          "validation_level": "确认缺陷并已修复",
+          "evidence": "shenhua-huo-lianhuan-boundary-native.json / shenhua-huo-lianhuan-boundary.json：原策略对所有已横置目标返回 -100，复现出“低血友方+火计威胁不解除”“自己已横置不解除”“禁用重铸时空过”三类退化；删除覆盖后原生与扩展 10 个连环局面语义完全一致。另覆盖已横置敌方保持连环、重铸收益、未横置敌方建立连环、仅未横置友方重铸等分支。",
+          "notes": "复核纠正：已横置友方/自身的解除横置是连锁属性伤害风险下的保护收益，不能仅按是否摸牌判断；删除原过度策略，保留宿主 get.effect。",
+          "validation_level": "正反向决策验证通过",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
@@ -2702,15 +2701,15 @@
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "已修复",
+      "review_status": "已验证无问题",
       "reviewed_skills": [
         "lianhuan",
         "oldniepan"
       ],
-      "implementation_status": "部分实施",
+      "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "连环：shenhua-huo-review-native-5.json / shenhua-huo-lianhuan-recast：所有目标已横置时原生仍对友方使用铁索并弃牌；扩展跳过已横置目标后走重铸，实际摸1张，手牌由0变为1；lianhuan-tiesuo 仍对两名敌方正常转化，ally-risk 在仅友方未横置时选择重铸。；涅槃：shenhua-huo-review-native-5.json / shenhua-huo-oldniepan-dying、oldniepan-tao：1血受2伤后发动限定技，弃牌/重置/摸3并回到3血；有桃可自救时改用桃，未消耗限定技。",
-      "notes": "连环：只压低已横置目标的 ai2 评分，不复制技能实现；未横置目标继续使用原生评分。；涅槃：濒死正向与“桃足够时不烧限定技”的负向均有真实结果。"
+      "evidence": "连环：shenhua-huo-lianhuan-boundary-native.json / shenhua-huo-lianhuan-boundary.json：原策略对所有已横置目标返回 -100，复现出“低血友方+火计威胁不解除”“自己已横置不解除”“禁用重铸时空过”三类退化；删除覆盖后原生与扩展 10 个连环局面语义完全一致。另覆盖已横置敌方保持连环、重铸收益、未横置敌方建立连环、仅未横置友方重铸等分支。；涅槃：shenhua-huo-review-native-5.json / shenhua-huo-oldniepan-dying、oldniepan-tao：1血受2伤后发动限定技，弃牌/重置/摸3并回到3血；有桃可自救时改用桃，未消耗限定技。",
+      "notes": "连环：复核纠正：已横置友方/自身的解除横置是连锁属性伤害风险下的保护收益，不能仅按是否摸牌判断；删除原过度策略，保留宿主 get.effect。；涅槃：濒死正向与“桃足够时不烧限定技”的负向均有真实结果。"
     },
     {
       "task_id": "AI-taishici",

@@ -93,9 +93,9 @@
       "status": "可交付",
       "delivery_status": "可交付",
       "zip_name": "feisheng-ai-shenhua-huo.zip",
-      "zip_sha256": "c0dbb386437505e42b8ac3660629181f1caf43a18c2fd19f8ac32a047c066e12",
-      "zip_size": 202466,
-      "built_at": "2026-11-02T13:30:45.264Z",
+      "zip_sha256": "8082f5d797b432fa8a8a3d823d96e3b5be1d60a948407eea980e0b014a887127",
+      "zip_size": 213102,
+      "built_at": "2026-11-02T14:28:56.268Z",
       "note": "完整可交付包：本包登记技能已全部审查、无阻塞项，安装/卸载/回滚/宿主加载验收通过。"
     }
   ],

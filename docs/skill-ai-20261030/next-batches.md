@@ -34,7 +34,7 @@
 6. 将 ZIP、SHA256、提交 SHA、集成/回滚说明交给其他开发者；不要把整仓库、模型权重或训练数据打包。
 7. 集成用 `integration/apply-pack.mjs`（预检/备份/事务恢复），回滚用 `integration/rollback-pack.mjs`（只撤销本包、保留共享核心与空注册表）；共享核心冲突时拒绝覆盖，按 patch 合并。
 
-当前优先级：`out_of_scope`、`shenhua_feng`、`shenhua_huo` 已按完整包交付，交给其他开发者做集成测试；其余阶段包继续按技能级清单推进。**神话再临·火已完成**：14 项登记技能全部审查；`lianhuan` 修复已横置目标空用铁索（扩展重铸摸1），其余 13 项按规则/AI/正反向分级；主组 30 场景 + 乱击/火计正向各 1 场景 acceptance PASS，合并 32 场景、32 条技能级断言，原生/扩展语义一致（仅登记连环重铸差异）。证据见 `shenhua-huo-review*.json`、`accept-shenhua_huo*.json`。下一步：`shenhua_lin` 首轮审查；同时保留 Android 真机长跑与完整 142 将验收作为公开发版门槛。`shenhua_feng` 的 12 项登记技能已全部审查：`qimou` 已修复，其余 11 项按验证级别登记；详细固定局面与原生/扩展对照见 `shenhua-feng-review*.json`。
+当前优先级：`out_of_scope`、`shenhua_feng`、`shenhua_huo` 已按完整包交付，交给其他开发者做集成测试；其余阶段包继续按技能级清单推进。**神话再临·火已完成**：14 项登记技能全部审查；`lianhuan` 的原“已横置目标一律 -100”策略经边界复核确认会造成退化（低血友方/自身解除横置被拦截、禁用重铸时空过），已删除覆盖并恢复宿主 `get.effect`，其余 13 项按规则/AI/正反向分级；主组 37 场景 + 乱击/火计正向各 1 场景 acceptance PASS，合并 39 场景、39 条技能级断言，原生/扩展语义一致（仅重铸后随机摸牌造成的非策略差异）。证据见 `shenhua-huo-review*.json`、`shenhua-huo-lianhuan-boundary*.json`、`accept-shenhua_huo*.json`。火包运行时改为无 AI 覆盖的复核包。下一步：`shenhua_lin` 首轮审查；同时保留 Android 真机长跑与完整 142 将验收作为公开发版门槛。`shenhua_feng` 的 12 项登记技能已全部审查：`qimou` 已修复，其余 11 项按验证级别登记；详细固定局面与原生/扩展对照见 `shenhua-feng-review*.json`。
 
 ## 第三批：信息范围审计（优先）
 

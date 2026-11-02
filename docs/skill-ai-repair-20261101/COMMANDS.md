@@ -77,13 +77,16 @@ node tools/compare-shenhua-feng-review.mjs shenhua-feng-review-native.json shenh
 SC_HUO_FIRST="shenhua-huo-quhu-compare,shenhua-huo-jieming-damage,shenhua-huo-oldniepan-dying,shenhua-huo-tianyi-compare,shenhua-huo-shuangxiong-judge,shenhua-huo-luanji-wanjian,shenhua-huo-jianchu-sha,shenhua-huo-lianhuan-tiesuo,shenhua-huo-huoji-red,shenhua-huo-passive-rules"
 node tools/trick-real-host-smoke.mjs --mode identity --skill-ai --scenes "$SC_HUO_FIRST"   --host-root "$HOST" --extension-root "$EXT" --browser "$CHROME" --playwright "$PW"   --output shenhua-huo-review-native-1.json
 
-# 最终主组（30 场景；乱击/火计正向单独进程，避免跨场景 AI 状态污染）：
-SC_HUO_MAIN="hp-qiangxix-2hp-target1,hp-qiangxix-2hp-weapon-target2,shenhua-huo-quhu-compare,shenhua-huo-quhu-no-target,shenhua-huo-quhu-risky-decline,shenhua-huo-jieming-damage,shenhua-huo-jieming-no-benefit,shenhua-huo-lianhuan-tiesuo,shenhua-huo-lianhuan-ally-risk,shenhua-huo-lianhuan-recast,shenhua-huo-oldniepan-dying,shenhua-huo-oldniepan-tao,shenhua-huo-tianyi-compare,shenhua-huo-tianyi-win-sha,shenhua-huo-tianyi-lose-sha,shenhua-huo-tianyi-lose-content,shenhua-huo-shuangxiong-judge,shenhua-huo-shuangxiong-duel,shenhua-huo-shuangxiong-no-judge,shenhua-huo-luanji-wanjian,shenhua-huo-luanji-no-pair,shenhua-huo-huoji-red,shenhua-huo-huoji-no-red,shenhua-huo-kanpo-response,shenhua-huo-kanpo-no-black,shenhua-huo-bazhen-bagua,shenhua-huo-bazhen-armor-negative,shenhua-huo-jianchu-sha,shenhua-huo-jianchu-no-equip,shenhua-huo-passive-rules"
+# 最终主组（37 场景；含 10 个连环固定局面；乱击/火计正向单独进程，避免跨场景 AI 状态污染）：
+SC_HUO_MAIN="hp-qiangxix-2hp-target1,hp-qiangxix-2hp-weapon-target2,shenhua-huo-quhu-compare,shenhua-huo-quhu-no-target,shenhua-huo-quhu-risky-decline,shenhua-huo-jieming-damage,shenhua-huo-jieming-no-benefit,shenhua-huo-lianhuan-tiesuo,shenhua-huo-lianhuan-ally-risk,shenhua-huo-lianhuan-recast,shenhua-huo-lianhuan-unlink-ally-risk,shenhua-huo-lianhuan-keep-enemy-linked,shenhua-huo-lianhuan-full-linked-recast,shenhua-huo-lianhuan-link-enemies,shenhua-huo-lianhuan-unlinked-ally-only,shenhua-huo-lianhuan-self-linked,shenhua-huo-lianhuan-recast-blocked,shenhua-huo-oldniepan-dying,shenhua-huo-oldniepan-tao,shenhua-huo-tianyi-compare,shenhua-huo-tianyi-win-sha,shenhua-huo-tianyi-lose-sha,shenhua-huo-tianyi-lose-content,shenhua-huo-shuangxiong-judge,shenhua-huo-shuangxiong-duel,shenhua-huo-shuangxiong-no-judge,shenhua-huo-luanji-wanjian,shenhua-huo-luanji-no-pair,shenhua-huo-huoji-red,shenhua-huo-huoji-no-red,shenhua-huo-kanpo-response,shenhua-huo-kanpo-no-black,shenhua-huo-bazhen-bagua,shenhua-huo-bazhen-armor-negative,shenhua-huo-jianchu-sha,shenhua-huo-jianchu-no-equip,shenhua-huo-passive-rules"
 # acceptance 的 groupOf 会额外把 shenhua-huo-luanji-wanjian-use / shenhua-huo-huoji-use 各拆成独立宿主进程。
+
+# 连环边界 10 场景（原生/扩展逐场景；预期 semantic_all=true、exact_all=true）：
+SC_LIANHUAN="shenhua-huo-lianhuan-tiesuo,shenhua-huo-lianhuan-ally-risk,shenhua-huo-lianhuan-recast,shenhua-huo-lianhuan-unlink-ally-risk,shenhua-huo-lianhuan-keep-enemy-linked,shenhua-huo-lianhuan-full-linked-recast,shenhua-huo-lianhuan-link-enemies,shenhua-huo-lianhuan-unlinked-ally-only,shenhua-huo-lianhuan-self-linked,shenhua-huo-lianhuan-recast-blocked"
 
 # 风包比较断言负向测试（9 条）：
 node tools/test-shenhua-feng-compare.mjs
-# 最终合并对照（32 场景；预期 semantic_all=true、exact_all=false，唯一策略差异 lianhuan-recast-fix）：
+# 最终合并对照（39 场景；预期 semantic_all=true、exact_all=false，仅重铸后随机摸牌差异，无策略差异）：
 node tools/compare-shenhua-feng-review.mjs shenhua-huo-review-native.json shenhua-huo-review.json shenhua-huo-review-compare.json
 ```
 

@@ -15,12 +15,17 @@ const check = (name, fn) => { fn(); passed++; console.log('PASS', name); };
 check('包元数据与目标技能一致', () => {
 	assert(['阶段性', '可交付', '已交付'].includes(pack.delivery_stage));
 	assert.equal(pack.complete_delivery, pack.delivery_stage !== '阶段性');
-	assert(Array.isArray(pack.implemented_skills) && pack.implemented_skills.length);
-	assert(pack.target_skills.includes(pack.implemented_skills[0]));
+	assert(Array.isArray(pack.implemented_skills));
+	if (pack.implemented_skills.length) assert(pack.target_skills.includes(pack.implemented_skills[0]));
+	else assert(pack.review_only === true, '无实现技能时必须标记 review_only');
 });
 check('分包模块只 import 共享核心、自己的规则与安全适配', () => {
 	const source = read(modulePath);
 	assert(source.includes(`id: '${pack.id}'`));
+	if (!pack.implemented_skills.length) {
+		assert(!/host\.wrap|\.ai2|\.ai\d|lib\.skill/.test(source), '复核包不得覆盖宿主 AI');
+		return;
+	}
 	for (const skill of pack.implemented_skills) assert(source.includes(`'${skill}'`));
 	assert(source.includes(`../rules/${pack.rules}.js`));
 	assert(!source.includes('skillAIPolicyRules.js'));
