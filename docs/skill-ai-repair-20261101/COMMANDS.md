@@ -56,6 +56,16 @@ node tools/skill-ai-hp-real-host.mjs --mode identity --variant extension \
 历史超时/重跑不删除：`postfix-range-native-presuppress-partial.log` 保留夹具修正前的失败尝试；
 最终报表以 `repair-acceptance-ledger.md` 的 initial/retest/postfix 分列。不能只提高超时阈值或反复重跑直到成功。
 
+神话再临·风 11 项逐技能固定局面（原生/扩展对照；redimeng 使用 `out_of_scope` 场景）：
+
+```bash
+SC_REVIEW="shenhua-releiji-target,shenhua-guidao-replace,shenhua-huangtian-give,shenhua-guhuo-claim,shenhua-guhuo-phase,shenhua-shensu-skip,shenhua-tianxiang-redirect,shenhua-hongyan-suit,shenhua-kuanggu-draw,shenhua-kuanggu-recover,shenhua-jushou-4hp-empty,shenhua-jushou-lowhp,shenhua-buqu-damage,shenhua-liegong-hit,shenhua-liegong-negative"
+node tools/trick-real-host-smoke.mjs --mode identity --skill-ai --skill-ai-extension --scenes "$SC_REVIEW" \
+  --host-root "$HOST" --extension-root "$EXT" --browser "$CHROME" --playwright "$PW" \
+  --output shenhua-feng-review.json
+# 去掉 --skill-ai-extension 再跑一次为原生对照；compare 证据见 shenhua-feng-review-compare.json
+```
+
 ## 3. 人类手动操作回归（真实点击路径）
 
 ```bash

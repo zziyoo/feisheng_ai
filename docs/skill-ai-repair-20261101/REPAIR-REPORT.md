@@ -161,7 +161,7 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
   - `feisheng-ai-shenhua-lei.zip`
   - `feisheng-ai-out-of-scope.zip`
   它们都不是完整分包交付；未验证技能见各包 `checklist.md`。`apply-pack.mjs`/`rollback-pack.mjs` 已在临时扩展根上验证两包先后安装、回滚 A 保留 B、回滚 B 保留共享核心、重新安装 A。
-- 安装/回滚事务化（2026-11-01 深夜补修）：apply 先预检注册表所有 `./packs/*.js` 导入真实存在、备份将被修改的注册表，再用临时文件+rename 写入；失败（含 `DJSC_PACK_TEST_FAIL_AFTER` 注入）自动恢复安装前状态，未完成事务下次 apply 自动清理。回滚只撤销本包内容；回滚最后一个分包时保留带 marker 的空注册表，避免 facade 卸载后模块加载失败。`node tools/test-pack-install.mjs` 11 条全 PASS（失败注入、重复安装、A/B 共存、乱序回滚、共享核心冲突、注册表缺模块、他人修改保护）。
+- 安装/回滚事务化（2026-11-01 深夜补修，2026-11-02 补一致性）：apply 先预检注册表所有 `./packs/*.js` 导入真实存在、备份将被修改的注册表，再用临时文件+rename 写入；失败（含 `DJSC_PACK_TEST_FAIL_AFTER` 注入）自动恢复安装前状态，未完成事务下次 apply 自动清理。回滚只撤销本包内容；回滚最后一个分包时保留带 marker 的空注册表，避免 facade 卸载后模块加载失败。2026-11-02 增加“注册表预存本包行但模块缺失”拒绝安装与旧记录回滚阻止。`node tools/test-pack-install.mjs` 13 条全 PASS（失败注入、重复安装、A/B 共存、乱序回滚、共享核心冲突、注册表缺模块、预存行缺模块、他人修改保护）。
 - 打包器去本机路径硬编码：使用 PATH 中 `git`，仓库/证据/输出/stage 目录均可用 `--repo/--evidence/--out/--stage-root`（或 `DJSC_*` 环境变量）配置；不再要求其他开发者具备本机 Codex 路径。
 - 逐包验收工具 `tools/accept-skill-ai-pack.mjs`：对**实际 ZIP** 解压、`verify.py --zip/--dir`、包内测试、干净扩展副本单包安装、宿主真实加载、卸载后再次加载、重装、134 维契约哈希、注册表依赖；多 ZIP 模式额外验证五包共存、他人注册行保留与乱序回滚。不能用主审查包或共享核心单测替代逐包验收。
 - 逐包验收结果（2026-11-02）：`refresh_standard`、`shenhua_feng`、`refresh_feng`、`shenhua_lei`、`out_of_scope` 单包均 PASS；五包共存/乱序回滚/他人注册行保留 PASS。结果见 `accept-<pack>.json`、`accept-combined.json`、`pack-acceptance-matrix.md`；`out_of_scope` 因此标记 `可交付`。
