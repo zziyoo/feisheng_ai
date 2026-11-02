@@ -82,7 +82,9 @@ export async function runSkillAiScenes(page, options = {}) {
 			targets: (result.targets || []).map(nameOf),
 		});
 		const scenes = [];
+		const wanted = Array.isArray(opts.scenes) && opts.scenes.length ? new Set(opts.scenes) : null;
 		const scene = async (name, setup, action) => {
+			if (wanted && !wanted.has(name)) return;
 			const rec = { name };
 			const startedAt = performance.now();
 			await run('skillAiScene', actor, async () => {
@@ -330,7 +332,8 @@ export async function runSkillAiScenes(page, options = {}) {
 				await give(enemy1, enemyList);
 				const pool = [...ally.getCards('h'), ...enemy1.getCards('h')];
 				const pm = window.__skillAiPolicies;
-				const before = pm ? pm.skillAIPolicyStats().redimengTrace.length : 0;
+				const beforeStats = pm ? pm.skillAIPolicyStats() : null;
+				const before = beforeStats && Array.isArray(beforeStats.redimengTrace) ? beforeStats.redimengTrace.length : 0;
 				await actor.useSkill('redimeng', actor.getCards('h'), [ally, enemy1]);
 				const gained = {
 					[ally.playerid]: hand(ally),
@@ -340,8 +343,9 @@ export async function runSkillAiScenes(page, options = {}) {
 					[ally.playerid]: ally.getCards('h').map(c => pool.indexOf(c)),
 					[enemy1.playerid]: enemy1.getCards('h').map(c => pool.indexOf(c)),
 				};
-				const trace = pm ? pm.skillAIPolicyStats().redimengTrace.slice(before) : [];
-				return { gained, indices, trace, fairMasked: !!pm };
+				const afterStats = pm ? pm.skillAIPolicyStats() : null;
+				const trace = afterStats && Array.isArray(afterStats.redimengTrace) ? afterStats.redimengTrace.slice(before) : [];
+				return { gained, indices, trace, fairMasked: !!(pm && afterStats && Array.isArray(afterStats.redimengTrace)) };
 			};
 			rec.runs.push(await runOnce([['tao', 'heart', 80]], [['sha', 'spade', 81], ['shan', 'diamond', 82], ['wuzhong', 'heart', 83]]));
 			rec.runs.push(await runOnce([['sha', 'club', 84]], [['tao', 'diamond', 85], ['wuzhong', 'spade', 86], ['shan', 'heart', 87]]));
@@ -901,6 +905,240 @@ export async function runSkillAiScenes(page, options = {}) {
 			actor.update();
 		}, async rec => { await phaseTurn(rec); });
 
+		/* === 神话再临·风：剩余 11 项登记技能的原生 AI 决策观察 ===
+		 * 只固定公开局面并记录宿主技能自身的 AI 选择；不替换技能实现、不读隐藏手牌。 */
+		const wrapAIResult = (player, method, callback) => {
+			const original = player[method];
+			if (typeof original !== 'function') return () => {};
+			player[method] = function (...args) {
+				const next = original.apply(this, args);
+				try {
+					if (next && typeof next.forResult === 'function') {
+						const originalForResult = next.forResult;
+						next.forResult = async function (...forArgs) {
+							const result = await originalForResult.apply(this, forArgs);
+							try { callback(result); } catch (e) {}
+							return result;
+						};
+					}
+				} catch (e) {}
+				return next;
+			};
+			return () => { player[method] = original; };
+		};
+
+		await scene('shenhua-releiji-target', async rec => {
+			actor.addSkill('releiji');
+			await give(actor, [['shan', 'heart', 301]]);
+			rec.before = { actor: snapshot(actor), ally: snapshot(ally), enemy1: snapshot(enemy1) };
+		}, async rec => {
+			const event = { skill: 'releiji' };
+			const trigger = { card: { name: 'shan' }, player: actor };
+			const restore = wrapAIResult(actor, 'chooseTarget', result => { rec.targets = (result.targets || []).map(nameOf); });
+			try { await lib.skill.releiji.cost(event, trigger, actor); } finally { restore(); }
+			rec.selected = (event.result && event.result.targets || []).map(nameOf);
+			rec.after = { actor: snapshot(actor), ally: snapshot(ally), enemy1: snapshot(enemy1) };
+		});
+
+		await scene('shenhua-guidao-replace', async rec => {
+			actor.addSkill('guidao');
+			await give(actor, [['sha', 'spade', 302], ['tao', 'heart', 303]]);
+			rec.before = { actor: snapshot(actor), ally: snapshot(ally), attitude: get.attitude(actor, ally) };
+		}, async rec => {
+			const judged = card('wuxie', 'heart', 304);
+			const picked = [];
+			const restore = wrapAIResult(actor, 'chooseCard', result => picked.push((result.cards || []).map(item => ({ name: item.name, suit: item.suit }))));
+			let result = null;
+			try { result = await ally.judge({ directresult: judged, judge: c => (c && (c.suit || get.suit(c))) === 'spade' ? 4 : 0 }); } finally { restore(); }
+			rec.judging = { name: result && result.card && result.card.name, suit: result && result.card && result.card.suit, bool: result && result.bool };
+			rec.picked = picked;
+			rec.replaced = !!(result && result.card && result.card.suit === 'spade');
+		});
+
+		await scene('shenhua-huangtian-give', async rec => {
+			game.zhu = ally;
+			actor.identity = 'zhong'; try { actor.setIdentity('zhong'); } catch (e) {}
+			ally.identity = 'zhu'; try { ally.setIdentity('zhu'); } catch (e) {}
+			actor.group = 'qun';
+			ally.addSkill('huangtian');
+			actor.addSkill('huangtian2');
+			await give(actor, [['shan', 'heart', 305]]);
+			rec.before = { actor: snapshot(actor), ally: snapshot(ally) };
+		}, async rec => {
+			const probe = instrument(actor);
+			try { await actor.phaseUse(); } finally { probe.restore(); }
+			rec.ops = probe.log;
+			rec.after = { actor: snapshot(actor), ally: snapshot(ally), temp: ally.hasSkill('huangtian3') };
+		});
+
+		await scene('shenhua-guhuo-claim', async rec => {
+			actor.addSkill('xinfu_guhuo');
+			await give(actor, [['shan', 'spade', 306]]);
+			enemy1.hp = 4; enemy1.maxHp = 4; enemy1.update();
+			rec.before = { actor: snapshot(actor), enemy1: snapshot(enemy1) };
+		}, async rec => {
+			const buttons = [];
+			const restore = wrapAIResult(actor, 'chooseButton', result => { buttons.push({ bool: !!result.bool, links: (result.links || []).map(link => link && link[2] || String(link)) }); });
+			let result = null;
+			try {
+				result = await actor.chooseToUse({ type: 'phase', filterCard: cardx => cardx.name === 'sha', filterTarget: (cardx, playerx, target) => target !== playerx, prompt: 'review-guhuo' });
+			} finally { restore(); }
+			rec.choice = recordChoice(result);
+			rec.buttons = buttons;
+		});
+
+		await scene('shenhua-guhuo-phase', async rec => {
+			actor.addSkill('xinfu_guhuo');
+			await give(actor, [['shan', 'spade', 321]]);
+			enemy1.hp = 4; enemy1.maxHp = 4; enemy1.update();
+			rec.before = { actor: snapshot(actor), enemy1: snapshot(enemy1) };
+		}, async rec => {
+			const probe = instrument(actor);
+			try { await actor.phaseUse(); } finally { probe.restore(); }
+			rec.ops = probe.log;
+		});
+
+		await scene('shenhua-shensu-skip', async rec => {
+			actor.addSkill('xinshensu');
+			await actor.addJudge(card('lebu', 'spade', 307));
+			await give(actor, [['sha', 'spade', 308], ['sha', 'heart', 309], ['sha', 'club', 310]]);
+			enemy1.hp = 4; enemy1.maxHp = 4; enemy1.update();
+			rec.before = { actor: snapshot(actor), enemy1: snapshot(enemy1), judge: actor.getCards('j').length };
+		}, async rec => {
+			const probe = instrument(actor);
+			try { await actor.phaseJudge(); } finally { probe.restore(); }
+			rec.ops = probe.log;
+			rec.shensuAfter = { judge: actor.getCards('j').length, turnedOver: actor.isTurnedOver ? actor.isTurnedOver() : null };
+		});
+
+		await scene('shenhua-tianxiang-redirect', async rec => {
+			actor.addSkill('retianxiang');
+			await give(actor, [['tao', 'heart', 311]]);
+			actor.hp = 4; actor.maxHp = 4;
+			enemy1.hp = 3; enemy1.maxHp = 4; enemy1.update();
+			rec.before = { actor: snapshot(actor), ally: snapshot(ally), enemy1: snapshot(enemy1) };
+		}, async rec => {
+			const targets = [], controls = [];
+			const restoreTarget = wrapAIResult(actor, 'chooseCardTarget', result => targets.push((result.targets || []).map(nameOf)));
+			const restoreControl = wrapAIResult(actor, 'chooseControlList', result => controls.push(result.index));
+			const probe = instrument(actor);
+			try { await actor.damage(1, enemy1); } finally { probe.restore(); restoreTarget(); restoreControl(); }
+			rec.targets = targets; rec.controls = controls; rec.ops = probe.log;
+			rec.after = { actor: snapshot(actor), ally: snapshot(ally), enemy1: snapshot(enemy1) };
+		});
+
+		await scene('shenhua-hongyan-suit', async rec => {
+			actor.addSkill('hongyan');
+			const spade = card('sha', 'spade', 312);
+			const heart = card('sha', 'heart', 313);
+			rec.suits = { spade: get.suit(spade, actor), heart: get.suit(heart, actor) };
+			rec.colors = { spade: get.color(spade, actor), heart: get.color(heart, actor) };
+		}, async rec => {});
+
+		await scene('shenhua-kuanggu-draw', async rec => {
+			actor.addSkill('xinkuanggu');
+			actor.hp = 3; actor.maxHp = 4;
+			await actor.equip(card('zhuge', 'spade', 323));
+			await give(actor, [['sha', 'spade', 314]]);
+			ally.hp = 3; ally.maxHp = 4; ally.update();
+			rec.before = { actor: snapshot(actor), ally: snapshot(ally) };
+			rec.kuangguProbe = { distance: get.distance(actor, ally), hasSkill: actor.hasSkill('xinkuanggu') };
+		}, async rec => {
+			const choices = [];
+			const restore = wrapAIResult(actor, 'chooseDrawRecover', result => choices.push(result.control));
+			const probe = instrument(actor);
+			const originalDamage = ally.damage;
+			let damageEvent = null;
+			ally.damage = function (...args) {
+				const event = originalDamage.apply(this, args);
+				damageEvent = event;
+				return event;
+			};
+			try { await actor.useCard(actor.getCards('h', 'sha')[0], ally); } finally { ally.damage = originalDamage; probe.restore(); restore(); }
+			rec.choices = choices; rec.ops = probe.log;
+			rec.damageEvent = damageEvent ? { checkKuanggu: damageEvent.checkKuanggu, num: damageEvent.num, source: damageEvent.source && damageEvent.source.playerid, player: damageEvent.player && damageEvent.player.playerid } : null;
+			rec.kuangguAfter = { actorHp: actor.hp, actorHand: hand(actor), allyHp: ally.hp };
+		});
+
+		await scene('shenhua-kuanggu-recover', async rec => {
+			actor.addSkill('xinkuanggu');
+			actor.hp = 3; actor.maxHp = 4;
+			await give(actor, [['sha', 'club', 322], ['sha', 'spade', 314]]);
+			ally.hp = 3; ally.maxHp = 4; ally.update();
+			rec.before = { actor: snapshot(actor), ally: snapshot(ally) };
+		}, async rec => {
+			const choices = [];
+			const restore = wrapAIResult(actor, 'chooseDrawRecover', result => choices.push(result.control));
+			const probe = instrument(actor);
+			try { await actor.useCard(actor.getCards('h', 'sha')[0], ally); } finally { probe.restore(); restore(); }
+			rec.choices = choices; rec.ops = probe.log;
+			rec.kuangguAfter = { actorHp: actor.hp, actorHand: hand(actor), allyHp: ally.hp };
+		});
+
+		await scene('shenhua-jushou-4hp-empty', async rec => {
+			actor.addSkill('jushou');
+			actor.hp = 4; actor.maxHp = 4;
+			rec.before = { actor: snapshot(actor), turnedOver: actor.isTurnedOver ? actor.isTurnedOver() : null };
+		}, async rec => {
+			const probe = instrument(actor);
+			try { await actor.phaseJieshu(); } finally { probe.restore(); }
+			rec.ops = probe.log;
+			rec.jushouAfter = { hand: hand(actor), turnedOver: actor.isTurnedOver ? actor.isTurnedOver() : null };
+		});
+
+		await scene('shenhua-jushou-lowhp', async rec => {
+			actor.addSkill('jushou');
+			actor.hp = 3; actor.maxHp = 4;
+			rec.before = { actor: snapshot(actor), turnedOver: actor.isTurnedOver ? actor.isTurnedOver() : null };
+		}, async rec => {
+			const probe = instrument(actor);
+			try { await actor.phaseJieshu(); } finally { probe.restore(); }
+			rec.ops = probe.log;
+			rec.jushouAfter = { hand: hand(actor), turnedOver: actor.isTurnedOver ? actor.isTurnedOver() : null };
+		});
+
+		await scene('shenhua-buqu-damage', async rec => {
+			actor.addSkill('gzbuqu');
+			actor.hp = 1; actor.maxHp = 4;
+			rec.before = { actor: snapshot(actor), expansions: actor.getExpansions('gzbuqu').length };
+		}, async rec => {
+			const probe = instrument(actor);
+			try { await actor.damage(1); } finally { probe.restore(); }
+			rec.ops = probe.log;
+			rec.buquAfter = {
+				hp: actor.hp, expansions: actor.getExpansions('gzbuqu').map(c => c.name),
+				dying: actor.isDying ? actor.isDying() : null, alive: !actor.dead,
+			};
+		});
+
+		await scene('shenhua-liegong-hit', async rec => {
+			actor.addSkill('xinliegong');
+			actor.hp = 3; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 315], ['wuxie', 'heart', 316]]);
+			enemy1.hp = 4; enemy1.maxHp = 4; enemy1.update();
+			rec.before = { actor: snapshot(actor), enemy1: snapshot(enemy1) };
+		}, async rec => {
+			const probe = instrument(enemy1);
+			try { await actor.useCard(actor.getCards('h', 'sha')[0], enemy1); } finally { probe.restore(); }
+			rec.ops = probe.log;
+			rec.after = { actor: snapshot(actor), enemy1: snapshot(enemy1) };
+		});
+
+		await scene('shenhua-liegong-negative', async rec => {
+			actor.addSkill('xinliegong');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 317]]);
+			enemy1.hp = 2; enemy1.maxHp = 4;
+			await give(enemy1, [['wuxie', 'heart', 318], ['wuxie', 'club', 319], ['wuxie', 'spade', 320]]);
+			enemy1.update();
+			rec.before = { actor: snapshot(actor), enemy1: snapshot(enemy1) };
+		}, async rec => {
+			const probe = instrument(enemy1);
+			try { await actor.useCard(actor.getCards('h', 'sha')[0], enemy1); } finally { probe.restore(); }
+			rec.ops = probe.log;
+			rec.after = { actor: snapshot(actor), enemy1: snapshot(enemy1) };
+		});
+
 		const policyStats = policyModule ? policyModule.skillAIPolicyStats() : null;
 		try {
 			const score = await import('/extension/无名AI/score/index.js?v=41a');
@@ -953,7 +1191,7 @@ export async function runSkillAiScenes(page, options = {}) {
 			policyStats,
 			scenes,
 		};
-	}, { installExtension: !!options.installExtension, policyOnly: !!options.policyOnly, fullLifecycle: !!options.fullLifecycle });
+	}, { installExtension: !!options.installExtension, policyOnly: !!options.policyOnly, fullLifecycle: !!options.fullLifecycle, scenes: Array.isArray(options.scenes) ? options.scenes : null });
 
 	assert.equal(report.mode, 'identity');
 	assert(report.players >= 6);

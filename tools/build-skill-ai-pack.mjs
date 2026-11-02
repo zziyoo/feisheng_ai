@@ -213,7 +213,7 @@ function buildPack(config) {
 	copyDisk(stage, path.join(REPO, 'tools', 'pack-templates', 'run-pack-tests.mjs'), 'tests/run-pack-tests.mjs');
 	copyDisk(stage, path.join(REPO, 'tools', 'verify.py'), 'verify.py');
 	copyDisk(stage, path.join(REPO, 'tools', 'test-verify-zip.py'), 'tests/test-verify-zip.py');
-	for (const name of ['skill-ai-hp-real-host.mjs', 'skill-ai-host-scenes.mjs', 'trick-real-host-smoke.mjs']) copyDisk(stage, path.join(REPO, 'tools', name), `tests/${name}`);
+	for (const name of ['skill-ai-hp-real-host.mjs', 'skill-ai-host-scenes.mjs', 'trick-real-host-smoke.mjs', 'test-fullgame-settlement.mjs']) copyDisk(stage, path.join(REPO, 'tools', name), `tests/${name}`);
 	if (config.id === 'refresh_feng') {
 		for (const name of ['reqimou-manual-ui.mjs', 'verify-repair-outcomes.mjs']) copyDisk(stage, path.join(REPO, 'tools', name), `tests/${name}`);
 	}
@@ -260,6 +260,7 @@ function buildPack(config) {
 		all_registered_skills: ALL_REGISTERED,
 		counts: pack.counts,
 		scenes: config.scenes,
+		review_scenes: config.reviewScenes || [],
 		required: CONSTRAINTS[config.id].required,
 		forbidden: CONSTRAINTS[config.id].forbidden,
 		shared_files: {
@@ -307,8 +308,19 @@ function buildPack(config) {
 		'  node tests/skill-ai-hp-real-host.mjs --mode identity --variant $v --scenarios "$SC" --host-root <宿主> --extension-root <扩展> --browser <Chrome> --playwright <Playwright> --output $v.json',
 		'done',
 		'node tests/trick-real-host-smoke.mjs --mode identity --skill-ai --skill-ai-policy --host-root <宿主> --extension-root <扩展> --browser <Chrome> --playwright <Playwright>',
+		...(config.reviewScenes && config.reviewScenes.length ? [
+			'',
+			'逐项技能审查场景：',
+			'```bash',
+			`node tests/trick-real-host-smoke.mjs --mode identity --skill-ai --skill-ai-extension --scenes "${config.reviewScenes.join(',')}" --host-root <宿主> --extension-root <扩展> --browser <Chrome> --playwright <Playwright>`,
+			'```',
+		] : []),
+		'',
+		'不抑制 `game.over` 的有界完整对局：',
+		'```bash',
+		'node tests/test-fullgame-settlement.mjs --host-root <宿主> --extension-root <扩展> --browser <Chrome> --playwright <Playwright>',
 		'```', '',
-		'运行器默认抑制宿主 `game.over` 胜负对话框（`--allow-game-over` 可关闭）；技能机制场景不测试胜负 UI。`--trace` 打开 Worker 心跳/CDP CPU/阶段 mark。',
+		'运行器默认抑制宿主 `game.over` 胜负对话框（`--allow-game-over` 可关闭）；技能机制场景不测试胜负 UI。`--trace` 打开 Worker 心跳/CDP CPU/阶段 mark。完整对局测试不抑制 `game.over`，独立于技能固定场景。',
 		'集成本包：`node integration/apply-pack.mjs --extension-root <扩展> --dry-run`，确认后再执行；apply 会预检注册表依赖、备份将被修改文件并在失败时恢复。回滚：`node integration/rollback-pack.mjs --extension-root <扩展>`；回滚最后一个包保留空注册表，共享核心不删除。',
 	].join('\n') + '\n');
 

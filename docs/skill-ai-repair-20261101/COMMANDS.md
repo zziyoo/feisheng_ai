@@ -12,7 +12,7 @@ PW="C:/Users/32360/.cache/codex-runtimes/codex-primary-runtime/dependencies/node
 ## 0. 包内可直接运行（仅需 Node，无需完整仓库/浏览器）
 
 ```bash
-node tests/run-package-tests.mjs     # 纯规则 42 条 + 架构/134维契约 16 条 + 安装/回滚 11 条
+node tests/run-package-tests.mjs     # 纯规则 42 条 + 架构/134维契约 16 条 + 安装/回滚 13 条
 python tests/test-verify-zip.py      # verify.py --zip 跨平台路径回归（POSIX/Windows 反斜杠/重复成员/尺寸）
 python verify.py                     # 校验解压目录
 python verify.py --zip feisheng-ai-skill-audit-repair-20261101.zip
@@ -23,7 +23,7 @@ python verify.py --zip feisheng-ai-skill-audit-repair-20261101.zip
 ```bash
 node --experimental-vm-modules tools/test-skill-ai-policies.mjs        # 42 PASS（含补修 12 条）
 node --experimental-vm-modules tools/test-skill-ai-architecture.mjs    # 16 PASS（含分包归属/134维契约/注册表唯一性）
-node tools/test-pack-install.mjs                                      # 11 PASS（失败注入/重复安装/共存/乱序回滚/冲突）
+node tools/test-pack-install.mjs                                      # 13 PASS（预存行缺模块/失败注入/重复安装/共存/乱序回滚/冲突）
 node tools/run-node-regressions.mjs                                    # 批一 41 项 Node 回归聚合
 node tools/bench-skill-ai-policies.mjs                                 # 微基准（含 reqimou 支付评估）
 node tools/test-policy-model-v2-reachability.mjs --root "$EXT"         # v2 不可达取证
@@ -100,12 +100,23 @@ node tools/build-skill-ai-pack.mjs --pack refresh_standard \
 node tools/build-skill-ai-pack.mjs --all ...   # 全部分包阶段包
 node tools/build-skill-ai-pack.mjs --all ... --worktree-source   # 仅测试，不用于正式交付
 
-# 实际 ZIP 逐包验收（解压/包内测试/干净副本安装/宿主加载/卸载/重装/134维）
+# 实际 ZIP 逐包验收（解压/包内测试/干净副本安装/技能场景/卸载/重装/134维）
+# --scenes 指定该包对应技能的真实宿主场景；--baseline-dir 让组合验收逐包对照单包签名。
 node tools/accept-skill-ai-pack.mjs --zip <pack.zip> --repo "$EXT" \
-  --host-root "$HOST" --browser "$CHROME" --playwright "$PW" \
+  --scenes <scene1,scene2> --host-root "$HOST" --browser "$CHROME" --playwright "$PW" \
   --workdir <临时目录> --out <evidence>/accept-<pack>.json
-# 多 ZIP 一起传：额外验证共存、他人注册行保留、乱序回滚
-node tools/accept-skill-ai-pack.mjs --zip a.zip --zip b.zip ... --out accept-combined.json
+# 多 ZIP 一起传：额外验证共存、他人注册行保留、乱序回滚、单包/组合契约分列
+node tools/accept-skill-ai-pack.mjs --zip a.zip --zip b.zip ... \
+  --scenes <所有包场景并集> --baseline-dir <evidence> --baseline-prefix accept- \
+  --out accept-combined.json
+# 上游 v4.4.4 干净副本：先验证未应用 score/index.diff 时 apply 拒绝，
+# 再应用补丁、安装、宿主场景、卸载/回滚；--base-ref 1fe5292 --prefix accept-upstream-
+node tools/run-pack-acceptance-all.mjs --packs-dir <packs> --evidence <evidence> \
+  --repo "$EXT" --host-root "$HOST" --browser "$CHROME" --playwright "$PW" \
+  --base-ref 1fe5292 --prefix accept-upstream-
+# 不抑制 game.over 的有界完整对局（独立于技能固定场景）
+node tools/test-fullgame-settlement.mjs --host-root "$HOST" --extension-root "$EXT" \
+  --browser "$CHROME" --playwright "$PW" --output <evidence>/fullgame-settlement.json
 # 注意：逐包验收工具需要 --repo 指向完整无名AI仓库（含 tools/ 与宿主运行器），
 # 主审查包内的 source/ 是子集，不能直接作为 --repo。
 ```

@@ -75,7 +75,7 @@ const TEST_MAP = [
 	'test-policy-model-v2-reachability.mjs', 'build-skill-ai-task-list.py', 'rollback-skill-ai-live.py',
 	'build-skill-ai-acceptance-ledger.mjs', 'run-package-tests.mjs', 'test-verify-zip.py',
 	'test-pack-install.mjs', 'accept-skill-ai-pack.mjs', 'run-pack-acceptance-all.mjs',
-	'build-pack-acceptance-matrix.mjs',
+	'build-pack-acceptance-matrix.mjs', 'test-fullgame-settlement.mjs',
 ];
 for (const name of TEST_MAP) exportFile('tools/' + name, 'tests/' + name);
 for (const name of ['build-skill-ai-pack.mjs', 'skill-ai-pack-config.mjs', 'zip-package.py']) {
@@ -130,6 +130,8 @@ const EVIDENCE_COPY = [
 	'postfix-retest-extension.json', 'postfix-retest-extension.log',
 	'postfix-verify-native.log', 'postfix-verify-policy.log', 'postfix-verify-extension.log',
 	'postfix-node-regressions.log',
+	'shenhua-feng-review.json', 'shenhua-feng-review-native.json', 'shenhua-feng-review-compare.json',
+	'fullgame-settlement.json',
 ];
 for (const name of fs.readdirSync(EVIDENCE).filter(name => /^accept-.*\.json$/.test(name))) EVIDENCE_COPY.push(name);
 for (const name of ['accept-all-summary.json', 'pack-acceptance-matrix.json', 'pack-acceptance-matrix.md']) if (fs.existsSync(path.join(EVIDENCE, name))) EVIDENCE_COPY.push(name);
@@ -184,10 +186,11 @@ const PURPOSE = {
 	'tests/build-skill-ai-task-list.py': '142将技能级/分包级清单生成器（schema 4.0）',
 	'tests/rollback-skill-ai-live.py': '第一批试验安装回滚脚本',
 	'tests/build-skill-ai-acceptance-ledger.mjs': '逐场景尝试合并台账生成器',
-	'tests/test-pack-install.mjs': '分包安装/回滚事务性回归（11条：失败注入/重复安装/共存/乱序回滚）',
-	'tests/accept-skill-ai-pack.mjs': '实际分包 ZIP 独立验收（解压/安装/宿主加载/回滚/共存/134维契约）',
-	'tests/run-pack-acceptance-all.mjs': '五包最终 ZIP 逐包+共存验收批处理',
-	'tests/build-pack-acceptance-matrix.mjs': '分包验收矩阵生成器',
+	'tests/test-pack-install.mjs': '分包安装/回滚事务性回归（13条：预存行缺模块/失败注入/重复安装/共存/乱序回滚）',
+	'tests/accept-skill-ai-pack.mjs': '实际分包 ZIP 独立验收（解压/安装/技能场景/回滚/共存/单包与组合契约/上游接线）',
+	'tests/run-pack-acceptance-all.mjs': '五包最终 ZIP 逐包+共存+上游 1fe5292 验收批处理',
+	'tests/build-pack-acceptance-matrix.mjs': '分包验收矩阵生成器（单包/组合契约分列）',
+	'tests/test-fullgame-settlement.mjs': '不抑制 game.over 的有界完整对局测试',
 	'tests/run-package-tests.mjs': '包内可执行测试入口（纯规则+架构+安装回滚）',
 	'tests/test-verify-zip.py': 'verify.py --zip 跨平台路径回归',
 	'pack-tools/build-skill-ai-pack.mjs': '分包 ZIP 构建器（可复核构建过程）',
@@ -213,6 +216,10 @@ const EVIDENCE_BATCH = {
 	'repair-range-extension.json': '补修后 reqimou/qimou 场景组（完整扩展）',
 	'repair-manual-ui.json': 'reqimou 人类手动 UI 回归（真实点击路径）',
 	'repair-node-tests.json': '批一41项Node回归汇总',
+	'shenhua-feng-review.json': '神话再临·风11项固定局面（已安装扩展）',
+	'shenhua-feng-review-native.json': '神话再临·风11项固定局面（原生对照）',
+	'shenhua-feng-review-compare.json': '神话再临·风原生/扩展决策对照（对称目标差异单列）',
+	'fullgame-settlement.json': '不抑制 game.over 的有界完整对局，真实胜负结算',
 	'repair-mode-doudizhu.json': '三模式托管（斗地主）',
 	'repair-mode-versus.json': '三模式托管（2V2）',
 	'repair-flaky-retest-1.json': '历史重跑 1（未删除失败）',

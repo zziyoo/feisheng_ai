@@ -120,7 +120,8 @@ try {
       const withExtension=args.includes('--skill-ai-extension');
       const policyOnly=args.includes('--skill-ai-policy');
       const fullLifecycle=args.includes('--skill-ai-full-lifecycle');
-      const report=await runSkillAiScenes(page,{installExtension:withExtension,policyOnly,fullLifecycle});
+      const scenes=option('scenes')?option('scenes').split(',').map(item=>item.trim()).filter(Boolean):null;
+      const report=await runSkillAiScenes(page,{installExtension:withExtension,policyOnly,fullLifecycle,scenes});
       const result={completedAt:new Date().toISOString(),status:errors.length?'failed':'passed',scope:'真实身份局宿主、固定公开局面、技能AI选择与结算观察；'+(withExtension?'已安装无名AI决策引擎':(policyOnly?'仅技能AI薄策略层':'原生AI基线'))+(fullLifecycle?'；含完整引擎卸载/重装':'') ,seed,browserVersion:await browser.version(),...report,errors};
       if(option('output'))await fs.writeFile(option('output'),JSON.stringify(result,null,2)+'\n');
       console.log(JSON.stringify(result,null,2));assert.deepEqual(errors,[]);
@@ -142,11 +143,11 @@ try {
         const policies=await import(base+'skills/skillAIPolicies.js?v=41a');
         tactical.captureTacticalSettings();tactical.installTacticalOptimization();engine.installHooks();
         soft.installAIOverride();response.installResponseAI();use.installUseOverride();respond.installRespondOverride();policies.installSkillAIPolicies();window.smokePolicies=policies;
-        window.smokeEngine=engine;window.smokeMatch={settings:tactical.tacticalSettingsSnapshot(),startedAt:Date.now(),phases:0,uses:0,done:false,initial:game.players.map(p=>({id:p.playerid,role:p.identity,name:p.name,hp:p.hp}))};
+        window.smokeEngine=engine;window.smokeMatch={settings:tactical.tacticalSettingsSnapshot(),startedAt:Date.now(),phases:0,uses:0,overCalls:0,done:false,initial:game.players.map(p=>({id:p.playerid,role:p.identity,name:p.name,hp:p.hp}))};
         lib.skill._smokeFullGame={charlotte:true,silent:true,forced:true,popup:false,trigger:{global:['phaseBefore','useCard']},filter:(e,p)=>p===game.me,
           content:async(e,t)=>{if(t.name==='phase'){smokeMatch.phases++;}else smokeMatch.uses++;}};
         game.addGlobalSkill('_smokeFullGame');
-        const over=game.over;game.over=function(...args){smokeMatch.done=true;smokeMatch.result=args[0];return over.apply(this,args);};
+        const over=game.over;game.over=function(...args){smokeMatch.overCalls++;smokeMatch.done=true;smokeMatch.result=args[0];return over.apply(this,args);};
         game.phaseLoop=window.originalPhaseLoop;const event=game.phaseLoop(...window.smokePhaseArgs);
         game.loop(event).catch(error=>{smokeMatch.error=error.stack||String(error);});
       });
@@ -171,9 +172,9 @@ try {
       if(stillRunning)await page.evaluate(()=>{smokeMatch.timedOut=true;});
       const report=await page.evaluate(()=>{const log=smokeEngine.getDecisionLog();return {...smokeMatch,elapsedMs:Date.now()-smokeMatch.startedAt,hostVersion:realHost.lib.version,mode:realHost.get.mode(),submode:realHost._status.mode,
         decisions:log.length,decisionTimesMs:log.map(e=>Number(e.elapsedMs)).filter(Number.isFinite),overrideStats:realHost._status.djsc_overrideStats,policyStats:window.smokePolicies?window.smokePolicies.skillAIPolicyStats():null,alive:realHost.game.players.map(p=>({role:p.identity,hp:p.hp})),dead:realHost.game.dead.map(p=>({role:p.identity,hp:p.hp}))};});
-      const result={completedAt:new Date().toISOString(),status:report.done&&!report.error&&!errors.length&&report.phases>0&&report.uses>0&&report.decisions>0?'passed':'incomplete',scope:'真实斗地主宿主完整托管对局烟测；非胜率或全配置验证',seed,browserVersion:await browser.version(),report,errors};
+      const result={completedAt:new Date().toISOString(),status:report.done&&!report.error&&!errors.length&&report.overCalls>0&&report.result!=null&&report.phases>0&&report.uses>0&&report.decisions>0?'passed':'incomplete',scope:'真实斗地主宿主完整托管对局烟测；不抑制 game.over，验证真实胜负结算；非胜率或全配置验证',seed,browserVersion:await browser.version(),report,errors};
       if(option('output'))await fs.writeFile(option('output'),JSON.stringify(result,null,2)+'\n');
-      console.log(JSON.stringify(result,null,2));assert.equal(result.status,'passed');assert(report.phases>0&&report.uses>0);assert(report.decisions>0);assert.deepEqual(errors,[]);
+      console.log(JSON.stringify(result,null,2));assert.equal(result.status,'passed');assert(report.overCalls>0);assert(report.result!=null);assert(report.phases>0&&report.uses>0);assert(report.decisions>0);assert.deepEqual(errors,[]);
     }else{
     const report=await page.evaluate(async()=>{
         const {game,lib,get,_status}=realHost,base='/extension/无名AI/score/';
