@@ -739,16 +739,27 @@ function mergeHostReports(reports) {
 }
 
 function loadSkillScenesGrouped(root, label, scenes, expectedPacks, options = {}) {
-	const qimou = scenes.filter(name => name.startsWith('hp-qimou') || name.startsWith('qimou-'));
-	const review = scenes.filter(name => !qimou.includes(name));
-	// 奇谋场景会改变后续 AI 决策上下文；与神话再临·风固定局面分开运行，避免跨场景影响。
-	const groups = [];
-	if (review.length) groups.push({ name: 'review', scenes: review });
-	if (qimou.length) groups.push({ name: 'qimou', scenes: qimou });
-	if (groups.length <= 1) return loadSkillScenes(root, label, scenes, expectedPacks, options);
+	const groupOf = name => {
+		if (name.startsWith('hp-qimou') || name.startsWith('qimou-')) return 'shenhua_feng-qimou';
+		if (name.startsWith('shenhua-')) return 'shenhua_feng-review';
+		if (name.startsWith('rezhiheng') || name.startsWith('new-retuxi')) return 'refresh_standard';
+		if (name.startsWith('hp-reqimou') || name.startsWith('reqimou-')) return 'refresh_feng';
+		if (name.startsWith('olkongsheng') || name.startsWith('kongsheng')) return 'shenhua_lei';
+		if (name.startsWith('redimeng')) return 'out_of_scope';
+		return 'other';
+	};
+	const groups = new Map();
+	for (const name of scenes) {
+		const id = groupOf(name);
+		if (!groups.has(id)) groups.set(id, []);
+		groups.get(id).push(name);
+	}
+	// 每个分包场景组使用独立宿主进程；所有已安装分包在每个进程中仍同时加载。
+	// 这样既验证共存，又避免前一分包场景改变后续 AI 决策上下文。
+	if (groups.size <= 1) return loadSkillScenes(root, label, scenes, expectedPacks, options);
 	const loads = [];
-	for (const group of groups) {
-		const load = loadSkillScenes(root, label + '-' + group.name, group.scenes, [], Object.assign({}, options, { includeReport: true }));
+	for (const [id, groupScenes] of groups) {
+		const load = loadSkillScenes(root, label + '-' + id, groupScenes, [], Object.assign({}, options, { includeReport: true }));
 		loads.push(load);
 	}
 	const report = mergeHostReports(loads.map(load => load.report));
