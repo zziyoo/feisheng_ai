@@ -261,10 +261,13 @@ function buildPack(config) {
 		if (!fs.existsSync(source)) throw new Error(`missing evidence ${name} for ${config.id}; rerun the scenario or use --evidence`);
 		copyDisk(stage, source, `evidence/${name}`);
 		evidenceNames.push(name);
-		const log = path.join(EVIDENCE, name.replace(/\.json$/, '.log'));
-		if (fs.existsSync(log) && path.basename(log) !== name && !evidenceNames.includes(path.basename(log))) {
-			copyDisk(stage, log, `evidence/${path.basename(log)}`);
-			evidenceNames.push(path.basename(log));
+		if (name.endsWith('.json')) {
+			const logRel = name.replace(/\.json$/, '.log');
+			const log = path.join(EVIDENCE, logRel);
+			if (fs.existsSync(log) && logRel !== name && !evidenceNames.includes(logRel)) {
+				copyDisk(stage, log, `evidence/${logRel}`);
+				evidenceNames.push(logRel);
+			}
 		}
 	}
 
