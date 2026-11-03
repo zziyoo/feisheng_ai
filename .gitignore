@@ -1,8 +1,8 @@
-/dist/
+﻿/dist/
 /wuming_ai_v*.zip
 
-# Python 字节码缓存
+# Python 瀛楄妭鐮佺紦瀛?
 __pycache__/
 *.py[cod]
 *.bak
-"build/"  
+build/  
