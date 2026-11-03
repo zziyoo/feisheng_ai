@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-11-03T03:29:43.935951+00:00",
+  "updated_at": "2026-11-03T08:49:57.591Z",
   "packs": [
     {
       "pack_id": "refresh_standard",
@@ -30,12 +30,13 @@
       "built_at": "2026-11-03T08:12:14.835Z",
       "acceptance_status": "passed",
       "acceptance_file": "accept-shenhua_feng.json",
-      "acceptance_sha256": "4fe39b1af5616dbdf229df10a7b43ae8916a4213b3b2cd61667cb69f1374d2fc",
+      "acceptance_sha256": "a7f9251c8788f5364acf60593e72073220c17254693d311fc89b21c670dfe612",
       "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/对应技能真实宿主场景/卸载回滚后再加载/重装/单包契约/134维；上游1fe5292接线/安装/卸载/回滚；五包共存与单包签名对照",
       "upstream_acceptance_status": "passed",
-      "upstream_acceptance_file": "accept-upstream-shenhua_feng.json",
-      "upstream_acceptance_sha256": "0115be039bdc24bab5a984cf77d53b69e3ea623cdcc36d47949222334ad1f5e8",
-      "acceptance_note": "23 条技能级断言；原生/扩展 semantic_all=true；五包共存 34 场景与 5/5 单包签名对照通过"
+      "upstream_acceptance_file": "accept-upstream-combined-final.json",
+      "upstream_acceptance_sha256": "4e2546a856df00720a637451fcba286b868f0f903939618811d9d36b23dcc9e9",
+      "acceptance_note": "29 场景、27 条技能级检查；quality-kuanggu-lowhp 已登记；单包安装/回滚/重装/134维 PASS",
+      "upstream_acceptance_note": "风/火两个变更包在干净 1fe5292 上完成未接线拒绝→接线→安装→宿主→卸载/回滚→重装"
     },
     {
       "pack_id": "refresh_feng",
@@ -99,32 +100,35 @@
       "note": "完整可交付包：本包登记技能已全部审查、无阻塞项，安装/卸载/回滚/宿主加载验收通过。",
       "acceptance_status": "passed",
       "acceptance_file": "accept-shenhua_huo.json",
-      "acceptance_sha256": "e571edf3e07c4a5230eaa2998555095fca0ce3ef48a135ee4b038d7bea9a7027",
+      "acceptance_sha256": "92dc7ab78c781d9dbaeac11303cfceef7b012272713551a6c701133ed4150582",
       "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/39 场景/10 个连环原生对照/卸载回滚后加载/重装/单包契约/134维；上游1fe5292接线/安装/卸载/回滚；六包共存与单包签名对照",
-      "acceptance_note": "39 场景、39 条技能级检查；10 个连环固定局面原生/扩展 semantic_all=true；最终单包 acceptance pass；复核包无运行时策略覆盖"
+      "acceptance_note": "40 场景、40 条技能级检查；quality-luanji-ally-lethal 已登记；单包安装/回滚/重装/134维 PASS",
+      "upstream_acceptance_file": "accept-upstream-combined-final.json",
+      "upstream_acceptance_sha256": "4e2546a856df00720a637451fcba286b868f0f903939618811d9d36b23dcc9e9",
+      "upstream_acceptance_note": "风/火两个变更包在干净 1fe5292 上完成未接线拒绝→接线→安装→宿主→卸载/回滚→重装"
     }
   ],
   "coexistence": {
-    "status": "passed",
-    "file": "accept-combined.json",
-    "sha256": "d2f602bfbe373545437ab20e4d9e343cbe23b07316a28f739d5754b47746e38d",
-    "scope": "六包共存安装/技能场景并集/他人注册行保留/乱序回滚/单包签名对照"
+    "status": "passed_installed_only",
+    "file": "accept-combined-installed.json",
+    "sha256": "44f831c05bae017509ad941733be7b580b1717aefcca49dda8c3a2d3bf05d415",
+    "scope": "六包安装态真实宿主分组共存：9 组、76 个去重场景、六包均加载、0 页面错误；组合回滚后的宿主分组因夹具停滞未完成，不冒充完整组合 PASS。单包回滚已在风/火 acceptance 通过。"
   },
   "acceptance_matrix": {
-    "file": "pack-acceptance-matrix.json",
-    "sha256": "8ba1fc618e8f7920579743f5b789781c030a49d956a683f1907e027b0ff2309e",
-    "rows": 14,
-    "passed": 14
+    "file": "pack-acceptance-matrix-final.json",
+    "sha256": "a8931eee22972747dcdb93cc97031ef0e1c242ac6d7dc685aec277616411a49d",
+    "rows": 8,
+    "passed": 8,
+    "note": "六包单包+上游双包变更 7 行 PASS；六包安装态共存 1 行 PASS，组合回滚宿主未完成单列，不冒充完整组合 PASS。"
   },
-  "build_commit": "d12c3e8ea8b39a8ff61f20f0c5e731bcf301ae3b",
+  "build_commit": "18624e84bd6dabd3869198ed2e38bd192cba87e3",
   "accepted_at": "2026-11-03T03:29:43.935951+00:00",
   "upstream_acceptance": {
     "base_ref": "1fe5292",
     "status": "passed",
-    "prefix": "accept-upstream-",
-    "combined_file": "accept-upstream-combined.json",
-    "combined_sha256": "a9fb187e65bb11055b918ecf98e57781e44adf9a41a5c53ec76facb2ce72d57f",
-    "scope": "未接线 apply 拒绝 → 应用 score/index.diff → 六包单包/共存安装/技能场景/卸载/回滚/重装",
+    "combined_file": "accept-upstream-combined-final.json",
+    "combined_sha256": "4e2546a856df00720a637451fcba286b868f0f903939618811d9d36b23dcc9e9",
+    "scope": "风/火两个变更包：未接线 apply 拒绝 → 应用 score/index.diff → 双包安装 → 宿主场景 → 卸载/回滚 → 重装；其余四包沿用 2026-11-02 上游证据。",
     "single_files": [
       "accept-upstream-refresh_standard.json",
       "accept-upstream-shenhua_feng.json",

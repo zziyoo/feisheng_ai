@@ -232,6 +232,16 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
 - **验收**：主组 37 场景、乱击/火计正向各 1 场景分别 acceptance PASS；合并 39 条技能级检查；单包安装/卸载/重装/回滚、134 维契约、包内测试、`verify.py` 均 PASS；六包共存组合 73 场景、`combined=true`、六包签名一致，矩阵 14/14 PASS；上游 `1fe5292` 六单包与六包组合均通过接线/安装/宿主/卸载回滚/重装；不抑制 `game.over` 的有界完整对局 PASS。证据：`shenhua-huo-review.json`、`shenhua-huo-review-native.json`、`shenhua-huo-review-compare.json`、`shenhua-huo-lianhuan-boundary*.json`、`accept-shenhua_huo*.json`、`accept-combined.json`、`accept-upstream-*.json`、`shenhua-huo-fullgame.json`。
 - 分包状态 `验证完成`，交付状态 `可交付`；火包为无运行时 AI 覆盖的复核包。最终 ZIP：`feisheng-ai-shenhua-huo.zip`，SHA256 `94bc26bd5e7a4a055fd4632cc12e31acd15c02d7093f024617f93b0a2fa25f59`（38 文件、8 证据、`VERIFY PASS`），构建提交 `d12c3e8`；待外部集成回执后再考虑 `已交付`。
 
+### 8.9 风/火原生 AI 质量审查与最终 ZIP（2026-11-03）
+
+本轮不再只问“技能能否发动”，而是逐项检查原生 AI 的 `ai/check/result/cost/chooseButton` 决策：
+
+- **新增运行时优化 2 项**：`xinkuanggu` 在 1 血可回复时优先回复（原生固定局面 `hp=1, draw=1`；扩展 `recover=1, hp=2`，3 血反向仍摸牌）；`luanji` 在原生评分为正且存在 1 血空手无防具队友时返回 0（原生 `check=6`，扩展 `check=0`；全敌方 `shenhua-huo-luanji-wanjian-use` 仍实际发动万箭）。
+- **保留原生的关键理由**：`releiji` 的 `get.damageEffect` 已通过 `get.effect` 计入铁索传导；`guhuo` 在实际局面选择真杀；`oldniepan` 有桃时优先用桃；`qiangxix` 复现原生弃连弩，但 `check`/`ai1` 钩子会把丈八也改成保留（过度优化），且宿主没有稳定选牌入口；`shuangxiong` 的 3 张改判只多一次可被响应的决斗，未证明严格优于摸两张。
+- **证据**：`docs/skill-ai-quality-20261103/` 的 26 项矩阵、`quality-native/policy/extension.json`、`quality-compare.json`、20261101 种子配对、20261102 停滞日志、原生 AI 补丁 `native-ai-quality.patch`、回归 `regression-wind/fire*.json`。风/火测试 acceptance JSON 也保存在该目录。
+- **最终 ZIP**：风 `feisheng-ai-shenhua-feng.zip` SHA256 `fe051755e1428e5c7a737f596baf1f35f865967abc2d8b13fd5b3e43ce333218`（74 文件、44 证据、`VERIFY PASS`，构建提交 `18624e8`）；火 `feisheng-ai-shenhua-huo.zip` SHA256 `08a380831d7978f18a6aef16c53fc4b156ee0d36bf34cce31e807cc4418921aa`（51 文件、21 证据、`VERIFY PASS`，构建提交 `b9a6efa`）。单包 acceptance 风 29 场景/27 检查、火 40 场景/40 检查均 PASS；六包共存/上游结果见 `PACK-MECHANISM.md` 与外部 `accept-combined.json`。
+- **磁盘清理**：删除可再生成的 `test-work/`、`test-quality/`（测试 ZIP、staging、宿主解压目标）和临时日志；保留验收 JSON、失败记录、质量对照、回归与原生补丁。
+
 ## 九、部署与回滚
 
 本轮已按分包拆分共享核心：运行时新增 `policyCore.js`、`skillAIPolicyPacks.js`，策略拆到 `packs/` 与 `rules/`；`skillAIPolicies.js` 只保留 facade。补修包内 `deployment/deployment-plan.md` 已更新为完整文件清单；分包交付 ZIP 另含 `integration/apply-pack.mjs` 与 `rollback-pack.mjs`，只追加本分包文件与注册行，不覆盖其他开发者修改。回滚分包使用其安装记录；整体回滚仍可还原到 `3bb2434`（见包内 patches）。

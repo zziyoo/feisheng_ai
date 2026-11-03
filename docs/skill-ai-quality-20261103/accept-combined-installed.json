@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-03T08:39:23.482Z",
+  "scope": "六包共存安装后真实宿主分组；仅安装态，组合回滚后的宿主分组因夹具停滞未完成",
+  "pass": true,
+  "full_combined_acceptance": false,
+  "pack_ids": [
+    "out_of_scope",
+    "refresh_feng",
+    "refresh_standard",
+    "shenhua_feng",
+    "shenhua_huo",
+    "shenhua_lei"
+  ],
+  "scene_union": 76,
+  "groups": [
+    {
+      "file": "host-combined-installed-out_of_scope.json",
+      "name": 2,
+      "errors": 0,
+      "status": "passed"
+    },
+    {
+      "file": "host-combined-installed-refresh_feng.json",
+      "name": 1,
+      "errors": 0,
+      "status": "passed"
+    },
+    {
+      "file": "host-combined-installed-refresh_standard.json",
+      "name": 2,
+      "errors": 0,
+      "status": "passed"
+    },
+    {
+      "file": "host-combined-installed-shenhua_feng-qimou.json",
+      "name": 3,
+      "errors": 0,
+      "status": "passed"
+    },
+    {
+      "file": "host-combined-installed-shenhua_feng-review.json",
+      "name": 26,
+      "errors": 0,
+      "status": "passed"
+    },
+    {
+      "file": "host-combined-installed-shenhua_huo-huoji-positive.json",
+      "name": 1,
+      "errors": 0,
+      "status": "passed"
+    },
+    {
+      "file": "host-combined-installed-shenhua_huo-luanji-positive.json",
+      "name": 1,
+      "errors": 0,
+      "status": "passed"
+    },
+    {
+      "file": "host-combined-installed-shenhua_huo-review.json",
+      "name": 38,
+      "errors": 0,
+      "status": "passed"
+    },
+    {
+      "file": "host-combined-installed-shenhua_lei.json",
+      "name": 2,
+      "errors": 0,
+      "status": "passed"
+    }
+  ],
+  "errors": 0,
+  "note": "六包在每个分组同时加载，policyStats.packs 均含六包；0 页面错误。单包回滚已在风/火 acceptance 中通过；本文件不把未完成的组合回滚宿主计为 PASS。"
+}

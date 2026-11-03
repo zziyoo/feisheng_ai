@@ -1,0 +1,699 @@
+{
+  "completedAt": "2026-11-03T08:28:43.428Z",
+  "status": "passed",
+  "scope": "真实身份局宿主、固定公开局面、技能AI选择与结算观察；已安装无名AI决策引擎",
+  "seed": "20261030",
+  "browserVersion": "156.0.8078.74",
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "players": 8,
+  "extensionInstalled": true,
+  "policyStats": {
+    "installed": true,
+    "fairRedimeng": 0,
+    "redimengMaskFailed": 0,
+    "redimengTrace": [],
+    "keptTao": 4,
+    "keptShan": 0,
+    "skippedExchange": 0,
+    "skippedOrder": 0,
+    "retuxiTargetBonus": 7,
+    "calls": 9,
+    "last": [
+      {
+        "sid": "rezhiheng",
+        "card": "tao",
+        "hp": 3,
+        "pos": "h",
+        "base": 1,
+        "adjusted": -1
+      },
+      {
+        "sid": "rezhiheng",
+        "card": "sha",
+        "hp": 3,
+        "pos": "h",
+        "base": 1,
+        "adjusted": 1
+      },
+      {
+        "sid": "rezhiheng",
+        "card": "sha",
+        "hp": 3,
+        "pos": "h",
+        "base": 1,
+        "adjusted": 1
+      },
+      {
+        "sid": "rezhiheng",
+        "card": "sha",
+        "hp": 3,
+        "pos": "h",
+        "base": 1,
+        "adjusted": 1
+      },
+      {
+        "sid": "rezhiheng",
+        "card": "tao",
+        "hp": 3,
+        "pos": "h",
+        "base": 1,
+        "adjusted": -1
+      },
+      {
+        "sid": "rezhiheng",
+        "card": "sha",
+        "hp": 3,
+        "pos": "h",
+        "base": 1,
+        "adjusted": 1
+      },
+      {
+        "sid": "rezhiheng",
+        "card": "sha",
+        "hp": 3,
+        "pos": "h",
+        "base": 1,
+        "adjusted": 1
+      },
+      {
+        "sid": "rezhiheng",
+        "card": "tao",
+        "hp": 3,
+        "pos": "h",
+        "base": 1,
+        "adjusted": -1
+      },
+      {
+        "sid": "rezhiheng",
+        "card": "tao",
+        "hp": 3,
+        "pos": "h",
+        "base": 1,
+        "adjusted": -1
+      }
+    ],
+    "reqimouGateSkip": 0,
+    "reqimouInfeasible": 0,
+    "reqimouClamp": 0,
+    "reqimouClampCalls": 0,
+    "reqimouSelfRescue": 0,
+    "reqimouInfiniteUses": 0,
+    "olkongshengCostCalls": 0,
+    "olkongshengCompatible": true,
+    "qimouBypass": 0,
+    "kuangguRecover": 0,
+    "luanjiAllyVeto": 0,
+    "packs": {
+      "out_of_scope": {
+        "fairRedimeng": 0,
+        "redimengMaskFailed": 0,
+        "redimengTrace": []
+      },
+      "refresh_standard": {
+        "keptTao": 4,
+        "keptShan": 0,
+        "skippedExchange": 0,
+        "skippedOrder": 0,
+        "retuxiTargetBonus": 7,
+        "calls": 9,
+        "last": [
+          {
+            "sid": "rezhiheng",
+            "card": "tao",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": -1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "tao",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": -1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "tao",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": -1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "tao",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": -1
+          }
+        ]
+      },
+      "refresh_feng": {
+        "reqimouGateSkip": 0,
+        "reqimouInfeasible": 0,
+        "reqimouClamp": 0,
+        "reqimouClampCalls": 0,
+        "reqimouSelfRescue": 0,
+        "reqimouInfiniteUses": 0
+      },
+      "shenhua_lei": {
+        "olkongshengCostCalls": 0,
+        "olkongshengCompatible": true
+      },
+      "shenhua_feng": {
+        "qimouBypass": 0,
+        "kuangguRecover": 0
+      },
+      "shenhua_huo": {
+        "luanjiAllyVeto": 0
+      }
+    }
+  },
+  "scenes": [
+    {
+      "name": "rezhiheng-3hp",
+      "before": {
+        "hp": {
+          "75027863590": 3,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "tao",
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rezhiheng"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "choice": {
+        "bool": false,
+        "skill": null,
+        "cards": [],
+        "targets": []
+      },
+      "after": {
+        "hp": {
+          "75027863590": 3,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "shan",
+            "wuxie",
+            "tao"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rezhiheng"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 5287.9
+    },
+    {
+      "name": "new-retuxi-order",
+      "extra": {
+        "enemy3": "75331523594"
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "sha"
+          ],
+          "60505463593": [
+            "sha",
+            "shan",
+            "tao",
+            "wuzhong"
+          ],
+          "75331523594": [
+            "sha",
+            "shan"
+          ],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "new_retuxi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "lost": {
+        "74695553592": 0,
+        "60505463593": 1,
+        "75331523594": 1
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "sha"
+          ],
+          "60505463593": [
+            "sha",
+            "tao",
+            "wuzhong"
+          ],
+          "75331523594": [
+            "shan"
+          ],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "new_retuxi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 782.8
+    },
+    {
+      "name": "engine-disabled-gate",
+      "before": true,
+      "off": false,
+      "on": true
+    },
+    {
+      "name": "policy-lifecycle",
+      "before": {
+        "rezhiheng": true,
+        "qimou": true,
+        "reqimouContent": true,
+        "reqimouGate": true
+      },
+      "afterUninstall": {
+        "rezhiheng": false,
+        "qimou": false,
+        "reqimouContent": false,
+        "reqimouGate": false
+      },
+      "afterReinstall": {
+        "rezhiheng": true,
+        "qimou": true,
+        "reqimouContent": true,
+        "reqimouGate": true
+      },
+      "stats": {
+        "installed": true,
+        "fairRedimeng": 0,
+        "redimengMaskFailed": 0,
+        "redimengTrace": [],
+        "keptTao": 4,
+        "keptShan": 0,
+        "skippedExchange": 0,
+        "skippedOrder": 0,
+        "retuxiTargetBonus": 7,
+        "calls": 9,
+        "last": [
+          {
+            "sid": "rezhiheng",
+            "card": "tao",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": -1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "tao",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": -1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "tao",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": -1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "tao",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": -1
+          }
+        ],
+        "reqimouGateSkip": 0,
+        "reqimouInfeasible": 0,
+        "reqimouClamp": 0,
+        "reqimouClampCalls": 0,
+        "reqimouSelfRescue": 0,
+        "reqimouInfiniteUses": 0,
+        "olkongshengCostCalls": 0,
+        "olkongshengCompatible": true,
+        "qimouBypass": 0,
+        "kuangguRecover": 0,
+        "luanjiAllyVeto": 0,
+        "packs": {
+          "out_of_scope": {
+            "fairRedimeng": 0,
+            "redimengMaskFailed": 0,
+            "redimengTrace": []
+          },
+          "refresh_standard": {
+            "keptTao": 4,
+            "keptShan": 0,
+            "skippedExchange": 0,
+            "skippedOrder": 0,
+            "retuxiTargetBonus": 7,
+            "calls": 9,
+            "last": [
+              {
+                "sid": "rezhiheng",
+                "card": "tao",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": -1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "sha",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": 1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "sha",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": 1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "sha",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": 1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "tao",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": -1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "sha",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": 1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "sha",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": 1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "tao",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": -1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "tao",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": -1
+              }
+            ]
+          },
+          "refresh_feng": {
+            "reqimouGateSkip": 0,
+            "reqimouInfeasible": 0,
+            "reqimouClamp": 0,
+            "reqimouClampCalls": 0,
+            "reqimouSelfRescue": 0,
+            "reqimouInfiniteUses": 0
+          },
+          "shenhua_lei": {
+            "olkongshengCostCalls": 0,
+            "olkongshengCompatible": true
+          },
+          "shenhua_feng": {
+            "qimouBypass": 0,
+            "kuangguRecover": 0
+          },
+          "shenhua_huo": {
+            "luanjiAllyVeto": 0
+          }
+        }
+      },
+      "statsAfterReinstall": {
+        "installed": true,
+        "fairRedimeng": 0,
+        "redimengMaskFailed": 0,
+        "redimengTrace": [],
+        "keptTao": 0,
+        "keptShan": 0,
+        "skippedExchange": 0,
+        "skippedOrder": 0,
+        "retuxiTargetBonus": 0,
+        "calls": 0,
+        "last": [],
+        "reqimouGateSkip": 0,
+        "reqimouInfeasible": 0,
+        "reqimouClamp": 0,
+        "reqimouClampCalls": 0,
+        "reqimouSelfRescue": 0,
+        "reqimouInfiniteUses": 0,
+        "olkongshengCostCalls": 0,
+        "olkongshengCompatible": true,
+        "qimouBypass": 0,
+        "kuangguRecover": 0,
+        "luanjiAllyVeto": 0,
+        "packs": {
+          "out_of_scope": {
+            "fairRedimeng": 0,
+            "redimengMaskFailed": 0,
+            "redimengTrace": []
+          },
+          "refresh_standard": {
+            "keptTao": 0,
+            "keptShan": 0,
+            "skippedExchange": 0,
+            "skippedOrder": 0,
+            "retuxiTargetBonus": 0,
+            "calls": 0,
+            "last": []
+          },
+          "refresh_feng": {
+            "reqimouGateSkip": 0,
+            "reqimouInfeasible": 0,
+            "reqimouClamp": 0,
+            "reqimouClampCalls": 0,
+            "reqimouSelfRescue": 0,
+            "reqimouInfiniteUses": 0
+          },
+          "shenhua_lei": {
+            "olkongshengCostCalls": 0,
+            "olkongshengCompatible": true
+          },
+          "shenhua_feng": {
+            "qimouBypass": 0,
+            "kuangguRecover": 0
+          },
+          "shenhua_huo": {
+            "luanjiAllyVeto": 0
+          }
+        }
+      }
+    }
+  ],
+  "errors": []
+}

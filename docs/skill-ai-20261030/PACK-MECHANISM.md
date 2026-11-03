@@ -31,8 +31,8 @@ score/decision/skills/
 | 分包 ID | 名称 | 状态 | 交付状态 |
 | --- | --- | --- | --- |
 | `standard_2008` / `2013` / `2019` / `2023` | 标准包各版本组 | 正在审查 / 尚未开始 | 未打包 |
-| `shenhua_feng` | 神话再临·风 | 验证完成（qimou 已修复；其余 11 项按规则/AI/正反向分级验证） | 可交付 |
-| `shenhua_huo` | 神话再临·火 | 验证完成（14 项全部审查；复核后无运行时 AI 覆盖） | 可交付 |
+| `shenhua_feng` | 神话再临·风 | 验证完成（qimou、xinkuanggu 已实施；其余 10 项按规则/AI/正反向分级验证） | 可交付 |
+| `shenhua_huo` | 神话再临·火 | 验证完成（14 项全部审查；luanji 已实施；qiangxix/shuangxiong 保留原生） | 可交付 |
 | `shenhua_lin/shan/yin/lei` | 神话再临其余四包 | 正在审查 / 尚未开始 | 未打包 |
 
 神话再临·火最终验收（2026-11-02）：14 项登记技能全部审查；`lianhuan` 的“已横置目标一律 -100”策略经边界复核确认造成真实退化（低血友方/自身解除横置被拦截、禁用重铸时空过），已删除覆盖并恢复宿主 `get.effect`；`qiangxix` 回归通过；`quhu`/`jieming`/`oldniepan`/`tianyi`/`shuangxiong`/`luanji`/`huoji`/`kanpo`/`jianchu` 有正向发动与负向不发动或失败分支；`bazhen`/`mashu`/`xueyi` 为规则验证。acceptance 主组 37 场景、乱击/火计正向各 1 场景分别 PASS；合并 39 场景、39 条技能级断言；原生/扩展 `semantic_all=true`；`exact_all` 会因重铸后的随机摸牌在复跑间变化（最终 acceptance 为 true），无策略差异。其余三包尚未开始。
@@ -48,7 +48,7 @@ score/decision/skills/
 - 可交付：验证完成且测试/打包验收通过。
 - 已交付：已生成并登记可复核的完整交付包（不是阶段性包）。
 
-当前 `out_of_scope` 与 `shenhua_feng` 已完成全部登记技能审查、缺陷修复/验证、无阻塞项，并通过实际 ZIP 的逐包与上游 1fe5292 验收，标记为 `可交付`；最终 ZIP 生成并登记后，待外部集成回执齐全再升级 `已交付`。`shenhua_feng` 的 12 项登记技能中，`qimou` 已修复；`hongyan` 为纯被动规则验证；`releiji`/`xinkuanggu`/`gzbuqu` 为 AI 决策验证；其余 7 项为正反向决策验证。分包清单写入 `validation_level`，不再把“场景执行”直接等同于“技能完全验证”。其余三个代码包仍有未审查技能，保持 `阶段性`。**阶段包不得冒充完整交付。**
+当前 `out_of_scope`、`shenhua_feng`、`shenhua_huo` 已完成全部登记技能审查、缺陷修复/验证、无阻塞项，并通过实际 ZIP 的逐包与上游 1fe5292 验收，标记为 `可交付`；最终 ZIP 生成并登记后，待外部集成回执齐全再升级 `已交付`。`shenhua_feng` 的 12 项登记技能中，`qimou`、`xinkuanggu` 已实施；`hongyan` 为纯被动规则验证；`releiji`/`gzbuqu` 为 AI 决策验证；其余为正反向决策验证。`shenhua_huo` 的 14 项中，`luanji` 已实施；`qiangxix`/`shuangxiong` 审查后保留原生；其余按规则/AI/正反向分级验证。分包清单写入 `validation_level`，不再把“场景执行”直接等同于“技能完全验证”。其余三个代码包仍有未审查技能，保持 `阶段性`。**阶段包不得冒充完整交付。**
 
 ## 三、生成分包 ZIP
 
@@ -121,8 +121,8 @@ node tools/accept-skill-ai-pack.mjs --zip <pack.zip> --repo <仓库> --workdir <
 `patches/score-index.diff`，随后执行安装、宿主场景、卸载与回滚。上游源码包必须先接线，不能描述成直接安装包。
 
 每包绑定的默认场景：`refresh_standard=rezhiheng-3hp,new-retuxi-order`；
-`shenhua_feng=hp-qimou-* + 24 个固定审查场景`（acceptance 将奇谋与非奇谋场景分成两个宿主进程）；
-`shenhua_huo=37 个主组场景 + 乱击/火计正向各 1 个独立进程场景`（含 10 个连环固定局面）；
+`shenhua_feng=hp-qimou-* + 26 个固定审查场景（含 2 个狂骨质量对照）`（acceptance 将奇谋与非奇谋场景分成两个宿主进程）；
+`shenhua_huo=38 个主组场景 + 乱击/火计正向各 1 个独立进程场景`（含 10 个连环固定局面和 1 个乱击队友致死决策对照）；
 `refresh_feng=hp-reqimou-distance4-hp3`；`shenhua_lei=olkongsheng-array-count,olkongsheng-repeat`；
 `out_of_scope=redimeng-hidden-info,redimeng-permute-values`（校验 `fairRedimeng>0`、
 `redimengMaskFailed=0`、同位置置换索引一致、结算前后牌张守恒）。六包共存时场景取并集，
@@ -135,13 +135,13 @@ node tools/accept-skill-ai-pack.mjs --zip <pack.zip> --repo <仓库> --workdir <
 - 分包化后 21×3 全量复核（历史）：policy 20/21、native 19/21（重跑 2/2 成功）、extension 19/21；policy blocked-far5 与 extension blocked-far5/multi3 曾看门狗超时。独立诊断（REPAIR-REPORT 8.5）定位为夹具 `game.over` 陷阱：反贼全灭后宿主进入结算 UI，`die` 事件不返回；Worker 心跳/CDP CPU 证明不是策略死循环。运行器默认抑制 `game.over` 后完整重跑，原始超时日志仍保留。
 - 第二轮 21×3 场景（补修代码、pre-split，历史）：最终未解决 0；历史超时 native/policy/extension = 9/2/1，逐条保留。见 `repair-acceptance-ledger.md`。
 - 本轮夹具修正后完整重跑：native 21/21；policy/extension 各 20/21，唯一失败均为场景前 host-init 超时，单场景重跑通过；`final_unresolved=0`。历史失败逐条保留，见 `repair-acceptance-ledger.md` 与 `postfix-range-*`。
-- 逐包验收（实际 ZIP，2026-11-03）：六个单包均通过解压/`verify.py`/包内测试/单包安装/对应技能场景/卸载回滚后再加载/重装/134 维契约；六包共存安装、乱序回滚、他人注册行保留亦 PASS，组合 73 场景通过，组合技能签名与六个单包逐项一致；矩阵 14/14 PASS。
-- 上游 v4.4.4 `1fe5292`（2026-11-03）：六个单包与六包组合均通过“未接线 apply 拒绝 → 应用 `score/index.diff` → 安装 → 宿主场景 → 卸载/回滚 → 重装”，组合 73 场景、`combined=true`、六包签名一致；上游干净副本不依赖已交付的其他分包。
+- 逐包验收（实际 ZIP，2026-11-03）：风/火新 ZIP 单包均通过解压/`verify.py`/包内测试/单包安装/对应技能场景/卸载回滚后再加载/重装/134 维契约（风 29 场景/27 检查，火 40 场景/40 检查）；其余四包沿用 2026-11-02 单包证据。六包安装态共存 9 组、76 个去重场景、六包均加载、0 页面错误（`accept-combined-installed.json`）；组合回滚后的宿主分组在 `shenhua_feng-qimou` 后夹具停滞，未计为 PASS。矩阵 8 行：7 行单包/上游 PASS + 1 行六包安装态共存 PASS（`pack-acceptance-matrix-final.json/md`）。
+- 上游 v4.4.4 `1fe5292`（2026-11-03）：风/火两个变更包完成“未接线 apply 拒绝 → 应用 `score/index.diff` → 双包安装 → 宿主场景 → 卸载/回滚 → 重装”，`accept-upstream-combined-final.json` PASS；其余四包沿用 2026-11-02 上游证据，不把旧结果冒充为本轮六包上游全跑。
 - 矩阵（`pack-acceptance-matrix.md`）：单包契约与组合契约分列，未执行显示“未执行”，不把未运行项目误报为失败；组合行 `contract_passed=true` 来自实际共存安装/134 维检查。
 - 不抑制 `game.over` 的有界完整对局（斗地主，seed 20261030）：`done=true`、`overCalls=1`、`result=true`、3 phases / 17 uses / 12 decisions，无页面错误；该测试独立于技能固定场景，不修改奇谋断言。见 `fullgame-settlement.json`。
-- 神话再临·风：12 项登记技能全部审查；`qimou` 已修复；`hongyan` 为纯被动规则验证；`releiji`/`xinkuanggu`/`gzbuqu` 为 AI 决策验证；其余 7 项为正反向决策验证。acceptance 共 23 条技能级检查，原生/扩展逐场景对照 `semantic_all=true`，差异单列为天香对称目标座位和蛊惑假声明场景“原生取消/扩展放弃”。证据 `shenhua-feng-review.json`、`shenhua-feng-review-native.json`、`shenhua-feng-review-compare.json`；分包清单含 `validation_level`。
-- 风包最终验收（2026-11-02）：单包 23 条技能级断言 PASS；五包共存 34 场景 PASS 且 5/5 单包签名对照通过；上游 `1fe5292` 单包与 34 场景组合均通过接线/安装/场景/卸载/回滚/重装；矩阵 12/12 PASS；不抑制 `game.over` 完整对局 `done=true`、`overCalls=1`、`result=true`（40 phases/92 uses/20 decisions）。正式 ZIP SHA256 `71c61f3db22266a77ba3074beda92237d3ae41af49862ac245b25d4c153d46a1`。
-- 风包比较断言加固（2026-11-02）：删除“任意奇谋差异一律放行”；只允许 `hp-qimou-distance4-hp3`（付3、目标可达、敌方体力损失≥1）和 `hp-qimou-distance3-hp2`（付2、指定目标受伤）两条登记差异，并新增 9 条负向测试（错误支付档位、无收益、不可达、自尽、负向场景发动、原生基线反向、正向未发动、未登记场景）全部 PASS。重跑风 acceptance：27 场景、23 条检查、`semantic_all=true`，差异仍只有两条奇谋修复与蛊惑假声明策略差异。
-- 火包边界复核（2026-11-02）：原 `lianhuan` 覆盖一律把已横置目标压到 `-100`，真实宿主复现低血友方/自身解除横置被拦截、禁用重铸时空过三类退化；删除覆盖后 10 个连环局面原生/扩展 `semantic_all=true`、`exact_all=true`。火包 acceptance 主组 37 场景 + 乱击/火计正向各 1 场景，合并 39 场景、39 条技能级检查、`semantic_all=true`；`exact_all` 会因重铸后随机摸牌在复跑间变化（最终 acceptance 为 true），无策略差异；安装/卸载/重装/回滚/134 维契约均 PASS；六包共存 73 场景、六包签名一致，矩阵 14/14；不抑制 `game.over` 有界完整对局 PASS。最终 ZIP：`feisheng-ai-shenhua-huo.zip`，SHA256 `94bc26bd5e7a4a055fd4632cc12e31acd15c02d7093f024617f93b0a2fa25f59`（38 文件、8 证据、`VERIFY PASS`），构建提交 `d12c3e8`。
+- 神话再临·风/火 AI 质量审查（2026-11-03）：新增 `xinkuanggu`（1血可回复时优先回复）和 `luanji`（1血空手无防具队友将被万箭打进濒死时拒绝发动）两项运行时优化；`qiangxix`/`shuangxiong` 复现候选但未实现，`releiji`/`guhuo`/`oldniepan` 实测保留原生。逐技能矩阵、两个固定种子的原生/策略/扩展对照、第三种子停滞日志和原生 AI 补丁见 `docs/skill-ai-quality-20261103/`。
+- 风包最终验收（2026-11-03）：29 场景、27 条技能级检查 PASS；单包安装/宿主加载/卸载回滚/重装/134 维契约、干净上游接线均通过。正式 ZIP：`feisheng-ai-shenhua-feng.zip`，SHA256 `fe051755e1428e5c7a737f596baf1f35f865967abc2d8b13fd5b3e43ce333218`（74 文件、44 证据、`VERIFY PASS`），构建提交 `18624e8`。
+- 火包最终验收（2026-11-03）：40 场景、40 条技能级检查 PASS，原生/扩展 `semantic_all=true`，唯一策略差异为 `quality-luanji-ally-lethal`（原生 check=6、扩展 check=0）；单包安装/宿主加载/卸载回滚/重装/134 维契约通过。正式 ZIP：`feisheng-ai-shenhua-huo.zip`，SHA256 `08a380831d7978f18a6aef16c53fc4b156ee0d36bf34cce31e807cc4418921aa`（51 文件、21 证据、`VERIFY PASS`），构建提交 `b9a6efa`。
+- 历史风包验收（2026-11-02）：23 条断言、27 场景，旧 ZIP SHA256 `71c61f3db22266a77ba3074beda92237d3ae41af49862ac245b25d4c153d46a1`；旧火 ZIP `94bc26bd...`（38 文件、8 证据），已归档到 `old-20261102/`。新验收结果以 2026-11-03 为准。
 - Android 真机长跑、完整 142 将验收仍是公开发版前置条件。
 - 阶段包不是可直接安装的完整扩展；不得把源码补丁 ZIP 冒充扩展包。

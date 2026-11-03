@@ -1,0 +1,396 @@
+{
+  "completedAt": "2026-11-03T08:38:20.600Z",
+  "status": "passed",
+  "scope": "真实身份局宿主、固定公开局面、技能AI选择与结算观察；已安装无名AI决策引擎",
+  "seed": "20261030",
+  "browserVersion": "156.0.8078.74",
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "players": 8,
+  "extensionInstalled": true,
+  "policyStats": {
+    "installed": true,
+    "packs": {}
+  },
+  "scenes": [
+    {
+      "name": "hp-qimou-distance4-hp3",
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 3,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "qimou",
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "ops": [],
+      "turn": {
+        "hand": [
+          "sha",
+          "sha",
+          "sha"
+        ],
+        "hp": 4,
+        "maxHp": 4,
+        "armor": null,
+        "dead": []
+      },
+      "qimou": {
+        "paid": 0,
+        "distanceBefore": 4,
+        "attackRange": 1,
+        "targetId": "75331523594:hl_shen_lvbu",
+        "targetHpBefore": 3,
+        "targetHpAfter": 3,
+        "targetDead": false,
+        "reachableAfter": false,
+        "enemyHpLoss": 0,
+        "shaUses": 0,
+        "actorHpBefore": 4,
+        "actorHpAfter": 4,
+        "actorAlive": true
+      },
+      "target": {
+        "hp": 3,
+        "dead": false
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 3,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "qimou",
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 4525.4
+    },
+    {
+      "name": "hp-qimou-distance4-hp4-negative",
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "qimou",
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "ops": [],
+      "turn": {
+        "hand": [
+          "sha",
+          "sha",
+          "sha"
+        ],
+        "hp": 4,
+        "maxHp": 4,
+        "armor": null,
+        "dead": []
+      },
+      "qimou": {
+        "paid": 0,
+        "distanceBefore": 4,
+        "attackRange": 1,
+        "targetId": "75331523594:hl_shen_lvbu",
+        "targetHpBefore": 4,
+        "targetHpAfter": 4,
+        "targetDead": false,
+        "reachableAfter": false,
+        "enemyHpLoss": 0,
+        "shaUses": 0,
+        "actorHpBefore": 4,
+        "actorHpAfter": 4,
+        "actorAlive": true
+      },
+      "target": {
+        "hp": 4,
+        "dead": false
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "qimou",
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 721.3
+    },
+    {
+      "name": "hp-qimou-distance3-hp2",
+      "before": {
+        "hp": {
+          "75027863590": 3,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 2,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "tao"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "qimou",
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "ops": [],
+      "turn": {
+        "hand": [
+          "sha",
+          "sha"
+        ],
+        "hp": 3,
+        "maxHp": 4,
+        "armor": null,
+        "dead": []
+      },
+      "qimou": {
+        "paid": 0,
+        "distanceBefore": 3,
+        "attackRange": 1,
+        "targetId": "60505463593:hm_shen_zhangbao",
+        "targetHpBefore": 2,
+        "targetHpAfter": 2,
+        "targetDead": false,
+        "reachableAfter": false,
+        "enemyHpLoss": 0,
+        "shaUses": 0,
+        "actorHpBefore": 3,
+        "actorHpAfter": 3,
+        "actorAlive": true
+      },
+      "target": {
+        "hp": 2,
+        "dead": false
+      },
+      "after": {
+        "hp": {
+          "75027863590": 3,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 2,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "tao"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "qimou",
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 779.9
+    },
+    {
+      "name": "engine-disabled-gate",
+      "before": true,
+      "off": false,
+      "on": true
+    },
+    {
+      "name": "policy-lifecycle",
+      "before": {
+        "rezhiheng": false,
+        "qimou": false,
+        "reqimouContent": false,
+        "reqimouGate": false
+      },
+      "afterUninstall": {
+        "rezhiheng": false,
+        "qimou": false,
+        "reqimouContent": false,
+        "reqimouGate": false
+      },
+      "afterReinstall": {
+        "rezhiheng": false,
+        "qimou": false,
+        "reqimouContent": false,
+        "reqimouGate": false
+      },
+      "stats": {
+        "installed": true,
+        "packs": {}
+      },
+      "statsAfterReinstall": {
+        "installed": true,
+        "packs": {}
+      }
+    }
+  ],
+  "errors": []
+}
