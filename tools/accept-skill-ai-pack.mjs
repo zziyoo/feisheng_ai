@@ -34,6 +34,7 @@ const DEFAULT_SCENES = {
 		'shenhua-shensu-skip', 'shenhua-shensu-negative',
 		'shenhua-tianxiang-redirect', 'shenhua-tianxiang-negative', 'shenhua-hongyan-suit',
 		'shenhua-kuanggu-draw', 'shenhua-kuanggu-recover',
+		'quality-kuanggu-lowhp', 'quality-kuanggu-midhp',
 		'shenhua-jushou-4hp-empty', 'shenhua-jushou-lowhp',
 		'shenhua-buqu-damage', 'shenhua-buqu-negative', 'shenhua-buqu-recover-choice',
 		'shenhua-liegong-hit', 'shenhua-liegong-negative',
@@ -51,6 +52,7 @@ const DEFAULT_SCENES = {
 		'shenhua-huo-tianyi-compare', 'shenhua-huo-tianyi-win-sha', 'shenhua-huo-tianyi-lose-sha', 'shenhua-huo-tianyi-lose-content',
 		'shenhua-huo-shuangxiong-judge', 'shenhua-huo-shuangxiong-duel', 'shenhua-huo-shuangxiong-no-judge',
 		'shenhua-huo-luanji-wanjian', 'shenhua-huo-luanji-wanjian-use', 'shenhua-huo-luanji-no-pair',
+		'quality-luanji-ally-lethal',
 		'shenhua-huo-huoji-red', 'shenhua-huo-huoji-use', 'shenhua-huo-huoji-no-red',
 		'shenhua-huo-kanpo-response', 'shenhua-huo-kanpo-no-black',
 		'shenhua-huo-bazhen-bagua', 'shenhua-huo-bazhen-armor-negative',
@@ -286,7 +288,8 @@ function analyzeShenhuaFengScenes(report, requestedScenes, stats) {
 	const allyId = scene => Object.keys(scene.before && scene.before.skills || {})[1];
 	const idOnly = value => String(value || '').split(':')[0];
 	const handOf = (snapshot, id) => snapshot && snapshot.hand && snapshot.hand[id] || [];
-	const opUsed = (scene, op, predicate) => (scene.ops || []).some(item => item && item.op === op && (!predicate || predicate(item)));
+	const dataOf = scene => scene.result || scene;
+	const opUsed = (scene, op, predicate) => (dataOf(scene).ops || scene.ops || []).some(item => item && item.op === op && (!predicate || predicate(item)));
 	const damageEvent = scene => (scene.damage || [])[0];
 	const isEnemyTarget = (scene, id) => !!id && id !== actorId(scene) && id !== allyId(scene);
 
@@ -518,6 +521,28 @@ function analyzeShenhuaFengScenes(report, requestedScenes, stats) {
 		if (opUsed(scene, 'draw', item => Number(item.args && item.args[0]) > 0)) fail('狂骨回复分支错误摸牌');
 		pass('kuanggu-recover-settlement', { choice: 'recover_hp', hpDelta: 1, draw: 0 });
 		signature.kuanggu = { drawChoice: 'draw_card', recoverChoice: 'recover_hp', draw: 1, recover: 1 };
+	}
+
+	if (want('quality-kuanggu-lowhp')) {
+		const scene = findScene(report, 'quality-kuanggu-lowhp');
+		const data = dataOf(scene);
+		const actor = actorId(scene);
+		if (opUsed(scene, 'draw', item => Number(item.args && item.args[0]) > 0)) fail('狂骨1血仍选择摸牌');
+		if (!opUsed(scene, 'recover', item => Number(item.args && item.args[0]) === 1)) fail('狂骨1血未实际回复1点体力');
+		if (Number(data.hp) !== Number(scene.before.hp[actor]) + 1) fail('狂骨1血回复后体力未增加');
+		pass('kuanggu-lowhp-recover', { hp: data.hp, recovered: true });
+		signature.kuanggu = Object.assign(signature.kuanggu || {}, { lowHpRecover: true });
+		validation.xinkuanggu = { level: '确认存在质量提升并已实现', rule_settlement: true, ai_decision: true, positive_negative: true, note: '1血可回复时优先回复；反向场景保持原生摸牌。' };
+	}
+	if (want('quality-kuanggu-midhp')) {
+		const scene = findScene(report, 'quality-kuanggu-midhp');
+		const data = dataOf(scene);
+		const actor = actorId(scene);
+		if (opUsed(scene, 'recover')) fail('狂骨3血反向场景错误回复');
+		if (!opUsed(scene, 'draw', item => Number(item.args && item.args[0]) === 1)) fail('狂骨3血场景未摸1张');
+		if (Number(data.hp) !== Number(scene.before.hp[actor])) fail('狂骨3血场景体力被错误改变');
+		pass('kuanggu-midhp-draw', { hp: data.hp, draw: 1 });
+		signature.kuanggu = Object.assign(signature.kuanggu || {}, { midHpDraw: true });
 	}
 
 	if (want('shenhua-jushou-4hp-empty')) {
@@ -910,6 +935,17 @@ function analyzeShenhuaHuoScenes(report, requestedScenes, stats) {
 		signature.luanji = Object.assign(signature.luanji || {}, { conservativeDecline: true });
 	}
 
+	if (want('quality-luanji-ally-lethal')) {
+		const scene = findScene(report, 'quality-luanji-ally-lethal');
+		const data = dataOf(scene);
+		const ally = allyId(scene);
+		if (Number(data.check) !== 0) fail('乱击对1血空手无防具队友的评分未归零：' + data.check);
+		if (usedCard(scene, 'wanjian') || (data.uses || []).length) fail('乱击仍对1血空手队友发动万箭');
+		if (Number(scene.after.hp[ally]) !== Number(scene.before.hp[ally])) fail('乱击队友反向场景队友体力被改变');
+		pass('luanji-ally-lethal-veto', { check: 0, used: false, allyHp: scene.after.hp[ally] });
+		signature.luanji = Object.assign(signature.luanji || {}, { allyLethalVeto: true });
+		validation.luanji = { level: '确认存在质量提升并已实现', rule_settlement: true, ai_decision: true, positive_negative: true, note: '1血空手无防具队友被万箭打入濒死时拒绝发动；全敌方反向场景仍发动。' };
+	}
 	if (want('shenhua-huo-huoji-use')) {
 		const scene = findScene(report, 'shenhua-huo-huoji-use');
 		const data = dataOf(scene);
@@ -1220,6 +1256,8 @@ function loadSkillScenesGrouped(root, label, scenes, expectedPacks, options = {}
 		if (name.startsWith('hp-qimou') || name.startsWith('qimou-')) return 'shenhua_feng-qimou';
 		if (name === 'shenhua-huo-luanji-wanjian-use') return 'shenhua_huo-luanji-positive';
 		if (name === 'shenhua-huo-huoji-use') return 'shenhua_huo-huoji-positive';
+		if (name.startsWith('quality-luanji')) return 'shenhua_huo-review';
+		if (name.startsWith('quality-kuanggu')) return 'shenhua_feng-review';
 		if (name.startsWith('hp-qiangxix') || name.startsWith('shenhua-huo-')) return 'shenhua_huo-review';
 		if (name.startsWith('shenhua-')) return 'shenhua_feng-review';
 		if (name.startsWith('rezhiheng') || name.startsWith('new-retuxi')) return 'refresh_standard';

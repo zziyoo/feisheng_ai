@@ -242,6 +242,24 @@ export function shenhuaSceneSemantic(name, scene) {
 		}
 		case 'shenhua-huo-passive-rules':
 			return { baseDistance: scene.setup.baseDistance, mashuDistance: scene.setup.mashuDistance, maxHandcard: scene.setup.maxHandcard, bazhenExtra: !!(scene.setup.bazhenExtra), kanpoView: !!(scene.setup.kanpoView) };
+		case 'quality-kuanggu-lowhp':
+		case 'quality-kuanggu-midhp': {
+			const data = scene.result || scene;
+			const recovered = (data.ops || []).some(item => item && item.op === 'recover' && Number(item.args && item.args[0]) === 1);
+			const drawn = (data.ops || []).some(item => item && item.op === 'draw' && Number(item.args && item.args[0]) > 0);
+			return { hp: Number(data.hp), recovered, draw: drawn };
+		}
+		case 'quality-luanji-ally-lethal': {
+			const data = scene.result || scene;
+			return { check: Number(data.check), allyHp: Number(data.allyHp), used: (data.uses || []).length > 0 };
+		}
+		case 'quality-luanji-enemy-lethal': {
+			const data = scene.result || scene;
+			const used = (data.uses || []).length > 0 || (data.ops || []).some(item => item && item.op === 'useCard' && item.args && item.args[0] === 'wanjian');
+			// 乱击后可能因随机摸牌继续追加万箭，只比较“是否发动、队友是否存活、敌方是否受伤”。
+			const enemyDamaged = Object.keys(scene.before.hp || {}).filter(id => isEnemy(id)).some(id => Number(scene.after.hp[id] || 0) < Number(scene.before.hp[id]));
+			return { used, allyAlive: Number(scene.after.hp[ally] || 0) > 0, enemyDamaged };
+		}
 		case 'hp-qiangxix-2hp-target1':
 		case 'hp-qiangxix-2hp-weapon-target2': {
 			const ops = scene.ops || [];
@@ -337,6 +355,18 @@ export function compareNativeExtension(nativeReport, extensionReport, scenes) {
 				allowed = true;
 				note = '策略差异：原生先发动假声明再被质疑取消，扩展 AI 选择放弃；两者均未造成伤害、质疑者均未获得缠怨。';
 				strategyDifferences.push({ scene: name, type: 'guhuo-fake-questioned-decline', native, extension, note });
+			}
+			const kuangguLowHp = name === 'quality-kuanggu-lowhp' && native.hp === 1 && native.recovered === false && native.draw === true && extension.hp === 2 && extension.recovered === true && extension.draw === false;
+			if (kuangguLowHp) {
+				allowed = true;
+				note = '策略差异：原生1血仍摸牌，扩展1血优先回复；扩展体力由1升至2且未摸牌。';
+				strategyDifferences.push({ scene: name, type: 'kuanggu-lowhp-recover', native, extension, note });
+			}
+			const luanjiAllyVeto = name === 'quality-luanji-ally-lethal' && native.check > 0 && extension.check === 0 && native.allyHp === 1 && extension.allyHp === 1;
+			if (luanjiAllyVeto) {
+				allowed = true;
+				note = '策略差异：原生乱击评分对1血空手无防具队友仍为正（实际万箭会使其进入濒死），扩展评分为0并拒绝发动；本场景只比较决策分，结算由全敌方场景覆盖。';
+				strategyDifferences.push({ scene: name, type: 'luanji-ally-lethal-veto', native, extension, note });
 			}
 		}
 		if (!allowed) semanticAll = false;

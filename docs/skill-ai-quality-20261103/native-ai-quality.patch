@@ -1,0 +1,28 @@
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -3755,9 +3755,11 @@
+     preHidden: true,
+     async cost(event, trigger, player) {
+       let choice;
+-      if (player.isDamaged() && get.recoverEffect(player) > 0 && player.countCards("hs", function(card) {
++      const canRecover = player.isDamaged() && get.recoverEffect(player) > 0;
++      const canAttack = player.countCards("hs", function(card) {
+         return card.name == "sha" && player.hasValueTarget(card);
+-      }) >= player.getCardUsable("sha")) {
++      }) >= player.getCardUsable("sha");
++      if (canRecover && (player.hp <= 1 || canAttack)) {
+         choice = "recover_hp";
+       } else {
+         choice = "draw_card";
+@@ -7181,6 +7183,11 @@
+       const targets = game.filterPlayer(function(current) {
+         return player.canUse("wanjian", current);
+       });
++      if (targets.some(function(target) {
++        return get.attitude(player, target) > 0 && target.hp <= 1 && target.countCards("h") === 0 && !target.getEquip(2);
++      })) {
++        return 0;
++      }
+       let num = 0;
+       for (let i2 = 0; i2 < targets.length; i2++) {
+         let eff = get.sgn(get.effect(targets[i2], { name: "wanjian" }, player, player));

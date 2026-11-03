@@ -612,7 +612,11 @@ export async function runSkillAiScenes(page, options = {}) {
 				targetHpAfter: target.hp,
 				targetDead: !!target.dead,
 				reachableAfter: baseline.distance - paid <= baseline.attackRange,
-				enemyHpLoss: game.players.filter(p => p !== actor && p !== ally).reduce((sum, p) => sum + Math.max(0, Number(rec.before.hp[p.playerid]) - p.hp), 0),
+				enemyHpLoss: (() => {
+					const enemies = new Set(game.players.filter(p => p !== actor && p !== ally));
+					if (target !== actor && target !== ally) enemies.add(target);
+					return [...enemies].reduce((sum, p) => sum + Math.max(0, Number(rec.before.hp[p.playerid]) - (p.dead ? 0 : p.hp)), 0);
+				})(),
 				shaUses: (rec.ops || []).filter(item => item && item.op === 'useCard' && item.args && item.args[0] === 'sha').length,
 				actorHpBefore: rec.before.hp[actor.playerid],
 				actorHpAfter: actor.hp,
@@ -2261,6 +2265,347 @@ export async function runSkillAiScenes(page, options = {}) {
 				draws: (probe.log || []).filter(item => item && item.op === 'draw').length,
 				links: links(), actorLinked: actor.isLinked(), allyLinked: ally.isLinked(),
 			};
+		});
+
+		// 质量审查候选：原生AI在合法选择中是否明显次优。场景只固定公开局面。
+		await scene('quality-luanji-ally-lethal', async rec => {
+			actor.addSkill('luanji');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['wugu', 'spade', 1091], ['wugu', 'spade', 1092]]);
+			ally.hp = 1; ally.maxHp = 4; ally.update();
+			enemy1.hp = 2; enemy1.maxHp = 4; enemy2.hp = 2; enemy2.maxHp = 4;
+			enemy1.update(); enemy2.update();
+			rec.setup = { hand: hand(actor), allyHp: ally.hp, enemyHp: [enemy1.hp, enemy2.hp] };
+		}, async rec => {
+			// 只取AI决策分，不真正结算万箭：1血空手队友一旦被命中会进入濒死，
+			// 死亡/救援夹具在部分种子会卡住宿主；伤害与结算由 enemy-lethal 场景覆盖。
+			const cardx = actor.getCards('h', 'wugu')[0];
+			const check = lib.skill.luanji.check(cardx);
+			rec.result = {
+				check,
+				allyHp: ally.hp,
+				hand: hand(actor),
+				uses: [],
+			};
+		});
+
+		await scene('quality-luanji-enemy-lethal', async rec => {
+			actor.addSkill('luanji');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['shan', 'spade', 1094], ['shan', 'spade', 1095], ['shan', 'spade', 1096]]);
+			ally.hp = 4; ally.maxHp = 4; ally.update();
+			enemy1.hp = 1; enemy1.maxHp = 4; enemy2.hp = 2; enemy2.maxHp = 4;
+			enemy1.update(); enemy2.update();
+			rec.setup = { hand: hand(actor), allyHp: ally.hp, enemyHp: [enemy1.hp, enemy2.hp] };
+		}, async rec => {
+			const probe = instrument(actor);
+			const uses = [];
+			const originalUseCard = actor.useCard;
+			actor.useCard = function (cardInfo, cards, targets, skill) {
+				try {
+					if (cardInfo && cardInfo.name === 'wanjian') uses.push({ skill, targets: (targets || []).map(nameOf) });
+				} catch (e) {}
+				return originalUseCard.apply(this, arguments);
+			};
+			try { await actor.phaseUse(); } finally { actor.useCard = originalUseCard; probe.restore(); }
+			rec.result = {
+				ops: probe.log, uses,
+				allyHp: ally.hp, allyDead: !!ally.dead,
+				enemy1Hp: enemy1.hp, enemy1Dead: !!enemy1.dead, enemy2Hp: enemy2.hp,
+			};
+		});
+
+		await scene('quality-qiangxix-crossbow', async rec => {
+			actor.addSkill('qiangxix');
+			actor.hp = 4; actor.maxHp = 4;
+			await actor.equip(card('zhuge', 'club', 1095));
+			await give(actor, [['sha', 'spade', 1096], ['sha', 'spade', 1097], ['sha', 'spade', 1098]]);
+			enemy1.hp = 4; enemy1.maxHp = 4; enemy1.update();
+			rec.setup = { hand: hand(actor), weapon: actor.getEquips(1).map(c => c.name), enemyHp: enemy1.hp };
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.result = {
+				weapon: actor.getEquips(1).map(c => c.name),
+				enemyHp: enemy1.hp, enemyDead: !!enemy1.dead,
+				skills: actor.getSkills().filter(skill => lib.skill[skill]),
+			};
+		});
+
+		await scene('quality-qiangxix-zhangba', async rec => {
+			actor.addSkill('qiangxix');
+			actor.hp = 4; actor.maxHp = 4;
+			await actor.equip(card('zhangba', 'club', 1099));
+			await give(actor, [['sha', 'spade', 1201], ['sha', 'spade', 1202], ['sha', 'spade', 1203]]);
+			enemy1.hp = 4; enemy1.maxHp = 4; enemy1.update();
+			rec.setup = { hand: hand(actor), weapon: actor.getEquips(1).map(c => c.name), enemyHp: enemy1.hp };
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.result = {
+				weapon: actor.getEquips(1).map(c => c.name),
+				enemyHp: enemy1.hp, enemyDead: !!enemy1.dead,
+			};
+		});
+
+		await scene('quality-guhuo-true-questioned', async rec => {
+			actor.addSkill('xinfu_guhuo');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 1204], ['wugu', 'spade', 1205]]);
+			rec.randomValue = 0.9;
+			enemy1.hp = 2; enemy1.maxHp = 4; enemy1.update();
+			rec.setup = { hand: hand(actor), enemyHp: enemy1.hp };
+		}, async rec => {
+			const restores = game.players.filter(player => player !== actor).map(player => forceGuhuoAnswer(player, false));
+			const damage = captureDamage(enemy1);
+			const buttonChoices = [], cardChoices = [], useCalls = [];
+			const restoreButton = wrapAIResult(actor, 'chooseButton', result => buttonChoices.push((result.links || []).map(link => link && link[2] || String(link))));
+			const restoreCard = wrapAIResult(actor, 'chooseCard', result => cardChoices.push((result.cards || []).map(item => item.name)));
+			const originalUseCard = actor.useCard;
+			actor.useCard = function (...args) {
+				try { useCalls.push({ card: args[0] && args[0].name || null, skill: typeof args[3] === 'string' ? args[3] : null }); } catch (e) {}
+				return originalUseCard.apply(this, args);
+			};
+			let choiceEvent = null;
+			try {
+				await runWithMathRandom(0.9, async () => {
+					choiceEvent = actor.chooseToUse({ type: 'phase', filterCard: cardx => cardx.name === 'sha' });
+					await choiceEvent;
+				});
+			} finally { actor.useCard = originalUseCard; restoreCard(); restoreButton(); damage.restore(); restores.forEach(restore => restore()); }
+			const choiceResult = choiceEvent && choiceEvent.result || {};
+			rec.choice = recordChoice(choiceResult);
+			rec.declared = choiceResult.card && choiceResult.card.name || (buttonChoices.flat()[0] || null);
+			rec.hidden = (choiceResult.cards || []).map(item => item.name).concat(cardChoices.flat());
+			rec.buttonChoices = buttonChoices;
+			rec.cardChoices = cardChoices;
+			rec.useCalls = useCalls;
+			rec.actorHp = actor.hp;
+			rec.enemyHp = enemy1.hp;
+			rec.guhuoPhase = actor.hasSkill('guhuo_phase');
+			rec.damage = damage.events.map(item => ({ num: item && item.num, player: item && item.player && item.player.playerid }));
+		});
+
+		await scene('quality-kuanggu-lowhp', async rec => {
+			actor.addSkill('xinkuanggu');
+			actor.hp = 1; actor.maxHp = 4;
+			const target = game.players.find(player => player !== actor && get.distance(actor, player) <= 1) || enemy1;
+			target.hp = 3; target.maxHp = 4; target.update();
+			rec.setup = { hp: actor.hp, hand: hand(actor), target: nameOf(target), distance: get.distance(actor, target) };
+		}, async rec => {
+			const target = game.players.find(player => player !== actor && get.distance(actor, player) <= 1) || enemy1;
+			const probe = instrument(actor);
+			try { await target.damage(1, actor); } finally { probe.restore(); }
+			rec.result = { ops: probe.log, hp: actor.hp, hand: hand(actor), enemyHp: target.hp };
+		});
+
+		await scene('quality-kuanggu-midhp', async rec => {
+			actor.addSkill('xinkuanggu');
+			actor.hp = 3; actor.maxHp = 4;
+			const target = game.players.find(player => player !== actor && get.distance(actor, player) <= 1) || enemy1;
+			target.hp = 3; target.maxHp = 4; target.update();
+			rec.setup = { hp: actor.hp, hand: hand(actor), target: nameOf(target), distance: get.distance(actor, target) };
+		}, async rec => {
+			const target = game.players.find(player => player !== actor && get.distance(actor, player) <= 1) || enemy1;
+			const probe = instrument(actor);
+			try { await target.damage(1, actor); } finally { probe.restore(); }
+			rec.result = { ops: probe.log, hp: actor.hp, hand: hand(actor), enemyHp: target.hp };
+		});
+
+		await scene('quality-releiji-linked-ally', async rec => {
+			actor.addSkill('releiji');
+			await give(actor, [['shan', 'heart', 1301]]);
+			ally.hp = 1; ally.maxHp = 4;
+			enemy1.hp = 4; enemy1.maxHp = 4;
+			enemy2.hp = 4; enemy2.maxHp = 4;
+			await linkPlayers([ally, enemy1, enemy2]);
+			rec.setup = { hand: hand(actor), allyHp: ally.hp, links: links() };
+		}, async rec => {
+			const event = { skill: 'releiji' };
+			const trigger = { card: { name: 'shan' }, player: actor };
+			const judges = forceJudgeSuit(game.players, 'spade');
+			const damages = game.players.map(player => captureDamage(player));
+			try {
+				await lib.skill.releiji.cost(event, trigger, actor);
+				if (event.result && event.result.bool && event.result.targets && event.result.targets.length) {
+					await lib.skill.releiji.content({ skill: 'releiji', targets: event.result.targets, result: event.result }, trigger, actor);
+				}
+			} finally { damages.forEach(item => item.restore()); judges.restore(); }
+			rec.result = {
+				selected: (event.result && event.result.targets || []).map(nameOf),
+				damage: damages.flatMap(item => item.events).map(item => ({
+					num: item && item.num, player: item && item.player && item.player.playerid,
+					source: item && item.source && item.source.playerid,
+				})),
+				allyHp: ally.hp, allyDead: !!ally.dead, links: links(),
+			};
+		});
+
+		await scene('quality-releiji-unlinked-ally', async rec => {
+			actor.addSkill('releiji');
+			await give(actor, [['shan', 'heart', 1302]]);
+			ally.hp = 4; ally.maxHp = 4;
+			enemy1.hp = 4; enemy1.maxHp = 4;
+			enemy2.hp = 4; enemy2.maxHp = 4;
+			await linkPlayers([enemy1, enemy2]);
+			rec.setup = { hand: hand(actor), allyHp: ally.hp, links: links() };
+		}, async rec => {
+			const event = { skill: 'releiji' };
+			const trigger = { card: { name: 'shan' }, player: actor };
+			const judges = forceJudgeSuit(game.players, 'spade');
+			const damages = game.players.map(player => captureDamage(player));
+			try {
+				await lib.skill.releiji.cost(event, trigger, actor);
+				if (event.result && event.result.bool && event.result.targets && event.result.targets.length) {
+					await lib.skill.releiji.content({ skill: 'releiji', targets: event.result.targets, result: event.result }, trigger, actor);
+				}
+			} finally { damages.forEach(item => item.restore()); judges.restore(); }
+			rec.result = {
+				selected: (event.result && event.result.targets || []).map(nameOf),
+				damage: damages.flatMap(item => item.events).map(item => ({
+					num: item && item.num, player: item && item.player && item.player.playerid,
+					source: item && item.source && item.source.playerid,
+				})),
+				allyHp: ally.hp, allyDead: !!ally.dead, links: links(),
+			};
+		});
+
+		await scene('quality-shuangxiong-3cards', async rec => {
+			actor.addSkill('shuangxiong');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 1303], ['shan', 'heart', 1304], ['sha', 'club', 1305]]);
+			enemy1.hp = 3; enemy1.maxHp = 4; enemy1.update();
+			rec.setup = { hand: hand(actor), enemyHp: enemy1.hp };
+		}, async rec => {
+			const judges = forceJudgeSuit([actor], 'heart');
+			const probe = instrument(actor);
+			const uses = [];
+			const originalUseCard = actor.useCard;
+			actor.useCard = function (cardInfo, cards, targets, skill) {
+				try { uses.push({ card: cardInfo && cardInfo.name || null, targets: (targets || []).map(nameOf), skill: typeof skill === 'string' ? skill : null }); } catch (e) {}
+				return originalUseCard.apply(this, arguments);
+			};
+			try { await actor.phaseDraw(); await actor.phaseUse(); } finally { actor.useCard = originalUseCard; probe.restore(); judges.restore(); }
+			rec.result = {
+				ops: probe.log, uses, judges: judges.calls,
+				viewas: actor.hasSkill('shuangxiong_viewas'),
+				storage: actor.getStorage ? actor.getStorage('shuangxiong_viewas') : null,
+				hand: hand(actor), enemyHp: enemy1.hp,
+			};
+		});
+
+		await scene('quality-shuangxiong-forced', async rec => {
+			actor.addSkill('shuangxiong');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 1306], ['shan', 'heart', 1307], ['sha', 'club', 1308]]);
+			enemy1.hp = 3; enemy1.maxHp = 4; enemy1.update();
+			rec.setup = { hand: hand(actor), enemyHp: enemy1.hp };
+		}, async rec => {
+			const originalCheck = lib.skill.shuangxiong_judge.check;
+			lib.skill.shuangxiong_judge.check = () => true;
+			const judges = forceJudgeSuit([actor], 'heart');
+			const probe = instrument(actor);
+			const damages = game.players.map(player => captureDamage(player));
+			const uses = [];
+			const originalUseCard = actor.useCard;
+			actor.useCard = function (cardInfo, cards, targets, skill) {
+				try { uses.push({ card: cardInfo && cardInfo.name || null, targets: (targets || []).map(nameOf), skill: typeof skill === 'string' ? skill : null }); } catch (e) {}
+				return originalUseCard.apply(this, arguments);
+			};
+			try { await actor.phaseDraw(); await actor.phaseUse(); } finally {
+				lib.skill.shuangxiong_judge.check = originalCheck;
+				actor.useCard = originalUseCard; probe.restore(); judges.restore(); damages.forEach(item => item.restore());
+			}
+			rec.result = {
+				ops: probe.log, uses, judges: judges.calls,
+				viewas: actor.hasSkill('shuangxiong_viewas'),
+				storage: actor.getStorage ? actor.getStorage('shuangxiong_viewas') : null,
+				hand: hand(actor), enemyHp: enemy1.hp,
+				hpAfter: Object.fromEntries(game.players.map(player => [player.playerid, player.hp])),
+				damage: damages.flatMap(item => item.events).map(item => ({ num: item && item.num, player: item && item.player && item.player.playerid })),
+			};
+		});
+
+		await scene('quality-card-values', async rec => {
+			rec.setup = { hand: hand(actor) };
+		}, async rec => {
+			const names = ['sha', 'shan', 'tao', 'wuxie', 'wugu', 'juedou', 'nanman', 'wanjian', 'shandian', 'tiesuo', 'huogong', 'jiu', 'lebu'];
+			const values = {};
+			for (const name of names) {
+				const cardx = card(name, 'spade', 1400 + Object.keys(values).length);
+				await actor.gain(cardx, 'gain2');
+				try { values[name] = get.value(cardx, actor); } catch (error) { values[name] = String(error); }
+				await actor.discard(cardx);
+			}
+			const equipValues = {};
+			for (const name of ['zhuge', 'zhangba', 'qinggang', 'bagua']) {
+				const cardx = card(name, 'club', 1500 + Object.keys(equipValues).length);
+				equipValues[name] = {
+					equip: (() => { try { return get.equipValue(cardx, actor); } catch (error) { return String(error); } })(),
+					value: (() => { try { return get.value(cardx, actor); } catch (error) { return String(error); } })(),
+				};
+			}
+			rec.result = { values, equipValues };
+		});
+
+		await scene('quality-qiangxix-check', async rec => {
+			actor.addSkill('qiangxix');
+			actor.hp = 4; actor.maxHp = 4;
+			await actor.equip(card('zhuge', 'club', 1513));
+			await give(actor, [['sha', 'spade', 1514], ['sha', 'spade', 1515], ['sha', 'spade', 1516]]);
+			enemy1.hp = 4; enemy1.maxHp = 4; enemy1.update();
+			rec.setup = { hand: hand(actor), weapon: actor.getEquips(1).map(c => c.name) };
+		}, async rec => {
+			const calls = [];
+			const original = lib.skill.qiangxix.check;
+			lib.skill.qiangxix.check = function (cardx) {
+				calls.push({ name: cardx && cardx.name, subtype: cardx && get.subtype(cardx) });
+				return cardx && get.subtype(cardx) === 'equip1' ? -100 : 0;
+			};
+			try { await phaseTurn(rec); } finally {
+				if (original === undefined) delete lib.skill.qiangxix.check;
+				else lib.skill.qiangxix.check = original;
+			}
+			rec.result = { calls, weapon: actor.getEquips(1).map(c => c.name), enemyHp: enemy1.hp, ops: rec.ops };
+		});
+
+		await scene('quality-qiangxix-ai1', async rec => {
+			actor.addSkill('qiangxix');
+			actor.hp = 4; actor.maxHp = 4;
+			await actor.equip(card('zhuge', 'club', 1509));
+			await give(actor, [['sha', 'spade', 1510], ['sha', 'spade', 1511], ['sha', 'spade', 1512]]);
+			enemy1.hp = 4; enemy1.maxHp = 4; enemy1.update();
+			rec.setup = { hand: hand(actor), weapon: actor.getEquips(1).map(c => c.name) };
+		}, async rec => {
+			const calls = [];
+			const original = lib.skill.qiangxix.ai1;
+			lib.skill.qiangxix.ai1 = function (cardx) {
+				calls.push({ name: cardx && cardx.name, subtype: cardx && get.subtype(cardx) });
+				return cardx && get.subtype(cardx) === 'equip1' ? -100 : 0;
+			};
+			try { await phaseTurn(rec); } finally {
+				if (original === undefined) delete lib.skill.qiangxix.ai1;
+				else lib.skill.qiangxix.ai1 = original;
+			}
+			rec.result = { calls, weapon: actor.getEquips(1).map(c => c.name), enemyHp: enemy1.hp, ops: rec.ops };
+		});
+
+		await scene('quality-qiangxix-debug', async rec => {
+			actor.addSkill('qiangxix');
+			actor.hp = 4; actor.maxHp = 4;
+			await actor.equip(card('zhuge', 'club', 1505));
+			await give(actor, [['sha', 'spade', 1506], ['sha', 'spade', 1507], ['sha', 'spade', 1508]]);
+			enemy1.hp = 4; enemy1.maxHp = 4; enemy1.update();
+			rec.setup = { hand: hand(actor), weapon: actor.getEquips(1).map(c => c.name) };
+		}, async rec => {
+			const calls = [];
+			const original = lib.skill.qiangxix.ai.result.player;
+			lib.skill.qiangxix.ai.result.player = function (player, target) {
+				const cards = (globalThis.ui && globalThis.ui.selected && globalThis.ui.selected.cards || []).map(cardx => cardx.name);
+				const out = original.apply(this, arguments);
+				calls.push({ hp: player.hp, targetHp: target && target.hp, cards, out });
+				return out;
+			};
+			try { await phaseTurn(rec); } finally { lib.skill.qiangxix.ai.result.player = original; }
+			rec.result = { calls, weapon: actor.getEquips(1).map(c => c.name), enemyHp: enemy1.hp };
 		});
 
 		const policyStats = policyModule ? policyModule.skillAIPolicyStats() : null;

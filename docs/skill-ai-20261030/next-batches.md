@@ -18,7 +18,7 @@
 - 界魏延 `qimou`：原生“杀次数可用即否决”导致射程外目标永不发动；仅在“支付能兑换成击杀”时放宽（已修复）。
 - OL界魏延 `reqimou`：固定支付 hp-1；gate 拦截“无需支付”，支付收紧为 max(1, 达距所需, 击杀所需) ≤ hp-1，无击杀目标回退原生（已修复）。
 - 验证无问题：标准黄盖 `kurou`、界黄盖 `rekurou`/`zhaxiang`、典韦 `qiangxix`、界典韦 `olqiangxi`（各自独立页面完整回合，原生分层已合理）。
-- 未验证：界典韦 `olninge`。魏延 `xinkuanggu` 已在神话再临·风审查中单独建立固定局面并验证无问题（连弩时摸牌、非连弩时回复）。
+- 未验证：界典韦 `olninge`。魏延 `xinkuanggu` 已在 2026-11-03 质量审查中新增“1血可回复时优先回复”的运行时优化（`quality-kuanggu-lowhp` 正向、`quality-kuanggu-midhp` 反向），此前“连弩摸牌/非连弩回复”的历史结论保留。
 - 变体核对：`qiangxi`（旧版，无主属武将）、`xinqiangxi`、手杀 `reqiangxi` 不在 142 清单内，未改动；`sbkurou` 未测。
 - 测试设施：`tools/skill-ai-hp-real-host.mjs` 独立页面运行器 + 看门狗；技能机制夹具默认抑制宿主 `game.over` 胜负对话框（`--allow-game-over` 可关闭）。若把所有反贼杀光，宿主会提前进入结算 UI 且 `die` 事件不返回；这是夹具问题，不是策略缺陷。看门狗现在用 `realHost._status` 读取事件栈，并用 Worker 心跳/CDP CPU 区分主线程卡死与空闲等待；反贼全灭陷阱会快速失败为 `fixture-stalled-in-die-after-last-enemy`。
 
@@ -34,7 +34,7 @@
 6. 将 ZIP、SHA256、提交 SHA、集成/回滚说明交给其他开发者；不要把整仓库、模型权重或训练数据打包。
 7. 集成用 `integration/apply-pack.mjs`（预检/备份/事务恢复），回滚用 `integration/rollback-pack.mjs`（只撤销本包、保留共享核心与空注册表）；共享核心冲突时拒绝覆盖，按 patch 合并。
 
-当前优先级：`out_of_scope`、`shenhua_feng`、`shenhua_huo` 已按完整包交付，交给其他开发者做集成测试；其余阶段包继续按技能级清单推进。**神话再临·火已完成**：14 项登记技能全部审查；`lianhuan` 的原“已横置目标一律 -100”策略经边界复核确认会造成退化（低血友方/自身解除横置被拦截、禁用重铸时空过），已删除覆盖并恢复宿主 `get.effect`，其余 13 项按规则/AI/正反向分级；主组 37 场景 + 乱击/火计正向各 1 场景 acceptance PASS，合并 39 场景、39 条技能级断言，原生/扩展语义一致（仅重铸后随机摸牌造成的非策略差异）。证据见 `shenhua-huo-review*.json`、`shenhua-huo-lianhuan-boundary*.json`、`accept-shenhua_huo*.json`。火包运行时改为无 AI 覆盖的复核包。下一步：`shenhua_lin` 首轮审查；同时保留 Android 真机长跑与完整 142 将验收作为公开发版门槛。`shenhua_feng` 的 12 项登记技能已全部审查：`qimou` 已修复，其余 11 项按验证级别登记；详细固定局面与原生/扩展对照见 `shenhua-feng-review*.json`。
+当前优先级：`out_of_scope`、`shenhua_feng`、`shenhua_huo` 已按完整包交付，交给其他开发者做集成测试；其余阶段包继续按技能级清单推进。**2026-11-03 风/火 AI 质量审查**：新增 `xinkuanggu`（1血优先回复）、`luanji`（1血空手无防具队友致死否决）两项运行时优化；`qiangxix`/`shuangxiong` 复现了合法但次优的候选，但因没有稳定入口或未证明严格占优而保留原生；其余技能完成代码与固定局面审查。详细矩阵、两张原生/扩展/策略对照和原生 AI 补丁见 `docs/skill-ai-quality-20261103/`。`lianhuan` 的过度拦截已在 2026-11-02 删除并恢复宿主 `get.effect`；火包不再是空复核包，现实现 `luanji`。下一步：`shenhua_lin` 首轮审查；同时保留 Android 真机长跑与完整 142 将验收作为公开发版门槛。`shenhua_feng` 的 12 项登记技能已全部审查：`qimou`、`xinkuanggu` 已实施，其余 10 项按验证级别登记；详细固定局面与原生/扩展对照见 `shenhua-feng-review*.json`、`quality-*.json`。
 
 ## 第三批：信息范围审计（优先）
 

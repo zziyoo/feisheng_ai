@@ -189,11 +189,11 @@ SKILL_OVERRIDES = {
     },
     're_weiyan': {
         'xinkuanggu': {
-            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
-            'validation_level': 'AI决策验证通过',
-            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': False, 'branches': ['draw', 'recover'], 'note': '摸牌/回复两个 AI 分支均有真实结算断言。'},
-            'evidence': 'shenhua-feng-review.json / shenhua-kuanggu-draw、shenhua-kuanggu-recover：3/4血魏延持连弩时杀中距离1敌方后选择摸1；无连弩时杀中后选择回复1；两次伤害均记录 checkKuanggu。',
-            'notes': '两条分支均在真实伤害事件中兑现；未复现漏发或错误选择。',
+            'status': '已修复', 'implementation': '已实施', 'test': '真实宿主通过',
+            'validation_level': '确认存在质量提升并已实现',
+            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True, 'branches': ['draw', 'recover'], 'note': '1血可回复时优先回复；3血反向场景仍摸牌。'},
+            'evidence': 'quality-native.json / quality-extension.json：quality-kuanggu-lowhp 原生 hp=1、draw=1，扩展 recover=1、hp=2；quality-kuanggu-midhp 原生/扩展均摸牌且体力不变。另有既有 shenhua-kuanggu-draw/recover 回归。',
+            'notes': '只改 cost 的回复/摸牌选择：1血且可回复时回复，其余沿用原生“有足够杀才回复”的条件；不改技能规则。',
         },
         'qimou': {
             'status': '已修复', 'implementation': '已实施', 'test': '真实宿主通过',
@@ -232,11 +232,11 @@ SKILL_OVERRIDES = {
     },
     'dianwei': {
         'qiangxix': {
-            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主完整回合通过',
-            'validation_level': '正反向决策验证通过',
+            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
+            'validation_level': '完成质量审查，保留原生',
             'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True},
-            'evidence': 'shenhua-huo-review-native.json / hp-qiangxix-2hp-target1、hp-qiangxix-2hp-weapon-target2：2血对1血目标支付体力并完成击杀/压制；持武器时弃武器且不掉血；本轮回归仍通过。',
-            'notes': '沿用第二批完整回合证据；本轮未修改强袭评分。',
+            'evidence': 'shenhua-huo-review-native.json / hp-qiangxix-2hp-target1、hp-qiangxix-2hp-weapon-target2；quality-qiangxix-crossbow 复现原生先弃连弩再自损，quality-qiangxix-zhangba 复现丈八被弃。',
+            'notes': '候选改动：让高价值武器改付体力；实测 check/ai1 钩子会把低价值丈八也改成保留，属于过度优化，且宿主没有稳定“选哪张武器”的AI入口，故保留原生并列入原生AI补丁候选（未交付）。',
         },
     },
     'xunyu': {
@@ -283,19 +283,19 @@ SKILL_OVERRIDES = {
     'yanwen': {
         'shuangxiong': {
             'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
-            'validation_level': '正反向决策验证通过',
+            'validation_level': '完成质量审查，保留原生',
             'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True},
-            'evidence': 'shenhua-huo-review-native.json / shuangxiong-judge、shuangxiong-duel、shuangxiong-no-judge：判定后获得 shuangxiong_viewas，实际将异色牌当决斗使用并对敌方造成伤害；手牌3且未超过体力时 AI 不判定，也不获得转化技。',
-            'notes': '判定/转化/决斗结算与不判定负向均覆盖。',
+            'evidence': 'shenhua-huo-review-native.json / shuangxiong-judge、shuangxiong-duel、shuangxiong-no-judge；quality-shuangxiong-3cards 原生3张手牌摸两张，quality-shuangxiong-forced 强制改判只多一次可被响应的决斗。',
+            'notes': '候选改动：3张两色手牌改判定；固定局面未证明严格优于摸两张，故保留原生。',
         },
     },
     're_yuanshao': {
         'luanji': {
-            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
-            'validation_level': 'AI决策验证通过',
+            'status': '已修复', 'implementation': '已实施', 'test': '真实宿主通过',
+            'validation_level': '确认存在质量提升并已实现',
             'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True},
-            'evidence': 'shenhua-huo-review-native.json / luanji-wanjian-use：袁绍持3张黑桃闪、两名敌方1血，AI 以两张闪发动乱击转化万箭，7个目标、对多名敌方造成伤害；luanji-no-pair 无同花色对子不发动，保守局面 luanji-wanjian 不发动且不弃牌。',
-            'notes': '同花色对子合法性、实际多目标伤害与不发动条件均取得真实结果；未新增乱击评分。',
+            'evidence': 'quality-luanji-ally-lethal：1血空手无防具队友时原生 check=6、扩展 check=0；probe-native-3 原始执行中原生 used=true、allyHp=0。shenhua-huo-luanji-wanjian-use 全敌方场景扩展仍实际发动万箭；luanji-no-pair、luanji-wanjian 负向保持。',
+            'notes': '只在原生评分为正且存在1血空手无防具友方时返回0；不改目标合法性、万箭结算或材料价值。',
         },
         'xueyi': {
             'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',

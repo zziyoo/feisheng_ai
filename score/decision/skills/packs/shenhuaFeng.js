@@ -1,12 +1,12 @@
-import { lib, get } from '../policyCore.js?v=41a';
-import { shouldBypassQimouCountBlock } from '../rules/shenhuaFeng.js?v=41a';
+import { lib, get, _status } from '../policyCore.js?v=41a';
+import { shouldBypassQimouCountBlock, kuangguChoice } from '../rules/shenhuaFeng.js?v=41a';
 
 export const pack = {
 	id: 'shenhua_feng',
 	name: '神话再临·风',
 	group: 'shenhua',
-	skills: ['qimou'],
-	statsDefaults: { qimouBypass: 0 },
+	skills: ['qimou', 'xinkuanggu'],
+	statsDefaults: { qimouBypass: 0, kuangguRecover: 0 },
 	install,
 };
 
@@ -28,7 +28,7 @@ function qimouTargets(host, player, shaCard) {
 
 /* 界魏延【奇谋 qimou】：杀次数未用完时原生直接否决，即使目标在射程外。
  * 只放宽这一条阻塞：其余原生条件与“支付兑换成击杀”必须成立。 */
-function install(host, stats) {
+function installQimou(host, stats) {
 	const info = lib.skill && lib.skill.qimou;
 	const result = info && info.ai && info.ai.result;
 	if (!result || typeof result.player !== 'function') return;
@@ -54,4 +54,41 @@ function install(host, stats) {
 		} catch (e) {}
 		return native;
 	});
+}
+
+/* 界魏延【狂骨 xinkuanggu】：原生把“手里有足够杀”当成回复前提。
+ * 1血且可回复时改为回复；其余分支仍按原生条件选择摸牌或回复。 */
+function installKuanggu(host, stats) {
+	const info = lib.skill && lib.skill.xinkuanggu;
+	if (!info || typeof info.cost !== 'function') return;
+	host.wrap(info, 'cost', 'xinkuanggu:cost', () => async function (event, trigger, player) {
+		let nativeRecover = false;
+		let recoverEffect = 0;
+		try {
+			recoverEffect = get.recoverEffect(player);
+			nativeRecover = player.isDamaged() && recoverEffect > 0 && player.countCards('hs', card => card.name === 'sha' && player.hasValueTarget(card)) >= player.getCardUsable('sha');
+		} catch (e) {}
+		const choice = kuangguChoice({
+			hp: player.hp,
+			isDamaged: player.isDamaged(),
+			recoverEffect,
+			nativeRecover,
+		});
+		if (choice === 'recover_hp' && !nativeRecover) stats.kuangguRecover++;
+		const next = player.chooseDrawRecover('###' + get.prompt(event.skill) + '###摸一张牌或回复1点体力');
+		next.set('choice', choice);
+		next.set('ai', function () {
+			return _status.event.getParent().choice;
+		});
+		next.set('logSkill', event.skill);
+		next.setHiddenSkill(event.skill);
+		const { control } = await next.forResult();
+		if (control === 'cancel2') return;
+		event.result = { bool: true, skill_popup: false };
+	});
+}
+
+function install(host, stats) {
+	installQimou(host, stats);
+	installKuanggu(host, stats);
 }

@@ -36,6 +36,7 @@ const SCENES = {
 		'shenhua-jushou-4hp-empty', 'shenhua-jushou-lowhp',
 		'shenhua-buqu-damage', 'shenhua-buqu-negative', 'shenhua-buqu-recover-choice',
 		'shenhua-liegong-hit', 'shenhua-liegong-negative',
+		'quality-kuanggu-lowhp', 'quality-kuanggu-midhp',
 	],
 	shenhua_huo: [
 		'hp-qiangxix-2hp-target1', 'hp-qiangxix-2hp-weapon-target2',
@@ -54,6 +55,7 @@ const SCENES = {
 		'shenhua-huo-kanpo-response', 'shenhua-huo-kanpo-no-black',
 		'shenhua-huo-bazhen-bagua', 'shenhua-huo-bazhen-armor-negative',
 		'shenhua-huo-jianchu-sha', 'shenhua-huo-jianchu-no-equip',
+		'quality-luanji-ally-lethal',
 		'shenhua-huo-passive-rules',
 	],
 	refresh_feng: ['hp-reqimou-distance4-hp3'],

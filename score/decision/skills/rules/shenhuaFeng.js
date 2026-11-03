@@ -18,6 +18,17 @@ export function qimouTargetX(hp, shaCount) {
  * - 支付必须兑换成击杀：目标 hp <= min(手杀数, 1+x)；
  * - 自己不会因支付而死（hp > x）。
  */
+/* 界魏延【狂骨】：原生只在“手里有足够杀”时回复；1血空手时仍摸牌。
+ * 1血且可回复时优先回复，其余情况完全沿用原生判断。 */
+export function kuangguChoice(input) {
+	const { hp, isDamaged, recoverEffect, nativeRecover } = input || {};
+	const life = Number(hp);
+	const healable = !!isDamaged && Number(recoverEffect) > 0;
+	if (healable && Number.isFinite(life) && life <= 1) return 'recover_hp';
+	if (nativeRecover) return 'recover_hp';
+	return 'draw_card';
+}
+
 export function shouldBypassQimouCountBlock(input) {
 	const { nativeResult, hp, shaCount, cardEnabled, cardUsable, targets } = input || {};
 	if (Number(nativeResult) > 0) return false;

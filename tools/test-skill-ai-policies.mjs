@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus, qimouTargetX, shouldBypassQimouCountBlock, reqimouNeedsPayment, reqimouOptimalX, reqimouKillableByHand, reqimouKillBenefit, interpretBaseUses } from '../score/decision/skills/skillAIPolicyRules.js';
+import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, fairButtonScore, olkongshengCostNeedsFix, olkongshengExpansionView, shouldMaskHiddenButtonChoice, retuxiHandBonus, qimouTargetX, shouldBypassQimouCountBlock, reqimouNeedsPayment, reqimouOptimalX, reqimouKillableByHand, reqimouKillBenefit, interpretBaseUses, kuangguChoice, luanjiAllyLethal } from '../score/decision/skills/skillAIPolicyRules.js';
 
 let passed = 0;
 const check = (name, fn) => {
@@ -322,4 +322,18 @@ check('补修P2：无限次数不影响击杀档位上限与低血回退', () =>
 	assert.equal(reqimouOptimalX({ hp: 1, shaCount: 5, baseUses: Infinity, targets: [mk(1, 1)] }), null, '低血仍回退');
 });
 
+check('狂骨：1血可回复时优先回复，其余沿用原生', () => {
+	assert.equal(kuangguChoice({ hp: 1, isDamaged: true, recoverEffect: 1, nativeRecover: false }), 'recover_hp');
+	assert.equal(kuangguChoice({ hp: 3, isDamaged: true, recoverEffect: 1, nativeRecover: false }), 'draw_card');
+	assert.equal(kuangguChoice({ hp: 1, isDamaged: true, recoverEffect: 0, nativeRecover: false }), 'draw_card');
+	assert.equal(kuangguChoice({ hp: 1, isDamaged: false, recoverEffect: 1, nativeRecover: false }), 'draw_card');
+	assert.equal(kuangguChoice({ hp: 3, isDamaged: true, recoverEffect: 1, nativeRecover: true }), 'recover_hp');
+});
+check('乱击：仅1血空手无防具的队友触发否决', () => {
+	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 0, armor: false }), true);
+	assert.equal(luanjiAllyLethal({ ally: false, hp: 1, hand: 0, armor: false }), false);
+	assert.equal(luanjiAllyLethal({ ally: true, hp: 2, hand: 0, armor: false }), false);
+	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 1, armor: false }), false);
+	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 0, armor: true }), false);
+});
 console.log('ALL PASS (' + passed + ')');

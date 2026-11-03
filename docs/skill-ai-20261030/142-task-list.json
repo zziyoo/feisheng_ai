@@ -21,37 +21,37 @@
       "P3": 90
     },
     "review_status": {
-      "已验证无问题": 18,
+      "已验证无问题": 17,
       "部分通过": 7,
       "尚未验证": 115,
-      "已修复": 2
+      "已修复": 3
     },
     "implementation_status": {
-      "无需改动": 18,
+      "无需改动": 17,
       "部分实施": 8,
       "未改动": 115,
-      "已实施": 1
+      "已实施": 2
     },
     "test_status": {
-      "真实宿主通过": 17,
+      "真实宿主通过": 18,
       "部分通过": 7,
-      "真实宿主完整回合通过": 3,
+      "真实宿主完整回合通过": 2,
       "未测试": 115
     },
     "skill_status": {
-      "已验证无问题": 33,
+      "已验证无问题": 31,
       "尚未验证": 242,
-      "已修复": 5
+      "已修复": 7
     },
     "skill_implementation": {
-      "无需改动": 33,
+      "无需改动": 31,
       "未改动": 242,
-      "已实施": 5
+      "已实施": 7
     },
     "skill_test": {
-      "真实宿主通过": 31,
+      "真实宿主通过": 32,
       "未测试": 242,
-      "真实宿主完整回合通过": 7
+      "真实宿主完整回合通过": 6
     },
     "pack_status": {
       "正在审查": 3,
@@ -428,12 +428,12 @@
         "characters": 8,
         "skills": 12,
         "reviewed_skills": 12,
-        "fixed_skills": 1,
-        "verified_skills": 11,
+        "fixed_skills": 2,
+        "verified_skills": 10,
         "unreviewed_skills": 0,
         "skill_status": {
-          "已验证无问题": 11,
-          "已修复": 1
+          "已验证无问题": 10,
+          "已修复": 2
         }
       },
       "review_status": "验证完成",
@@ -520,11 +520,12 @@
         "characters": 8,
         "skills": 14,
         "reviewed_skills": 14,
-        "fixed_skills": 0,
-        "verified_skills": 14,
+        "fixed_skills": 1,
+        "verified_skills": 13,
         "unreviewed_skills": 0,
         "skill_status": {
-          "已验证无问题": 14
+          "已验证无问题": 13,
+          "已修复": 1
         }
       },
       "review_status": "验证完成",
@@ -2409,21 +2410,21 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3720"
           },
-          "status": "已验证无问题",
-          "implementation": "无需改动",
+          "status": "已修复",
+          "implementation": "已实施",
           "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-kuanggu-draw、shenhua-kuanggu-recover：3/4血魏延持连弩时杀中距离1敌方后选择摸1；无连弩时杀中后选择回复1；两次伤害均记录 checkKuanggu。",
-          "notes": "两条分支均在真实伤害事件中兑现；未复现漏发或错误选择。",
-          "validation_level": "AI决策验证通过",
+          "evidence": "quality-native.json / quality-extension.json：quality-kuanggu-lowhp 原生 hp=1、draw=1，扩展 recover=1、hp=2；quality-kuanggu-midhp 原生/扩展均摸牌且体力不变。另有既有 shenhua-kuanggu-draw/recover 回归。",
+          "notes": "只改 cost 的回复/摸牌选择：1血且可回复时回复，其余沿用原生“有足够杀才回复”的条件；不改技能规则。",
+          "validation_level": "确认存在质量提升并已实现",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
-            "positive_negative": false,
+            "positive_negative": true,
             "branches": [
               "draw",
               "recover"
             ],
-            "note": "摸牌/回复两个 AI 分支均有真实结算断言。"
+            "note": "1血可回复时优先回复；3血反向场景仍摸牌。"
           },
           "host_line_1117": 3745
         },
@@ -2470,10 +2471,10 @@
         "xinkuanggu",
         "qimou"
       ],
-      "implementation_status": "部分实施",
+      "implementation_status": "已实施",
       "test_status": "真实宿主通过",
-      "evidence": "狂骨：shenhua-feng-review.json / shenhua-kuanggu-draw、shenhua-kuanggu-recover：3/4血魏延持连弩时杀中距离1敌方后选择摸1；无连弩时杀中后选择回复1；两次伤害均记录 checkKuanggu。；奇谋：独立页面复现：目标在3-4距离外、手上有杀且杀次数未用完时，原生 ai.result.player 因 cardUsable 直接返回0，奇谋永不发动（三个场景0动作）。策略只在“杀次数可用恰为唯一阻塞、且支付能兑换成击杀”时放宽：far4-3sha-hp3 修复后发动并3杀击杀，far3-2sha-hp2 同理；反向 far4-hp4、目标在射程内、杀次数耗尽均保持原生。",
-      "notes": "狂骨：两条分支均在真实伤害事件中兑现；未复现漏发或错误选择。；奇谋：只覆盖 ai.result.player 的否决分支；不复制技能主体、不改支付档位（档位由宿主 content 决定）。"
+      "evidence": "狂骨：quality-native.json / quality-extension.json：quality-kuanggu-lowhp 原生 hp=1、draw=1，扩展 recover=1、hp=2；quality-kuanggu-midhp 原生/扩展均摸牌且体力不变。另有既有 shenhua-kuanggu-draw/recover 回归。；奇谋：独立页面复现：目标在3-4距离外、手上有杀且杀次数未用完时，原生 ai.result.player 因 cardUsable 直接返回0，奇谋永不发动（三个场景0动作）。策略只在“杀次数可用恰为唯一阻塞、且支付能兑换成击杀”时放宽：far4-3sha-hp3 修复后发动并3杀击杀，far3-2sha-hp2 同理；反向 far4-hp4、目标在射程内、杀次数耗尽均保持原生。",
+      "notes": "狂骨：只改 cost 的回复/摸牌选择：1血且可回复时回复，其余沿用原生“有足够杀才回复”的条件；不改技能规则。；奇谋：只覆盖 ai.result.player 的否决分支；不复制技能主体、不改支付档位（档位由宿主 content 决定）。"
     },
     {
       "task_id": "AI-dianwei",
@@ -2509,10 +2510,10 @@
           },
           "status": "已验证无问题",
           "implementation": "无需改动",
-          "test": "真实宿主完整回合通过",
-          "evidence": "shenhua-huo-review-native.json / hp-qiangxix-2hp-target1、hp-qiangxix-2hp-weapon-target2：2血对1血目标支付体力并完成击杀/压制；持武器时弃武器且不掉血；本轮回归仍通过。",
-          "notes": "沿用第二批完整回合证据；本轮未修改强袭评分。",
-          "validation_level": "正反向决策验证通过",
+          "test": "真实宿主通过",
+          "evidence": "shenhua-huo-review-native.json / hp-qiangxix-2hp-target1、hp-qiangxix-2hp-weapon-target2；quality-qiangxix-crossbow 复现原生先弃连弩再自损，quality-qiangxix-zhangba 复现丈八被弃。",
+          "notes": "候选改动：让高价值武器改付体力；实测 check/ai1 钩子会把低价值丈八也改成保留，属于过度优化，且宿主没有稳定“选哪张武器”的AI入口，故保留原生并列入原生AI补丁候选（未交付）。",
+          "validation_level": "完成质量审查，保留原生",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
@@ -2528,9 +2529,9 @@
         "qiangxix"
       ],
       "implementation_status": "无需改动",
-      "test_status": "真实宿主完整回合通过",
-      "evidence": "强袭：shenhua-huo-review-native.json / hp-qiangxix-2hp-target1、hp-qiangxix-2hp-weapon-target2：2血对1血目标支付体力并完成击杀/压制；持武器时弃武器且不掉血；本轮回归仍通过。",
-      "notes": "强袭：沿用第二批完整回合证据；本轮未修改强袭评分。"
+      "test_status": "真实宿主通过",
+      "evidence": "强袭：shenhua-huo-review-native.json / hp-qiangxix-2hp-target1、hp-qiangxix-2hp-weapon-target2；quality-qiangxix-crossbow 复现原生先弃连弩再自损，quality-qiangxix-zhangba 复现丈八被弃。",
+      "notes": "强袭：候选改动：让高价值武器改付体力；实测 check/ai1 钩子会把低价值丈八也改成保留，属于过度优化，且宿主没有稳定“选哪张武器”的AI入口，故保留原生并列入原生AI补丁候选（未交付）。"
     },
     {
       "task_id": "AI-xunyu",
@@ -2808,9 +2809,9 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native.json / shuangxiong-judge、shuangxiong-duel、shuangxiong-no-judge：判定后获得 shuangxiong_viewas，实际将异色牌当决斗使用并对敌方造成伤害；手牌3且未超过体力时 AI 不判定，也不获得转化技。",
-          "notes": "判定/转化/决斗结算与不判定负向均覆盖。",
-          "validation_level": "正反向决策验证通过",
+          "evidence": "shenhua-huo-review-native.json / shuangxiong-judge、shuangxiong-duel、shuangxiong-no-judge；quality-shuangxiong-3cards 原生3张手牌摸两张，quality-shuangxiong-forced 强制改判只多一次可被响应的决斗。",
+          "notes": "候选改动：3张两色手牌改判定；固定局面未证明严格优于摸两张，故保留原生。",
+          "validation_level": "完成质量审查，保留原生",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
@@ -2827,8 +2828,8 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "双雄：shenhua-huo-review-native.json / shuangxiong-judge、shuangxiong-duel、shuangxiong-no-judge：判定后获得 shuangxiong_viewas，实际将异色牌当决斗使用并对敌方造成伤害；手牌3且未超过体力时 AI 不判定，也不获得转化技。",
-      "notes": "双雄：判定/转化/决斗结算与不判定负向均覆盖。"
+      "evidence": "双雄：shenhua-huo-review-native.json / shuangxiong-judge、shuangxiong-duel、shuangxiong-no-judge；quality-shuangxiong-3cards 原生3张手牌摸两张，quality-shuangxiong-forced 强制改判只多一次可被响应的决斗。",
+      "notes": "双雄：候选改动：3张两色手牌改判定；固定局面未证明严格优于摸两张，故保留原生。"
     },
     {
       "task_id": "AI-re_yuanshao",
@@ -2862,12 +2863,12 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7318"
           },
-          "status": "已验证无问题",
-          "implementation": "无需改动",
+          "status": "已修复",
+          "implementation": "已实施",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native.json / luanji-wanjian-use：袁绍持3张黑桃闪、两名敌方1血，AI 以两张闪发动乱击转化万箭，7个目标、对多名敌方造成伤害；luanji-no-pair 无同花色对子不发动，保守局面 luanji-wanjian 不发动且不弃牌。",
-          "notes": "同花色对子合法性、实际多目标伤害与不发动条件均取得真实结果；未新增乱击评分。",
-          "validation_level": "AI决策验证通过",
+          "evidence": "quality-luanji-ally-lethal：1血空手无防具队友时原生 check=6、扩展 check=0；probe-native-3 原始执行中原生 used=true、allyHp=0。shenhua-huo-luanji-wanjian-use 全敌方场景扩展仍实际发动万箭；luanji-no-pair、luanji-wanjian 负向保持。",
+          "notes": "只在原生评分为正且存在1血空手无防具友方时返回0；不改目标合法性、万箭结算或材料价值。",
+          "validation_level": "确认存在质量提升并已实现",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
@@ -2913,15 +2914,15 @@
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "已验证无问题",
+      "review_status": "已修复",
       "reviewed_skills": [
         "luanji",
         "xueyi"
       ],
-      "implementation_status": "无需改动",
+      "implementation_status": "部分实施",
       "test_status": "真实宿主通过",
-      "evidence": "乱击：shenhua-huo-review-native.json / luanji-wanjian-use：袁绍持3张黑桃闪、两名敌方1血，AI 以两张闪发动乱击转化万箭，7个目标、对多名敌方造成伤害；luanji-no-pair 无同花色对子不发动，保守局面 luanji-wanjian 不发动且不弃牌。；血裔：shenhua-huo-review-native.json / shenhua-huo-passive-rules：主公袁绍且有其他群势力时，手牌上限为基础4+2×3=10。",
-      "notes": "乱击：同花色对子合法性、实际多目标伤害与不发动条件均取得真实结果；未新增乱击评分。；血裔：纯被动规则；无独立AI选择，不强行增加策略。"
+      "evidence": "乱击：quality-luanji-ally-lethal：1血空手无防具队友时原生 check=6、扩展 check=0；probe-native-3 原始执行中原生 used=true、allyHp=0。shenhua-huo-luanji-wanjian-use 全敌方场景扩展仍实际发动万箭；luanji-no-pair、luanji-wanjian 负向保持。；血裔：shenhua-huo-review-native.json / shenhua-huo-passive-rules：主公袁绍且有其他群势力时，手牌上限为基础4+2×3=10。",
+      "notes": "乱击：只在原生评分为正且存在1血空手无防具友方时返回0；不改目标合法性、万箭结算或材料价值。；血裔：纯被动规则；无独立AI选择，不强行增加策略。"
     },
     {
       "task_id": "AI-re_lusu",

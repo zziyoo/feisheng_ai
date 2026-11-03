@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { qimouTargetX, shouldBypassQimouCountBlock } from '../source/score/decision/skills/rules/shenhuaFeng.js';
+import { qimouTargetX, shouldBypassQimouCountBlock, kuangguChoice } from '../source/score/decision/skills/rules/shenhuaFeng.js';
 
 let passed = 0;
 const check = (name, fn) => { fn(); passed++; console.log('PASS', name); };
@@ -33,5 +33,11 @@ check('低血/无杀/负收益目标不放宽', () => {
 	assert.equal(shouldBypassQimouCountBlock({ nativeResult: 0, hp: 1, shaCount: 2, cardEnabled: true, cardUsable: true, targets: [] }), false);
 	assert.equal(shouldBypassQimouCountBlock({ nativeResult: 0, hp: 3, shaCount: 0, cardEnabled: true, cardUsable: true, targets: [] }), false);
 	assert.equal(shouldBypassQimouCountBlock({ nativeResult: 0, hp: 3, shaCount: 2, cardEnabled: true, cardUsable: true, targets: [{ currentlyInRange: false, canUseIgnoringDistance: true, effect: -1, attackDistance: 3, hp: 2 }] }), false);
+});
+check('狂骨：1血可回复时优先回复，其余返回原生选择', () => {
+	assert.equal(kuangguChoice({ hp: 1, isDamaged: true, recoverEffect: 1, nativeRecover: false }), 'recover_hp');
+	assert.equal(kuangguChoice({ hp: 3, isDamaged: true, recoverEffect: 1, nativeRecover: false }), 'draw_card');
+	assert.equal(kuangguChoice({ hp: 3, isDamaged: true, recoverEffect: 1, nativeRecover: true }), 'recover_hp');
+	assert.equal(kuangguChoice({ hp: 1, isDamaged: true, recoverEffect: 0, nativeRecover: false }), 'draw_card');
 });
 console.log('ALL PASS (' + passed + ')');

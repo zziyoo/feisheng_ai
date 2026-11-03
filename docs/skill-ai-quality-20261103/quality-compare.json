@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-03T05:02:46.852Z",
+  "scope": "神话再临·风/火固定局面：原生 vs 完整扩展的逐场景决策/结算对照；对称目标座位与随机摸牌单列为允许差异",
+  "sources": {
+    "native": "quality-native1030.json",
+    "extension": "quality-extension1030.json"
+  },
+  "rows": [
+    {
+      "scene": "quality-luanji-ally-lethal",
+      "exact_match": false,
+      "semantic_match": true,
+      "native": {
+        "check": 6,
+        "allyHp": 1,
+        "used": false
+      },
+      "extension": {
+        "check": 0,
+        "allyHp": 1,
+        "used": false
+      },
+      "note": "策略差异：原生乱击评分对1血空手无防具队友仍为正（实际万箭会使其进入濒死），扩展评分为0并拒绝发动；本场景只比较决策分，结算由全敌方场景覆盖。"
+    },
+    {
+      "scene": "quality-kuanggu-lowhp",
+      "exact_match": false,
+      "semantic_match": true,
+      "native": {
+        "hp": 1,
+        "recovered": false,
+        "draw": true
+      },
+      "extension": {
+        "hp": 2,
+        "recovered": true,
+        "draw": false
+      },
+      "note": "策略差异：原生1血仍摸牌，扩展1血优先回复；扩展体力由1升至2且未摸牌。"
+    },
+    {
+      "scene": "quality-kuanggu-midhp",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "hp": 3,
+        "recovered": false,
+        "draw": true
+      },
+      "extension": {
+        "hp": 3,
+        "recovered": false,
+        "draw": true
+      },
+      "note": "语义一致"
+    }
+  ],
+  "exact_all": false,
+  "semantic_all": true,
+  "allowed_random_differences": [],
+  "strategy_differences": [
+    {
+      "scene": "quality-luanji-ally-lethal",
+      "type": "luanji-ally-lethal-veto",
+      "native": {
+        "check": 6,
+        "allyHp": 1,
+        "used": false
+      },
+      "extension": {
+        "check": 0,
+        "allyHp": 1,
+        "used": false
+      },
+      "note": "策略差异：原生乱击评分对1血空手无防具队友仍为正（实际万箭会使其进入濒死），扩展评分为0并拒绝发动；本场景只比较决策分，结算由全敌方场景覆盖。"
+    },
+    {
+      "scene": "quality-kuanggu-lowhp",
+      "type": "kuanggu-lowhp-recover",
+      "native": {
+        "hp": 1,
+        "recovered": false,
+        "draw": true
+      },
+      "extension": {
+        "hp": 2,
+        "recovered": true,
+        "draw": false
+      },
+      "note": "策略差异：原生1血仍摸牌，扩展1血优先回复；扩展体力由1升至2且未摸牌。"
+    }
+  ]
+}

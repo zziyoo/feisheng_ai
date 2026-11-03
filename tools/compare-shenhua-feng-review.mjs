@@ -14,8 +14,9 @@ const native = JSON.parse(fs.readFileSync(nativeFile, 'utf8'));
 const extension = JSON.parse(fs.readFileSync(extensionFile, 'utf8'));
 const scenes = (native.scenes || [])
 	.filter(scene => scene && scene.name && (
-		scene.name.startsWith('shenhua-') || scene.name.startsWith('hp-qimou') ||
-		scene.name.startsWith('qimou-') || scene.name.startsWith('hp-qiangxix')
+		scene.name.startsWith('shenhua-') || scene.name.startsWith('quality-') ||
+		scene.name.startsWith('hp-qimou') || scene.name.startsWith('qimou-') ||
+		scene.name.startsWith('hp-qiangxix')
 	))
 	.map(scene => scene.name);
 const comparison = compareNativeExtension(native, extension, scenes);
