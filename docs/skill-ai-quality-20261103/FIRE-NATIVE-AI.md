@@ -66,6 +66,7 @@ git apply docs/skill-ai-quality-20261103/huo-native/huo-native.patch
   - 策略层（扩展镜像）：`huo-quality-policy.json`（乱击净收益否决 check 6→0；天义低点数不再发动；鞬出无装备不再白送杀；三个反向守卫保持原生行为）
   - 完整扩展引擎：`huo-quality-extension.json`（乱击 check 否决与鞬出触发否决在完整引擎下同样生效，统计 `luanjiNetVeto=1`、`jianchuSkip=1`；**天义例外**，见下方“完整引擎限制”）
 - 火包既有场景回归（策略层）：`huo-regression-policy.json`（乱击发动/不发动、濒死否决、天义/鞬出旧场景、被动规则全部保持）。
+- 分包整体验收（`accept-shenhua-huo-final.json`）：解压校验、原生补丁 apply-check、干净目标安装、宿主加载、原生对照、回滚、重装全部通过；包内自测（含 134 维契约与规则断言）通过。
 - 夹具限制说明：身份局固定夹具为 8 人，万箭目标面恒为 7 人，小规模净收益分支无法在完整结算里自然出现；`quality-huo-luanji-net` 在**决策探针**里把 `canUse` 限制到受控的 3 个目标后调用真实的 `luanji.check`（含扩展接管），不做任何结算。该分支的数值语义由 Node 纯规则单测覆盖，濒死否决与全敌方守卫由真实结算场景覆盖。
 - 扩展侧镜像：`score/decision/skills/packs/shenhuaHuo.js`（`luanji:check`、`tianyi:result:player`、`jianchu:check` 三处 `host.wrap`），与补丁逐条对应；两者二选一使用。
 

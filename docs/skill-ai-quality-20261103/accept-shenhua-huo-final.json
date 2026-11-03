@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-03T17:30:30.625Z",
+  "generated_at": "2026-11-03T17:58:37.203Z",
   "mode": "single",
   "repo": "C:\\Users\\32360\\.codex\\worktrees\\release-444\\无名AI",
   "repo_head": "",
@@ -1287,8 +1287,8 @@
       "id": "shenhua_huo",
       "name": "神话再临·火",
       "zip": "C:\\Users\\32360\\Desktop\\feisheng-ai-huo-pack\\feisheng-ai-shenhua-huo.zip",
-      "zip_size": 206160,
-      "zip_sha256": "16006cd0b5298cd37a3a1dafef52b3564a583763e578d4aa75156cb86196870d",
+      "zip_size": 206207,
+      "zip_sha256": "2e221486cbbdf21ffa4d0f1be8331a047e59c48e40b0326f13b2cd989ab91f94",
       "delivery_stage": "可交付",
       "implemented_skills": [
         "luanji",
@@ -1308,7 +1308,7 @@
       "pack": "shenhua_huo",
       "status": "passed",
       "package_tests": {
-        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-zxEX4E\\extract\\0\\tests\\run-pack-tests.mjs",
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3\\extract\\0\\tests\\run-pack-tests.mjs",
         "status": 0,
         "signal": null,
         "stdout": "PASS 火包清单登记乱击/天义/鞬出三项运行时校正\nPASS 乱击不会为AOE牺牲1血空手无防具队友\nPASS 乱击小规模对局净收益门槛（镜像原生补丁0001）\nPASS 天义手里最大点数不足10时拒绝无把握拼点（镜像原生补丁0002）\nPASS 鞬出仅在值得发动时触发（镜像原生补丁0003）\nPASS 纯规则出口完整\nALL PASS (6)\nPASS 包元数据与目标技能一致\nPASS 分包模块只 import 共享核心、自己的规则与安全适配\nPASS 共享核心与具体技能解耦\nPASS 包内只携带本分包策略模块\nPASS 注册表与 pack-only 注册表可安全合并\nPASS 134 维模型契约与版本未被本分包修改\nPASS 分包声明的静态约束成立\nPASS 分包规则不读取宿主实现\nALL PASS (8)\nALL PACK TESTS PASS (14)\n",
@@ -1316,23 +1316,23 @@
         "error": null
       },
       "verify_zip": {
-        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-zxEX4E\\extract\\0\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-huo-pack\\feisheng-ai-shenhua-huo.zip",
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3\\extract\\0\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-huo-pack\\feisheng-ai-shenhua-huo.zip",
         "status": 0,
         "signal": null,
-        "stdout": "mode=zip files_listed=51 ok=51 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=3a51f3c392220536ce3c8e28f29f47f4decb0911 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stdout": "mode=zip files_listed=51 ok=51 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=7b43b04d1ded29e2687b8460c56755d982282482 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
         "stderr": "",
         "error": null
       },
       "verify_dir": {
-        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-zxEX4E\\extract\\0\\verify.py",
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3\\extract\\0\\verify.py",
         "status": 0,
         "signal": null,
-        "stdout": "mode=dir files_listed=51 ok=51 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=3a51f3c392220536ce3c8e28f29f47f4decb0911 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stdout": "mode=dir files_listed=51 ok=51 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=7b43b04d1ded29e2687b8460c56755d982282482 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
         "stderr": "",
         "error": null
       },
       "verify_cross_platform": {
-        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-zxEX4E\\extract\\0\\tests\\test-verify-zip.py",
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3\\extract\\0\\tests\\test-verify-zip.py",
         "status": 0,
         "signal": null,
         "stdout": "PASS verify.py --zip accepts POSIX member paths\r\nPASS verify.py --root accepts POSIX package\r\nPASS verify.py --zip accepts Windows backslash members and manifest paths\r\nPASS verify.py --zip accepts manifest at archive root\r\nPASS verify.py --zip rejects archive without root manifest\r\nPASS verify.py --zip rejects duplicate normalized members\r\nPASS verify.py --zip rejects size mismatch\r\nALL PASS (verify.zip cross-platform regression)\r\n",
@@ -1356,7 +1356,7 @@
       "status": "passed",
       "output": {
         "pack": "shenhua_huo",
-        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-zxEX4E\\targets\\single-shenhua_huo",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3\\targets\\single-shenhua_huo",
         "actions": [
           {
             "type": "create",
@@ -2121,7 +2121,7 @@
       "status": "passed",
       "output": {
         "pack": "shenhua_huo",
-        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-zxEX4E\\targets\\single-shenhua_huo",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3\\targets\\single-shenhua_huo",
         "actions": [
           {
             "type": "create",
@@ -2157,6 +2157,6 @@
     }
   ],
   "pass": true,
-  "workdir": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-zxEX4E",
-  "target": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-zxEX4E\\targets\\single-shenhua_huo"
+  "workdir": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3",
+  "target": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3\\targets\\single-shenhua_huo"
 }
