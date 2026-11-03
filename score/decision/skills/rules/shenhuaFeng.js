@@ -63,7 +63,8 @@ export function huangtianShouldGive(input) {
 	if (life > 1) return true;
 	if (hasShandian) return true;
 	if (shan > 1) return true;
-	return !selectedShan;
+	const givesShan = !!selectedShan || (shan <= 1 && !hasShandian);
+	return !givesShan;
 }
 
 export function shouldBypassQimouCountBlock(input) {
