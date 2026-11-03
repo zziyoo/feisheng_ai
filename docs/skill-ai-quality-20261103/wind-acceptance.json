@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-03T11:32:18.566Z",
+  "generated_at": "2026-11-03T13:56:32.678Z",
   "mode": "single",
   "repo": "C:\\Users\\32360\\.codex\\worktrees\\release-444\\无名AI",
-  "repo_head": "1e50268daa641c4a10eed1d8fdff0dff07ffd020",
+  "repo_head": "7a354d8ab9c2a226dc6b5bafcf11bdf0d4791146",
   "base_ref": null,
   "wired_index": null,
   "scenes": [
@@ -16,13 +16,13 @@
     "shenhua-huangtian-give",
     "shenhua-huangtian-negative",
     "shenhua-guhuo-claim",
-    "shenhua-guhuo-ai-use",
     "shenhua-guhuo-real-questioned",
     "shenhua-guhuo-fake-questioned",
     "shenhua-guhuo-phase",
     "shenhua-shensu-skip",
     "shenhua-shensu-negative",
     "quality-shensu1-lowhand-lebu",
+    "quality-shensu1-reverse-lowvalue",
     "shenhua-tianxiang-redirect",
     "shenhua-tianxiang-negative",
     "shenhua-hongyan-suit",
@@ -34,8 +34,14 @@
     "quality-jushou-normal",
     "quality-guhuo-bluff-lowhp",
     "quality-guhuo-bluff-midhp",
+    "quality-guhuo-full-lowhp-fake-lastshan",
+    "quality-guhuo-full-lowhp-true-sha-forced",
+    "quality-guhuo-full-lowhp-fake-expendable",
+    "quality-guhuo-full-midhp-fake-expendable",
     "quality-huangtian-last-shan",
     "quality-huangtian-midhp",
+    "quality-huangtian-last-shan-with-shandian",
+    "quality-huangtian-forced-shan-with-shandian",
     "shenhua-jushou-4hp-empty",
     "shenhua-jushou-lowhp",
     "shenhua-buqu-damage",
@@ -132,19 +138,6 @@
           "passed": true,
           "detail": {
             "used": false
-          }
-        },
-        {
-          "name": "guhuo-ai-use-settlement",
-          "passed": true,
-          "detail": {
-            "used": true,
-            "declared": "sha",
-            "targetEnemy": true,
-            "damage": 1,
-            "hidden": [
-              "tao"
-            ]
           }
         },
         {
@@ -332,6 +325,15 @@
           }
         },
         {
+          "name": "shensu1-opportunity-cost",
+          "passed": true,
+          "detail": {
+            "usedSha": 0,
+            "judgeCalls": 1,
+            "handCount": 2
+          }
+        },
+        {
           "name": "guhuo-lowhp-guard",
           "passed": true,
           "detail": {
@@ -357,6 +359,54 @@
           }
         },
         {
+          "name": "guhuo-full-lowhp-fake-declined",
+          "passed": true,
+          "detail": {
+            "activated": false,
+            "hand": [
+              "shan"
+            ],
+            "hp": 1
+          }
+        },
+        {
+          "name": "guhuo-full-lowhp-true-used",
+          "passed": true,
+          "detail": {
+            "activated": true,
+            "hidden": [
+              "sha"
+            ],
+            "enemyHp": 1,
+            "chanyuan": true
+          }
+        },
+        {
+          "name": "guhuo-full-lowhp-expendable",
+          "passed": true,
+          "detail": {
+            "activated": true,
+            "lost": [
+              "shandian"
+            ],
+            "hand": [
+              "shan"
+            ],
+            "enemyHp": 2
+          }
+        },
+        {
+          "name": "guhuo-full-midhp-expendable",
+          "passed": true,
+          "detail": {
+            "activated": true,
+            "hidden": [
+              "shandian"
+            ],
+            "enemyHp": 1
+          }
+        },
+        {
           "name": "huangtian-last-shan-kept",
           "passed": true,
           "detail": {
@@ -372,6 +422,32 @@
           "detail": {
             "used": true,
             "allyHand": [
+              "shan"
+            ]
+          }
+        },
+        {
+          "name": "huangtian-shandian-given-shan-kept",
+          "passed": true,
+          "detail": {
+            "used": true,
+            "allyHand": [
+              "shandian"
+            ]
+          }
+        },
+        {
+          "name": "huangtian-forced-shan-kept",
+          "passed": true,
+          "detail": {
+            "used": false,
+            "scores": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "hand": [
               "shan"
             ]
           }
@@ -486,21 +562,14 @@
           "rule_settlement": true,
           "ai_decision": true,
           "positive_negative": true,
-          "note": "1血最后一张闪不转交；3血双闪仍按原生转交。"
-        },
-        "xinfu_guhuo": {
-          "level": "确认存在质量提升并已实现",
-          "rule_settlement": true,
-          "ai_decision": true,
-          "positive_negative": true,
-          "note": "1血无真牌不诈称；3血同局面仍保留原生诈称分。"
+          "note": "1血最后一张闪不转交；持闪+闪电时只转交闪电；3血双闪仍按原生转交。"
         },
         "xinshensu": {
           "level": "确认存在质量提升并已实现",
           "rule_settlement": true,
           "ai_decision": true,
           "positive_negative": true,
-          "note": "低手牌+不良判定时使用神速1；无判定低手牌反向仍放弃。"
+          "note": "低手牌+不良判定且目标收益高于摸牌价值时使用神速1；目标收益低于摸牌价值时放弃并正常结算判定。"
         },
         "retianxiang": {
           "level": "正反向决策验证通过",
@@ -541,6 +610,13 @@
           "rule_settlement": true,
           "ai_decision": true,
           "positive_negative": true
+        },
+        "xinfu_guhuo": {
+          "level": "确认存在质量提升并已实现",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true,
+          "note": "1血无真牌不诈称；3血同局面仍保留原生诈称分。"
         }
       }
     }
@@ -723,26 +799,6 @@
         "note": "语义一致"
       },
       {
-        "scene": "shenhua-guhuo-ai-use",
-        "exact_match": true,
-        "semantic_match": true,
-        "native": {
-          "used": true,
-          "declared": "sha",
-          "targetEnemy": true,
-          "damage": 1,
-          "guhuoPhase": true
-        },
-        "extension": {
-          "used": true,
-          "declared": "sha",
-          "targetEnemy": true,
-          "damage": 1,
-          "guhuoPhase": true
-        },
-        "note": "语义一致"
-      },
-      {
         "scene": "shenhua-guhuo-real-questioned",
         "exact_match": true,
         "semantic_match": true,
@@ -837,6 +893,24 @@
           "targetEnemy": true
         },
         "note": "策略差异：原生手牌2时放弃神速1并结算乐不思蜀；扩展跳过判定并使用虚拟杀。"
+      },
+      {
+        "scene": "quality-shensu1-reverse-lowvalue",
+        "exact_match": true,
+        "semantic_match": true,
+        "native": {
+          "usedSha": 0,
+          "judgeResolved": true,
+          "lebuGone": true,
+          "handCount": 2
+        },
+        "extension": {
+          "usedSha": 0,
+          "judgeResolved": true,
+          "lebuGone": true,
+          "handCount": 2
+        },
+        "note": "语义一致"
       },
       {
         "scene": "shenhua-tianxiang-redirect",
@@ -1019,18 +1093,94 @@
         "note": "语义一致"
       },
       {
-        "scene": "quality-huangtian-last-shan",
+        "scene": "quality-guhuo-full-lowhp-fake-lastshan",
         "exact_match": true,
         "semantic_match": true,
         "native": {
-          "used": false,
-          "keptShan": true
+          "activated": false,
+          "keptShan": true,
+          "hp": 1,
+          "enemyHp": 2
+        },
+        "extension": {
+          "activated": false,
+          "keptShan": true,
+          "hp": 1,
+          "enemyHp": 2
+        },
+        "note": "语义一致"
+      },
+      {
+        "scene": "quality-guhuo-full-lowhp-true-sha-forced",
+        "exact_match": true,
+        "semantic_match": true,
+        "native": {
+          "activated": true,
+          "guhuo": true,
+          "enemyHp": 1,
+          "chanyuan": true,
+          "hp": 1
+        },
+        "extension": {
+          "activated": true,
+          "guhuo": true,
+          "enemyHp": 1,
+          "chanyuan": true,
+          "hp": 1
+        },
+        "note": "语义一致"
+      },
+      {
+        "scene": "quality-guhuo-full-lowhp-fake-expendable",
+        "exact_match": true,
+        "semantic_match": true,
+        "native": {
+          "activated": true,
+          "hiddenShandian": false,
+          "keptShan": true,
+          "hp": 1,
+          "enemyHp": 2
+        },
+        "extension": {
+          "activated": true,
+          "hiddenShandian": false,
+          "keptShan": true,
+          "hp": 1,
+          "enemyHp": 2
+        },
+        "note": "语义一致"
+      },
+      {
+        "scene": "quality-guhuo-full-midhp-fake-expendable",
+        "exact_match": true,
+        "semantic_match": true,
+        "native": {
+          "activated": true,
+          "hiddenShandian": true,
+          "keptShan": true,
+          "enemyHp": 1
+        },
+        "extension": {
+          "activated": true,
+          "hiddenShandian": true,
+          "keptShan": true,
+          "enemyHp": 1
+        },
+        "note": "语义一致"
+      },
+      {
+        "scene": "quality-huangtian-last-shan",
+        "exact_match": false,
+        "semantic_match": true,
+        "native": {
+          "used": true,
+          "keptShan": false
         },
         "extension": {
           "used": false,
           "keptShan": true
         },
-        "note": "语义一致"
+        "note": "策略差异：原生1血把最后一张闪转交主公；扩展保留该闪。"
       },
       {
         "scene": "quality-huangtian-midhp",
@@ -1045,6 +1195,38 @@
           "allyGotShan": true
         },
         "note": "语义一致"
+      },
+      {
+        "scene": "quality-huangtian-last-shan-with-shandian",
+        "exact_match": true,
+        "semantic_match": true,
+        "native": {
+          "used": true,
+          "keptShan": true,
+          "allyGotShandian": true
+        },
+        "extension": {
+          "used": true,
+          "keptShan": true,
+          "allyGotShandian": true
+        },
+        "note": "语义一致"
+      },
+      {
+        "scene": "quality-huangtian-forced-shan-with-shandian",
+        "exact_match": false,
+        "semantic_match": true,
+        "native": {
+          "used": true,
+          "keptShan": false,
+          "allyGotShan": true
+        },
+        "extension": {
+          "used": false,
+          "keptShan": true,
+          "allyGotShan": false
+        },
+        "note": "策略差异：原生在1血持闪+闪电且本次选闪时仍把最后一张闪交给主公；扩展按实际选牌保留闪，仅允许转交闪电。"
       },
       {
         "scene": "shenhua-jushou-4hp-empty",
@@ -1188,10 +1370,10 @@
         "scene": "shenhua-tianxiang-redirect",
         "type": "对称目标座位不同",
         "native": [
-          "75331523594"
+          "60505463593"
         ],
         "extension": [
-          "60505463593"
+          "61294103596"
         ]
       }
     ],
@@ -1322,6 +1504,34 @@
           "hp": 1
         },
         "note": "策略差异：原生1血无真牌仍给诈称正分；扩展将声明分置0，避免被质疑后失去最后1点体力。"
+      },
+      {
+        "scene": "quality-huangtian-last-shan",
+        "type": "huangtian-last-shan-kept",
+        "native": {
+          "used": true,
+          "keptShan": false
+        },
+        "extension": {
+          "used": false,
+          "keptShan": true
+        },
+        "note": "策略差异：原生1血把最后一张闪转交主公；扩展保留该闪。"
+      },
+      {
+        "scene": "quality-huangtian-forced-shan-with-shandian",
+        "type": "huangtian-forced-shan-kept",
+        "native": {
+          "used": true,
+          "keptShan": false,
+          "allyGotShan": true
+        },
+        "extension": {
+          "used": false,
+          "keptShan": true,
+          "allyGotShan": false
+        },
+        "note": "策略差异：原生在1血持闪+闪电且本次选闪时仍把最后一张闪交给主公；扩展按实际选牌保留闪，仅允许转交闪电。"
       }
     ]
   },
@@ -1330,8 +1540,8 @@
       "id": "shenhua_feng",
       "name": "神话再临·风",
       "zip": "C:\\Users\\32360\\Desktop\\feisheng-ai-packs\\feisheng-ai-shenhua-feng.zip",
-      "zip_size": 212033,
-      "zip_sha256": "d60e6806bc2646e500f0791d3472dffc548ba30e113f54c7ab4726050c1ad0ec",
+      "zip_size": 221475,
+      "zip_sha256": "e9ef692b162fb57a66a4ed521b8a4b8dece81a18d7e7a1e9c5d7bd594d991d53",
       "delivery_stage": "可交付",
       "implemented_skills": [
         "qimou",
@@ -1354,31 +1564,31 @@
       "pack": "shenhua_feng",
       "status": "passed",
       "package_tests": {
-        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\Desktop\\feisheng-native-ai\\accept-wind2\\extract\\0\\tests\\run-pack-tests.mjs",
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work\\extract\\0\\tests\\run-pack-tests.mjs",
         "status": 0,
         "signal": null,
-        "stdout": "PASS 奇谋档位按体力/杀数复刻宿主\nPASS 少杀时只放宽“杀次数可用”这一条阻塞\nPASS 原生已给正分时不覆盖\nPASS 卡不可用/目标已在射程内/距离过远/目标血过厚均不放宽\nPASS 低血/无杀/负收益目标不放宽\nPASS 狂骨：1血可回复时优先回复，其余返回原生选择\nPASS 据守：已翻面时摸三张没有额外回合成本\nPASS 神速1：低手牌但可跳过不良判定时放行\nPASS 蛊惑：1血无真牌不诈称，有真牌或非1血保持原生\nPASS 黄天：1血最后一张闪不转交，多闪或非1血保持原生\nALL PASS (10)\nPASS 包元数据与目标技能一致\nPASS 分包模块只 import 共享核心、自己的规则与安全适配\nPASS 共享核心与具体技能解耦\nPASS 包内只携带本分包策略模块\nPASS 注册表与 pack-only 注册表可安全合并\nPASS 134 维模型契约与版本未被本分包修改\nPASS 分包声明的静态约束成立\nPASS 分包规则不读取宿主实现\nALL PASS (8)\nALL PACK TESTS PASS (18)\n",
+        "stdout": "PASS 奇谋档位按体力/杀数复刻宿主\nPASS 少杀时只放宽“杀次数可用”这一条阻塞\nPASS 原生已给正分时不覆盖\nPASS 卡不可用/目标已在射程内/距离过远/目标血过厚均不放宽\nPASS 低血/无杀/负收益目标不放宽\nPASS 狂骨：1血可回复时优先回复，其余返回原生选择\nPASS 据守：已翻面时摸三张没有额外回合成本\nPASS 神速1：低手牌但可跳过不良判定且收益高于摸牌时放行\nPASS 蛊惑：1血无真牌且无可弃牌不诈称，有真牌/可弃牌/非1血保持原生\nPASS 黄天：按实际选牌判断，交最后一张闪保留，交闪电保留唯一闪\nALL PASS (10)\nPASS 包元数据与目标技能一致\nPASS 分包模块只 import 共享核心、自己的规则与安全适配\nPASS 共享核心与具体技能解耦\nPASS 包内只携带本分包策略模块\nPASS 注册表与 pack-only 注册表可安全合并\nPASS 134 维模型契约与版本未被本分包修改\nPASS 分包声明的静态约束成立\nPASS 分包规则不读取宿主实现\nALL PASS (8)\nALL PACK TESTS PASS (18)\n",
         "stderr": "",
         "error": null
       },
       "verify_zip": {
-        "command": "python C:\\Users\\32360\\Desktop\\feisheng-native-ai\\accept-wind2\\extract\\0\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-packs\\feisheng-ai-shenhua-feng.zip",
+        "command": "python C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work\\extract\\0\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-packs\\feisheng-ai-shenhua-feng.zip",
         "status": 0,
         "signal": null,
-        "stdout": "mode=zip files_listed=64 ok=64 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=1e50268daa641c4a10eed1d8fdff0dff07ffd020 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stdout": "mode=zip files_listed=66 ok=66 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=7a354d8ab9c2a226dc6b5bafcf11bdf0d4791146 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
         "stderr": "",
         "error": null
       },
       "verify_dir": {
-        "command": "python C:\\Users\\32360\\Desktop\\feisheng-native-ai\\accept-wind2\\extract\\0\\verify.py",
+        "command": "python C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work\\extract\\0\\verify.py",
         "status": 0,
         "signal": null,
-        "stdout": "mode=dir files_listed=64 ok=64 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=1e50268daa641c4a10eed1d8fdff0dff07ffd020 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stdout": "mode=dir files_listed=66 ok=66 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=7a354d8ab9c2a226dc6b5bafcf11bdf0d4791146 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
         "stderr": "",
         "error": null
       },
       "verify_cross_platform": {
-        "command": "python C:\\Users\\32360\\Desktop\\feisheng-native-ai\\accept-wind2\\extract\\0\\tests\\test-verify-zip.py",
+        "command": "python C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work\\extract\\0\\tests\\test-verify-zip.py",
         "status": 0,
         "signal": null,
         "stdout": "PASS verify.py --zip accepts POSIX member paths\r\nPASS verify.py --root accepts POSIX package\r\nPASS verify.py --zip accepts Windows backslash members and manifest paths\r\nPASS verify.py --zip accepts manifest at archive root\r\nPASS verify.py --zip rejects archive without root manifest\r\nPASS verify.py --zip rejects duplicate normalized members\r\nPASS verify.py --zip rejects size mismatch\r\nALL PASS (verify.zip cross-platform regression)\r\n",
@@ -1401,7 +1611,7 @@
       "status": "passed",
       "output": {
         "pack": "shenhua_feng",
-        "root": "C:\\Users\\32360\\Desktop\\feisheng-native-ai\\accept-wind2\\targets\\single-shenhua_feng",
+        "root": "C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work\\targets\\single-shenhua_feng",
         "actions": [
           {
             "type": "create",
@@ -1441,15 +1651,15 @@
       "checks": [
         {
           "file": "packs/shenhuaFeng.js",
-          "sha256": "5ff7a53c1d2d208ad340977a546b2586d4717f04bb96dbe5964d69cadd96613b"
+          "sha256": "219527779b402575bfffa86e540b509fd9663765f61bf9cc8e1576828e20616a"
         },
         {
           "file": "rules/shenhuaFeng.js",
-          "sha256": "3bdde74b3fcd06654a4b9d47645239b1950a89a416fb300ef605577e21054cd1"
+          "sha256": "9903e098c3b976067a1883d1239e128211c1f208b980a59a8a78a61b5ad0db8e"
         },
         {
           "file": "shared/policyCore.js",
-          "sha256": "6b8f2fe325ac9095af04e6d5594a1379a1dd8d6ca5ddee3976343adbe55b109c"
+          "sha256": "8657ee87e9ce9d7ae130f75342216e6edcfb2466bf83a3586ed5de29736dcc09"
         },
         {
           "file": "shared/skillAIPolicies.js",
@@ -1478,13 +1688,13 @@
         "shenhua-huangtian-give",
         "shenhua-huangtian-negative",
         "shenhua-guhuo-claim",
-        "shenhua-guhuo-ai-use",
         "shenhua-guhuo-real-questioned",
         "shenhua-guhuo-fake-questioned",
         "shenhua-guhuo-phase",
         "shenhua-shensu-skip",
         "shenhua-shensu-negative",
         "quality-shensu1-lowhand-lebu",
+        "quality-shensu1-reverse-lowvalue",
         "shenhua-tianxiang-redirect",
         "shenhua-tianxiang-negative",
         "shenhua-hongyan-suit",
@@ -1496,8 +1706,14 @@
         "quality-jushou-normal",
         "quality-guhuo-bluff-lowhp",
         "quality-guhuo-bluff-midhp",
+        "quality-guhuo-full-lowhp-fake-lastshan",
+        "quality-guhuo-full-lowhp-true-sha-forced",
+        "quality-guhuo-full-lowhp-fake-expendable",
+        "quality-guhuo-full-midhp-fake-expendable",
         "quality-huangtian-last-shan",
         "quality-huangtian-midhp",
+        "quality-huangtian-last-shan-with-shandian",
+        "quality-huangtian-forced-shan-with-shandian",
         "shenhua-jushou-4hp-empty",
         "shenhua-jushou-lowhp",
         "shenhua-buqu-damage",
@@ -1512,18 +1728,20 @@
         "kuangguRecover": 3,
         "jushouTurned": 1,
         "shensuSkipJudge": 7,
-        "guhuoLowHpGuard": 4,
-        "huangtianLastShan": 2,
-        "guhuoCalls": 36,
+        "shensuCostBlock": 6,
+        "guhuoLowHpGuard": 8,
+        "huangtianLastShan": 6,
+        "guhuoCalls": 48,
         "packs": {
           "shenhua_feng": {
             "qimouBypass": 2,
             "kuangguRecover": 3,
             "jushouTurned": 1,
             "shensuSkipJudge": 7,
-            "guhuoLowHpGuard": 4,
-            "huangtianLastShan": 2,
-            "guhuoCalls": 36
+            "shensuCostBlock": 6,
+            "guhuoLowHpGuard": 8,
+            "huangtianLastShan": 6,
+            "guhuoCalls": 48
           }
         }
       },
@@ -1611,19 +1829,6 @@
               "passed": true,
               "detail": {
                 "used": false
-              }
-            },
-            {
-              "name": "guhuo-ai-use-settlement",
-              "passed": true,
-              "detail": {
-                "used": true,
-                "declared": "sha",
-                "targetEnemy": true,
-                "damage": 1,
-                "hidden": [
-                  "tao"
-                ]
               }
             },
             {
@@ -1811,6 +2016,15 @@
               }
             },
             {
+              "name": "shensu1-opportunity-cost",
+              "passed": true,
+              "detail": {
+                "usedSha": 0,
+                "judgeCalls": 1,
+                "handCount": 2
+              }
+            },
+            {
               "name": "guhuo-lowhp-guard",
               "passed": true,
               "detail": {
@@ -1836,6 +2050,54 @@
               }
             },
             {
+              "name": "guhuo-full-lowhp-fake-declined",
+              "passed": true,
+              "detail": {
+                "activated": false,
+                "hand": [
+                  "shan"
+                ],
+                "hp": 1
+              }
+            },
+            {
+              "name": "guhuo-full-lowhp-true-used",
+              "passed": true,
+              "detail": {
+                "activated": true,
+                "hidden": [
+                  "sha"
+                ],
+                "enemyHp": 1,
+                "chanyuan": true
+              }
+            },
+            {
+              "name": "guhuo-full-lowhp-expendable",
+              "passed": true,
+              "detail": {
+                "activated": true,
+                "lost": [
+                  "shandian"
+                ],
+                "hand": [
+                  "shan"
+                ],
+                "enemyHp": 2
+              }
+            },
+            {
+              "name": "guhuo-full-midhp-expendable",
+              "passed": true,
+              "detail": {
+                "activated": true,
+                "hidden": [
+                  "shandian"
+                ],
+                "enemyHp": 1
+              }
+            },
+            {
               "name": "huangtian-last-shan-kept",
               "passed": true,
               "detail": {
@@ -1851,6 +2113,32 @@
               "detail": {
                 "used": true,
                 "allyHand": [
+                  "shan"
+                ]
+              }
+            },
+            {
+              "name": "huangtian-shandian-given-shan-kept",
+              "passed": true,
+              "detail": {
+                "used": true,
+                "allyHand": [
+                  "shandian"
+                ]
+              }
+            },
+            {
+              "name": "huangtian-forced-shan-kept",
+              "passed": true,
+              "detail": {
+                "used": false,
+                "scores": [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "hand": [
                   "shan"
                 ]
               }
@@ -1965,21 +2253,14 @@
               "rule_settlement": true,
               "ai_decision": true,
               "positive_negative": true,
-              "note": "1血最后一张闪不转交；3血双闪仍按原生转交。"
-            },
-            "xinfu_guhuo": {
-              "level": "确认存在质量提升并已实现",
-              "rule_settlement": true,
-              "ai_decision": true,
-              "positive_negative": true,
-              "note": "1血无真牌不诈称；3血同局面仍保留原生诈称分。"
+              "note": "1血最后一张闪不转交；持闪+闪电时只转交闪电；3血双闪仍按原生转交。"
             },
             "xinshensu": {
               "level": "确认存在质量提升并已实现",
               "rule_settlement": true,
               "ai_decision": true,
               "positive_negative": true,
-              "note": "低手牌+不良判定时使用神速1；无判定低手牌反向仍放弃。"
+              "note": "低手牌+不良判定且目标收益高于摸牌价值时使用神速1；目标收益低于摸牌价值时放弃并正常结算判定。"
             },
             "retianxiang": {
               "level": "正反向决策验证通过",
@@ -2020,6 +2301,13 @@
               "rule_settlement": true,
               "ai_decision": true,
               "positive_negative": true
+            },
+            "xinfu_guhuo": {
+              "level": "确认存在质量提升并已实现",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true,
+              "note": "1血无真牌不诈称；3血同局面仍保留原生诈称分。"
             }
           }
         }
@@ -2062,10 +2350,10 @@
           "scene": "shenhua-tianxiang-redirect",
           "type": "对称目标座位不同",
           "native": [
-            "75331523594"
+            "60505463593"
           ],
           "extension": [
-            "60505463593"
+            "61294103596"
           ]
         }
       ],
@@ -2196,6 +2484,34 @@
             "hp": 1
           },
           "note": "策略差异：原生1血无真牌仍给诈称正分；扩展将声明分置0，避免被质疑后失去最后1点体力。"
+        },
+        {
+          "scene": "quality-huangtian-last-shan",
+          "type": "huangtian-last-shan-kept",
+          "native": {
+            "used": true,
+            "keptShan": false
+          },
+          "extension": {
+            "used": false,
+            "keptShan": true
+          },
+          "note": "策略差异：原生1血把最后一张闪转交主公；扩展保留该闪。"
+        },
+        {
+          "scene": "quality-huangtian-forced-shan-with-shandian",
+          "type": "huangtian-forced-shan-kept",
+          "native": {
+            "used": true,
+            "keptShan": false,
+            "allyGotShan": true
+          },
+          "extension": {
+            "used": false,
+            "keptShan": true,
+            "allyGotShan": false
+          },
+          "note": "策略差异：原生在1血持闪+闪电且本次选闪时仍把最后一张闪交给主公；扩展按实际选牌保留闪，仅允许转交闪电。"
         }
       ]
     },
@@ -2247,13 +2563,13 @@
         "shenhua-huangtian-give",
         "shenhua-huangtian-negative",
         "shenhua-guhuo-claim",
-        "shenhua-guhuo-ai-use",
         "shenhua-guhuo-real-questioned",
         "shenhua-guhuo-fake-questioned",
         "shenhua-guhuo-phase",
         "shenhua-shensu-skip",
         "shenhua-shensu-negative",
         "quality-shensu1-lowhand-lebu",
+        "quality-shensu1-reverse-lowvalue",
         "shenhua-tianxiang-redirect",
         "shenhua-tianxiang-negative",
         "shenhua-hongyan-suit",
@@ -2265,8 +2581,14 @@
         "quality-jushou-normal",
         "quality-guhuo-bluff-lowhp",
         "quality-guhuo-bluff-midhp",
+        "quality-guhuo-full-lowhp-fake-lastshan",
+        "quality-guhuo-full-lowhp-true-sha-forced",
+        "quality-guhuo-full-lowhp-fake-expendable",
+        "quality-guhuo-full-midhp-fake-expendable",
         "quality-huangtian-last-shan",
         "quality-huangtian-midhp",
+        "quality-huangtian-last-shan-with-shandian",
+        "quality-huangtian-forced-shan-with-shandian",
         "shenhua-jushou-4hp-empty",
         "shenhua-jushou-lowhp",
         "shenhua-buqu-damage",
@@ -2291,7 +2613,7 @@
       "status": "passed",
       "output": {
         "pack": "shenhua_feng",
-        "root": "C:\\Users\\32360\\Desktop\\feisheng-native-ai\\accept-wind2\\targets\\single-shenhua_feng",
+        "root": "C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work\\targets\\single-shenhua_feng",
         "actions": [
           {
             "type": "create",
@@ -2311,7 +2633,7 @@
         "skips": [
           {
             "targetRel": "score/decision/skills/policyCore.js",
-            "hash": "6b8f2fe325ac9095af04e6d5594a1379a1dd8d6ca5ddee3976343adbe55b109c",
+            "hash": "8657ee87e9ce9d7ae130f75342216e6edcfb2466bf83a3586ed5de29736dcc09",
             "kind": "共享核心"
           },
           {
@@ -2327,6 +2649,6 @@
     }
   ],
   "pass": true,
-  "workdir": "C:\\Users\\32360\\Desktop\\feisheng-native-ai\\accept-wind2",
-  "target": "C:\\Users\\32360\\Desktop\\feisheng-native-ai\\accept-wind2\\targets\\single-shenhua_feng"
+  "workdir": "C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work",
+  "target": "C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work\\targets\\single-shenhua_feng"
 }
