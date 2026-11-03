@@ -122,14 +122,17 @@ function readme(pack, config, evidenceNames) {
 	const externalNote = externalReceipt === 'pending'
 		? '\n**外部集成回执：待取得。** 本包已完成质量审查并可交付外部开发者集成；尚未收到外部集成回执，因此不作为“已交付”声明。\n'
 		: '';
-	const nativePatchNote = evidenceNames.some(name => name.startsWith('wind-native/'))
+	const nativePatchEvidence = evidenceNames.some(name => name.startsWith('wind-native/'))
+		? 'wind-native'
+		: evidenceNames.some(name => name.startsWith('huo-native/')) ? 'huo-native' : null;
+	const nativePatchNote = nativePatchEvidence
 		? `
 ## 原生 AI 补丁（与扩展分包二选一）
 
-本包同时提供宿主原生 AI 补丁 \`evidence/wind-native/wind-native.patch\`（以及 \`0001\`～\`0005\` 逐武将补丁），适用于宿主 1.11.7 \`character/shenhua.js\`；基线/最终 SHA256 见 \`evidence/wind-native/SHA256.json\`。
+本包同时提供宿主原生 AI 补丁 \`evidence/${nativePatchEvidence}/${nativePatchEvidence}.patch\`（以及逐武将补丁），适用于宿主 1.11.7 \`character/shenhua.js\`；基线/最终 SHA256 见 \`evidence/${nativePatchEvidence}/SHA256.json\`。
 
 - **方式 A：无名AI 扩展分包**：按下方“集成”安装 \`source/...\` 策略模块，由扩展的 \`host.wrap\` 接管 AI。
-- **方式 B：宿主原生 AI 补丁**：只对宿主的 \`character/shenhua.js\` 应用 \`evidence/wind-native/wind-native.patch\` 或逐武将补丁，不安装本扩展分包。
+- **方式 B：宿主原生 AI 补丁**：只对宿主的 \`character/shenhua.js\` 应用 \`evidence/${nativePatchEvidence}/${nativePatchEvidence}.patch\` 或逐武将补丁，不安装本扩展分包。
 
 不要在同一个宿主同时应用原生补丁并安装本分包：两者会重复接管同一 AI 入口，后续维护可能出现两处逻辑漂移。扩展虽然会在原生结果上做幂等判断，不会重复扣血/摸牌，但这不等于应当同时启用。原生补丁只修改 AI 决策函数，不改技能规则、目标合法性、伤害/回复结算或非 AI 流程。
 `
