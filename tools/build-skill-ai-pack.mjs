@@ -96,7 +96,9 @@ function checklistMarkdown(pack, records) {
 			levels[level] = (levels[level] || 0) + 1;
 		}
 	}
-	const lines = [`# ${pack.pack_name} 技能验收清单`, '', `- 分包状态：${pack.review_status}`, `- 交付状态：${pack.delivery_status}`, `- 完整可交付：${pack.can_mark_deliverable ? '是' : '否'}`, `- 验证级别汇总：${Object.entries(levels).map(([level, count]) => `${level} ${count}`).join('；')}`, ''];
+	const externalReceipt = pack.delivery && pack.delivery.external_integration_receipt;
+	const externalText = externalReceipt === 'pending' ? '待取得（可交付外部集成，未声明已交付）' : (externalReceipt || '未登记');
+	const lines = [`# ${pack.pack_name} 技能验收清单`, '', `- 分包状态：${pack.review_status}`, `- 交付状态：${pack.delivery_status}`, `- 完整可交付：${pack.can_mark_deliverable ? '是' : '否'}`, `- 外部集成回执：${externalText}`, `- 验证级别汇总：${Object.entries(levels).map(([level, count]) => `${level} ${count}`).join('；')}`, ''];
 	lines.push('| 武将 | 技能ID | 技能 | 审查状态 | 验证级别 | 实现 | 测试 | 证据摘要 |');
 	lines.push('| --- | --- | --- | --- | --- | --- | --- | --- |');
 	for (const record of records) {
@@ -116,6 +118,10 @@ function readme(pack, config, evidenceNames) {
 	const missing = pack.counts.unreviewed_skills;
 	const deliverable = !!pack.can_mark_deliverable && ['可交付', '已交付'].includes(pack.delivery_status);
 	const reviewOnly = config.implementedSkills.length === 0;
+	const externalReceipt = pack.delivery && pack.delivery.external_integration_receipt;
+	const externalNote = externalReceipt === 'pending'
+		? '\n**外部集成回执：待取得。** 本包已完成质量审查并可交付外部开发者集成；尚未收到外部集成回执，因此不作为“已交付”声明。\n'
+		: '';
 	const nativePatchNote = evidenceNames.some(name => name.startsWith('wind-native/'))
 		? `
 ## 原生 AI 补丁（与扩展分包二选一）
@@ -140,10 +146,11 @@ function readme(pack, config, evidenceNames) {
 	return `# ${pack.pack_name} · 无名AI 技能 AI 分包（${deliverable ? '可交付' : '阶段性'}）
 
 > ${intro}
-
+${externalNote}
 - 分包 ID：\`${pack.pack_id}\`
 - 分包状态：\`${pack.review_status}\`
 - 交付状态：\`${pack.delivery_status}\`
+- 外部集成回执：\`${externalReceipt || '未登记'}\`
 - 基线：\`${BASELINE}\`；HEAD：\`${HEAD}\`
 - 已实现策略：${config.implementedSkills.length ? config.implementedSkills.map(id => '`' + id + '`').join('、') : '无（复核包，不覆盖宿主 AI）'}
 - 版本：无名AI 4.4.4 / 无名杀 1.11.7；134 维模型契约未改
@@ -282,6 +289,8 @@ function buildPack(config) {
 		pack_status: pack.review_status,
 		delivery_status: pack.delivery_status,
 		can_mark_deliverable: pack.can_mark_deliverable,
+		external_integration_receipt: pack.delivery && pack.delivery.external_integration_receipt || null,
+		external_integration_note: pack.delivery && pack.delivery.external_integration_note || null,
 		module: config.module,
 		rules: config.rules,
 		implemented_skills: config.implementedSkills,
@@ -316,6 +325,9 @@ function buildPack(config) {
 		pack_name: pack.pack_name,
 		pack_status: pack.review_status,
 		delivery_status: pack.delivery_status,
+		can_mark_deliverable: pack.can_mark_deliverable,
+		external_integration_receipt: pack.delivery && pack.delivery.external_integration_receipt || null,
+		external_integration_note: pack.delivery && pack.delivery.external_integration_note || null,
 		criteria: pack.criteria,
 		counts: pack.counts,
 		target_characters: pack.target_characters,
@@ -420,6 +432,9 @@ function buildPack(config) {
 			pack_status: pack.review_status,
 			delivery_status: pack.delivery_status,
 			complete_delivery: deliverable,
+			can_mark_deliverable: pack.can_mark_deliverable,
+			external_integration_receipt: pack.delivery && pack.delivery.external_integration_receipt || null,
+			external_integration_note: pack.delivery && pack.delivery.external_integration_note || null,
 			target_skills: pack.target_skills,
 			implemented_skills: config.implementedSkills,
 			review_only: config.implementedSkills.length === 0,

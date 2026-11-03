@@ -24,7 +24,7 @@
       "status": "可交付",
       "delivery_status": "可交付",
       "zip_name": "feisheng-ai-shenhua-feng.zip",
-      "note": "完整可交付包：本包登记技能已全部审查、无阻塞项，安装/卸载/回滚/宿主加载验收通过。",
+      "note": "完整可交付包（待外部集成回执）：本包登记技能已全部审查、缺陷已解决、无阻塞项；安装/卸载/回滚/宿主加载验收通过。",
       "zip_sha256": "b0de672aac88866b6b57a02bfaa1b9fdb74d90cd6e5d99ad3ba2864f4b5bdaed",
       "zip_size": 193512,
       "built_at": "2026-11-03T14:52:23.975Z",
@@ -38,7 +38,9 @@
       "acceptance_note": "42 场景/40 技能级检查针对清理前 ZIP；清理后 ZIP 仅文档、证据清单与打包器变化，未改运行时代码，未重跑宿主场景；清理校验见 accept-shenhua_feng-cleanup.json。",
       "upstream_acceptance_note": "accept-upstream-combined-final.json 为上一版风包 ZIP 的历史证据；本轮新增黄天/蛊惑/神速改动后未重跑上游组合",
       "cleanup_acceptance_file": "accept-shenhua_feng-cleanup.json",
-      "cleanup_acceptance_sha256": "c42e96be85f0b51b64f2379344f612f7423cc2346290aec005f877cfbb1b7d5a"
+      "cleanup_acceptance_sha256": "c42e96be85f0b51b64f2379344f612f7423cc2346290aec005f877cfbb1b7d5a",
+      "external_integration_receipt": "pending",
+      "external_integration_note": "风包12项技能已完成质量审查，可交付外部开发者集成；尚未取得外部集成回执，不声明已交付。"
     },
     {
       "pack_id": "refresh_feng",

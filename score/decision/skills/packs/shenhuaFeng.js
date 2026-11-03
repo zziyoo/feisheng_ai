@@ -130,8 +130,9 @@ function installShensu(host, stats) {
 	});
 }
 
-/* 于吉【蛊惑】：1血时没有真牌仍诈称，被质疑失去1点体力会直接进入濒死。
- * 只在“无真牌 + 1血 + 非濒死”时降低声明分，其它真假/随机分支保持原生。 */
+/* 于吉【蛊惑】：宿主 1.11.7 的假牌被质疑时“此牌作废”，不直接失去体力；
+ * 1血无真牌仍诈称的风险是损失扣置的防御牌。只在“无真牌 + 1血 + 非濒死”时
+ * 降低声明分，其它真假/随机分支保持原生。 */
 function installGuhuo(host, stats) {
 	const info = lib.skill && lib.skill.xinfu_guhuo;
 	const check = info && info.chooseButton && info.chooseButton.check;

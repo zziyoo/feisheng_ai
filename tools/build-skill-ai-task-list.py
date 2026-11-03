@@ -146,29 +146,29 @@ SKILL_OVERRIDES = {
             'notes': '只在有利方向改判；未复现误判或资敌。',
         },
         'huangtian': {
-            'status': '已修复', 'implementation': '无名AI shenhua_feng：huangtian2 是其他群势力角色响应张角主公技【黄天】的交牌 AI，决策者是交牌方而非张角；1血按 ui.selected.cards 的实际选牌判断，选中最后一张闪且无备用闪时不转交，选中闪电可转交并保留唯一闪；原生补丁 commit bd192a8/2971478/7dabb0b', 'test': 'quality-huangtian-last-shan / quality-huangtian-last-shan-with-shandian / quality-huangtian-forced-shan-with-shandian / quality-huangtian-midhp',
+            'status': '已修复', 'implementation': '已实施', 'test': '真实宿主通过',
             'validation_level': '确认存在质量提升并已实现',
             'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True, 'note': '强制选闪、自然选闪电、只有闪、多闪四种局面均记录评分与实际交手牌结果；触发条件为张角为主公、交牌者为群势力且在其出牌阶段、手牌有闪/闪电、张角本阶段未获得过黄天。'},
             'evidence': 'wind-extension.json / wind-native-baseline.json / quality-huangtian-last-shan、quality-huangtian-last-shan-with-shandian、quality-huangtian-forced-shan-with-shandian、quality-huangtian-midhp：1血只有闪时原生交出、补丁/扩展保留；1血闪+闪电自然选牌时双方只交闪电并保留闪；强制选闪时原生仍交最后闪，补丁/扩展评分为0并保留；3血双闪仍转交。完整验收见交付目录 accept-shenhua_feng.json。',
-            'notes': 'huangtian 是张角的主公技，huangtian2 是其他群势力角色获得的响应技能；ai.result.target 评价的是交牌者是否把本次选中的闪/闪电交给张角。原生 result.target 的 card 参数是技能名字符串，不是实体牌；按真实评分阶段的 ui.selected.cards 判断，不能凭手里有闪电推断交闪安全。已选牌但无法辨别时保守返回0，尚未选牌时保留原生评分。',
+            'notes': '改动：huangtian2 是其他群势力角色响应张角主公技【黄天】的交牌 AI，决策者是交牌方而非张角；1血按 ui.selected.cards 的实际选牌判断，选中最后一张闪且无备用闪时不转交，选中闪电可转交并保留唯一闪；原生补丁 commit bd192a8/2971478/7dabb0b。huangtian 是张角的主公技，huangtian2 是其他群势力角色获得的响应技能；ai.result.target 评价的是交牌者是否把本次选中的闪/闪电交给张角。原生 result.target 的 card 参数是技能名字符串，不是实体牌；按真实评分阶段的 ui.selected.cards 判断，不能凭手里有闪电推断交闪安全。已选牌但无法辨别时保守返回0，尚未选牌时保留原生评分。',
         },
     },
     're_yuji': {
         'xinfu_guhuo': {
-            'status': '已修复', 'implementation': '无名AI shenhua_feng：1血无真牌时仅在有可弃低价值非防御牌（非闪/非桃且 get.value<6）时保留诈称；原生补丁 commit ce66ca0/751b29a', 'test': 'quality-guhuo-bluff-lowhp / quality-guhuo-bluff-midhp / quality-guhuo-full-lowhp-fake-lastshan / quality-guhuo-full-lowhp-true-sha-forced / quality-guhuo-full-lowhp-fake-expendable / quality-guhuo-full-midhp-fake-expendable',
+            'status': '已修复', 'implementation': '已实施', 'test': '真实宿主通过',
             'validation_level': '确认存在质量提升并已实现',
             'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True, 'note': '四种完整出牌场景记录实际发动/扣牌/伤害/质疑结果；1血无可弃牌与3血可弃闪电形成正反向。评分阶段4.70→0不等于真实行为差异：同一1血仅闪完整场景中，原生最终也没有发动。'},
             'evidence': 'wind-extension.json / wind-native-baseline.json / quality-guhuo-full-lowhp-fake-lastshan、quality-guhuo-full-lowhp-true-sha-forced、quality-guhuo-full-lowhp-fake-expendable、quality-guhuo-full-midhp-fake-expendable：1血无可弃牌时原生与扩展最终都未发动（原生先选sha声明后放弃，扩展不声明），均保留闪；1血真牌、1血闪电可弃、3血闪电可弃均实际发动并记录扣牌/伤害/质疑结果。评分对照 quality-guhuo-bluff-lowhp 原生4.70、扩展0，但不是已阻止真实错误出牌的证据。',
-            'notes': '宿主 1.11.7 假牌结算为“此牌作废”，不直接失去体力；守卫避免的是损失最后一张防御牌。旧守卫在1血一律拦截会误伤可弃闪电的合理诈称，本轮改为按可弃牌判断。4.70→0只改变声明阶段评分；当前固定局面未找到原生实际发动危险诈称的自然反例，因此不宣称行为层面的错误拦截。',
+            'notes': '改动：1血无真牌时仅在有可弃低价值非防御牌（非闪/非桃且 get.value<6）时保留诈称；原生补丁 commit ce66ca0/751b29a。宿主 1.11.7 假牌结算为“此牌作废”，不直接失去体力；守卫避免的是损失最后一张防御牌。旧守卫在1血一律拦截会误伤可弃闪电的合理诈称，本轮改为按可弃牌判断。4.70→0只改变声明阶段评分；当前固定局面未找到原生实际发动危险诈称的自然反例，因此不宣称行为层面的错误拦截。',
         },
     },
     're_xiahouyuan': {
         'xinshensu': {
-            'status': '已修复', 'implementation': '无名AI shenhua_feng：低手牌+不良判定时，仅当虚拟杀收益不低于一次摸牌价值才使用神速1；原生补丁 commit 0749a7e/e0f7148/27e46d3', 'test': 'quality-shensu1-lowhand-lebu / quality-shensu1-reverse-lowvalue / shenhua-shensu-skip / shenhua-shensu-negative',
+            'status': '已修复', 'implementation': '已实施', 'test': '真实宿主通过',
             'validation_level': '确认存在质量提升并已实现',
             'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True, 'note': '正向跳过判定/摸牌并命中；反向目标收益不足时正常结算判定且不使用虚拟杀。'},
             'evidence': 'wind-extension.json / wind-native-patched.json / quality-shensu1-lowhand-lebu、quality-shensu1-reverse-lowvalue：正向手牌2+乐、目标无手牌时虚拟杀收益15.309>摸牌9.9，跳过判定并使用虚拟杀；反向所有敌方各两张闪时收益3.861<9.9，不发动，乐正常判定并移除。完整验收见交付目录 accept-shenhua_feng.json。',
-            'notes': '只放宽“低手牌+不良判定+收益足够”一条；高牌数分支保持原生；门槛使用宿主自身 get.effect(draw) 值，不新增固定评分常数。',
+            'notes': '改动：低手牌+不良判定时，仅当虚拟杀收益不低于一次摸牌价值才使用神速1；原生补丁 commit 0749a7e/e0f7148/27e46d3。只放宽“低手牌+不良判定+收益足够”一条；高牌数分支保持原生；门槛使用宿主自身 get.effect(draw) 值，不新增固定评分常数。',
         },
     },
     'xiaoqiao': {
@@ -205,11 +205,11 @@ SKILL_OVERRIDES = {
     },
     'old_caoren': {
         'jushou': {
-            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
-            'validation_level': '正反向决策验证通过',
-            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True},
-            'evidence': 'wind-acceptance.json / shenhua-jushou-4hp-empty、shenhua-jushou-lowhp：4 血空手时 check 为 false，不摸牌不翻面；3 血空手时摸 3 张并翻面。',
-            'notes': '未复现满血误发动或低血漏发。',
+            'status': '已修复', 'implementation': '已实施', 'test': '真实宿主通过',
+            'validation_level': '确认存在质量提升并已实现',
+            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True, 'note': '已翻面时原生不发动；补丁/扩展摸3张并翻回正面；4血3手牌反向不发动。'},
+            'evidence': 'wind-native-patched.json / wind-extension.json / quality-jushou-turned、quality-jushou-normal：quality-jushou-turned 原生 drew=0、turned=true，补丁/扩展 drew=3、turned=false；quality-jushou-normal 原生/补丁/扩展均不发动。完整验收见交付目录 accept-shenhua_feng.json。',
+            'notes': '改动：jushou.check 保留原生 hp+手牌<4 条件，并增加 player.isTurnedOver() 分支；原生补丁 commit da232e1。只改 check，不改摸牌/翻面结算。',
         },
     },
     'old_zhoutai': {
