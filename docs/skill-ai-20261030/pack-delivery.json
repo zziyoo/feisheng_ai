@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-11-03T08:53:52.608Z",
+  "updated_at": "2026-11-03T14:50:46.575274Z",
   "packs": [
     {
       "pack_id": "refresh_standard",
@@ -25,9 +25,9 @@
       "delivery_status": "可交付",
       "zip_name": "feisheng-ai-shenhua-feng.zip",
       "note": "完整可交付包：本包登记技能已全部审查、无阻塞项，安装/卸载/回滚/宿主加载验收通过。",
-      "zip_sha256": "2624213fe0f90dc9b9e2117937aa7139184cc5c9803a5d0646a9b60ca530540b",
-      "zip_size": 221542,
-      "built_at": "2026-11-03T14:02:29.553Z",
+      "zip_sha256": "d72052275e8d685afc6ac5ee9958f84e19d80ebdfaa2872fc91a82a47af6769f",
+      "zip_size": 193289,
+      "built_at": "2026-11-03T14:47:39.724Z",
       "acceptance_status": "passed",
       "acceptance_file": "accept-shenhua_feng.json",
       "acceptance_sha256": "2314f7508cbce541cdd9b1c9c24af78b3a22aac6ea384ed2cf418af68fcb72fb",
@@ -35,8 +35,10 @@
       "upstream_acceptance_status": "historical",
       "upstream_acceptance_file": "accept-upstream-combined-final.json",
       "upstream_acceptance_sha256": "4e2546a856df00720a637451fcba286b868f0f903939618811d9d36b23dcc9e9",
-      "acceptance_note": "42 场景、40 条技能级检查；黄天选牌、蛊惑资源、神速机会成本补修；单包安装/回滚/重装/134维 PASS",
-      "upstream_acceptance_note": "accept-upstream-combined-final.json 为上一版风包 ZIP 的历史证据；本轮新增黄天/蛊惑/神速改动后未重跑上游组合"
+      "acceptance_note": "42 场景/40 技能级检查针对清理前 ZIP；清理后 ZIP 仅文档、证据清单与打包器变化，未改运行时代码，未重跑宿主场景；清理校验见 accept-shenhua_feng-cleanup.json。",
+      "upstream_acceptance_note": "accept-upstream-combined-final.json 为上一版风包 ZIP 的历史证据；本轮新增黄天/蛊惑/神速改动后未重跑上游组合",
+      "cleanup_acceptance_file": "accept-shenhua_feng-cleanup.json",
+      "cleanup_acceptance_sha256": "7b97e49419af5b884133d264b873b945cedeab47c8128b547147cab51d9dc254"
     },
     {
       "pack_id": "refresh_feng",
