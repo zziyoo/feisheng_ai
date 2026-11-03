@@ -416,7 +416,7 @@ export function compareNativeExtension(nativeReport, extensionReport, scenes) {
 			const guhuoLowHp = name === 'quality-guhuo-bluff-lowhp' && native.positive === true && native.zero === false && extension.positive === false && extension.zero === true && native.hp === 1 && extension.hp === 1;
 			if (guhuoLowHp) {
 				allowed = true;
-				note = '策略差异：原生1血无真牌仍给诈称正分；扩展将声明分置0，避免被质疑后失去最后1点体力。';
+				note = '策略差异：原生1血无真牌仍给诈称正分；扩展将声明分置0。宿主1.11.7假牌被质疑时此牌作废，不直接失去体力；该局面只比较声明评分，同一完整出牌场景中原生最终也未发动，不能据此声称已阻止真实错误出牌。';
 				strategyDifferences.push({ scene: name, type: 'guhuo-lowhp-bluff-guard', native, extension, note });
 			}
 			const huangtianLastShan = name === 'quality-huangtian-last-shan' && native.used === true && native.keptShan === false && extension.used === false && extension.keptShan === true;
