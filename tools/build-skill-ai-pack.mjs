@@ -116,6 +116,18 @@ function readme(pack, config, evidenceNames) {
 	const missing = pack.counts.unreviewed_skills;
 	const deliverable = !!pack.can_mark_deliverable && ['可交付', '已交付'].includes(pack.delivery_status);
 	const reviewOnly = config.implementedSkills.length === 0;
+	const nativePatchNote = evidenceNames.some(name => name.startsWith('wind-native/'))
+		? `
+## 原生 AI 补丁（与扩展分包二选一）
+
+本包同时提供宿主原生 AI 补丁 \`evidence/wind-native/wind-native.patch\`（以及 \`0001\`～\`0005\` 逐武将补丁），适用于宿主 1.11.7 \`character/shenhua.js\`；基线/最终 SHA256 见 \`evidence/wind-native/SHA256.json\`。
+
+- **方式 A：无名AI 扩展分包**：按下方“集成”安装 \`source/...\` 策略模块，由扩展的 \`host.wrap\` 接管 AI。
+- **方式 B：宿主原生 AI 补丁**：只对宿主的 \`character/shenhua.js\` 应用 \`evidence/wind-native/wind-native.patch\` 或逐武将补丁，不安装本扩展分包。
+
+不要在同一个宿主同时应用原生补丁并安装本分包：两者会重复接管同一 AI 入口，后续维护可能出现两处逻辑漂移。扩展虽然会在原生结果上做幂等判断，不会重复扣血/摸牌，但这不等于应当同时启用。原生补丁只修改 AI 决策函数，不改技能规则、目标合法性、伤害/回复结算或非 AI 流程。
+`
+		: '';
 	const intro = deliverable
 		? (reviewOnly
 			? `**完整复核包。** 本包登记 ${pack.counts.characters} 名武将、${pack.counts.skills} 个技能已全部审查；复核后未发现需要覆盖的 AI 缺陷，因此本包不包含运行时策略覆盖。
@@ -146,7 +158,7 @@ function readme(pack, config, evidenceNames) {
 - \`integration/pack-only/skillAIPolicyPacks.js\`：只包含本分包的注册表
 
 **不包含**其他分包未完成的策略代码、模型权重、训练数据、后端配置或完整扩展包。
-
+${nativePatchNote}
 ## 集成
 
 目标必须是已接入无名AI策略 facade 的扩展（\`score/index.js\` 含 \`installSkillAIPolicies\`/\`uninstallSkillAIPolicies\`；否则先应用 \`patches/score-index.diff\`）。
