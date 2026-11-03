@@ -81,7 +81,7 @@ export const CODE_PACKS = [
 		id: 'shenhua_huo',
 		module: 'shenhuaHuo',
 		rules: 'shenhuaHuo',
-		implementedSkills: ['luanji', 'tianyi', 'quhu', 'jieming', 'jianchu'],
+		implementedSkills: ['luanji', 'tianyi', 'jianchu'],
 		auditedSkills: [
 			'qiangxix', 'quhu', 'jieming', 'lianhuan', 'oldniepan', 'tianyi',
 			'shuangxiong', 'luanji', 'xueyi', 'bazhen', 'huoji', 'kanpo', 'mashu', 'jianchu',
