@@ -2338,6 +2338,176 @@ export async function runSkillAiScenes(page, options = {}) {
 			};
 		});
 
+		/* === 神话再临·火：AI质量优化（乱击净收益/天义/鞬出） === */
+		// 乱击：队友1血但手里有牌（未触发濒死否决）。夹具为8人局，万箭目标面
+		// 恒为7人，小规模净收益分支无法自然出现；决策探针把 canUse 限制到受控
+		// 的3个目标（等价3人局），只调用真实 luanji.check（含扩展接管），不结算。
+		// 目标面3人，净收益 = 1+1-1.5 = 0.5 < 1：原生照发，修正后应拒绝。
+		await scene('quality-huo-luanji-net', async rec => {
+			blockNeighborSha();
+			actor.addSkill('luanji');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['wugu', 'spade', 1101], ['wugu', 'spade', 1102]]);
+			ally.hp = 1; ally.maxHp = 4;
+			await give(ally, [['shan', 'heart', 1103], ['shan', 'diamond', 1104]]);
+			enemy1.hp = 4; enemy1.maxHp = 4; enemy2.hp = 4; enemy2.maxHp = 4;
+			await give(enemy1, [['shan', 'heart', 1105], ['shan', 'diamond', 1106]]);
+			await give(enemy2, [['shan', 'heart', 1107], ['shan', 'diamond', 1108]]);
+			[ally, enemy1, enemy2].forEach(p => p.update());
+			rec.setup = { hand: hand(actor), allyHp: ally.hp, allyHand: ally.countCards('h') };
+		}, async rec => {
+			const cardx = actor.getCards('h', 'wugu')[0];
+			const originalCanUse = actor.canUse;
+			const controlled = [ally, enemy1, enemy2];
+			actor.canUse = function (card, target) {
+				if ((typeof card === 'string' && card === 'wanjian' || card && card.name === 'wanjian') && !controlled.includes(target)) {
+					return false;
+				}
+				return originalCanUse.apply(this, arguments);
+			};
+			let check;
+			try { check = lib.skill.luanji.check(cardx); } finally { actor.canUse = originalCanUse; }
+			rec.result = {
+				check, restrictedTargets: controlled.length,
+				allyHp: ally.hp, allyHand: ally.countCards('h'),
+			};
+		});
+
+		// 反向守卫：同样限制3个目标、无1血队友，净收益 = 1+1-1 = 1 ≥ 1，修正后仍应发动。
+		await scene('quality-huo-luanji-net-positive', async rec => {
+			blockNeighborSha();
+			actor.addSkill('luanji');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['wugu', 'spade', 1111], ['wugu', 'spade', 1112]]);
+			ally.hp = 4; ally.maxHp = 4;
+			await give(ally, [['shan', 'heart', 1113], ['shan', 'diamond', 1114]]);
+			enemy1.hp = 4; enemy1.maxHp = 4; enemy2.hp = 4; enemy2.maxHp = 4;
+			await give(enemy1, [['shan', 'heart', 1115], ['shan', 'diamond', 1116]]);
+			await give(enemy2, [['shan', 'heart', 1117], ['shan', 'diamond', 1118]]);
+			[ally, enemy1, enemy2].forEach(p => p.update());
+			rec.setup = { hand: hand(actor), allyHp: ally.hp };
+		}, async rec => {
+			const cardx = actor.getCards('h', 'wugu')[0];
+			const originalCanUse = actor.canUse;
+			const controlled = [ally, enemy1, enemy2];
+			actor.canUse = function (card, target) {
+				if ((typeof card === 'string' && card === 'wanjian' || card && card.name === 'wanjian') && !controlled.includes(target)) {
+					return false;
+				}
+				return originalCanUse.apply(this, arguments);
+			};
+			let check;
+			try { check = lib.skill.luanji.check(cardx); } finally { actor.canUse = originalCanUse; }
+			rec.result = {
+				check, restrictedTargets: controlled.length,
+				allyHp: ally.hp,
+			};
+		});
+
+		// 天义：手里有杀但最大点数只有5（拼点双方都出最大点数、拼点牌弃置），
+		// 大概率拼输还白弃拼点牌。原生照常发动，修正后无可选拼点目标、应拒绝。
+		await scene('quality-huo-tianyi-lowcompare', async rec => {
+			blockNeighborSha();
+			actor.addSkill('tianyi');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 3], ['shan', 'heart', 4], ['shan', 'club', 5]]);
+			enemy1.hp = 4; enemy1.maxHp = 4;
+			await give(enemy1, [['shan', 'heart', 6], ['tao', 'diamond', 7]]);
+			rec.setup = { hand: hand(actor), maxNumber: Math.max(...actor.getCards('h').map(c => get.number(c))) };
+		}, async rec => {
+			const targetValue = lib.skill.tianyi.ai.result.target(actor, enemy1);
+			const selfAttitude = get.attitude(actor, actor);
+			const probe = instrument(actor);
+			try { await actor.phaseUse(); } finally { probe.restore(); }
+			rec.ops = probe.log;
+			rec.result = {
+				targetValue, selfAttitude,
+				usedTianyi: (probe.log || []).some(item => item && item.op === 'useSkill' && item.args && item.args[0] === 'tianyi'),
+				hand: hand(actor), enemy1Hp: enemy1.hp,
+			};
+		});
+
+		// 反向守卫：手里有杀且最大点数13，修正后仍应发动天义。
+		await scene('quality-huo-tianyi-highcompare', async rec => {
+			blockNeighborSha();
+			actor.addSkill('tianyi');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 13], ['wuxie', 'spade', 12], ['shan', 'club', 3]]);
+			enemy1.hp = 4; enemy1.maxHp = 4;
+			await give(enemy1, [['shan', 'heart', 6], ['tao', 'diamond', 7]]);
+			rec.setup = { hand: hand(actor), maxNumber: Math.max(...actor.getCards('h').map(c => get.number(c))) };
+		}, async rec => {
+			const targetValue = lib.skill.tianyi.ai.result.target(actor, enemy1);
+			const probe = instrument(actor);
+			try { await actor.phaseUse(); } finally { probe.restore(); }
+			rec.ops = probe.log;
+			rec.result = {
+				targetValue,
+				usedTianyi: (probe.log || []).some(item => item && item.op === 'useSkill' && item.args && item.args[0] === 'tianyi'),
+				hand: hand(actor), enemy1Hp: enemy1.hp,
+			};
+		});
+
+		// 节命（未接管）：荀彧空手受伤、队友手牌已满。记录原生目标分配作为基线证据。
+		await scene('quality-huo-jieming-self', async rec => {
+			actor.addSkill('jieming');
+			actor.hp = 3; actor.maxHp = 4;
+			ally.hp = 4; ally.maxHp = 4;
+			await give(ally, [['shan', 'heart', 1161], ['shan', 'diamond', 1162], ['shan', 'club', 1163], ['tao', 'heart', 1164]]);
+			enemy1.hp = 4; enemy1.maxHp = 4;
+			await give(enemy1, [['shan', 'diamond', 1165], ['shan', 'club', 1166]]);
+			rec.setup = { actorHand: actor.countCards('h'), allyHand: ally.countCards('h') };
+		}, async rec => {
+			const selfAttitude = get.attitude(actor, actor);
+			const chosen = [];
+			const restore = wrapAIResult(actor, 'chooseTarget', result => chosen.push((result.targets || []).map(nameOf)));
+			try { await actor.damage(1, enemy1); } finally { restore(); }
+			rec.result = {
+				selfAttitude,
+				chosen: chosen.flat(), selfChosen: chosen.flat().includes(nameOf(actor)),
+				actorHand: actor.countCards('h'), actorHp: actor.hp,
+			};
+		});
+
+		// 鞬出：敌人满血、无装备、手牌充足。原生触发（弃1张再送回杀），修正后应放弃。
+		await scene('quality-huo-jianchu-noequip', async rec => {
+			actor.addSkill('jianchu');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 1171]]);
+			enemy1.hp = 4; enemy1.maxHp = 4;
+			await give(enemy1, [['shan', 'heart', 1172], ['tao', 'diamond', 1173], ['shan', 'club', 1174]]);
+			enemy1.update();
+			rec.setup = { hand: hand(actor), enemyHand: enemy1.countCards('h'), enemyEquips: enemy1.getEquips().length };
+		}, async rec => {
+			const probe = instrument(enemy1);
+			try { await actor.useCard(actor.getCards('h', 'sha')[0], enemy1); } finally { probe.restore(); }
+			rec.result = {
+				enemyHand: enemy1.countCards('h'),
+				enemyGainedSha: enemy1.getCards('h', 'sha').length > 0,
+				enemyHp: enemy1.hp,
+			};
+		});
+
+		// 反向守卫：敌人有防具（+1马白银位置不管，任意装备即可），修正后仍应触发鞬出。
+		await scene('quality-huo-jianchu-armor', async rec => {
+			actor.addSkill('jianchu');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 1181]]);
+			enemy1.hp = 4; enemy1.maxHp = 4;
+			await enemy1.equip(card('bagua', 'spade', 1182));
+			await give(enemy1, [['shan', 'heart', 1183], ['tao', 'diamond', 1184], ['shan', 'club', 1185]]);
+			enemy1.update();
+			rec.setup = { hand: hand(actor), enemyEquips: enemy1.getEquips().map(c => c.name) };
+		}, async rec => {
+			const probe = instrument(enemy1);
+			try { await actor.useCard(actor.getCards('h', 'sha')[0], enemy1); } finally { probe.restore(); }
+			rec.result = {
+				enemyEquips: enemy1.getEquips().map(c => c.name),
+				enemyHand: enemy1.countCards('h'),
+				enemyHp: enemy1.hp,
+			};
+		});
+
 		await scene('quality-qiangxix-crossbow', async rec => {
 			actor.addSkill('qiangxix');
 			actor.hp = 4; actor.maxHp = 4;

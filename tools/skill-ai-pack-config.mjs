@@ -81,7 +81,7 @@ export const CODE_PACKS = [
 		id: 'shenhua_huo',
 		module: 'shenhuaHuo',
 		rules: 'shenhuaHuo',
-		implementedSkills: ['luanji'],
+		implementedSkills: ['luanji', 'tianyi', 'quhu', 'jieming', 'jianchu'],
 		auditedSkills: [
 			'qiangxix', 'quhu', 'jieming', 'lianhuan', 'oldniepan', 'tianyi',
 			'shuangxiong', 'luanji', 'xueyi', 'bazhen', 'huoji', 'kanpo', 'mashu', 'jianchu',
@@ -103,7 +103,11 @@ export const CODE_PACKS = [
 			'shenhua-huo-kanpo-response', 'shenhua-huo-kanpo-no-black',
 			'shenhua-huo-bazhen-bagua', 'shenhua-huo-bazhen-armor-negative',
 			'shenhua-huo-jianchu-sha', 'shenhua-huo-jianchu-no-equip',
-			'quality-luanji-ally-lethal',
+			'quality-luanji-ally-lethal', 'quality-luanji-enemy-lethal',
+			'quality-huo-luanji-net', 'quality-huo-luanji-net-positive',
+			'quality-huo-tianyi-lowcompare', 'quality-huo-tianyi-highcompare',
+			'quality-huo-jieming-self',
+			'quality-huo-jianchu-noequip', 'quality-huo-jianchu-armor',
 			'shenhua-huo-passive-rules',
 		],
 		evidence: [
