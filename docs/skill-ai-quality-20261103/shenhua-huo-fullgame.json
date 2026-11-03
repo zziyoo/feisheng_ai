@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-02T14:28:42.535Z",
+  "scope": "真实宿主完整托管对局；不抑制 game.over，验证真实胜负结算；不修改技能固定场景断言",
+  "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\.codex\\worktrees\\release-444\\无名AI\\tools\\trick-real-host-smoke.mjs --mode doudizhu --autoplay --seed 20261030 --host-root C:/Users/32360/Desktop/无名杀-win32-x64/resources/app --extension-root C:\\Users\\32360\\.codex\\worktrees\\release-444\\无名AI --browser C:/Program Files/Google/Chrome/Application/chrome.exe --playwright C:/Users/32360/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright --output C:\\Users\\32360\\Desktop\\repair-baseline\\evidence\\shenhua-huo-fullgame.json.raw.json",
+  "exit": 0,
+  "settlement": {
+    "mode": "doudizhu",
+    "done": true,
+    "overCalls": 1,
+    "result": true,
+    "phases": 24,
+    "uses": 50,
+    "decisions": 20,
+    "elapsedMs": 37289,
+    "error": null,
+    "stalled": false,
+    "timedOut": false,
+    "alive": [
+      {
+        "role": "fan",
+        "hp": 1
+      },
+      {
+        "role": "fan",
+        "hp": 3
+      }
+    ],
+    "dead": [
+      {
+        "role": "zhu",
+        "hp": 0
+      }
+    ],
+    "errors": []
+  },
+  "pass": true
+}

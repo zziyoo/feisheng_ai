@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-02T14:20:36.906Z",
+  "scope": "神话再临·风/火固定局面：原生 vs 完整扩展的逐场景决策/结算对照；对称目标座位与随机摸牌单列为允许差异",
+  "sources": {
+    "native": "ten2-native.json",
+    "extension": "ten2-extension.json"
+  },
+  "rows": [
+    {
+      "scene": "shenhua-huo-lianhuan-tiesuo",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": true,
+        "targetCount": 2,
+        "targetsAllEnemies": true,
+        "recast": false
+      },
+      "extension": {
+        "usedTiesuo": true,
+        "targetCount": 2,
+        "targetsAllEnemies": true,
+        "recast": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-ally-risk",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": false,
+        "recast": true,
+        "allyTargeted": false,
+        "draws": 1
+      },
+      "extension": {
+        "usedTiesuo": false,
+        "recast": true,
+        "allyTargeted": false,
+        "draws": 1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-recast",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": true,
+        "targetAlly": true,
+        "recast": false,
+        "draws": 0,
+        "allyLinkedAfter": false
+      },
+      "extension": {
+        "usedTiesuo": true,
+        "targetAlly": true,
+        "recast": false,
+        "draws": 0,
+        "allyLinkedAfter": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-unlink-ally-risk",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": true,
+        "targetAlly": true,
+        "recast": false,
+        "draws": 0,
+        "allyLinkedAfter": false
+      },
+      "extension": {
+        "usedTiesuo": true,
+        "targetAlly": true,
+        "recast": false,
+        "draws": 0,
+        "allyLinkedAfter": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-keep-enemy-linked",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": false,
+        "recast": true,
+        "enemy1Linked": true,
+        "enemy2Linked": true,
+        "chainDamage": [
+          -1,
+          -1
+        ]
+      },
+      "extension": {
+        "usedTiesuo": false,
+        "recast": true,
+        "enemy1Linked": true,
+        "enemy2Linked": true,
+        "chainDamage": [
+          -1,
+          -1
+        ]
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-full-linked-recast",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": false,
+        "recast": true,
+        "draws": 1,
+        "allLinked": true,
+        "allImmune": true
+      },
+      "extension": {
+        "usedTiesuo": false,
+        "recast": true,
+        "draws": 1,
+        "allLinked": true,
+        "allImmune": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-link-enemies",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": true,
+        "targetCount": 2,
+        "targetsAllEnemies": true,
+        "enemy1Linked": true,
+        "enemy2Linked": true,
+        "recast": false,
+        "chainDamage": [
+          -1,
+          -1
+        ]
+      },
+      "extension": {
+        "usedTiesuo": true,
+        "targetCount": 2,
+        "targetsAllEnemies": true,
+        "enemy1Linked": true,
+        "enemy2Linked": true,
+        "recast": false,
+        "chainDamage": [
+          -1,
+          -1
+        ]
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-unlinked-ally-only",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": false,
+        "recast": true,
+        "draws": 1,
+        "allyLinkedAfter": false
+      },
+      "extension": {
+        "usedTiesuo": false,
+        "recast": true,
+        "draws": 1,
+        "allyLinkedAfter": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-self-linked",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "targetSelf": true,
+        "targetCount": 1,
+        "recast": false,
+        "actorLinkedAfter": false
+      },
+      "extension": {
+        "targetSelf": true,
+        "targetCount": 1,
+        "recast": false,
+        "actorLinkedAfter": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-recast-blocked",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "targetCount": 2,
+        "targetsActorOrAlly": true,
+        "recast": false,
+        "draws": 0,
+        "actorLinkedAfter": false,
+        "allyLinkedAfter": false
+      },
+      "extension": {
+        "targetCount": 2,
+        "targetsActorOrAlly": true,
+        "recast": false,
+        "draws": 0,
+        "actorLinkedAfter": false,
+        "allyLinkedAfter": false
+      },
+      "note": "语义一致"
+    }
+  ],
+  "exact_all": true,
+  "semantic_all": true,
+  "allowed_random_differences": [],
+  "strategy_differences": []
+}

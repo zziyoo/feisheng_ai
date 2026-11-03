@@ -1,0 +1,712 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-02T14:27:23.330Z",
+  "scope": "神话再临·风/火固定局面：原生 vs 完整扩展的逐场景决策/结算对照；对称目标座位与随机摸牌单列为允许差异",
+  "sources": {
+    "native": "shenhua-huo-review-native.json",
+    "extension": "shenhua-huo-review.json"
+  },
+  "rows": [
+    {
+      "scene": "hp-qiangxix-2hp-target1",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": true,
+        "loseHp": true,
+        "weaponDiscarded": false,
+        "targetHp": 1,
+        "actorHp": 1
+      },
+      "extension": {
+        "used": true,
+        "loseHp": true,
+        "weaponDiscarded": false,
+        "targetHp": 1,
+        "actorHp": 1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "hp-qiangxix-2hp-weapon-target2",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": true,
+        "loseHp": false,
+        "weaponDiscarded": true,
+        "targetHp": 1,
+        "actorHp": 2
+      },
+      "extension": {
+        "used": true,
+        "loseHp": false,
+        "weaponDiscarded": true,
+        "targetHp": 1,
+        "actorHp": 2
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-quhu-compare",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedQuhu": true,
+        "targetEnemy": true,
+        "damage": 0
+      },
+      "extension": {
+        "usedQuhu": true,
+        "targetEnemy": true,
+        "damage": 0
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-jieming-damage",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "targetAlly": true,
+        "allyDraw": 4
+      },
+      "extension": {
+        "targetAlly": true,
+        "allyDraw": 4
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-oldniepan-dying",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedOldniepan": true,
+        "hp": 3,
+        "handCount": 3,
+        "alive": true
+      },
+      "extension": {
+        "usedOldniepan": true,
+        "hp": 3,
+        "handCount": 3,
+        "alive": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-tianyi-compare",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "tianyi2": true,
+        "tianyi3": false,
+        "handCount": 2
+      },
+      "extension": {
+        "tianyi2": true,
+        "tianyi3": false,
+        "handCount": 2
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-shuangxiong-judge",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "viewas": true
+      },
+      "extension": {
+        "viewas": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-luanji-wanjian",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": false,
+        "handCount": 2
+      },
+      "extension": {
+        "used": false,
+        "handCount": 2
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-jianchu-sha",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "directHit": true,
+        "equips": 0,
+        "enemyHpDelta": 1
+      },
+      "extension": {
+        "directHit": true,
+        "equips": 0,
+        "enemyHpDelta": 1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-tiesuo",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": true,
+        "targetCount": 2,
+        "targetsAllEnemies": true,
+        "recast": false
+      },
+      "extension": {
+        "usedTiesuo": true,
+        "targetCount": 2,
+        "targetsAllEnemies": true,
+        "recast": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-huoji-red",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedHuogong": false
+      },
+      "extension": {
+        "usedHuogong": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-passive-rules",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "baseDistance": 2,
+        "mashuDistance": 1,
+        "maxHandcard": 10,
+        "bazhenExtra": true,
+        "kanpoView": true
+      },
+      "extension": {
+        "baseDistance": 2,
+        "mashuDistance": 1,
+        "maxHandcard": 10,
+        "bazhenExtra": true,
+        "kanpoView": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-luanji-no-pair",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": false,
+        "handCount": 2
+      },
+      "extension": {
+        "used": false,
+        "handCount": 2
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-huoji-no-red",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedHuogong": false
+      },
+      "extension": {
+        "usedHuogong": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-kanpo-response",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedWuxie": true,
+        "damageCount": 0,
+        "actorHpDelta": 0
+      },
+      "extension": {
+        "usedWuxie": true,
+        "damageCount": 0,
+        "actorHpDelta": 0
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-kanpo-no-black",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedWuxie": false,
+        "damageCount": 1,
+        "actorHpDelta": -1
+      },
+      "extension": {
+        "usedWuxie": false,
+        "damageCount": 1,
+        "actorHpDelta": -1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-bazhen-bagua",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "extraSkill": true,
+        "judged": true,
+        "damageCount": 0,
+        "actorHpDelta": 0
+      },
+      "extension": {
+        "extraSkill": true,
+        "judged": true,
+        "damageCount": 0,
+        "actorHpDelta": 0
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-bazhen-armor-negative",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "extraSkill": true,
+        "judged": false,
+        "damageCount": 1,
+        "actorHpDelta": -1
+      },
+      "extension": {
+        "extraSkill": true,
+        "judged": false,
+        "damageCount": 1,
+        "actorHpDelta": -1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-quhu-no-target",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedQuhu": false,
+        "actorHp": 4
+      },
+      "extension": {
+        "usedQuhu": false,
+        "actorHp": 4
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-quhu-risky-decline",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedQuhu": false,
+        "actorHp": 1
+      },
+      "extension": {
+        "usedQuhu": false,
+        "actorHp": 1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-jieming-no-benefit",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "targetCount": 0,
+        "allyHandDelta": 0,
+        "enemyHandDelta": 0,
+        "drawCalls": 0
+      },
+      "extension": {
+        "targetCount": 0,
+        "allyHandDelta": 0,
+        "enemyHandDelta": 0,
+        "drawCalls": 0
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-oldniepan-tao",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedOldniepan": false,
+        "usedTao": true,
+        "hp": 1
+      },
+      "extension": {
+        "usedOldniepan": false,
+        "usedTao": true,
+        "hp": 1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-tianyi-win-sha",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTianyi": true,
+        "tianyi2": true,
+        "tianyi3": false,
+        "shaUsed": true,
+        "enemyDamaged": true
+      },
+      "extension": {
+        "usedTianyi": true,
+        "tianyi2": true,
+        "tianyi3": false,
+        "shaUsed": true,
+        "enemyDamaged": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-tianyi-lose-sha",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTianyi": false,
+        "tianyi2": false,
+        "tianyi3": false,
+        "shaUsed": true,
+        "enemyDamaged": true
+      },
+      "extension": {
+        "usedTianyi": false,
+        "tianyi2": false,
+        "tianyi3": false,
+        "shaUsed": true,
+        "enemyDamaged": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-tianyi-lose-content",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "tianyi3": true,
+        "shaEnabled": false
+      },
+      "extension": {
+        "tianyi3": true,
+        "shaEnabled": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-shuangxiong-duel",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "judged": true,
+        "viewas": true,
+        "juedouUsed": true,
+        "enemyDamaged": true
+      },
+      "extension": {
+        "judged": true,
+        "viewas": true,
+        "juedouUsed": true,
+        "enemyDamaged": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-shuangxiong-no-judge",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "judged": false,
+        "viewas": false
+      },
+      "extension": {
+        "judged": false,
+        "viewas": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-jianchu-no-equip",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "directHit": false,
+        "enemyGainedSha": true,
+        "enemyHpDelta": 1
+      },
+      "extension": {
+        "directHit": false,
+        "enemyGainedSha": true,
+        "enemyHpDelta": 1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-ally-risk",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": false,
+        "recast": true,
+        "allyTargeted": false,
+        "draws": 1
+      },
+      "extension": {
+        "usedTiesuo": false,
+        "recast": true,
+        "allyTargeted": false,
+        "draws": 1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-recast",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": true,
+        "targetAlly": true,
+        "recast": false,
+        "draws": 0,
+        "allyLinkedAfter": false
+      },
+      "extension": {
+        "usedTiesuo": true,
+        "targetAlly": true,
+        "recast": false,
+        "draws": 0,
+        "allyLinkedAfter": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-unlink-ally-risk",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": true,
+        "targetAlly": true,
+        "recast": false,
+        "draws": 0,
+        "allyLinkedAfter": false
+      },
+      "extension": {
+        "usedTiesuo": true,
+        "targetAlly": true,
+        "recast": false,
+        "draws": 0,
+        "allyLinkedAfter": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-keep-enemy-linked",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": false,
+        "recast": true,
+        "enemy1Linked": true,
+        "enemy2Linked": true,
+        "chainDamage": [
+          -1,
+          -1
+        ]
+      },
+      "extension": {
+        "usedTiesuo": false,
+        "recast": true,
+        "enemy1Linked": true,
+        "enemy2Linked": true,
+        "chainDamage": [
+          -1,
+          -1
+        ]
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-full-linked-recast",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": false,
+        "recast": true,
+        "draws": 2,
+        "allLinked": true,
+        "allImmune": true
+      },
+      "extension": {
+        "usedTiesuo": false,
+        "recast": true,
+        "draws": 2,
+        "allLinked": true,
+        "allImmune": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-link-enemies",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": true,
+        "targetCount": 2,
+        "targetsAllEnemies": true,
+        "enemy1Linked": true,
+        "enemy2Linked": true,
+        "recast": false,
+        "chainDamage": [
+          -1,
+          -1
+        ]
+      },
+      "extension": {
+        "usedTiesuo": true,
+        "targetCount": 2,
+        "targetsAllEnemies": true,
+        "enemy1Linked": true,
+        "enemy2Linked": true,
+        "recast": false,
+        "chainDamage": [
+          -1,
+          -1
+        ]
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-unlinked-ally-only",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedTiesuo": false,
+        "recast": true,
+        "allyLinkedAfter": false
+      },
+      "extension": {
+        "usedTiesuo": false,
+        "recast": true,
+        "allyLinkedAfter": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-self-linked",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "targetSelf": true,
+        "targetCount": 1,
+        "recast": false,
+        "actorLinkedAfter": false
+      },
+      "extension": {
+        "targetSelf": true,
+        "targetCount": 1,
+        "recast": false,
+        "actorLinkedAfter": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-lianhuan-recast-blocked",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "targetCount": 2,
+        "targetsActorOrAlly": true,
+        "recast": false,
+        "draws": 0,
+        "actorLinkedAfter": false,
+        "allyLinkedAfter": false
+      },
+      "extension": {
+        "targetCount": 2,
+        "targetsActorOrAlly": true,
+        "recast": false,
+        "draws": 0,
+        "actorLinkedAfter": false,
+        "allyLinkedAfter": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-luanji-wanjian-use",
+      "exact_match": false,
+      "semantic_match": true,
+      "native": {
+        "used": true,
+        "skill": true,
+        "targetCount": 7,
+        "multiTarget": true,
+        "enemyDamaged": true
+      },
+      "extension": {
+        "used": true,
+        "skill": true,
+        "targetCount": 7,
+        "multiTarget": true,
+        "enemyDamaged": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huo-huoji-use",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedHuogong": true,
+        "fireDamage": true,
+        "enemyHpLoss": 1
+      },
+      "extension": {
+        "usedHuogong": true,
+        "fireDamage": true,
+        "enemyHpLoss": 1
+      },
+      "note": "语义一致"
+    }
+  ],
+  "exact_all": false,
+  "semantic_all": true,
+  "allowed_random_differences": [
+    {
+      "scene": "shenhua-huo-luanji-wanjian-use",
+      "type": "摸牌/获得牌面随机不同",
+      "native": [
+        "[3]",
+        "[[\"guohe\",\"tao\",\"sha\"],\"draw\"]",
+        "[3]",
+        "[[\"sha\",\"sha\",\"sha\"],\"draw\"]"
+      ],
+      "extension": [
+        "[3]",
+        "[[\"shan\",\"wuxie\",\"sha\"],\"draw\"]",
+        "[3]",
+        "[[\"shan\",\"fangtian\",\"zhangba\"],\"draw\"]"
+      ]
+    }
+  ],
+  "strategy_differences": []
+}
