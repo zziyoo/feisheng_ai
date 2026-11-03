@@ -2762,6 +2762,10 @@ export async function runSkillAiScenes(page, options = {}) {
 				qimou: !!(lib.skill.qimou && lib.skill.qimou.ai && lib.skill.qimou.ai.result && lib.skill.qimou.ai.result.player && lib.skill.qimou.ai.result.player.__djscSkillPolicy),
 				reqimouContent: !!(lib.skill.reqimou && typeof lib.skill.reqimou.content === 'function' && lib.skill.reqimou.content.__djscSkillPolicy),
 				reqimouGate: !!(lib.skill.reqimou && lib.skill.reqimou.ai && lib.skill.reqimou.ai.result && lib.skill.reqimou.ai.result.player && lib.skill.reqimou.ai.result.player.__djscSkillPolicy),
+				jushou: !!(lib.skill.jushou && lib.skill.jushou.check && lib.skill.jushou.check.__djscSkillPolicy),
+				shensu1: !!(lib.skill.shensu1 && lib.skill.shensu1.cost && lib.skill.shensu1.cost.__djscSkillPolicy),
+				guhuo: !!(lib.skill.xinfu_guhuo && lib.skill.xinfu_guhuo.chooseButton && lib.skill.xinfu_guhuo.chooseButton.check && lib.skill.xinfu_guhuo.chooseButton.check.__djscSkillPolicy),
+				huangtian: !!(lib.skill.huangtian2 && lib.skill.huangtian2.ai && lib.skill.huangtian2.ai.result && lib.skill.huangtian2.ai.result.target && lib.skill.huangtian2.ai.result.target.__djscSkillPolicy),
 			});
 			const before = marked();
 			policyModule.uninstallSkillAIPolicies();
