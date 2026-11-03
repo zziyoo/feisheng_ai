@@ -1,0 +1,357 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-03T13:46:23.455Z",
+  "scope": "神话再临·风/火固定局面：原生 vs 完整扩展的逐场景决策/结算对照；对称目标座位与随机摸牌单列为允许差异",
+  "sources": {
+    "native": "final-native-patched.json",
+    "extension": "final-extension.json"
+  },
+  "rows": [
+    {
+      "scene": "shenhua-huangtian-give",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": true,
+        "temp": true,
+        "allyGotShan": true
+      },
+      "extension": {
+        "used": true,
+        "temp": true,
+        "allyGotShan": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huangtian-negative",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": false,
+        "temp": 0,
+        "allyHand": 0
+      },
+      "extension": {
+        "used": false,
+        "temp": 0,
+        "allyHand": 0
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-guhuo-claim",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "buttonSha": true
+      },
+      "extension": {
+        "buttonSha": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-guhuo-real-questioned",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "declaredSha": true,
+        "chanyuan": true,
+        "damage": 1,
+        "cancelled": false
+      },
+      "extension": {
+        "declaredSha": true,
+        "chanyuan": true,
+        "damage": 1,
+        "cancelled": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-guhuo-fake-questioned",
+      "exact_match": false,
+      "semantic_match": true,
+      "native": {
+        "declaredSha": true,
+        "noDamage": true,
+        "noChanyuan": true,
+        "outcome": "cancelled"
+      },
+      "extension": {
+        "declaredSha": true,
+        "noDamage": true,
+        "noChanyuan": true,
+        "outcome": "declined"
+      },
+      "note": "策略差异：原生先发动假声明再被质疑取消，扩展 AI 选择放弃；两者均未造成伤害、质疑者均未获得缠怨。"
+    },
+    {
+      "scene": "shenhua-guhuo-phase",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedAny": false
+      },
+      "extension": {
+        "usedAny": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-shensu-skip",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedSha": true,
+        "targetEnemy": true,
+        "hpDelta": -1,
+        "judgeSkipped": true
+      },
+      "extension": {
+        "usedSha": true,
+        "targetEnemy": true,
+        "hpDelta": -1,
+        "judgeSkipped": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-shensu-negative",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedSha": false,
+        "judgeResolved": true
+      },
+      "extension": {
+        "usedSha": false,
+        "judgeResolved": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-shensu1-lowhand-lebu",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedSha": true,
+        "judgeSkipped": true,
+        "targetEnemy": true
+      },
+      "extension": {
+        "usedSha": true,
+        "judgeSkipped": true,
+        "targetEnemy": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-shensu1-reverse-lowvalue",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedSha": 0,
+        "judgeResolved": true,
+        "lebuGone": true,
+        "handCount": 2
+      },
+      "extension": {
+        "usedSha": 0,
+        "judgeResolved": true,
+        "lebuGone": true,
+        "handCount": 2
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-guhuo-bluff-lowhp",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "positive": false,
+        "zero": true,
+        "hp": 1
+      },
+      "extension": {
+        "positive": false,
+        "zero": true,
+        "hp": 1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-guhuo-bluff-midhp",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "positive": true,
+        "hp": 3
+      },
+      "extension": {
+        "positive": true,
+        "hp": 3
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-guhuo-full-lowhp-fake-lastshan",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "activated": false,
+        "keptShan": true,
+        "hp": 1,
+        "enemyHp": 2
+      },
+      "extension": {
+        "activated": false,
+        "keptShan": true,
+        "hp": 1,
+        "enemyHp": 2
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-guhuo-full-lowhp-true-sha-forced",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "activated": true,
+        "guhuo": true,
+        "enemyHp": 1,
+        "chanyuan": true,
+        "hp": 1
+      },
+      "extension": {
+        "activated": true,
+        "guhuo": true,
+        "enemyHp": 1,
+        "chanyuan": true,
+        "hp": 1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-guhuo-full-midhp-fake-expendable",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "activated": true,
+        "hiddenShandian": true,
+        "keptShan": true,
+        "enemyHp": 1
+      },
+      "extension": {
+        "activated": true,
+        "hiddenShandian": true,
+        "keptShan": true,
+        "enemyHp": 1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-guhuo-full-lowhp-fake-expendable",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "activated": true,
+        "hiddenShandian": false,
+        "keptShan": true,
+        "hp": 1,
+        "enemyHp": 2
+      },
+      "extension": {
+        "activated": true,
+        "hiddenShandian": false,
+        "keptShan": true,
+        "hp": 1,
+        "enemyHp": 2
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-huangtian-last-shan",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": false,
+        "keptShan": true
+      },
+      "extension": {
+        "used": false,
+        "keptShan": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-huangtian-last-shan-with-shandian",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": true,
+        "keptShan": true,
+        "allyGotShandian": true
+      },
+      "extension": {
+        "used": true,
+        "keptShan": true,
+        "allyGotShandian": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-huangtian-forced-shan-with-shandian",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": false,
+        "keptShan": true,
+        "allyGotShan": false
+      },
+      "extension": {
+        "used": false,
+        "keptShan": true,
+        "allyGotShan": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-huangtian-midhp",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": true,
+        "allyGotShan": true
+      },
+      "extension": {
+        "used": true,
+        "allyGotShan": true
+      },
+      "note": "语义一致"
+    }
+  ],
+  "exact_all": false,
+  "semantic_all": true,
+  "allowed_random_differences": [],
+  "strategy_differences": [
+    {
+      "scene": "shenhua-guhuo-fake-questioned",
+      "type": "guhuo-fake-questioned-decline",
+      "native": {
+        "declaredSha": true,
+        "noDamage": true,
+        "noChanyuan": true,
+        "outcome": "cancelled"
+      },
+      "extension": {
+        "declaredSha": true,
+        "noDamage": true,
+        "noChanyuan": true,
+        "outcome": "declined"
+      },
+      "note": "策略差异：原生先发动假声明再被质疑取消，扩展 AI 选择放弃；两者均未造成伤害、质疑者均未获得缠怨。"
+    }
+  ]
+}

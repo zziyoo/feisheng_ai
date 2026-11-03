@@ -1,4 +1,4 @@
-import { lib, game, get, _status } from '../policyCore.js?v=41a';
+import { lib, game, ui, get, _status } from '../policyCore.js?v=41a';
 import { shouldBypassQimouCountBlock, kuangguChoice, jushouShouldActivate, shensu1ShouldUse, guhuoShouldBluff, huangtianShouldGive } from '../rules/shenhuaFeng.js?v=41a';
 
 export const pack = {
@@ -6,7 +6,7 @@ export const pack = {
 	name: '神话再临·风',
 	group: 'shenhua',
 	skills: ['qimou', 'xinkuanggu', 'jushou', 'xinshensu', 'xinfu_guhuo', 'huangtian'],
-	statsDefaults: { qimouBypass: 0, kuangguRecover: 0, jushouTurned: 0, shensuSkipJudge: 0, guhuoLowHpGuard: 0, huangtianLastShan: 0, guhuoCalls: 0 },
+	statsDefaults: { qimouBypass: 0, kuangguRecover: 0, jushouTurned: 0, shensuSkipJudge: 0, shensuCostBlock: 0, guhuoLowHpGuard: 0, huangtianLastShan: 0, guhuoCalls: 0 },
 	install,
 };
 
@@ -117,8 +117,13 @@ function installShensu(host, stats) {
 			if (player2 == target) return false;
 			return player2.canUse({ name: 'sha' }, target, false);
 		}).set('check', check).set('ai', function (target) {
-			const effect = get.effect(target, { name: 'sha' }, player);
-			if (!shensu1ShouldUse({ check, harmfulJudge, effect })) return 0;
+			const effect = get.effect(target, { name: 'sha', isCard: true }, player);
+			const drawEffect = get.effect(player, { name: 'draw', isCard: true }, player, player);
+			const allowed = shensu1ShouldUse({ check, harmfulJudge, effect, drawEffect });
+			if (!allowed) {
+				if (!check && harmfulJudge && effect > 0) stats.shensuCostBlock++;
+				return 0;
+			}
 			if (!check && harmfulJudge && effect > 0) stats.shensuSkipJudge++;
 			return effect;
 		}).setHiddenSkill(event.skill).forResult();
@@ -148,7 +153,10 @@ function installGuhuo(host, stats) {
 				}
 				return false;
 			}, 'hs');
-			if (!guhuoShouldBluff({ enemyNum, hasTrue, hp: player.hp, dying: player.isDying() })) {
+			const expendable = player.countCards('hs', cardx =>
+				cardx.name !== 'shan' && cardx.name !== 'tao' && get.value(cardx, player) < 6
+			) > 0;
+			if (!guhuoShouldBluff({ enemyNum, hasTrue, hp: player.hp, dying: player.isDying(), expendable })) {
 				stats.guhuoLowHpGuard++;
 				return 0;
 			}
@@ -158,7 +166,7 @@ function installGuhuo(host, stats) {
 }
 
 /* 张角【黄天】：1血只剩最后一张闪时转交，等于把唯一防御交给主公。
- * 只在“1血 + 无闪电 + 最后一张闪”时否决目标分；多闪/有闪电保持原生。 */
+ * 按 ui.selected.cards 的实际选牌判断：交闪且无备用闪时否决；交闪电、保留唯一闪时放行。 */
 function installHuangtian(host, stats) {
 	const info = lib.skill && lib.skill.huangtian2;
 	const result = info && info.ai && info.ai.result;
@@ -167,13 +175,15 @@ function installHuangtian(host, stats) {
 		const native = typeof original === 'function' ? original.apply(this, arguments) : original;
 		try {
 			if (!(Number(native) > 0)) return native;
-			const selected = (typeof ui !== 'undefined' && ui.selected && ui.selected.cards) || [];
-			const selectedShan = selected.some(item => item && item.name == 'shan') || (player.countCards('h', 'shan') <= 1 && !player.countCards('h', 'shandian'));
+			const selected = (ui.selected && ui.selected.cards) || [];
+			const selectedShan = selected.some(item => item && item.name == 'shan');
+			const selectedShandian = selected.some(item => item && item.name == 'shandian');
 			if (!huangtianShouldGive({
 				hp: player.hp,
 				handShan: player.countCards('h', 'shan'),
-				hasShandian: player.countCards('h', 'shandian') > 0,
 				selectedShan,
+				selectedShandian,
+				hasSelection: selected.length > 0,
 			})) {
 				stats.huangtianLastShan++;
 				return 0;

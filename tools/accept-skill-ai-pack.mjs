@@ -29,15 +29,19 @@ const DEFAULT_SCENES = {
 		'hp-qimou-distance4-hp3', 'hp-qimou-distance4-hp4-negative', 'hp-qimou-distance3-hp2',
 		'shenhua-releiji-target', 'shenhua-guidao-replace', 'shenhua-guidao-decline',
 		'shenhua-huangtian-give', 'shenhua-huangtian-negative',
-		'shenhua-guhuo-claim', 'shenhua-guhuo-ai-use', 'shenhua-guhuo-real-questioned',
+		'shenhua-guhuo-claim', 'shenhua-guhuo-real-questioned',
 		'shenhua-guhuo-fake-questioned', 'shenhua-guhuo-phase',
 		'shenhua-shensu-skip', 'shenhua-shensu-negative', 'quality-shensu1-lowhand-lebu',
+		'quality-shensu1-reverse-lowvalue',
 		'shenhua-tianxiang-redirect', 'shenhua-tianxiang-negative', 'shenhua-hongyan-suit',
 		'shenhua-kuanggu-draw', 'shenhua-kuanggu-recover',
 		'quality-kuanggu-lowhp', 'quality-kuanggu-midhp',
 		'quality-jushou-turned', 'quality-jushou-normal',
 		'quality-guhuo-bluff-lowhp', 'quality-guhuo-bluff-midhp',
+		'quality-guhuo-full-lowhp-fake-lastshan', 'quality-guhuo-full-lowhp-true-sha-forced',
+		'quality-guhuo-full-lowhp-fake-expendable', 'quality-guhuo-full-midhp-fake-expendable',
 		'quality-huangtian-last-shan', 'quality-huangtian-midhp',
+		'quality-huangtian-last-shan-with-shandian', 'quality-huangtian-forced-shan-with-shandian',
 		'shenhua-jushou-4hp-empty', 'shenhua-jushou-lowhp',
 		'shenhua-buqu-damage', 'shenhua-buqu-negative', 'shenhua-buqu-recover-choice',
 		'shenhua-liegong-hit', 'shenhua-liegong-negative',
@@ -394,29 +398,6 @@ function analyzeShenhuaFengScenes(report, requestedScenes, stats) {
 		signature.huangtian = { used: true, tempSkill: true, gaveToZhu: true, noShanDecline: true };
 	}
 
-	if (want('shenhua-guhuo-ai-use')) {
-		const scene = findScene(report, 'shenhua-guhuo-ai-use');
-		const actor = actorId(scene);
-		const targets = (scene.choice && scene.choice.targets || []).map(idOnly);
-		const beforeHand = handOf(scene.before, actor);
-		const afterHand = handOf(scene.after, actor);
-		const hidden = scene.choice && scene.choice.cards || [];
-		if (!scene.used) fail('蛊惑 AI 未实际使用');
-		if (scene.declared !== 'sha') fail('蛊惑 AI 未声明杀');
-		if (!(scene.buttonChoices || []).flat().includes('sha')) fail('蛊惑按钮未记录杀的声明');
-		if (targets.length !== 1) fail('蛊惑目标数不是 1');
-		if (!isEnemyTarget(scene, targets[0])) fail('蛊惑选择了友方或自己');
-		if ((scene.targetAttitudes || []).some(value => value >= 0)) fail('蛊惑目标态度不是敌对');
-		if (scene.targetsSelf) fail('蛊惑目标包含自己');
-		const damage = damageEvent(scene);
-		if (!damage || damage.num !== 1 || damage.player !== targets[0]) fail('蛊惑声明杀后未对目标造成 1 点伤害');
-		if (!scene.guhuoPhase) fail('蛊惑未进入 guhuo_phase');
-		if (beforeHand.length - afterHand.length !== 1) fail('蛊惑未消耗一张隐藏手牌');
-		if (!hidden.length || hidden.includes('sha')) fail('蛊惑 AI 实际使用了真杀而非隐藏牌');
-		pass('guhuo-ai-use-settlement', { used: true, declared: 'sha', targetEnemy: true, damage: 1, hidden });
-		validation.xinfu_guhuo = { level: '正反向决策验证通过', rule_settlement: true, ai_decision: true, positive_negative: true, note: 'AI 实际发动假声明；另用真实牌验证质疑成功、用假牌验证质疑取消；扩展在假牌+确定质疑场景选择放弃，单独记录为策略差异。' };
-	}
-
 	if (want('shenhua-guhuo-real-questioned')) {
 		const scene = findScene(report, 'shenhua-guhuo-real-questioned');
 		const actor = actorId(scene);
@@ -642,6 +623,16 @@ function analyzeShenhuaFengScenes(report, requestedScenes, stats) {
 		signature.shensu = Object.assign(signature.shensu || {}, { lowHandJudgeSkip: true });
 		validation.xinshensu = { level: '确认存在质量提升并已实现', rule_settlement: true, ai_decision: true, positive_negative: true, note: '低手牌+不良判定时使用神速1；无判定低手牌反向仍放弃。' };
 	}
+	if (want('quality-shensu1-reverse-lowvalue')) {
+		const scene = findScene(report, 'quality-shensu1-reverse-lowvalue');
+		const data = dataOf(scene);
+		if (Number(data.usedSha) !== 0) fail('神速1反向场景仍跳过摸牌使用虚拟杀');
+		if (Number(data.judgeCalls) !== 1) fail('神速1反向场景未结算不良判定');
+		if ((data.judgeAfter || []).length) fail('神速1反向场景乐未移除');
+		if (Number(data.handCount) < 2) fail('神速1反向场景手牌被异常消耗');
+		pass('shensu1-opportunity-cost', { usedSha: 0, judgeCalls: 1, handCount: data.handCount });
+		validation.xinshensu = { level: '确认存在质量提升并已实现', rule_settlement: true, ai_decision: true, positive_negative: true, note: '低手牌+不良判定且目标收益高于摸牌价值时使用神速1；目标收益低于摸牌价值时放弃并正常结算判定。' };
+	}
 	if (want('quality-guhuo-bluff-lowhp')) {
 		const scene = findScene(report, 'quality-guhuo-bluff-lowhp');
 		const data = dataOf(scene);
@@ -661,6 +652,45 @@ function analyzeShenhuaFengScenes(report, requestedScenes, stats) {
 		if (!scores.some(item => Number(item.out) > 0)) fail('蛊惑3血场景被错误抑制');
 		pass('guhuo-midhp-native-bluff', { checkScores: scores.map(item => item.out) });
 	}
+	if (want('quality-guhuo-full-lowhp-fake-lastshan')) {
+		const scene = findScene(report, 'quality-guhuo-full-lowhp-fake-lastshan');
+		const data = dataOf(scene);
+		if (data.activated) fail('蛊惑1血无真牌最后闪仍发动诈称');
+		if (!(data.handAfter || []).includes('shan')) fail('蛊惑1血场景未保留最后一张闪');
+		if (Number(data.hpAfter) !== 1) fail('蛊惑1血场景错误改变体力');
+		if (Number(data.enemyHpAfter) !== 2) fail('蛊惑1血场景错误造成伤害');
+		pass('guhuo-full-lowhp-fake-declined', { activated: false, hand: data.handAfter, hp: data.hpAfter });
+	}
+	if (want('quality-guhuo-full-lowhp-true-sha-forced')) {
+		const scene = findScene(report, 'quality-guhuo-full-lowhp-true-sha-forced');
+		const data = dataOf(scene);
+		if (!data.activated) fail('蛊惑1血有真牌时被错误抑制');
+		if (!(data.useCalls || []).some(item => item && item.skill === 'xinfu_guhuo_backup')) fail('蛊惑1血有真牌未实际发动');
+		if (Number(data.enemyHpAfter) !== 1) fail('蛊惑1血真牌未造成伤害');
+		if (!data.enemyChanyuan) fail('蛊惑真牌被质疑后质疑者未获得缠怨');
+		if (Number(data.hpAfter) !== 1) fail('蛊惑1血真牌错误改变体力');
+		pass('guhuo-full-lowhp-true-used', { activated: true, hidden: data.hidden, enemyHp: data.enemyHpAfter, chanyuan: true });
+	}
+	if (want('quality-guhuo-full-lowhp-fake-expendable')) {
+		const scene = findScene(report, 'quality-guhuo-full-lowhp-fake-expendable');
+		const data = dataOf(scene);
+		const lost = (data.handBefore || []).filter(name => !(data.handAfter || []).includes(name));
+		if (!data.activated) fail('蛊惑1血有闪电可弃时被错误抑制');
+		if (!(data.useCalls || []).some(item => item && item.skill === 'xinfu_guhuo_backup')) fail('蛊惑1血可弃闪电未实际发动');
+		if (!lost.includes('shandian')) fail('蛊惑1血未扣置闪电');
+		if (!(data.handAfter || []).includes('shan')) fail('蛊惑1血未保留唯一闪');
+		if (Number(data.enemyHpAfter) !== 2) fail('蛊惑1血假牌被质疑后仍造成伤害');
+		pass('guhuo-full-lowhp-expendable', { activated: true, lost, hand: data.handAfter, enemyHp: data.enemyHpAfter });
+	}
+	if (want('quality-guhuo-full-midhp-fake-expendable')) {
+		const scene = findScene(report, 'quality-guhuo-full-midhp-fake-expendable');
+		const data = dataOf(scene);
+		if (!data.activated) fail('蛊惑3血可弃闪电时未发动');
+		if (!(data.hidden || []).includes('shandian')) fail('蛊惑3血未扣置闪电');
+		if (Number(data.enemyHpAfter) !== 1) fail('蛊惑3血假牌未造成伤害');
+		if (!(data.handAfter || []).includes('shan')) fail('蛊惑3血未保留闪');
+		pass('guhuo-full-midhp-expendable', { activated: true, hidden: data.hidden, enemyHp: data.enemyHpAfter });
+	}
 	if (want('quality-huangtian-last-shan')) {
 		const scene = findScene(report, 'quality-huangtian-last-shan');
 		if (opUsed(scene, 'useSkill', item => item.args && item.args[0] === 'huangtian2')) fail('黄天1血最后闪仍转交');
@@ -674,6 +704,23 @@ function analyzeShenhuaFengScenes(report, requestedScenes, stats) {
 		if (!opUsed(scene, 'useSkill', item => item.args && item.args[0] === 'huangtian2')) fail('黄天3血场景被错误抑制');
 		if (!handOf(scene.after, allyId(scene)).includes('shan')) fail('黄天3血场景主公未获得闪');
 		pass('huangtian-midhp-give', { used: true, allyHand: handOf(scene.after, allyId(scene)) });
+	}
+	if (want('quality-huangtian-last-shan-with-shandian')) {
+		const scene = findScene(report, 'quality-huangtian-last-shan-with-shandian');
+		if (!opUsed(scene, 'useSkill', item => item.args && item.args[0] === 'huangtian2')) fail('黄天1血持闪+闪电时未转交闪电');
+		if (!handOf(scene.after, actorId(scene)).includes('shan')) fail('黄天1血持闪+闪电时未保留唯一闪');
+		if (!handOf(scene.after, allyId(scene)).includes('shandian')) fail('黄天1血持闪+闪电时主公未获得闪电');
+		pass('huangtian-shandian-given-shan-kept', { used: true, allyHand: handOf(scene.after, allyId(scene)) });
+	}
+	if (want('quality-huangtian-forced-shan-with-shandian')) {
+		const scene = findScene(report, 'quality-huangtian-forced-shan-with-shandian');
+		if (opUsed(scene, 'useSkill', item => item.args && item.args[0] === 'huangtian2')) fail('黄天1血持闪+闪电时仍交出闪');
+		if (!handOf(scene.after, actorId(scene)).includes('shan')) fail('黄天1血交闪场景未保留唯一闪');
+		if (handOf(scene.after, allyId(scene)).includes('shan')) fail('黄天1血交闪场景错误把闪交给主公');
+		const scores = (scene.scoreCalls || []).filter(item => (item.selected || []).includes('shan')).map(item => Number(item.score));
+		if (!scores.length || scores.some(value => value !== 0)) fail('黄天1血交闪场景评分未归零');
+		pass('huangtian-forced-shan-kept', { used: false, scores, hand: handOf(scene.after, actorId(scene)) });
+		validation.huangtian = { level: '确认存在质量提升并已实现', rule_settlement: true, ai_decision: true, positive_negative: true, note: '1血最后一张闪不转交；持闪+闪电时只转交闪电；3血双闪仍按原生转交。' };
 	}
 
 	return { checks, signature, validation };

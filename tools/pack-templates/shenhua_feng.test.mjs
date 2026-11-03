@@ -45,22 +45,25 @@ check('据守：已翻面时摸三张没有额外回合成本', () => {
 	assert.equal(jushouShouldActivate({ hp: 4, hand: 3, turned: false }), false);
 	assert.equal(jushouShouldActivate({ hp: 2, hand: 1, turned: false }), true);
 });
-check('神速1：低手牌但可跳过不良判定时放行', () => {
-	assert.equal(shensu1ShouldUse({ check: false, harmfulJudge: true, effect: 2 }), true);
-	assert.equal(shensu1ShouldUse({ check: false, harmfulJudge: false, effect: 2 }), false);
-	assert.equal(shensu1ShouldUse({ check: true, harmfulJudge: false, effect: 2 }), true);
-	assert.equal(shensu1ShouldUse({ check: true, harmfulJudge: true, effect: -1 }), false);
+check('神速1：低手牌但可跳过不良判定且收益高于摸牌时放行', () => {
+	assert.equal(shensu1ShouldUse({ check: false, harmfulJudge: true, effect: 8, drawEffect: 5 }), true);
+	assert.equal(shensu1ShouldUse({ check: false, harmfulJudge: true, effect: 2, drawEffect: 5 }), false);
+	assert.equal(shensu1ShouldUse({ check: false, harmfulJudge: false, effect: 8, drawEffect: 5 }), false);
+	assert.equal(shensu1ShouldUse({ check: true, harmfulJudge: false, effect: 2, drawEffect: 5 }), true);
+	assert.equal(shensu1ShouldUse({ check: true, harmfulJudge: true, effect: -1, drawEffect: 5 }), false);
 });
-check('蛊惑：1血无真牌不诈称，有真牌或非1血保持原生', () => {
-	assert.equal(guhuoShouldBluff({ enemyNum: 2, hasTrue: false, hp: 1, dying: false }), false);
-	assert.equal(guhuoShouldBluff({ enemyNum: 2, hasTrue: true, hp: 1, dying: false }), true);
-	assert.equal(guhuoShouldBluff({ enemyNum: 2, hasTrue: false, hp: 3, dying: false }), true);
+check('蛊惑：1血无真牌且无可弃牌不诈称，有真牌/可弃牌/非1血保持原生', () => {
+	assert.equal(guhuoShouldBluff({ enemyNum: 2, hasTrue: false, hp: 1, dying: false, expendable: false }), false);
+	assert.equal(guhuoShouldBluff({ enemyNum: 2, hasTrue: false, hp: 1, dying: false, expendable: true }), true);
+	assert.equal(guhuoShouldBluff({ enemyNum: 2, hasTrue: true, hp: 1, dying: false, expendable: false }), true);
+	assert.equal(guhuoShouldBluff({ enemyNum: 2, hasTrue: false, hp: 3, dying: false, expendable: false }), true);
 });
-check('黄天：1血最后一张闪不转交，多闪或非1血保持原生', () => {
-	assert.equal(huangtianShouldGive({ hp: 1, handShan: 1, hasShandian: false, selectedShan: true }), false);
-	assert.equal(huangtianShouldGive({ hp: 1, handShan: 1, hasShandian: false, selectedShan: false }), false);
-	assert.equal(huangtianShouldGive({ hp: 1, handShan: 1, hasShandian: true, selectedShan: true }), true);
-	assert.equal(huangtianShouldGive({ hp: 1, handShan: 2, hasShandian: false, selectedShan: true }), true);
-	assert.equal(huangtianShouldGive({ hp: 3, handShan: 1, hasShandian: false, selectedShan: true }), true);
+check('黄天：按实际选牌判断，交最后一张闪保留，交闪电保留唯一闪', () => {
+	assert.equal(huangtianShouldGive({ hp: 1, handShan: 1, selectedShan: true, selectedShandian: false, hasSelection: true }), false);
+	assert.equal(huangtianShouldGive({ hp: 1, handShan: 1, selectedShan: false, selectedShandian: true, hasSelection: true }), true);
+	assert.equal(huangtianShouldGive({ hp: 1, handShan: 1, selectedShan: false, selectedShandian: false, hasSelection: true }), false);
+	assert.equal(huangtianShouldGive({ hp: 1, handShan: 1, selectedShan: false, selectedShandian: false, hasSelection: false }), true);
+	assert.equal(huangtianShouldGive({ hp: 1, handShan: 2, selectedShan: true, selectedShandian: false, hasSelection: true }), true);
+	assert.equal(huangtianShouldGive({ hp: 3, handShan: 1, selectedShan: true, selectedShandian: false, hasSelection: true }), true);
 });
 console.log('ALL PASS (' + passed + ')');

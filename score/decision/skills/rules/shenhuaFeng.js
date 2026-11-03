@@ -39,32 +39,38 @@ export function jushouShouldActivate(input) {
 	return life + cards < 4;
 }
 
-/* 神速1：手牌<=2时原生放弃；若判定区有乐/兵粮/闪电，跳过判定阶段本身有收益。 */
+/* 神速1：手牌<=2时原生放弃；若判定区有乐/兵粮/闪电，跳过判定本身有收益。
+ * 但跳过摸牌有代价：只有虚拟杀收益不低于一次摸牌价值时才放宽。 */
 export function shensu1ShouldUse(input) {
-	const { check, harmfulJudge, effect } = input || {};
+	const { check, harmfulJudge, effect, drawEffect } = input || {};
 	if (!(Number(effect) > 0)) return false;
-	return !!check || !!harmfulJudge;
+	if (check) return true;
+	if (!harmfulJudge) return false;
+	return Number(effect) >= Number(drawEffect);
 }
 
-/* 蛊惑：1血且没有真牌时诈称，被质疑会失去1点体力进入濒死。 */
+/* 蛊惑：1血无真牌时，若手里有可弃的低价值非防御牌（如闪电），
+ * 原生会优先扣置它诈称；只有没有可弃牌时才拦截，避免误伤合理诈称。 */
 export function guhuoShouldBluff(input) {
-	const { enemyNum, hasTrue, hp, dying } = input || {};
+	const { enemyNum, hasTrue, hp, dying, expendable } = input || {};
 	if (!(Number(enemyNum) > 0)) return true;
 	if (hasTrue) return true;
-	return !(Number(hp) <= 1 && !dying);
+	if (!(Number(hp) <= 1) || dying) return true;
+	return !!expendable;
 }
 
-/* 黄天：1血只剩最后一张闪时不再转交；有其他闪或闪电时保留原生。 */
+/* 黄天：1血只有在交闪后仍留闪，或交的是闪电（保留唯一闪）时才放行。
+ * 已选牌但无法辨别时按可能交闪处理；尚未选牌时保留原生让 AI 进入选牌。 */
 export function huangtianShouldGive(input) {
-	const { hp, handShan, hasShandian, selectedShan } = input || {};
+	const { hp, handShan, selectedShan, selectedShandian, hasSelection } = input || {};
 	const life = Number(hp);
 	const shan = Number(handShan);
 	if (!Number.isFinite(life) || !Number.isFinite(shan)) return true;
 	if (life > 1) return true;
-	if (hasShandian) return true;
 	if (shan > 1) return true;
-	const givesShan = !!selectedShan || (shan <= 1 && !hasShandian);
-	return !givesShan;
+	if (selectedShan) return false;
+	if (selectedShandian) return true;
+	return !hasSelection;
 }
 
 export function shouldBypassQimouCountBlock(input) {

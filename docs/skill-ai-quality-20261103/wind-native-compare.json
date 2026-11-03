@@ -1,89 +1,103 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-03T11:28:03.914Z",
+  "generated_at": "2026-11-03T13:46:23.383Z",
   "scope": "神话再临·风/火固定局面：原生 vs 完整扩展的逐场景决策/结算对照；对称目标座位与随机摸牌单列为允许差异",
   "sources": {
-    "native": "wind-native-baseline.json",
-    "extension": "wind-native-patched.json"
+    "native": "final-native-baseline.json",
+    "extension": "final-extension.json"
   },
   "rows": [
     {
-      "scene": "hp-qimou-distance4-hp3",
-      "exact_match": false,
-      "semantic_match": true,
-      "native": {
-        "usedQimou": false,
-        "paid": 0,
-        "targetReachable": false,
-        "targetHpDelta": 0,
-        "enemyHpLoss": 0,
-        "shaUses": 0,
-        "actorHpBefore": 4,
-        "actorAlive": true
-      },
-      "extension": {
-        "usedQimou": true,
-        "paid": 3,
-        "targetReachable": true,
-        "targetHpDelta": -3,
-        "enemyHpLoss": 4,
-        "shaUses": 4,
-        "actorHpBefore": 4,
-        "actorAlive": true
-      },
-      "note": "已登记的奇谋修复差异：扩展在支付档位正确、目标支付后可达且取得实际伤害时允许支付，原生保持否决。"
-    },
-    {
-      "scene": "hp-qimou-distance4-hp4-negative",
+      "scene": "shenhua-huangtian-give",
       "exact_match": true,
       "semantic_match": true,
       "native": {
-        "usedQimou": false,
-        "paid": 0,
-        "targetReachable": false,
-        "targetHpDelta": 0,
-        "enemyHpLoss": 0,
-        "shaUses": 0,
-        "actorHpBefore": 4,
-        "actorAlive": true
+        "used": true,
+        "temp": true,
+        "allyGotShan": true
       },
       "extension": {
-        "usedQimou": false,
-        "paid": 0,
-        "targetReachable": false,
-        "targetHpDelta": 0,
-        "enemyHpLoss": 0,
-        "shaUses": 0,
-        "actorHpBefore": 4,
-        "actorAlive": true
+        "used": true,
+        "temp": true,
+        "allyGotShan": true
       },
       "note": "语义一致"
     },
     {
-      "scene": "hp-qimou-distance3-hp2",
+      "scene": "shenhua-huangtian-negative",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": false,
+        "temp": 0,
+        "allyHand": 0
+      },
+      "extension": {
+        "used": false,
+        "temp": 0,
+        "allyHand": 0
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-guhuo-claim",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "buttonSha": true
+      },
+      "extension": {
+        "buttonSha": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-guhuo-real-questioned",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "declaredSha": true,
+        "chanyuan": true,
+        "damage": 1,
+        "cancelled": false
+      },
+      "extension": {
+        "declaredSha": true,
+        "chanyuan": true,
+        "damage": 1,
+        "cancelled": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-guhuo-fake-questioned",
       "exact_match": false,
       "semantic_match": true,
       "native": {
-        "usedQimou": false,
-        "paid": 0,
-        "targetReachable": false,
-        "targetHpDelta": 0,
-        "enemyHpLoss": 0,
-        "shaUses": 0,
-        "actorHpBefore": 3,
-        "actorAlive": true
+        "declaredSha": true,
+        "noDamage": true,
+        "noChanyuan": true,
+        "outcome": "cancelled"
       },
       "extension": {
-        "usedQimou": true,
-        "paid": 2,
-        "targetReachable": true,
-        "targetHpDelta": -1,
-        "enemyHpLoss": 1,
-        "shaUses": 2,
-        "actorHpBefore": 3,
-        "actorAlive": true
+        "declaredSha": true,
+        "noDamage": true,
+        "noChanyuan": true,
+        "outcome": "declined"
       },
-      "note": "已登记的奇谋修复差异：扩展在支付档位正确、目标支付后可达且取得实际伤害时允许支付，原生保持否决。"
+      "note": "策略差异：原生先发动假声明再被质疑取消，扩展 AI 选择放弃；两者均未造成伤害、质疑者均未获得缠怨。"
+    },
+    {
+      "scene": "shenhua-guhuo-phase",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedAny": false
+      },
+      "extension": {
+        "usedAny": false
+      },
+      "note": "语义一致"
     },
     {
       "scene": "shenhua-shensu-skip",
@@ -118,68 +132,6 @@
       "note": "语义一致"
     },
     {
-      "scene": "quality-kuanggu-lowhp",
-      "exact_match": false,
-      "semantic_match": true,
-      "native": {
-        "hp": 1,
-        "recovered": false,
-        "draw": true
-      },
-      "extension": {
-        "hp": 2,
-        "recovered": true,
-        "draw": false
-      },
-      "note": "策略差异：原生1血仍摸牌，扩展1血优先回复；扩展体力由1升至2且未摸牌。"
-    },
-    {
-      "scene": "quality-kuanggu-midhp",
-      "exact_match": true,
-      "semantic_match": true,
-      "native": {
-        "hp": 3,
-        "recovered": false,
-        "draw": true
-      },
-      "extension": {
-        "hp": 3,
-        "recovered": false,
-        "draw": true
-      },
-      "note": "语义一致"
-    },
-    {
-      "scene": "quality-jushou-turned",
-      "exact_match": false,
-      "semantic_match": true,
-      "native": {
-        "drew": 0,
-        "turned": true,
-        "hp": 4
-      },
-      "extension": {
-        "drew": 3,
-        "turned": false,
-        "hp": 4
-      },
-      "note": "策略差异：原生已翻面且体力4手牌3时不发动据守；扩展摸3张并翻回正面，无额外回合成本。"
-    },
-    {
-      "scene": "quality-jushou-normal",
-      "exact_match": true,
-      "semantic_match": true,
-      "native": {
-        "drew": 0,
-        "turned": false
-      },
-      "extension": {
-        "drew": 0,
-        "turned": false
-      },
-      "note": "语义一致"
-    },
-    {
       "scene": "quality-shensu1-lowhand-lebu",
       "exact_match": false,
       "semantic_match": true,
@@ -194,6 +146,24 @@
         "targetEnemy": true
       },
       "note": "策略差异：原生手牌2时放弃神速1并结算乐不思蜀；扩展跳过判定并使用虚拟杀。"
+    },
+    {
+      "scene": "quality-shensu1-reverse-lowvalue",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedSha": 0,
+        "judgeResolved": true,
+        "lebuGone": true,
+        "handCount": 2
+      },
+      "extension": {
+        "usedSha": 0,
+        "judgeResolved": true,
+        "lebuGone": true,
+        "handCount": 2
+      },
+      "note": "语义一致"
     },
     {
       "scene": "quality-guhuo-bluff-lowhp",
@@ -226,6 +196,82 @@
       "note": "语义一致"
     },
     {
+      "scene": "quality-guhuo-full-lowhp-fake-lastshan",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "activated": false,
+        "keptShan": true,
+        "hp": 1,
+        "enemyHp": 2
+      },
+      "extension": {
+        "activated": false,
+        "keptShan": true,
+        "hp": 1,
+        "enemyHp": 2
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-guhuo-full-lowhp-true-sha-forced",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "activated": true,
+        "guhuo": true,
+        "enemyHp": 1,
+        "chanyuan": true,
+        "hp": 1
+      },
+      "extension": {
+        "activated": true,
+        "guhuo": true,
+        "enemyHp": 1,
+        "chanyuan": true,
+        "hp": 1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-guhuo-full-midhp-fake-expendable",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "activated": true,
+        "hiddenShandian": true,
+        "keptShan": true,
+        "enemyHp": 1
+      },
+      "extension": {
+        "activated": true,
+        "hiddenShandian": true,
+        "keptShan": true,
+        "enemyHp": 1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-guhuo-full-lowhp-fake-expendable",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "activated": true,
+        "hiddenShandian": false,
+        "keptShan": true,
+        "hp": 1,
+        "enemyHp": 2
+      },
+      "extension": {
+        "activated": true,
+        "hiddenShandian": false,
+        "keptShan": true,
+        "hp": 1,
+        "enemyHp": 2
+      },
+      "note": "语义一致"
+    },
+    {
       "scene": "quality-huangtian-last-shan",
       "exact_match": false,
       "semantic_match": true,
@@ -238,6 +284,38 @@
         "keptShan": true
       },
       "note": "策略差异：原生1血把最后一张闪转交主公；扩展保留该闪。"
+    },
+    {
+      "scene": "quality-huangtian-last-shan-with-shandian",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": true,
+        "keptShan": true,
+        "allyGotShandian": true
+      },
+      "extension": {
+        "used": true,
+        "keptShan": true,
+        "allyGotShandian": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "quality-huangtian-forced-shan-with-shandian",
+      "exact_match": false,
+      "semantic_match": true,
+      "native": {
+        "used": true,
+        "keptShan": false,
+        "allyGotShan": true
+      },
+      "extension": {
+        "used": false,
+        "keptShan": true,
+        "allyGotShan": false
+      },
+      "note": "策略差异：原生在1血持闪+闪电且本次选闪时仍把最后一张闪交给主公；扩展按实际选牌保留闪，仅允许转交闪电。"
     },
     {
       "scene": "quality-huangtian-midhp",
@@ -256,108 +334,24 @@
   ],
   "exact_all": false,
   "semantic_all": true,
-  "allowed_random_differences": [
-    {
-      "scene": "hp-qimou-distance4-hp3",
-      "type": "摸牌/获得牌面随机不同",
-      "native": [],
-      "extension": [
-        "[1]",
-        "[[\"shan\"],\"draw\"]",
-        "[3]",
-        "[[\"wuxie\",\"sha\",\"shan\"],\"draw\"]"
-      ]
-    },
-    {
-      "scene": "hp-qimou-distance3-hp2",
-      "type": "摸牌/获得牌面随机不同",
-      "native": [],
-      "extension": [
-        "[1]",
-        "[[\"fangtian\"],\"draw\"]"
-      ]
-    }
-  ],
+  "allowed_random_differences": [],
   "strategy_differences": [
     {
-      "scene": "hp-qimou-distance4-hp3",
-      "type": "qimou-policy-fix",
+      "scene": "shenhua-guhuo-fake-questioned",
+      "type": "guhuo-fake-questioned-decline",
       "native": {
-        "usedQimou": false,
-        "paid": 0,
-        "targetReachable": false,
-        "targetHpDelta": 0,
-        "enemyHpLoss": 0,
-        "shaUses": 0,
-        "actorHpBefore": 4,
-        "actorAlive": true
+        "declaredSha": true,
+        "noDamage": true,
+        "noChanyuan": true,
+        "outcome": "cancelled"
       },
       "extension": {
-        "usedQimou": true,
-        "paid": 3,
-        "targetReachable": true,
-        "targetHpDelta": -3,
-        "enemyHpLoss": 4,
-        "shaUses": 4,
-        "actorHpBefore": 4,
-        "actorAlive": true
+        "declaredSha": true,
+        "noDamage": true,
+        "noChanyuan": true,
+        "outcome": "declined"
       },
-      "note": "已登记的奇谋修复差异：扩展在支付档位正确、目标支付后可达且取得实际伤害时允许支付，原生保持否决。"
-    },
-    {
-      "scene": "hp-qimou-distance3-hp2",
-      "type": "qimou-policy-fix",
-      "native": {
-        "usedQimou": false,
-        "paid": 0,
-        "targetReachable": false,
-        "targetHpDelta": 0,
-        "enemyHpLoss": 0,
-        "shaUses": 0,
-        "actorHpBefore": 3,
-        "actorAlive": true
-      },
-      "extension": {
-        "usedQimou": true,
-        "paid": 2,
-        "targetReachable": true,
-        "targetHpDelta": -1,
-        "enemyHpLoss": 1,
-        "shaUses": 2,
-        "actorHpBefore": 3,
-        "actorAlive": true
-      },
-      "note": "已登记的奇谋修复差异：扩展在支付档位正确、目标支付后可达且取得实际伤害时允许支付，原生保持否决。"
-    },
-    {
-      "scene": "quality-kuanggu-lowhp",
-      "type": "kuanggu-lowhp-recover",
-      "native": {
-        "hp": 1,
-        "recovered": false,
-        "draw": true
-      },
-      "extension": {
-        "hp": 2,
-        "recovered": true,
-        "draw": false
-      },
-      "note": "策略差异：原生1血仍摸牌，扩展1血优先回复；扩展体力由1升至2且未摸牌。"
-    },
-    {
-      "scene": "quality-jushou-turned",
-      "type": "jushou-turned-free-draw",
-      "native": {
-        "drew": 0,
-        "turned": true,
-        "hp": 4
-      },
-      "extension": {
-        "drew": 3,
-        "turned": false,
-        "hp": 4
-      },
-      "note": "策略差异：原生已翻面且体力4手牌3时不发动据守；扩展摸3张并翻回正面，无额外回合成本。"
+      "note": "策略差异：原生先发动假声明再被质疑取消，扩展 AI 选择放弃；两者均未造成伤害、质疑者均未获得缠怨。"
     },
     {
       "scene": "quality-shensu1-lowhand-lebu",
@@ -401,6 +395,21 @@
         "keptShan": true
       },
       "note": "策略差异：原生1血把最后一张闪转交主公；扩展保留该闪。"
+    },
+    {
+      "scene": "quality-huangtian-forced-shan-with-shandian",
+      "type": "huangtian-forced-shan-kept",
+      "native": {
+        "used": true,
+        "keptShan": false,
+        "allyGotShan": true
+      },
+      "extension": {
+        "used": false,
+        "keptShan": true,
+        "allyGotShan": false
+      },
+      "note": "策略差异：原生在1血持闪+闪电且本次选闪时仍把最后一张闪交给主公；扩展按实际选牌保留闪，仅允许转交闪电。"
     }
   ]
 }

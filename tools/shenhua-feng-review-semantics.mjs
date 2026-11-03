@@ -28,6 +28,16 @@ export function shenhuaSceneSemantic(name, scene) {
 			return { drew: Number(result.drew), turned: result.turned === true };
 		case 'quality-shensu1-lowhand-lebu':
 			return { usedSha: !!result.usedSha, judgeSkipped: Number(result.judge) === 1, targetEnemy: isEnemy(result.target) };
+		case 'quality-shensu1-reverse-lowvalue':
+			return { usedSha: Number(result.usedSha || 0), judgeResolved: Number(result.judgeCalls || 0) > 0, lebuGone: !(result.judgeAfter || []).includes('lebu'), handCount: Number(result.handCount || 0) };
+		case 'quality-guhuo-full-lowhp-fake-lastshan':
+			return { activated: !!result.activated, keptShan: hand(scene.after, actor).includes('shan'), hp: Number(result.hpAfter), enemyHp: Number(result.enemyHpAfter) };
+		case 'quality-guhuo-full-lowhp-true-sha-forced':
+			return { activated: !!result.activated, guhuo: (result.useCalls || []).some(item => item && item.skill === 'xinfu_guhuo_backup'), enemyHp: Number(result.enemyHpAfter), chanyuan: !!result.enemyChanyuan, hp: Number(result.hpAfter) };
+		case 'quality-guhuo-full-lowhp-fake-expendable':
+			return { activated: !!result.activated, hiddenShandian: hand(scene.before, actor).includes('shandian') && !hand(scene.after, actor).includes('shandian'), keptShan: hand(scene.after, actor).includes('shan'), hp: Number(result.hpAfter), enemyHp: Number(result.enemyHpAfter) };
+		case 'quality-guhuo-full-midhp-fake-expendable':
+			return { activated: !!result.activated, hiddenShandian: (result.hidden || []).includes('shandian'), keptShan: hand(scene.after, actor).includes('shan'), enemyHp: Number(result.enemyHpAfter) };
 		case 'quality-guhuo-bluff-lowhp': {
 			const scores = result.checkScores || [];
 			return { positive: scores.some(item => Number(item.out) > 0), zero: scores.length > 0 && scores.every(item => Number(item.out) === 0), hp: Number(result.hp) };
@@ -38,6 +48,10 @@ export function shenhuaSceneSemantic(name, scene) {
 		}
 		case 'quality-huangtian-last-shan':
 			return { used: resultUsesSkill('huangtian2'), keptShan: hand(scene.after, actor).includes('shan') };
+		case 'quality-huangtian-last-shan-with-shandian':
+			return { used: resultUsesSkill('huangtian2'), keptShan: hand(scene.after, actor).includes('shan'), allyGotShandian: hand(scene.after, ally).includes('shandian') };
+		case 'quality-huangtian-forced-shan-with-shandian':
+			return { used: resultUsesSkill('huangtian2'), keptShan: hand(scene.after, actor).includes('shan'), allyGotShan: hand(scene.after, ally).includes('shan') };
 		case 'quality-huangtian-midhp':
 			return { used: resultUsesSkill('huangtian2'), allyGotShan: hand(scene.after, ally).includes('shan') };
 		case 'shenhua-releiji-target': {
@@ -52,8 +66,6 @@ export function shenhuaSceneSemantic(name, scene) {
 			return { used: opUsed('useSkill', item => item.args && item.args[0] === 'huangtian2'), temp: (scene.tempCalls || []).some(item => item.skill === 'huangtian3'), allyGotShan: hand(scene.after, ally).includes('shan') };
 		case 'shenhua-huangtian-negative':
 			return { used: opUsed('useSkill', item => item.args && item.args[0] === 'huangtian2'), temp: (scene.tempCalls || []).length, allyHand: hand(scene.after, ally).length };
-		case 'shenhua-guhuo-ai-use':
-			return { used: !!scene.used, declared: scene.declared, targetEnemy: isEnemy(targets[0]), damage: damage && damage.num, guhuoPhase: !!scene.guhuoPhase };
 		case 'shenhua-guhuo-real-questioned':
 			return { declaredSha: scene.declared === 'sha' && scene.hidden === 'sha', chanyuan: !!scene.enemyChanyuan, damage: damage && damage.num, cancelled: !!scene.cancelled };
 		case 'shenhua-guhuo-fake-questioned': {
@@ -412,6 +424,12 @@ export function compareNativeExtension(nativeReport, extensionReport, scenes) {
 				allowed = true;
 				note = '策略差异：原生1血把最后一张闪转交主公；扩展保留该闪。';
 				strategyDifferences.push({ scene: name, type: 'huangtian-last-shan-kept', native, extension, note });
+			}
+			const huangtianForcedShan = name === 'quality-huangtian-forced-shan-with-shandian' && native.used === true && native.keptShan === false && extension.used === false && extension.keptShan === true;
+			if (huangtianForcedShan) {
+				allowed = true;
+				note = '策略差异：原生在1血持闪+闪电且本次选闪时仍把最后一张闪交给主公；扩展按实际选牌保留闪，仅允许转交闪电。';
+				strategyDifferences.push({ scene: name, type: 'huangtian-forced-shan-kept', native, extension, note });
 			}
 		}
 		if (!allowed) semanticAll = false;

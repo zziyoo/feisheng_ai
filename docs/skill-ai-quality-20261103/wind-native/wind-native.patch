@@ -1,11 +1,8 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 5c6b68c..4845241 100644
+index 5c6b68c..4eb5180 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
-@@ -3703,23 +3703,28 @@ const skills = {
-             return 0;
-           }
-           const card = shas[0];
+@@ -3706,9 +3706,6 @@ const skills = {
            if (!lib.filter.cardEnabled(card, player)) {
              return 0;
            }
@@ -15,8 +12,7 @@ index 5c6b68c..4845241 100644
            let mindist;
            if (player.hp >= 4 && shas.length >= 3) {
              mindist = 4;
-           } else if (player.hp >= 3 && shas.length >= 2) {
-             mindist = 3;
+@@ -3717,6 +3714,14 @@ const skills = {
            } else {
              mindist = 2;
            }
@@ -31,13 +27,7 @@ index 5c6b68c..4845241 100644
            if (game.hasPlayer(function(current) {
              return current.hp <= mindist - 1 && get.distance(player, current, "attack") <= mindist && player.canUse(card, current, false) && get.effect(current, card, player, player) > 0;
            })) {
-             return 1;
-           }
-           return 0;
-@@ -3752,15 +3757,15 @@ const skills = {
-     getIndex(event, player, triggername) {
-       return event.num;
-     },
+@@ -3755,9 +3760,9 @@ const skills = {
      preHidden: true,
      async cost(event, trigger, player) {
        let choice;
@@ -49,36 +39,28 @@ index 5c6b68c..4845241 100644
          choice = "recover_hp";
        } else {
          choice = "draw_card";
-       }
-       const next = player.chooseDrawRecover("###" + get.prompt(event.skill) + "###摸一张牌或回复1点体力");
-       next.set("choice", choice);
-@@ -7447,16 +7452,20 @@ const skills = {
-       event.result = await player.chooseTarget(get.prompt(event.skill), "跳过判定阶段和摸牌阶段，视为对一名其他角色使用一张【杀】", function(card, player2, target) {
-         if (player2 == target) {
-           return false;
+@@ -7450,10 +7455,18 @@ const skills = {
          }
          return player2.canUse({ name: "sha" }, target, false);
        }).set("check", player.countCards("h") > 2).set("ai", function(target) {
 +        const player2 = _status.event.player;
++        const effect = get.effect(target, { name: "sha" }, player2);
          if (!_status.event.check) {
 -          return 0;
 +          const skipsJudge = player2.hasJudge("lebu") || player2.hasJudge("bingliang") || player2.hasJudge("shandian");
 +          if (!skipsJudge) {
 +            return 0;
 +          }
++          if (effect < get.effect(player2, { name: "draw", isCard: true }, player2, player2)) {
++            return 0;
++          }
          }
 -        return get.effect(target, { name: "sha" }, _status.event.player);
-+        return get.effect(target, { name: "sha" }, player2);
++        return effect;
        }).setHiddenSkill(event.skill).forResult();
      },
      async content(event, trigger, player) {
-       trigger.cancel();
-       player.skip("phaseDraw");
-       await player.useCard({ name: "sha", isCard: true }, event.targets[0], false);
-@@ -7538,13 +7547,14 @@ const skills = {
-     }
-   },
-   jushou: {
+@@ -7541,7 +7554,8 @@ const skills = {
      audio: 2,
      trigger: { player: "phaseJieshuBegin" },
      check(event, player) {
@@ -88,44 +70,39 @@ index 5c6b68c..4845241 100644
      },
      async content(event, trigger, player) {
        await player.draw(3);
-       await player.turnOver();
-     }
-   },
-@@ -8650,13 +8660,20 @@ const skills = {
-       event.target.addTempSkill("huangtian3", "phaseUseEnd");
-     },
-     ai: {
+@@ -8653,7 +8667,22 @@ const skills = {
        expose: 0.3,
        order: 10,
        result: {
 -        target: 5
 +        target(player, target, card) {
++          if (player.hp > 1 || player.countCards("h", "shan") > 1) {
++            return 5;
++          }
 +          const selected = (typeof ui !== "undefined" && ui.selected && ui.selected.cards) || [];
-+          const givesShan = selected.some(item => item && item.name == "shan") || (player.countCards("h", "shan") <= 1 && !player.countCards("h", "shandian"));
-+          if (player.hp <= 1 && givesShan && player.countCards("h", "shan") <= 1) {
++          if (!selected.length) {
++            return 5;
++          }
++          if (selected.some(item => item && item.name == "shan")) {
 +            return 0;
 +          }
-+          return 5;
++          if (selected.some(item => item && item.name == "shandian")) {
++            return 5;
++          }
++          return 0;
 +        }
        }
      }
    },
-   huangtian3: {},
-   xinfu_guhuo: {
-     audio: "guhuo_guess",
-@@ -8734,12 +8751,15 @@ const skills = {
-                 return true;
-               }
-               return get.is.sameNature(card, cardx);
+@@ -8737,6 +8766,11 @@ const skills = {
              }
              return false;
            }, "hs")) {
-+            if (player.hp <= 1 && !player.isDying()) {
++            if (player.hp <= 1 && !player.isDying() && !player.hasCard(function(cardx) {
++              return cardx.name != "shan" && cardx.name != "tao" && get.value(cardx, player) < 6;
++            }, "hs")) {
 +              return 0;
 +            }
              if (get.value(card, player, "raw") < 6) {
                return Math.sqrt(val) * (0.25 + Math.random() / 1.5);
-             }
-             if (enemyNum <= 2) {
-               return Math.sqrt(val) / 1.5;
              }

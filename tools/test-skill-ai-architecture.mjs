@@ -95,8 +95,12 @@ check('风分包只放宽已复现的阻塞且不复制技能规则', () => {
 	assert(source.includes('lib.filter.cardUsable'));
 	assert(source.includes('jushouShouldActivate'));
 	assert(source.includes('shensu1ShouldUse'));
+	assert(source.includes('drawEffect'));
+	assert(source.includes('shensuCostBlock'));
 	assert(source.includes('guhuoShouldBluff'));
 	assert(source.includes('huangtianShouldGive'));
+	assert(source.includes('ui.selected.cards'));
+	assert(source.includes('selectedShandian'));
 	assert(!source.includes('reqimou'));
 	const rules = read('score/decision/skills/rules/shenhuaFeng.js');
 	assert(rules.includes('qimouTargetX'));

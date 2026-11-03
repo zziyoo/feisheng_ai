@@ -1,20 +1,16 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 5c6b68c..4845241 100644
+index 5c6b68c..f238192 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
-@@ -8734,12 +8751,15 @@ const skills = {
-                 return true;
-               }
-               return get.is.sameNature(card, cardx);
+@@ -8737,6 +8737,11 @@ const skills = {
              }
              return false;
            }, "hs")) {
-+            if (player.hp <= 1 && !player.isDying()) {
++            if (player.hp <= 1 && !player.isDying() && !player.hasCard(function(cardx) {
++              return cardx.name != "shan" && cardx.name != "tao" && get.value(cardx, player) < 6;
++            }, "hs")) {
 +              return 0;
 +            }
              if (get.value(card, player, "raw") < 6) {
                return Math.sqrt(val) * (0.25 + Math.random() / 1.5);
-             }
-             if (enemyNum <= 2) {
-               return Math.sqrt(val) / 1.5;
              }

@@ -1,7 +1,15 @@
 {
   "host_file": "character/shenhua.js",
   "baseline_sha256": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
-  "final_sha256": "a4447484d98c93c78d2fece0841277eb2919a79c7ae240bcfa1417341b46f433",
+  "final_sha256": "aa0af335571012429237593a179bc1cf0aa848792c4022595066d3f1809218e5",
   "baseline_bytes": 353457,
-  "final_bytes": 364581
+  "final_bytes": 365013,
+  "patches": {
+    "0001-caoren-jushou.patch": "145f0e643b4b0f783e8f79802ddb1250e58aba8725bb1acc35e578510b2f3f3d",
+    "0002-xiahouyuan-shensu.patch": "d34cb0a7116e8d54bab1b9309580d38cc704efcc5cd0dec7596aec18fdfc7323",
+    "0003-yuji-guhuo.patch": "500aa84a9b8843910c306c9e1d75e5f40b29a9f29777230d1e084db5bd189914",
+    "0004-weiyan-qimou-kuanggu.patch": "56675f10776fdad57638fc746e42f1040b5dc6ad36dc2934106b0e3c4d483d2a",
+    "0005-zhangjiao-huangtian.patch": "6fcbf529ced70d087c4266f8419e549eac7b124a4fbad5f7680e2e0688d61b96",
+    "wind-native.patch": "bd852095a8dbdde2d281ea4b57f337326a73322e11b0d4bf6bb6fc55c666427e"
+  }
 }

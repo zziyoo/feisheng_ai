@@ -1,6 +1,6 @@
-import { lib, game, get, _status } from '../../foundation/adapt/host.js?v=41a';
+import { lib, game, ui, get, _status } from '../../foundation/adapt/host.js?v=41a';
 
-export { lib, game, get, _status };
+export { lib, game, ui, get, _status };
 
 /*
  * 共享策略核心：只负责安装/卸载宿主钩子、维护备份与统计。

@@ -428,12 +428,12 @@
         "characters": 8,
         "skills": 12,
         "reviewed_skills": 12,
-        "fixed_skills": 2,
-        "verified_skills": 10,
+        "fixed_skills": 6,
+        "verified_skills": 6,
         "unreviewed_skills": 0,
         "skill_status": {
-          "已验证无问题": 10,
-          "已修复": 2
+          "已验证无问题": 6,
+          "已修复": 6
         }
       },
       "review_status": "验证完成",
@@ -2144,15 +2144,16 @@
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8837"
           },
           "status": "已修复",
-          "implementation": "无名AI shenhua_feng：1血只剩最后一张闪时不转交；原生补丁 commit bd192a8",
-          "test": "quality-huangtian-last-shan / quality-huangtian-midhp",
-          "evidence": "固定局面原生1血仍交出最后一张闪；扩展/原生补丁保留该闪，3血双闪仍转交。",
-          "notes": "只否决“1血+无闪电+最后一张闪”，其它黄天资源配合保持原生。",
+          "implementation": "无名AI shenhua_feng：1血按 ui.selected.cards 的实际选牌判断；选中最后一张闪且无备用闪时不转交，选中闪电可转交并保留唯一闪；原生补丁 commit bd192a8/2971478/7dabb0b",
+          "test": "quality-huangtian-last-shan / quality-huangtian-last-shan-with-shandian / quality-huangtian-forced-shan-with-shandian / quality-huangtian-midhp",
+          "evidence": "1血只有闪时原生交出、补丁/扩展保留；1血闪+闪电自然选牌时双方只交闪电并保留闪；强制选闪时原生仍交最后闪，补丁/扩展评分为0并保留；3血双闪仍转交。",
+          "notes": "原生 result.target 的 card 参数是技能名字符串，不是实体牌；按真实评分阶段的 ui.selected.cards 判断，不能凭手里有闪电推断交闪安全。已选牌但无法辨别时保守返回0，尚未选牌时保留原生评分。",
           "validation_level": "确认存在质量提升并已实现",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
-            "positive_negative": true
+            "positive_negative": true,
+            "note": "强制选闪、自然选闪电、只有闪、多闪四种局面均记录评分与实际交手牌结果。"
           },
           "host_line_1117": null
         }
@@ -2167,8 +2168,8 @@
       ],
       "implementation_status": "部分实施",
       "test_status": "真实宿主通过（质量场景）",
-      "evidence": "雷击/鬼道完成审查保留原生；黄天1血最后闪不转交。",
-      "notes": "黄天为新增运行时优化；雷击/鬼道保留原生并记录理由。"
+      "evidence": "雷击/鬼道完成审查保留原生；黄天1血最后闪不转交，持闪+闪电时只交闪电并保留唯一闪。",
+      "notes": "黄天为新增运行时优化；雷击/鬼道保留原生并记录理由；黄天按实际选牌而非手牌构成判断。"
     },
     {
       "task_id": "AI-re_yuji",
@@ -2203,16 +2204,16 @@
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8901"
           },
           "status": "已修复",
-          "implementation": "无名AI shenhua_feng：1血无真牌时不空手诈称；原生补丁 commit ce66ca0",
-          "test": "quality-guhuo-bluff-lowhp / quality-guhuo-bluff-midhp",
-          "evidence": "原生声明分4.70；扩展/补丁在1血无真牌时置0，3血仍保留4.70。",
-          "notes": "只处理被质疑后失去最后1点体力的濒死风险；真假与随机分支保持原生。",
+          "implementation": "无名AI shenhua_feng：1血无真牌时仅在有可弃低价值非防御牌（非闪/非桃且 get.value<6）时保留诈称；原生补丁 commit ce66ca0/751b29a",
+          "test": "quality-guhuo-bluff-lowhp / quality-guhuo-bluff-midhp / quality-guhuo-full-lowhp-fake-lastshan / quality-guhuo-full-lowhp-true-sha-forced / quality-guhuo-full-lowhp-fake-expendable / quality-guhuo-full-midhp-fake-expendable",
+          "evidence": "1血只有闪且全员质疑时放弃并保留闪；1血有真杀时实际发动、命中并令质疑者获缠怨；1血闪+闪电时实际发动、扣置闪电并保留闪；3血闪+闪电时实际发动并命中；无真牌声明分4.70在1血无可弃牌时置0。",
+          "notes": "宿主 1.11.7 假牌结算为“此牌作废”，不直接失去体力；守卫避免的是损失最后一张防御牌。旧守卫在1血一律拦截会误伤可弃闪电的合理诈称，本轮改为按可弃牌判断。",
           "validation_level": "确认存在质量提升并已实现",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
             "positive_negative": true,
-            "note": "AI 实际发动假声明；真声明被质疑后命中并施加缠怨；假声明遭质疑时原生取消，扩展 AI 在确定质疑下选择放弃，均无伤害。"
+            "note": "四种完整出牌场景记录实际发动/扣牌/伤害/质疑结果；1血无可弃牌与3血可弃闪电形成正反向。"
           },
           "host_line_1117": null
         }
@@ -2225,8 +2226,8 @@
       ],
       "implementation_status": "已实施",
       "test_status": "真实宿主通过（质量场景）",
-      "evidence": "蛊惑1血无真牌不诈称；3血反向保持原生声明分。",
-      "notes": "新增原生AI补丁与扩展镜像；未改变蛊惑规则或质疑结算。"
+      "evidence": "1血无可弃牌时放弃诈称并保留防御；1血真牌、1血闪电可弃、3血闪电可弃均能实际发动；3血反向保持原生评分。",
+      "notes": "新增原生AI补丁与扩展镜像；未改变蛊惑规则或质疑结算；按宿主实际“假牌作废”口径修正说明。"
     },
     {
       "task_id": "AI-re_xiahouyuan",
@@ -2264,15 +2265,16 @@
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7601"
           },
           "status": "已修复",
-          "implementation": "无名AI shenhua_feng：低手牌时若可跳过乐/兵粮/闪电仍使用神速1；原生补丁 commit 0749a7e/e0f7148",
-          "test": "quality-shensu1-lowhand-lebu / shenhua-shensu-skip / shenhua-shensu-negative",
-          "evidence": "固定局面原生手牌2放弃并结算乐；扩展/补丁跳过判定并使用虚拟杀；无判定低手牌仍放弃。",
-          "notes": "只放宽“低手牌+不良判定+正收益杀目标”一条；高牌数分支保持原生。",
+          "implementation": "无名AI shenhua_feng：低手牌+不良判定时，仅当虚拟杀收益不低于一次摸牌价值才使用神速1；原生补丁 commit 0749a7e/e0f7148/27e46d3",
+          "test": "quality-shensu1-lowhand-lebu / quality-shensu1-reverse-lowvalue / shenhua-shensu-skip / shenhua-shensu-negative",
+          "evidence": "正向：手牌2+乐、目标无手牌时虚拟杀收益15.309>摸牌9.9，跳过判定并使用虚拟杀；反向：所有敌方各两张闪时收益3.861<9.9，不发动，乐正常判定并移除。",
+          "notes": "只放宽“低手牌+不良判定+收益足够”一条；高牌数分支保持原生；门槛使用宿主自身 get.effect(draw) 值，不新增固定评分常数。",
           "validation_level": "确认存在质量提升并已实现",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
-            "positive_negative": true
+            "positive_negative": true,
+            "note": "正向跳过判定/摸牌并命中；反向目标收益不足时正常结算判定且不使用虚拟杀。"
           },
           "host_line_1117": null
         }
@@ -2285,8 +2287,8 @@
       ],
       "implementation_status": "已实施",
       "test_status": "真实宿主通过（质量场景）",
-      "evidence": "神速1低手牌+乐场景实际使用虚拟杀并跳过判定；无判定低手牌反向不发动。",
-      "notes": "新增原生AI补丁与扩展镜像；未改变神速阶段跳过规则。"
+      "evidence": "神速1低手牌+乐且收益足够时实际使用虚拟杀并跳过判定；收益不足的反向局面不发动并正常结算乐。",
+      "notes": "新增原生AI补丁与扩展镜像；未改变神速阶段跳过规则；补充放弃摸牌的机会成本门槛。"
     },
     {
       "task_id": "AI-xiaoqiao",

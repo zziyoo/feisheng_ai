@@ -1,27 +1,25 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 5c6b68c..4845241 100644
+index 5c6b68c..bf86562 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
-@@ -7447,16 +7452,20 @@ const skills = {
-       event.result = await player.chooseTarget(get.prompt(event.skill), "跳过判定阶段和摸牌阶段，视为对一名其他角色使用一张【杀】", function(card, player2, target) {
-         if (player2 == target) {
-           return false;
+@@ -7450,10 +7450,18 @@ const skills = {
          }
          return player2.canUse({ name: "sha" }, target, false);
        }).set("check", player.countCards("h") > 2).set("ai", function(target) {
 +        const player2 = _status.event.player;
++        const effect = get.effect(target, { name: "sha" }, player2);
          if (!_status.event.check) {
 -          return 0;
 +          const skipsJudge = player2.hasJudge("lebu") || player2.hasJudge("bingliang") || player2.hasJudge("shandian");
 +          if (!skipsJudge) {
 +            return 0;
 +          }
++          if (effect < get.effect(player2, { name: "draw", isCard: true }, player2, player2)) {
++            return 0;
++          }
          }
 -        return get.effect(target, { name: "sha" }, _status.event.player);
-+        return get.effect(target, { name: "sha" }, player2);
++        return effect;
        }).setHiddenSkill(event.skill).forResult();
      },
      async content(event, trigger, player) {
-       trigger.cancel();
-       player.skip("phaseDraw");
-       await player.useCard({ name: "sha", isCard: true }, event.targets[0], false);
