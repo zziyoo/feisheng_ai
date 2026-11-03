@@ -59,4 +59,5 @@ git apply docs/skill-ai-quality-20261103/wind-native/wind-native.patch
 - `wind-native-compare.json`：逐场景原生/补丁语义对照，`semantic_all=true`；登记差异为奇谋 2 项、狂骨、据守、神速1、蛊惑、黄天。
 - `wind-extension.json`、`wind-extension-full.json`：无名AI 风分包在未修改宿主上的镜像决策。
 - `wind-acceptance.json`：风分包 ZIP 的安装/宿主/回滚/134维契约验收。
+- `wind-lifecycle.json`：新增据守/神速1/蛊惑/黄天钩子的安装→卸载→重装标记检查。
 - 场景实现：`tools/skill-ai-host-scenes.mjs` 的 `quality-*` 场景；验收判据：`tools/accept-skill-ai-pack.mjs`。
