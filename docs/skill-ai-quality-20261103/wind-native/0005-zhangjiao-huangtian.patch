@@ -1,0 +1,26 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+index 5c6b68c..4845241 100644
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -8650,13 +8660,20 @@ const skills = {
+       event.target.addTempSkill("huangtian3", "phaseUseEnd");
+     },
+     ai: {
+       expose: 0.3,
+       order: 10,
+       result: {
+-        target: 5
++        target(player, target, card) {
++          const selected = (typeof ui !== "undefined" && ui.selected && ui.selected.cards) || [];
++          const givesShan = selected.some(item => item && item.name == "shan") || (player.countCards("h", "shan") <= 1 && !player.countCards("h", "shandian"));
++          if (player.hp <= 1 && givesShan && player.countCards("h", "shan") <= 1) {
++            return 0;
++          }
++          return 5;
++        }
+       }
+     }
+   },
+   huangtian3: {},
+   xinfu_guhuo: {
+     audio: "guhuo_guess",

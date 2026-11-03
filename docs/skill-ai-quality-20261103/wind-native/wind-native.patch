@@ -1,0 +1,131 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+index 5c6b68c..4845241 100644
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -3703,23 +3703,28 @@ const skills = {
+             return 0;
+           }
+           const card = shas[0];
+           if (!lib.filter.cardEnabled(card, player)) {
+             return 0;
+           }
+-          if (lib.filter.cardUsable(card, player)) {
+-            return 0;
+-          }
+           let mindist;
+           if (player.hp >= 4 && shas.length >= 3) {
+             mindist = 4;
+           } else if (player.hp >= 3 && shas.length >= 2) {
+             mindist = 3;
+           } else {
+             mindist = 2;
+           }
++          if (lib.filter.cardUsable(card, player)) {
++            if (player.hp > mindist - 1 && game.hasPlayer(function(current) {
++              return current != player && !player.canUse(card, current) && player.canUse(card, current, false) && get.effect(current, card, player, player) > 0 && get.distance(player, current, "attack") <= mindist && current.hp <= mindist - 1 && current.hp <= Math.min(shas.length, mindist);
++            })) {
++              return 1;
++            }
++            return 0;
++          }
+           if (game.hasPlayer(function(current) {
+             return current.hp <= mindist - 1 && get.distance(player, current, "attack") <= mindist && player.canUse(card, current, false) && get.effect(current, card, player, player) > 0;
+           })) {
+             return 1;
+           }
+           return 0;
+@@ -3752,15 +3757,15 @@ const skills = {
+     getIndex(event, player, triggername) {
+       return event.num;
+     },
+     preHidden: true,
+     async cost(event, trigger, player) {
+       let choice;
+-      if (player.isDamaged() && get.recoverEffect(player) > 0 && player.countCards("hs", function(card) {
++      if (player.isDamaged() && get.recoverEffect(player) > 0 && (player.hp <= 1 || player.countCards("hs", function(card) {
+         return card.name == "sha" && player.hasValueTarget(card);
+-      }) >= player.getCardUsable("sha")) {
++      }) >= player.getCardUsable("sha"))) {
+         choice = "recover_hp";
+       } else {
+         choice = "draw_card";
+       }
+       const next = player.chooseDrawRecover("###" + get.prompt(event.skill) + "###摸一张牌或回复1点体力");
+       next.set("choice", choice);
+@@ -7447,16 +7452,20 @@ const skills = {
+       event.result = await player.chooseTarget(get.prompt(event.skill), "跳过判定阶段和摸牌阶段，视为对一名其他角色使用一张【杀】", function(card, player2, target) {
+         if (player2 == target) {
+           return false;
+         }
+         return player2.canUse({ name: "sha" }, target, false);
+       }).set("check", player.countCards("h") > 2).set("ai", function(target) {
++        const player2 = _status.event.player;
+         if (!_status.event.check) {
+-          return 0;
++          const skipsJudge = player2.hasJudge("lebu") || player2.hasJudge("bingliang") || player2.hasJudge("shandian");
++          if (!skipsJudge) {
++            return 0;
++          }
+         }
+-        return get.effect(target, { name: "sha" }, _status.event.player);
++        return get.effect(target, { name: "sha" }, player2);
+       }).setHiddenSkill(event.skill).forResult();
+     },
+     async content(event, trigger, player) {
+       trigger.cancel();
+       player.skip("phaseDraw");
+       await player.useCard({ name: "sha", isCard: true }, event.targets[0], false);
+@@ -7538,13 +7547,14 @@ const skills = {
+     }
+   },
+   jushou: {
+     audio: 2,
+     trigger: { player: "phaseJieshuBegin" },
+     check(event, player) {
+-      return event.player.hp + player.countCards("h") < 4;
++      // 已翻面时据守只会摸三张并翻回正面，没有额外回合成本。
++      return player.isTurnedOver() || event.player.hp + player.countCards("h") < 4;
+     },
+     async content(event, trigger, player) {
+       await player.draw(3);
+       await player.turnOver();
+     }
+   },
+@@ -8650,13 +8660,20 @@ const skills = {
+       event.target.addTempSkill("huangtian3", "phaseUseEnd");
+     },
+     ai: {
+       expose: 0.3,
+       order: 10,
+       result: {
+-        target: 5
++        target(player, target, card) {
++          const selected = (typeof ui !== "undefined" && ui.selected && ui.selected.cards) || [];
++          const givesShan = selected.some(item => item && item.name == "shan") || (player.countCards("h", "shan") <= 1 && !player.countCards("h", "shandian"));
++          if (player.hp <= 1 && givesShan && player.countCards("h", "shan") <= 1) {
++            return 0;
++          }
++          return 5;
++        }
+       }
+     }
+   },
+   huangtian3: {},
+   xinfu_guhuo: {
+     audio: "guhuo_guess",
+@@ -8734,12 +8751,15 @@ const skills = {
+                 return true;
+               }
+               return get.is.sameNature(card, cardx);
+             }
+             return false;
+           }, "hs")) {
++            if (player.hp <= 1 && !player.isDying()) {
++              return 0;
++            }
+             if (get.value(card, player, "raw") < 6) {
+               return Math.sqrt(val) * (0.25 + Math.random() / 1.5);
+             }
+             if (enemyNum <= 2) {
+               return Math.sqrt(val) / 1.5;
+             }

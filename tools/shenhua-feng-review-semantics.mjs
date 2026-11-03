@@ -18,7 +18,28 @@ export function shenhuaSceneSemantic(name, scene) {
 	const targets = (scene.selected || (scene.choice && scene.choice.targets) || (scene.targets || []).flat() || []).map(idOnly);
 	const opUsesSkill = skill => (scene.ops || []).some(item => item && item.op === 'useSkill' && Array.isArray(item.args) && item.args[0] === skill);
 	const opLoseHp = () => (scene.ops || []).filter(item => item && item.op === 'loseHp').reduce((sum, item) => sum + (Number(item.args && item.args[0]) || 0), 0);
+	const result = scene.result || scene;
+	const resultOps = result.ops || scene.ops || [];
+	const resultUsesSkill = skill => resultOps.some(item => item && item.op === 'useSkill' && Array.isArray(item.args) && item.args[0] === skill);
 	switch (name) {
+		case 'quality-jushou-turned':
+			return { drew: Number(result.drew), turned: result.turned === true, hp: Number(result.hp) };
+		case 'quality-jushou-normal':
+			return { drew: Number(result.drew), turned: result.turned === true };
+		case 'quality-shensu1-lowhand-lebu':
+			return { usedSha: !!result.usedSha, judgeSkipped: Number(result.judge) === 1, targetEnemy: isEnemy(result.target) };
+		case 'quality-guhuo-bluff-lowhp': {
+			const scores = result.checkScores || [];
+			return { positive: scores.some(item => Number(item.out) > 0), zero: scores.length > 0 && scores.every(item => Number(item.out) === 0), hp: Number(result.hp) };
+		}
+		case 'quality-guhuo-bluff-midhp': {
+			const scores = result.checkScores || [];
+			return { positive: scores.some(item => Number(item.out) > 0), hp: Number(result.hp) };
+		}
+		case 'quality-huangtian-last-shan':
+			return { used: resultUsesSkill('huangtian2'), keptShan: hand(scene.after, actor).includes('shan') };
+		case 'quality-huangtian-midhp':
+			return { used: resultUsesSkill('huangtian2'), allyGotShan: hand(scene.after, ally).includes('shan') };
 		case 'shenhua-releiji-target': {
 			const targetDamage = (scene.damage || []).find(item => item && item.player === targets[0]);
 			return { targetEnemy: isEnemy(targets[0]), thunderDamage: targetDamage && targetDamage.num, thunder: targetDamage && targetDamage.nature, hpDelta: targets[0] ? hpDelta(targets[0]) : null };
@@ -367,6 +388,30 @@ export function compareNativeExtension(nativeReport, extensionReport, scenes) {
 				allowed = true;
 				note = '策略差异：原生乱击评分对1血空手无防具队友仍为正（实际万箭会使其进入濒死），扩展评分为0并拒绝发动；本场景只比较决策分，结算由全敌方场景覆盖。';
 				strategyDifferences.push({ scene: name, type: 'luanji-ally-lethal-veto', native, extension, note });
+			}
+			const jushouTurned = name === 'quality-jushou-turned' && native.drew === 0 && native.turned === true && extension.drew === 3 && extension.turned === false;
+			if (jushouTurned) {
+				allowed = true;
+				note = '策略差异：原生已翻面且体力4手牌3时不发动据守；扩展摸3张并翻回正面，无额外回合成本。';
+				strategyDifferences.push({ scene: name, type: 'jushou-turned-free-draw', native, extension, note });
+			}
+			const shensuLowHand = name === 'quality-shensu1-lowhand-lebu' && native.usedSha === false && native.judgeSkipped === false && extension.usedSha === true && extension.judgeSkipped === true;
+			if (shensuLowHand) {
+				allowed = true;
+				note = '策略差异：原生手牌2时放弃神速1并结算乐不思蜀；扩展跳过判定并使用虚拟杀。';
+				strategyDifferences.push({ scene: name, type: 'shensu1-lowhand-judge-skip', native, extension, note });
+			}
+			const guhuoLowHp = name === 'quality-guhuo-bluff-lowhp' && native.positive === true && native.zero === false && extension.positive === false && extension.zero === true && native.hp === 1 && extension.hp === 1;
+			if (guhuoLowHp) {
+				allowed = true;
+				note = '策略差异：原生1血无真牌仍给诈称正分；扩展将声明分置0，避免被质疑后失去最后1点体力。';
+				strategyDifferences.push({ scene: name, type: 'guhuo-lowhp-bluff-guard', native, extension, note });
+			}
+			const huangtianLastShan = name === 'quality-huangtian-last-shan' && native.used === true && native.keptShan === false && extension.used === false && extension.keptShan === true;
+			if (huangtianLastShan) {
+				allowed = true;
+				note = '策略差异：原生1血把最后一张闪转交主公；扩展保留该闪。';
+				strategyDifferences.push({ scene: name, type: 'huangtian-last-shan-kept', native, extension, note });
 			}
 		}
 		if (!allowed) semanticAll = false;

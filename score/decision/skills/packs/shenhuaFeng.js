@@ -1,12 +1,12 @@
-import { lib, get, _status } from '../policyCore.js?v=41a';
-import { shouldBypassQimouCountBlock, kuangguChoice } from '../rules/shenhuaFeng.js?v=41a';
+import { lib, game, get, _status } from '../policyCore.js?v=41a';
+import { shouldBypassQimouCountBlock, kuangguChoice, jushouShouldActivate, shensu1ShouldUse, guhuoShouldBluff, huangtianShouldGive } from '../rules/shenhuaFeng.js?v=41a';
 
 export const pack = {
 	id: 'shenhua_feng',
 	name: '神话再临·风',
 	group: 'shenhua',
-	skills: ['qimou', 'xinkuanggu'],
-	statsDefaults: { qimouBypass: 0, kuangguRecover: 0 },
+	skills: ['qimou', 'xinkuanggu', 'jushou', 'xinshensu', 'xinfu_guhuo', 'huangtian'],
+	statsDefaults: { qimouBypass: 0, kuangguRecover: 0, jushouTurned: 0, shensuSkipJudge: 0, guhuoLowHpGuard: 0, huangtianLastShan: 0, guhuoCalls: 0 },
 	install,
 };
 
@@ -88,7 +88,106 @@ function installKuanggu(host, stats) {
 	});
 }
 
+/* 曹仁【据守】：已翻面时再次发作会翻回正面，摸三张没有额外回合成本。
+ * 原生 check 只比较体力+手牌，遗漏了这一免费情形。 */
+function installJushou(host, stats) {
+	const info = lib.skill && lib.skill.jushou;
+	if (!info || typeof info.check !== 'function') return;
+	host.wrap(info, 'check', 'jushou:check', original => function (event, player) {
+		const native = original.apply(this, arguments);
+		try {
+			if (native) return native;
+			if (jushouShouldActivate({ hp: player.hp, hand: player.countCards('h'), turned: player.isTurnedOver() })) {
+				stats.jushouTurned++;
+				return true;
+			}
+		} catch (e) {}
+		return native;
+	});
+}
+
+/* 夏侯渊【神速1】：原生在手牌<=2时直接放弃，即使判定区的乐/兵粮/闪电
+ * 会被跳过。保持其它分支不变，只在“低手牌 + 不良判定 + 正收益目标”时放行。 */
+function installShensu(host, stats) {
+	const infos = [lib.skill && lib.skill.shensu1, lib.skill && lib.skill.xinshensu_1].filter(info => info && typeof info.cost === 'function');
+	for (const info of infos) host.wrap(info, 'cost', 'shensu1:cost', () => async function (event, trigger, player) {
+		const check = player.countCards('h') > 2;
+		const harmfulJudge = player.hasJudge('lebu') || player.hasJudge('bingliang') || player.hasJudge('shandian');
+		event.result = await player.chooseTarget(get.prompt(event.skill), '跳过判定阶段和摸牌阶段，视为对一名其他角色使用一张【杀】', function (card, player2, target) {
+			if (player2 == target) return false;
+			return player2.canUse({ name: 'sha' }, target, false);
+		}).set('check', check).set('ai', function (target) {
+			const effect = get.effect(target, { name: 'sha' }, player);
+			if (!shensu1ShouldUse({ check, harmfulJudge, effect })) return 0;
+			if (!check && harmfulJudge && effect > 0) stats.shensuSkipJudge++;
+			return effect;
+		}).setHiddenSkill(event.skill).forResult();
+	});
+}
+
+/* 于吉【蛊惑】：1血时没有真牌仍诈称，被质疑失去1点体力会直接进入濒死。
+ * 只在“无真牌 + 1血 + 非濒死”时降低声明分，其它真假/随机分支保持原生。 */
+function installGuhuo(host, stats) {
+	const info = lib.skill && lib.skill.xinfu_guhuo;
+	const check = info && info.chooseButton && info.chooseButton.check;
+	if (typeof check !== 'function') return;
+	host.wrap(info.chooseButton, 'check', 'guhuo:check', original => function (button) {
+		const native = original.apply(this, arguments);
+		try {
+			stats.guhuoCalls = (stats.guhuoCalls || 0) + 1;
+			if (!(Number(native) > 0)) return native;
+			const player = _status.event.player;
+			const enemyNum = game.countPlayer(function (current) {
+				return current != player && !current.hasSkill('chanyuan') && (get.realAttitude || get.attitude)(current, player) < 0;
+			});
+			const card = { name: button.link[2], nature: button.link[3] };
+			const hasTrue = player.hasCard(function (cardx) {
+				if (card.name == cardx.name) {
+					if (card.name != 'sha') return true;
+					return get.is.sameNature(card, cardx);
+				}
+				return false;
+			}, 'hs');
+			if (!guhuoShouldBluff({ enemyNum, hasTrue, hp: player.hp, dying: player.isDying() })) {
+				stats.guhuoLowHpGuard++;
+				return 0;
+			}
+		} catch (e) {}
+		return native;
+	});
+}
+
+/* 张角【黄天】：1血只剩最后一张闪时转交，等于把唯一防御交给主公。
+ * 只在“1血 + 无闪电 + 最后一张闪”时否决目标分；多闪/有闪电保持原生。 */
+function installHuangtian(host, stats) {
+	const info = lib.skill && lib.skill.huangtian2;
+	const result = info && info.ai && info.ai.result;
+	if (!result || result.target == null) return;
+	host.wrap(result, 'target', 'huangtian:target', original => function (player, target, card) {
+		const native = typeof original === 'function' ? original.apply(this, arguments) : original;
+		try {
+			if (!(Number(native) > 0)) return native;
+			const selected = (typeof ui !== 'undefined' && ui.selected && ui.selected.cards) || [];
+			const selectedShan = selected.some(item => item && item.name == 'shan') || (player.countCards('h', 'shan') <= 1 && !player.countCards('h', 'shandian'));
+			if (!huangtianShouldGive({
+				hp: player.hp,
+				handShan: player.countCards('h', 'shan'),
+				hasShandian: player.countCards('h', 'shandian') > 0,
+				selectedShan,
+			})) {
+				stats.huangtianLastShan++;
+				return 0;
+			}
+		} catch (e) {}
+		return native;
+	});
+}
+
 function install(host, stats) {
 	installQimou(host, stats);
 	installKuanggu(host, stats);
+	installJushou(host, stats);
+	installShensu(host, stats);
+	installGuhuo(host, stats);
+	installHuangtian(host, stats);
 }

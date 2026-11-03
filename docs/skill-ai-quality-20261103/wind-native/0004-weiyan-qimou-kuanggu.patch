@@ -1,0 +1,54 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+index 5c6b68c..4845241 100644
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -3703,23 +3703,28 @@ const skills = {
+             return 0;
+           }
+           const card = shas[0];
+           if (!lib.filter.cardEnabled(card, player)) {
+             return 0;
+           }
+-          if (lib.filter.cardUsable(card, player)) {
+-            return 0;
+-          }
+           let mindist;
+           if (player.hp >= 4 && shas.length >= 3) {
+             mindist = 4;
+           } else if (player.hp >= 3 && shas.length >= 2) {
+             mindist = 3;
+           } else {
+             mindist = 2;
+           }
++          if (lib.filter.cardUsable(card, player)) {
++            if (player.hp > mindist - 1 && game.hasPlayer(function(current) {
++              return current != player && !player.canUse(card, current) && player.canUse(card, current, false) && get.effect(current, card, player, player) > 0 && get.distance(player, current, "attack") <= mindist && current.hp <= mindist - 1 && current.hp <= Math.min(shas.length, mindist);
++            })) {
++              return 1;
++            }
++            return 0;
++          }
+           if (game.hasPlayer(function(current) {
+             return current.hp <= mindist - 1 && get.distance(player, current, "attack") <= mindist && player.canUse(card, current, false) && get.effect(current, card, player, player) > 0;
+           })) {
+             return 1;
+           }
+           return 0;
+@@ -3752,15 +3757,15 @@ const skills = {
+     getIndex(event, player, triggername) {
+       return event.num;
+     },
+     preHidden: true,
+     async cost(event, trigger, player) {
+       let choice;
+-      if (player.isDamaged() && get.recoverEffect(player) > 0 && player.countCards("hs", function(card) {
++      if (player.isDamaged() && get.recoverEffect(player) > 0 && (player.hp <= 1 || player.countCards("hs", function(card) {
+         return card.name == "sha" && player.hasValueTarget(card);
+-      }) >= player.getCardUsable("sha")) {
++      }) >= player.getCardUsable("sha"))) {
+         choice = "recover_hp";
+       } else {
+         choice = "draw_card";
+       }
+       const next = player.chooseDrawRecover("###" + get.prompt(event.skill) + "###摸一张牌或回复1点体力");
+       next.set("choice", choice);

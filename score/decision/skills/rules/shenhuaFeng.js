@@ -29,6 +29,43 @@ export function kuangguChoice(input) {
 	return 'draw_card';
 }
 
+/* 据守：已经翻面时再次翻面会回到正面，摸三张没有额外回合成本。 */
+export function jushouShouldActivate(input) {
+	const { hp, hand, turned } = input || {};
+	const life = Number(hp);
+	const cards = Number(hand);
+	if (turned) return true;
+	if (!Number.isFinite(life) || !Number.isFinite(cards)) return false;
+	return life + cards < 4;
+}
+
+/* 神速1：手牌<=2时原生放弃；若判定区有乐/兵粮/闪电，跳过判定阶段本身有收益。 */
+export function shensu1ShouldUse(input) {
+	const { check, harmfulJudge, effect } = input || {};
+	if (!(Number(effect) > 0)) return false;
+	return !!check || !!harmfulJudge;
+}
+
+/* 蛊惑：1血且没有真牌时诈称，被质疑会失去1点体力进入濒死。 */
+export function guhuoShouldBluff(input) {
+	const { enemyNum, hasTrue, hp, dying } = input || {};
+	if (!(Number(enemyNum) > 0)) return true;
+	if (hasTrue) return true;
+	return !(Number(hp) <= 1 && !dying);
+}
+
+/* 黄天：1血只剩最后一张闪时不再转交；有其他闪或闪电时保留原生。 */
+export function huangtianShouldGive(input) {
+	const { hp, handShan, hasShandian, selectedShan } = input || {};
+	const life = Number(hp);
+	const shan = Number(handShan);
+	if (!Number.isFinite(life) || !Number.isFinite(shan)) return true;
+	if (life > 1) return true;
+	if (hasShandian) return true;
+	if (shan > 1) return true;
+	return !selectedShan;
+}
+
 export function shouldBypassQimouCountBlock(input) {
 	const { nativeResult, hp, shaCount, cardEnabled, cardUsable, targets } = input || {};
 	if (Number(nativeResult) > 0) return false;

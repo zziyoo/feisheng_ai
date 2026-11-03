@@ -2074,12 +2074,12 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7483"
           },
-          "status": "已验证无问题",
+          "status": "完成质量审查，保留原生",
           "implementation": "无需改动",
-          "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-releiji-target：AI 选敌方 seat，黑桃判定后造成 2 点雷电伤害，目标体力 4→2；未选友方。",
-          "notes": "目标选择符合敌我关系；未复现雷击目标缺陷。",
-          "validation_level": "AI决策验证通过",
+          "test": "shenhua-releiji-target / quality-releiji-linked-ally",
+          "evidence": "原生 get.damageEffect/get.effect 已按态度与铁索传导计分；质量场景未复现雷击队友的退化。",
+          "notes": "保留原生目标评分；未发现无隐藏信息的严格更优入口。",
+          "validation_level": "完成质量审查",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
@@ -2109,12 +2109,12 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8701"
           },
-          "status": "已验证无问题",
+          "status": "完成质量审查，保留原生",
           "implementation": "无需改动",
-          "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-guidao-replace、shenhua-guidao-decline：有利改判时 AI 用黑桃杀替换并获原判定牌；判定同为黑桃时放弃改判、保留手牌。",
-          "notes": "只在有利方向改判；未复现误判或资敌。",
-          "validation_level": "正反向决策验证通过",
+          "test": "shenhua-guidao-replace / shenhua-guidao-decline",
+          "evidence": "原生按判定值与牌价值比较，且区分敌我；黑桃/梅花判定收益、装备折价均已覆盖。",
+          "notes": "保留原生；未找到不引入新价值常数即可证明更优的改判策略。",
+          "validation_level": "完成质量审查",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
@@ -2143,12 +2143,12 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8837"
           },
-          "status": "已验证无问题",
-          "implementation": "无需改动",
-          "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-huangtian-give、shenhua-huangtian-negative：黄天主公在场，群势力角色有闪时发动 huangtian2、交出闪并施加黄天3；无闪时不发动、不交牌。",
-          "notes": "未复现漏发或把闪交给非主公。",
-          "validation_level": "正反向决策验证通过",
+          "status": "已修复",
+          "implementation": "无名AI shenhua_feng：1血只剩最后一张闪时不转交；原生补丁 commit bd192a8",
+          "test": "quality-huangtian-last-shan / quality-huangtian-midhp",
+          "evidence": "固定局面原生1血仍交出最后一张闪；扩展/原生补丁保留该闪，3血双闪仍转交。",
+          "notes": "只否决“1血+无闪电+最后一张闪”，其它黄天资源配合保持原生。",
+          "validation_level": "确认存在质量提升并已实现",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
@@ -2159,16 +2159,16 @@
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "已验证无问题",
+      "review_status": "已修复（黄天）",
       "reviewed_skills": [
         "releiji",
         "guidao",
         "huangtian"
       ],
-      "implementation_status": "无需改动",
-      "test_status": "真实宿主通过",
-      "evidence": "雷击：shenhua-feng-review.json / shenhua-releiji-target：AI 选敌方 seat，黑桃判定后造成 2 点雷电伤害，目标体力 4→2；未选友方。；鬼道：shenhua-feng-review.json / shenhua-guidao-replace、shenhua-guidao-decline：有利改判时 AI 用黑桃杀替换并获原判定牌；判定同为黑桃时放弃改判、保留手牌。；黄天：shenhua-feng-review.json / shenhua-huangtian-give、shenhua-huangtian-negative：黄天主公在场，群势力角色有闪时发动 huangtian2、交出闪并施加黄天3；无闪时不发动、不交牌。",
-      "notes": "雷击：目标选择符合敌我关系；未复现雷击目标缺陷。；鬼道：只在有利方向改判；未复现误判或资敌。；黄天：未复现漏发或把闪交给非主公。"
+      "implementation_status": "部分实施",
+      "test_status": "真实宿主通过（质量场景）",
+      "evidence": "雷击/鬼道完成审查保留原生；黄天1血最后闪不转交。",
+      "notes": "黄天为新增运行时优化；雷击/鬼道保留原生并记录理由。"
     },
     {
       "task_id": "AI-re_yuji",
@@ -2202,12 +2202,12 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8901"
           },
-          "status": "已验证无问题",
-          "implementation": "无需改动",
-          "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-guhuo-ai-use、shenhua-guhuo-real-questioned、shenhua-guhuo-fake-questioned：AI 声称杀并实际使用假牌命中敌方（目标体力 2→1）；真声明被质疑后仍命中且质疑者获缠怨；假声明遭质疑时取消或被 AI 放弃，均无伤害、无缠怨。",
-          "notes": "check/ai1 使用 Math.random 作为诈唬权重属于原生随机策略；扩展在“假声明+确定质疑”局面选择放弃是一次策略决策差异，已记录，不据此改宿主技能。",
-          "validation_level": "正反向决策验证通过",
+          "status": "已修复",
+          "implementation": "无名AI shenhua_feng：1血无真牌时不空手诈称；原生补丁 commit ce66ca0",
+          "test": "quality-guhuo-bluff-lowhp / quality-guhuo-bluff-midhp",
+          "evidence": "原生声明分4.70；扩展/补丁在1血无真牌时置0，3血仍保留4.70。",
+          "notes": "只处理被质疑后失去最后1点体力的濒死风险；真假与随机分支保持原生。",
+          "validation_level": "确认存在质量提升并已实现",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
@@ -2219,14 +2219,14 @@
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "已验证无问题",
+      "review_status": "已修复",
       "reviewed_skills": [
         "xinfu_guhuo"
       ],
-      "implementation_status": "无需改动",
-      "test_status": "真实宿主通过",
-      "evidence": "蛊惑：shenhua-feng-review.json / shenhua-guhuo-ai-use、shenhua-guhuo-real-questioned、shenhua-guhuo-fake-questioned：AI 声称杀并实际使用假牌命中敌方（目标体力 2→1）；真声明被质疑后仍命中且质疑者获缠怨；假声明遭质疑时取消或被 AI 放弃，均无伤害、无缠怨。",
-      "notes": "蛊惑：check/ai1 使用 Math.random 作为诈唬权重属于原生随机策略；扩展在“假声明+确定质疑”局面选择放弃是一次策略决策差异，已记录，不据此改宿主技能。"
+      "implementation_status": "已实施",
+      "test_status": "真实宿主通过（质量场景）",
+      "evidence": "蛊惑1血无真牌不诈称；3血反向保持原生声明分。",
+      "notes": "新增原生AI补丁与扩展镜像；未改变蛊惑规则或质疑结算。"
     },
     {
       "task_id": "AI-re_xiahouyuan",
@@ -2263,12 +2263,12 @@
             ],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7601"
           },
-          "status": "已验证无问题",
-          "implementation": "无需改动",
-          "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-shensu-skip、shenhua-shensu-negative：3 杀时 shensu1 跳过判定/摸牌并虚拟杀命中敌方（4→3）；2 杀时不发动，判定牌正常结算且手牌不变。",
-          "notes": "跳阶段与虚拟杀结算正常；未复现错误目标或未跳过。",
-          "validation_level": "正反向决策验证通过",
+          "status": "已修复",
+          "implementation": "无名AI shenhua_feng：低手牌时若可跳过乐/兵粮/闪电仍使用神速1；原生补丁 commit 0749a7e/e0f7148",
+          "test": "quality-shensu1-lowhand-lebu / shenhua-shensu-skip / shenhua-shensu-negative",
+          "evidence": "固定局面原生手牌2放弃并结算乐；扩展/补丁跳过判定并使用虚拟杀；无判定低手牌仍放弃。",
+          "notes": "只放宽“低手牌+不良判定+正收益杀目标”一条；高牌数分支保持原生。",
+          "validation_level": "确认存在质量提升并已实现",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
@@ -2279,14 +2279,14 @@
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "已验证无问题",
+      "review_status": "已修复",
       "reviewed_skills": [
         "xinshensu"
       ],
-      "implementation_status": "无需改动",
-      "test_status": "真实宿主通过",
-      "evidence": "神速：shenhua-feng-review.json / shenhua-shensu-skip、shenhua-shensu-negative：3 杀时 shensu1 跳过判定/摸牌并虚拟杀命中敌方（4→3）；2 杀时不发动，判定牌正常结算且手牌不变。",
-      "notes": "神速：跳阶段与虚拟杀结算正常；未复现错误目标或未跳过。"
+      "implementation_status": "已实施",
+      "test_status": "真实宿主通过（质量场景）",
+      "evidence": "神速1低手牌+乐场景实际使用虚拟杀并跳过判定；无判定低手牌反向不发动。",
+      "notes": "新增原生AI补丁与扩展镜像；未改变神速阶段跳过规则。"
     },
     {
       "task_id": "AI-xiaoqiao",
@@ -2320,12 +2320,12 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7913"
           },
-          "status": "已验证无问题",
+          "status": "完成质量审查，保留原生",
           "implementation": "无需改动",
-          "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-tianxiang-redirect、shenhua-tianxiang-negative：持红桃牌受 1 伤时 AI 转给敌方、选择“失去1体力并获得弃置桃”，小乔不掉血、目标 4→3 并获得桃；无红桃时不发动并正常受伤。",
-          "notes": "未把伤害转给友方或错误结算；保留原生目标/选项评分。",
-          "validation_level": "正反向决策验证通过",
+          "test": "shenhua-tianxiang-redirect / shenhua-tianxiang-negative",
+          "evidence": "原生 ai2 已按目标态度、伤害效果、已损体力给分；1血自保权重与敌方优先顺序在场景中成立。",
+          "notes": "保留原生；1血转移的 da=10 是刻意自保权重，未用未复现的规则替换。",
+          "validation_level": "完成质量审查",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
@@ -2354,12 +2354,12 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8234"
           },
-          "status": "已验证无问题",
-          "implementation": "无需改动",
-          "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-hongyan-suit：红颜被动下黑桃杀经 get.suit/get.color 变为红桃/红色。",
-          "notes": "纯被动，无 AI 分支；未复现规则偏差。",
-          "validation_level": "规则结算验证通过",
+          "status": "完成质量审查，保留原生",
+          "implementation": "无需改动（被动花色规则）",
+          "test": "shenhua-hongyan-suit",
+          "evidence": "黑桃视为红桃的规则由 mod.suit 完成，无独立 AI 选择入口。",
+          "notes": "标记为无独立 AI 决策入口。",
+          "validation_level": "完成质量审查",
           "validation": {
             "rule_settlement": true,
             "ai_decision": false,
@@ -2372,14 +2372,14 @@
       ],
       "priority_original": "P1",
       "priority_revised": "P2",
-      "review_status": "已验证无问题",
+      "review_status": "完成质量审查，保留原生",
       "reviewed_skills": [
         "retianxiang",
         "hongyan"
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "天香：shenhua-feng-review.json / shenhua-tianxiang-redirect、shenhua-tianxiang-negative：持红桃牌受 1 伤时 AI 转给敌方、选择“失去1体力并获得弃置桃”，小乔不掉血、目标 4→3 并获得桃；无红桃时不发动并正常受伤。；红颜：shenhua-feng-review.json / shenhua-hongyan-suit：红颜被动下黑桃杀经 get.suit/get.color 变为红桃/红色。",
+      "evidence": "天香目标评分与红颜花色均完成审查，未发现可证明更优的最小改动。",
       "notes": "天香：未把伤害转给友方或错误结算；保留原生目标/选项评分。；红颜：纯被动，无 AI 分支；未复现规则偏差。"
     },
     {
@@ -2415,10 +2415,10 @@
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3720"
           },
           "status": "已修复",
-          "implementation": "已实施",
-          "test": "真实宿主通过",
-          "evidence": "quality-native.json / quality-extension.json：quality-kuanggu-lowhp 原生 hp=1、draw=1，扩展 recover=1、hp=2；quality-kuanggu-midhp 原生/扩展均摸牌且体力不变。另有既有 shenhua-kuanggu-draw/recover 回归。",
-          "notes": "只改 cost 的回复/摸牌选择：1血且可回复时回复，其余沿用原生“有足够杀才回复”的条件；不改技能规则。",
+          "implementation": "无名AI shenhua_feng：1血可回复时优先回复；原生补丁 commit 9df7034",
+          "test": "quality-kuanggu-lowhp / quality-kuanggu-midhp",
+          "evidence": "固定局面原生1血摸牌；扩展/补丁回复1点体力；3血反向仍摸牌。",
+          "notes": "保留原生“足够杀才回复”判断，仅增加1血回复分支。",
           "validation_level": "确认存在质量提升并已实现",
           "validation": {
             "rule_settlement": true,
@@ -2454,11 +2454,11 @@
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3630"
           },
           "status": "已修复",
-          "implementation": "已实施",
-          "test": "真实宿主通过",
-          "evidence": "独立页面复现：目标在3-4距离外、手上有杀且杀次数未用完时，原生 ai.result.player 因 cardUsable 直接返回0，奇谋永不发动（三个场景0动作）。策略只在“杀次数可用恰为唯一阻塞、且支付能兑换成击杀”时放宽：far4-3sha-hp3 修复后发动并3杀击杀，far3-2sha-hp2 同理；反向 far4-hp4、目标在射程内、杀次数耗尽均保持原生。",
-          "notes": "只覆盖 ai.result.player 的否决分支；不复制技能主体、不改支付档位（档位由宿主 content 决定）。",
-          "validation_level": "确认缺陷并已修复",
+          "implementation": "无名AI shenhua_feng：放宽“杀次数仍可用”阻塞；原生补丁 commit 9df7034",
+          "test": "hp-qimou-distance4-hp3 / hp-qimou-distance3-hp2 / hp-qimou-distance4-hp4-negative",
+          "evidence": "固定局面原生不发动；扩展/补丁支付后取得远处击杀，4血目标反向不支付。",
+          "notes": "只放宽已复现的杀次数阻塞，支付档位与目标可达条件保持原生。",
+          "validation_level": "确认存在质量提升并已实现",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
@@ -2476,9 +2476,9 @@
         "qimou"
       ],
       "implementation_status": "已实施",
-      "test_status": "真实宿主通过",
-      "evidence": "狂骨：quality-native.json / quality-extension.json：quality-kuanggu-lowhp 原生 hp=1、draw=1，扩展 recover=1、hp=2；quality-kuanggu-midhp 原生/扩展均摸牌且体力不变。另有既有 shenhua-kuanggu-draw/recover 回归。；奇谋：独立页面复现：目标在3-4距离外、手上有杀且杀次数未用完时，原生 ai.result.player 因 cardUsable 直接返回0，奇谋永不发动（三个场景0动作）。策略只在“杀次数可用恰为唯一阻塞、且支付能兑换成击杀”时放宽：far4-3sha-hp3 修复后发动并3杀击杀，far3-2sha-hp2 同理；反向 far4-hp4、目标在射程内、杀次数耗尽均保持原生。",
-      "notes": "狂骨：只改 cost 的回复/摸牌选择：1血且可回复时回复，其余沿用原生“有足够杀才回复”的条件；不改技能规则。；奇谋：只覆盖 ai.result.player 的否决分支；不复制技能主体、不改支付档位（档位由宿主 content 决定）。"
+      "test_status": "真实宿主通过（质量场景）",
+      "evidence": "狂骨1血回复；奇谋远处目标支付后击杀；两项均有正反向固定局面。",
+      "notes": "保留此前的奇谋修复，并新增原生AI补丁与狂骨质量证据。"
     },
     {
       "task_id": "AI-dianwei",
@@ -7453,12 +7453,12 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L7735"
           },
-          "status": "已验证无问题",
-          "implementation": "无需改动",
-          "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-jushou-4hp-empty、shenhua-jushou-lowhp：4 血空手时 check 为 false，不摸牌不翻面；3 血空手时摸 3 张并翻面。",
-          "notes": "未复现满血误发动或低血漏发。",
-          "validation_level": "正反向决策验证通过",
+          "status": "已修复",
+          "implementation": "无名AI shenhua_feng：已翻面时仍发动据守；原生补丁 commit da232e1",
+          "test": "quality-jushou-turned / quality-jushou-normal",
+          "evidence": "固定局面原生不摸牌并保持翻面；扩展/补丁摸3张并翻回正面；正常4血3手牌反向不发动。",
+          "notes": "只增加“已翻面免费摸3张”分支；原生 hp+手牌<4 条件保留。",
+          "validation_level": "确认存在质量提升并已实现",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
@@ -7469,14 +7469,14 @@
       ],
       "priority_original": "P2",
       "priority_revised": "P3",
-      "review_status": "已验证无问题",
+      "review_status": "已修复",
       "reviewed_skills": [
         "jushou"
       ],
-      "implementation_status": "无需改动",
-      "test_status": "真实宿主通过",
-      "evidence": "据守：shenhua-feng-review.json / shenhua-jushou-4hp-empty、shenhua-jushou-lowhp：4 血空手时 check 为 false，不摸牌不翻面；3 血空手时摸 3 张并翻面。",
-      "notes": "据守：未复现满血误发动或低血漏发。"
+      "implementation_status": "已实施",
+      "test_status": "真实宿主通过（质量场景）",
+      "evidence": "据守已翻面时摸3张并翻回正面；正常局面保持原生。",
+      "notes": "新增原生AI补丁与扩展镜像；未改变据守摸牌/翻面规则。"
     },
     {
       "task_id": "AI-sp_zhugeliang",
@@ -13010,12 +13010,12 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L8313"
           },
-          "status": "已验证无问题",
+          "status": "完成质量审查，保留原生",
           "implementation": "无需改动",
-          "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-buqu-damage、shenhua-buqu-negative、shenhua-buqu-recover-choice：1 血受 1 伤后翻出“创”并留在 0 体力存活；2 血受伤不翻创；回复时 AI 从两张同点数“创”中选择移除 1 张，最后保留 1 张并回到 2 体力。",
-          "notes": "主触发没有可选 AI 入口，属于锁定规则；后续移创分支存在 chooseCardButton AI，已单独验证。",
-          "validation_level": "AI决策验证通过",
+          "test": "shenhua-buqu-damage / shenhua-buqu-negative / shenhua-buqu-recover-choice",
+          "evidence": "不屈 recover 只决定移除哪张“创”；重复点数优先移除，缺少可证明更优的牌张价值入口。",
+          "notes": "保留原生；该选择不改变“创”点数唯一性规则。",
+          "validation_level": "完成质量审查",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
@@ -13028,7 +13028,7 @@
       ],
       "priority_original": "P3",
       "priority_revised": "P3",
-      "review_status": "已验证无问题",
+      "review_status": "完成质量审查，保留原生",
       "reviewed_skills": [
         "gzbuqu"
       ],
@@ -13069,12 +13069,12 @@
             "inherit": [],
             "url": "https://github.com/libnoname/noname/blob/b481b17552dd46e7d9ca805d5d7975b742168256/apps/core/character/shenhua/skill.js#L3759"
           },
-          "status": "已验证无问题",
+          "status": "完成质量审查，保留原生",
           "implementation": "无需改动",
-          "test": "真实宿主通过",
-          "evidence": "shenhua-feng-review.json / shenhua-liegong-hit、shenhua-liegong-negative：满足手牌/体力条件时记录 directHit 与 extraDamage=1，杀造成 2 点伤害；不满足时无直击/加伤，只造成 1 点。",
-          "notes": "未复现条件误判或加伤丢失。",
-          "validation_level": "正反向决策验证通过",
+          "test": "shenhua-liegong-hit / shenhua-liegong-negative",
+          "evidence": "原生 directHit_ai 与 aiOrder 已覆盖烈弓的不可响应/加伤条件；命中与负向场景均通过。",
+          "notes": "保留原生；未改动杀的目标合法性或增伤结算。",
+          "validation_level": "完成质量审查",
           "validation": {
             "rule_settlement": true,
             "ai_decision": true,
@@ -13085,7 +13085,7 @@
       ],
       "priority_original": "P3",
       "priority_revised": "P3",
-      "review_status": "已验证无问题",
+      "review_status": "完成质量审查，保留原生",
       "reviewed_skills": [
         "xinliegong"
       ],

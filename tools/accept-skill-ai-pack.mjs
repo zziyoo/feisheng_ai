@@ -31,10 +31,13 @@ const DEFAULT_SCENES = {
 		'shenhua-huangtian-give', 'shenhua-huangtian-negative',
 		'shenhua-guhuo-claim', 'shenhua-guhuo-ai-use', 'shenhua-guhuo-real-questioned',
 		'shenhua-guhuo-fake-questioned', 'shenhua-guhuo-phase',
-		'shenhua-shensu-skip', 'shenhua-shensu-negative',
+		'shenhua-shensu-skip', 'shenhua-shensu-negative', 'quality-shensu1-lowhand-lebu',
 		'shenhua-tianxiang-redirect', 'shenhua-tianxiang-negative', 'shenhua-hongyan-suit',
 		'shenhua-kuanggu-draw', 'shenhua-kuanggu-recover',
 		'quality-kuanggu-lowhp', 'quality-kuanggu-midhp',
+		'quality-jushou-turned', 'quality-jushou-normal',
+		'quality-guhuo-bluff-lowhp', 'quality-guhuo-bluff-midhp',
+		'quality-huangtian-last-shan', 'quality-huangtian-midhp',
 		'shenhua-jushou-4hp-empty', 'shenhua-jushou-lowhp',
 		'shenhua-buqu-damage', 'shenhua-buqu-negative', 'shenhua-buqu-recover-choice',
 		'shenhua-liegong-hit', 'shenhua-liegong-negative',
@@ -608,6 +611,69 @@ function analyzeShenhuaFengScenes(report, requestedScenes, stats) {
 		if (scene.after.hp[damage.player] !== scene.before.hp[damage.player] - 1) fail('烈弓负向场景目标体力变化不是 -1');
 		pass('liegong-negative-settlement', { damage: 1, directHit: false });
 		signature.liegong = { hitDamage: 2, hitDirect: true, negativeDamage: 1, negativeDirect: false };
+	}
+
+	if (want('quality-jushou-turned')) {
+		const scene = findScene(report, 'quality-jushou-turned');
+		const data = dataOf(scene);
+		if (Number(data.drew) !== 3) fail('据守已翻面时未摸3张');
+		if (data.turned !== false) fail('据守已翻面时未翻回正面');
+		if (handOf(scene.after, actorId(scene)).length !== 6) fail('据守已翻面后手牌数量不是6');
+		pass('jushou-turned-free-draw', { drew: 3, turned: false });
+		signature.jushou = Object.assign(signature.jushou || {}, { turnedFreeDraw: true });
+		validation.jushou = { level: '确认存在质量提升并已实现', rule_settlement: true, ai_decision: true, positive_negative: true, note: '已翻面时据守摸3张并翻回正面；正常4血3手牌反向不发动。' };
+	}
+	if (want('quality-jushou-normal')) {
+		const scene = findScene(report, 'quality-jushou-normal');
+		const data = dataOf(scene);
+		if (Number(data.drew) !== 0) fail('据守正常场景错误摸牌');
+		if (data.turned !== false) fail('据守正常场景错误翻面');
+		if (handOf(scene.after, actorId(scene)).length !== 3) fail('据守正常场景手牌被改变');
+		pass('jushou-normal-no-draw', { drew: 0, turned: false });
+	}
+	if (want('quality-shensu1-lowhand-lebu')) {
+		const scene = findScene(report, 'quality-shensu1-lowhand-lebu');
+		const data = dataOf(scene);
+		if (!data.usedSha) fail('神速1低手牌+乐场景未使用虚拟杀');
+		if (Number(data.judge) !== 1) fail('神速1未跳过不良判定');
+		if (!isEnemyTarget(scene, data.target)) fail('神速1低手牌场景目标不是敌方');
+		if (scene.after.hp[data.target] !== scene.before.hp[data.target] - 1) fail('神速1低手牌场景目标未受伤');
+		pass('shensu1-lowhand-lebu', { usedSha: true, judgeSkipped: true, targetEnemy: true });
+		signature.shensu = Object.assign(signature.shensu || {}, { lowHandJudgeSkip: true });
+		validation.xinshensu = { level: '确认存在质量提升并已实现', rule_settlement: true, ai_decision: true, positive_negative: true, note: '低手牌+不良判定时使用神速1；无判定低手牌反向仍放弃。' };
+	}
+	if (want('quality-guhuo-bluff-lowhp')) {
+		const scene = findScene(report, 'quality-guhuo-bluff-lowhp');
+		const data = dataOf(scene);
+		const scores = data.checkScores || [];
+		if (!scores.length) fail('蛊惑1血场景未进入原生选择函数');
+		if (scores.some(item => Number(item.out) !== 0)) fail('蛊惑1血无真牌仍有正声明分');
+		if (data.bool) fail('蛊惑1血无真牌仍选择发动');
+		if (Number(data.hp) !== 1) fail('蛊惑1血场景错误改变体力');
+		pass('guhuo-lowhp-guard', { checkScores: scores.map(item => item.out), used: false });
+		signature.guhuo = Object.assign(signature.guhuo || {}, { lowHpBluffGuard: true });
+		validation.xinfu_guhuo = { level: '确认存在质量提升并已实现', rule_settlement: true, ai_decision: true, positive_negative: true, note: '1血无真牌不诈称；3血同局面仍保留原生诈称分。' };
+	}
+	if (want('quality-guhuo-bluff-midhp')) {
+		const scene = findScene(report, 'quality-guhuo-bluff-midhp');
+		const data = dataOf(scene);
+		const scores = data.checkScores || [];
+		if (!scores.some(item => Number(item.out) > 0)) fail('蛊惑3血场景被错误抑制');
+		pass('guhuo-midhp-native-bluff', { checkScores: scores.map(item => item.out) });
+	}
+	if (want('quality-huangtian-last-shan')) {
+		const scene = findScene(report, 'quality-huangtian-last-shan');
+		if (opUsed(scene, 'useSkill', item => item.args && item.args[0] === 'huangtian2')) fail('黄天1血最后闪仍转交');
+		if (!handOf(scene.after, actorId(scene)).includes('shan')) fail('黄天1血场景未保留最后一张闪');
+		pass('huangtian-last-shan-kept', { used: false, hand: handOf(scene.after, actorId(scene)) });
+		signature.huangtian = Object.assign(signature.huangtian || {}, { lastShanKept: true });
+		validation.huangtian = { level: '确认存在质量提升并已实现', rule_settlement: true, ai_decision: true, positive_negative: true, note: '1血最后一张闪不转交；3血双闪仍按原生转交。' };
+	}
+	if (want('quality-huangtian-midhp')) {
+		const scene = findScene(report, 'quality-huangtian-midhp');
+		if (!opUsed(scene, 'useSkill', item => item.args && item.args[0] === 'huangtian2')) fail('黄天3血场景被错误抑制');
+		if (!handOf(scene.after, allyId(scene)).includes('shan')) fail('黄天3血场景主公未获得闪');
+		pass('huangtian-midhp-give', { used: true, allyHand: handOf(scene.after, allyId(scene)) });
 	}
 
 	return { checks, signature, validation };
@@ -1257,7 +1323,7 @@ function loadSkillScenesGrouped(root, label, scenes, expectedPacks, options = {}
 		if (name === 'shenhua-huo-luanji-wanjian-use') return 'shenhua_huo-luanji-positive';
 		if (name === 'shenhua-huo-huoji-use') return 'shenhua_huo-huoji-positive';
 		if (name.startsWith('quality-luanji')) return 'shenhua_huo-review';
-		if (name.startsWith('quality-kuanggu')) return 'shenhua_feng-review';
+		if (name.startsWith('quality-kuanggu') || name.startsWith('quality-jushou') || name.startsWith('quality-shensu1') || name.startsWith('quality-guhuo') || name.startsWith('quality-huangtian')) return 'shenhua_feng-review';
 		if (name.startsWith('hp-qiangxix') || name.startsWith('shenhua-huo-')) return 'shenhua_huo-review';
 		if (name.startsWith('shenhua-')) return 'shenhua_feng-review';
 		if (name.startsWith('rezhiheng') || name.startsWith('new-retuxi')) return 'refresh_standard';

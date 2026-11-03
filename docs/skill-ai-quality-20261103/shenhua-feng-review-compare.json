@@ -1,0 +1,440 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-02T07:45:50.241Z",
+  "scope": "神话再临·风固定局面：原生 vs 完整扩展的逐场景决策/结算对照；对称目标座位与随机摸牌单列为允许差异",
+  "sources": {
+    "native": "shenhua-feng-review-native.json",
+    "extension": "shenhua-feng-review.json"
+  },
+  "rows": [
+    {
+      "scene": "shenhua-releiji-target",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "targetEnemy": true,
+        "thunderDamage": 2,
+        "thunder": "thunder",
+        "hpDelta": -2
+      },
+      "extension": {
+        "targetEnemy": true,
+        "thunderDamage": 2,
+        "thunder": "thunder",
+        "hpDelta": -2
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-guidao-replace",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "replaced": true,
+        "judgingSuit": "spade",
+        "gainedOriginal": true,
+        "pickedSpadeSha": true
+      },
+      "extension": {
+        "replaced": true,
+        "judgingSuit": "spade",
+        "gainedOriginal": true,
+        "pickedSpadeSha": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-guidao-decline",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "replaced": false,
+        "picked": 0,
+        "judgingSuit": "spade"
+      },
+      "extension": {
+        "replaced": false,
+        "picked": 0,
+        "judgingSuit": "spade"
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huangtian-give",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": true,
+        "temp": true,
+        "allyGotShan": true
+      },
+      "extension": {
+        "used": true,
+        "temp": true,
+        "allyGotShan": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-huangtian-negative",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": false,
+        "temp": 0,
+        "allyHand": 0
+      },
+      "extension": {
+        "used": false,
+        "temp": 0,
+        "allyHand": 0
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-guhuo-claim",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "buttonSha": true
+      },
+      "extension": {
+        "buttonSha": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-guhuo-ai-use",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "used": true,
+        "declared": "sha",
+        "targetEnemy": true,
+        "damage": 1,
+        "guhuoPhase": true
+      },
+      "extension": {
+        "used": true,
+        "declared": "sha",
+        "targetEnemy": true,
+        "damage": 1,
+        "guhuoPhase": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-guhuo-real-questioned",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "declaredSha": true,
+        "chanyuan": true,
+        "damage": 1,
+        "cancelled": false
+      },
+      "extension": {
+        "declaredSha": true,
+        "chanyuan": true,
+        "damage": 1,
+        "cancelled": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-guhuo-fake-questioned",
+      "exact_match": false,
+      "semantic_match": true,
+      "native": {
+        "declaredSha": true,
+        "noDamage": true,
+        "noChanyuan": true,
+        "outcome": "cancelled"
+      },
+      "extension": {
+        "declaredSha": true,
+        "noDamage": true,
+        "noChanyuan": true,
+        "outcome": "declined"
+      },
+      "note": "策略差异：原生先发动假声明再被质疑取消，扩展 AI 选择放弃；两者均未造成伤害、质疑者均未获得缠怨。"
+    },
+    {
+      "scene": "shenhua-guhuo-phase",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedAny": false
+      },
+      "extension": {
+        "usedAny": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-shensu-skip",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedSha": true,
+        "targetEnemy": true,
+        "hpDelta": -1,
+        "judgeSkipped": true
+      },
+      "extension": {
+        "usedSha": true,
+        "targetEnemy": true,
+        "hpDelta": -1,
+        "judgeSkipped": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-shensu-negative",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "usedSha": false,
+        "judgeResolved": true
+      },
+      "extension": {
+        "usedSha": false,
+        "judgeResolved": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-tianxiang-redirect",
+      "exact_match": false,
+      "semantic_match": true,
+      "native": {
+        "targetEnemy": true,
+        "control": 1,
+        "actorHpDelta": 0,
+        "targetHpDelta": -1,
+        "targetGotTao": true
+      },
+      "extension": {
+        "targetEnemy": true,
+        "control": 1,
+        "actorHpDelta": 0,
+        "targetHpDelta": -1,
+        "targetGotTao": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-tianxiang-negative",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "targetCount": 0,
+        "actorHpDelta": -1,
+        "handKept": true
+      },
+      "extension": {
+        "targetCount": 0,
+        "actorHpDelta": -1,
+        "handKept": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-hongyan-suit",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "spadeSuit": "heart",
+        "spadeColor": "red",
+        "heartSuit": "heart"
+      },
+      "extension": {
+        "spadeSuit": "heart",
+        "spadeColor": "red",
+        "heartSuit": "heart"
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-kuanggu-draw",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "choice": "draw_card",
+        "damage": 1,
+        "draw": true,
+        "hpDelta": -1
+      },
+      "extension": {
+        "choice": "draw_card",
+        "damage": 1,
+        "draw": true,
+        "hpDelta": -1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-kuanggu-recover",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "choice": "recover_hp",
+        "recover": true,
+        "draw": false,
+        "hpDelta": 1
+      },
+      "extension": {
+        "choice": "recover_hp",
+        "recover": true,
+        "draw": false,
+        "hpDelta": 1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-jushou-4hp-empty",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "draw": false,
+        "turnedOver": false
+      },
+      "extension": {
+        "draw": false,
+        "turnedOver": false
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-jushou-lowhp",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "draw": "3",
+        "turnedOver": true,
+        "hand": 3
+      },
+      "extension": {
+        "draw": "3",
+        "turnedOver": true,
+        "hand": 3
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-buqu-damage",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "hp": 0,
+        "expansions": 1,
+        "dying": false,
+        "alive": true
+      },
+      "extension": {
+        "hp": 0,
+        "expansions": 1,
+        "dying": false,
+        "alive": true
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-buqu-negative",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "hp": 1,
+        "expansions": 0
+      },
+      "extension": {
+        "hp": 1,
+        "expansions": 0
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-buqu-recover-choice",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "hp": 2,
+        "expansions": 1,
+        "picks": 1
+      },
+      "extension": {
+        "hp": 2,
+        "expansions": 1,
+        "picks": 1
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-liegong-hit",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "damage": 2,
+        "directHit": true,
+        "extraDamage": 1,
+        "hpDelta": -2
+      },
+      "extension": {
+        "damage": 2,
+        "directHit": true,
+        "extraDamage": 1,
+        "hpDelta": -2
+      },
+      "note": "语义一致"
+    },
+    {
+      "scene": "shenhua-liegong-negative",
+      "exact_match": true,
+      "semantic_match": true,
+      "native": {
+        "damage": 1,
+        "directHit": false,
+        "hpDelta": -1
+      },
+      "extension": {
+        "damage": 1,
+        "directHit": false,
+        "hpDelta": -1
+      },
+      "note": "语义一致"
+    }
+  ],
+  "exact_all": false,
+  "semantic_all": true,
+  "allowed_random_differences": [
+    {
+      "scene": "shenhua-tianxiang-redirect",
+      "type": "对称目标座位不同",
+      "native": [
+        "61294103596"
+      ],
+      "extension": [
+        "75331523594"
+      ]
+    }
+  ],
+  "strategy_differences": [
+    {
+      "scene": "shenhua-guhuo-fake-questioned",
+      "type": "guhuo-fake-questioned-decline",
+      "native": {
+        "declaredSha": true,
+        "noDamage": true,
+        "noChanyuan": true,
+        "outcome": "cancelled"
+      },
+      "extension": {
+        "declaredSha": true,
+        "noDamage": true,
+        "noChanyuan": true,
+        "outcome": "declined"
+      },
+      "note": "策略差异：原生先发动假声明再被质疑取消，扩展 AI 选择放弃；两者均未造成伤害、质疑者均未获得缠怨。"
+    }
+  ]
+}

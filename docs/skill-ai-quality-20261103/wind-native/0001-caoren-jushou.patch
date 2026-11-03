@@ -1,0 +1,20 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+index 5c6b68c..4845241 100644
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -7538,13 +7547,14 @@ const skills = {
+     }
+   },
+   jushou: {
+     audio: 2,
+     trigger: { player: "phaseJieshuBegin" },
+     check(event, player) {
+-      return event.player.hp + player.countCards("h") < 4;
++      // 已翻面时据守只会摸三张并翻回正面，没有额外回合成本。
++      return player.isTurnedOver() || event.player.hp + player.countCards("h") < 4;
+     },
+     async content(event, trigger, player) {
+       await player.draw(3);
+       await player.turnOver();
+     }
+   },

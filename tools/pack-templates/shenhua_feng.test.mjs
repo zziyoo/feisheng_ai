@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { qimouTargetX, shouldBypassQimouCountBlock, kuangguChoice } from '../source/score/decision/skills/rules/shenhuaFeng.js';
+import { qimouTargetX, shouldBypassQimouCountBlock, kuangguChoice, jushouShouldActivate, shensu1ShouldUse, guhuoShouldBluff, huangtianShouldGive } from '../source/score/decision/skills/rules/shenhuaFeng.js';
 
 let passed = 0;
 const check = (name, fn) => { fn(); passed++; console.log('PASS', name); };
@@ -39,5 +39,28 @@ check('狂骨：1血可回复时优先回复，其余返回原生选择', () => 
 	assert.equal(kuangguChoice({ hp: 3, isDamaged: true, recoverEffect: 1, nativeRecover: false }), 'draw_card');
 	assert.equal(kuangguChoice({ hp: 3, isDamaged: true, recoverEffect: 1, nativeRecover: true }), 'recover_hp');
 	assert.equal(kuangguChoice({ hp: 1, isDamaged: true, recoverEffect: 0, nativeRecover: false }), 'draw_card');
+});
+check('据守：已翻面时摸三张没有额外回合成本', () => {
+	assert.equal(jushouShouldActivate({ hp: 4, hand: 3, turned: true }), true);
+	assert.equal(jushouShouldActivate({ hp: 4, hand: 3, turned: false }), false);
+	assert.equal(jushouShouldActivate({ hp: 2, hand: 1, turned: false }), true);
+});
+check('神速1：低手牌但可跳过不良判定时放行', () => {
+	assert.equal(shensu1ShouldUse({ check: false, harmfulJudge: true, effect: 2 }), true);
+	assert.equal(shensu1ShouldUse({ check: false, harmfulJudge: false, effect: 2 }), false);
+	assert.equal(shensu1ShouldUse({ check: true, harmfulJudge: false, effect: 2 }), true);
+	assert.equal(shensu1ShouldUse({ check: true, harmfulJudge: true, effect: -1 }), false);
+});
+check('蛊惑：1血无真牌不诈称，有真牌或非1血保持原生', () => {
+	assert.equal(guhuoShouldBluff({ enemyNum: 2, hasTrue: false, hp: 1, dying: false }), false);
+	assert.equal(guhuoShouldBluff({ enemyNum: 2, hasTrue: true, hp: 1, dying: false }), true);
+	assert.equal(guhuoShouldBluff({ enemyNum: 2, hasTrue: false, hp: 3, dying: false }), true);
+});
+check('黄天：1血最后一张闪不转交，多闪或非1血保持原生', () => {
+	assert.equal(huangtianShouldGive({ hp: 1, handShan: 1, hasShandian: false, selectedShan: true }), false);
+	assert.equal(huangtianShouldGive({ hp: 1, handShan: 1, hasShandian: false, selectedShan: false }), false);
+	assert.equal(huangtianShouldGive({ hp: 1, handShan: 1, hasShandian: true, selectedShan: true }), true);
+	assert.equal(huangtianShouldGive({ hp: 1, handShan: 2, hasShandian: false, selectedShan: true }), true);
+	assert.equal(huangtianShouldGive({ hp: 3, handShan: 1, hasShandian: false, selectedShan: true }), true);
 });
 console.log('ALL PASS (' + passed + ')');

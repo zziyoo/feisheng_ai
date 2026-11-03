@@ -8,7 +8,7 @@ const check = (name, fn) => { fn(); passed++; console.log('PASS', name); };
 const PACK_FILES = ['refreshStandard', 'shenhuaFeng', 'refreshFeng', 'shenhuaLei', 'outOfScope', 'shenhuaHuo'];
 const PACK_META = {
 	refreshStandard: { id: 'refresh_standard', skills: ['rezhiheng', 'new_retuxi'], rules: 'refreshStandard' },
-	shenhuaFeng: { id: 'shenhua_feng', skills: ['qimou', 'xinkuanggu'], rules: 'shenhuaFeng' },
+	shenhuaFeng: { id: 'shenhua_feng', skills: ['qimou', 'xinkuanggu', 'jushou', 'xinshensu', 'xinfu_guhuo', 'huangtian'], rules: 'shenhuaFeng' },
 	refreshFeng: { id: 'refresh_feng', skills: ['reqimou'], rules: 'refreshFeng' },
 	shenhuaLei: { id: 'shenhua_lei', skills: ['olkongsheng'], rules: 'shenhuaLei' },
 	outOfScope: { id: 'out_of_scope', skills: ['redimeng'], rules: 'outOfScope' },
@@ -60,7 +60,7 @@ check('分包注册表完整、技能归属唯一、分包字段齐全', () => {
 	}
 	assert.equal(new Set(ids).size, ids.length, 'pack id 不得重复');
 	assert.equal(new Set(skills).size, skills.length, '同一技能只能由一个分包注册');
-	assert.deepEqual(new Set(skills), new Set(['rezhiheng', 'new_retuxi', 'qimou', 'reqimou', 'olkongsheng', 'redimeng', 'xinkuanggu', 'luanji']));
+	assert.deepEqual(new Set(skills), new Set(['rezhiheng', 'new_retuxi', 'qimou', 'reqimou', 'olkongsheng', 'redimeng', 'xinkuanggu', 'luanji', 'jushou', 'xinshensu', 'xinfu_guhuo', 'huangtian']));
 });
 check('分包之间不互相 import，且只 import 自己的规则文件', () => {
 	for (const file of PACK_FILES) {
@@ -88,14 +88,22 @@ check('共享核心安装幂等，注册表导入与条目一一对应且无重�
 	assert.equal(new Set(entries).size, entries.length, '注册条目不得重复');
 	assert.deepEqual(new Set(imports), new Set(entries), 'import 与条目必须一一对应');
 });
-check('奇谋分包只放宽阻塞且不复制技能规则', () => {
+check('风分包只放宽已复现的阻塞且不复制技能规则', () => {
 	const source = packSource('shenhuaFeng');
 	assert(source.includes('shouldBypassQimouCountBlock'));
 	assert(source.includes('lib.filter.cardEnabled'));
 	assert(source.includes('lib.filter.cardUsable'));
+	assert(source.includes('jushouShouldActivate'));
+	assert(source.includes('shensu1ShouldUse'));
+	assert(source.includes('guhuoShouldBluff'));
+	assert(source.includes('huangtianShouldGive'));
 	assert(!source.includes('reqimou'));
 	const rules = read('score/decision/skills/rules/shenhuaFeng.js');
 	assert(rules.includes('qimouTargetX'));
+	assert(rules.includes('jushouShouldActivate'));
+	assert(rules.includes('shensu1ShouldUse'));
+	assert(rules.includes('guhuoShouldBluff'));
+	assert(rules.includes('huangtianShouldGive'));
 	assert(!rules.includes('lib.skill'));
 });
 check('火分包只覆盖乱击且不覆盖连环/强袭/双雄原生评分', () => {
