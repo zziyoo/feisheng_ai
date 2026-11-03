@@ -12,7 +12,7 @@ PW="C:/Users/32360/.cache/codex-runtimes/codex-primary-runtime/dependencies/node
 ## 0. 包内可直接运行（仅需 Node，无需完整仓库/浏览器）
 
 ```bash
-node tests/run-package-tests.mjs     # 纯规则 42 条 + 架构/134维契约 16 条 + 安装/回滚 13 条
+node tests/run-package-tests.mjs     # 纯规则 42 条 + 架构/134维契约 17 条 + 安装/回滚 13 条
 python tests/test-verify-zip.py      # verify.py --zip 跨平台路径回归（POSIX/Windows 反斜杠/重复成员/尺寸）
 python verify.py                     # 校验解压目录
 python verify.py --zip feisheng-ai-skill-audit-repair-20261101.zip
@@ -22,7 +22,7 @@ python verify.py --zip feisheng-ai-skill-audit-repair-20261101.zip
 
 ```bash
 node --experimental-vm-modules tools/test-skill-ai-policies.mjs        # 42 PASS（含补修 12 条）
-node --experimental-vm-modules tools/test-skill-ai-architecture.mjs    # 16 PASS（含分包归属/134维契约/注册表唯一性）
+node --experimental-vm-modules tools/test-skill-ai-architecture.mjs    # 17 PASS（含分包归属/134维契约/注册表唯一性）
 node tools/test-pack-install.mjs                                      # 13 PASS（预存行缺模块/失败注入/重复安装/共存/乱序回滚/冲突）
 node tools/run-node-regressions.mjs                                    # 批一 41 项 Node 回归聚合
 node tools/bench-skill-ai-policies.mjs                                 # 微基准（含 reqimou 支付评估）

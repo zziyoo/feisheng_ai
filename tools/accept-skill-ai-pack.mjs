@@ -798,7 +798,7 @@ function analyzeShenhuaHuoScenes(report, requestedScenes, stats) {
 		signature.lianhuan = Object.assign(signature.lianhuan || {}, { recastBlockedStillUses: true });
 	}
 	if (signature.lianhuan) {
-		validation.lianhuan = { level: '验证无问题', rule_settlement: true, ai_decision: true, positive_negative: true, note: '原生 get.effect 已区分解除友方/自身横置的保护收益与解除敌方的损失；7 个边界局面由原生与扩展逐场景对照，未保留任何 ai2 覆盖。' };
+		validation.lianhuan = { level: '验证无问题', rule_settlement: true, ai_decision: true, positive_negative: true, note: '原生 get.effect 已区分解除友方/自身横置的保护收益与解除敌方的损失；10 个固定局面（7 个新增边界 + 3 个首轮）由原生与扩展逐场景对照，未保留任何 ai2 覆盖。' };
 	}
 
 	if (want('shenhua-huo-oldniepan-dying')) {

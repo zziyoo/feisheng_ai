@@ -535,10 +535,15 @@
         "status": "可交付",
         "delivery_status": "可交付",
         "zip_name": "feisheng-ai-shenhua-huo.zip",
-        "zip_sha256": "c0dbb386437505e42b8ac3660629181f1caf43a18c2fd19f8ac32a047c066e12",
-        "zip_size": 202466,
-        "built_at": "2026-11-02T13:30:45.264Z",
-        "note": "完整可交付包：本包登记技能已全部审查、无阻塞项，安装/卸载/回滚/宿主加载验收通过。"
+        "zip_sha256": "94bc26bd5e7a4a055fd4632cc12e31acd15c02d7093f024617f93b0a2fa25f59",
+        "zip_size": 161967,
+        "built_at": "2026-11-02T14:46:06.493Z",
+        "note": "完整复核包：14项登记技能已全部审查；复核后未保留运行时 AI 覆盖，安装/卸载/回滚/宿主加载验收通过。",
+        "acceptance_status": "passed",
+        "acceptance_file": "accept-shenhua_huo.json",
+        "acceptance_sha256": "e571edf3e07c4a5230eaa2998555095fca0ce3ef48a135ee4b038d7bea9a7027",
+        "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/39 场景/10 个连环原生对照/卸载回滚后加载/重装/单包契约/134维；上游1fe5292接线/安装/卸载/回滚；六包共存与单包签名对照",
+        "acceptance_note": "39 场景、39 条技能级检查；10 个连环固定局面原生/扩展 semantic_all=true；最终单包 acceptance pass；复核包无运行时策略覆盖"
       },
       "blocking_issues": [],
       "can_mark_deliverable": true,
@@ -2505,7 +2510,7 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主完整回合通过",
-          "evidence": "shenhua-huo-review-native-5.json / hp-qiangxix-2hp-target1、hp-qiangxix-2hp-weapon-target2：2血对1血目标支付体力并完成击杀/压制；持武器时弃武器且不掉血；本轮回归仍通过。",
+          "evidence": "shenhua-huo-review-native.json / hp-qiangxix-2hp-target1、hp-qiangxix-2hp-weapon-target2：2血对1血目标支付体力并完成击杀/压制；持武器时弃武器且不掉血；本轮回归仍通过。",
           "notes": "沿用第二批完整回合证据；本轮未修改强袭评分。",
           "validation_level": "正反向决策验证通过",
           "validation": {
@@ -2524,7 +2529,7 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主完整回合通过",
-      "evidence": "强袭：shenhua-huo-review-native-5.json / hp-qiangxix-2hp-target1、hp-qiangxix-2hp-weapon-target2：2血对1血目标支付体力并完成击杀/压制；持武器时弃武器且不掉血；本轮回归仍通过。",
+      "evidence": "强袭：shenhua-huo-review-native.json / hp-qiangxix-2hp-target1、hp-qiangxix-2hp-weapon-target2：2血对1血目标支付体力并完成击杀/压制；持武器时弃武器且不掉血；本轮回归仍通过。",
       "notes": "强袭：沿用第二批完整回合证据；本轮未修改强袭评分。"
     },
     {
@@ -2562,7 +2567,7 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native-5.json / shenhua-huo-quhu-compare、quhu-no-target、quhu-risky-decline：有更高体力敌方时发动并拼点，目标敌方体力 -1；无更高体力目标时不发动；1血低牌高失败风险时不发动。",
+          "evidence": "shenhua-huo-review-native.json / shenhua-huo-quhu-compare、quhu-no-target、quhu-risky-decline：有更高体力敌方时发动并拼点，目标敌方体力 -1；无更高体力目标时不发动；1血低牌高失败风险时不发动。",
           "notes": "正向拼点/伤害与两类负向均取得真实宿主结果；未发现隐藏牌面读取。",
           "validation_level": "正反向决策验证通过",
           "validation": {
@@ -2596,7 +2601,7 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native-5.json / shenhua-huo-jieming-damage、jieming-no-benefit：受伤后选空手友方补到4张；全员无补牌收益时未选择敌方、未产生摸牌。",
+          "evidence": "shenhua-huo-review-native.json / shenhua-huo-jieming-damage、jieming-no-benefit：受伤后选空手友方补到4张；全员无补牌收益时未选择敌方、未产生摸牌。",
           "notes": "正向补牌对象与无收益负向均取得真实结算。",
           "validation_level": "正反向决策验证通过",
           "validation": {
@@ -2616,7 +2621,7 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "驱虎：shenhua-huo-review-native-5.json / shenhua-huo-quhu-compare、quhu-no-target、quhu-risky-decline：有更高体力敌方时发动并拼点，目标敌方体力 -1；无更高体力目标时不发动；1血低牌高失败风险时不发动。；节命：shenhua-huo-review-native-5.json / shenhua-huo-jieming-damage、jieming-no-benefit：受伤后选空手友方补到4张；全员无补牌收益时未选择敌方、未产生摸牌。",
+      "evidence": "驱虎：shenhua-huo-review-native.json / shenhua-huo-quhu-compare、quhu-no-target、quhu-risky-decline：有更高体力敌方时发动并拼点，目标敌方体力 -1；无更高体力目标时不发动；1血低牌高失败风险时不发动。；节命：shenhua-huo-review-native.json / shenhua-huo-jieming-damage、jieming-no-benefit：受伤后选空手友方补到4张；全员无补牌收益时未选择敌方、未产生摸牌。",
       "notes": "驱虎：正向拼点/伤害与两类负向均取得真实宿主结果；未发现隐藏牌面读取。；节命：正向补牌对象与无收益负向均取得真实结算。"
     },
     {
@@ -2688,7 +2693,7 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native-5.json / shenhua-huo-oldniepan-dying、oldniepan-tao：1血受2伤后发动限定技，弃牌/重置/摸3并回到3血；有桃可自救时改用桃，未消耗限定技。",
+          "evidence": "shenhua-huo-review-native.json / shenhua-huo-oldniepan-dying、oldniepan-tao：1血受2伤后发动限定技，弃牌/重置/摸3并回到3血；有桃可自救时改用桃，未消耗限定技。",
           "notes": "濒死正向与“桃足够时不烧限定技”的负向均有真实结果。",
           "validation_level": "正反向决策验证通过",
           "validation": {
@@ -2708,7 +2713,7 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "连环：shenhua-huo-lianhuan-boundary-native.json / shenhua-huo-lianhuan-boundary.json：原策略对所有已横置目标返回 -100，复现出“低血友方+火计威胁不解除”“自己已横置不解除”“禁用重铸时空过”三类退化；删除覆盖后原生与扩展 10 个连环局面语义完全一致。另覆盖已横置敌方保持连环、重铸收益、未横置敌方建立连环、仅未横置友方重铸等分支。；涅槃：shenhua-huo-review-native-5.json / shenhua-huo-oldniepan-dying、oldniepan-tao：1血受2伤后发动限定技，弃牌/重置/摸3并回到3血；有桃可自救时改用桃，未消耗限定技。",
+      "evidence": "连环：shenhua-huo-lianhuan-boundary-native.json / shenhua-huo-lianhuan-boundary.json：原策略对所有已横置目标返回 -100，复现出“低血友方+火计威胁不解除”“自己已横置不解除”“禁用重铸时空过”三类退化；删除覆盖后原生与扩展 10 个连环局面语义完全一致。另覆盖已横置敌方保持连环、重铸收益、未横置敌方建立连环、仅未横置友方重铸等分支。；涅槃：shenhua-huo-review-native.json / shenhua-huo-oldniepan-dying、oldniepan-tao：1血受2伤后发动限定技，弃牌/重置/摸3并回到3血；有桃可自救时改用桃，未消耗限定技。",
       "notes": "连环：复核纠正：已横置友方/自身的解除横置是连锁属性伤害风险下的保护收益，不能仅按是否摸牌判断；删除原过度策略，保留宿主 get.effect。；涅槃：濒死正向与“桃足够时不烧限定技”的负向均有真实结果。"
     },
     {
@@ -2746,7 +2751,7 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native-5.json / tianyi-win-sha、tianyi-lose-sha、tianyi-lose-content：有高点数牌+杀时实际发动天义，拼点胜利获得天义2并出杀造成伤害；高失败风险局面改出普通杀、不发动天义；直接结算失败分支获得天义3且杀不可用。",
+          "evidence": "shenhua-huo-review-native.json / tianyi-win-sha、tianyi-lose-sha、tianyi-lose-content：有高点数牌+杀时实际发动天义，拼点胜利获得天义2并出杀造成伤害；高失败风险局面改出普通杀、不发动天义；直接结算失败分支获得天义3且杀不可用。",
           "notes": "胜利收益、负向决策与失败临时技规则均覆盖。",
           "validation_level": "正反向决策验证通过",
           "validation": {
@@ -2765,7 +2770,7 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "天义：shenhua-huo-review-native-5.json / tianyi-win-sha、tianyi-lose-sha、tianyi-lose-content：有高点数牌+杀时实际发动天义，拼点胜利获得天义2并出杀造成伤害；高失败风险局面改出普通杀、不发动天义；直接结算失败分支获得天义3且杀不可用。",
+      "evidence": "天义：shenhua-huo-review-native.json / tianyi-win-sha、tianyi-lose-sha、tianyi-lose-content：有高点数牌+杀时实际发动天义，拼点胜利获得天义2并出杀造成伤害；高失败风险局面改出普通杀、不发动天义；直接结算失败分支获得天义3且杀不可用。",
       "notes": "天义：胜利收益、负向决策与失败临时技规则均覆盖。"
     },
     {
@@ -2803,7 +2808,7 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native-5.json / shuangxiong-judge、shuangxiong-duel、shuangxiong-no-judge：判定后获得 shuangxiong_viewas，实际将异色牌当决斗使用并对敌方造成伤害；手牌3且未超过体力时 AI 不判定，也不获得转化技。",
+          "evidence": "shenhua-huo-review-native.json / shuangxiong-judge、shuangxiong-duel、shuangxiong-no-judge：判定后获得 shuangxiong_viewas，实际将异色牌当决斗使用并对敌方造成伤害；手牌3且未超过体力时 AI 不判定，也不获得转化技。",
           "notes": "判定/转化/决斗结算与不判定负向均覆盖。",
           "validation_level": "正反向决策验证通过",
           "validation": {
@@ -2822,7 +2827,7 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "双雄：shenhua-huo-review-native-5.json / shuangxiong-judge、shuangxiong-duel、shuangxiong-no-judge：判定后获得 shuangxiong_viewas，实际将异色牌当决斗使用并对敌方造成伤害；手牌3且未超过体力时 AI 不判定，也不获得转化技。",
+      "evidence": "双雄：shenhua-huo-review-native.json / shuangxiong-judge、shuangxiong-duel、shuangxiong-no-judge：判定后获得 shuangxiong_viewas，实际将异色牌当决斗使用并对敌方造成伤害；手牌3且未超过体力时 AI 不判定，也不获得转化技。",
       "notes": "双雄：判定/转化/决斗结算与不判定负向均覆盖。"
     },
     {
@@ -2860,7 +2865,7 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native-5.json / luanji-wanjian-use：袁绍持3张黑桃闪、两名敌方1血，AI 以两张闪发动乱击转化万箭，7个目标、对多名敌方造成伤害；luanji-no-pair 无同花色对子不发动，保守局面 luanji-wanjian 不发动且不弃牌。",
+          "evidence": "shenhua-huo-review-native.json / luanji-wanjian-use：袁绍持3张黑桃闪、两名敌方1血，AI 以两张闪发动乱击转化万箭，7个目标、对多名敌方造成伤害；luanji-no-pair 无同花色对子不发动，保守局面 luanji-wanjian 不发动且不弃牌。",
           "notes": "同花色对子合法性、实际多目标伤害与不发动条件均取得真实结果；未新增乱击评分。",
           "validation_level": "AI决策验证通过",
           "validation": {
@@ -2894,7 +2899,7 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native-5.json / shenhua-huo-passive-rules：主公袁绍且有其他群势力时，手牌上限为基础4+2×3=10。",
+          "evidence": "shenhua-huo-review-native.json / shenhua-huo-passive-rules：主公袁绍且有其他群势力时，手牌上限为基础4+2×3=10。",
           "notes": "纯被动规则；无独立AI选择，不强行增加策略。",
           "validation_level": "规则结算验证通过",
           "validation": {
@@ -2915,7 +2920,7 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "乱击：shenhua-huo-review-native-5.json / luanji-wanjian-use：袁绍持3张黑桃闪、两名敌方1血，AI 以两张闪发动乱击转化万箭，7个目标、对多名敌方造成伤害；luanji-no-pair 无同花色对子不发动，保守局面 luanji-wanjian 不发动且不弃牌。；血裔：shenhua-huo-review-native-5.json / shenhua-huo-passive-rules：主公袁绍且有其他群势力时，手牌上限为基础4+2×3=10。",
+      "evidence": "乱击：shenhua-huo-review-native.json / luanji-wanjian-use：袁绍持3张黑桃闪、两名敌方1血，AI 以两张闪发动乱击转化万箭，7个目标、对多名敌方造成伤害；luanji-no-pair 无同花色对子不发动，保守局面 luanji-wanjian 不发动且不弃牌。；血裔：shenhua-huo-review-native.json / shenhua-huo-passive-rules：主公袁绍且有其他群势力时，手牌上限为基础4+2×3=10。",
       "notes": "乱击：同花色对子合法性、实际多目标伤害与不发动条件均取得真实结果；未新增乱击评分。；血裔：纯被动规则；无独立AI选择，不强行增加策略。"
     },
     {
@@ -7503,7 +7508,7 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native-5.json / bazhen-bagua、bazhen-armor-negative：空护甲槽时敌方红杀触发八卦判定（红）并抵消伤害；装备仁王盾后额外八阵失效，不判定且实际受到1点伤害。",
+          "evidence": "shenhua-huo-review-native.json / bazhen-bagua、bazhen-armor-negative：空护甲槽时敌方红杀触发八卦判定（红）并抵消伤害；装备仁王盾后额外八阵失效，不判定且实际受到1点伤害。",
           "notes": "八卦为自动响应规则，无独立目标AI；正向判定与护甲槽失效均验证。",
           "validation_level": "规则结算验证通过",
           "validation": {
@@ -7538,7 +7543,7 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native-5.json / huoji-use、huoji-no-red、huoji-red：红牌充分且目标有手牌时实际以红牌当火攻，弃同花色牌造成1点火焰伤害；无红牌时不发动；单红无懈保守局面不发动并保留手牌。",
+          "evidence": "shenhua-huo-review-native.json / huoji-use、huoji-no-red、huoji-red：红牌充分且目标有手牌时实际以红牌当火攻，弃同花色牌造成1点火焰伤害；无红牌时不发动；单红无懈保守局面不发动并保留手牌。",
           "notes": "合法转化、实际伤害、目标选择与两类不发动条件均覆盖。",
           "validation_level": "AI决策验证通过",
           "validation": {
@@ -7572,7 +7577,7 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native-5.json / kanpo-response、kanpo-no-black：敌方南蛮指定诸葛亮时，AI 以黑桃闪当无懈响应，锦囊被取消且未受伤；无黑牌时不响应并实际受到1点伤害。",
+          "evidence": "shenhua-huo-review-native.json / kanpo-response、kanpo-no-black：敌方南蛮指定诸葛亮时，AI 以黑桃闪当无懈响应，锦囊被取消且未受伤；无黑牌时不响应并实际受到1点伤害。",
           "notes": "真实响应路径与无黑牌负向均覆盖；passive-rules 另证 kanpo.viewAsFilter 前置。",
           "validation_level": "正反向决策验证通过",
           "validation": {
@@ -7593,7 +7598,7 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "八阵：shenhua-huo-review-native-5.json / bazhen-bagua、bazhen-armor-negative：空护甲槽时敌方红杀触发八卦判定（红）并抵消伤害；装备仁王盾后额外八阵失效，不判定且实际受到1点伤害。；火计：shenhua-huo-review-native-5.json / huoji-use、huoji-no-red、huoji-red：红牌充分且目标有手牌时实际以红牌当火攻，弃同花色牌造成1点火焰伤害；无红牌时不发动；单红无懈保守局面不发动并保留手牌。；看破：shenhua-huo-review-native-5.json / kanpo-response、kanpo-no-black：敌方南蛮指定诸葛亮时，AI 以黑桃闪当无懈响应，锦囊被取消且未受伤；无黑牌时不响应并实际受到1点伤害。",
+      "evidence": "八阵：shenhua-huo-review-native.json / bazhen-bagua、bazhen-armor-negative：空护甲槽时敌方红杀触发八卦判定（红）并抵消伤害；装备仁王盾后额外八阵失效，不判定且实际受到1点伤害。；火计：shenhua-huo-review-native.json / huoji-use、huoji-no-red、huoji-red：红牌充分且目标有手牌时实际以红牌当火攻，弃同花色牌造成1点火焰伤害；无红牌时不发动；单红无懈保守局面不发动并保留手牌。；看破：shenhua-huo-review-native.json / kanpo-response、kanpo-no-black：敌方南蛮指定诸葛亮时，AI 以黑桃闪当无懈响应，锦囊被取消且未受伤；无黑牌时不响应并实际受到1点伤害。",
       "notes": "八阵：八卦为自动响应规则，无独立目标AI；正向判定与护甲槽失效均验证。；火计：合法转化、实际伤害、目标选择与两类不发动条件均覆盖。；看破：真实响应路径与无黑牌负向均覆盖；passive-rules 另证 kanpo.viewAsFilter 前置。"
     },
     {
@@ -7631,7 +7636,7 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native-5.json / shenhua-huo-passive-rules：获得马术后对同一敌方距离由2降为1。",
+          "evidence": "shenhua-huo-review-native.json / shenhua-huo-passive-rules：获得马术后对同一敌方距离由2降为1。",
           "notes": "纯被动距离规则；无独立AI选择。",
           "validation_level": "规则结算验证通过",
           "validation": {
@@ -7666,7 +7671,7 @@
           "status": "已验证无问题",
           "implementation": "无需改动",
           "test": "真实宿主通过",
-          "evidence": "shenhua-huo-review-native-5.json / jianchu-sha、jianchu-no-equip：目标持诸葛连弩时 AI 发动鞬出弃装备并记录不可闪避，杀造成1点伤害；目标无装备时按技能文本弃其一张手牌并令其获得此杀，杀仍造成1点伤害。",
+          "evidence": "shenhua-huo-review-native.json / jianchu-sha、jianchu-no-equip：目标持诸葛连弩时 AI 发动鞬出弃装备并记录不可闪避，杀造成1点伤害；目标无装备时按技能文本弃其一张手牌并令其获得此杀，杀仍造成1点伤害。",
           "notes": "装备直击与无装备交换分支均按技能文本真实结算；未发现非法目标或隐藏信息读取，不额外改写评分。",
           "validation_level": "AI决策验证通过",
           "validation": {
@@ -7686,7 +7691,7 @@
       ],
       "implementation_status": "无需改动",
       "test_status": "真实宿主通过",
-      "evidence": "马术：shenhua-huo-review-native-5.json / shenhua-huo-passive-rules：获得马术后对同一敌方距离由2降为1。；鞬出：shenhua-huo-review-native-5.json / jianchu-sha、jianchu-no-equip：目标持诸葛连弩时 AI 发动鞬出弃装备并记录不可闪避，杀造成1点伤害；目标无装备时按技能文本弃其一张手牌并令其获得此杀，杀仍造成1点伤害。",
+      "evidence": "马术：shenhua-huo-review-native.json / shenhua-huo-passive-rules：获得马术后对同一敌方距离由2降为1。；鞬出：shenhua-huo-review-native.json / jianchu-sha、jianchu-no-equip：目标持诸葛连弩时 AI 发动鞬出弃装备并记录不可闪避，杀造成1点伤害；目标无装备时按技能文本弃其一张手牌并令其获得此杀，杀仍造成1点伤害。",
       "notes": "马术：纯被动距离规则；无独立AI选择。；鞬出：装备直击与无装备交换分支均按技能文本真实结算；未发现非法目标或隐藏信息读取，不额外改写评分。"
     },
     {

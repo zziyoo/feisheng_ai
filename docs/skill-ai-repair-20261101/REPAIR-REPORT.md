@@ -228,9 +228,9 @@ getCardUsable(card, pure) { ... num = game.checkMod(card, player, num, "cardUsab
 - **连环边界复核（纠正首轮结论）**：首轮把“原生对已横置友方使用铁索”判为空用并一律把已横置目标压到 `-100`。复核发现该判断忽略了铁索的“解除横置”效果：`get.effect` 对已横置友方/自己给出正向保护收益，对已横置敌方给出负向，原生已经区分敌我、血量和手牌；无属性伤害收益时，原生在免疫/无目标局面选择重铸。
 - **真实退化**：新增 7 个固定局面后复现三类退化——低血友方有火计威胁时被重铸而不解除横置；自己已横置时被重铸而不解除自身；重铸被禁用时全部目标被拦截导致空过。原规则函数还遗漏 `player` 参数，规则测试的“自己目标”语义与真实包装不一致。
 - **修复方式**：删除 `shenhuaHuo` 的 `lianhuan.ai2` 覆盖与纯规则，保留空复核包入口；不修改铁索规则、目标合法性、其他 13 项技能或 134 维模型契约。火包运行时不再注册任何 AI 覆盖，行为与原生一致。
-- **比较断言**：luanji/huoji 正向场景继续在独立宿主进程中验证；10 个连环固定局面原生/扩展 `semantic_all=true`、`exact_all=true`。合并 39 场景后 `semantic_all=true`、`exact_all=false`，唯一差异是重铸后随机摸牌导致的后续动作不同，不是策略差异。
-- **验收**：主组 37 场景、乱击/火计正向各 1 场景分别 acceptance PASS；合并 39 条技能级断言；安装/卸载/重装/回滚、134 维契约、包内测试、`verify.py` 均 PASS；不抑制 `game.over` 的有界完整对局 PASS。证据：`shenhua-huo-review.json`、`shenhua-huo-review-native.json`、`shenhua-huo-review-compare.json`、`shenhua-huo-lianhuan-boundary*.json`、`accept-shenhua_huo*.json`、`shenhua-huo-fullgame.json`。
-- 分包状态 `验证完成`，交付状态 `可交付`；六包共存安装/乱序回滚 PASS，宿主加载 6/6 包、0 页面错误；上游 `1fe5292` 通过接线/安装/宿主/卸载回滚/重装。最终 ZIP 文件、SHA256 与提交 SHA 以交付台账为准；待外部集成回执后再考虑 `已交付`。
+- **比较断言**：luanji/huoji 正向场景继续在独立宿主进程中验证；10 个连环固定局面原生/扩展 `semantic_all=true`、`exact_all=true`。合并 39 场景后 `semantic_all=true`；`exact_all` 会因重铸后随机摸牌在复跑间变化（最终 acceptance 为 true），不是策略差异。
+- **验收**：主组 37 场景、乱击/火计正向各 1 场景分别 acceptance PASS；合并 39 条技能级检查；单包安装/卸载/重装/回滚、134 维契约、包内测试、`verify.py` 均 PASS；六包共存组合 73 场景、`combined=true`、六包签名一致，矩阵 14/14 PASS；上游 `1fe5292` 六单包与六包组合均通过接线/安装/宿主/卸载回滚/重装；不抑制 `game.over` 的有界完整对局 PASS。证据：`shenhua-huo-review.json`、`shenhua-huo-review-native.json`、`shenhua-huo-review-compare.json`、`shenhua-huo-lianhuan-boundary*.json`、`accept-shenhua_huo*.json`、`accept-combined.json`、`accept-upstream-*.json`、`shenhua-huo-fullgame.json`。
+- 分包状态 `验证完成`，交付状态 `可交付`；火包为无运行时 AI 覆盖的复核包。最终 ZIP：`feisheng-ai-shenhua-huo.zip`，SHA256 `94bc26bd5e7a4a055fd4632cc12e31acd15c02d7093f024617f93b0a2fa25f59`（38 文件、8 证据、`VERIFY PASS`），构建提交 `d12c3e8`；待外部集成回执后再考虑 `已交付`。
 
 ## 九、部署与回滚
 
