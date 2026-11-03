@@ -1,0 +1,19 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+index 671910b..07d40ca 100644
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -6947,6 +6947,14 @@ const skills = {
+       result: {
+         player(player) {
+           if (player.countCards("h", "sha") > 0) {
++            const hs = player.getCards("h");
++            let mx = 0;
++            for (let i2 = 0; i2 < hs.length; i2++) {
++              mx = Math.max(mx, get.number(hs[i2]));
++            }
++            if (mx < 10) {
++              return -0.9;
++            }
+             return 0.6;
+           }
+           const num = player.countCards("h");
