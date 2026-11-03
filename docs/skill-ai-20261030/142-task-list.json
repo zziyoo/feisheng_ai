@@ -458,7 +458,7 @@
         "acceptance_note": "42 场景/40 技能级检查针对清理前 ZIP；本轮仅统一交付状态、清理文档并修正蛊惑源码注释，未改运行时 AI 逻辑，未重跑宿主场景；清理校验见 accept-shenhua_feng-cleanup.json。",
         "upstream_acceptance_note": "accept-upstream-combined-final.json 为上一版风包 ZIP 的历史证据；本轮新增黄天/蛊惑/神速改动后未重跑上游组合",
         "cleanup_acceptance_file": "accept-shenhua_feng-cleanup.json",
-        "cleanup_acceptance_sha256": "9452a52afd2d0943660a4089b87e37e2f7fe1d02bf5118a8c96393f81f55d069",
+        "cleanup_acceptance_sha256": "1559d47c84c6433c73f6ffcda01092473c3f5adeeed90baaf529372927528d50",
         "external_integration_receipt": "pending",
         "external_integration_note": "风包12项技能已完成质量审查，可交付外部开发者集成；尚未取得外部集成回执，不声明已交付。"
       },
