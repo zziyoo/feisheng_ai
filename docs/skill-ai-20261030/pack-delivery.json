@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-11-03T08:49:57.591Z",
+  "updated_at": "2026-11-03T08:53:52.608Z",
   "packs": [
     {
       "pack_id": "refresh_standard",
@@ -137,5 +137,11 @@
       "accept-upstream-shenhua_lei.json",
       "accept-upstream-out_of_scope.json"
     ]
+  },
+  "fullgame": {
+    "file": "fullgame-quality.json",
+    "sha256": "32d660a9f6d3afcb1171f72e51a888750263ded8a75c2ad85aed93785047dac6",
+    "status": "passed",
+    "note": "不抑制 game.over 的有界完整对局，done=true/overCalls=1/result=true。"
   }
 }
