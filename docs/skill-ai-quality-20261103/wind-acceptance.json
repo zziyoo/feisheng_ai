@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-03T13:56:32.678Z",
+  "generated_at": "2026-11-03T14:04:32.405Z",
   "mode": "single",
   "repo": "C:\\Users\\32360\\.codex\\worktrees\\release-444\\无名AI",
-  "repo_head": "7a354d8ab9c2a226dc6b5bafcf11bdf0d4791146",
+  "repo_head": "c2c6c916fe61368275657678b6824ec48c39200c",
   "base_ref": null,
   "wired_index": null,
   "scenes": [
@@ -1540,8 +1540,8 @@
       "id": "shenhua_feng",
       "name": "神话再临·风",
       "zip": "C:\\Users\\32360\\Desktop\\feisheng-ai-packs\\feisheng-ai-shenhua-feng.zip",
-      "zip_size": 221475,
-      "zip_sha256": "e9ef692b162fb57a66a4ed521b8a4b8dece81a18d7e7a1e9c5d7bd594d991d53",
+      "zip_size": 221542,
+      "zip_sha256": "2624213fe0f90dc9b9e2117937aa7139184cc5c9803a5d0646a9b60ca530540b",
       "delivery_stage": "可交付",
       "implemented_skills": [
         "qimou",
@@ -1564,7 +1564,7 @@
       "pack": "shenhua_feng",
       "status": "passed",
       "package_tests": {
-        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work\\extract\\0\\tests\\run-pack-tests.mjs",
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\Desktop\\feisheng-accept-final2\\work\\extract\\0\\tests\\run-pack-tests.mjs",
         "status": 0,
         "signal": null,
         "stdout": "PASS 奇谋档位按体力/杀数复刻宿主\nPASS 少杀时只放宽“杀次数可用”这一条阻塞\nPASS 原生已给正分时不覆盖\nPASS 卡不可用/目标已在射程内/距离过远/目标血过厚均不放宽\nPASS 低血/无杀/负收益目标不放宽\nPASS 狂骨：1血可回复时优先回复，其余返回原生选择\nPASS 据守：已翻面时摸三张没有额外回合成本\nPASS 神速1：低手牌但可跳过不良判定且收益高于摸牌时放行\nPASS 蛊惑：1血无真牌且无可弃牌不诈称，有真牌/可弃牌/非1血保持原生\nPASS 黄天：按实际选牌判断，交最后一张闪保留，交闪电保留唯一闪\nALL PASS (10)\nPASS 包元数据与目标技能一致\nPASS 分包模块只 import 共享核心、自己的规则与安全适配\nPASS 共享核心与具体技能解耦\nPASS 包内只携带本分包策略模块\nPASS 注册表与 pack-only 注册表可安全合并\nPASS 134 维模型契约与版本未被本分包修改\nPASS 分包声明的静态约束成立\nPASS 分包规则不读取宿主实现\nALL PASS (8)\nALL PACK TESTS PASS (18)\n",
@@ -1572,23 +1572,23 @@
         "error": null
       },
       "verify_zip": {
-        "command": "python C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work\\extract\\0\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-packs\\feisheng-ai-shenhua-feng.zip",
+        "command": "python C:\\Users\\32360\\Desktop\\feisheng-accept-final2\\work\\extract\\0\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-packs\\feisheng-ai-shenhua-feng.zip",
         "status": 0,
         "signal": null,
-        "stdout": "mode=zip files_listed=66 ok=66 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=7a354d8ab9c2a226dc6b5bafcf11bdf0d4791146 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stdout": "mode=zip files_listed=66 ok=66 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=dbd08169c0bcd8bfcbd826ebfd8541c6ae675ca4 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
         "stderr": "",
         "error": null
       },
       "verify_dir": {
-        "command": "python C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work\\extract\\0\\verify.py",
+        "command": "python C:\\Users\\32360\\Desktop\\feisheng-accept-final2\\work\\extract\\0\\verify.py",
         "status": 0,
         "signal": null,
-        "stdout": "mode=dir files_listed=66 ok=66 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=7a354d8ab9c2a226dc6b5bafcf11bdf0d4791146 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stdout": "mode=dir files_listed=66 ok=66 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=dbd08169c0bcd8bfcbd826ebfd8541c6ae675ca4 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
         "stderr": "",
         "error": null
       },
       "verify_cross_platform": {
-        "command": "python C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work\\extract\\0\\tests\\test-verify-zip.py",
+        "command": "python C:\\Users\\32360\\Desktop\\feisheng-accept-final2\\work\\extract\\0\\tests\\test-verify-zip.py",
         "status": 0,
         "signal": null,
         "stdout": "PASS verify.py --zip accepts POSIX member paths\r\nPASS verify.py --root accepts POSIX package\r\nPASS verify.py --zip accepts Windows backslash members and manifest paths\r\nPASS verify.py --zip accepts manifest at archive root\r\nPASS verify.py --zip rejects archive without root manifest\r\nPASS verify.py --zip rejects duplicate normalized members\r\nPASS verify.py --zip rejects size mismatch\r\nALL PASS (verify.zip cross-platform regression)\r\n",
@@ -1611,7 +1611,7 @@
       "status": "passed",
       "output": {
         "pack": "shenhua_feng",
-        "root": "C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work\\targets\\single-shenhua_feng",
+        "root": "C:\\Users\\32360\\Desktop\\feisheng-accept-final2\\work\\targets\\single-shenhua_feng",
         "actions": [
           {
             "type": "create",
@@ -2613,7 +2613,7 @@
       "status": "passed",
       "output": {
         "pack": "shenhua_feng",
-        "root": "C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work\\targets\\single-shenhua_feng",
+        "root": "C:\\Users\\32360\\Desktop\\feisheng-accept-final2\\work\\targets\\single-shenhua_feng",
         "actions": [
           {
             "type": "create",
@@ -2649,6 +2649,6 @@
     }
   ],
   "pass": true,
-  "workdir": "C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work",
-  "target": "C:\\Users\\32360\\Desktop\\feisheng-accept-final\\work\\targets\\single-shenhua_feng"
+  "workdir": "C:\\Users\\32360\\Desktop\\feisheng-accept-final2\\work",
+  "target": "C:\\Users\\32360\\Desktop\\feisheng-accept-final2\\work\\targets\\single-shenhua_feng"
 }

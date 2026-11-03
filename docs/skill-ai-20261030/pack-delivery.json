@@ -30,7 +30,7 @@
       "built_at": "2026-11-03T14:02:29.553Z",
       "acceptance_status": "passed",
       "acceptance_file": "accept-shenhua_feng.json",
-      "acceptance_sha256": "e53f3754a09f986db4f90b974c5dd0eca397938cbcf7d15514f71f95c55e5d5b",
+      "acceptance_sha256": "2314f7508cbce541cdd9b1c9c24af78b3a22aac6ea384ed2cf418af68fcb72fb",
       "acceptance_scope": "实际 ZIP：解压/verify/包内测试/单包安装/对应技能真实宿主场景/卸载回滚后再加载/重装/单包契约/134维；42 场景/40 条技能级检查；本轮未重跑上游组合与六包共存回滚",
       "upstream_acceptance_status": "historical",
       "upstream_acceptance_file": "accept-upstream-combined-final.json",
