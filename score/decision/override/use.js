@@ -37,7 +37,7 @@ import { log } from '../../foundation/diag/logger.js?v=41a';
 import { evaluateTaoRescue } from '../safety/rescuePolicy.js?v=41a';
 import {responseWindow} from '../response/responseWindow.js?v=41a';
 import { evaluateWuxie } from '../response/wuxieEvaluator.js?v=41a';
-import { dynamicSkillVeto } from '../skills/skillVetoRegistry.js?v=41a';
+import { dynamicSkillVeto } from '../skills/skillVetoRegistry.js?v=41a'; // @djsc-skill-veto-wiring
 import { trip, isTripped } from './circuit.js?v=41a';
 import { isAllyOf, cardValueOf } from '../threat/threat.js?v=41a';   /* ★ 阵营护栏/五谷拿牌桥 */
 

@@ -149,7 +149,8 @@ for (const item of WIRING) {
 	const target = rel(item.file);
 	if (!exists(target)) { console.error('WIRING FAIL: 缺少 ' + item.file); process.exit(2); }
 	const original = read(target).toString('utf8');
-	if (original.includes(MARK)) continue; /* 已接线，幂等跳过 */
+	/* 幂等：marker 注释或 dynamicSkillVeto 引用任一存在即视为已接线。 */
+	if (original.includes(MARK) || original.includes('dynamicSkillVeto')) continue;
 	let next = original;
 	for (const step of item.patch) {
 		const anchor = adapt(next, step.anchor);

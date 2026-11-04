@@ -20,7 +20,7 @@
 
 /* ---------- 技能分类（运行时微调静态分类） ---------- */
 import { skillPriorityBias, skillTimingAdjust, allyTargetBias, enemyTargetBias } from '../strategy/identityPolicy.js?v=41a';
-import { dynamicSkillVeto } from './skillVetoRegistry.js?v=41a';
+import { dynamicSkillVeto } from './skillVetoRegistry.js?v=41a'; // @djsc-skill-veto-wiring
 export function classifySkill(profile, ctx) {
 	ctx = ctx || {};
 	const multi = profile && profile.profit && profile.profit.multi;

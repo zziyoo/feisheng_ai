@@ -1,7 +1,7 @@
 /* 分包动态否决接线：skillVetoRegistry 注册的运行时裁决（如 shenhuaHuo 天义拼点胜率）
  * 在枚举源头生效——所有引擎候选管线共用 activePlaySkills，此处拒绝即全管线拒绝。
  * 抛错 fail-open；命中计入 _candDiag.packVeto 便于诊断。 */
-import { dynamicSkillVeto } from './skillVetoRegistry.js?v=41a';
+import { dynamicSkillVeto } from './skillVetoRegistry.js?v=41a'; // @djsc-skill-veto-wiring
 
 /* 主动候选只来自当前玩家真实的出牌选择窗口；触发技能仍由宿主触发。
  * ★ fix10：chooseButton 技能（需要选目标的绝大多数主动技）恢复候选资格——
