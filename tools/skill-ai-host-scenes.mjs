@@ -2419,10 +2419,13 @@ export async function runSkillAiScenes(page, options = {}) {
 			const selfAttitude = get.attitude(actor, actor);
 			const probe = instrument(actor);
 			try { await actor.phaseUse(); } finally { probe.restore(); }
+			let bridgeStats = null;
+			try { bridgeStats = JSON.parse(JSON.stringify(_status.djsc_overrideStats && _status.djsc_overrideStats.use || {})); } catch (e) {}
 			rec.ops = probe.log;
 			rec.result = {
 				targetValue, selfAttitude,
 				usedTianyi: (probe.log || []).some(item => item && item.op === 'useSkill' && item.args && item.args[0] === 'tianyi'),
+				bridgeStats,
 				hand: hand(actor), enemy1Hp: enemy1.hp,
 			};
 		});
@@ -2436,6 +2439,39 @@ export async function runSkillAiScenes(page, options = {}) {
 			enemy1.hp = 4; enemy1.maxHp = 4;
 			await give(enemy1, [['shan', 'heart', 6], ['tao', 'diamond', 7]]);
 			rec.setup = { hand: hand(actor), maxNumber: Math.max(...actor.getCards('h').map(c => get.number(c))) };
+		}, async rec => {
+			const targetValue = lib.skill.tianyi.ai.result.target(actor, enemy1);
+			const probe = instrument(actor);
+			try { await actor.phaseUse(); } finally { probe.restore(); }
+			rec.ops = probe.log;
+			rec.result = {
+				targetValue,
+				usedTianyi: (probe.log || []).some(item => item && item.op === 'useSkill' && item.args && item.args[0] === 'tianyi'),
+				hand: hand(actor), enemy1Hp: enemy1.hp,
+			};
+		});
+
+		// 天义局部例外：手里最大点数只有5，但敌方唯一拼点牌已公开且点数只有2
+		// （_knowers=['everyone']，等价于明置/展示过的牌）。胜率可可靠估算为必胜，
+		// 不应仅因点数低于10就放弃。三个层级（原生补丁/策略层/完整引擎）都应放行。
+		await scene('quality-huo-tianyi-knownwin', async rec => {
+			blockNeighborSha();
+			actor.addSkill('tianyi');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 3], ['shan', 'heart', 4], ['shan', 'club', 5]]);
+			enemy1.hp = 4; enemy1.maxHp = 4;
+			await give(enemy1, [['shan', 'heart', 2]]);
+			for (const c of enemy1.getCards('h')) {
+				try { c._knowers = ['everyone']; } catch (e) {}
+			}
+			enemy2.hp = 4; enemy2.maxHp = 4;
+			await give(enemy2, [['shan', 'heart', 11], ['tao', 'diamond', 12]]);
+			rec.setup = {
+				hand: hand(actor),
+				maxNumber: Math.max(...actor.getCards('h').map(c => get.number(c))),
+				enemy1Known: enemy1.getKnownCards(actor).map(c => c.name + get.number(c, enemy1)),
+				enemy2KnownCount: enemy2.getKnownCards(actor).length,
+			};
 		}, async rec => {
 			const targetValue = lib.skill.tianyi.ai.result.target(actor, enemy1);
 			const probe = instrument(actor);

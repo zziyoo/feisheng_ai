@@ -297,6 +297,7 @@ function buildPack(config) {
 		module: config.module,
 		rules: config.rules,
 		implemented_skills: config.implementedSkills,
+		optimization_types: config.optimizationTypes || undefined,
 		review_only: config.implementedSkills.length === 0,
 		audited_skills: config.auditedSkills,
 		target_skills: pack.target_skills,

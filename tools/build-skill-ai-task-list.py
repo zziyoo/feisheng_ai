@@ -273,11 +273,11 @@ SKILL_OVERRIDES = {
     },
     'taishici': {
         'tianyi': {
-            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
-            'validation_level': '正反向决策验证通过',
-            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True},
-            'evidence': 'shenhua-huo-review-native.json / tianyi-win-sha、tianyi-lose-sha、tianyi-lose-content：有高点数牌+杀时实际发动天义，拼点胜利获得天义2并出杀造成伤害；高失败风险局面改出普通杀、不发动天义；直接结算失败分支获得天义3且杀不可用。',
-            'notes': '胜利收益、负向决策与失败临时技规则均覆盖。',
+            'status': '已修复', 'implementation': '已实施', 'test': '真实宿主通过',
+            'validation_level': '确认存在质量提升并已实现（原生合法但次优，非规则缺陷）',
+            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True, 'fixed': True},
+            'evidence': 'quality-huo-tianyi-lowcompare：手里 杀3/闪4/闪5（最大点数5）时原生 useSkill tianyi 真实发动并白弃拼点牌，策略层与完整引擎均拒绝发动（完整引擎 tianyiEngineVeto=3 计数 + usedTianyi=false）；quality-huo-tianyi-highcompare（13/12/3）三层均发动；quality-huo-tianyi-knownwin：敌方唯一拼点牌已公开且点数2低于己方最大点数5时，三层均放行发动。',
+            'notes': '质量提升：原生合法但从不评估拼点胜率。真实入口=ai.order（宿主AI点击技能只看 get.order；实测 result 侧评估在完整引擎下会被绕过且 attitude(self) 符号不稳定）——order 归零为主入口，result 双侧归零兜底；对手手牌完全已知且点数确定更低时放行（不读取隐藏牌面）。拼点牌弃置、输后天义3锁杀，不改技能规则。',
         },
     },
     'yanwen': {
@@ -292,10 +292,10 @@ SKILL_OVERRIDES = {
     're_yuanshao': {
         'luanji': {
             'status': '已修复', 'implementation': '已实施', 'test': '真实宿主通过',
-            'validation_level': '确认存在质量提升并已实现',
-            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True},
-            'evidence': 'quality-luanji-ally-lethal：1血空手无防具队友时原生 check=6、扩展 check=0；probe-native-3 原始执行中原生 used=true、allyHp=0。shenhua-huo-luanji-wanjian-use 全敌方场景扩展仍实际发动万箭；luanji-no-pair、luanji-wanjian 负向保持。',
-            'notes': '只在原生评分为正且存在1血空手无防具友方时返回0；不改目标合法性、万箭结算或材料价值。',
+            'validation_level': '确认缺陷并已修复（1血空手无防具队友被万箭直接送入濒死）+ 小规模净收益门槛（质量提升）',
+            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True, 'fixed': True},
+            'evidence': 'quality-luanji-ally-lethal：1血空手无防具队友时原生 check=6、扩展 check=0；quality-huo-luanji-net：3目标面净收益0.5时原生 check=6 发动、修正后 check=0；quality-huo-luanji-net-positive：净收益1守卫双方均发动；shenhua-huo-luanji-wanjian-use 全敌方场景仍实际发动万箭；quality-luanji-enemy-lethal 守卫。濒死否决排除有护甲（hujia>0，1点伤害先被护甲吸收）或 freeShan 技能标签（八阵虚拟八卦空手可自动响应）的队友。',
+            'notes': '缺陷修复=把队友送入濒死；质量提升=目标面<5 时补齐净收益门槛（num<1 返回0，≥5/≥7 原有门槛保持）。复用宿主 hujia/freeShan 真实减伤与响应判断，不凭空认定空手队友必然受伤；不改目标合法性、万箭结算或材料价值。',
         },
         'xueyi': {
             'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
@@ -337,11 +337,11 @@ SKILL_OVERRIDES = {
             'notes': '纯被动距离规则；无独立AI选择。',
         },
         'jianchu': {
-            'status': '已验证无问题', 'implementation': '无需改动', 'test': '真实宿主通过',
-            'validation_level': 'AI决策验证通过',
-            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True},
-            'evidence': 'shenhua-huo-review-native.json / jianchu-sha、jianchu-no-equip：目标持诸葛连弩时 AI 发动鞬出弃装备并记录不可闪避，杀造成1点伤害；目标无装备时按技能文本弃其一张手牌并令其获得此杀，杀仍造成1点伤害。',
-            'notes': '装备直击与无装备交换分支均按技能文本真实结算；未发现非法目标或隐藏信息读取，不额外改写评分。',
+            'status': '已修复', 'implementation': '已实施', 'test': '真实宿主通过',
+            'validation_level': '确认存在质量提升并已实现（原生合法但次优，非规则缺陷）',
+            'validation': {'rule_settlement': True, 'ai_decision': True, 'positive_negative': True, 'fixed': True},
+            'evidence': 'quality-huo-jianchu-noequip：敌人满血、无装备、3张手牌时原生触发鞬出——弃其1张手牌后把杀送给目标（enemyGainedSha=true），策略层跳过、杀正常结算；quality-huo-jianchu-armor：目标带八卦阵时原生与修正后均触发并弃置防具（直杀）。quality-huo-jianchu-sha：持武器目标弃装备直杀分支保持。',
+            'notes': '质量提升：原生合法但对无装备、血量健康、手牌充足的目标接近白给。修正=有装备可拆、或仅剩最后一张手牌（拆后杀不可响应）、或 hp<=1 且无护甲（击杀动机被护甲吸收时不成立）才触发；不改弃牌 AI 与送杀结算。',
         },
     },
     're_liubei': {
