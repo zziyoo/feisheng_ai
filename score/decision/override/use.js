@@ -488,10 +488,12 @@ export function installUseOverride() {
 				if (!decision?.rule) { _stat('pass'); return restore; }
 				/* 分包动态技能否决（skillVetoRegistry，与 skillPlayBrain.vetoSkill 规则⑤同源）：
 				 * 引擎候选管线之外的提交（planner refine/多维评分直提等）在此统一把关；
-				 * 命中则不 stage，交回宿主自身流程（其 AI 评分由分包 result wrap 接管）。 */
-				if (decision.type === 'skill' && decision.id) {
+				 * 命中则不 stage，交回宿主自身流程（其 AI 评分由分包 result wrap 接管）。
+				 * 最终决策对象 _finalResult 里技能 ID 位于 rule 字段（rule: best.id），
+				 * 不存在 decision.id —— 用错字段会使本守卫成为死代码。 */
+				if (decision.type === 'skill' && decision.rule) {
 					try {
-						const dynV = dynamicSkillVeto(decision.id, null, { me: { ref: player } });
+						const dynV = dynamicSkillVeto(decision.rule, null, { me: { ref: player } });
 						if (dynV && dynV.veto) {
 							_stat('skillVeto');
 							trace.skillVeto = dynV.reason || 'pack-veto';

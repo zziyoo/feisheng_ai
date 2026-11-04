@@ -85,10 +85,12 @@ import { dynamicSkillVeto } from '../skills/skillVetoRegistry.js?v=41a';`,
 				insertAfterLine: {
 					core: `if (!decision?.rule) { _stat('pass'); return restore; }`,
 					block: [
-						`/* ${MARK}：注册表否决的技能不 stage，交回宿主自身流程。 */`,
-						`if (decision.type === 'skill' && decision.id) {`,
+						`/* ${MARK}：注册表否决的技能不 stage，交回宿主自身流程。`,
+						` * 最终决策对象 _finalResult 里技能 ID 位于 rule 字段（rule: best.id），`,
+						` * 不存在 decision.id —— 用错字段会使本守卫成为死代码。 */`,
+						`if (decision.type === 'skill' && decision.rule) {`,
 						`    try {`,
-						`        const dynV = dynamicSkillVeto(decision.id, null, { me: { ref: player } });`,
+						`        const dynV = dynamicSkillVeto(decision.rule, null, { me: { ref: player } });`,
 						`        if (dynV && dynV.veto) {`,
 						`            _stat('skillVeto');`,
 						`            trace.skillVeto = dynV.reason || 'pack-veto';`,
@@ -119,21 +121,72 @@ const syntaxCheck = file => {
 	catch (error) { throw new Error('接线后语法校验失败：' + file + '\n' + (error.stderr || error.message)); }
 };
 
-if (doRollback) {
-	if (!exists(backupDir)) {
-		console.log(JSON.stringify({ status: 'nothing-to-rollback', root: targetRoot }));
+	if (doRollback) {
+		const manifestPath = path.join(backupDir, 'wiring-manifest.json');
+		if (!exists(manifestPath)) {
+			console.log(JSON.stringify({ status: 'nothing-to-rollback', root: targetRoot }));
+			process.exit(0);
+		}
+		const manifest = JSON.parse(read(manifestPath).toString('utf8'));
+		const results = [];
+		let conflicts = 0;
+		for (const entry of manifest.files) {
+			const target = rel(entry.file);
+			if (!exists(target)) { results.push({ file: entry.file, action: 'missing-skipped' }); continue; }
+			const currentSha = sha(read(target));
+			if (currentSha === entry.beforeSha) { results.push({ file: entry.file, action: 'already-clean' }); continue; }
+			/* 优先方案：仅移除本次接线插入的代码块（逆向逐条精确删除），
+			 * 保留接线完成后其他开发者或其他分包对同一文件的修改。 */
+			let next = read(target).toString('utf8');
+			let removalOk = true;
+			for (const inserted of [...entry.insertions].reverse()) {
+				if (!next.includes(inserted)) { removalOk = false; break; }
+				next = next.replace(inserted, '');
+			}
+			if (removalOk) {
+				const remainingSha = sha(Buffer.from(next));
+				if (remainingSha === entry.beforeSha) {
+					atomicWrite(target, Buffer.from(next));
+					results.push({ file: entry.file, action: 'block-removed-exact', externalChanges: false });
+					continue;
+				}
+				try {
+					const checkFile = target + '.rollback-check-' + process.pid + '.mjs';
+					fs.writeFileSync(checkFile, next);
+					try { execFileSync(process.execPath, ['--check', checkFile], { stdio: 'pipe' }); }
+					finally { try { fs.rmSync(checkFile, { force: true }); } catch (_) {} }
+					atomicWrite(target, Buffer.from(next));
+					results.push({ file: entry.file, action: 'block-removed-preserving-external-edits', externalChanges: true });
+					continue;
+				} catch (syntaxError) {
+					conflicts++;
+					results.push({ file: entry.file, action: 'refused-block-removal-syntax', reason: String(syntaxError.message || syntaxError).slice(0, 160) });
+					continue;
+				}
+			}
+			/* 插入文本无法定位（接线块被外部改动）：仅当文件仍是安装后原样时才允许整文件还原。 */
+			if (currentSha === entry.afterSha) {
+				const backupPath = path.join(backupDir, ...entry.file.split('/'));
+				if (exists(backupPath)) atomicWrite(target, read(backupPath));
+				results.push({ file: entry.file, action: 'full-restored-no-external-changes' });
+				continue;
+			}
+			conflicts++;
+			results.push({
+				file: entry.file,
+				action: 'refused-overwrite-external-changes',
+				reason: '目标文件在接线后被外部修改，且无法定位本次接线块；备份保留于 ' + path.join(path.relative(targetRoot, backupDir), ...entry.file.split('/')),
+			});
+		}
+		if (conflicts) {
+			console.error('WIRING ROLLBACK FAIL: ' + conflicts + ' 个文件存在冲突，未覆盖；备份与清单已保留');
+			console.error(JSON.stringify({ status: 'rollback-conflicts', root: targetRoot, results }, null, 2));
+			process.exit(1);
+		}
+		fs.rmSync(backupDir, { recursive: true, force: true });
+		console.log(JSON.stringify({ status: 'rolled-back', root: targetRoot, results }, null, 2));
 		process.exit(0);
 	}
-	for (const item of WIRING) {
-		const backupPath = path.join(backupDir, ...item.file.split('/'));
-		if (!exists(backupPath)) continue;
-		atomicWrite(rel(item.file), read(backupPath));
-		console.log('restored ' + item.file);
-	}
-	fs.rmSync(backupDir, { recursive: true, force: true });
-	console.log(JSON.stringify({ status: 'rolled-back', root: targetRoot }));
-	process.exit(0);
-}
 
 if (!exists(rel('score/index.js'))) {
 	console.error('WIRING FAIL: 目标不是无名AI扩展根目录（缺少 score/index.js）');
@@ -156,6 +209,7 @@ for (const item of WIRING) {
 	/* 幂等：marker 注释或 dynamicSkillVeto 引用任一存在即视为已接线。 */
 	if (original.includes(MARK) || original.includes('dynamicSkillVeto')) continue;
 	let next = original;
+	const insertions = [];
 	for (const step of item.patch) {
 		if (step.insertAfterLine) {
 			/* 缩进中立：按行定位核心语句，沿用宿主该行缩进插入整块。 */
@@ -170,7 +224,9 @@ for (const item of WIRING) {
 			const lineEnd = next.indexOf(eol, at) + eol.length;
 			const indent = (next.slice(lineStart, at).match(/[ \t]*$/) || [''])[0];
 			const block = step.insertAfterLine.block.map(line => line === '' ? '' : indent + line).join(eol);
-			next = next.slice(0, lineEnd) + block + eol + next.slice(lineEnd);
+			const inserted = block + eol;
+			next = next.slice(0, lineEnd) + inserted + next.slice(lineEnd);
+			insertions.push(inserted);
 			continue;
 		}
 		const anchor = adapt(next, step.anchor);
@@ -181,10 +237,11 @@ for (const item of WIRING) {
 		}
 		const combined = step.position === 'before' ? insert + anchor : anchor + insert;
 		next = next.replace(anchor, combined);
+		insertions.push(insert);
 	}
 	writeTempForCheck(next);
 	already = false;
-	plan.push({ file: item.file, original, next });
+	plan.push({ file: item.file, original, next, insertions, beforeSha: sha(Buffer.from(original)), afterSha: sha(Buffer.from(next)) });
 }
 function writeTempForCheck(text) {
 	const temporary = path.join(targetRoot, '.djsc-wiring-check-' + process.pid + '.mjs');
@@ -213,6 +270,18 @@ try {
 		syntaxCheck(target);
 		applied.push(item.file);
 	}
+	/* 接线清单：记录前后哈希与逐条插入文本，供安全回滚使用。 */
+	const manifest = {
+		marker: MARK,
+		applied_at: new Date().toISOString(),
+		files: plan.map(item => ({
+			file: item.file,
+			beforeSha: item.beforeSha,
+			afterSha: item.afterSha,
+			insertions: item.insertions,
+		})),
+	};
+	atomicWrite(path.join(backupDir, 'wiring-manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
 	console.log(JSON.stringify({ status: 'wired', root: targetRoot, files: applied, backup: path.relative(targetRoot, backupDir) }, null, 2));
 } catch (error) {
 	for (const item of plan) {
