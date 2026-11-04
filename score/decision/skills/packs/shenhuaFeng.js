@@ -579,11 +579,16 @@ function installLiegong(host, stats) {
 		host.wrap(info.mod, 'aiOrder', 'liegong:aiOrder', original => function (player, card, num) {
 			try {
 				if (num > 0 && card && card.name === 'sha') return num + 6;
-				if (num > 0 && card && get.tag(card, 'draw') && player.countCards('h', 'sha') > 0 && game.hasPlayer(function (current) {
-					return get.attitude(player, current) < 0 && current.countCards('h') > player.countCards('h') && current.countCards('h') <= player.countCards('h') + 2 && player.inRange(current);
-				})) {
-					stats.liegongDrawUnlock++;
-					return num + 7;
+				if (num > 0 && card && get.tag(card, 'draw')) {
+					if (player.countCards('h', 'sha') > 0 && game.hasPlayer(function (current) {
+						return get.attitude(player, current) < 0 && current.countCards('h') > player.countCards('h') && current.countCards('h') <= player.countCards('h') + 2 && player.inRange(current);
+					})) {
+						stats.liegongDrawUnlock++;
+						return num + 7;
+					}
+					// 本轮语义：摸牌不能解锁不可响应条件时不加速，
+					// 不回退到原生的无条件+6（无论原生补丁是否在场）。
+					return undefined;
 				}
 			} catch (e) {}
 			return original.apply(this, arguments);
