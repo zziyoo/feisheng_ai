@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-03T17:58:37.203Z",
+  "generated_at": "2026-11-04T16:01:25.000Z",
   "mode": "single",
   "repo": "C:\\Users\\32360\\.codex\\worktrees\\release-444\\无名AI",
   "repo_head": "",
@@ -1287,8 +1287,8 @@
       "id": "shenhua_huo",
       "name": "神话再临·火",
       "zip": "C:\\Users\\32360\\Desktop\\feisheng-ai-huo-pack\\feisheng-ai-shenhua-huo.zip",
-      "zip_size": 206207,
-      "zip_sha256": "2e221486cbbdf21ffa4d0f1be8331a047e59c48e40b0326f13b2cd989ab91f94",
+      "zip_size": 215804,
+      "zip_sha256": "6827a3c037fe16b01f323410964b19fb58989683a53098d6982ca16398aacfd7",
       "delivery_stage": "可交付",
       "implemented_skills": [
         "luanji",
@@ -1308,31 +1308,31 @@
       "pack": "shenhua_huo",
       "status": "passed",
       "package_tests": {
-        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3\\extract\\0\\tests\\run-pack-tests.mjs",
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-pC2f8x\\extract\\0\\tests\\run-pack-tests.mjs",
         "status": 0,
         "signal": null,
-        "stdout": "PASS 火包清单登记乱击/天义/鞬出三项运行时校正\nPASS 乱击不会为AOE牺牲1血空手无防具队友\nPASS 乱击小规模对局净收益门槛（镜像原生补丁0001）\nPASS 天义手里最大点数不足10时拒绝无把握拼点（镜像原生补丁0002）\nPASS 鞬出仅在值得发动时触发（镜像原生补丁0003）\nPASS 纯规则出口完整\nALL PASS (6)\nPASS 包元数据与目标技能一致\nPASS 分包模块只 import 共享核心、自己的规则与安全适配\nPASS 共享核心与具体技能解耦\nPASS 包内只携带本分包策略模块\nPASS 注册表与 pack-only 注册表可安全合并\nPASS 134 维模型契约与版本未被本分包修改\nPASS 分包声明的静态约束成立\nPASS 分包规则不读取宿主实现\nALL PASS (8)\nALL PACK TESTS PASS (14)\n",
+        "stdout": "PASS 火包清单登记乱击/天义/鞬出三项AI优化（区分缺陷修复与质量提升）\nPASS 乱击濒死否决：1血空手无防具且无护甲/无自动闪响应能力\nPASS 乱击小规模对局净收益门槛（镜像原生补丁0001）\nPASS 天义低点数默认保守（镜像原生补丁0002）\nPASS 天义已知必胜拼点例外：只用完全公开的对手手牌，且点数确定更低\nPASS 鞬出仅在值得发动时触发；hp<=1击杀动机在有护甲时不成立（镜像原生补丁0003）\nPASS 纯规则出口完整\nALL PASS (7)\nPASS 包元数据与目标技能一致\nPASS 分包模块只 import 共享核心、自己的规则与安全适配\nPASS 共享核心与具体技能解耦\nPASS 包内只携带本分包策略模块\nPASS 注册表与 pack-only 注册表可安全合并\nPASS 134 维模型契约与版本未被本分包修改\nPASS 分包声明的静态约束成立\nPASS 分包规则不读取宿主实现\nALL PASS (8)\nALL PACK TESTS PASS (15)\n",
         "stderr": "",
         "error": null
       },
       "verify_zip": {
-        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3\\extract\\0\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-huo-pack\\feisheng-ai-shenhua-huo.zip",
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-pC2f8x\\extract\\0\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-huo-pack\\feisheng-ai-shenhua-huo.zip",
         "status": 0,
         "signal": null,
-        "stdout": "mode=zip files_listed=51 ok=51 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=7b43b04d1ded29e2687b8460c56755d982282482 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stdout": "mode=zip files_listed=50 ok=50 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=98ffcae62f3cf5235db97e5e71650231b699587e baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
         "stderr": "",
         "error": null
       },
       "verify_dir": {
-        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3\\extract\\0\\verify.py",
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-pC2f8x\\extract\\0\\verify.py",
         "status": 0,
         "signal": null,
-        "stdout": "mode=dir files_listed=51 ok=51 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=7b43b04d1ded29e2687b8460c56755d982282482 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stdout": "mode=dir files_listed=50 ok=50 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=98ffcae62f3cf5235db97e5e71650231b699587e baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
         "stderr": "",
         "error": null
       },
       "verify_cross_platform": {
-        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3\\extract\\0\\tests\\test-verify-zip.py",
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-pC2f8x\\extract\\0\\tests\\test-verify-zip.py",
         "status": 0,
         "signal": null,
         "stdout": "PASS verify.py --zip accepts POSIX member paths\r\nPASS verify.py --root accepts POSIX package\r\nPASS verify.py --zip accepts Windows backslash members and manifest paths\r\nPASS verify.py --zip accepts manifest at archive root\r\nPASS verify.py --zip rejects archive without root manifest\r\nPASS verify.py --zip rejects duplicate normalized members\r\nPASS verify.py --zip rejects size mismatch\r\nALL PASS (verify.zip cross-platform regression)\r\n",
@@ -1356,7 +1356,7 @@
       "status": "passed",
       "output": {
         "pack": "shenhua_huo",
-        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3\\targets\\single-shenhua_huo",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-pC2f8x\\targets\\single-shenhua_huo",
         "actions": [
           {
             "type": "create",
@@ -1396,11 +1396,11 @@
       "checks": [
         {
           "file": "packs/shenhuaHuo.js",
-          "sha256": "ba585744556d68d67bcc9ec16d27415265c5bb6508d74cced9443c24acc1d6d7"
+          "sha256": "bc686000023231a7c20db5d315b9d74ada862e4e2e06c2173e47662d84086eee"
         },
         {
           "file": "rules/shenhuaHuo.js",
-          "sha256": "0046ad492ce04d0c6b3ebacbd62c9745739b263a2e475211d64ddeefcf7d6a98"
+          "sha256": "bdf284211a44e6da7c90403adb17c0856a5de9c871412627bf72105eb8edbb59"
         },
         {
           "file": "shared/policyCore.js",
@@ -1469,13 +1469,17 @@
         "installed": true,
         "luanjiAllyVeto": 1,
         "luanjiNetVeto": 0,
-        "tianyiDecline": 0,
+        "tianyiDecline": 2,
+        "tianyiKnownWinPass": 0,
+        "tianyiEngineVeto": 6,
         "jianchuSkip": 0,
         "packs": {
           "shenhua_huo": {
             "luanjiAllyVeto": 1,
             "luanjiNetVeto": 0,
-            "tianyiDecline": 0,
+            "tianyiDecline": 2,
+            "tianyiKnownWinPass": 0,
+            "tianyiEngineVeto": 6,
             "jianchuSkip": 0
           }
         }
@@ -2121,7 +2125,7 @@
       "status": "passed",
       "output": {
         "pack": "shenhua_huo",
-        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3\\targets\\single-shenhua_huo",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-pC2f8x\\targets\\single-shenhua_huo",
         "actions": [
           {
             "type": "create",
@@ -2157,6 +2161,6 @@
     }
   ],
   "pass": true,
-  "workdir": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3",
-  "target": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-gwuYH3\\targets\\single-shenhua_huo"
+  "workdir": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-pC2f8x",
+  "target": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-pC2f8x\\targets\\single-shenhua_huo"
 }
