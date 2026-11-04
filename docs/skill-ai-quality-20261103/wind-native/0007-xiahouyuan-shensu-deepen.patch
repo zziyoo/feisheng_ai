@@ -1,0 +1,29 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+index 4eb5180..be04bbc 100644
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -7506,6 +7550,10 @@ const skills = {
+           if (_status.event.check) {
+             return 0;
+           }
++          if (_status.event.player.hp <= 2 && get.subtype(card) == "equip2") {
++            // 虚拟杀只值一次1点伤害，低体力时防具的期望防御收益更高，不弃
++            return -3;
++          }
+           return 6 - get.value(card);
+         },
+         ai2(target) {
+@@ -7531,7 +7579,12 @@ const skills = {
+     trigger: { player: "phaseDiscardBefore" },
+     sourceSkill: "xinshensu",
+     async cost(event, trigger, player) {
+-      const check = player.needsToDiscard() || player.isTurnedOver() || player.hasSkill("shebian") && player.canMoveCard(true, true);
++      // 跳过弃牌阶段并翻面的机会成本是整个下一回合：多弃一两张牌通常更便宜。
++      // 仅在低体力保命、下回合出牌已被乐不思蜀压制、或存在可被虚拟杀收割的
++      // 濒死敌人时，才值得用翻面换取保留手牌。
++      const check = player.isTurnedOver() || player.hasSkill("shebian") && player.canMoveCard(true, true) || player.needsToDiscard() > 0 && (player.hp <= 2 || player.hasJudge("lebu") || game.hasPlayer(function(current) {
++        return current != player && get.attitude(player, current) < 0 && current.hp <= 1 && player.canUse({ name: "sha" }, current, false) && get.effect(current, { name: "sha" }, player, player) > 0;
++      }));
+       event.result = await player.chooseTarget(get.prompt(event.skill), "跳过弃牌阶段并将武将牌翻面，视为对一名其他角色使用一张【杀】", function(card, player2, target) {
+         if (player2 == target) {
+           return false;
