@@ -1,0 +1,36 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+index 4eb5180..be04bbc 100644
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -3786,9 +3811,15 @@ const skills = {
+   xinliegong: {
+     mod: {
+       aiOrder(player, card, num) {
+-        if (num > 0 && (card.name === "sha" || get.tag(card, "draw"))) {
++        if (num > 0 && card.name === "sha") {
+           return num + 6;
+         }
++        if (num > 0 && get.tag(card, "draw") && player.countCards("h", "sha") > 0 && game.hasPlayer(function(current) {
++          // 摸牌能把“手牌数不多于黄忠”的烈弓不可响应条件解锁时，先摸再杀
++          return get.attitude(player, current) < 0 && current.countCards("h") > player.countCards("h") && current.countCards("h") <= player.countCards("h") + 2 && player.inRange(current);
++        })) {
++          return num + 7;
++        }
+       },
+       targetInRange(card, player, target) {
+         if (card.name == "sha" && typeof get.number(card) == "number") {
+@@ -3857,6 +3888,14 @@ const skills = {
+     ai: {
+       threaten: 0.5,
+       directHit_ai: true,
++      effect: {
++        player(card, player, target) {
++          // 烈弓加伤：对体力不低于黄忠的敌人出杀时，第二点伤害按一半价值折算
++          if (card && card.name == "sha" && target && get.attitude(player, target) < 0 && target.hp >= player.hp && target.hp > 1) {
++            return [1, 0, 1.5, 0];
++          }
++        }
++      },
+       skillTagFilter(player, tag, arg) {
+         if (arg?.target && arg?.card && get.attitude(player, arg.target) <= 0 && arg.card.name == "sha" && player.countCards("h", function(card) {
+           return card != arg.card && (!arg.card.cards || !arg.card.cards.includes(card));

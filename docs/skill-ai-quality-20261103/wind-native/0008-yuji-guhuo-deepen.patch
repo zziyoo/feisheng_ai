@@ -1,0 +1,32 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+index 4eb5180..be04bbc 100644
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -8801,7 +8943,6 @@ const skills = {
+           selectCard: 1,
+           position: "hs",
+           ignoreMod: true,
+-          aiUse: Math.random(),
+           viewAs: {
+             name: links[0][2],
+             nature: links[0][3],
+@@ -8816,10 +8957,15 @@ const skills = {
+             const cardx = lib.skill.xinfu_guhuo_backup.viewAs;
+             if (enemyNum) {
+               if (card.name == cardx.name && (card.name != "sha" || get.is.sameNature(card, cardx))) {
+-                return 2 + Math.random() * 3;
+-              } else if (lib.skill.xinfu_guhuo_backup.aiUse < 0.5 && !player2.isDying()) {
+-                return 0;
++                // 真牌优先：真牌即使被质疑也照常生效，避免真牌被作废或高价值牌被白白扣置
++                return 5 + Math.random();
++              }
++              // 诈称材料改为确定性门槛：只支付与原生声明门槛一致的低价值牌，
++              // 不再用随机数决定是否消耗材料
++              if (!player2.isDying() && get.value(card, player2) < 6) {
++                return 4 - get.value(card, player2) / 2;
+               }
++              return 0;
+             }
+             return 6 - get.value(card);
+           },
+

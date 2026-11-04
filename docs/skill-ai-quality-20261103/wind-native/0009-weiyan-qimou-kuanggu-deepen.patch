@@ -1,0 +1,52 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+index 6d155c1..4732b0b 100644
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -3674,6 +3674,18 @@ const skills = {
+       } else {
+         num = 1;
+       }
++      // 支付最小化：第x档攻击距离上限为x+1、杀次数上限为原有次数+x。
++      // 若更低的支付档已能对当前不可达的敌人形成有效打击，就不多付体力。
++      const shaCard = shas[0] || { name: "sha" };
++      for (let x = 1; x < num; x++) {
++        const enough = game.hasPlayer(function(current) {
++          return current != player && get.attitude(player, current) < 0 && !player.canUse(shaCard, current) && player.canUse(shaCard, current, false) && get.distance(player, current, "attack") <= x + 1 && current.hp <= Math.min(shas.length, player.getCardUsable("sha") + x) && get.effect(current, shaCard, player, player) > 0;
++        });
++        if (enough) {
++          num = x;
++          break;
++        }
++      }
+       const map = {};
+       const list = [];
+       for (let i2 = 1; i2 <= player.hp; i2++) {
+@@ -3760,10 +3772,24 @@ const skills = {
+     preHidden: true,
+     async cost(event, trigger, player) {
+       let choice;
+-      if (player.isDamaged() && get.recoverEffect(player) > 0 && (player.hp <= 1 || player.countCards("hs", function(card) {
+-        return card.name == "sha" && player.hasValueTarget(card);
+-      }) >= player.getCardUsable("sha"))) {
+-        choice = "recover_hp";
++      if (player.isDamaged() && get.recoverEffect(player) > 0) {
++        const shaReady = player.countCards("hs", function(card) {
++          return card.name == "sha" && player.hasValueTarget(card);
++        });
++        const shaUsable = player.getCardUsable("sha");
++        if (player.hp <= 1) {
++          // 濒死风险优先（与宿主chooseDrawRecover对hp==1的处理一致）
++          choice = "recover_hp";
++        } else if (shaUsable > 0 && shaReady >= shaUsable) {
++          // 还有杀可以继续进攻：保持体力以支撑后续狂骨收益（原生机智保留）
++          choice = "recover_hp";
++        } else if (player.hp <= 2 && player.countCards("hs", "tao") == 0) {
++          // 2血且无桃储备：回复优先于摸牌
++          choice = "recover_hp";
++        } else {
++          // 其余情况摸牌：进攻资源或留作后续回复
++          choice = "draw_card";
++        }
+       } else {
+         choice = "draw_card";
+       }

@@ -1,0 +1,75 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+index 4eb5180..be04bbc 100644
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -7331,7 +7370,12 @@ const skills = {
+         if (target.hasSkill("hongyan")) {
+           return 0;
+         }
+-        return get.damageEffect(target, _status.event.player, _status.event.player, "thunder");
++        const player2 = _status.event.player;
++        // 判定结果按牌堆花色自然分布加权：黑桃约1/4造成2点雷电伤害，
++        // 梅花约1/4造成1点并使张角回复；其余花色无效果。不读取具体判定牌。
++        const eff = get.damageEffect(target, player2, player2, "thunder");
++        const recoverEff = player2.isDamaged() ? get.recoverEffect(player2, player2, player2) : 0;
++        return eff * 0.75 + recoverEff * 0.25;
+       };
+       event.result = await next.forResult();
+     },
+@@ -8501,9 +8629,18 @@ const skills = {
+       }).set("ai", (card) => {
+         const trigger2 = get.event().getTrigger();
+         const { player: player2, judging } = get.event();
+-        const result = trigger2.judge(card) - trigger2.judge(judging);
++        // 红颜等花色修正以“判定者”的视角生效：候选牌一旦成为判定牌，
++        // 花色按判定者的mod结算；用同一视角评估，避免对红颜角色误判黑桃牌。
++        let cardForJudge = card;
++        if (get.suit(card, trigger2.player) != card.suit) {
++          cardForJudge = { suit: get.suit(card, trigger2.player), number: get.number(card), name: card.name };
++        }
++        const result = trigger2.judge(cardForJudge) - trigger2.judge(judging);
+         const attitude = get.attitude(player2, trigger2.player);
+-        let val = get.value(card);
++        let val = get.value(card, player2);
++        if (card.name == "shan" && player2.hp <= 2 && player2.countCards("h", "shan") <= 1) {
++          val *= 2;
++        }
+         if (get.subtype(card) == "equip2") {
+           val /= 2;
+         } else {
+@@ -8512,10 +8649,13 @@ const skills = {
+         if (attitude == 0 || result == 0) {
+           return 0;
+         }
++        // 改判后原判定牌进入手牌：其价值按同样的折算口径计入收益，
++        // 使“用低价值黑牌换取高价值判定牌”的交换得到正确计价。
++        const gained = get.value(judging, player2) / 6;
+         if (attitude > 0) {
+-          return result - val;
++          return result - val + gained;
+         }
+-        return -result - val;
++        return -result - val + gained;
+       }).set("judging", trigger.player.judging[0]).forResult();
+     },
+     popup: false,
+@@ -8668,7 +8808,7 @@ const skills = {
+       order: 10,
+       result: {
+         target(player, target, card) {
+-          if (player.hp > 1 || player.countCards("h", "shan") > 1) {
++          if (player.hp > 2 || player.countCards("h", "shan") > 1) {
+             return 5;
+           }
+           const selected = (typeof ui !== "undefined" && ui.selected && ui.selected.cards) || [];
+@@ -8676,7 +8816,9 @@ const skills = {
+             return 5;
+           }
+           if (selected.some(item => item && item.name == "shan")) {
+-            return 0;
++            // 低体力交牌者交出最后一张闪等于放弃自身防御；
++            // 仅当主公濒死（1血）急需时保留正分。
++            return target.hp <= 1 ? 2 : 0;
+           }
+           if (selected.some(item => item && item.name == "shandian")) {
+             return 5;

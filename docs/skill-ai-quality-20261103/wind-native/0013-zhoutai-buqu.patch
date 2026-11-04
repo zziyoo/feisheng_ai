@@ -1,0 +1,42 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+index 4eb5180..be04bbc 100644
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -8207,8 +8308,35 @@ const skills = {
+       effect: {
+         target(card, player, target) {
+           if (get.tag(card, "damage") || get.tag(card, "loseHp")) {
+-            let num = target.getExpansions("gzbuqu").length || target.getHp();
+-            return (num + 1) / 5;
++            const creations = target.getExpansions("gzbuqu");
++            if (!creations.length) {
++              // 尚未有不屈“创”：压血线是真实收益；压到0后的第一张“创”必定不重复
++              return target.hp > 1 ? 1 : 0.2;
++            }
++            // 已有“创”：本次伤害的价值≈下一张“创”与现存点数重复的概率。
++            // 按公开区（弃牌堆、装备/判定区、“创”自身）估计该点数的剩余张数，
++            // 不读取手牌与牌堆内部；标准108张牌堆中每个点数约8张。
++            const outCount = {};
++            const countOut = function(cards) {
++              for (const card2 of cards) {
++                const num = get.number(card2);
++                if (typeof num == "number") {
++                  outCount[num] = (outCount[num] || 0) + 1;
++                }
++              }
++            };
++            countOut(Array.from(ui.discardPile.childNodes));
++            game.players.concat(game.dead).forEach(function(current) {
++              countOut(current.getCards("ej"));
++            });
++            countOut(creations);
++            let dupChance = 0;
++            for (const card2 of creations) {
++              const num = get.number(card2);
++              dupChance += Math.max(0, 8 - (outCount[num] || 0)) / 108;
++            }
++            // 压制价值：每张新“创”都会抬高未来的重复概率，且目标持续处于0体力
++            return Math.min(1, dupChance + 0.1);
+           }
+         }
+       }
