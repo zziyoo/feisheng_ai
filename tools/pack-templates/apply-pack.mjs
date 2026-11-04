@@ -101,7 +101,7 @@ function buildPlan() {
 		fail(`${kind} 文件已存在且与包内版本不同：${targetRel}\n  目标SHA256=${actual}\n  包内SHA256=${actualSourceHash}\n  为避免覆盖其他开发者修改，未写入；请使用包内 diff 合并或先回滚冲突文件。`);
 	};
 
-	for (const name of ['policyCore.js', 'skillAIPolicies.js']) {
+	for (const name of ['policyCore.js', 'skillAIPolicies.js', 'skillVetoRegistry.js']) {
 		planCopy('source/score/decision/skills/' + name, 'score/decision/skills/' + name, pack.shared_files[name], '共享核心');
 	}
 	for (const file of [`packs/${pack.module}.js`, `rules/${pack.rules}.js`]) {

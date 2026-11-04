@@ -1,5 +1,5 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 4708091..8e94334 100644
+index 179a1b6..29882dc 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
 @@ -3305,7 +3305,14 @@ const skills = {

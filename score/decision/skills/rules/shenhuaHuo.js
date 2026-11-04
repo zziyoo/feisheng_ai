@@ -1,19 +1,23 @@
 /* 神话再临·火：只做AI选择的质量校正，不改技能规则、目标合法性或结算。 */
 
 /* 乱击：原生把每个目标的效果压成 sgn，再按人数阈值判断。
- * 1血、空手、无防具的队友一旦被万箭命中会直接进入濒死；这种情况下拒绝发动。
- * 例外（复用宿主真实响应/减伤判断，不凭空认定必然受伤）：
- * - 有护甲（hujia）时 1 点伤害先被护甲吸收，不会掉体力；
- * - 有 freeShan 技能标签（如八阵的虚拟八卦）时空手也能自动响应闪。 */
+ * 1血、空手、且没有任何“确定免伤”手段的队友一旦被万箭命中会直接进入濒死；
+ * 这种情况下拒绝发动。
+ * 确定免伤（不触发濒死否决）只有两类：
+ * - hujia>0：1 点伤害先被护甲吸收，不掉体力；
+ * - 防具为藤甲：万箭齐发对藤甲无效（规则性完全抵消）。
+ * 概率性防御一律不视为安全：八阵/八卦阵（虚拟或实体）需要判定、仁王盾/白银
+ * 狮子对万箭无保护、freeShan 类响应标签无法确证空手可响应——这些局面保留
+ * 濒死否决，不为一次乱击赌判定。 */
 export function luanjiAllyLethal(input) {
-	const { ally, hp, hand, armor, hujia, freeShan } = input || {};
+	const { ally, hp, hand, armorName, hujia } = input || {};
 	if (!ally) return false;
 	const life = Number(hp);
 	const cards = Number(hand);
 	if (!Number.isFinite(life) || !Number.isFinite(cards)) return false;
-	if (life > 1 || cards !== 0 || armor) return false;
+	if (life > 1 || cards !== 0) return false;
 	if (Number(hujia) > 0) return false;
-	if (freeShan) return false;
+	if (armorName === 'tengjia') return false;
 	return true;
 }
 
@@ -39,10 +43,25 @@ export function tianyiLowCompare(input) {
 	return maxNumber < 10;
 }
 
-/* 天义局部例外：对手手牌完全已知（含唯一拼点牌已公开）且其最大点数
- * 小于己方最大点数时，胜率可以可靠估算为必胜，此时低点数也应发动。
- * candidates 只允许携带公开可知信息：knownCount 必须覆盖全部手牌数，
- * 不得以部分已知或隐藏牌面估胜率。 */
+/* 天义已知必胜候选的公开信息判定（逐目标）：只有该对手的手牌被完全已知
+ * （knownCount 覆盖全部手牌数，含唯一拼点牌已公开）且其已知最大点数低于
+ * 己方最大点数时，胜率才能可靠估算为必胜；不读取隐藏牌面。 */
+export function tianyiKnownWinTarget(input) {
+	const { maxNumber, handCount, knownCount, knownMax } = input || {};
+	const mx = Number(maxNumber);
+	if (!Number.isFinite(mx) || mx >= 10) return false;
+	const hand = Number(handCount);
+	const known = Number(knownCount);
+	const oppMax = Number(knownMax);
+	if (!Number.isFinite(hand) || hand <= 0) return false;
+	if (!Number.isFinite(known) || known < hand) return false;
+	if (!Number.isFinite(oppMax)) return false;
+	return oppMax < mx;
+}
+
+/* 天义局部例外（全局形态）：存在任一已知必胜拼点对象时，低点数阈值不适用。
+ * 仅用于 ai.order 主门（技能是否可点击）；具体选谁由 tianyiKnownWinTarget
+ * 在 result.target 逐目标绑定——未知胜率的目标不能借用其他目标的必胜资格。 */
 export function tianyiKnownWinAvailable(input) {
 	const { maxNumber, candidates } = input || {};
 	const mx = Number(maxNumber);
@@ -50,13 +69,7 @@ export function tianyiKnownWinAvailable(input) {
 	return candidates.some(function (candidate) {
 		if (!candidate) return false;
 		if (!candidate.hostile || !candidate.comparable) return false;
-		const handCount = Number(candidate.handCount);
-		const knownCount = Number(candidate.knownCount);
-		const knownMax = Number(candidate.knownMax);
-		if (!Number.isFinite(handCount) || handCount <= 0) return false;
-		if (!Number.isFinite(knownCount) || knownCount < handCount) return false;
-		if (!Number.isFinite(knownMax)) return false;
-		return knownMax < mx;
+		return tianyiKnownWinTarget({ maxNumber: mx, handCount: candidate.handCount, knownCount: candidate.knownCount, knownMax: candidate.knownMax });
 	});
 }
 
@@ -83,6 +96,7 @@ export const SHENHUA_HUO_POLICY_RULES = Object.freeze({
 	luanjiAllyLethal,
 	luanjiNetTooLow,
 	tianyiLowCompare,
+	tianyiKnownWinTarget,
 	tianyiKnownWinAvailable,
 	jianchuWorthwhile,
 });

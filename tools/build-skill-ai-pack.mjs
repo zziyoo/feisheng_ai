@@ -178,6 +178,20 @@ node integration/apply-pack.mjs --extension-root <无名AI根目录> --dry-run
 node integration/apply-pack.mjs --extension-root <无名AI根目录>
 \`\`\`
 
+apply-pack 会一并写入共享模块 \`score/decision/skills/skillVetoRegistry.js\`（分包运行时依赖，缺失则分包无法加载）。
+
+### 完整引擎接线（可选，仅完整扩展需要）
+
+分包运行时依赖 \`skillVetoRegistry.js\` 已随 apply-pack 写入；若目标还运行**完整决策引擎**（score/decision/engine），需再执行可选接线脚本，让引擎候选层/staging 层尊重分包动态否决：
+
+\`\`\`bash
+node integration/apply-engine-wiring.mjs --extension-root <无名AI根目录> --dry-run
+node integration/apply-engine-wiring.mjs --extension-root <无名AI根目录>          # 幂等；备份到 .djsc-pack-backups/engine-wiring/
+node integration/apply-engine-wiring.mjs --extension-root <无名AI根目录> --rollback
+\`\`\`
+
+接线只新增三处 import 与查询调用（skillPlayBrain.vetoSkill 规则⑤、activeSkillEligibility 枚举过滤、override/use.js staging 守卫），不改任何既有判断；逐文件备份、应用后 node --check 校验、失败自动恢复。仅使用策略层（policyOnly）时无需本步。
+
 脚本只新增本分包文件，并在共享注册表的 \`@djsc-pack-*\` marker 内追加一行；
 共享核心与目标版本不一致时拒绝覆盖并退出，避免覆盖其他开发者修改。
 若目标没有注册表，会写入只含本分包的注册表。多个分包同时启用时，后续分包只追加自己的注册行。
@@ -239,7 +253,7 @@ function buildPack(config) {
 		fs.mkdirSync(path.join(stage, dir), { recursive: true });
 	}
 
-	for (const name of ['policyCore.js', 'skillAIPolicies.js', 'skillAIPolicyPacks.js']) copyRepo(stage, `score/decision/skills/${name}`, `source/score/decision/skills/${name}`);
+	for (const name of ['policyCore.js', 'skillAIPolicies.js', 'skillAIPolicyPacks.js', 'skillVetoRegistry.js']) copyRepo(stage, `score/decision/skills/${name}`, `source/score/decision/skills/${name}`);
 	copyRepo(stage, `score/decision/skills/packs/${config.module}.js`, `source/score/decision/skills/packs/${config.module}.js`);
 	copyRepo(stage, `score/decision/skills/rules/${config.rules}.js`, `source/score/decision/skills/rules/${config.rules}.js`);
 	copyRepo(stage, 'score/model/features/features.js', 'contract/score/model/features/features.js');
@@ -256,6 +270,7 @@ function buildPack(config) {
 		for (const name of ['reqimou-manual-ui.mjs', 'verify-repair-outcomes.mjs']) copyDisk(stage, path.join(REPO, 'tools', name), `tests/${name}`);
 	}
 	copyDisk(stage, path.join(REPO, 'tools', 'pack-templates', 'apply-pack.mjs'), 'integration/apply-pack.mjs');
+	copyDisk(stage, path.join(REPO, 'tools', 'pack-templates', 'apply-engine-wiring.mjs'), 'integration/apply-engine-wiring.mjs');
 	copyDisk(stage, path.join(REPO, 'tools', 'pack-templates', 'rollback-pack.mjs'), 'integration/rollback-pack.mjs');
 	copyDisk(stage, path.join(REPO, 'tools', 'build-skill-ai-pack.mjs'), 'build-skill-ai-pack.mjs');
 	copyDisk(stage, path.join(REPO, 'tools', 'skill-ai-pack-config.mjs'), 'skill-ai-pack-config.mjs');
@@ -311,6 +326,7 @@ function buildPack(config) {
 		shared_files: {
 			'policyCore.js': sha(sourceOf('score/decision/skills/policyCore.js')),
 			'skillAIPolicies.js': sha(sourceOf('score/decision/skills/skillAIPolicies.js')),
+			'skillVetoRegistry.js': sha(sourceOf('score/decision/skills/skillVetoRegistry.js')),
 		},
 		registry_template_sha256: sha(Buffer.from(packOnlyRegistry)),
 		pack_files: {

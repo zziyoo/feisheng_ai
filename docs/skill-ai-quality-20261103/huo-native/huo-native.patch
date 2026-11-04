@@ -1,5 +1,5 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 5c6b68c..8e94334 100644
+index 5c6b68c..29882dc 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
 @@ -3305,7 +3305,14 @@ const skills = {
@@ -50,7 +50,7 @@ index 5c6b68c..8e94334 100644
          if (player.countCards("h", "sha") == 0) {
            return 1;
          }
-@@ -6947,6 +6979,30 @@ const skills = {
+@@ -6947,6 +6979,14 @@ const skills = {
        result: {
          player(player) {
            if (player.countCards("h", "sha") > 0) {
@@ -59,29 +59,13 @@ index 5c6b68c..8e94334 100644
 +            for (let i2 = 0; i2 < hs.length; i2++) {
 +              mx = Math.max(mx, get.number(hs[i2]));
 +            }
-+            if (mx < 10 && !game.hasPlayer(function(current) {
-+              if (current == player || get.attitude(player, current) >= 0) {
-+                return false;
-+              }
-+              if (current.countCards("h") == 0 || !player.canCompare(current)) {
-+                return false;
-+              }
-+              const known = current.getKnownCards(player);
-+              if (known.length < current.countCards("h")) {
-+                return false;
-+              }
-+              let oppMax = 0;
-+              for (let j = 0; j < known.length; j++) {
-+                oppMax = Math.max(oppMax, get.number(known[j], current));
-+              }
-+              return oppMax < mx;
-+            })) {
++            if (mx < 10) {
 +              return 0;
 +            }
              return 0.6;
            }
            const num = player.countCards("h");
-@@ -6962,6 +7018,30 @@ const skills = {
+@@ -6962,6 +7002,26 @@ const skills = {
            return -0.7;
          },
          target(player, target) {
@@ -90,29 +74,25 @@ index 5c6b68c..8e94334 100644
 +          for (let i2 = 0; i2 < hs.length; i2++) {
 +            mx = Math.max(mx, get.number(hs[i2]));
 +          }
-+          if (mx < 10 && !game.hasPlayer(function(current) {
-+            if (current == player || get.attitude(player, current) >= 0) {
-+              return false;
++          if (mx < 10) {
++            if (target != player && get.attitude(player, target) < 0 && target.countCards("h") > 0 && player.canCompare(target)) {
++              const known = target.getKnownCards(player);
++              if (known.length >= target.countCards("h")) {
++                let oppMax = 0;
++                for (let j = 0; j < known.length; j++) {
++                  oppMax = Math.max(oppMax, get.number(known[j], target));
++                }
++                if (oppMax < mx) {
++                  return -1;
++                }
++              }
 +            }
-+            if (current.countCards("h") == 0 || !player.canCompare(current)) {
-+              return false;
-+            }
-+            const known = current.getKnownCards(player);
-+            if (known.length < current.countCards("h")) {
-+              return false;
-+            }
-+            let oppMax = 0;
-+            for (let j = 0; j < known.length; j++) {
-+              oppMax = Math.max(oppMax, get.number(known[j], current));
-+            }
-+            return oppMax < mx;
-+          })) {
 +            return 0;
 +          }
            const num = target.countCards("h");
            if (num == 1) {
              return -1;
-@@ -7181,6 +7261,20 @@ const skills = {
+@@ -7181,6 +7241,21 @@ const skills = {
        const targets = game.filterPlayer(function(current) {
          return player.canUse("wanjian", current);
        });
@@ -120,10 +100,11 @@ index 5c6b68c..8e94334 100644
 +        if (get.attitude(player, target) <= 0 || target.hp > 1 || target.countCards("h") !== 0) {
 +          return false;
 +        }
-+        if (target.getEquip(2)) {
++        if (target.hujia > 0) {
 +          return false;
 +        }
-+        if (target.hujia > 0 || target.hasSkillTag("freeShan")) {
++        const armor = target.getEquip(2);
++        if (armor && armor.name == "tengjia") {
 +          return false;
 +        }
 +        return true;
@@ -133,7 +114,7 @@ index 5c6b68c..8e94334 100644
        let num = 0;
        for (let i2 = 0; i2 < targets.length; i2++) {
          let eff = get.sgn(get.effect(targets[i2], { name: "wanjian" }, player, player));
-@@ -7198,6 +7292,8 @@ const skills = {
+@@ -7198,6 +7273,8 @@ const skills = {
            if (num < 1.5) {
              return 0;
            }

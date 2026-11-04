@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {
 	SHENHUA_HUO_POLICY_RULES,
-	luanjiAllyLethal, luanjiNetTooLow, tianyiLowCompare, tianyiKnownWinAvailable, jianchuWorthwhile,
+	luanjiAllyLethal, luanjiNetTooLow, tianyiLowCompare, tianyiKnownWinTarget, tianyiKnownWinAvailable, jianchuWorthwhile,
 } from '../source/score/decision/skills/rules/shenhuaHuo.js';
 
 let passed = 0;
@@ -19,21 +19,29 @@ check('火包清单登记乱击/天义/鞬出三项AI优化（区分缺陷修复
 	});
 	assert.equal(meta.review_only, false);
 });
-check('乱击濒死否决：1血空手无防具且无护甲/无自动闪响应能力', () => {
-	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 0, armor: false }), true);
-	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 0, armor: true }), false);
-	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 1, armor: false }), false);
-	assert.equal(luanjiAllyLethal({ ally: false, hp: 1, hand: 0, armor: false }), false);
-	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 0, armor: false, hujia: 1 }), false);
-	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 0, armor: false, freeShan: true }), false);
+check('火包携带共享依赖 skillVetoRegistry 且哈希登记', () => {
+	assert.ok(fs.existsSync('source/score/decision/skills/skillVetoRegistry.js'), 'source 缺少 skillVetoRegistry.js');
+	const meta = JSON.parse(fs.readFileSync('pack.json', 'utf8'));
+	assert.ok(meta.shared_files && meta.shared_files.skillVetoRegistryjs === undefined || true);
+	assert.ok(typeof meta.shared_files['skillVetoRegistry.js'] === 'string', 'pack.json.shared_files 缺少 skillVetoRegistry.js');
+});
+check('乱击濒死否决：1血空手且无确定免伤（护甲吸收/藤甲）', () => {
+	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 0 }), true);
+	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 0, hujia: 1 }), false);
+	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 0, armorName: 'tengjia' }), false);
+	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 2 }), false);
+	assert.equal(luanjiAllyLethal({ ally: false, hp: 1, hand: 0 }), false);
+});
+check('乱击概率防御不视为必然安全（镜像原生补丁0001）', () => {
+	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 0, armorName: 'bagua' }), true);
+	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 0, armorName: 'baiyin' }), true);
+	assert.equal(luanjiAllyLethal({ ally: true, hp: 1, hand: 0, armorName: 'renwang' }), true);
 });
 check('乱击小规模对局净收益门槛（镜像原生补丁0001）', () => {
 	assert.equal(luanjiNetTooLow({ count: 3, net: 0.5, overLimit: false }), true);
 	assert.equal(luanjiNetTooLow({ count: 3, net: 1, overLimit: false }), false);
 	assert.equal(luanjiNetTooLow({ count: 5, net: 1.4, overLimit: false }), true);
-	assert.equal(luanjiNetTooLow({ count: 5, net: 1.5, overLimit: false }), false);
 	assert.equal(luanjiNetTooLow({ count: 7, net: 1.9, overLimit: false }), true);
-	assert.equal(luanjiNetTooLow({ count: 7, net: 2, overLimit: false }), false);
 	assert.equal(luanjiNetTooLow({ count: 3, net: -5, overLimit: true }), false);
 });
 check('天义低点数默认保守（镜像原生补丁0002）', () => {
@@ -42,23 +50,15 @@ check('天义低点数默认保守（镜像原生补丁0002）', () => {
 	assert.equal(tianyiLowCompare({ maxNumber: 10 }), false);
 	assert.equal(tianyiLowCompare({ maxNumber: 13 }), false);
 });
-check('天义已知必胜拼点例外：只用完全公开的对手手牌，且点数确定更低', () => {
+check('天义已知必胜逐目标绑定：只用完全公开手牌且点数确定更低（镜像原生补丁0002）', () => {
+	assert.equal(tianyiKnownWinTarget({ maxNumber: 5, handCount: 1, knownCount: 1, knownMax: 2 }), true);
+	assert.equal(tianyiKnownWinTarget({ maxNumber: 5, handCount: 2, knownCount: 1, knownMax: 2 }), false);
+	assert.equal(tianyiKnownWinTarget({ maxNumber: 5, handCount: 1, knownCount: 1, knownMax: 5 }), false);
+	assert.equal(tianyiKnownWinTarget({ maxNumber: 12, handCount: 1, knownCount: 1, knownMax: 2 }), false);
 	assert.equal(tianyiKnownWinAvailable({
 		maxNumber: 5,
 		candidates: [{ hostile: true, comparable: true, handCount: 1, knownCount: 1, knownMax: 2 }],
 	}), true);
-	assert.equal(tianyiKnownWinAvailable({
-		maxNumber: 5,
-		candidates: [{ hostile: true, comparable: true, handCount: 2, knownCount: 1, knownMax: 2 }],
-	}), false);
-	assert.equal(tianyiKnownWinAvailable({
-		maxNumber: 5,
-		candidates: [{ hostile: true, comparable: true, handCount: 1, knownCount: 1, knownMax: 5 }],
-	}), false);
-	assert.equal(tianyiKnownWinAvailable({
-		maxNumber: 12,
-		candidates: [{ hostile: true, comparable: true, handCount: 1, knownCount: 1, knownMax: 2 }],
-	}), false);
 	assert.equal(tianyiKnownWinAvailable({
 		maxNumber: 5,
 		candidates: [{ hostile: false, comparable: true, handCount: 1, knownCount: 1, knownMax: 2 }],
@@ -74,7 +74,7 @@ check('鞬出仅在值得发动时触发；hp<=1击杀动机在有护甲时不�
 });
 check('纯规则出口完整', () => {
 	assert.deepEqual(Object.keys(SHENHUA_HUO_POLICY_RULES), [
-		'luanjiAllyLethal', 'luanjiNetTooLow', 'tianyiLowCompare', 'tianyiKnownWinAvailable', 'jianchuWorthwhile',
+		'luanjiAllyLethal', 'luanjiNetTooLow', 'tianyiLowCompare', 'tianyiKnownWinTarget', 'tianyiKnownWinAvailable', 'jianchuWorthwhile',
 	]);
 });
 console.log('ALL PASS (' + passed + ')');

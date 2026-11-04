@@ -1,7 +1,7 @@
 import { lib, game, get, _status } from '../policyCore.js?v=41a';
 import { registerSkillVeto } from '../skillVetoRegistry.js?v=41a';
 import {
-	luanjiAllyLethal, luanjiNetTooLow, tianyiLowCompare, tianyiKnownWinAvailable, jianchuWorthwhile,
+	luanjiAllyLethal, luanjiNetTooLow, tianyiLowCompare, tianyiKnownWinTarget, tianyiKnownWinAvailable, jianchuWorthwhile,
 } from '../rules/shenhuaHuo.js?v=41a';
 
 export const pack = {
@@ -66,9 +66,8 @@ function installLuanji(host, stats) {
 					ally: get.attitude(player, target) > 0,
 					hp: target.hp,
 					hand: target.countCards('h'),
-					armor: !!(target.getEquip && target.getEquip(2)),
+					armorName: (target.getEquip && target.getEquip(2) || {}).name || null,
 					hujia: target.hujia || 0,
-					freeShan: !!(target.hasSkillTag && target.hasSkillTag('freeShan')),
 				})) {
 					stats.luanjiAllyVeto++;
 					return 0;
@@ -128,15 +127,33 @@ function installTianyi(host, stats) {
 		const native = original.apply(this, arguments);
 		try {
 			if (!(Number(native) > 0)) return native;
-			if (tianyiGateActive(player, stats)) return 0;
+			if (tianyiLowCompare({ maxNumber: maxHandNumber(player) })) return 0;
 		} catch (e) {}
 		return native;
 	});
+	/* 逐目标绑定：mx<10 时只有"手牌完全已知且已知最大点数更低"的敌人保留
+	 * 选择收益（对敌人视角 -1 → effect=+1 胜出）；未知胜率目标归零，
+	 * 不能借用其他目标的必胜资格；多敌人时只有必胜对象会被选中。 */
 	host.wrap(result, 'target', 'tianyi:result:target', original => function (player, target) {
 		const native = original.apply(this, arguments);
 		try {
-			if (!(Number(native) < 0)) return native;
-			if (tianyiGateActive(player, stats)) return 0;
+			if (tianyiLowCompare({ maxNumber: maxHandNumber(player) })) {
+				const hostile = get.attitude(player, target) < 0;
+				const handCount = target.countCards('h');
+				let comparable = false;
+				try { comparable = player.canCompare(target); } catch (e) { comparable = false; }
+				const known = (target.getKnownCards ? target.getKnownCards(player) : []) || [];
+				let knownMax = 0;
+				for (const card of known) knownMax = Math.max(knownMax, get.number(card, target));
+				if (hostile && comparable && tianyiKnownWinTarget({
+					maxNumber: maxHandNumber(player), handCount, knownCount: known.length, knownMax,
+				})) {
+					stats.tianyiKnownWinPass++;
+					return -1;
+				}
+				stats.tianyiDecline++;
+				return 0;
+			}
 		} catch (e) {}
 		return native;
 	});

@@ -1,13 +1,13 @@
 {
   "baseline_sha256": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
-  "patched_sha256": "badf86fab901a863c9c611b2cf1534d9ae1a50da2d6f0175348c903ec7c110b6",
+  "patched_sha256": "de9107e5b76297e7868efae4114ca0b12d7a91b96ad9a62e5d50aacff4849a67",
   "patched_node_check": "passed",
   "apply_check": "cumulative + 0001/0002/0003 each independently pass git apply --check on baseline copy",
   "files": {
-    "huo-0001-luanji.patch": "795b005f47465ba5d8630037714bcfdbbb3f45d4b6735596f90735665b83931d",
-    "huo-0002-tianyi.patch": "bdc75743c9b4aa2a288d1b077704607ea6d66a3b6183177f8d72c23a890c2547",
-    "huo-0003-jianchu.patch": "e7b7d1183889cdbf11874d223fa5846c4b1db250c7bacfb499f472c9f0477fba",
-    "huo-native.patch": "f6e0c7cce836a6996951da6b671d45975325956e3ca4bcf84fba388fcd9759fd"
+    "huo-0001-luanji.patch": "d0dc82cd08953ec985be4c8c041c5493eca2c2cc2139c6be995046991b75d16a",
+    "huo-0002-tianyi.patch": "600403594a129d095ce1c1bbf90aa73d43b3298b30e8d54e0f6b8e6fb03a8356",
+    "huo-0003-jianchu.patch": "cd54b071ead5f04b395aa61d4ceb5f457b91e37d1a09bb3e1ca4e69abeab6a15",
+    "huo-native.patch": "6fe7035c55dd3c19fece6e111f07479314b0af20aa60c0c6b01ec560e41740ca"
   },
-  "note": "2026-11-04 第四轮修订（最终）：天义入口改为主 ai.order 归零 + result 双侧归零兜底——实测宿主AI点击技能只看 get.order(ai1=get.cacheOrder)，且 get.effect 合成中 attitude(self) 符号不稳定（完整引擎缓存上下文实测可为负，负否决值会被乘号翻正），故否决不使用负值。乱击濒死否决排除护甲/freeShan；天义保留已知必胜拼点例外（对手手牌完全已知且点数确定更低）；鞬出 hp<=1 分支排除护甲。基线 commit 070c96b（shenhua.js 1.11.7 原始字节），分支 huo-final5。若在已应用风包补丁的源码上合并，请按行号语义人工合并，两批补丁技能不重叠。"
+  "note": "2026-11-05 第五轮修订：乱击濒死否决只豁免确定免伤（护甲吸收/藤甲规则性无效），八卦/八阵判定与 freeShan 概率响应不再视为必然安全；天义已知必胜例外改为逐目标绑定（result.target 只给'手牌完全已知且已知最大点数更低'的敌人 -1 选择收益，未知胜率目标归零不可借用必胜资格）。ai.order 主门与 result 双侧归零保持。基线 commit 070c96b（shenhua.js 1.11.7 原始字节），分支 huo-final6。若在已应用风包补丁的源码上合并，请按行号语义人工合并，两批补丁技能不重叠。"
 }
