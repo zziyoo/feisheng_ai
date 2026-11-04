@@ -82,19 +82,22 @@ import { dynamicSkillVeto } from './skillVetoRegistry.js?v=41a';
 import { dynamicSkillVeto } from '../skills/skillVetoRegistry.js?v=41a';`,
 			},
 			{
-				anchor: `				if (!decision?.rule) { _stat('pass'); return restore; }`,
-				insert: `
-				/* ${MARK}：注册表否决的技能不 stage，交回宿主自身流程。 */
-				if (decision.type === 'skill' && decision.id) {
-					try {
-						const dynV = dynamicSkillVeto(decision.id, null, { me: { ref: player } });
-						if (dynV && dynV.veto) {
-							_stat('skillVeto');
-							trace.skillVeto = dynV.reason || 'pack-veto';
-							return restore;
-						}
-					} catch (_) {}
-				}`,
+				insertAfterLine: {
+					core: `if (!decision?.rule) { _stat('pass'); return restore; }`,
+					block: [
+						`/* ${MARK}：注册表否决的技能不 stage，交回宿主自身流程。 */`,
+						`if (decision.type === 'skill' && decision.id) {`,
+						`    try {`,
+						`        const dynV = dynamicSkillVeto(decision.id, null, { me: { ref: player } });`,
+						`        if (dynV && dynV.veto) {`,
+						`            _stat('skillVeto');`,
+						`            trace.skillVeto = dynV.reason || 'pack-veto';`,
+						`            return restore;`,
+						`        }`,
+						`    } catch (_) {}`,
+						`}`,
+					],
+				},
 			},
 		],
 	},
@@ -154,6 +157,22 @@ for (const item of WIRING) {
 	if (original.includes(MARK) || original.includes('dynamicSkillVeto')) continue;
 	let next = original;
 	for (const step of item.patch) {
+		if (step.insertAfterLine) {
+			/* 缩进中立：按行定位核心语句，沿用宿主该行缩进插入整块。 */
+			const eol = next.includes('\r\n') ? '\r\n' : '\n';
+			const core = step.insertAfterLine.core;
+			const at = next.indexOf(core);
+			if (at < 0) {
+				console.error('WIRING FAIL: ' + item.file + ' 找不到核心语句（宿主版本可能不同）：' + JSON.stringify(core.slice(0, 60)));
+				process.exit(2);
+			}
+			const lineStart = next.lastIndexOf(eol, at) + 1;
+			const lineEnd = next.indexOf(eol, at) + eol.length;
+			const indent = (next.slice(lineStart, at).match(/[ \t]*$/) || [''])[0];
+			const block = step.insertAfterLine.block.map(line => line === '' ? '' : indent + line).join(eol);
+			next = next.slice(0, lineEnd) + block + eol + next.slice(lineEnd);
+			continue;
+		}
 		const anchor = adapt(next, step.anchor);
 		const insert = adapt(next, step.insert);
 		if (!next.includes(anchor)) {
