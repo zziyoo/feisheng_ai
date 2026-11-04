@@ -4,7 +4,7 @@
 import { pack as outOfScope } from './packs/outOfScope.js?v=41a';
 import { pack as refreshStandard } from './packs/refreshStandard.js?v=41a';
 import { pack as shenhuaLei } from './packs/shenhuaLei.js?v=41a';
-import { pack as shenhuaFeng } from './packs/shenhuaFeng.js?v=41a';
+import { pack as shenhuaFeng } from './packs/shenhuaFeng.js?v=42a';
 import { pack as refreshFeng } from './packs/refreshFeng.js?v=41a';
 import { pack as shenhuaHuo } from './packs/shenhuaHuo.js?v=41a';
 // @djsc-pack-imports-end

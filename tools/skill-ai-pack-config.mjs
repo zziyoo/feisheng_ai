@@ -33,7 +33,7 @@ export const CODE_PACKS = [
 		id: 'shenhua_feng',
 		module: 'shenhuaFeng',
 		rules: 'shenhuaFeng',
-		implementedSkills: ['qimou', 'xinkuanggu', 'jushou', 'xinshensu', 'xinfu_guhuo', 'huangtian'],
+		implementedSkills: ['qimou', 'xinkuanggu', 'jushou', 'xinshensu', 'xinfu_guhuo', 'huangtian', 'guidao', 'releiji', 'retianxiang', 'gzbuqu', 'xinliegong'],
 		auditedSkills: [
 			'releiji', 'guidao', 'huangtian', 'xinfu_guhuo', 'xinshensu',
 			'retianxiang', 'hongyan', 'xinkuanggu', 'qimou', 'jushou', 'gzbuqu', 'xinliegong',
