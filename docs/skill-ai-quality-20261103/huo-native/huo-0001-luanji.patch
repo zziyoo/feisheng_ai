@@ -1,20 +1,29 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 5c6b68c..671910b 100644
+index 5c6b68c..57dfa07 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
-@@ -7181,6 +7181,11 @@ const skills = {
+@@ -7181,6 +7181,20 @@ const skills = {
        const targets = game.filterPlayer(function(current) {
          return player.canUse("wanjian", current);
        });
 +      if (targets.some(function(target) {
-+        return get.attitude(player, target) > 0 && target.hp <= 1 && target.countCards("h") === 0 && !target.getEquip(2);
++        if (get.attitude(player, target) <= 0 || target.hp > 1 || target.countCards("h") !== 0) {
++          return false;
++        }
++        if (target.getEquip(2)) {
++          return false;
++        }
++        if (target.hujia > 0 || target.hasSkillTag("freeShan")) {
++          return false;
++        }
++        return true;
 +      })) {
 +        return 0;
 +      }
        let num = 0;
        for (let i2 = 0; i2 < targets.length; i2++) {
          let eff = get.sgn(get.effect(targets[i2], { name: "wanjian" }, player, player));
-@@ -7198,6 +7203,8 @@ const skills = {
+@@ -7198,6 +7212,8 @@ const skills = {
            if (num < 1.5) {
              return 0;
            }

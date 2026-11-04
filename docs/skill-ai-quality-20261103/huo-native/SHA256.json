@@ -1,13 +1,13 @@
 {
   "baseline_sha256": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
-  "patched_sha256": "ac11466f2c88e6433a14489adb807d8ab1b472f679434f02029a6e40da72efc8",
+  "patched_sha256": "badf86fab901a863c9c611b2cf1534d9ae1a50da2d6f0175348c903ec7c110b6",
   "patched_node_check": "passed",
   "apply_check": "cumulative + 0001/0002/0003 each independently pass git apply --check on baseline copy",
   "files": {
-    "huo-0001-luanji.patch": "444f12e5a2c842027ba0917b0d4e9080226ee419d2345bae58d801ed3c36880a",
-    "huo-0002-tianyi.patch": "208c3511a8ab04b68c0b27378ed9f03e03f36aaaffe6968547a51d48ed017164",
-    "huo-0003-jianchu.patch": "a2ffb233766caa06f3cad93003aa2d935ee9c9c27992d2bbc65660ae61be02ec",
-    "huo-native.patch": "c8e5a02b95934d12621d51e0b6427e9b4a810f97cc1b9a9c8523a7972b75e0f1"
+    "huo-0001-luanji.patch": "795b005f47465ba5d8630037714bcfdbbb3f45d4b6735596f90735665b83931d",
+    "huo-0002-tianyi.patch": "bdc75743c9b4aa2a288d1b077704607ea6d66a3b6183177f8d72c23a890c2547",
+    "huo-0003-jianchu.patch": "e7b7d1183889cdbf11874d223fa5846c4b1db250c7bacfb499f472c9f0477fba",
+    "huo-native.patch": "f6e0c7cce836a6996951da6b671d45975325956e3ca4bcf84fba388fcd9759fd"
   },
-  "note": "补丁哈希为 patch 仓库 huo-clean 分支 e5cedc2/bf9e238/f8a6a9d 三提交的产物；基线 commit 070c96b（shenhua.js 1.11.7 原始字节）。若在已应用风包补丁的源码上合并，请按行号语义人工合并，两批补丁技能不重叠。"
+  "note": "2026-11-04 第四轮修订（最终）：天义入口改为主 ai.order 归零 + result 双侧归零兜底——实测宿主AI点击技能只看 get.order(ai1=get.cacheOrder)，且 get.effect 合成中 attitude(self) 符号不稳定（完整引擎缓存上下文实测可为负，负否决值会被乘号翻正），故否决不使用负值。乱击濒死否决排除护甲/freeShan；天义保留已知必胜拼点例外（对手手牌完全已知且点数确定更低）；鞬出 hp<=1 分支排除护甲。基线 commit 070c96b（shenhua.js 1.11.7 原始字节），分支 huo-final5。若在已应用风包补丁的源码上合并，请按行号语义人工合并，两批补丁技能不重叠。"
 }

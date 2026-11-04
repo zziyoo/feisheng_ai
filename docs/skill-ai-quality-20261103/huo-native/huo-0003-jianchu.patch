@@ -1,8 +1,8 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 07d40ca..ea5c47d 100644
+index 4708091..8e94334 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
-@@ -3305,7 +3305,11 @@ const skills = {
+@@ -3305,7 +3305,14 @@ const skills = {
      },
      preHidden: true,
      check(event, player) {
@@ -11,7 +11,10 @@ index 07d40ca..ea5c47d 100644
 +      if (get.attitude(player, target) > 0) {
 +        return false;
 +      }
-+      return target.countCards("e") > 0 || target.hp <= 1 || target.countCards("h") <= 1;
++      if (target.countCards("e") > 0 || target.countCards("h") <= 1) {
++        return true;
++      }
++      return target.hp <= 1 && !(target.hujia > 0);
      },
      logTarget: "target",
      async content(event, trigger, player) {

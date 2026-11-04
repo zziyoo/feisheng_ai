@@ -1,5 +1,5 @@
 {
-  "completedAt": "2026-11-03T17:04:00.995Z",
+  "completedAt": "2026-11-03T18:51:07.098Z",
   "status": "passed",
   "scope": "真实身份局宿主、固定公开局面、技能AI选择与结算观察；原生AI基线",
   "seed": "20261030",
@@ -10,6 +10,290 @@
   "extensionInstalled": false,
   "policyStats": null,
   "scenes": [
+    {
+      "name": "quality-luanji-ally-lethal",
+      "setup": {
+        "hand": [
+          "wugu",
+          "wugu"
+        ],
+        "allyHp": 1,
+        "enemyHp": [
+          2,
+          2
+        ]
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 1,
+          "74695553592": 2,
+          "60505463593": 2,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wugu",
+            "wugu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "luanji"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "result": {
+        "check": 6,
+        "allyHp": 1,
+        "hand": [
+          "wugu",
+          "wugu"
+        ],
+        "uses": []
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 1,
+          "74695553592": 2,
+          "60505463593": 2,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wugu",
+            "wugu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "luanji"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 4570.7
+    },
+    {
+      "name": "quality-luanji-enemy-lethal",
+      "setup": {
+        "hand": [
+          "shan",
+          "shan",
+          "shan"
+        ],
+        "allyHp": 4,
+        "enemyHp": [
+          1,
+          2
+        ]
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 1,
+          "60505463593": 2,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "shan",
+            "shan",
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "luanji"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "result": {
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "wanjian",
+              [
+                "shan",
+                "shan"
+              ],
+              [
+                "jiachong",
+                "dc_zhouxuān",
+                "hm_shen_zhangbao",
+                "hl_shen_lvbu",
+                "yangfeng",
+                "zhouqun",
+                "dc_xiahouxuan"
+              ],
+              "luanji"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "shan",
+                "shan"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              3
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "shan",
+                "wuxie",
+                "sha"
+              ],
+              "draw"
+            ]
+          },
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              [
+                "sha"
+              ],
+              [
+                "dc_xiahouxuan"
+              ],
+              null
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          }
+        ],
+        "uses": [
+          {
+            "skill": "luanji",
+            "targets": [
+              "50265723591:jiachong",
+              "74695553592:dc_zhouxuān",
+              "60505463593:hm_shen_zhangbao",
+              "75331523594:hl_shen_lvbu",
+              "75565313595:yangfeng",
+              "61294103596:zhouqun",
+              "56869603597:dc_xiahouxuan"
+            ]
+          }
+        ],
+        "allyHp": 3,
+        "allyDead": false,
+        "enemy1Hp": 0,
+        "enemy1Dead": false,
+        "enemy2Hp": 1
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 3,
+          "60505463593": 1,
+          "75331523594": 3,
+          "75565313595": 3,
+          "61294103596": 3,
+          "56869603597": 2
+        },
+        "hand": {
+          "75027863590": [
+            "shan",
+            "wuxie",
+            "shan"
+          ],
+          "50265723591": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "luanji"
+          ],
+          "50265723591": [],
+          "60505463593": [],
+          "75331523594": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 2447.5
+    },
     {
       "name": "quality-huo-luanji-net",
       "setup": {
@@ -119,7 +403,7 @@
         "cards": [],
         "targets": []
       },
-      "durationMs": 5212.1
+      "durationMs": 989.9
     },
     {
       "name": "quality-huo-luanji-net-positive",
@@ -228,7 +512,7 @@
         "cards": [],
         "targets": []
       },
-      "durationMs": 2572.7
+      "durationMs": 2458.6
     },
     {
       "name": "quality-huo-tianyi-lowcompare",
@@ -358,7 +642,7 @@
         "cards": [],
         "targets": []
       },
-      "durationMs": 3960.4
+      "durationMs": 3728.5
     },
     {
       "name": "quality-huo-tianyi-highcompare",
@@ -487,7 +771,165 @@
         "cards": [],
         "targets": []
       },
-      "durationMs": 2798.9
+      "durationMs": 2685.5
+    },
+    {
+      "name": "quality-huo-tianyi-knownwin",
+      "setup": {
+        "hand": [
+          "sha",
+          "shan",
+          "shan"
+        ],
+        "maxNumber": 5,
+        "enemy1Known": [
+          "shan2"
+        ],
+        "enemy2KnownCount": 2
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "shan",
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "shan"
+          ],
+          "60505463593": [
+            "shan",
+            "tao"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "tianyi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "ops": [
+        {
+          "op": "useSkill",
+          "args": [
+            "tianyi",
+            [],
+            [
+              "dc_zhouxuān"
+            ]
+          ]
+        },
+        {
+          "op": "discard",
+          "args": [
+            []
+          ]
+        },
+        {
+          "op": "lose",
+          "args": [
+            [
+              "shan"
+            ],
+            "ref: <Node>"
+          ]
+        },
+        {
+          "op": "useCard",
+          "args": [
+            "sha",
+            [
+              "sha"
+            ],
+            [
+              "zhouqun",
+              "hl_shen_lvbu"
+            ],
+            null
+          ]
+        },
+        {
+          "op": "lose",
+          "args": [
+            [
+              "sha"
+            ],
+            "visible",
+            "ref: <Node>"
+          ]
+        }
+      ],
+      "result": {
+        "targetValue": -1,
+        "usedTianyi": true,
+        "hand": [
+          "shan"
+        ],
+        "enemy1Hp": 4
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 3,
+          "75565313595": 4,
+          "61294103596": 3,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "shan",
+            "tao"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "tianyi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 3367.9
     },
     {
       "name": "quality-huo-jieming-self",
@@ -560,9 +1002,9 @@
         },
         "hand": {
           "75027863590": [
-            "guohe",
-            "tao",
-            "sha",
+            "shan",
+            "fangtian",
+            "zhangba",
             "sha"
           ],
           "50265723591": [
@@ -594,7 +1036,7 @@
         "cards": [],
         "targets": []
       },
-      "durationMs": 1438.2
+      "durationMs": 1381.9
     },
     {
       "name": "quality-huo-jianchu-noequip",
@@ -688,7 +1130,7 @@
         "cards": [],
         "targets": []
       },
-      "durationMs": 3221.7
+      "durationMs": 3027.7
     },
     {
       "name": "quality-huo-jianchu-armor",
@@ -784,7 +1226,7 @@
         "cards": [],
         "targets": []
       },
-      "durationMs": 2068.5
+      "durationMs": 1918.7
     },
     {
       "name": "engine-disabled-gate",

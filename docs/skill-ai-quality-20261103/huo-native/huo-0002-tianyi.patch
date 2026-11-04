@@ -1,8 +1,40 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 671910b..07d40ca 100644
+index 57dfa07..4708091 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
-@@ -6947,6 +6947,14 @@ const skills = {
+@@ -6934,6 +6934,31 @@ const skills = {
+     ai: {
+       order(name, player) {
+         const cards2 = player.getCards("h");
++        if (player.countCards("h", "sha") > 0) {
++          let mx0 = 0;
++          for (let k = 0; k < cards2.length; k++) {
++            mx0 = Math.max(mx0, get.number(cards2[k]));
++          }
++          if (mx0 < 10 && !game.hasPlayer(function(current) {
++            if (current == player || get.attitude(player, current) >= 0) {
++              return false;
++            }
++            if (current.countCards("h") == 0 || !player.canCompare(current)) {
++              return false;
++            }
++            const known = current.getKnownCards(player);
++            if (known.length < current.countCards("h")) {
++              return false;
++            }
++            let oppMax = 0;
++            for (let j = 0; j < known.length; j++) {
++              oppMax = Math.max(oppMax, get.number(known[j], current));
++            }
++            return oppMax < mx0;
++          })) {
++            return 0;
++          }
++        }
+         if (player.countCards("h", "sha") == 0) {
+           return 1;
+         }
+@@ -6947,6 +6972,30 @@ const skills = {
        result: {
          player(player) {
            if (player.countCards("h", "sha") > 0) {
@@ -11,9 +43,56 @@ index 671910b..07d40ca 100644
 +            for (let i2 = 0; i2 < hs.length; i2++) {
 +              mx = Math.max(mx, get.number(hs[i2]));
 +            }
-+            if (mx < 10) {
-+              return -0.9;
++            if (mx < 10 && !game.hasPlayer(function(current) {
++              if (current == player || get.attitude(player, current) >= 0) {
++                return false;
++              }
++              if (current.countCards("h") == 0 || !player.canCompare(current)) {
++                return false;
++              }
++              const known = current.getKnownCards(player);
++              if (known.length < current.countCards("h")) {
++                return false;
++              }
++              let oppMax = 0;
++              for (let j = 0; j < known.length; j++) {
++                oppMax = Math.max(oppMax, get.number(known[j], current));
++              }
++              return oppMax < mx;
++            })) {
++              return 0;
 +            }
              return 0.6;
            }
            const num = player.countCards("h");
+@@ -6962,6 +7011,30 @@ const skills = {
+           return -0.7;
+         },
+         target(player, target) {
++          const hs = player.getCards("h");
++          let mx = 0;
++          for (let i2 = 0; i2 < hs.length; i2++) {
++            mx = Math.max(mx, get.number(hs[i2]));
++          }
++          if (mx < 10 && !game.hasPlayer(function(current) {
++            if (current == player || get.attitude(player, current) >= 0) {
++              return false;
++            }
++            if (current.countCards("h") == 0 || !player.canCompare(current)) {
++              return false;
++            }
++            const known = current.getKnownCards(player);
++            if (known.length < current.countCards("h")) {
++              return false;
++            }
++            let oppMax = 0;
++            for (let j = 0; j < known.length; j++) {
++              oppMax = Math.max(oppMax, get.number(known[j], current));
++            }
++            return oppMax < mx;
++          })) {
++            return 0;
++          }
+           const num = target.countCards("h");
+           if (num == 1) {
+             return -1;

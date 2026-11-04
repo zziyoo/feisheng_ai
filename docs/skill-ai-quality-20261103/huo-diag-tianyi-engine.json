@@ -1,0 +1,690 @@
+{
+  "completedAt": "2026-11-04T15:48:33.902Z",
+  "status": "passed",
+  "scope": "真实身份局宿主、固定公开局面、技能AI选择与结算观察；已安装无名AI决策引擎",
+  "seed": "20261030",
+  "browserVersion": "156.0.8078.80",
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "players": 8,
+  "extensionInstalled": true,
+  "policyStats": {
+    "installed": true,
+    "fairRedimeng": 0,
+    "redimengMaskFailed": 0,
+    "redimengTrace": [],
+    "keptTao": 0,
+    "keptShan": 0,
+    "skippedExchange": 0,
+    "skippedOrder": 0,
+    "retuxiTargetBonus": 0,
+    "calls": 0,
+    "last": [],
+    "olkongshengCostCalls": 0,
+    "olkongshengCompatible": true,
+    "qimouBypass": 0,
+    "kuangguRecover": 0,
+    "jushouTurned": 0,
+    "shensuSkipJudge": 0,
+    "shensuCostBlock": 0,
+    "guhuoLowHpGuard": 0,
+    "huangtianLastShan": 0,
+    "guhuoCalls": 0,
+    "reqimouGateSkip": 0,
+    "reqimouInfeasible": 0,
+    "reqimouClamp": 0,
+    "reqimouClampCalls": 0,
+    "reqimouSelfRescue": 0,
+    "reqimouInfiniteUses": 0,
+    "luanjiAllyVeto": 0,
+    "luanjiNetVeto": 0,
+    "tianyiDecline": 3,
+    "tianyiKnownWinPass": 11,
+    "tianyiEngineVeto": 3,
+    "jianchuSkip": 0,
+    "packs": {
+      "out_of_scope": {
+        "fairRedimeng": 0,
+        "redimengMaskFailed": 0,
+        "redimengTrace": []
+      },
+      "refresh_standard": {
+        "keptTao": 0,
+        "keptShan": 0,
+        "skippedExchange": 0,
+        "skippedOrder": 0,
+        "retuxiTargetBonus": 0,
+        "calls": 0,
+        "last": []
+      },
+      "shenhua_lei": {
+        "olkongshengCostCalls": 0,
+        "olkongshengCompatible": true
+      },
+      "shenhua_feng": {
+        "qimouBypass": 0,
+        "kuangguRecover": 0,
+        "jushouTurned": 0,
+        "shensuSkipJudge": 0,
+        "shensuCostBlock": 0,
+        "guhuoLowHpGuard": 0,
+        "huangtianLastShan": 0,
+        "guhuoCalls": 0
+      },
+      "refresh_feng": {
+        "reqimouGateSkip": 0,
+        "reqimouInfeasible": 0,
+        "reqimouClamp": 0,
+        "reqimouClampCalls": 0,
+        "reqimouSelfRescue": 0,
+        "reqimouInfiniteUses": 0
+      },
+      "shenhua_huo": {
+        "luanjiAllyVeto": 0,
+        "luanjiNetVeto": 0,
+        "tianyiDecline": 3,
+        "tianyiKnownWinPass": 11,
+        "tianyiEngineVeto": 3,
+        "jianchuSkip": 0
+      }
+    }
+  },
+  "scenes": [
+    {
+      "name": "quality-huo-tianyi-lowcompare",
+      "setup": {
+        "hand": [
+          "sha",
+          "shan",
+          "shan"
+        ],
+        "maxNumber": 5
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "shan",
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "shan",
+            "tao"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "tianyi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "ops": [],
+      "result": {
+        "targetValue": 0,
+        "selfAttitude": 10,
+        "usedTianyi": false,
+        "bridgeStats": {},
+        "hand": [
+          "sha",
+          "shan",
+          "shan"
+        ],
+        "enemy1Hp": 4
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "shan",
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "shan",
+            "tao"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "tianyi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 4583.7
+    },
+    {
+      "name": "quality-huo-tianyi-highcompare",
+      "setup": {
+        "hand": [
+          "sha",
+          "wuxie",
+          "shan"
+        ],
+        "maxNumber": 13
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "wuxie",
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "shan",
+            "tao"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "tianyi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "ops": [
+        {
+          "op": "useSkill",
+          "args": [
+            "tianyi",
+            [],
+            [
+              "dc_zhouxuān"
+            ]
+          ]
+        },
+        {
+          "op": "discard",
+          "args": [
+            []
+          ]
+        },
+        {
+          "op": "lose",
+          "args": [
+            [
+              "sha"
+            ],
+            "ref: <Node>"
+          ]
+        }
+      ],
+      "result": {
+        "targetValue": -0.7,
+        "usedTianyi": true,
+        "hand": [
+          "wuxie",
+          "shan"
+        ],
+        "enemy1Hp": 4
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wuxie",
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "shan"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "tianyi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 2662.2
+    },
+    {
+      "name": "quality-huo-tianyi-knownwin",
+      "setup": {
+        "hand": [
+          "sha",
+          "shan",
+          "shan"
+        ],
+        "maxNumber": 5,
+        "enemy1Known": [
+          "shan2"
+        ],
+        "enemy2KnownCount": 2
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "shan",
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "shan"
+          ],
+          "60505463593": [
+            "shan",
+            "tao"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "tianyi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "ops": [
+        {
+          "op": "useSkill",
+          "args": [
+            "tianyi",
+            [],
+            [
+              "dc_zhouxuān"
+            ]
+          ]
+        },
+        {
+          "op": "discard",
+          "args": [
+            []
+          ]
+        },
+        {
+          "op": "lose",
+          "args": [
+            [
+              "shan"
+            ],
+            "ref: <Node>"
+          ]
+        },
+        {
+          "op": "useCard",
+          "args": [
+            "sha",
+            [
+              "sha"
+            ],
+            [
+              "hm_shen_zhangbao",
+              "hl_shen_lvbu"
+            ],
+            null
+          ]
+        },
+        {
+          "op": "lose",
+          "args": [
+            [
+              "sha"
+            ],
+            "visible",
+            "ref: <Node>"
+          ]
+        }
+      ],
+      "result": {
+        "targetValue": -1,
+        "usedTianyi": true,
+        "hand": [
+          "shan"
+        ],
+        "enemy1Hp": 4
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 3,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "tao"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "tianyi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 3405.3
+    },
+    {
+      "name": "engine-disabled-gate",
+      "before": true,
+      "off": false,
+      "on": true
+    },
+    {
+      "name": "policy-lifecycle",
+      "before": {
+        "rezhiheng": true,
+        "qimou": true,
+        "reqimouContent": true,
+        "reqimouGate": true,
+        "jushou": true,
+        "shensu1": true,
+        "guhuo": true,
+        "huangtian": true
+      },
+      "afterUninstall": {
+        "rezhiheng": false,
+        "qimou": false,
+        "reqimouContent": false,
+        "reqimouGate": false,
+        "jushou": false,
+        "shensu1": false,
+        "guhuo": false,
+        "huangtian": false
+      },
+      "afterReinstall": {
+        "rezhiheng": true,
+        "qimou": true,
+        "reqimouContent": true,
+        "reqimouGate": true,
+        "jushou": true,
+        "shensu1": true,
+        "guhuo": true,
+        "huangtian": true
+      },
+      "stats": {
+        "installed": true,
+        "fairRedimeng": 0,
+        "redimengMaskFailed": 0,
+        "redimengTrace": [],
+        "keptTao": 0,
+        "keptShan": 0,
+        "skippedExchange": 0,
+        "skippedOrder": 0,
+        "retuxiTargetBonus": 0,
+        "calls": 0,
+        "last": [],
+        "olkongshengCostCalls": 0,
+        "olkongshengCompatible": true,
+        "qimouBypass": 0,
+        "kuangguRecover": 0,
+        "jushouTurned": 0,
+        "shensuSkipJudge": 0,
+        "shensuCostBlock": 0,
+        "guhuoLowHpGuard": 0,
+        "huangtianLastShan": 0,
+        "guhuoCalls": 0,
+        "reqimouGateSkip": 0,
+        "reqimouInfeasible": 0,
+        "reqimouClamp": 0,
+        "reqimouClampCalls": 0,
+        "reqimouSelfRescue": 0,
+        "reqimouInfiniteUses": 0,
+        "luanjiAllyVeto": 0,
+        "luanjiNetVeto": 0,
+        "tianyiDecline": 3,
+        "tianyiKnownWinPass": 11,
+        "tianyiEngineVeto": 3,
+        "jianchuSkip": 0,
+        "packs": {
+          "out_of_scope": {
+            "fairRedimeng": 0,
+            "redimengMaskFailed": 0,
+            "redimengTrace": []
+          },
+          "refresh_standard": {
+            "keptTao": 0,
+            "keptShan": 0,
+            "skippedExchange": 0,
+            "skippedOrder": 0,
+            "retuxiTargetBonus": 0,
+            "calls": 0,
+            "last": []
+          },
+          "shenhua_lei": {
+            "olkongshengCostCalls": 0,
+            "olkongshengCompatible": true
+          },
+          "shenhua_feng": {
+            "qimouBypass": 0,
+            "kuangguRecover": 0,
+            "jushouTurned": 0,
+            "shensuSkipJudge": 0,
+            "shensuCostBlock": 0,
+            "guhuoLowHpGuard": 0,
+            "huangtianLastShan": 0,
+            "guhuoCalls": 0
+          },
+          "refresh_feng": {
+            "reqimouGateSkip": 0,
+            "reqimouInfeasible": 0,
+            "reqimouClamp": 0,
+            "reqimouClampCalls": 0,
+            "reqimouSelfRescue": 0,
+            "reqimouInfiniteUses": 0
+          },
+          "shenhua_huo": {
+            "luanjiAllyVeto": 0,
+            "luanjiNetVeto": 0,
+            "tianyiDecline": 3,
+            "tianyiKnownWinPass": 11,
+            "tianyiEngineVeto": 3,
+            "jianchuSkip": 0
+          }
+        }
+      },
+      "statsAfterReinstall": {
+        "installed": true,
+        "fairRedimeng": 0,
+        "redimengMaskFailed": 0,
+        "redimengTrace": [],
+        "keptTao": 0,
+        "keptShan": 0,
+        "skippedExchange": 0,
+        "skippedOrder": 0,
+        "retuxiTargetBonus": 0,
+        "calls": 0,
+        "last": [],
+        "olkongshengCostCalls": 0,
+        "olkongshengCompatible": true,
+        "qimouBypass": 0,
+        "kuangguRecover": 0,
+        "jushouTurned": 0,
+        "shensuSkipJudge": 0,
+        "shensuCostBlock": 0,
+        "guhuoLowHpGuard": 0,
+        "huangtianLastShan": 0,
+        "guhuoCalls": 0,
+        "reqimouGateSkip": 0,
+        "reqimouInfeasible": 0,
+        "reqimouClamp": 0,
+        "reqimouClampCalls": 0,
+        "reqimouSelfRescue": 0,
+        "reqimouInfiniteUses": 0,
+        "luanjiAllyVeto": 0,
+        "luanjiNetVeto": 0,
+        "tianyiDecline": 0,
+        "tianyiKnownWinPass": 0,
+        "tianyiEngineVeto": 0,
+        "jianchuSkip": 0,
+        "packs": {
+          "out_of_scope": {
+            "fairRedimeng": 0,
+            "redimengMaskFailed": 0,
+            "redimengTrace": []
+          },
+          "refresh_standard": {
+            "keptTao": 0,
+            "keptShan": 0,
+            "skippedExchange": 0,
+            "skippedOrder": 0,
+            "retuxiTargetBonus": 0,
+            "calls": 0,
+            "last": []
+          },
+          "shenhua_lei": {
+            "olkongshengCostCalls": 0,
+            "olkongshengCompatible": true
+          },
+          "shenhua_feng": {
+            "qimouBypass": 0,
+            "kuangguRecover": 0,
+            "jushouTurned": 0,
+            "shensuSkipJudge": 0,
+            "shensuCostBlock": 0,
+            "guhuoLowHpGuard": 0,
+            "huangtianLastShan": 0,
+            "guhuoCalls": 0
+          },
+          "refresh_feng": {
+            "reqimouGateSkip": 0,
+            "reqimouInfeasible": 0,
+            "reqimouClamp": 0,
+            "reqimouClampCalls": 0,
+            "reqimouSelfRescue": 0,
+            "reqimouInfiniteUses": 0
+          },
+          "shenhua_huo": {
+            "luanjiAllyVeto": 0,
+            "luanjiNetVeto": 0,
+            "tianyiDecline": 0,
+            "tianyiKnownWinPass": 0,
+            "tianyiEngineVeto": 0,
+            "jianchuSkip": 0
+          }
+        }
+      }
+    }
+  ],
+  "errors": []
+}
