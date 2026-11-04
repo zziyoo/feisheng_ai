@@ -20,6 +20,7 @@
 
 /* ---------- 技能分类（运行时微调静态分类） ---------- */
 import { skillPriorityBias, skillTimingAdjust, allyTargetBias, enemyTargetBias } from '../strategy/identityPolicy.js?v=41a';
+import { dynamicSkillVeto } from './skillVetoRegistry.js?v=41a';
 export function classifySkill(profile, ctx) {
 	ctx = ctx || {};
 	const multi = profile && profile.profit && profile.profit.multi;
@@ -77,6 +78,10 @@ export function vetoSkill(sid, profile, ctx) {
 		const enemies = ctx.targets.filter(function (t) { return t && t.isEnemy; });
 		if (!enemies.length) return { veto: true, reason: '控制技无可控真敌' };
 	}
+	/* ⑤ 分包动态否决：skillVetoRegistry 中注册的运行时裁决（如 shenhuaHuo 天义拼点胜率）。
+	 *    静态 profile 无法表达"此刻胜率/局面"类判断，由分包在 install 时局部注入。 */
+	const dyn = dynamicSkillVeto(sid, profile, ctx);
+	if (dyn) return dyn;
 	return { veto: false, reason: '' };
 }
 function hasUpside(ctx) { return !!ctx.upside || (ctx.me && (ctx.me.hp || 0) <= 1); }

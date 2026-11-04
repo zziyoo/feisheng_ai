@@ -1,3 +1,8 @@
+/* 分包动态否决接线：skillVetoRegistry 注册的运行时裁决（如 shenhuaHuo 天义拼点胜率）
+ * 在枚举源头生效——所有引擎候选管线共用 activePlaySkills，此处拒绝即全管线拒绝。
+ * 抛错 fail-open；命中计入 _candDiag.packVeto 便于诊断。 */
+import { dynamicSkillVeto } from './skillVetoRegistry.js?v=41a';
+
 /* 主动候选只来自当前玩家真实的出牌选择窗口；触发技能仍由宿主触发。
  * ★ fix10：chooseButton 技能（需要选目标的绝大多数主动技）恢复候选资格——
  *   旧版「button-dependent-cost 一刀切拒绝」导致 skill 学习采样断崖（skill:card 从 0.86 跌到 0.02，
@@ -6,7 +11,7 @@
  *   仍拒绝：选牌数/组合依赖的技能（selection-dependent-count / combination-dependent-filter），
  *   这类代价无法静态确证，AI 可能反复选不够牌。
  * ★ fix10：候选漏斗诊断计数（getSkillCandDiag），随批次上报到服务端，便于远程观测断层。 */
-const _candDiag = { calls: 0, noChoiceWindow: 0, noFilterEnable: 0, enumSkills: 0, noEnable: 0, filterEnableRej: 0, costRej: {}, costPass: 0, passed: 0 };
+const _candDiag = { calls: 0, noChoiceWindow: 0, noFilterEnable: 0, enumSkills: 0, noEnable: 0, filterEnableRej: 0, costRej: {}, costPass: 0, passed: 0, packVeto: {} };
 function _diagBump(k, sub) {
 	try {
 		if (sub) { _candDiag[k] = _candDiag[k] || {}; _candDiag[k][sub] = (_candDiag[k][sub] || 0) + 1; }
@@ -50,6 +55,10 @@ export function activePlaySkills(player, event, lib, game, get) {
   try {
    if (lib.filter.filterEnable(choice, player, id) !== true) { _diagBump('filterEnableRej'); return false; }
   } catch (_) { _diagBump('filterEnableRej'); return false; }
+  try {
+   const dynVeto = dynamicSkillVeto(id, null, { me: { ref: player } });
+   if (dynVeto && dynVeto.veto) { _diagBump('packVeto', id); return false; }
+  } catch (_) { /* fail-open */ }
   const cost = skillCardCost({ ...lib.skill[id], id }, player, choice, lib, get);
   if (!cost.eligible) { _diagBump('costRej', cost.reason || cost.status || 'unknown'); return false; }
   if (cost.status === 'unverified-button') _diagBump('costPass');

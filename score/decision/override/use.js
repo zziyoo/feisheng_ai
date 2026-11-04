@@ -37,6 +37,7 @@ import { log } from '../../foundation/diag/logger.js?v=41a';
 import { evaluateTaoRescue } from '../safety/rescuePolicy.js?v=41a';
 import {responseWindow} from '../response/responseWindow.js?v=41a';
 import { evaluateWuxie } from '../response/wuxieEvaluator.js?v=41a';
+import { dynamicSkillVeto } from '../skills/skillVetoRegistry.js?v=41a';
 import { trip, isTripped } from './circuit.js?v=41a';
 import { isAllyOf, cardValueOf } from '../threat/threat.js?v=41a';   /* ★ 阵营护栏/五谷拿牌桥 */
 
@@ -484,7 +485,20 @@ export function installUseOverride() {
                     markExecutionFailure('use', player, 'bestAction 耗时超过800ms', 'warn');
                     _stat('timeout'); return restore;
                 }
-                if (!decision?.rule) { _stat('pass'); return restore; }
+				if (!decision?.rule) { _stat('pass'); return restore; }
+				/* 分包动态技能否决（skillVetoRegistry，与 skillPlayBrain.vetoSkill 规则⑤同源）：
+				 * 引擎候选管线之外的提交（planner refine/多维评分直提等）在此统一把关；
+				 * 命中则不 stage，交回宿主自身流程（其 AI 评分由分包 result wrap 接管）。 */
+				if (decision.type === 'skill' && decision.id) {
+					try {
+						const dynV = dynamicSkillVeto(decision.id, null, { me: { ref: player } });
+						if (dynV && dynV.veto) {
+							_stat('skillVeto');
+							trace.skillVeto = dynV.reason || 'pack-veto';
+							return restore;
+						}
+					} catch (_) {}
+				}
                 trace.suggested = true; _stat('suggested');
                 endRequested = decision.action === 'C' && decision.rule === 'end';
                 if (endRequested && (ev.type !== 'phase' || ev.forced || _hasAvailableLimitedSkill(player) || _hasForcedSkill(player))) {
