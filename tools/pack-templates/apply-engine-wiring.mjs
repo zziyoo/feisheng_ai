@@ -165,7 +165,7 @@ for (const item of WIRING) {
 	plan.push({ file: item.file, original, next });
 }
 function writeTempForCheck(text) {
-	const temporary = path.join(targetRoot, '.djsc-wiring-check.tmp-' + process.pid);
+	const temporary = path.join(targetRoot, '.djsc-wiring-check-' + process.pid + '.mjs');
 	fs.writeFileSync(temporary, text);
 	try { execFileSync(process.execPath, ['--check', temporary], { stdio: 'pipe' }); }
 	finally { try { fs.rmSync(temporary, { force: true }); } catch (_) {} }
