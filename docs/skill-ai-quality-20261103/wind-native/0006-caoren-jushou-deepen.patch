@@ -1,0 +1,26 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+index 4eb5180..be04bbc 100644
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -7555,7 +7608,20 @@ const skills = {
+     trigger: { player: "phaseJieshuBegin" },
+     check(event, player) {
+       // 已翻面时据守只会摸三张并翻回正面，没有额外回合成本。
+-      return player.isTurnedOver() || event.player.hp + player.countCards("h") < 4;
++      if (player.isTurnedOver()) {
++        return true;
++      }
++      if (event.player.hp + player.countCards("h") >= 4) {
++        return false;
++      }
++      // 低体力时翻面会放弃下一回合的自救机会：
++      // 若有敌方在攻击范围内且手里有牌，先保住行动能力。
++      if (player.hp <= 1 && game.hasPlayer(function(current) {
++        return get.attitude(player, current) < 0 && current.countCards("hs") > 0 && current.inRange(player);
++      })) {
++        return false;
++      }
++      return true;
+     },
+     async content(event, trigger, player) {
+       await player.draw(3);
