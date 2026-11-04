@@ -56,6 +56,7 @@ import { dynamicSkillVeto } from './skillVetoRegistry.js?v=41a';`,
 		patch: [
 			{
 				anchor: `/* 主动候选只来自当前玩家真实的出牌选择窗口；触发技能仍由宿主触发。`,
+				position: 'before',
 				insert: `/* ${MARK}：分包动态技能否决（skillVetoRegistry），activePlaySkills 枚举源头过滤。 */
 import { dynamicSkillVeto } from './skillVetoRegistry.js?v=41a';
 
@@ -159,7 +160,8 @@ for (const item of WIRING) {
 			console.error('WIRING FAIL: ' + item.file + ' 找不到锚点（宿主版本可能不同）：' + JSON.stringify(step.anchor.slice(0, 60)));
 			process.exit(2);
 		}
-		next = next.replace(anchor, anchor + insert);
+		const combined = step.position === 'before' ? insert + anchor : anchor + insert;
+		next = next.replace(anchor, combined);
 	}
 	writeTempForCheck(next);
 	already = false;
