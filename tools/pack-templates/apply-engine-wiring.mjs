@@ -143,6 +143,8 @@ if (!exists(registryRel)) {
 
 const plan = [];
 let already = true;
+/* 行尾自适应：宿主文件可能是 CRLF（git autocrlf）或 LF；锚点与插入文本统一按目标行尾适配。 */
+const adapt = (fileText, text) => fileText.includes('\r\n') && !text.includes('\r\n') ? text.replace(/\n/g, '\r\n') : text;
 for (const item of WIRING) {
 	const target = rel(item.file);
 	if (!exists(target)) { console.error('WIRING FAIL: 缺少 ' + item.file); process.exit(2); }
@@ -150,11 +152,13 @@ for (const item of WIRING) {
 	if (original.includes(MARK)) continue; /* 已接线，幂等跳过 */
 	let next = original;
 	for (const step of item.patch) {
-		if (!next.includes(step.anchor)) {
+		const anchor = adapt(next, step.anchor);
+		const insert = adapt(next, step.insert);
+		if (!next.includes(anchor)) {
 			console.error('WIRING FAIL: ' + item.file + ' 找不到锚点（宿主版本可能不同）：' + JSON.stringify(step.anchor.slice(0, 60)));
 			process.exit(2);
 		}
-		next = next.replace(step.anchor, step.anchor + step.insert);
+		next = next.replace(anchor, anchor + insert);
 	}
 	writeTempForCheck(next);
 	already = false;
