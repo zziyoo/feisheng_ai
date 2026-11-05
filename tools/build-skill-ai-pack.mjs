@@ -350,6 +350,7 @@ function buildPack(config) {
 		delivery_stage: '待验证候选', complete_delivery: false, pack_status: '已静态审查', delivery_status: '待验证',
 		can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null,
 		counts: { characters: 8, implemented_skills: 11, passive_related_skills: 1 },
+		all_registered_skills: config.implementedSkills,
 		native_patch: 'feisheng-ai-shenhua-feng-native-ai.patch',
 		extension_difference: '天香新评分仅在原生补丁中；扩展独立安装使用宿主原始AI。',
 		required: ['shouldBypassQimouCountBlock', 'kuangguChoice', 'jushouShouldActivate', 'shensu1ShouldUse', 'guhuoShouldBluff', 'huangtianTargetScore', 'installLiegong', 'installBuqu'],
