@@ -1,8 +1,8 @@
 import { lib, game, ui, get, _status } from '../policyCore.js?v=42a';
 import {
 	shouldBypassQimouCountBlock, qimouMinimalPayment, kuangguChoice, jushouShouldActivate,
-	shensu1ShouldUse, shensu4ShouldUse, guhuoMaterialScore, retianxiangOptionIndex,
-	huangtianTargetScore, buquDamageFactor,
+	shensu1ShouldUse, shensu4ShouldUse, guhuoMaterialScore,
+	huangtianTargetScore,
 } from '../rules/shenhuaFeng.js?v=42a';
 
 export const pack = {
@@ -161,25 +161,17 @@ function installKuanggu(host, stats) {
 	});
 }
 
-/* 曹仁【据守】：已翻面免费摸三张；未翻面时 1血且攻击范围内有持牌敌人则不发动。
- * 与原生 check 的完整逻辑一致。 */
+/* 曹仁【据守】：翻回正面；其他情况保留原生阈值。 */
 function installJushou(host, stats) {
 	const info = lib.skill && lib.skill.jushou;
 	if (!info || typeof info.check !== 'function') return;
 	host.wrap(info, 'check', 'jushou:check', original => function (event, player) {
 		const native = original.apply(this, arguments);
 		try {
-			if (native) return native;
 			const turned = player.isTurnedOver();
-			const threat = player.hp <= 1 && game.hasPlayer(function (current) {
-				return get.attitude(player, current) < 0 && current.countCards('hs') > 0 && current.inRange(player);
-			});
-			if (jushouShouldActivate({ hp: player.hp, hand: player.countCards('h'), turned, threat })) {
+			if (jushouShouldActivate({ hp: player.hp, hand: player.countCards('h'), turned })) {
 				if (turned) stats.jushouTurned++;
 				return true;
-			}
-			if (!turned && threat && player.hp + player.countCards('h') < 4) {
-				stats.jushouThreatHold++;
 			}
 		} catch (e) {}
 		return native;
@@ -376,7 +368,7 @@ function guhuoShouldBluff(input) {
 	return !!expendable;
 }
 
-/* 张角【黄天】：1-2血交牌者选中最后一张闪时，仅主公濒死保留正分2，其余否决。
+/* 张角【黄天】：1-2血交牌者选中最后一张闪时保守保留。
  * 与原生 result.target 的完整逻辑一致。 */
 function installHuangtian(host, stats) {
 	const info = lib.skill && lib.skill.huangtian2;
@@ -393,7 +385,6 @@ function installHuangtian(host, stats) {
 				selectedShan: selected.some(item => item && item.name == 'shan'),
 				selectedShandian: selected.some(item => item && item.name == 'shandian'),
 				hasSelection: selected.length > 0,
-				targetHp: target && target.hp,
 			});
 			if (score !== null) {
 				if (score === 0) stats.huangtianLastShan++;
@@ -474,101 +465,6 @@ function installReleiji(host, stats) {
 	});
 }
 
-/* 小乔【天香 retianxiang】（本轮新增接管）：目标选择按两种后续处理方式
- * 联合评分（伤害+摸牌 / 失去体力+赠牌），取较优者；结算 AI 修复对卖血
- * 敌人喂伤害的反向缺陷。保留真实伤害与失去体力的规则区别。 */
-function retianxiangOptions(target, source, card, player2) {
-	const att = get.attitude(player2, target);
-	const eff1 = get.damageEffect(target, source, player2)
-		+ get.effect(target, { name: 'draw' }, player2, player2) * Math.min(5, target.getDamagedHp() + 1);
-	const eff2 = get.effect(target, { name: 'losehp' }, target, player2)
-		+ (card ? get.value(card, target) : 0) * att / 10;
-	return [eff1, eff2];
-}
-
-function installRetianxiang(host, stats) {
-	const info = lib.skill && lib.skill.retianxiang;
-	if (!info) return;
-	if (typeof info.cost === 'function') {
-		host.wrap(info, 'cost', 'retianxiang:cost', () => async function (event, trigger, player) {
-			event.result = await player.chooseCardTarget({
-				filterCard(card, player2) {
-					return get.suit(card) == 'heart' && lib.filter.cardDiscardable(card, player2);
-				},
-				filterTarget(card, player2, target) {
-					return player2 != target;
-				},
-				ai1(card) {
-					return 10 - get.value(card);
-				},
-				ai2(target) {
-					const player2 = _status.event.player;
-					const trigger2 = _status.event.getTrigger();
-					const att = get.attitude(player2, target);
-					const da = player2.hp == 1 ? 10 : 0;
-					if (att == 0) return 0.1 + da;
-					const source = (trigger2 && trigger2.source) || 'nosource';
-					const card = (ui.selected.cards && ui.selected.cards[0]) || null;
-					if (att > 0) {
-						if (target.hp <= 1) {
-							return card && card.name == 'tao' ? 2 + da : -att + da;
-						}
-						if (target.hasSkillTag('maihp')) return att + da;
-					}
-					const [eff1, eff2] = retianxiangOptions(target, source, card, player2);
-					stats.retianxiangJoint++;
-					if (att > 0) return Math.max(eff1, eff2) + da;
-					return Math.max(eff1, eff2) - (target.hasSkillTag('maihp') ? 3 : 0) + da;
-				},
-				prompt: get.prompt(event.skill),
-				prompt2: lib.translate[`${event.skill}_info`],
-			}).setHiddenSkill(event.name.slice(0, -5)).forResult();
-		});
-	}
-	if (typeof info.content === 'function') {
-		host.wrap(info, 'content', 'retianxiang:content', () => async function (event, trigger, player) {
-			const [target] = event.targets;
-			const [card] = event.cards;
-			trigger.cancel();
-			await player.discard(event.cards);
-			const result = await player.chooseControlList(
-				true,
-				function (event2, player2) {
-					const target2 = _status.event.target;
-					const att = get.attitude(player2, target2);
-					if (att == 0) return 0;
-					const tx = event2.getParent();
-					const trigger2 = tx && tx.getTrigger ? tx.getTrigger() : null;
-					const source = (trigger2 && trigger2.source) || 'nosource';
-					const card2 = tx && tx.cards && tx.cards[0];
-					if (att > 0) {
-						if (target2.hasSkillTag('maihp')) return 0;
-						if (target2.hp <= 1) return 1;
-					} else if (target2.hasSkillTag('maihp')) {
-						return 1;
-					}
-					const [eff1, eff2] = retianxiangOptions(target2, source, card2, player2);
-					const index = retianxiangOptionIndex(eff1, eff2);
-					return index < 0 ? 0 : index;
-				},
-				['令' + get.translation(target) + '受到伤害来源对其造成的1点伤害，然后摸X张牌（X为其已损失体力值且至多为5）', '令' + get.translation(target) + '失去1点体力，然后获得' + get.translation(event.cards)]
-			).set('target', target).forResult();
-			if (typeof result.index != 'number') return;
-			if (result.index) {
-				event.related = target.loseHp();
-			} else {
-				event.related = target.damage(trigger.source || 'nosource', 'nocard');
-			}
-			await event.related;
-			if (result.index && card.isInPile()) {
-				await target.gain(card, 'gain2');
-			} else if (target.getDamagedHp()) {
-				await target.draw(Math.min(5, target.getDamagedHp()));
-			}
-		});
-	}
-}
-
 /* 黄忠【烈弓 xinliegong】（本轮新增接管）：aiOrder 的摸牌加速只在“摸牌能
  * 解锁烈弓不可响应条件”时生效；新增 effect.player 钩子把加伤收益
  * 计入对体力不低于黄忠的敌人的杀评分。 */
@@ -623,41 +519,6 @@ function installLiegong(host, stats) {
 	}
 }
 
-/* 周泰【不屈 gzbuqu】（本轮新增接管）：伤害价值＝下一张“创”与现存点数
- * 重复的公开信息概率＋压制价值。只统计公开区（弃牌堆、装备/判定区、创自身），
- * 不读取手牌与牌堆内部。恢复选牌本身选项等价，不伪造差异。 */
-function installBuqu(host, stats) {
-	const info = lib.skill && lib.skill.gzbuqu;
-	const effect = info && info.ai && info.ai.effect;
-	if (!effect || typeof effect.target !== 'function') return;
-	host.wrap(effect, 'target', 'buqu:effectTarget', original => function (card, player, target) {
-		try {
-			if (card && target && (get.tag(card, 'damage') || get.tag(card, 'loseHp'))) {
-				const creations = target.getExpansions('gzbuqu');
-				const outCount = {};
-				const countOut = function (cards) {
-					for (const card2 of cards) {
-						const num = get.number(card2);
-						if (typeof num == 'number') outCount[num] = (outCount[num] || 0) + 1;
-					}
-				};
-				countOut(Array.from(ui.discardPile.childNodes));
-				game.players.concat(game.dead).forEach(function (current) {
-					countOut(current.getCards('ej'));
-				});
-				countOut(creations);
-				stats.buquProbModel++;
-				return buquDamageFactor({
-					creations: creations.map(function (card2) { return get.number(card2); }),
-					outCount,
-					hp: target.hp,
-				});
-			}
-		} catch (e) {}
-		return original.apply(this, arguments);
-	});
-}
-
 function install(host, stats) {
 	installQimou(host, stats);
 	installKuanggu(host, stats);
@@ -668,7 +529,5 @@ function install(host, stats) {
 	installHuangtian(host, stats);
 	installGuidao(host, stats);
 	installReleiji(host, stats);
-	installRetianxiang(host, stats);
 	installLiegong(host, stats);
-	installBuqu(host, stats);
 }

@@ -90,16 +90,14 @@ export function kuangguChoice(input) {
 	return 'draw_card';
 }
 
-/* 曹仁【据守】：已翻面免费摸三；未翻面时在原 hp+手牌<4 基础上，
- * 1血且攻击范围内有持牌敌人时放弃（保住下一回合的自救能力）。 */
+/* 曹仁【据守】：已翻面发动；其余情况沿用原生手牌阈值。 */
 export function jushouShouldActivate(input) {
-	const { hp, hand, turned, threat } = input || {};
+	const { hp, hand, turned } = input || {};
 	if (turned) return true;
 	const life = Number(hp);
 	const cards = Number(hand);
 	if (!Number.isFinite(life) || !Number.isFinite(cards)) return false;
 	if (life + cards >= 4) return false;
-	if (life <= 1 && threat) return false;
 	return true;
 }
 
@@ -149,17 +147,15 @@ export function retianxiangOptionIndex(eff1, eff2) {
 
 /* 黄天（本轮修订，对应原生 result.target 的完整逻辑）：
  * 返回 null 表示交还原生评分；否则给出替代分。
- * 低体力（<=2）交牌者选中之闪：主公濒死（1血）保留正分2，否则否决。 */
+ * 低体力（<=2）交牌者选中最后一张闪时保守保留。 */
 export function huangtianTargetScore(input) {
-	const { hp, handShan, selectedShan, selectedShandian, hasSelection, targetHp } = input || {};
+	const { hp, handShan, selectedShan, selectedShandian, hasSelection } = input || {};
 	const life = Number(hp);
 	const shan = Number(handShan);
-	const lordHp = Number(targetHp);
 	if (!Number.isFinite(life) || !Number.isFinite(shan)) return null;
 	if (life > 2 || shan > 1) return null;
 	if (!hasSelection) return null;
 	if (selectedShan) {
-		if (Number.isFinite(lordHp) && lordHp <= 1) return 2;
 		return 0;
 	}
 	if (selectedShandian) return null;
