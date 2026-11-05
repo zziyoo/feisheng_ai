@@ -1,7 +1,7 @@
 import { lib, game, ui, get, _status } from '../policyCore.js?v=42a';
 import {
-	shouldBypassQimouCountBlock, qimouMinimalPayment, kuangguChoice, jushouShouldActivate,
-	shensu1ShouldUse, shensu4ShouldUse, guhuoMaterialScore,
+	shouldBypassQimouCountBlock, kuangguChoice, jushouShouldActivate,
+	shensu1ShouldUse, guhuoMaterialScore,
 	huangtianTargetScore,
 } from '../rules/shenhuaFeng.js?v=42a';
 
@@ -37,7 +37,7 @@ function qimouTargets(host, player, shaCard) {
 
 /* 界魏延【奇谋 qimou】：杀次数未用完时原生直接否决，即使目标在射程外。
  * 只放宽这一条阻塞：其余原生条件与“支付兑换成击杀”必须成立。
- * 本轮新增：content 支付最小化——能在更低档位形成有效打击时不多付体力。 */
+ * 支付档位沿用宿主，避免忽略多目标连续攻击。 */
 function installQimou(host, stats) {
 	const info = lib.skill && lib.skill.qimou;
 	const result = info && info.ai && info.ai.result;
@@ -65,64 +65,10 @@ function installQimou(host, stats) {
 			return native;
 		});
 	}
-	if (info && typeof info.content === 'function') {
-		host.wrap(info, 'content', 'qimou:content', () => async function (event, trigger, player) {
-			const shas = player.getCards('h', 'sha');
-			const shaCard = shas[0] || { name: 'sha' };
-			let num;
-			if (player.hp >= 4 && shas.length >= 3) {
-				num = 3;
-			} else if (player.hp >= 3 && shas.length >= 2) {
-				num = 2;
-			} else {
-				num = 1;
-			}
-			const targets = [];
-			for (const current of host.aliveOthers(player)) {
-				try {
-					if (get.attitude(player, current) >= 0) continue;
-					targets.push({
-						currentlyInRange: !!player.canUse(shaCard, current),
-						canUseIgnoringDistance: !!player.canUse(shaCard, current, false),
-						effect: get.effect(current, shaCard, player, player),
-						attackDistance: get.distance(player, current, 'attack'),
-						hp: current.hp,
-					});
-				} catch (e) {}
-			}
-			const minTier = qimouMinimalPayment({
-				tier: num,
-				baseUsable: player.getCardUsable('sha'),
-				shaCount: shas.length,
-				hp: player.hp,
-				targets,
-			});
-			if (minTier < num) {
-				stats.qimouMinPay++;
-				num = minTier;
-			}
-			const map = {};
-			const list = [];
-			for (let i2 = 1; i2 <= player.hp; i2++) {
-				const cn = get.cnNumber(i2, true);
-				map[cn] = i2;
-				list.push(cn);
-			}
-			player.awakenSkill(event.name);
-			player.storage.qimou = true;
-			const control = await player.chooseControl(list, function () {
-				return get.cnNumber(_status.event.goon, true);
-			}).set('prompt', '失去任意点体力').set('goon', num).forResult();
-			num = map[control.control] || 1;
-			player.storage.qimou2 = num;
-			player.addTempSkill('qimou2');
-			await player.loseHp(num);
-		});
-	}
 }
 
 /* 界魏延【狂骨 xinkuanggu】：hp<=1 回复；杀充足回复（原生保留）；
- * 2血无桃储备回复；其余摸牌。与原生 cost 嵌套条件一致。 */
+ * 其余摸牌。与原生 cost 嵌套条件一致。 */
 function installKuanggu(host, stats) {
 	const info = lib.skill && lib.skill.xinkuanggu;
 	if (!info || typeof info.cost !== 'function') return;
@@ -133,14 +79,12 @@ function installKuanggu(host, stats) {
 		} catch (e) {}
 		const shaReady = player.countCards('hs', card => card.name === 'sha' && player.hasValueTarget(card));
 		const shaUsable = player.getCardUsable('sha');
-		const taoCount = player.countCards('hs', 'tao');
 		const choice = kuangguChoice({
 			hp: player.hp,
 			isDamaged: player.isDamaged(),
 			recoverEffect,
 			shaReady,
 			shaUsable,
-			taoCount,
 		});
 		if (choice === 'recover_hp' && player.hp > 1 && !(shaUsable > 0 && shaReady >= shaUsable)) {
 			stats.kuangguHp2++;
@@ -202,94 +146,6 @@ function installShensu(host, stats) {
 	});
 }
 
-/* 夏侯渊【神速2/4】（本轮新增接管）：神速2 低体力不弃防具；
- * 神速4 弃牌分支只在低体力保命、被乐压制或可收割濒死敌人时放行。 */
-function installShensu24(host, stats) {
-	const shensu2 = lib.skill && lib.skill.shensu2;
-	if (shensu2 && typeof shensu2.cost === 'function') {
-		host.wrap(shensu2, 'cost', 'shensu2:cost', () => async function (event, trigger, player) {
-			event.result = await player.chooseCardTarget({
-				prompt: get.prompt(event.skill),
-				prompt2: '弃置一张装备牌并跳过出牌阶段，视为对一名其他角色使用一张【杀】',
-				filterCard(card, player2) {
-					return get.type(card) == 'equip' && lib.filter.cardDiscardable(card, player2);
-				},
-				position: 'he',
-				filterTarget(card, player2, target) {
-					if (player2 == target) return false;
-					return player2.canUse({ name: 'sha' }, target, false);
-				},
-				ai1(card) {
-					if (_status.event.check) return 0;
-					if (_status.event.player.hp <= 2 && get.subtype(card) == 'equip2') {
-						stats.shensu2ArmorKeep++;
-						return -3;
-					}
-					return 6 - get.value(card);
-				},
-				ai2(target) {
-					if (_status.event.check) return 0;
-					return get.effect(target, { name: 'sha' }, _status.event.player);
-				},
-				check: player.countCards('hs', i2 => player.hasValueTarget(i2, null, true)) > player.hp - 1,
-			}).setHiddenSkill(event.skill).forResult();
-		});
-	}
-	const xinshensu2 = lib.skill && lib.skill.xinshensu_2;
-	if (xinshensu2 && typeof xinshensu2.cost === 'function' && xinshensu2.cost !== (shensu2 && shensu2.cost)) {
-		host.wrap(xinshensu2, 'cost', 'shensu2:cost-xin', () => async function (event, trigger, player) {
-			event.result = await player.chooseCardTarget({
-				prompt: get.prompt(event.skill),
-				prompt2: '弃置一张装备牌并跳过出牌阶段，视为对一名其他角色使用一张【杀】',
-				filterCard(card, player2) {
-					return get.type(card) == 'equip' && lib.filter.cardDiscardable(card, player2);
-				},
-				position: 'he',
-				filterTarget(card, player2, target) {
-					if (player2 == target) return false;
-					return player2.canUse({ name: 'sha' }, target, false);
-				},
-				ai1(card) {
-					if (_status.event.check) return 0;
-					if (_status.event.player.hp <= 2 && get.subtype(card) == 'equip2') return -3;
-					return 6 - get.value(card);
-				},
-				ai2(target) {
-					if (_status.event.check) return 0;
-					return get.effect(target, { name: 'sha' }, _status.event.player);
-				},
-				check: player.countCards('hs', i2 => player.hasValueTarget(i2, null, true)) > player.hp - 1,
-			}).setHiddenSkill(event.skill).forResult();
-		});
-	}
-	const shensu4 = lib.skill && lib.skill.shensu4;
-	if (shensu4 && typeof shensu4.cost === 'function') {
-		host.wrap(shensu4, 'cost', 'shensu4:cost', () => async function (event, trigger, player) {
-			const killTarget = game.hasPlayer(function (current) {
-				return current != player && get.attitude(player, current) < 0 && current.hp <= 1 && player.canUse({ name: 'sha' }, current, false) && get.effect(current, { name: 'sha' }, player, player) > 0;
-			});
-			const check = shensu4ShouldUse({
-				turned: player.isTurnedOver(),
-				shebianCanMove: player.hasSkill('shebian') && player.canMoveCard(true, true),
-				needDiscard: player.needsToDiscard(),
-				hp: player.hp,
-				hasLebu: player.hasJudge('lebu'),
-				killTarget,
-			});
-			event.result = await player.chooseTarget(get.prompt(event.skill), '跳过弃牌阶段并将武将牌翻面，视为对一名其他角色使用一张【杀】', function (card, player2, target) {
-				if (player2 == target) return false;
-				return player2.canUse({ name: 'sha' }, target, false);
-			}).set('check', check).set('ai', function (target) {
-				if (!_status.event.check) {
-					if (player.needsToDiscard() > 0) stats.shensu4Restrict++;
-					return 0;
-				}
-				return get.effect(target, { name: 'sha' }, _status.event.player, _status.event.player);
-			}).setHiddenSkill(event.skill).forResult();
-		});
-	}
-}
-
 /* 于吉【蛊惑】：宿主 1.11.7 的假牌被质疑时“此牌作废”，不直接失去体力；
  * 1血无真牌仍诈称的风险是损失扣置的防御牌。声明评分守卫保持前轮结论；
  * 本轮新增：扣置材料从 50% 随机改为确定性价值门槛（真牌恒优先）。 */
@@ -345,6 +201,8 @@ function installGuhuo(host, stats) {
 									isTrueCard,
 									materialValue: get.value(card, player2),
 									isDying: player2.isDying(),
+									hp: player2.hp,
+									cardName: card.name,
 								});
 								if (!isTrueCard && score === 0) stats.guhuoMaterialGate++;
 								return score;
@@ -396,7 +254,7 @@ function installHuangtian(host, stats) {
 }
 
 /* 张角【鬼道 guidao】（本轮新增接管）：评分三项修正——
- * 1. 候选牌按判定者视角评估花色（红颜修正），避免对红颜角色误判黑桃牌；
+ * 1. 候选牌两种视角花色不同时保守放弃，避免残缺伪牌或花色误判；
  * 2. 改判后原判定牌进入手牌，按同样折算计入收益；
  * 3. 低体力的最后一张闪防御价值加倍。 */
 function installGuidao(host, stats) {
@@ -414,14 +272,13 @@ function installGuidao(host, stats) {
 		}).set('ai', (card) => {
 			const trigger2 = get.event().getTrigger();
 			const { player: player2, judging } = get.event();
-			let cardForJudge = card;
 			try {
-				if (get.suit(card, trigger2.player) != card.suit) {
-					cardForJudge = { suit: get.suit(card, trigger2.player), number: get.number(card), name: card.name };
+				if (get.suit(card, trigger2.player) != get.suit(card)) {
 					stats.guidaoHongyanFix++;
+					return 0;
 				}
 			} catch (e) {}
-			const result = trigger2.judge(cardForJudge) - trigger2.judge(judging);
+			const result = trigger2.judge(card) - trigger2.judge(judging);
 			const attitude = get.attitude(player2, trigger2.player);
 			let val = get.value(card, player2);
 			if (card.name == 'shan' && player2.hp <= 2 && player2.countCards('h', 'shan') <= 1) {
@@ -451,7 +308,6 @@ function installReleiji(host, stats) {
 			return target != player2;
 		});
 		next.ai = function (target) {
-			if (target.hasSkill('hongyan')) return 0;
 			const player2 = _status.event.player;
 			const eff = get.damageEffect(target, player2, player2, 'thunder');
 			let recoverEff = 0;
@@ -459,64 +315,10 @@ function installReleiji(host, stats) {
 				recoverEff = player2.isDamaged() ? get.recoverEffect(player2, player2, player2) : 0;
 			} catch (e) {}
 			stats.releijiWeighted++;
-			return eff * 0.75 + recoverEff * 0.25;
+			return eff * (target.hasSkill('hongyan') ? 0.25 : 0.75) + recoverEff * 0.25;
 		};
 		event.result = await next.forResult();
 	});
-}
-
-/* 黄忠【烈弓 xinliegong】（本轮新增接管）：aiOrder 的摸牌加速只在“摸牌能
- * 解锁烈弓不可响应条件”时生效；新增 effect.player 钩子把加伤收益
- * 计入对体力不低于黄忠的敌人的杀评分。 */
-function installLiegong(host, stats) {
-	const info = lib.skill && lib.skill.xinliegong;
-	if (!info) return;
-	if (info.mod && typeof info.mod.aiOrder === 'function') {
-		host.wrap(info.mod, 'aiOrder', 'liegong:aiOrder', original => function (player, card, num) {
-			try {
-				if (num > 0 && card && card.name === 'sha') return num + 6;
-				if (num > 0 && card && get.tag(card, 'draw')) {
-					if (player.countCards('h', 'sha') > 0 && game.hasPlayer(function (current) {
-						return get.attitude(player, current) < 0 && current.countCards('h') > player.countCards('h') && current.countCards('h') <= player.countCards('h') + 2 && player.inRange(current);
-					})) {
-						stats.liegongDrawUnlock++;
-						return num + 7;
-					}
-					// 本轮语义：摸牌不能解锁不可响应条件时不加速，
-					// 不回退到原生的无条件+6（无论原生补丁是否在场）。
-					return undefined;
-				}
-			} catch (e) {}
-			return original.apply(this, arguments);
-		});
-	}
-	if (info.ai) {
-		let addedEffect = false;
-		let addedPlayer = false;
-		if (!info.ai.effect) {
-			info.ai.effect = {};
-			addedEffect = true;
-		}
-		if (!info.ai.effect.player) {
-			info.ai.effect.player = function (card, player, target) {
-				try {
-					if (card && card.name == 'sha' && target && get.attitude(player, target) < 0 && target.hp >= player.hp && target.hp > 1) {
-						stats.liegongExtra++;
-						return [1, 0, 1.5, 0];
-					}
-				} catch (e) {}
-			};
-			addedPlayer = true;
-			host.addCleanup(() => {
-				try {
-					if (info.ai.effect) {
-						delete info.ai.effect.player;
-						if (addedEffect && !Object.keys(info.ai.effect).length) delete info.ai.effect;
-					}
-				} catch (e) {}
-			});
-		}
-	}
 }
 
 function install(host, stats) {
@@ -524,10 +326,8 @@ function install(host, stats) {
 	installKuanggu(host, stats);
 	installJushou(host, stats);
 	installShensu(host, stats);
-	installShensu24(host, stats);
 	installGuhuo(host, stats);
 	installHuangtian(host, stats);
 	installGuidao(host, stats);
 	installReleiji(host, stats);
-	installLiegong(host, stats);
 }

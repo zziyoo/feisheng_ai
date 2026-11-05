@@ -44,49 +44,17 @@ export function shouldBypassQimouCountBlock(input) {
 	return false;
 }
 
-/* qimou 支付最小化（本轮新增，对应原生 content 内的循环）：
- * 第x档攻击距离上限 x+1、杀次数上限 原有+x。在已有目标记录中寻找
- * 能形成有效打击的最低支付档；找不到则维持原档位。 */
-export function qimouMinimalPayment(input) {
-	const { tier, baseUsable, shaCount, hp, targets } = input || {};
-	const sha = Math.max(0, Math.floor(Number(shaCount) || 0));
-	const base = Math.max(0, Math.floor(Number(baseUsable) || 0));
-	const life = Number(hp);
-	let num = Number(tier);
-	if (!Number.isFinite(num) || num < 1) num = 1;
-	if (!Number.isFinite(life) || life <= 1) return Math.min(num, Math.max(1, life || 1));
-	const list = Array.isArray(targets) ? targets : [];
-	for (let x = 1; x < num; x++) {
-		const usable = base + x;
-		for (const target of list) {
-			if (!target || typeof target !== 'object') continue;
-			if (target.currentlyInRange) continue;
-			if (!target.canUseIgnoringDistance) continue;
-			if (!(Number(target.effect) > 0)) continue;
-			const attackDistance = Number(target.attackDistance);
-			if (!Number.isFinite(attackDistance) || attackDistance > x + 1) continue;
-			const targetHp = Number(target.hp);
-			if (!Number.isFinite(targetHp)) continue;
-			if (targetHp > Math.min(sha, usable)) continue;
-			return x;
-		}
-	}
-	return num;
-}
-
 /* 界魏延【狂骨】：本轮扩展为三分支（对应原生 cost 的嵌套条件）。
  * hp<=1 回复（与宿主 chooseDrawRecover 对 hp==1 的处理一致）；
- * 杀充足时回复（原生语义保留）；2血且无桃储备时回复；其余摸牌。 */
+ * 杀充足时回复；其余摸牌。 */
 export function kuangguChoice(input) {
-	const { hp, isDamaged, recoverEffect, shaReady, shaUsable, taoCount } = input || {};
+	const { hp, isDamaged, recoverEffect, shaReady, shaUsable } = input || {};
 	if (!isDamaged || !(Number(recoverEffect) > 0)) return 'draw_card';
 	const life = Number(hp);
 	if (Number.isFinite(life) && life <= 1) return 'recover_hp';
 	const ready = Number(shaReady);
 	const usable = Number(shaUsable);
 	if (Number.isFinite(usable) && usable > 0 && Number.isFinite(ready) && ready >= usable) return 'recover_hp';
-	const tao = Number(taoCount);
-	if (Number.isFinite(life) && life <= 2 && (Number.isFinite(tao) ? tao === 0 : false)) return 'recover_hp';
 	return 'draw_card';
 }
 
@@ -111,38 +79,16 @@ export function shensu1ShouldUse(input) {
 	return Number(effect) >= Number(drawEffect);
 }
 
-/* 神速4（本轮新增，对应原生 cost 的 check 重构）：
- * 已翻面或舍班可移牌时放行（原生保留）；需要弃牌时只在
- * 低体力保命、被乐压制下回合、或存在可收割的濒死敌人时放行。 */
-export function shensu4ShouldUse(input) {
-	const { turned, shebianCanMove, needDiscard, hp, hasLebu, killTarget } = input || {};
-	if (turned) return true;
-	if (shebianCanMove) return true;
-	if (!(Number(needDiscard) > 0)) return false;
-	const life = Number(hp);
-	if (Number.isFinite(life) && life <= 2) return true;
-	if (hasLebu) return true;
-	return !!killTarget;
-}
-
 /* 蛊惑扣置材料（本轮新增，对应原生 backup.ai1 的确定性门槛）：
  * 真牌恒优先；诈称材料只在低价值（与原生声明门槛 raw<6 一致）且非濒死时支付。 */
 export function guhuoMaterialScore(input) {
-	const { isTrueCard, materialValue, isDying } = input || {};
+	const { isTrueCard, materialValue, isDying, hp, cardName } = input || {};
 	const value = Number(materialValue);
 	if (isTrueCard) return 5;
 	if (isDying) return 0;
-	if (!Number.isFinite(value) || value < 6) return 4 - (Number.isFinite(value) ? value / 2 : 0);
+	if (Number(hp) <= 1 && (cardName === 'shan' || cardName === 'tao')) return 0;
+	if (Number.isFinite(value) && value < 6) return Math.min(4.5, 4 - value / 2);
 	return 0;
-}
-
-/* 天香两方案联合评分的纯比较部分（对应原生 txOptions 的比较）：
- * 返回 0 选“伤害+摸牌”，1 选“失去体力+赠牌”，-1 表示由调用方回退原生。 */
-export function retianxiangOptionIndex(eff1, eff2) {
-	const a = Number(eff1);
-	const b = Number(eff2);
-	if (!Number.isFinite(a) || !Number.isFinite(b)) return -1;
-	return a >= b ? 0 : 1;
 }
 
 /* 黄天（本轮修订，对应原生 result.target 的完整逻辑）：
@@ -160,26 +106,4 @@ export function huangtianTargetScore(input) {
 	}
 	if (selectedShandian) return null;
 	return 0;
-}
-
-/* 周泰【不屈】伤害估值模型（本轮新增，对应原生 ai.effect.target）：
- * dupChance = Σ_创 max(0, 8 - 公开区该点数张数) / 108，再加 0.1 压制价值。
- * outCount 为公开区（弃牌堆+装备/判定区+创自身）各点数张数统计；
- * 无创时：血量>1 正常估值 1，血量<=1 时第一张创必不重复，只保留 0.2 压制价值。 */
-export function buquDamageFactor(input) {
-	const { creations, outCount, hp } = input || {};
-	const list = Array.isArray(creations) ? creations : [];
-	if (!list.length) {
-		const life = Number(hp);
-		return Number.isFinite(life) && life > 1 ? 1 : 0.2;
-	}
-	const counts = outCount && typeof outCount === 'object' ? outCount : {};
-	let dupChance = 0;
-	for (const num of list) {
-		const n = Number(num);
-		if (!Number.isFinite(n)) continue;
-		const out = Number(counts[n]);
-		dupChance += Math.max(0, 8 - (Number.isFinite(out) ? out : 0)) / 108;
-	}
-	return Math.min(1, dupChance + 0.1);
 }
