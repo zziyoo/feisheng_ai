@@ -14,7 +14,7 @@ export const pack = {
 		qimouBypass: 0, kuangguRecover: 0, kuangguHp2: 0, jushouTurned: 0, jushouThreatHold: 0,
 		shensuSkipJudge: 0, shensuCostBlock: 0, shensu4Restrict: 0, shensu2ArmorKeep: 0, guhuoLowHpGuard: 0, guhuoMaterialGate: 0,
 		huangtianLastShan: 0, guhuoCalls: 0, guidaoHongyanFix: 0, releijiWeighted: 0,
-		retianxiangJoint: 0, liegongDrawUnlock: 0, liegongExtra: 0, qimouMinPay: 0, buquProbModel: 0,
+		retianxiangJoint: 0, liegongDrawUnlock: 0, liegongExtra: 0, qimouMinPay: 0, buquHeuristic: 0,
 	},
 	install,
 };
@@ -321,6 +321,51 @@ function installReleiji(host, stats) {
 	});
 }
 
+/* 仅在实体无中生有净增手牌能够翻转实体杀的不可响应条件时提前。 */
+function installLiegong(host, stats) {
+	const mod = lib.skill && lib.skill.xinliegong && lib.skill.xinliegong.mod;
+	if (!mod || typeof mod.aiOrder !== 'function') return;
+	host.wrap(mod, 'aiOrder', 'liegong:aiOrder', original => function (player, card, num) {
+		try {
+			if (num > 0 && card && card.name === 'wuzhong' && get.tag(card, 'draw') === 2 && player.getCards('h').includes(card)) {
+				const hand = player.countCards('h');
+				if (player.getCards('h', 'sha').some(sha => game.hasPlayer(target =>
+					target != player && get.attitude(player, target) < 0 && target.countCards('h') === hand && player.canUse(sha, target) && get.effect(target, sha, player, player) > 0
+				))) {
+					stats.liegongDrawUnlock++;
+					return num + 7;
+				}
+			}
+		} catch (e) {}
+		return original.apply(this, arguments);
+	});
+}
+
+/* 基于公开创点数的拥挤度启发式，不推断牌堆组成或顺序。 */
+function installBuqu(host, stats) {
+	const effect = lib.skill && lib.skill.gzbuqu && lib.skill.gzbuqu.ai && lib.skill.gzbuqu.ai.effect;
+	if (!effect || typeof effect.target !== 'function') return;
+	host.wrap(effect, 'target', 'buqu:effectTarget', original => function (card, player, target) {
+		try {
+			const damage = get.tag(card, 'damage');
+			const loss = get.tag(card, 'loseHp');
+			if (!(damage || loss)) return original.apply(this, arguments);
+			const amount = Math.max(Number(damage) || 0, Number(loss) || 0);
+			const hp = Number(target.hp);
+			if (!Number.isInteger(amount) || amount <= 0 || !Number.isInteger(hp) || target.hujia > 0) return original.apply(this, arguments);
+			const ranks = target.getExpansions('gzbuqu').map(card2 => get.number(card2));
+			if (ranks.some(n => !Number.isInteger(n) || n < 1 || n > 13)) return original.apply(this, arguments);
+			const unique = new Set(ranks).size;
+			if (unique !== ranks.length) return 1;
+			const added = Math.min(amount, Math.max(0, amount - Math.max(0, hp - 1)));
+			if (!added) return 1;
+			const risk = Math.min(0.9, 0.2 + (unique + added - 1) / 13);
+			stats.buquHeuristic++;
+			return (amount - added + added * risk) / amount;
+		} catch (e) { return original.apply(this, arguments); }
+	});
+}
+
 function install(host, stats) {
 	installQimou(host, stats);
 	installKuanggu(host, stats);
@@ -330,4 +375,6 @@ function install(host, stats) {
 	installHuangtian(host, stats);
 	installGuidao(host, stats);
 	installReleiji(host, stats);
+	installLiegong(host, stats);
+	installBuqu(host, stats);
 }
