@@ -1,5 +1,5 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 5c6b68c..8b17008 100644
+index 5c6b68c..2e98912 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
 @@ -3706,9 +3706,6 @@ const skills = {
@@ -130,7 +130,7 @@ index 5c6b68c..8b17008 100644
 +      const danger = target.hp <= 1;
 +      const damage = get.damageEffect(target, source, viewer);
 +      const lose = get.effect(target, { name: "losehp" }, target, viewer);
-+      const draw = get.effect(target, { name: "draw" }, viewer, viewer);
++      const draw = get.effect(target, { name: "draw" }, target, viewer);
 +      // 两项共同面临濒死，风险影响目标与弃牌选择，不改变二选一的相对次序。
 +      const risk = danger ? -attitude * 2 : 0;
 +      const drawValue = danger ? 0 : draw * Math.min(5, target.getDamagedHp() + 1);
@@ -188,7 +188,7 @@ index 5c6b68c..8b17008 100644
          },
          prompt: get.prompt(event.skill),
          prompt2: lib.translate[`${event.skill}_info`]
-@@ -7770,19 +7819,12 @@ const skills = {
+@@ -7770,19 +7819,13 @@ const skills = {
        const result = await player.chooseControlList(
          true,
          function(event2, player2) {
@@ -203,7 +203,8 @@ index 5c6b68c..8b17008 100644
 -            return 1;
 -          }
 +          const choice = _status.event;
-+          const values = lib.skill.retianxiang.aiOptions(choice.target, choice.txSource, choice.txCard, player2);
++          const gift = choice.txCard && choice.txCard.isInPile() ? choice.txCard : null;
++          const values = lib.skill.retianxiang.aiOptions(choice.target, choice.txSource, gift, player2);
 +          return values[0] >= values[1] ? 0 : 1;
          },
          ["令" + get.translation(target) + "受到伤害来源对其造成的1点伤害，然后摸X张牌（X为其已损失体力值且至多为5）", "令" + get.translation(target) + "失去1点体力，然后获得" + get.translation(event.cards)]
@@ -212,7 +213,7 @@ index 5c6b68c..8b17008 100644
        if (typeof result.index != "number") {
          return;
        }
-@@ -8193,8 +8235,24 @@ const skills = {
+@@ -8193,8 +8236,24 @@ const skills = {
        effect: {
          target(card, player, target) {
            if (get.tag(card, "damage") || get.tag(card, "loseHp")) {
@@ -239,7 +240,7 @@ index 5c6b68c..8b17008 100644
            }
          }
        }
-@@ -8487,9 +8545,16 @@ const skills = {
+@@ -8487,9 +8546,16 @@ const skills = {
        }).set("ai", (card) => {
          const trigger2 = get.event().getTrigger();
          const { player: player2, judging } = get.event();
@@ -257,7 +258,7 @@ index 5c6b68c..8b17008 100644
          if (get.subtype(card) == "equip2") {
            val /= 2;
          } else {
-@@ -8498,10 +8563,13 @@ const skills = {
+@@ -8498,10 +8564,13 @@ const skills = {
          if (attitude == 0 || result == 0) {
            return 0;
          }
@@ -273,7 +274,7 @@ index 5c6b68c..8b17008 100644
        }).set("judging", trigger.player.judging[0]).forResult();
      },
      popup: false,
-@@ -8653,7 +8721,23 @@ const skills = {
+@@ -8653,7 +8722,23 @@ const skills = {
        expose: 0.3,
        order: 10,
        result: {
@@ -298,7 +299,7 @@ index 5c6b68c..8b17008 100644
        }
      }
    },
-@@ -8737,6 +8821,11 @@ const skills = {
+@@ -8737,6 +8822,11 @@ const skills = {
              }
              return false;
            }, "hs")) {
@@ -310,7 +311,7 @@ index 5c6b68c..8b17008 100644
              if (get.value(card, player, "raw") < 6) {
                return Math.sqrt(val) * (0.25 + Math.random() / 1.5);
              }
-@@ -8767,7 +8856,6 @@ const skills = {
+@@ -8767,7 +8857,6 @@ const skills = {
            selectCard: 1,
            position: "hs",
            ignoreMod: true,
@@ -318,7 +319,7 @@ index 5c6b68c..8b17008 100644
            viewAs: {
              name: links[0][2],
              nature: links[0][3],
-@@ -8782,10 +8870,15 @@ const skills = {
+@@ -8782,10 +8871,15 @@ const skills = {
              const cardx = lib.skill.xinfu_guhuo_backup.viewAs;
              if (enemyNum) {
                if (card.name == cardx.name && (card.name != "sha" || get.is.sameNature(card, cardx))) {
