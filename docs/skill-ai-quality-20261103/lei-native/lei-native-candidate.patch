@@ -1,7 +1,16 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 5c6b68c..bb4dd0c 100644
+index 5c6b68c..8a133a2 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
+@@ -792,7 +792,7 @@ const skills = {
+     },
+     async cost(event, trigger, player) {
+       event.result = await player.chooseCard("he", [1, player.countCards("he")], get.prompt(event.skill), "将任意张牌作为“箜”置于武将牌上", "allowChooseAll").set("ai", function(card) {
+-        const player2 = _status.event.player, num = player2.getExpansions("olkongsheng") + ui.selected.cards.length;
++        const player2 = _status.event.player, num = player2.getExpansions("olkongsheng").length + ui.selected.cards.length;
+         if (ui.selected.cards.length > 0 && game.hasPlayer(function(current) {
+           if (current.isHealthy() || get.recoverEffect(current, player2, player2) <= 0) {
+             return false;
 @@ -1177,7 +1177,8 @@ const skills = {
      async cost(event, trigger, player) {
        event.result = await player.chooseTarget(get.prompt2(event.skill), lib.filter.notMe).set("ai", (target) => {
