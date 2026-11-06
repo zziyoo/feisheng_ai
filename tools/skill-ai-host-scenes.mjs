@@ -2613,6 +2613,19 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.damage = damage.events.map(item => ({ num: item && item.num, player: item && item.player && item.player.playerid }));
 		});
 
+		await scene('refresh-feng-third-retained-load', async rec => {
+			rec.setup = { skills: ['shebian', 'olhongyan', 'piaoling', 'xinleiji', 'xinguidao', 'xinhuangtian', 'xinjiewei', 'buqu', 'remoshi'] };
+		}, async rec => {
+			const loaded = [];
+			for (const id of rec.setup.skills) {
+				if (!lib.skill[id]) { loaded.push({ id, exists: false }); continue; }
+				actor.addSkill(id);
+				loaded.push({ id, exists: true, acquired: actor.hasSkill(id) });
+				actor.removeSkill(id);
+			}
+			rec.result = { loaded };
+		});
+
 		await scene('refresh-feng-third-liegong-order', async rec => {
 			actor.addSkill('xinliegong');
 			await give(actor, [['wuzhong', 'heart', 6], ['sha', 'spade', 7]]);
