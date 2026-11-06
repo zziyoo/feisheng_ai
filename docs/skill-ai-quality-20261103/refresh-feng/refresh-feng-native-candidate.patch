@@ -1,5 +1,5 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 5c6b68c..6c88240 100644
+index 5c6b68c..70c0026 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
 @@ -3242,7 +3242,7 @@ const skills = {
@@ -31,7 +31,7 @@ index 5c6b68c..6c88240 100644
    xinliegong: {
      mod: {
        aiOrder(player, card, num) {
-+        if (num > 0 && card.name === "wuzhong" && get.tag(card, "draw") === 2 && player.getCards("h").includes(card)) {
++        if (num > 0 && card.name === "wuzhong" && get.tag(card, "draw") === 2 && player.getCardUsable("sha") > 0 && player.getCards("h").includes(card)) {
 +          const hand = player.countCards("h");
 +          if (player.getCards("h", "sha").some((sha) => game.hasPlayer((target) =>
 +            target != player && get.attitude(player, target) < 0 && target.countCards("h") === hand && player.canUse(sha, target) && get.effect(target, sha, player, player) > 0
