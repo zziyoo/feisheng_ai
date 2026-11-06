@@ -2646,6 +2646,35 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.result = { orderCalls, ops: probe.log, hand: hand(actor) };
 		});
 
+		await scene('refresh-feng-fourth-separate-uninstall', async rec => {
+			actor.addSkill('xinliegong');
+			await give(actor, [['wuzhong', 'heart', 6], ['sha', 'spade', 7]]);
+			const target = game.players.find(p => p !== actor && get.attitude(actor, p) < 0 && actor.canUse({ name: 'sha' }, p));
+			if (!target) throw new Error('no legal hostile target');
+			await give(target, [['shan', 'heart', 8], ['shan', 'club', 9]]);
+			actor.getStat().card.sha = 1;
+			rec.setup = { remainingSha: actor.getCardUsable('sha'), actorHand: actor.countCards('h'), targetHand: target.countCards('h') };
+		}, async rec => {
+			const core = await import('/extension/无名AI/score/decision/skills/policyCore.js?v=41a');
+			const wind = (await import('/extension/无名AI/score/decision/skills/packs/shenhuaFeng.js?v=42a')).pack;
+			const refresh = (await import('/extension/无名AI/score/decision/skills/packs/refreshFeng.js?v=41a')).pack;
+			const owner = lib.skill.xinliegong.mod, base = owner.aiOrder, material = actor.getCards('h', 'wuzhong')[0], cases = [];
+			for (const [name, first, second, removeFirst] of [
+				['wind-refresh-remove-wind', wind, refresh, true], ['wind-refresh-remove-refresh', wind, refresh, false],
+				['refresh-wind-remove-refresh', refresh, wind, true], ['refresh-wind-remove-wind', refresh, wind, false],
+			]) {
+				const h1 = core.createPolicyHost(), h2 = core.createPolicyHost();
+				try {
+					h1.install([first]); h2.install([second]);
+					(removeFirst ? h1 : h2).uninstall();
+					const afterOne = { score: owner.aiOrder(actor, material, 10), tag: owner.aiOrder.__djscSkillPolicy || null };
+					(removeFirst ? h2 : h1).uninstall();
+					cases.push({ name, afterOne, fullyRestored: owner.aiOrder === base, remainingTag: owner.aiOrder.__djscSkillPolicy || null });
+				} finally { h2.uninstall(); h1.uninstall(); owner.aiOrder = base; }
+			}
+			rec.result = { cases };
+		});
+
 		await scene('refresh-feng-third-coexist-order', async rec => {
 			actor.addSkill('xinliegong');
 			await give(actor, [['wuzhong', 'heart', 6], ['sha', 'spade', 7]]);
