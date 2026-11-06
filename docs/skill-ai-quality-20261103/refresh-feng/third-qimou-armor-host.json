@@ -1,0 +1,631 @@
+{
+  "completedAt": "2026-11-06T06:35:10.630Z",
+  "status": "passed",
+  "scope": "每个场景独立页面加载真实无名杀宿主；固定公开局面，不伪造AI摸牌",
+  "seed": "20261030",
+  "variant": "policy",
+  "mode": "identity",
+  "scenarioCount": 1,
+  "results": [
+    {
+      "scenario": "reqimou-near1-armor2-3sha",
+      "mode": "identity",
+      "before": {
+        "actor": {
+          "id": "271475210",
+          "name": "271475210:clan_lutan",
+          "hp": 4,
+          "maxHp": 4,
+          "hujia": 0,
+          "hand": [
+            "sha",
+            "sha",
+            "sha"
+          ],
+          "equips": [],
+          "skills": [
+            "reqimou"
+          ],
+          "dead": false
+        },
+        "target": {
+          "id": "920326411",
+          "name": "920326411:std_sunhao",
+          "hp": 1,
+          "maxHp": 4,
+          "hujia": 2,
+          "hand": [],
+          "equips": [],
+          "skills": [],
+          "dead": false
+        },
+        "enemies": [
+          {
+            "seat": 1,
+            "id": "920326411",
+            "name": "920326411:std_sunhao",
+            "hp": 1,
+            "maxHp": 4,
+            "hujia": 2,
+            "hand": [],
+            "equips": [],
+            "skills": [],
+            "dead": false,
+            "distance": 1,
+            "currentlyInRange": true,
+            "canUseIgnoringDistance": true
+          },
+          {
+            "seat": 4,
+            "id": "118930314",
+            "name": "118930314:jsrg_xugong",
+            "hp": 4,
+            "maxHp": 4,
+            "hujia": 0,
+            "hand": [],
+            "equips": [],
+            "skills": [],
+            "dead": false,
+            "distance": 4,
+            "currentlyInRange": false,
+            "canUseIgnoringDistance": true
+          },
+          {
+            "seat": 5,
+            "id": "498269615",
+            "name": "498269615:liuye",
+            "hp": 4,
+            "maxHp": 4,
+            "hujia": 0,
+            "hand": [],
+            "equips": [],
+            "skills": [],
+            "dead": false,
+            "distance": 3,
+            "currentlyInRange": false,
+            "canUseIgnoringDistance": true
+          }
+        ],
+        "distance": 1,
+        "attackDistance": 1,
+        "attackRange": 1,
+        "attitude": -4,
+        "skillGate": {
+          "reqimou": {
+            "enabled": true,
+            "error": null
+          }
+        },
+        "orderProbe": {
+          "reqimou": {
+            "order": 14,
+            "error": null,
+            "declared": 14
+          }
+        },
+        "resultProbe": {
+          "reqimou": {
+            "playerResult": 1,
+            "effectUse": 10,
+            "error": null
+          }
+        }
+      },
+      "after": {
+        "actor": {
+          "id": "271475210",
+          "name": "271475210:clan_lutan",
+          "hp": 2,
+          "maxHp": 4,
+          "hujia": 0,
+          "hand": [
+            "shandian",
+            "sha",
+            "sha",
+            "shan"
+          ],
+          "equips": [],
+          "skills": [
+            "reqimou2"
+          ],
+          "dead": false
+        },
+        "target": {
+          "id": "920326411",
+          "name": "920326411:std_sunhao",
+          "hp": 0,
+          "maxHp": 4,
+          "hujia": 0,
+          "hand": [],
+          "equips": [],
+          "skills": [],
+          "dead": false
+        },
+        "enemies": [
+          {
+            "seat": 1,
+            "id": "920326411",
+            "name": "920326411:std_sunhao",
+            "hp": 0,
+            "maxHp": 4,
+            "hujia": 0,
+            "hand": [],
+            "equips": [],
+            "skills": [],
+            "dead": false
+          },
+          {
+            "seat": 4,
+            "id": "118930314",
+            "name": "118930314:jsrg_xugong",
+            "hp": 4,
+            "maxHp": 4,
+            "hujia": 0,
+            "hand": [],
+            "equips": [],
+            "skills": [],
+            "dead": false
+          },
+          {
+            "seat": 5,
+            "id": "498269615",
+            "name": "498269615:liuye",
+            "hp": 4,
+            "maxHp": 4,
+            "hujia": 0,
+            "hand": [],
+            "equips": [],
+            "skills": [],
+            "dead": false
+          }
+        ],
+        "dead": [
+          "920326411:std_sunhao"
+        ],
+        "policyStats": {
+          "installed": true,
+          "fairRedimeng": 0,
+          "redimengMaskFailed": 0,
+          "redimengTrace": [],
+          "keptTao": 0,
+          "keptShan": 0,
+          "skippedExchange": 0,
+          "skippedOrder": 0,
+          "retuxiTargetBonus": 0,
+          "calls": 0,
+          "last": [],
+          "olkongshengCostCalls": 0,
+          "olkongshengCompatible": true,
+          "qimouBypass": 0,
+          "kuangguRecover": 0,
+          "kuangguHp2": 0,
+          "jushouTurned": 0,
+          "jushouThreatHold": 0,
+          "shensuSkipJudge": 0,
+          "shensuCostBlock": 0,
+          "shensu4Restrict": 0,
+          "shensu2ArmorKeep": 0,
+          "guhuoLowHpGuard": 0,
+          "guhuoMaterialGate": 0,
+          "huangtianLastShan": 0,
+          "guhuoCalls": 0,
+          "guidaoHongyanFix": 0,
+          "releijiWeighted": 0,
+          "retianxiangJoint": 0,
+          "liegongDrawUnlock": 0,
+          "liegongExtra": 0,
+          "qimouMinPay": 0,
+          "buquHeuristic": 0,
+          "reqimouGateSkip": 0,
+          "reqimouInfeasible": 0,
+          "reqimouClamp": 1,
+          "reqimouClampCalls": 1,
+          "reqimouSelfRescue": 0,
+          "reqimouInfiniteUses": 0,
+          "luanjiAllyVeto": 0,
+          "luanjiNetVeto": 0,
+          "tianyiDecline": 0,
+          "tianyiKnownWinPass": 0,
+          "tianyiEngineVeto": 0,
+          "jianchuSkip": 0,
+          "packs": {
+            "out_of_scope": {
+              "fairRedimeng": 0,
+              "redimengMaskFailed": 0,
+              "redimengTrace": []
+            },
+            "refresh_standard": {
+              "keptTao": 0,
+              "keptShan": 0,
+              "skippedExchange": 0,
+              "skippedOrder": 0,
+              "retuxiTargetBonus": 0,
+              "calls": 0,
+              "last": []
+            },
+            "shenhua_lei": {
+              "olkongshengCostCalls": 0,
+              "olkongshengCompatible": true
+            },
+            "shenhua_feng": {
+              "qimouBypass": 0,
+              "kuangguRecover": 0,
+              "kuangguHp2": 0,
+              "jushouTurned": 0,
+              "jushouThreatHold": 0,
+              "shensuSkipJudge": 0,
+              "shensuCostBlock": 0,
+              "shensu4Restrict": 0,
+              "shensu2ArmorKeep": 0,
+              "guhuoLowHpGuard": 0,
+              "guhuoMaterialGate": 0,
+              "huangtianLastShan": 0,
+              "guhuoCalls": 0,
+              "guidaoHongyanFix": 0,
+              "releijiWeighted": 0,
+              "retianxiangJoint": 0,
+              "liegongDrawUnlock": 0,
+              "liegongExtra": 0,
+              "qimouMinPay": 0,
+              "buquHeuristic": 0
+            },
+            "refresh_feng": {
+              "reqimouGateSkip": 0,
+              "reqimouInfeasible": 0,
+              "reqimouClamp": 1,
+              "reqimouClampCalls": 1,
+              "reqimouSelfRescue": 0,
+              "reqimouInfiniteUses": 0
+            },
+            "shenhua_huo": {
+              "luanjiAllyVeto": 0,
+              "luanjiNetVeto": 0,
+              "tianyiDecline": 0,
+              "tianyiKnownWinPass": 0,
+              "tianyiEngineVeto": 0,
+              "jianchuSkip": 0
+            }
+          }
+        }
+      },
+      "debug": {
+        "aiType": "imported",
+        "chooseCardCalls": [
+          {
+            "skills": [
+              "reqimou"
+            ],
+            "uiSkills": [
+              "reqimou"
+            ],
+            "before": {
+              "eventName": "chooseToUse",
+              "selectedCards": [],
+              "selectedTargets": [],
+              "qimouScore": 2,
+              "shaScore": 3.2
+            },
+            "after": {
+              "eventSkill": "reqimou",
+              "selectedCards": [],
+              "selectedTargets": [],
+              "result": true
+            }
+          },
+          {
+            "skills": [],
+            "uiSkills": null,
+            "before": {
+              "eventName": "chooseToUse",
+              "selectedCards": [],
+              "selectedTargets": [],
+              "qimouScore": 2,
+              "shaScore": 3.2
+            },
+            "after": {
+              "selectedCards": [
+                "sha"
+              ],
+              "selectedTargets": [],
+              "result": true
+            }
+          },
+          {
+            "skills": [],
+            "uiSkills": null,
+            "before": {
+              "eventName": "chooseToUse",
+              "selectedCards": [],
+              "selectedTargets": [],
+              "qimouScore": 2,
+              "shaScore": 3.2
+            },
+            "after": {
+              "selectedCards": [],
+              "selectedTargets": [],
+              "result": false
+            }
+          },
+          {
+            "skills": [],
+            "uiSkills": null,
+            "before": {
+              "eventName": "chooseToUse",
+              "selectedCards": [],
+              "selectedTargets": [],
+              "qimouScore": 2,
+              "shaScore": 3.2
+            },
+            "after": {
+              "selectedCards": [
+                "sha"
+              ],
+              "selectedTargets": [],
+              "result": true
+            }
+          },
+          {
+            "skills": [],
+            "uiSkills": null,
+            "before": {
+              "eventName": "chooseToUse",
+              "selectedCards": [],
+              "selectedTargets": [],
+              "qimouScore": 2,
+              "shaScore": 3.2
+            },
+            "after": {
+              "selectedCards": [],
+              "selectedTargets": [],
+              "result": false
+            }
+          },
+          {
+            "skills": [],
+            "uiSkills": null,
+            "before": {
+              "eventName": "chooseToUse",
+              "selectedCards": [],
+              "selectedTargets": [],
+              "qimouScore": 2,
+              "shaScore": 3.2
+            },
+            "after": {
+              "selectedCards": [
+                "jiu"
+              ],
+              "selectedTargets": [
+                "271475210"
+              ],
+              "result": true
+            }
+          },
+          {
+            "skills": [],
+            "uiSkills": null,
+            "before": {
+              "eventName": "chooseToUse",
+              "selectedCards": [],
+              "selectedTargets": [],
+              "qimouScore": 2,
+              "shaScore": 3.2
+            },
+            "after": {
+              "selectedCards": [
+                "sha"
+              ],
+              "selectedTargets": [],
+              "result": true
+            }
+          },
+          {
+            "skills": [],
+            "uiSkills": null,
+            "before": {
+              "eventName": "chooseToUse",
+              "selectedCards": [],
+              "selectedTargets": [],
+              "qimouScore": 2,
+              "shaScore": -1
+            },
+            "after": {
+              "selectedCards": [],
+              "selectedTargets": [],
+              "result": false
+            }
+          },
+          {
+            "skills": [],
+            "uiSkills": null,
+            "before": {
+              "eventName": "chooseToUse",
+              "selectedCards": [],
+              "selectedTargets": [],
+              "qimouScore": 2,
+              "shaScore": 3.2
+            },
+            "after": {
+              "selectedCards": [
+                "shandian"
+              ],
+              "selectedTargets": [
+                "271475210"
+              ],
+              "result": true
+            }
+          },
+          {
+            "skills": [],
+            "uiSkills": null,
+            "before": {
+              "eventName": "chooseToUse",
+              "selectedCards": [],
+              "selectedTargets": [],
+              "qimouScore": 2,
+              "shaScore": 3.2
+            },
+            "after": {
+              "selectedCards": [],
+              "selectedTargets": [],
+              "result": false
+            }
+          }
+        ]
+      },
+      "reqimouPayments": [
+        {
+          "paid": 2,
+          "hpBefore": 4
+        }
+      ],
+      "gameOverSuppressed": 0,
+      "actorOps": [
+        {
+          "op": "gain",
+          "args": [
+            [
+              "sha",
+              "sha",
+              "sha"
+            ],
+            "gain2"
+          ]
+        },
+        {
+          "op": "useSkill",
+          "args": [
+            "reqimou",
+            [],
+            []
+          ]
+        },
+        {
+          "op": "discard",
+          "args": [
+            []
+          ]
+        },
+        {
+          "op": "loseHp",
+          "args": [
+            2
+          ]
+        },
+        {
+          "op": "draw",
+          "args": [
+            2
+          ]
+        },
+        {
+          "op": "gain",
+          "args": [
+            [
+              "jiu",
+              "shan"
+            ],
+            "draw"
+          ]
+        },
+        {
+          "op": "useCard",
+          "args": [
+            "sha",
+            [
+              "sha"
+            ],
+            [
+              "std_sunhao"
+            ],
+            null
+          ]
+        },
+        {
+          "op": "useCard",
+          "args": [
+            "sha",
+            [
+              "sha"
+            ],
+            [
+              "std_sunhao"
+            ],
+            null
+          ]
+        },
+        {
+          "op": "useCard",
+          "args": [
+            "jiu",
+            [
+              "jiu"
+            ],
+            [
+              "clan_lutan"
+            ],
+            null
+          ]
+        },
+        {
+          "op": "useCard",
+          "args": [
+            "sha",
+            [
+              "sha"
+            ],
+            [
+              "std_sunhao"
+            ],
+            null
+          ]
+        },
+        {
+          "op": "draw",
+          "args": [
+            3
+          ]
+        },
+        {
+          "op": "gain",
+          "args": [
+            [
+              "shandian",
+              "sha",
+              "sha"
+            ],
+            "draw"
+          ]
+        }
+      ],
+      "targetOps": [
+        {
+          "op": "damage",
+          "args": [
+            null
+          ]
+        },
+        {
+          "op": "damage",
+          "args": [
+            null
+          ]
+        },
+        {
+          "op": "damage",
+          "args": [
+            null
+          ]
+        },
+        {
+          "op": "die",
+          "args": [
+            "damage"
+          ]
+        }
+      ],
+      "extraOps": [],
+      "error": null,
+      "pageErrors": []
+    }
+  ]
+}
