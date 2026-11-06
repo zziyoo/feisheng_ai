@@ -1,0 +1,193 @@
+{
+  "completedAt": "2026-11-06T06:45:36.846Z",
+  "status": "passed",
+  "scope": "真实身份局宿主、固定公开局面、技能AI选择与结算观察；原生AI基线",
+  "seed": "20261030",
+  "browserVersion": "156.0.8078.80",
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "players": 8,
+  "extensionInstalled": false,
+  "policyStats": null,
+  "scenes": [
+    {
+      "name": "refresh-feng-third-xinjushou",
+      "setup": {
+        "hand": [
+          "bagua",
+          "sha"
+        ],
+        "baguaUsable": false
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "bagua",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinjushou"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "result": {
+        "scores": [
+          {
+            "name": "shan",
+            "value": 7,
+            "result": -7
+          },
+          {
+            "name": "wuxie",
+            "value": 6,
+            "result": -6
+          },
+          {
+            "name": "sha",
+            "value": 5,
+            "result": -5
+          },
+          {
+            "name": "shan",
+            "value": 5.1,
+            "result": -5.1
+          },
+          {
+            "name": "bagua",
+            "value": 0.01,
+            "result": -0.01
+          },
+          {
+            "name": "sha",
+            "value": 3,
+            "result": -3
+          },
+          {
+            "name": "bagua",
+            "value": 0.01,
+            "result": -0.01
+          }
+        ],
+        "ops": [
+          {
+            "op": "draw",
+            "args": [
+              4
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "shan",
+                "wuxie",
+                "sha",
+                "shan"
+              ],
+              "draw"
+            ]
+          },
+          {
+            "op": "discard",
+            "args": [
+              "bagua"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "bagua"
+              ],
+              null,
+              "visible"
+            ]
+          }
+        ],
+        "hand": [
+          "shan",
+          "wuxie",
+          "sha",
+          "shan",
+          "sha"
+        ],
+        "turned": true
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "shan",
+            "wuxie",
+            "sha",
+            "shan",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinjushou"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 5329.8
+    },
+    {
+      "name": "engine-disabled-gate",
+      "before": true,
+      "off": false,
+      "on": true
+    }
+  ],
+  "errors": []
+}
