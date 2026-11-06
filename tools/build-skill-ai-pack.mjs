@@ -315,7 +315,7 @@ function buildPack(config) {
 	}
 
 	if (refreshFengCandidate) {
-		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/refresh-feng-native-candidate.patch', 'feisheng-ai-refresh-feng-native-ai.patch');
+		write(stage, 'feisheng-ai-refresh-feng-native-ai.patch', textOf('docs/skill-ai-quality-20261103/refresh-feng/refresh-feng-native-candidate.patch').replace(/\r\n/g, '\n'));
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/REVIEW.md', 'docs/REVIEW.md');
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/PROGRESS.md', 'docs/PROGRESS.md');
 	}
