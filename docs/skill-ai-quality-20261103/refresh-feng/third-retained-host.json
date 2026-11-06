@@ -1,0 +1,152 @@
+{
+  "completedAt": "2026-11-06T09:40:05.285Z",
+  "status": "passed",
+  "scope": "真实身份局宿主、固定公开局面、技能AI选择与结算观察；原生AI基线",
+  "seed": "20261030",
+  "browserVersion": "156.0.8078.80",
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "players": 8,
+  "extensionInstalled": false,
+  "policyStats": null,
+  "scenes": [
+    {
+      "name": "refresh-feng-third-retained-load",
+      "setup": {
+        "skills": [
+          "shebian",
+          "olhongyan",
+          "piaoling",
+          "xinleiji",
+          "xinguidao",
+          "xinhuangtian",
+          "xinjiewei",
+          "buqu",
+          "remoshi"
+        ]
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "result": {
+        "loaded": [
+          {
+            "id": "shebian",
+            "exists": true,
+            "acquired": true
+          },
+          {
+            "id": "olhongyan",
+            "exists": true,
+            "acquired": true
+          },
+          {
+            "id": "piaoling",
+            "exists": true,
+            "acquired": true
+          },
+          {
+            "id": "xinleiji",
+            "exists": true,
+            "acquired": true
+          },
+          {
+            "id": "xinguidao",
+            "exists": true,
+            "acquired": true
+          },
+          {
+            "id": "xinhuangtian",
+            "exists": true,
+            "acquired": true
+          },
+          {
+            "id": "xinjiewei",
+            "exists": true,
+            "acquired": true
+          },
+          {
+            "id": "buqu",
+            "exists": true,
+            "acquired": true
+          },
+          {
+            "id": "remoshi",
+            "exists": true,
+            "acquired": true
+          }
+        ]
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 4474.3
+    },
+    {
+      "name": "engine-disabled-gate",
+      "before": true,
+      "off": false,
+      "on": true
+    }
+  ],
+  "errors": []
+}
