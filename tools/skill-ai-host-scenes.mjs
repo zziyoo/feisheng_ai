@@ -2613,6 +2613,29 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.damage = damage.events.map(item => ({ num: item && item.num, player: item && item.player && item.player.playerid }));
 		});
 
+		await scene('refresh-feng-third-coexist-order', async rec => {
+			actor.addSkill('xinliegong');
+			await give(actor, [['wuzhong', 'heart', 6], ['sha', 'spade', 7]]);
+			const target = game.players.find(p => p !== actor && get.attitude(actor, p) < 0 && actor.canUse({ name: 'sha' }, p));
+			if (!target) throw new Error('no legal hostile target');
+			await give(target, [['shan', 'heart', 8], ['shan', 'club', 9]]);
+			actor.getStat().card.sha = 1;
+			rec.setup = { target: target.playerid, targetHand: target.countCards('h'), actorHand: actor.countCards('h'), remainingSha: actor.getCardUsable('sha') };
+		}, async rec => {
+			const core = await import('/extension/无名AI/score/decision/skills/policyCore.js?v=41a');
+			const wind = (await import('/extension/无名AI/score/decision/skills/packs/shenhuaFeng.js?v=42a')).pack;
+			const refresh = (await import('/extension/无名AI/score/decision/skills/packs/refreshFeng.js?v=41a')).pack;
+			const owner = lib.skill.xinliegong.mod, original = owner.aiOrder;
+			const material = actor.getCards('h', 'wuzhong')[0], cases = [];
+			for (const [name, packs] of [['wind', [wind]], ['refresh', [refresh]], ['wind-refresh', [wind, refresh]], ['refresh-wind', [refresh, wind]]]) {
+				const host = core.createPolicyHost();
+				try { host.install(packs); cases.push({ name, order: owner.aiOrder(actor, material, 10), tag: owner.aiOrder.__djscSkillPolicy }); }
+				finally { host.uninstall(); }
+				cases[cases.length - 1].restored = owner.aiOrder === original;
+			}
+			rec.result = { baseline: original(actor, material, 10), cases };
+		});
+
 		await scene('refresh-feng-third-fenji', async rec => {
 			actor.addSkill('fenji');
 			actor.hp = 3; actor.maxHp = 4; actor.update();
