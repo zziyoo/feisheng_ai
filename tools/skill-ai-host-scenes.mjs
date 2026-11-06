@@ -2636,6 +2636,30 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.result = { baseline: original(actor, material, 10), cases };
 		});
 
+		await scene('refresh-feng-third-xinjushou', async rec => {
+			actor.addSkill('xinjushou');
+			await actor.disableEquip(2);
+			await give(actor, [['bagua', 'heart', 4], ['sha', 'spade', 5]]);
+			rec.setup = { hand: hand(actor), baguaUsable: actor.hasUseTarget(actor.getCards('h', 'bagua')[0]) };
+		}, async rec => {
+			const originalChoose = actor.chooseCard, scores = [];
+			actor.chooseCard = function (...args) {
+				const next = originalChoose.apply(this, args), originalSet = next.set;
+				next.set = function (key, value) {
+					if (key === 'ai' && typeof value === 'function') {
+						const ai = value;
+						value = function (card) { const result = ai.apply(this, arguments); scores.push({ name: card.name, value: get.value(card), result }); return result; };
+					}
+					return originalSet.call(this, key, value);
+				};
+				return next;
+			};
+			const probe = instrument(actor);
+			try { await actor.phaseJieshu(); }
+			finally { actor.chooseCard = originalChoose; probe.restore(); }
+			rec.result = { scores, ops: probe.log, hand: hand(actor), turned: actor.isTurnedOver() };
+		});
+
 		await scene('refresh-feng-third-fenji', async rec => {
 			actor.addSkill('fenji');
 			actor.hp = 3; actor.maxHp = 4; actor.update();
