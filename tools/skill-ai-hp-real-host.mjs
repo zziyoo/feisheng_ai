@@ -109,6 +109,7 @@ const SCENARIOS = {
 	'qimou-far4-3sha-hp4': { skills: ['qimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 223], ['sha', 'heart', 224], ['sha', 'club', 225]], target: { index: 4, hp: 4 } },
 	'qimou-far3-2sha-hp2': { skills: ['qimou', 'xinkuanggu'], hp: 3, hand: [['sha', 'spade', 226], ['sha', 'heart', 227]], target: { index: 3, hp: 2, hand: [['tao', 'heart', 228]] } },
 	'reqimou-far4-2sha-hp3': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 229], ['sha', 'heart', 230]], target: { index: 4, hp: 3, hand: [['tao', 'heart', 231]] } },
+	'reqimou-near1-armor2-3sha': { skills: ['reqimou'], hp: 4, hand: [['sha', 'spade', 241], ['sha', 'heart', 242], ['sha', 'club', 243]], fanSeats: [1, 4, 5], target: { index: 1, hp: 1, hujia: 2 } },
 	'reqimou-near1-2sha-hp2': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 244], ['sha', 'heart', 245]], target: { index: 1, hp: 2 } },
 	'reqimou-near2-2sha-hp2': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 246], ['sha', 'heart', 247]], target: { index: 2, hp: 2 } },
 	'reqimou-far4-hp4-2sha-hp2-zhangba': { skills: ['reqimou', 'xinkuanggu'], hp: 4, hand: [['sha', 'spade', 248], ['sha', 'heart', 249]], weapon: ['zhangba', 'spade', 250], target: { index: 4, hp: 2 } },
@@ -513,7 +514,7 @@ try {
 				};
 				const snapshot = player => ({
 					id: player.playerid, name: playerTag(player),
-					hp: player.hp, maxHp: player.maxHp,
+					hp: player.hp, maxHp: player.maxHp, hujia: player.hujia,
 					hand: hand(player), equips: equips(player),
 					skills: player.getSkills().filter(skill => lib.skill[skill] && !lib.skill[skill].charlotte),
 					dead: !!player.dead,
@@ -587,6 +588,7 @@ try {
 				for (const [spec, targetPlayer] of targetSpecs.map((spec, i) => [spec, targets[i]])) {
 					targetPlayer.hp = spec.hp || 4;
 					targetPlayer.maxHp = spec.maxHp || 4;
+					if (typeof spec.hujia === 'number') targetPlayer.hujia = spec.hujia;
 					await give(targetPlayer, spec.hand);
 					if (spec.equip) await targetPlayer.equip(card(...spec.equip));
 					for (const equip of spec.equips || []) await targetPlayer.equip(card(...equip));
