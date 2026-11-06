@@ -64,7 +64,7 @@ function choicePlan(skill, player) {
 		const event = _status.event;
 		if (!event || event.player !== player || event.skill !== skill) return null;
 		const cards = player.getCards('he');
-		const state = [player.hp, player.maxHp, player.getCardUsable?.('sha'),
+		const state = [player.hp, player.maxHp, player.getCardUsable?.('sha'), event.getParent?.('phaseUse'), player.getHistory?.('lose')?.length, player.countMark?.('rerende'),
 			...(game.players || []).map(p => [p, p.hp, p.maxHp, p.countCards('h'), p.isIn?.(), get.attitude(player, p)]).flat()];
 		let cached = choicePlans.get(event);
 		if (cached && (cached.skill !== skill || cached.cards.length !== cards.length ||
@@ -94,6 +94,11 @@ function choicePlan(skill, player) {
 function installRerende(host) {
 	const info = lib.skill?.rerende;
 	if (!info) return;
+	if (typeof info.ai?.order === 'function') host.wrap(info.ai, 'order', 'rerende:order', original => function (item, player) {
+		const base = original.apply(this, arguments);
+		const plan = player && currentGiftPlan(player);
+		return plan?.cards.length && Number.isFinite(Number(base)) ? Number(base) + 0.5 : base;
+	});
 	if (typeof info.check === 'function') host.wrap(info, 'check', 'rerende:check', original => function (card) {
 		const player = host.playerOf(card);
 		const plan = player && choicePlan('rerende', player);

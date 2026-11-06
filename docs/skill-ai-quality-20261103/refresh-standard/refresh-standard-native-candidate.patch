@@ -1,6 +1,6 @@
 --- a/character/refresh.js
 +++ b/character/refresh.js
-@@ -1,4 +1,133 @@
+@@ -1,4 +1,200 @@
  import { lib, get, _status, game, ui } from "noname";
 +
 +// 无名AI：局部、有限的制衡与仁德候选估值；仅供 AI 评分使用。
@@ -36,17 +36,22 @@
 +function costOf(player, card, hand) {
 +	const raw = Number(get.value(card, player));
 +	if (!Number.isFinite(raw)) return null;
-+	const name = get.name(card, player);
-+	const same = hand.filter(c => get.name(c, player) === name).length;
-+	let reserve = 0;
-+	if (hand.includes(card) && same === 1) {
-+		if (name === 'tao') reserve = player.hp <= 2 ? 3 : 1;
-+		else if (name === 'shan') reserve = game.hasPlayer(p => p !== player && get.attitude(player, p) < 0) ? 2 : 0.5;
-+		else if (name === 'wuxie') reserve = 1;
-+		else if (name === 'sha' && player.getCardUsable?.('sha') > 0 &&
-+			game.hasPlayer(p => p !== player && player.canUse(card, p))) reserve = 1;
++	return Math.max(0, raw);
++}
++
++/* 每类资源只在方案确实耗尽时计一次额外机会成本；牌面价值另计。 */
++function exhaustionCost(player, hand, group) {
++	const removed = group.map(e => e.card);
++	let cost = 0;
++	for (const name of ['tao', 'shan', 'wuxie', 'sha']) {
++		const owned = hand.filter(card => get.name(card, player) === name);
++		if (!owned.length || !owned.every(card => removed.includes(card))) continue;
++		if (name === 'tao') cost += player.hp <= 2 ? 3 : 1;
++		else if (name === 'shan') cost += game.hasPlayer(p => p !== player && get.attitude(player, p) < 0) ? 2 : 0.5;
++		else if (name === 'wuxie') cost += 1;
++		else if (player.getCardUsable?.('sha') > 0 && game.hasPlayer(p => p !== player && player.canUse(owned[0], p))) cost += 1;
 +	}
-+	return Math.max(0, raw) + reserve;
++	return cost;
 +}
 +
 +function exchangePlan(player) {
@@ -62,7 +67,8 @@
 +		function add(group, allHand) {
 +			if (!group.length) return;
 +			const ledger = localUtility([{ source: 'unknown-draw', value: DRAW * (group.length + (allHand ? 1 : 0)) },
-+				{ source: 'discard-and-reserve', value: -group.reduce((n, e) => n + e.cost, 0) }]);
++				{ source: 'discard-value', value: -group.reduce((n, e) => n + e.cost, 0) },
++				{ source: 'exhausted-reserve', value: -exhaustionCost(player, hand, group) }]);
 +			if (ledger) plans.push({ ...ledger, cards: group.map(e => e.card), target: null });
 +		}
 +		for (let i = 1; i <= Math.min(8, legal.length); i++) {
@@ -92,6 +98,8 @@
 +		const targets = (game.players || []).filter(t => t !== player && t.isIn?.() &&
 +			get.attitude(player, t) > 0 && !t.hasSkillTag?.('nogain') &&
 +			lib.skill.rerende.filterTarget(null, player, t));
++		const basics = typeof get.inpileVCardList === 'function'
++			? new Set(get.inpileVCardList(info => info[0] === 'basic').map(info => info[2])) : new Set();
 +		const entries = hand.map(card => ({ card, cost: costOf(player, card, hand) }));
 +		if (entries.some(e => e.cost === null)) return null;
 +		entries.sort((a, b) => a.cost - b.cost);
@@ -115,12 +123,13 @@
 +				/* 只对当前可合法使用的基本牌给温和启发式，不预测赠牌后新牌。 */
 +				let follow = 0;
 +				if (given < 2 && given + group.length >= 2) {
-+					if (player.isDamaged?.() && player.canUse?.({ name: 'tao', isCard: true }, player)) follow = 2;
-+					else if (player.getCardUsable?.('sha') > 0 &&
++					if (basics.has('tao') && player.isDamaged?.() && player.canUse?.({ name: 'tao', isCard: true }, player)) follow = 2;
++					else if (basics.has('sha') && player.getCardUsable?.('sha') > 0 &&
 +						game.hasPlayer(p => p !== player && player.canUse({ name: 'sha', isCard: true }, p))) follow = 1;
 +				}
 +				const ledger = localUtility([{ source: 'recipient-public-need', value: gift },
-+					{ source: 'gift-and-reserve', value: -group.reduce((n, e) => n + e.cost, 0) },
++					{ source: 'gift-value', value: -group.reduce((n, e) => n + e.cost, 0) },
++					{ source: 'exhausted-reserve', value: -exhaustionCost(player, hand, group) },
 +					{ source: 'legal-basic-opportunity', value: follow }]);
 +				if (ledger) plans.push({ ...ledger, cards: group.map(e => e.card), target });
 +			}
@@ -128,64 +137,121 @@
 +		return bestLocalPlan(plans);
 +	} catch (_) { return null; }
 +}
-+return {exchangePlan, giftPlan};
++function currentGiftPlan(player) {
++	try {
++		const phase = _status.event?.getParent?.('phaseUse');
++		return phase?.name === 'phaseUse' ? giftPlan(player, phase) : null;
++	} catch (_) { return null; }
++}
++
++/* 只在宿主当前选择事件内缓存；玩家状态变化时放弃方案并交回原生。 */
++const choicePlans = new WeakMap();
++function observeChoicePlan(event, skill, plan, reason) {
++	try {
++		if (typeof window === 'undefined' || window.__DJSC_DECISION_TRACE !== true) return;
++		event.__djscRefreshPlanAudit = () => {
++			const selected = event.result?.cards || [];
++			const targets = event.result?.targets || [];
++			const cardsMatch = !!plan && selected.length === plan.cards.length && selected.every(c => plan.cards.includes(c));
++			const targetMatch = skill !== 'rerende' || !!plan?.target && targets.includes(plan.target);
++			const part = name => plan?.contributions?.find(c => c.source === name)?.value ?? null;
++			return { source: 'refresh-standard-plan', skill, offered: !!plan,
++				adopted: cardsMatch && targetMatch,
++				reason: !plan ? reason : !cardsMatch ? 'materials-unconfirmed-or-different' : !targetMatch ? 'target-unconfirmed-or-different' : null,
++				cost: part(skill === 'rerende' ? 'gift-value' : 'discard-value'), reserve: part('exhausted-reserve') };
++		};
++	} catch (_) { /* 诊断不得改变选择 */ }
++}
++function choicePlan(skill, player) {
++	try {
++		const event = _status.event;
++		if (!event || event.player !== player || event.skill !== skill) return null;
++		const cards = player.getCards('he');
++		const state = [player.hp, player.maxHp, player.getCardUsable?.('sha'), event.getParent?.('phaseUse'), player.getHistory?.('lose')?.length, player.countMark?.('rerende'),
++			...(game.players || []).map(p => [p, p.hp, p.maxHp, p.countCards('h'), p.isIn?.(), get.attitude(player, p)]).flat()];
++		let cached = choicePlans.get(event);
++		if (cached && (cached.skill !== skill || cached.cards.length !== cards.length ||
++			cached.cards.some((c, i) => c !== cards[i]) || cached.state.length !== state.length ||
++			cached.state.some((v, i) => v !== state[i]))) {
++			choicePlans.delete(event);
++			observeChoicePlan(event, skill, null, 'state-changed');
++			return null;
++		}
++		if (!cached) {
++			const plan = skill === 'rerende' ? currentGiftPlan(player) : exchangePlan(player);
++			if (!plan?.cards?.length) {
++				observeChoicePlan(event, skill, null, plan ? 'no-positive-bounded-plan' : 'context-unavailable');
++				return null;
++			}
++			cached = { skill, cards, state, plan };
++			choicePlans.set(event, cached);
++			observeChoicePlan(event, skill, plan, null);
++		}
++		if (skill === 'rerende' && (!cached.plan.target?.isIn?.() ||
++			!lib.skill.rerende.filterTarget(null, player, cached.plan.target))) return null;
++		if (skill === 'rezhiheng' && cached.plan.cards.some(c => !lib.filter.cardDiscardable(c, player, skill))) return null;
++		return cached.plan;
++	} catch (_) { return null; }
++}
++
++
++return {exchangePlan, currentGiftPlan, choicePlan};
 +})();
 +
  const characters = {
    re_xushu: {
      sex: "male",
-@@ -14864,6 +14993,8 @@
+@@ -14864,6 +15060,8 @@
      selectCard: [1, Infinity],
      allowChooseAll: true,
      check(card) {
-+      const plan = djscRefreshStandardPlans.exchangePlan(_status.event.player);
++      const plan = djscRefreshStandardPlans.choicePlan("rezhiheng", _status.event.player);
 +      if (plan && ui.selected.cards.every(item => plan.cards.includes(item))) return plan.cards.includes(card) ? 1 : -1;
        let player = _status.event.player;
        if (get.position(card) == "h" && !player.countCards("h", "du") && (player.hp > 2 || !player.countCards("h", (i) => {
          return get.value(i) >= 8;
-@@ -14921,13 +15052,15 @@
+@@ -14921,10 +15119,12 @@
      },
      ai: {
        order(item, player) {
 +        const plan = djscRefreshStandardPlans.exchangePlan(player);
-+        if (plan && !plan.cards.length) return -1;
++        const bonus = plan?.cards.length ? 0.5 : 0;
          if (player.hasCard((i) => get.value(i) > Math.max(6, 9 - player.hp), "he")) {
-           return 1;
-         }
-         return 10;
+-          return 1;
+-        }
+-        return 10;
++          return 1 + bonus;
++        }
++        return 10 + bonus;
        },
        result: {
--        player: 1
-+        player(player) { const plan = djscRefreshStandardPlans.exchangePlan(player); return plan && !plan.cards.length ? -1 : 1; }
-       },
-       nokeep: true,
-       skillTagFilter(player, tag, arg) {
-@@ -15041,6 +15174,9 @@
+         player: 1
+@@ -15041,6 +15241,8 @@
      lose: false,
      delay: false,
      check(card) {
-+      const phase = _status.event.getParent("phaseUse");
-+      const plan = phase?.name === "phaseUse" ? djscRefreshStandardPlans.giftPlan(_status.event.player, phase) : null;
++      const plan = djscRefreshStandardPlans.choicePlan("rerende", _status.event.player);
 +      if (plan && ui.selected.cards.every(item => plan.cards.includes(item))) return plan.cards.includes(card) ? 1 : -1;
        if (ui.selected.cards.length && ui.selected.cards[0].name == "du") {
          return 0;
        }
-@@ -15101,6 +15237,9 @@
+@@ -15101,13 +15303,17 @@
      ai: {
        fireAttack: true,
        order(skill, player) {
-+        const phase = _status.event.getParent("phaseUse");
-+        const plan = phase?.name === "phaseUse" ? djscRefreshStandardPlans.giftPlan(player, phase) : null;
-+        if (plan && !plan.cards.length) return -1;
++        const plan = djscRefreshStandardPlans.currentGiftPlan(player);
++        const bonus = plan?.cards.length ? 0.5 : 0;
          if (player.hp < player.maxHp && player.countMark("rerende") < 2 && player.countCards("h") > 1) {
-           return 10;
-         }
-@@ -15108,6 +15247,9 @@
+-          return 10;
+-        }
+-        return 4;
++          return 10 + bonus;
++        }
++        return 4 + bonus;
        },
        result: {
          target(player, target) {
-+          const phase = _status.event.getParent("phaseUse");
-+          const plan = phase?.name === "phaseUse" ? djscRefreshStandardPlans.giftPlan(player, phase) : null;
++          const plan = djscRefreshStandardPlans.choicePlan("rerende", player);
 +          if (plan && ui.selected.cards.length === plan.cards.length && ui.selected.cards.every(item => plan.cards.includes(item))) return target === plan.target ? 1 : 0;
            if (target.hasSkillTag("nogain")) {
              return 0;
