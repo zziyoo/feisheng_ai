@@ -1,7 +1,16 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 5c6b68c..fee6b76 100644
+index 5c6b68c..565525c 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
+@@ -3242,7 +3242,7 @@ const skills = {
+       await player.draw(4);
+       await player.turnOver();
+       const result = await player.chooseCard("h", true, "弃置一张手牌，若以此法弃置的是装备牌，则你改为使用之").set("ai", function(card) {
+-        if (get.type(card) == "equip") {
++        if (get.type(card) == "equip" && _status.event.player.hasUseTarget(card)) {
+           return 5 - get.value(card);
+         }
+         return -get.value(card);
 @@ -8359,7 +8359,7 @@ const skills = {
        if (get.attitude(player, target) <= 0) {
          return false;
