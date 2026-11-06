@@ -1,11 +1,11 @@
-import { lib } from '../policyCore.js?v=41a';
+import { lib, game } from '../policyCore.js?v=41a';
 import { olkongshengCostNeedsFix, olkongshengExpansionView } from '../rules/shenhuaLei.js?v=41a';
 
 export const pack = {
 	id: 'shenhua_lei',
 	name: '神话再临·雷',
 	group: 'shenhua',
-	skills: ['olkongsheng'],
+	skills: ['olkongsheng', 'xinfu_fuyin'],
 	statsDefaults: { olkongshengCostCalls: 0, olkongshengCompatible: null },
 	install,
 };
@@ -16,6 +16,7 @@ export const pack = {
  * 只在这一次 cost 调用期间给返回数组加 valueOf/toString=长度，
  * 不复制宿主技能函数，也不改变数组本身的迭代/取值行为。 */
 function install(host, stats) {
+	installFuyin(host);
 	const info = lib.skill && lib.skill.olkongsheng;
 	if (!info || typeof info.cost !== 'function') return;
 	const original = info.cost;
@@ -41,5 +42,29 @@ function install(host, stats) {
 		} finally {
 			if (originalGet) player.getExpansions = originalGet;
 		}
+	});
+}
+
+/* 父荫以被指定者为准检查本回合历史；仅替换宿主同形态评分。 */
+function installFuyin(host) {
+	const effect = lib.skill?.xinfu_fuyin?.ai?.effect;
+	if (!effect || typeof effect.target !== 'function' || !String(effect.target).includes('evt.targets.includes(player)')) return;
+	host.wrap(effect, 'target', 'xinfu_fuyin:effect', original => function (card, player, target) {
+		try {
+			let hs = player.getCards('h', c => c !== card && (!card.cards || !card.cards.includes(c)));
+			let num = player.getCardUsable('sha');
+			if ((card.name !== 'sha' && card.name !== 'juedou') || hs.length < target.countCards('h')) return 1;
+			if (game.hasPlayer2(current => current.getHistory('useCard', evt => evt.card && ['sha', 'juedou'].includes(evt.card.name) && evt.targets.includes(target)).length > 0)) return 1;
+			if (card.name === 'sha') num--;
+			hs = hs.filter(c => {
+				if (!player.canUse(c, target)) return false;
+				if (c.name === 'juedou') return true;
+				if (num && c.name === 'sha') { num--; return true; }
+				return false;
+			});
+			if (!hs.length) return 'zeroplayertarget';
+			num = 1 - 2 / 3 / hs.length;
+			return [num, 0, num, 0];
+		} catch (_) { return original.apply(this, arguments); }
 	});
 }
