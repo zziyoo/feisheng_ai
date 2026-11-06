@@ -167,29 +167,36 @@ function recoverIncomplete(backupDir) {
 	const journal = JSON.parse(read(journalPath).toString('utf8'));
 	if (journal.status === 'committed') fail('安装已提交但缺少 record.json；请人工检查：' + path.relative(targetRoot, backupDir));
 	const conflicts = [];
-	for (const action of [...(journal.created || [])].reverse()) {
+	/* Preflight first: never delete installed modules while the registry has a conflict. */
+	for (const action of journal.updated || []) {
 		const target = rel(action.target);
-		if (!exists(target)) continue;
-		if (sha(read(target)) === action.hash) fs.rmSync(target, { force: true });
-		else conflicts.push(`新增文件已被他人修改，保留：${action.target}`);
-	}
-	for (const action of [...(journal.updated || [])].reverse()) {
-		const target = rel(action.target);
-		if (!exists(target)) continue;
-		if (sha(read(target)) !== action.hash) {
-			conflicts.push(`已修改文件在失败安装后被他人改动，保留：${action.target}`);
+		if (!exists(target)) {
+			if (action.beforeHash) conflicts.push(`原文件已消失，保留事务：${action.target}`);
 			continue;
 		}
-		const backup = (journal.backups || []).find(item => item.target === action.target);
-		if (backup) {
-			const backupPath = path.join(targetRoot, ...backup.path.split('/'));
-			if (exists(backupPath)) atomicWrite(target, read(backupPath));
-			else conflicts.push(`缺少恢复备份：${backup.path}`);
-		} else {
-			fs.rmSync(target, { force: true });
+		const current = sha(read(target));
+		if (current !== action.hash && current !== action.beforeHash) conflicts.push(`已修改文件在失败安装后被他人改动，保留：${action.target}`);
+		if (current === action.hash && action.beforeHash) {
+			const backup = (journal.backups || []).find(item => item.target === action.target);
+			if (!backup || !exists(path.join(targetRoot, ...backup.path.split('/')))) conflicts.push(`缺少恢复备份：${action.target}`);
 		}
 	}
+	for (const action of journal.created || []) {
+		const target = rel(action.target);
+		if (exists(target) && sha(read(target)) !== action.hash) conflicts.push(`新增文件已被他人修改，保留：${action.target}`);
+	}
 	if (conflicts.length) fail('检测到未完成安装且无法自动恢复：' + conflicts.join('；'));
+	for (const action of [...(journal.updated || [])].reverse()) {
+		const target = rel(action.target);
+		if (!exists(target) || sha(read(target)) !== action.hash) continue;
+		const backup = (journal.backups || []).find(item => item.target === action.target);
+		if (backup) atomicWrite(target, read(path.join(targetRoot, ...backup.path.split('/'))));
+		else fs.rmSync(target, { force: true });
+	}
+	for (const action of [...(journal.created || [])].reverse()) {
+		const target = rel(action.target);
+		if (exists(target)) fs.rmSync(target, { force: true });
+	}
 	fs.rmSync(backupDir, { recursive: true, force: true });
 }
 
@@ -220,39 +227,32 @@ function applyPlan(plan) {
 		writes++;
 		if (failAfter && writes >= failAfter) throw new Error('DJSC_PACK_TEST_FAIL_AFTER injected failure after ' + writes + ' write(s)');
 	};
-	const restore = [];
 	try {
 		for (const action of plan.creates) {
 			const target = rel(action.targetRel);
 			if (isBlocked(target)) fail('越界写入：' + action.targetRel);
 			if (exists(target)) fail('写入前目标已出现，停止：' + action.targetRel);
 			fs.mkdirSync(path.dirname(target), { recursive: true });
-			atomicWrite(target, action.bytes);
 			journal.created.push({ target: action.targetRel, hash: action.hash, kind: action.kind });
 			writeJournal();
+			atomicWrite(target, action.bytes);
 			tick();
-			restore.push(() => {
-				if (!exists(target)) return;
-				if (sha(read(target)) === action.hash) fs.rmSync(target, { force: true });
-			});
 		}
 		if (plan.registry.mode === 'updated' || plan.registry.mode === 'created') {
 			const target = rel('score/decision/skills/skillAIPolicyPacks.js');
 			if (isBlocked(target)) fail('越界写入：score/decision/skills/skillAIPolicyPacks.js');
 			fs.mkdirSync(path.dirname(target), { recursive: true });
+			if (plan.registry.before ? (!exists(target) || sha(read(target)) !== sha(plan.registry.before)) : exists(target)) {
+				fail('注册表在安装预检后发生变化，拒绝覆盖');
+			}
 			if (plan.registry.before) {
 				journal.backups.push({ target: 'score/decision/skills/skillAIPolicyPacks.js', path: backupFile(backupDir, 'score/decision/skills/skillAIPolicyPacks.js', plan.registry.before) });
 			}
-			atomicWrite(target, plan.registry.after);
-			journal.updated.push({ target: 'score/decision/skills/skillAIPolicyPacks.js', hash: plan.registry.installedHash, kind: '注册表' });
+			journal.updated.push({ target: 'score/decision/skills/skillAIPolicyPacks.js', hash: plan.registry.installedHash, beforeHash: plan.registry.before ? sha(plan.registry.before) : null, kind: '注册表' });
 			writeJournal();
+			if (process.env.DJSC_PACK_TEST_FAIL_REGISTRY === '1') throw new Error('DJSC_PACK_TEST_FAIL_REGISTRY injected failure before registry write');
+			atomicWrite(target, plan.registry.after);
 			tick();
-			restore.push(() => {
-				if (!exists(target)) return;
-				if (sha(read(target)) !== plan.registry.installedHash) return;
-				if (plan.registry.before) atomicWrite(target, plan.registry.before);
-				else fs.rmSync(target, { force: true });
-			});
 		}
 		const record = {
 			pack_id: pack.id,
@@ -277,20 +277,15 @@ function applyPlan(plan) {
 		writeJournal();
 		return { status: journal.created.length || plan.registry.mode !== 'already' ? 'applied' : 'already-installed', record, backup: path.relative(targetRoot, backupDir) };
 	} catch (error) {
-		const restored = [];
-		const conflicts = [];
-		for (const action of restore.reverse()) {
-			try { action(); restored.push(action); } catch (restoreError) { conflicts.push(String(restoreError)); }
-		}
-		journal.status = 'failed-rolled-back';
-		journal.failure = String(error && error.stack || error);
-		journal.restore_conflicts = conflicts;
-		try { writeJournal(); } catch (journalError) {}
-		throw Object.assign(new Error((error && error.message || String(error)) + (conflicts.length ? '\n恢复冲突：' + conflicts.join('; ') : '')), { restored: restored.length, journal });
+		try { recoverIncomplete(backupDir); }
+		catch (restoreError) { throw new Error((error.message || String(error)) + '\n恢复未完成，事务记录已保留：' + (restoreError.message || restoreError)); }
+		throw error;
 	}
 }
 
 try {
+	const pending = path.join(targetRoot, '.djsc-pack-backups', pack.id);
+	if (!dryRun && exists(pending) && !exists(path.join(pending, 'record.json'))) recoverIncomplete(pending);
 	const plan = buildPlan();
 	const summary = summarize(plan);
 	if (dryRun) {

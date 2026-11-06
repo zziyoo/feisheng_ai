@@ -22,6 +22,7 @@ const check = (name, fn) => { fn(); passed++; console.log('PASS ' + name); };
 const core = {
 	policyCore: fs.readFileSync(path.join(CORE_DIR, 'policyCore.js')),
 	facade: fs.readFileSync(path.join(CORE_DIR, 'skillAIPolicies.js')),
+	veto: fs.readFileSync(path.join(CORE_DIR, 'skillVetoRegistry.js')),
 };
 
 function write(file, data) {
@@ -37,6 +38,7 @@ function makePackage(id) {
 	write(path.join(base, 'integration/pack-only/skillAIPolicyPacks.js'), `// @djsc-pack-imports-begin\nimport { pack as ${moduleName} } from './packs/${moduleName}.js?v=41a';\n// @djsc-pack-imports-end\n\nexport const SKILL_AI_PACKS = [\n\t// @djsc-pack-registry-begin\n\t${moduleName},\n\t// @djsc-pack-registry-end\n];\n`);
 	write(path.join(base, 'source/score/decision/skills/policyCore.js'), core.policyCore);
 	write(path.join(base, 'source/score/decision/skills/skillAIPolicies.js'), core.facade);
+	write(path.join(base, 'source/score/decision/skills/skillVetoRegistry.js'), core.veto);
 	const packFile = Buffer.from(`export const pack = { id: '${id}' };\n`);
 	const rulesFile = Buffer.from(`export const rules = '${id}';\n`);
 	write(path.join(base, 'source/score/decision/skills/packs', moduleName + '.js'), packFile);
@@ -48,7 +50,7 @@ function makePackage(id) {
 		delivery_stage: '阶段性',
 		module: moduleName,
 		rules: moduleName,
-		shared_files: { 'policyCore.js': sha(core.policyCore), 'skillAIPolicies.js': sha(core.facade) },
+		shared_files: { 'policyCore.js': sha(core.policyCore), 'skillAIPolicies.js': sha(core.facade), 'skillVetoRegistry.js': sha(core.veto) },
 		pack_files: { ['packs/' + moduleName + '.js']: sha(packFile), ['rules/' + moduleName + '.js']: sha(rulesFile) },
 	}, null, 2) + '\n');
 	return { base, moduleName, packFile, rulesFile };
@@ -239,6 +241,43 @@ check('失败注入：恢复安装前状态，下次可自动清理并重装', (
 	const retry = apply(pkgA, root);
 	assert.equal(retry.status, 0, retry.stderr);
 	assert(fs.existsSync(targetFile(root, A)));
+});
+
+for (const n of [3, 6]) check(`失败注入第${n}次写入：无残留，可回滚并重装`, () => {
+	const root = makeTarget();
+	const failed = apply(pkgA, root, { DJSC_PACK_TEST_FAIL_AFTER: String(n) });
+	assert.equal(failed.status, 1, failed.stderr);
+	assert.equal(fs.existsSync(targetFile(root, A)), false);
+	assert.equal(fs.existsSync(targetRules(root, A)), false);
+	assert.equal(fs.existsSync(registryPath(root)), false);
+	const rolled = rollback(pkgA, root);
+	assert.equal(rolled.status, 0, rolled.stderr);
+	assert.equal(rolled.json.status, 'nothing-to-rollback');
+	assert.equal(apply(pkgA, root).status, 0);
+});
+
+check('注册表更新后失败：保留其他分包且可重装', () => {
+	const root = makeTarget();
+	assert.equal(apply(pkgB, root).status, 0);
+	const before = readRegistry(root);
+	const failed = apply(pkgA, root, { DJSC_PACK_TEST_FAIL_AFTER: '3' });
+	assert.equal(failed.status, 1, failed.stderr);
+	assert.equal(readRegistry(root), before);
+	assert.equal(fs.existsSync(targetFile(root, A)), false);
+	assert.equal(fs.existsSync(targetFile(root, B)), true);
+	assert.equal(apply(pkgA, root).status, 0);
+});
+
+check('注册表写入失败：保留已存在的其他分包', () => {
+	const root = makeTarget();
+	assert.equal(apply(pkgB, root).status, 0);
+	const before = readRegistry(root);
+	const failed = apply(pkgA, root, { DJSC_PACK_TEST_FAIL_REGISTRY: '1' });
+	assert.equal(failed.status, 1, failed.stderr);
+	assert.equal(readRegistry(root), before);
+	assert.equal(fs.existsSync(targetFile(root, A)), false);
+	assert.equal(fs.existsSync(targetFile(root, B)), true);
+	assert.equal(apply(pkgA, root).status, 0);
 });
 
 check('他人修改分包文件：默认拒绝回滚，--force 才删除', () => {

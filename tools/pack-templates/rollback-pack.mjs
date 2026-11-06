@@ -20,7 +20,11 @@ const pack = JSON.parse(fs.readFileSync(path.join(BASE, 'pack.json'), 'utf8'));
 const backupDir = path.join(targetRoot, '.djsc-pack-backups', pack.id);
 const recordPath = path.join(backupDir, 'record.json');
 if (!fs.existsSync(recordPath)) {
-	console.error('ROLLBACK FAIL: no install record for ' + pack.id);
+	if (!fs.existsSync(backupDir)) {
+		console.log(JSON.stringify({ status: 'nothing-to-rollback', pack: pack.id }));
+		process.exit(0);
+	}
+	console.error('ROLLBACK FAIL: incomplete transaction exists; rerun installation to recover: ' + pack.id);
 	process.exit(1);
 }
 const record = JSON.parse(fs.readFileSync(recordPath, 'utf8'));
