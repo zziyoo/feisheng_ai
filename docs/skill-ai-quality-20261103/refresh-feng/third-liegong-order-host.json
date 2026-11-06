@@ -1,0 +1,209 @@
+{
+  "completedAt": "2026-11-06T06:51:44.618Z",
+  "status": "passed",
+  "scope": "真实身份局宿主、固定公开局面、技能AI选择与结算观察；原生AI基线",
+  "seed": "20261030",
+  "browserVersion": "156.0.8078.80",
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "players": 8,
+  "extensionInstalled": false,
+  "policyStats": null,
+  "scenes": [
+    {
+      "name": "refresh-feng-third-liegong-order",
+      "setup": {
+        "target": "56869603597",
+        "targetHand": 2,
+        "actorHand": 2,
+        "remainingSha": 1
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wuzhong",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": [
+            "shan",
+            "shan"
+          ]
+        },
+        "skills": {
+          "75027863590": [
+            "xinliegong"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "result": {
+        "orderCalls": [
+          {
+            "num": 7,
+            "result": 14,
+            "player": "75027863590"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "wuzhong",
+              [
+                "wuzhong"
+              ],
+              [
+                "shen_jiangwei"
+              ],
+              null
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "wuzhong"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              2
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "guohe",
+                "tao"
+              ],
+              "draw"
+            ]
+          },
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              [
+                "sha"
+              ],
+              [
+                "hl_shen_lvbu"
+              ],
+              null
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "useCard",
+            "args": [
+              "guohe",
+              [
+                "guohe"
+              ],
+              [
+                "dc_xiahouxuan"
+              ],
+              null
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "guohe"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          }
+        ],
+        "hand": [
+          "tao"
+        ]
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 2,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "tao"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": [
+            "shan"
+          ]
+        },
+        "skills": {
+          "75027863590": [
+            "xinliegong"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 7439.3
+    },
+    {
+      "name": "engine-disabled-gate",
+      "before": true,
+      "off": false,
+      "on": true
+    }
+  ],
+  "errors": []
+}
