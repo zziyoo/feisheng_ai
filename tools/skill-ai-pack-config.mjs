@@ -144,8 +144,8 @@ export const CODE_PACKS = [
 		id: 'refresh_feng',
 		module: 'refreshFeng',
 		rules: 'refreshFeng',
-		implementedSkills: ['reqimou'],
-		auditedSkills: ['reqimou'],
+		implementedSkills: ['reqimou', 'fenji'],
+		auditedSkills: ['xinshensu', 'shebian', 'xinkuanggu', 'reqimou', 'oltianxiang', 'olhongyan', 'piaoling', 'xinleiji', 'xinguidao', 'xinhuangtian', 'reguhuo', 'xinjushou', 'xinjiewei', 'buqu', 'fenji', 'xinliegong', 'remoshi'],
 		scenes: [
 			'hp-reqimou-distance4-hp3', 'hp-reqimou-distance4-hp4-defense',
 			'reqimou-near1-2sha-hp2', 'reqimou-near2-2sha-hp2', 'reqimou-far4-2sha-hp3',

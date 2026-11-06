@@ -1,18 +1,25 @@
-# 界限突破·风进度（未完成）
+# 界限突破·风进度（候选待验证）
 
-依据 142-task-list.json：8名武将、17项技能。宿主源码主要位于 character/refresh.js 和 character/shenhua.js；部分技能由冻结的神话再临·风包也使用，须避免修改该包。所有修改待验证。
+8名武将、17项技能；逐项规则、入口、保留理由和风险见 REVIEW.md。
 
-| 武将 | 技能 | 状态 | 原生入口或下一步 | 提交 |
+| 武将 | 技能 | 处理状态 | 入口和结果 | Commit |
 | --- | --- | --- | --- | --- |
-| 界夏侯渊 | xinshensu、shebian | 未审查 | shenhua.js / refresh.js，核对跳阶段和翻面移动 | — |
-| 界魏延 | xinkuanggu | 未审查 | shenhua.js cost，核对摸牌与恢复 | — |
-| 界魏延 | reqimou | 审查中 | refresh.js 的 result 与 content；扩展保护联机真人选择；仍需完整审查和原生候选 | 65ca37f |
-| 界小乔 | oltianxiang、olhongyan、piaoling | 未审查 | refresh.js；联合评估天香与花色转换 | — |
-| 界张角 | xinleiji、xinguidao、xinhuangtian | 未审查 | refresh.js；判断鬼道材料与雷击及赠牌联动 | — |
-| 界于吉 | reguhuo | 未审查 | refresh.js；核对材料、质疑与对手信息边界 | — |
-| 界曹仁 | xinjushou、xinjiewei | 未审查 | shenhua.js；核对翻面、装备与移动牌 | — |
-| 界周泰 | buqu | 未审查 | shenhua.js；核对创与实际危险，不能假设牌堆分布 | — |
-| 界周泰 | fenji | 已修改原生与扩展·待验证 | shenhua.js check，摸牌者作为 effect 第三参数；保留失去体力评分和结算 | 8c447bf |
-| 界黄忠 | xinliegong、remoshi | 未审查 | shenhua.js / refresh.js；核对手牌比较、伤害与装备迁移 | — |
+| 界夏侯渊 | xinshensu | 已审查保留原生 | shensu1/2/4 的 cost | — |
+| 界夏侯渊 | shebian | 已审查保留原生 | check、moveCard | — |
+| 界魏延 | xinkuanggu | 已审查保留原生 | cost 回复与摸牌 | — |
+| 界魏延 | reqimou | 仅扩展修改·待验证 | 既有 gate/支付策略；本次保护联机真人和方法恢复 | 65ca37f、0711b26 |
+| 界小乔 | oltianxiang | 已审查保留原生 | cost/content 选择 | — |
+| 界小乔 | olhongyan | 已审查保留原生 | 花色与上限 mod | — |
+| 界小乔 | piaoling | 已审查保留原生 | 判定后赠牌选择 | — |
+| 界张角 | xinleiji | 已审查保留原生 | 判定与 target effect | — |
+| 界张角 | xinguidao | 已审查保留原生 | 改判选牌 | — |
+| 界张角 | xinhuangtian | 已审查保留原生 | 全局赠牌 | — |
+| 界于吉 | reguhuo | 已审查保留原生 | 声明、材料、质疑 | — |
+| 界曹仁 | xinjushou | 已审查保留原生 | 摸牌翻面后选牌 | — |
+| 界曹仁 | xinjiewei | 已审查保留原生 | 无懈材料及移动 | — |
+| 界周泰 | buqu | 已审查保留原生 | forced、target effect | — |
+| 界周泰 | fenji | 已修改原生与扩展·待验证 | check 中摸牌者视角 | 8c447bf |
+| 界黄忠 | xinliegong | 已审查保留原生 | aiOrder、check、skillTagFilter | — |
+| 界黄忠 | remoshi | 已审查保留原生 | forced及retrieve | — |
 
-候选补丁 refresh-feng-native-candidate.patch 当前只含奋激；原始与候选副本在 base/ 和 candidate/，尚未提交，请勿删除。既有 reqimou 扩展还通过包裹 content 和 player.chooseNumbers 改AI选择，需要核对异步交叉、卸载和人类/联机语义；不可将静态修正当作宿主通过。未生成交付ZIP，未执行测试。
+累计补丁 refresh-feng-native-candidate.patch 仅含奋激；base/ 和 candidate/ 是隔离源码副本。已有其他包的共享技能接管不计入本包。所有候选待验证，未启动宿主。
