@@ -15,6 +15,8 @@ export const pack = {
  * 导致“是否已到良姻回复阈值”的数量比较失真。
  * 只在这一次 cost 调用期间给返回数组加 valueOf/toString=长度，
  * 不复制宿主技能函数，也不改变数组本身的迭代/取值行为。 */
+const olkongshengScopes = new WeakMap();
+
 function install(host, stats) {
 	installFuyin(host);
 	installQianjie(host);
@@ -27,21 +29,30 @@ function install(host, stats) {
 		return;
 	}
 	host.wrap(info, 'cost', 'olkongsheng:cost', originalCost => async function (event, trigger, player) {
-		const originalGet = player.getExpansions;
-		if (typeof originalGet === 'function') {
-			const scopedGet = function (name) {
-				const result = originalGet.apply(this, arguments);
-				if (name === 'olkongsheng' && Array.isArray(result)) return olkongshengExpansionView(result);
-				return result;
-			};
-			try { Object.defineProperty(scopedGet, '__djscOlkongshengScope', { value: true, configurable: true }); } catch (e) {}
-			player.getExpansions = scopedGet;
+		let scope = olkongshengScopes.get(player);
+		if (scope && player.getExpansions === scope.wrapped) {
+			scope.active++;
+		} else {
+			const original = player.getExpansions;
+			scope = null;
+			if (typeof original === 'function' && !olkongshengScopes.has(player)) {
+				const wrapped = function (name) {
+					const result = original.apply(this, arguments);
+					return name === 'olkongsheng' && Array.isArray(result) ? olkongshengExpansionView(result) : result;
+				};
+				scope = { original, wrapped, active: 1 };
+				player.getExpansions = wrapped;
+				olkongshengScopes.set(player, scope);
+			}
 		}
 		try {
 			stats.olkongshengCostCalls++;
 			return await originalCost.apply(this, arguments);
 		} finally {
-			if (originalGet) player.getExpansions = originalGet;
+			if (scope && --scope.active === 0) {
+				if (player.getExpansions === scope.wrapped) player.getExpansions = scope.original;
+				if (olkongshengScopes.get(player) === scope) olkongshengScopes.delete(player);
+			}
 		}
 	});
 }
