@@ -117,8 +117,9 @@ function install(host, stats) {
 	if (!info || typeof info.content !== 'function') return;
 	host.wrap(info, 'content', 'reqimou:content', originalContent => async function (event, trigger, player) {
 		const originalChooseNumbers = typeof player.chooseNumbers === 'function' ? player.chooseNumbers : null;
+		let scopedChooseNumbers = null;
 		if (originalChooseNumbers) {
-			player.chooseNumbers = function (...args) {
+			scopedChooseNumbers = function (...args) {
 				/* 一次性作用域：进入即还原，reqimou 结算窗口内其他事件的
 				 * chooseNumbers（如触发技询问）不会被本策略改写。 */
 				player.chooseNumbers = originalChooseNumbers;
@@ -152,11 +153,12 @@ function install(host, stats) {
 				}
 				return next;
 			};
+			player.chooseNumbers = scopedChooseNumbers;
 		}
 		try {
 			return await originalContent.apply(this, arguments);
 		} finally {
-			if (originalChooseNumbers) player.chooseNumbers = originalChooseNumbers;
+			if (scopedChooseNumbers && player.chooseNumbers === scopedChooseNumbers) player.chooseNumbers = originalChooseNumbers;
 		}
 	});
 }
