@@ -1,4 +1,6 @@
-import { lib, game, get, _status } from '../policyCore.js?v=41a';
+import { lib, game, get, ui, _status } from '../policyCore.js?v=41a';
+import { registerSkillVeto } from '../skillVetoRegistry.js?v=41a';
+import { exchangePlan, giftPlan } from '../rules/refreshStandardPlans.js?v=41a';
 import { resolveActiveSkillId } from '../../safety/aiOverride.js?v=41a';
 import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, retuxiHandBonus } from '../rules/refreshStandard.js?v=41a';
 
@@ -6,7 +8,7 @@ export const pack = {
 	id: 'refresh_standard',
 	name: '界限突破·标准',
 	group: 'refresh',
-	skills: ['rezhiheng', 'new_retuxi'],
+	skills: ['rezhiheng', 'rerende', 'new_retuxi'],
 	statsDefaults: {
 		keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0,
 		retuxiTargetBonus: 0, calls: 0, last: [],
@@ -18,7 +20,41 @@ const TARGET_POLICIES = new Set(['new_retuxi']);
 
 function install(host, stats) {
 	installRezhiheng(host, stats);
+	installRerende(host);
 	installRetuxi(host, stats);
+}
+
+function currentGiftPlan(player) {
+	try {
+		const phase = _status.event?.getParent?.('phaseUse');
+		return phase?.name === 'phaseUse' ? giftPlan(player, phase) : null;
+	} catch (_) { return null; }
+}
+
+function installRerende(host) {
+	const info = lib.skill?.rerende;
+	if (!info) return;
+	const undo = registerSkillVeto('rerende', (profile, ctx) => {
+		const plan = ctx?.me?.ref && currentGiftPlan(ctx.me.ref);
+		return plan && !plan.cards.length ? { veto: true, reason: '仁德：有限赠牌组合未超过保留资源收益' } : null;
+	}, 'refresh_standard');
+	host.addCleanup(undo);
+	if (typeof info.check === 'function') host.wrap(info, 'check', 'rerende:check', original => function (card) {
+		const player = host.playerOf(card);
+		const plan = player && currentGiftPlan(player);
+		const selected = ui.selected?.cards || [];
+		if (plan && selected.every(c => plan.cards.includes(c))) return plan.cards.includes(card) ? 1 : -1;
+		return original.apply(this, arguments);
+	});
+	const result = info.ai?.result;
+	if (result && typeof result.target === 'function') host.wrap(result, 'target', 'rerende:target', original => function (player, target) {
+		const plan = currentGiftPlan(player);
+		const selected = ui.selected?.cards || [];
+		if (plan && selected.length === plan.cards.length && selected.every(c => plan.cards.includes(c))) {
+			return target === plan.target ? 1 : 0;
+		}
+		return original.apply(this, arguments);
+	});
 }
 
 function defenseAdjustment(host, card, player, base, rule) {
@@ -37,6 +73,12 @@ function shouldSkipDefenseOnlyExchange(host, player, rule) {
 }
 
 function installRezhiheng(host, stats) {
+	const undo = registerSkillVeto('rezhiheng', (profile, ctx) => {
+		const player = ctx?.me?.ref;
+		const plan = player && exchangePlan(player);
+		return plan && !plan.cards.length ? { veto: true, reason: '制衡：有限组合未超过保留资源的局部收益' } : null;
+	}, 'refresh_standard');
+	host.addCleanup(undo);
 	for (const [sid, rule] of Object.entries(DEFENSE_RULES)) {
 		const info = lib.skill && lib.skill[sid];
 		if (!info) continue;
@@ -47,6 +89,11 @@ function installRezhiheng(host, stats) {
 				try {
 					stats.calls++;
 					const player = host.playerOf(card);
+					const plan = exchangePlan(player);
+					const selected = ui.selected?.cards || [];
+					if (plan && selected.every(item => plan.cards.includes(item))) {
+						return plan.cards.includes(card) ? 1 : -1;
+					}
 					const adjusted = defenseAdjustment(host, card, player, base, rule);
 					if (adjusted !== base) {
 						const name = host.cardName(card, player);
@@ -66,7 +113,8 @@ function installRezhiheng(host, stats) {
 					let base;
 					try { base = baseOf.apply(this, arguments); } catch (e) { return typeof original === 'function' ? 0 : original; }
 					try {
-						if (shouldSkipDefenseOnlyExchange(host, player || host.playerOf(), rule)) {
+						const plan = exchangePlan(player || host.playerOf());
+						if (plan ? !plan.cards.length : shouldSkipDefenseOnlyExchange(host, player || host.playerOf(), rule)) {
 							stats.skippedOrder++;
 							return -1;
 						}
@@ -83,7 +131,8 @@ function installRezhiheng(host, stats) {
 					let base;
 					try { base = baseOf.apply(this, arguments); } catch (e) { return typeof original === 'function' ? 0 : original; }
 					try {
-						if (shouldSkipDefenseOnlyExchange(host, player || host.playerOf(), rule)) {
+						const plan = exchangePlan(player || host.playerOf());
+						if (plan ? !plan.cards.length : shouldSkipDefenseOnlyExchange(host, player || host.playerOf(), rule)) {
 							stats.skippedExchange++;
 							return Math.min(Number(base), -1);
 						}
