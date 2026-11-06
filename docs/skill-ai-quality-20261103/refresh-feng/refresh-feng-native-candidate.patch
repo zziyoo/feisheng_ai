@@ -1,5 +1,5 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 5c6b68c..0011ad5 100644
+index 5c6b68c..46f1847 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
 @@ -3242,7 +3242,7 @@ const skills = {
@@ -11,7 +11,23 @@ index 5c6b68c..0011ad5 100644
            return 5 - get.value(card);
          }
          return -get.value(card);
-@@ -7450,10 +7450,14 @@ const skills = {
+@@ -3755,9 +3755,13 @@ const skills = {
+     preHidden: true,
+     async cost(event, trigger, player) {
+       let choice;
+-      if (player.isDamaged() && get.recoverEffect(player) > 0 && player.countCards("hs", function(card) {
++      const recoverEffect = get.recoverEffect(player, player, player);
++      const drawEffect = get.effect(player, { name: "draw" }, player, player);
++      const shaUsable = player.getCardUsable("sha");
++      const shaReady = player.countCards("hs", function(card) {
+         return card.name == "sha" && player.hasValueTarget(card);
+-      }) >= player.getCardUsable("sha")) {
++      });
++      if (player.isDamaged() && recoverEffect > 0 && ((shaUsable > 0 && shaReady >= shaUsable) || recoverEffect > drawEffect)) {
+         choice = "recover_hp";
+       } else {
+         choice = "draw_card";
+@@ -7450,10 +7454,14 @@ const skills = {
          }
          return player2.canUse({ name: "sha" }, target, false);
        }).set("check", player.countCards("h") > 2).set("ai", function(target) {
@@ -28,7 +44,7 @@ index 5c6b68c..0011ad5 100644
        }).setHiddenSkill(event.skill).forResult();
      },
      async content(event, trigger, player) {
-@@ -8359,7 +8363,7 @@ const skills = {
+@@ -8359,7 +8367,7 @@ const skills = {
        if (get.attitude(player, target) <= 0) {
          return false;
        }
