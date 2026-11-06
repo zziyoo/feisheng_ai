@@ -7,7 +7,7 @@
 | 界夏侯渊 | xinshensu | 已审查保留原生 | shensu1/2/4 的 cost | — |
 | 界夏侯渊 | shebian | 已审查保留原生 | check、moveCard | — |
 | 界魏延 | xinkuanggu | 已审查保留原生 | cost 回复与摸牌 | — |
-| 界魏延 | reqimou | 仅扩展修改·待验证 | 既有 gate/支付策略；本次保护联机真人和方法恢复 | 65ca37f、0711b26 |
+| 界魏延 | reqimou | 仅扩展修改·待验证 | 既有 gate/支付策略；真人和方法恢复保护；潜在伤害预算计入护甲 | 65ca37f、0711b26、71b7eee |
 | 界小乔 | oltianxiang | 已审查保留原生 | cost/content 选择 | — |
 | 界小乔 | olhongyan | 已审查保留原生 | 花色与上限 mod | — |
 | 界小乔 | piaoling | 已审查保留原生 | 判定后赠牌选择 | — |
