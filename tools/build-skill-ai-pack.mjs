@@ -319,6 +319,7 @@ function buildPack(config) {
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/REVIEW.md', 'docs/REVIEW.md');
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/PROGRESS.md', 'docs/PROGRESS.md');
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/FOURTH-ACCEPTANCE.md', 'ACCEPTANCE.md');
+		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/fourth-exclusive-host.json', 'docs/fourth-exclusive-host.json');
 	}
 
 	const deliverable = !refreshFengCandidate && !leiCandidate && !windCandidate && !!pack.can_mark_deliverable && ['可交付', '已交付'].includes(pack.delivery_status);
