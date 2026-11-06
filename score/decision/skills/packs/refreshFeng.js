@@ -115,8 +115,10 @@ function install(host, stats) {
 				player.chooseNumbers = originalChooseNumbers;
 				const next = originalChooseNumbers.apply(this, args);
 				const originalForResult = typeof next.forResult === 'function' ? next.forResult : null;
-				const isHuman = player === game.me && !_status.auto;
-				if (originalForResult && !isHuman) {
+				/* 宿主优先交给本地或联机真人处理；无法判定时不改选择结果。 */
+				let isAI = false;
+				try { isAI = typeof next.isMine === 'function' && typeof next.isOnline === 'function' && !next.isMine() && !next.isOnline(); } catch (e) {}
+				if (originalForResult && isAI) {
 					next.forResult = async function (...forArgs) {
 						const result = await originalForResult.apply(this, forArgs);
 						try {
