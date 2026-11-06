@@ -5,7 +5,7 @@ export const pack = {
 	id: 'refresh_feng',
 	name: '界限突破·风',
 	group: 'refresh',
-	skills: ['reqimou', 'fenji'],
+	skills: ['reqimou', 'fenji', 'reguhuo'],
 	statsDefaults: {
 		reqimouGateSkip: 0, reqimouInfeasible: 0, reqimouClamp: 0, reqimouClampCalls: 0,
 		reqimouSelfRescue: 0, reqimouInfiniteUses: 0,
@@ -80,6 +80,23 @@ function reqimouTargets(host, stats, player) {
 }
 
 function install(host, stats) {
+	const guhuo = lib.skill && lib.skill.reguhuo && lib.skill.reguhuo.chooseButton;
+	if (guhuo && typeof guhuo.backup === 'function' && String(guhuo.backup).includes('getRand("reguhuo")')) {
+		host.wrap(guhuo, 'backup', 'reguhuo:backup', original => function () {
+			const backup = original.apply(this, arguments);
+			if (!backup || typeof backup.ai1 !== 'function') return backup;
+			const ai1 = backup.ai1;
+			backup.ai1 = function (card) {
+				const score = ai1.apply(this, arguments);
+				if (score !== 10) return score;
+				try {
+					const value = Number(get.value(card, _status.event.player));
+					return Number.isFinite(value) ? 10 - Math.max(-9, Math.min(9, value)) / 10 : score;
+				} catch (e) { return score; }
+			};
+			return backup;
+		});
+	}
 	const fenji = lib.skill && lib.skill.fenji;
 	if (fenji && typeof fenji.check === 'function') {
 		host.wrap(fenji, 'check', 'fenji:check', original => function (event, player, triggername, target) {
