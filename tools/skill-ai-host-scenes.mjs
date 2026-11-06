@@ -2646,6 +2646,42 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.result = { orderCalls, ops: probe.log, hand: hand(actor) };
 		});
 
+		await scene('refresh-feng-final-exclusive', async rec => {
+			actor.addSkill('xinliegong');
+			await give(actor, [['wuzhong', 'heart', 6], ['sha', 'spade', 7]]);
+			const target = game.players.find(p => p !== actor && get.attitude(actor, p) < 0 && actor.canUse({ name: 'sha' }, p));
+			if (!target) throw new Error('no legal hostile target');
+			await give(target, [['shan', 'heart', 8], ['shan', 'club', 9]]);
+		}, async rec => {
+			const core = await import('/extension/无名AI/score/decision/skills/policyCore.js?v=41a');
+			const wind = (await import('/extension/无名AI/score/decision/skills/packs/shenhuaFeng.js?v=42a')).pack;
+			const refresh = (await import('/extension/无名AI/score/decision/skills/packs/refreshFeng.js?v=41a')).pack;
+			const owner = lib.skill.xinliegong.mod, base = owner.aiOrder, material = actor.getCards('h', 'wuzhong')[0], cases = [];
+			for (const used of [1, 0]) {
+				actor.getStat().card.sha = used;
+				for (const [name, first, second] of [['wind-refresh', wind, refresh], ['refresh-wind', refresh, wind]]) {
+					const h1 = core.createPolicyHost(), h2 = core.createPolicyHost();
+					let rejected = false, sameAfterReject = false, duplicateStable = false, firstScore, secondScore;
+					try {
+						h1.install([first]); const firstFn = owner.aiOrder;
+						h1.install([first]); duplicateStable = owner.aiOrder === firstFn;
+						firstScore = owner.aiOrder(actor, material, 10);
+						try { h2.install([second]); } catch (e) { rejected = /暂不支持同时激活/.test(e.message); }
+						sameAfterReject = owner.aiOrder === firstFn;
+						h1.uninstall();
+						if (owner.aiOrder !== base) throw new Error('first uninstall did not restore base');
+						h2.install([second]); secondScore = owner.aiOrder(actor, material, 10);
+						h2.uninstall();
+						cases.push({ name, remainingSha: actor.getCardUsable('sha'), firstScore, secondScore, rejected, sameAfterReject, duplicateStable, restored: owner.aiOrder === base, leaseCleared: !lib[Symbol.for('feisheng.skill-ai.exclusive-wind-lease')] });
+					} finally { h2.uninstall(); h1.uninstall(); owner.aiOrder = base; }
+				}
+			}
+			const both = core.createPolicyHost(); let jointRejected = false;
+			try { both.install([wind, refresh]); } catch (e) { jointRejected = /暂不支持同时激活/.test(e.message); }
+			finally { both.uninstall(); }
+			rec.result = { cases, jointRejected, restored: owner.aiOrder === base };
+		});
+
 		await scene('refresh-feng-fourth-separate-uninstall', async rec => {
 			actor.addSkill('xinliegong');
 			await give(actor, [['wuzhong', 'heart', 6], ['sha', 'spade', 7]]);

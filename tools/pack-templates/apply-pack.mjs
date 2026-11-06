@@ -111,6 +111,12 @@ function buildPlan() {
 
 	const registryRel = 'score/decision/skills/skillAIPolicyPacks.js';
 	const registryPath = rel(registryRel);
+	const conflictingModule = pack.id === 'refresh_feng' ? 'shenhuaFeng' : (pack.id === 'shenhua_feng' ? 'refreshFeng' : null);
+	if (conflictingModule && exists(registryPath)) {
+		const existingRegistry = read(registryPath).toString('utf8');
+		const otherImport = new RegExp(String.raw`import\s*\{\s*pack\s+as\s+[\w$]+\s*\}\s*from\s*['"]\./packs/${conflictingModule}\.js(?:\?[^'"]*)?['"]`);
+		if (otherImport.test(existingRegistry)) fail('神话再临·风与界限突破·风暂不支持同时激活；请先回滚另一分包。');
+	}
 	const importLine = `import { pack as ${pack.module} } from './packs/${pack.module}.js?v=41a';`;
 	/* 条目插在 marker 行前；marker 行自带的缩进就是条目缩进，避免双 tab。 */
 	const entryLine = `${pack.module},`;

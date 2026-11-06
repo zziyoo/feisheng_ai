@@ -7,6 +7,12 @@ export { lib, game, ui, get, _status };
  * 分包模块只注册自己的技能 ID；核心不知道任何具体技能名。
  */
 
+/* 临时兼容边界：两份冻结策略会在烈弓入口互相捕获，且当前卸载器
+ * 无法解除被其他 host 包裹的内层。必须在任何包装之前拒绝同时激活。
+ * 单模块作用域也覆盖同一策略核心创建的多个 host。 */
+const exclusiveWindPacks = new Set(['shenhua_feng', 'refresh_feng']);
+const windLeaseKey = Symbol.for('feisheng.skill-ai.exclusive-wind-lease');
+
 function markWrapper(wrapped, tag) {
 	try { wrapped.__djscSkillPolicy = tag; } catch (e) {}
 	return wrapped;
@@ -22,6 +28,7 @@ export function createPolicyHost() {
 	let installed = false;
 	let packs = [];
 	let statsByPack = {};
+	let windLease = null;
 	const backups = [];
 	const cleanups = [];
 
@@ -42,6 +49,9 @@ export function createPolicyHost() {
 			markWrapper(wrapped, tag);
 			try { owner[key] = wrapped; } catch (e) { return null; }
 			backups.push({ owner, key, original, wrapped });
+			if (windLease && (tag === 'liegong:aiOrder' || tag === 'refresh-feng:liegong-order')) {
+				windLease.wrapper = { owner, key, original, wrapped };
+			}
 			return { owner, key, original, wrapped };
 		},
 
@@ -122,8 +132,17 @@ export function createPolicyHost() {
 
 		install(nextPacks) {
 			if (installed) return;
+			const requested = Array.isArray(nextPacks) ? nextPacks : [];
+			const winds = requested.filter(pack => pack && exclusiveWindPacks.has(pack.id));
+			if (winds.length > 1 || (winds.length && lib[windLeaseKey])) {
+				throw new Error('神话再临·风与界限突破·风的烈弓策略暂不支持同时激活；请卸载其中一个分包后重启。');
+			}
+			if (winds.length) {
+				windLease = { pack: winds[0].id };
+				Object.defineProperty(lib, windLeaseKey, { value: windLease, configurable: true });
+			}
 			installed = true;
-			packs = Array.isArray(nextPacks) ? nextPacks : [];
+			packs = requested;
 			statsByPack = {};
 			for (const pack of packs) {
 				if (!pack || typeof pack.id !== 'string' || typeof pack.install !== 'function') continue;
@@ -146,6 +165,12 @@ export function createPolicyHost() {
 					if (backup.owner && backup.owner[backup.key] === backup.wrapped) backup.owner[backup.key] = backup.original;
 				} catch (e) {}
 			}
+			if (windLease && lib[windLeaseKey] === windLease) {
+				const item = windLease.wrapper;
+				/* 无法确认外层包装是否仍引用已卸策略时，保留互斥标记直至重启。 */
+				if (!item || item.owner[item.key] === item.original) delete lib[windLeaseKey];
+			}
+			windLease = null;
 			installed = false;
 			packs = [];
 			statsByPack = {};

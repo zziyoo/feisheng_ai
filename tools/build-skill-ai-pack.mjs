@@ -318,6 +318,7 @@ function buildPack(config) {
 		write(stage, 'feisheng-ai-refresh-feng-native-ai.patch', textOf('docs/skill-ai-quality-20261103/refresh-feng/refresh-feng-native-candidate.patch').replace(/\r\n/g, '\n'));
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/REVIEW.md', 'docs/REVIEW.md');
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/PROGRESS.md', 'docs/PROGRESS.md');
+		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/FOURTH-ACCEPTANCE.md', 'ACCEPTANCE.md');
 	}
 
 	const deliverable = !refreshFengCandidate && !leiCandidate && !windCandidate && !!pack.can_mark_deliverable && ['可交付', '已交付'].includes(pack.delivery_status);
@@ -372,7 +373,7 @@ function buildPack(config) {
 		scenes: [], review_scenes: [],
 	});
 	if (leiCandidate) Object.assign(packJson, { delivery_stage: '待验证候选', complete_delivery: false, pack_status: '已静态审查', delivery_status: '待验证', can_mark_deliverable: false, counts: leiCounts, native_patch: 'feisheng-ai-shenhua-lei-native-ai.patch', all_registered_skills: config.implementedSkills, scenes: [], review_scenes: [] });
-	if (refreshFengCandidate) Object.assign(packJson, { delivery_stage: '待验证候选', complete_delivery: false, pack_status: '已静态审查', delivery_status: '待验证', can_mark_deliverable: false, counts: refreshFengCounts, native_patch: 'feisheng-ai-refresh-feng-native-ai.patch', all_registered_skills: config.implementedSkills, scenes: [], review_scenes: [] });
+	if (refreshFengCandidate) Object.assign(packJson, { delivery_stage: '待验证候选', complete_delivery: false, pack_status: '已静态审查', delivery_status: '待验证', can_mark_deliverable: false, counts: refreshFengCounts, native_patch: 'feisheng-ai-refresh-feng-native-ai.patch', all_registered_skills: config.implementedSkills, incompatible_packs: ['shenhua_feng'], compatibility_note: '神话风和界风暂不支持同时安装或启用；共享核心已更新，旧核心哈希冲突时安装器拒绝覆盖。', scenes: [], review_scenes: [] });
 	write(stage, 'pack.json', JSON.stringify(packJson, null, 2) + '\n');
 
 	const checklist = {
@@ -405,7 +406,7 @@ function buildPack(config) {
 		write(stage, 'checklist.md', '# 雷包候选\n\n16项已静态审查；4项原生候选，3项扩展接线，0项宿主运行验证通过。\n');
 	}
 	if (refreshFengCandidate) {
-		write(stage, 'README.md', '# 界限突破·风候选（待验证）\n\n8名武将17技能已静态审查，7项原生候选、5项扩展接线；宿主场景未验证。详见 docs/REVIEW.md。\n\n原生：将根目录累计补丁应用于1.11.7的 character/shenhua.js 和 character/refresh.js。扩展：确保 score/index.js 已接入策略 facade，先运行 node integration/apply-pack.mjs --extension-root <扩展目录> --dry-run；移除 --dry-run 安装，回滚用 integration/rollback-pack.mjs。奇谋仅扩展接管，避免与其他包重复接管。\n');
+		write(stage, 'README.md', '# 界限突破·风候选（待验证）\n\n8名武将17技能已静态审查，7项原生候选、5项扩展接线；宿主场景未验证。详见 docs/REVIEW.md。\n\n原生：将根目录累计补丁应用于1.11.7的 character/shenhua.js 和 character/refresh.js。扩展：确保 score/index.js 已接入策略 facade，先运行 node integration/apply-pack.mjs --extension-root <扩展目录> --dry-run；移除 --dry-run 安装，回滚用 integration/rollback-pack.mjs。奇谋仅扩展接管。神话风和界风暂不支持同时安装或启用；本包更新共享核心，旧核心哈希不同则拒绝覆盖。切换步骤及未验证边界见 ACCEPTANCE.md。\n');
 		write(stage, 'checklist.md', '# 界风候选\n\n8名武将17技能已静态审查；7项原生候选、5项扩展接线；宿主场景未验证。\n');
 	}
 	write(stage, 'COMMANDS.md', [
@@ -523,7 +524,7 @@ function buildPack(config) {
 	};
 	if (windCandidate) Object.assign(manifest.package, { delivery_stage: '待验证候选', pack_status: '已静态审查', delivery_status: '待验证', complete_delivery: false, can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null });
 	if (leiCandidate) Object.assign(manifest.package, { delivery_stage: '待验证候选', pack_status: '已静态审查', delivery_status: '待验证', complete_delivery: false, can_mark_deliverable: false, counts: leiCounts });
-	if (refreshFengCandidate) Object.assign(manifest.package, { delivery_stage: '待验证候选', pack_status: '已静态审查', delivery_status: '待验证', complete_delivery: false, can_mark_deliverable: false, counts: refreshFengCounts });
+	if (refreshFengCandidate) Object.assign(manifest.package, { delivery_stage: '待验证候选', pack_status: '已静态审查', delivery_status: '待验证', complete_delivery: false, can_mark_deliverable: false, counts: refreshFengCounts, incompatible_packs: ['shenhua_feng'], compatibility_note: '神话风和界风暂不支持同时安装或启用；共享核心已更新。' });
 	write(stage, 'manifest.json', JSON.stringify(manifest, null, 2) + '\n');
 
 	const zipName = `feisheng-ai-${config.id.replace(/_/g, '-')}.zip`;
