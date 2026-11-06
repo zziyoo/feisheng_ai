@@ -1,0 +1,13 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+index 5c6b68c..fee6b76 100644
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -8359,7 +8359,7 @@ const skills = {
+       if (get.attitude(player, target) <= 0) {
+         return false;
+       }
+-      return 2 * get.effect(target, { name: "draw" }, player, player) + get.effect(player, { name: "losehp" }, player, player) > 0;
++      return 2 * get.effect(target, { name: "draw" }, target, player) + get.effect(player, { name: "losehp" }, player, player) > 0;
+     },
+     async content(event, trigger, player) {
+       const [target] = event.targets;

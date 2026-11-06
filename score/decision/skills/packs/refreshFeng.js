@@ -5,7 +5,7 @@ export const pack = {
 	id: 'refresh_feng',
 	name: '界限突破·风',
 	group: 'refresh',
-	skills: ['reqimou'],
+	skills: ['reqimou', 'fenji'],
 	statsDefaults: {
 		reqimouGateSkip: 0, reqimouInfeasible: 0, reqimouClamp: 0, reqimouClampCalls: 0,
 		reqimouSelfRescue: 0, reqimouInfiniteUses: 0,
@@ -79,6 +79,15 @@ function reqimouTargets(host, stats, player) {
 }
 
 function install(host, stats) {
+	const fenji = lib.skill && lib.skill.fenji;
+	if (fenji && typeof fenji.check === 'function') {
+		host.wrap(fenji, 'check', 'fenji:check', original => function (event, player, triggername, target) {
+			try {
+				if (get.attitude(player, target) <= 0) return false;
+				return 2 * get.effect(target, { name: 'draw' }, target, player) + get.effect(player, { name: 'losehp' }, player, player) > 0;
+			} catch (e) { return original.apply(this, arguments); }
+		});
+	}
 	const info = lib.skill && lib.skill.reqimou;
 	const result = info && info.ai && info.ai.result;
 	if (result && typeof result.player === 'function') {
