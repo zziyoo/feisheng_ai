@@ -405,7 +405,7 @@ function buildPack(config) {
 		write(stage, 'checklist.md', '# 雷包候选\n\n16项已静态审查；4项原生候选，3项扩展接线，0项宿主运行验证通过。\n');
 	}
 	if (refreshFengCandidate) {
-		write(stage, 'README.md', '# 界限突破·风候选（待验证）\n\n8名武将17技能已静态审查，7项原生候选、5项扩展接线；宿主场景未验证。详见 docs/REVIEW.md。\n\n原生：只将根目录累计补丁应用于1.11.7 character/shenhua.js。扩展：确保 score/index.js 已接入策略 facade，先运行 node integration/apply-pack.mjs --extension-root <扩展目录> --dry-run；移除 --dry-run 安装，回滚用 integration/rollback-pack.mjs。奇谋仅扩展接管，避免与其他包重复接管。\n');
+		write(stage, 'README.md', '# 界限突破·风候选（待验证）\n\n8名武将17技能已静态审查，7项原生候选、5项扩展接线；宿主场景未验证。详见 docs/REVIEW.md。\n\n原生：将根目录累计补丁应用于1.11.7的 character/shenhua.js 和 character/refresh.js。扩展：确保 score/index.js 已接入策略 facade，先运行 node integration/apply-pack.mjs --extension-root <扩展目录> --dry-run；移除 --dry-run 安装，回滚用 integration/rollback-pack.mjs。奇谋仅扩展接管，避免与其他包重复接管。\n');
 		write(stage, 'checklist.md', '# 界风候选\n\n8名武将17技能已静态审查；7项原生候选、5项扩展接线；宿主场景未验证。\n');
 	}
 	write(stage, 'COMMANDS.md', [
