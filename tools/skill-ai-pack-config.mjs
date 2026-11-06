@@ -202,8 +202,8 @@ export const CODE_PACKS = [
 		id: 'shenhua_lei',
 		module: 'shenhuaLei',
 		rules: 'shenhuaLei',
-		implementedSkills: ['olkongsheng'],
-		auditedSkills: ['olkongsheng'],
+		implementedSkills: ['olkongsheng', 'xinfu_fuyin', 'drlt_qianjie'],
+		auditedSkills: ['zhengrong', 'hongju', 'dcwanglie', 'drlt_qianjie', 'drlt_jueyan', 'drlt_poshi', 'olliangyin', 'olkongsheng', 'drlt_xiongluan', 'drlt_congjian', 'twjuxiang', 'drlt_yongsi', 'drlt_weidi', 'drlt_zhengu', 'xinfu_zuilun', 'xinfu_fuyin'],
 		scenes: ['kongsheng-stash', 'olkongsheng-array-count', 'olkongsheng-repeat', 'olkongsheng-cost-error'],
 		evidence: [
 			'split-suite-native.json', 'split-suite-policy.json', 'split-suite-extension.json',
