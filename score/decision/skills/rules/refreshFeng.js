@@ -30,7 +30,7 @@ export function reqimouNeedsPayment(targets) {
 }
 
 /*
- * 支付 x 档位下的“确定击杀收益”（纯静态口径，不读隐藏手牌、不做概率模拟）：
+ * 支付 x 档位下的“潜在击杀收益”（启发式，不读隐藏手牌，不推断响应或救援）：
  * 目标计入条件 = 正收益 ∩ 无视距离合法 ∩ 手杀可击杀 ∩ 支付后距离可达 ∩ 支付后次数足够；
  * 预算 = min(手杀数, 支付后出杀次数)（Infinity 次数时预算=手杀数），
  * 按血量升序贪心统计预算内最多能击杀几个目标。
@@ -46,8 +46,10 @@ export function reqimouKillBenefit(shaCount, baseUses, x, targets) {
 		if (!target || typeof target !== 'object') continue;
 		if (!(Number(target.effect) > 0)) continue;
 		if (!target.canUseIgnoringDistance) continue;
-		const targetHp = Math.max(0, Math.floor(Number(target.hp) || 0));
-		if (!targetHp || targetHp > sha) continue;
+		const hp = Math.max(0, Math.floor(Number(target.hp) || 0));
+		const armor = Math.max(0, Math.floor(Number(target.hujia) || 0));
+		const targetHp = hp + armor;
+		if (!hp || targetHp > sha) continue;
 		const distance = Math.max(0, Number(target.distance) || 0);
 		const range = Number.isFinite(Number(target.attackRange)) ? Math.max(0, Number(target.attackRange)) : 1;
 		if (distance > range + Math.max(0, x)) continue;
@@ -70,7 +72,7 @@ export function reqimouKillBenefit(shaCount, baseUses, x, targets) {
  * 支付档位与回合收益绑定（2026-11-01 审查补修 P1/P1-2）：
  * 1. 上限：无自救牌时 hp-1；手中有 canSaveCard 自救牌（桃/酒，只看自己手牌）
  *    时允许支付全部体力——0 血进入濒死后自救到 1，复刻原生 processAI 的合法路线。
- * 2. 档位：取“能兑现最大确定击杀收益的最小档位”；收益按全回合目标集合与
+ * 2. 档位：取“能兑现最大潜在击杀收益的最小档位”；收益按全回合目标集合与
  *    手杀/次数预算评估，不绑定单一最容易攻击的目标。
  * 3. 机会成本：最大可承受收益必须严格高于“不发动”的免费收益，否则返回 null。
  * 4. 返回 null：任何可承受档位都兑现不了净收益 → 调用方保留原生档位。
@@ -103,7 +105,8 @@ export function reqimouKillableByHand(shaCount, targets) {
 		if (!(Number(target.effect) > 0)) continue;
 		if (!target.canUseIgnoringDistance) continue;
 		const hp = Number(target.hp);
-		if (Number.isFinite(hp) && hp <= sha) return true;
+		const armor = Math.max(0, Number(target.hujia) || 0);
+		if (Number.isFinite(hp) && hp > 0 && hp + armor <= sha) return true;
 	}
 	return false;
 }

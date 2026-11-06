@@ -70,6 +70,7 @@ function reqimouTargets(host, stats, player) {
 				distance: get.distance(player, target),
 				attackRange: reqimouAttackRange(player),
 				hp: target.hp,
+				hujia: target.hujia,
 				baseUses,
 				saveCount,
 			};
