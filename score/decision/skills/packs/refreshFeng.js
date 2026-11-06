@@ -90,7 +90,11 @@ function install(host, stats) {
 				const score = ai1.apply(this, arguments);
 				if (score !== 10) return score;
 				try {
-					const value = Number(get.value(card, _status.event.player));
+					const event = _status.event, player = event.player, declared = backup.viewAs;
+					if (!declared || card.name !== declared.name || (card.name === 'sha' && !get.is.sameNature(card, declared))) return score;
+					const hasEnemy = game.hasPlayer(current => current !== player && !current.hasSkill('rechanyuan') && (get.realAttitude || get.attitude)(current, player) < 0);
+					if (!hasEnemy || !(event.getRand('reguhuo') > 0.3)) return score;
+					const value = Number(get.value(card, player));
 					return Number.isFinite(value) ? 10 - Math.max(-9, Math.min(9, value)) / 10 : score;
 				} catch (e) { return score; }
 			};
