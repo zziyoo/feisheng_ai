@@ -1,5 +1,5 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 5c6b68c..70c0026 100644
+index 5c6b68c..5046fac 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
 @@ -3242,7 +3242,7 @@ const skills = {
@@ -45,15 +45,15 @@ index 5c6b68c..70c0026 100644
          return player2.canUse({ name: "sha" }, target, false);
        }).set("check", player.countCards("h") > 2).set("ai", function(target) {
 +        const player2 = _status.event.player;
-+        const effect = get.effect(target, { name: "sha" }, player2, player2);
          if (!_status.event.check) {
 -          return 0;
 +          if (!player2.hasSkill("xinshensu") || !(player2.hasJudge("lebu") || player2.hasJudge("bingliang"))) return 0;
++          const effect = get.effect(target, { name: "sha" }, player2, player2);
 +          const draw = get.effect(player2, { name: "draw" }, player2, player2);
-+          if (!(effect > 0 && effect >= 2 * draw)) return 0;
++          return effect > 0 && effect >= 2 * draw ? effect : 0;
          }
 -        return get.effect(target, { name: "sha" }, _status.event.player);
-+        return effect;
++        return get.effect(target, { name: "sha" }, player2);
        }).setHiddenSkill(event.skill).forResult();
      },
      async content(event, trigger, player) {
