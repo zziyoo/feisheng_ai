@@ -487,6 +487,16 @@ export function installUseOverride() {
                     _stat('timeout'); return restore;
                 }
                 if (!decision?.rule) { _stat('pass'); return restore; }
+                /* 可选诊断仅保留行动 ID、阶段分数及事务结果；不保存牌对象或玩家状态。 */
+                try { if (typeof window !== 'undefined' && window.__DJSC_DECISION_TRACE === true) {
+                    trace.decisionSummary = {
+                        type: decision.type, id: decision.rule, score: decision.score,
+                        stages: (decision.decisionStages?.stages || []).map(s => ({
+                            stage: s.stage, before: s.before?.score ?? null,
+                            after: s.after?.score ?? null, changed: s.changed,
+                        })),
+                    };
+                } } catch (_) { /* 诊断失败不改变决策 */ }
                 /* @djsc-skill-veto-wiring：注册表否决的技能不 stage，交回宿主自身流程。
                  * 最终决策对象 _finalResult 里技能 ID 位于 rule 字段（rule: best.id），
                  * 不存在 decision.id —— 用错字段会使本守卫成为死代码。 */
@@ -558,6 +568,15 @@ export function installUseOverride() {
                     if (trace.ended) { trace.attribution = 'matched-staged-end'; _stat('endTurn'); }
                 }
                 trace.candidateAccepted = staged?.state === 'committed';
+                try { if (trace.decisionSummary && typeof window !== 'undefined' && window.__DJSC_DECISION_TRACE === true) {
+                    const records = window.__DJSC_DECISION_TRACE_RECORDS ||= [];
+                    records.push({ ...trace.decisionSummary, transactionId: trace.transactionId || null,
+                        staged: !!trace.staged, accepted: !!trace.candidateAccepted,
+                        selected: !!trace.selected, executed: !!trace.executed,
+                        finalType: trace.hostAction || null,
+                        fallback: trace.skillVeto || trace.stageFailure || (trace.staged && !trace.candidateAccepted ? 'uncommitted' : null) });
+                    if (records.length > 50) records.shift();
+                } } catch (_) { /* 诊断失败不改变决策 */ }
                 if (trace.candidateAccepted) _stat('candidateAccepted');
                 if (staged && pendingExecution(player) === staged) cancelExecution(player, 'choice-completed-without-matching-action', 'use');
             }, error => markExecutionFailure('use', player, '选择事件桥接异常：' + error.message, 'fatal'));
