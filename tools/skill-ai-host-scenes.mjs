@@ -2636,6 +2636,33 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.result = { baseline: original(actor, material, 10), cases };
 		});
 
+		await scene('refresh-feng-third-oltianxiang', async rec => {
+			actor.addSkill('oltianxiang');
+			actor.hp = 3; actor.maxHp = 4; actor.update();
+			await actor.equip(card('zhuge', 'heart', 6));
+			rec.setup = { hp: actor.hp, hand: hand(actor), equip: actor.getCards('e').map(c => ({ name: c.name, suit: get.suit(c, actor) })) };
+		}, async rec => {
+			const effect = lib.skill.oltianxiang.ai.effect, originalEffect = effect.target;
+			const originalChoose = actor.chooseCardTarget, effectCalls = [], scores = [];
+			effect.target = function (...args) { const value = originalEffect.apply(this, args); effectCalls.push(value ?? null); return value; };
+			actor.chooseCardTarget = function (config) {
+				if (config && typeof config === 'object') {
+					for (const key of ['ai1', 'ai2']) if (typeof config[key] === 'function') {
+						const original = config[key];
+						config[key] = function (item) { const value = original.apply(this, arguments); scores.push({ key, value, name: item.name || item.playerid }); return value; };
+					}
+				}
+				return originalChoose.apply(this, arguments);
+			};
+			const probe = instrument(actor);
+			let queriedEffect;
+			try {
+				queriedEffect = get.effect(actor, { name: 'sha', isCard: true }, enemy1, enemy1);
+				await actor.damage(1, enemy1);
+			} finally { effect.target = originalEffect; actor.chooseCardTarget = originalChoose; probe.restore(); }
+			rec.result = { queriedEffect, effectCalls, scores, ops: probe.log, hp: actor.hp, equip: actor.getCards('e').map(c => c.name) };
+		});
+
 		await scene('refresh-feng-third-xinjushou', async rec => {
 			actor.addSkill('xinjushou');
 			await actor.disableEquip(2);
