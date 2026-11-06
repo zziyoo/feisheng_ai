@@ -2613,6 +2613,26 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.damage = damage.events.map(item => ({ num: item && item.num, player: item && item.player && item.player.playerid }));
 		});
 
+		await scene('refresh-feng-third-liegong-order', async rec => {
+			actor.addSkill('xinliegong');
+			await give(actor, [['wuzhong', 'heart', 6], ['sha', 'spade', 7]]);
+			const target = game.players.find(p => p !== actor && get.attitude(actor, p) < 0 && actor.canUse({ name: 'sha' }, p));
+			if (!target) throw new Error('no legal hostile target');
+			await give(target, [['shan', 'heart', 8], ['shan', 'club', 9]]);
+			rec.setup = { target: target.playerid, targetHand: target.countCards('h'), actorHand: actor.countCards('h'), remainingSha: actor.getCardUsable('sha') };
+		}, async rec => {
+			const mod = lib.skill.xinliegong.mod, originalOrder = mod.aiOrder, orderCalls = [];
+			mod.aiOrder = function (player, card, num) {
+				const result = originalOrder.apply(this, arguments);
+				if (card && card.name === 'wuzhong') orderCalls.push({ num, result, player: player.playerid });
+				return result;
+			};
+			const probe = instrument(actor);
+			try { _status.currentPhase = actor; await actor.phaseUse(); }
+			finally { mod.aiOrder = originalOrder; probe.restore(); }
+			rec.result = { orderCalls, ops: probe.log, hand: hand(actor) };
+		});
+
 		await scene('refresh-feng-third-coexist-order', async rec => {
 			actor.addSkill('xinliegong');
 			await give(actor, [['wuzhong', 'heart', 6], ['sha', 'spade', 7]]);
