@@ -14,6 +14,7 @@ import {publicIdentityRole} from '../../perception/observer/identityFacts.js?v=4
 import {selectClassicDataset} from '../../model/train/modeDataset.js?v=41a';
 import { playChoiceWindow } from '../execution/decisionWindow.js?v=41a';
 import { activePlaySkills, trackSkillOutcome } from '../skills/activeSkillEligibility.js?v=41a';
+import { applySkillPlanHints } from '../skills/skillPlanHints.js?v=41a';
 import { tiesuoCandidateOptions } from '../cards/tiesuoCandidateOptions.js?v=41a';
 import {publicDecisionContext} from '../../perception/journal/doudizhuDiagnostics.js?v=41a';
 import {createPlayerDemonstrationCollector,directPlayPhase} from '../../model/train/playerDemonstration.js?v=41a';
@@ -4197,6 +4198,8 @@ function bestActionCore() {
 		try { trackUtilityStage(acts, 'basicCardRules', 'legacyResidual', function () { applyBasicCardPlayRules(me, acts); }); }
 		catch (e) { if (typeof window !== 'undefined' && window.__DJSC && window.__DJSC.swallow) window.__DJSC.swallow(e); }
 		try { trackUtilityStage(acts, 'basicSkillRules', 'legacyResidual', function () { applyBasicSkillRules(me, acts); }); }
+		catch (e) { if (typeof window !== 'undefined' && window.__DJSC && window.__DJSC.swallow) window.__DJSC.swallow(e); }
+		try { applySkillPlanHints(me, acts); }
 		catch (e) { if (typeof window !== 'undefined' && window.__DJSC && window.__DJSC.swallow) window.__DJSC.swallow(e); }
 		try { trackUtilityStage(acts, 'basicEquipRules', 'legacyResidual', function () { applyBasicEquipRules(me, acts); }); }
 		catch (e) { if (typeof window !== 'undefined' && window.__DJSC && window.__DJSC.swallow) window.__DJSC.swallow(e); }

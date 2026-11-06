@@ -1,6 +1,6 @@
 import { lib, game, get, ui, _status } from '../policyCore.js?v=41a';
-import { registerSkillVeto } from '../skillVetoRegistry.js?v=41a';
 import { exchangePlan, giftPlan } from '../rules/refreshStandardPlans.js?v=41a';
+import { registerSkillPlanHint } from '../skillPlanHints.js?v=41a';
 import { resolveActiveSkillId } from '../../safety/aiOverride.js?v=41a';
 import { DEFENSE_RULES, retentionAdjustment, shouldSkipExchange, retuxiHandBonus } from '../rules/refreshStandard.js?v=41a';
 
@@ -22,6 +22,16 @@ function install(host, stats) {
 	installRezhiheng(host, stats);
 	installRerende(host);
 	installRetuxi(host, stats);
+	for (const [id, evaluate] of [['rezhiheng', exchangePlan], ['rerende', currentGiftPlan]]) {
+		host.addCleanup(registerSkillPlanHint(id, player => {
+			const plan = evaluate(player);
+			if (!plan) return null;
+			const value = name => plan.contributions?.find(c => c.source === name)?.value || 0;
+			return { status: plan.cards.length ? 'positive' : 'no-positive-bounded-plan', total: plan.total,
+				cost: value(id === 'rerende' ? 'gift-value' : 'discard-value'), reserve: value('exhausted-reserve'),
+				delta: plan.cards.length ? Math.min(0.75, 0.2 + plan.total / 20) : -0.25 };
+		}));
+	}
 }
 
 function currentGiftPlan(player) {
@@ -31,24 +41,69 @@ function currentGiftPlan(player) {
 	} catch (_) { return null; }
 }
 
+/* 只在宿主当前选择事件内缓存；玩家状态变化时放弃方案并交回原生。 */
+const choicePlans = new WeakMap();
+function observeChoicePlan(event, skill, plan, reason) {
+	try {
+		if (typeof window === 'undefined' || window.__DJSC_DECISION_TRACE !== true) return;
+		event.__djscRefreshPlanAudit = () => {
+			const selected = event.result?.cards || [];
+			const targets = event.result?.targets || [];
+			const cardsMatch = !!plan && selected.length === plan.cards.length && selected.every(c => plan.cards.includes(c));
+			const targetMatch = skill !== 'rerende' || !!plan?.target && targets.includes(plan.target);
+			const part = name => plan?.contributions?.find(c => c.source === name)?.value ?? null;
+			return { source: 'refresh-standard-plan', skill, offered: !!plan,
+				adopted: cardsMatch && targetMatch,
+				reason: !plan ? reason : !cardsMatch ? 'materials-unconfirmed-or-different' : !targetMatch ? 'target-unconfirmed-or-different' : null,
+				cost: part(skill === 'rerende' ? 'gift-value' : 'discard-value'), reserve: part('exhausted-reserve') };
+		};
+	} catch (_) { /* 诊断不得改变选择 */ }
+}
+function choicePlan(skill, player) {
+	try {
+		const event = _status.event;
+		if (!event || event.player !== player || event.skill !== skill) return null;
+		const cards = player.getCards('he');
+		const state = [player.hp, player.maxHp, player.getCardUsable?.('sha'),
+			...(game.players || []).map(p => [p, p.hp, p.maxHp, p.countCards('h'), p.isIn?.(), get.attitude(player, p)]).flat()];
+		let cached = choicePlans.get(event);
+		if (cached && (cached.skill !== skill || cached.cards.length !== cards.length ||
+			cached.cards.some((c, i) => c !== cards[i]) || cached.state.length !== state.length ||
+			cached.state.some((v, i) => v !== state[i]))) {
+			choicePlans.delete(event);
+			observeChoicePlan(event, skill, null, 'state-changed');
+			return null;
+		}
+		if (!cached) {
+			const plan = skill === 'rerende' ? currentGiftPlan(player) : exchangePlan(player);
+			if (!plan?.cards?.length) {
+				observeChoicePlan(event, skill, null, plan ? 'no-positive-bounded-plan' : 'context-unavailable');
+				return null;
+			}
+			cached = { skill, cards, state, plan };
+			choicePlans.set(event, cached);
+			observeChoicePlan(event, skill, plan, null);
+		}
+		if (skill === 'rerende' && (!cached.plan.target?.isIn?.() ||
+			!lib.skill.rerende.filterTarget(null, player, cached.plan.target))) return null;
+		if (skill === 'rezhiheng' && cached.plan.cards.some(c => !lib.filter.cardDiscardable(c, player, skill))) return null;
+		return cached.plan;
+	} catch (_) { return null; }
+}
+
 function installRerende(host) {
 	const info = lib.skill?.rerende;
 	if (!info) return;
-	const undo = registerSkillVeto('rerende', (profile, ctx) => {
-		const plan = ctx?.me?.ref && currentGiftPlan(ctx.me.ref);
-		return plan && !plan.cards.length ? { veto: true, reason: '仁德：有限赠牌组合未超过保留资源收益' } : null;
-	}, 'refresh_standard');
-	host.addCleanup(undo);
 	if (typeof info.check === 'function') host.wrap(info, 'check', 'rerende:check', original => function (card) {
 		const player = host.playerOf(card);
-		const plan = player && currentGiftPlan(player);
+		const plan = player && choicePlan('rerende', player);
 		const selected = ui.selected?.cards || [];
 		if (plan && selected.every(c => plan.cards.includes(c))) return plan.cards.includes(card) ? 1 : -1;
 		return original.apply(this, arguments);
 	});
 	const result = info.ai?.result;
 	if (result && typeof result.target === 'function') host.wrap(result, 'target', 'rerende:target', original => function (player, target) {
-		const plan = currentGiftPlan(player);
+		const plan = choicePlan('rerende', player);
 		const selected = ui.selected?.cards || [];
 		if (plan && selected.length === plan.cards.length && selected.every(c => plan.cards.includes(c))) {
 			return target === plan.target ? 1 : 0;
@@ -73,12 +128,6 @@ function shouldSkipDefenseOnlyExchange(host, player, rule) {
 }
 
 function installRezhiheng(host, stats) {
-	const undo = registerSkillVeto('rezhiheng', (profile, ctx) => {
-		const player = ctx?.me?.ref;
-		const plan = player && exchangePlan(player);
-		return plan && !plan.cards.length ? { veto: true, reason: '制衡：有限组合未超过保留资源的局部收益' } : null;
-	}, 'refresh_standard');
-	host.addCleanup(undo);
 	for (const [sid, rule] of Object.entries(DEFENSE_RULES)) {
 		const info = lib.skill && lib.skill[sid];
 		if (!info) continue;
@@ -89,7 +138,7 @@ function installRezhiheng(host, stats) {
 				try {
 					stats.calls++;
 					const player = host.playerOf(card);
-					const plan = exchangePlan(player);
+					const plan = choicePlan('rezhiheng', player);
 					const selected = ui.selected?.cards || [];
 					if (plan && selected.every(item => plan.cards.includes(item))) {
 						return plan.cards.includes(card) ? 1 : -1;
@@ -114,7 +163,8 @@ function installRezhiheng(host, stats) {
 					try { base = baseOf.apply(this, arguments); } catch (e) { return typeof original === 'function' ? 0 : original; }
 					try {
 						const plan = exchangePlan(player || host.playerOf());
-						if (plan ? !plan.cards.length : shouldSkipDefenseOnlyExchange(host, player || host.playerOf(), rule)) {
+						if (plan?.cards.length && Number.isFinite(Number(base))) return Number(base) + 0.5;
+						if (!plan && shouldSkipDefenseOnlyExchange(host, player || host.playerOf(), rule)) {
 							stats.skippedOrder++;
 							return -1;
 						}
@@ -132,7 +182,7 @@ function installRezhiheng(host, stats) {
 					try { base = baseOf.apply(this, arguments); } catch (e) { return typeof original === 'function' ? 0 : original; }
 					try {
 						const plan = exchangePlan(player || host.playerOf());
-						if (plan ? !plan.cards.length : shouldSkipDefenseOnlyExchange(host, player || host.playerOf(), rule)) {
+						if (!plan && shouldSkipDefenseOnlyExchange(host, player || host.playerOf(), rule)) {
 							stats.skippedExchange++;
 							return Math.min(Number(base), -1);
 						}
