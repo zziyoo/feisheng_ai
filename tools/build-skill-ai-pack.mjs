@@ -249,7 +249,7 @@ function buildPack(config) {
 	const windCandidate = config.id === 'shenhua_feng';
 	const leiCandidate = config.id === 'shenhua_lei';
 	const refreshFengCandidate = config.id === 'refresh_feng';
-	const refreshFengCounts = { characters: 8, skills: 17, reviewed_skills: 17, unreviewed_skills: 0, native_modified_skills: 1, extension_wired_skills: 2, runtime_verified_skills: 0 };
+	const refreshFengCounts = { characters: 8, skills: 17, reviewed_skills: 17, unreviewed_skills: 0, native_modified_skills: 7, extension_wired_skills: 5, runtime_verified_skills: 0 };
 	const leiCounts = { characters: 8, skills: 16, reviewed_skills: 16, unreviewed_skills: 0, native_modified_skills: 4, extension_wired_skills: 3, runtime_verified_skills: 0 };
 	const records = recordsFor(config.id);
 	const stage = path.join(STAGE_ROOT, config.id);
@@ -405,8 +405,8 @@ function buildPack(config) {
 		write(stage, 'checklist.md', '# 雷包候选\n\n16项已静态审查；4项原生候选，3项扩展接线，0项宿主运行验证通过。\n');
 	}
 	if (refreshFengCandidate) {
-		write(stage, 'README.md', '# 界限突破·风候选（待验证）\n\n8名武将17技能已静态审查，奋激原生和扩展候选、奇谋既有扩展保护修正；宿主场景未验证。详见 docs/REVIEW.md。\n\n原生：只将根目录累计补丁应用于1.11.7 character/shenhua.js。扩展：确保 score/index.js 已接入策略 facade，先运行 node integration/apply-pack.mjs --extension-root <扩展目录> --dry-run；移除 --dry-run 安装，回滚用 integration/rollback-pack.mjs。奇谋仅扩展接管，避免与其他包重复接管。\n');
-		write(stage, 'checklist.md', '# 界风候选\n\n8名武将17技能已静态审查；1项原生修改、2项扩展接线；宿主场景未验证。\n');
+		write(stage, 'README.md', '# 界限突破·风候选（待验证）\n\n8名武将17技能已静态审查，7项原生候选、5项扩展接线；宿主场景未验证。详见 docs/REVIEW.md。\n\n原生：只将根目录累计补丁应用于1.11.7 character/shenhua.js。扩展：确保 score/index.js 已接入策略 facade，先运行 node integration/apply-pack.mjs --extension-root <扩展目录> --dry-run；移除 --dry-run 安装，回滚用 integration/rollback-pack.mjs。奇谋仅扩展接管，避免与其他包重复接管。\n');
+		write(stage, 'checklist.md', '# 界风候选\n\n8名武将17技能已静态审查；7项原生候选、5项扩展接线；宿主场景未验证。\n');
 	}
 	write(stage, 'COMMANDS.md', [
 		'# 本分包测试命令', '',
