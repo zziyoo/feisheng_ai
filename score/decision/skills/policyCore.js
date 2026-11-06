@@ -46,12 +46,17 @@ export function createPolicyHost() {
 			let wrapped;
 			try { wrapped = factory(original); } catch (e) { return null; }
 			if (typeof wrapped !== 'function') return null;
+			let layer = null;
+			if (windLease && (tag === 'liegong:aiOrder' || tag === 'refresh-feng:liegong-order')) {
+				const policy = wrapped;
+				layer = { active: true };
+				wrapped = function (...args) {
+					return (layer.active ? policy : original).apply(this, args);
+				};
+			}
 			markWrapper(wrapped, tag);
 			try { owner[key] = wrapped; } catch (e) { return null; }
-			backups.push({ owner, key, original, wrapped });
-			if (windLease && (tag === 'liegong:aiOrder' || tag === 'refresh-feng:liegong-order')) {
-				windLease.wrapper = { owner, key, original, wrapped };
-			}
+			backups.push({ owner, key, original, wrapped, layer });
 			return { owner, key, original, wrapped };
 		},
 
@@ -162,14 +167,12 @@ export function createPolicyHost() {
 			}
 			for (const backup of backups.splice(0).reverse()) {
 				try {
+					/* 外部闭包仍引用时也停用本包策略，保留外部函数不覆盖。 */
+					if (backup.layer) backup.layer.active = false;
 					if (backup.owner && backup.owner[backup.key] === backup.wrapped) backup.owner[backup.key] = backup.original;
 				} catch (e) {}
 			}
-			if (windLease && lib[windLeaseKey] === windLease) {
-				const item = windLease.wrapper;
-				/* 无法确认外层包装是否仍引用已卸策略时，保留互斥标记直至重启。 */
-				if (!item || item.owner[item.key] === item.original) delete lib[windLeaseKey];
-			}
+			if (windLease && lib[windLeaseKey] === windLease) delete lib[windLeaseKey];
 			windLease = null;
 			installed = false;
 			packs = [];
