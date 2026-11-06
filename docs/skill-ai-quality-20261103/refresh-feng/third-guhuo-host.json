@@ -1,0 +1,196 @@
+{
+  "completedAt": "2026-11-06T06:49:26.755Z",
+  "status": "passed",
+  "scope": "真实身份局宿主、固定公开局面、技能AI选择与结算观察；原生AI基线",
+  "seed": "20261030",
+  "browserVersion": "156.0.8078.80",
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "players": 8,
+  "extensionInstalled": false,
+  "policyStats": null,
+  "scenes": [
+    {
+      "name": "refresh-feng-third-reguhuo",
+      "setup": {
+        "hand": [
+          "sha",
+          "sha",
+          "shan"
+        ]
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha",
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "reguhuo"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "result": {
+        "scores": [
+          {
+            "name": "sha",
+            "suit": "spade",
+            "cardValue": 5,
+            "score": 1
+          },
+          {
+            "name": "sha",
+            "suit": "heart",
+            "cardValue": 3,
+            "score": 3
+          },
+          {
+            "name": "shan",
+            "suit": "club",
+            "cardValue": 7,
+            "score": -1
+          },
+          {
+            "name": "sha",
+            "suit": "heart",
+            "cardValue": 3,
+            "score": 3
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "nanman",
+              [
+                "sha"
+              ],
+              [
+                "jiachong",
+                "dc_zhouxuān",
+                "hm_shen_zhangbao",
+                "hl_shen_lvbu",
+                "yangfeng",
+                "zhouqun",
+                "dc_xiahouxuan"
+              ],
+              "reguhuo_backup"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              "sha",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              [
+                "sha"
+              ],
+              [
+                "dc_xiahouxuan"
+              ],
+              null
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          }
+        ],
+        "hand": [
+          "shan"
+        ],
+        "used": true
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 3
+        },
+        "hand": {
+          "75027863590": [
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "guohe"
+          ],
+          "60505463593": [
+            "tao"
+          ],
+          "75331523594": [
+            "sha"
+          ],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "reguhuo"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 5715.6
+    },
+    {
+      "name": "engine-disabled-gate",
+      "before": true,
+      "off": false,
+      "on": true
+    }
+  ],
+  "errors": []
+}
