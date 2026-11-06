@@ -2636,6 +2636,30 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.result = { baseline: original(actor, material, 10), cases };
 		});
 
+		await scene('refresh-feng-third-reguhuo', async rec => {
+			actor.addSkill('reguhuo');
+			await give(actor, [['sha', 'spade', 4], ['sha', 'heart', 10], ['shan', 'club', 3]]);
+			rec.setup = { hand: hand(actor) };
+		}, async rec => {
+			const choose = lib.skill.reguhuo.chooseButton, originalBackup = choose.backup, scores = [];
+			choose.backup = function (...args) {
+				const backup = originalBackup.apply(this, args);
+				if (backup && typeof backup.ai1 === 'function') {
+					const originalAi = backup.ai1;
+					backup.ai1 = function (material) {
+						const value = originalAi.apply(this, arguments);
+						scores.push({ name: material.name, suit: get.suit(material), cardValue: get.value(material, actor), score: value });
+						return value;
+					};
+				}
+				return backup;
+			};
+			const probe = instrument(actor);
+			try { _status.currentPhase = actor; await actor.phaseUse(); }
+			finally { choose.backup = originalBackup; probe.restore(); }
+			rec.result = { scores, ops: probe.log, hand: hand(actor), used: actor.hasSkill('reguhuo_used') };
+		});
+
 		await scene('refresh-feng-third-oltianxiang', async rec => {
 			actor.addSkill('oltianxiang');
 			actor.hp = 3; actor.maxHp = 4; actor.update();
