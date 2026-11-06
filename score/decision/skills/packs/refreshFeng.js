@@ -1,5 +1,5 @@
 import { lib, game, get, _status } from '../policyCore.js?v=41a';
-import { reqimouNeedsPayment, reqimouOptimalX, reqimouKillableByHand } from '../rules/refreshFeng.js?v=41a';
+import { reqimouNeedsPayment, reqimouOptimalX } from '../rules/refreshFeng.js?v=41a';
 
 export const pack = {
 	id: 'refresh_feng',
@@ -147,10 +147,10 @@ function install(host, stats) {
 						return 0;
 					}
 					const shaCount = player.countCards('hs', card => host.cardName(card, player) === 'sha');
+					if (!shaCount) return 0;
 					const saveCount = reqimouSaveCount(player);
 					if (saveCount > 0) stats.reqimouSelfRescue++;
-					if (reqimouKillableByHand(shaCount, targets)
-						&& reqimouOptimalX({ hp: player.hp, shaCount, baseUses: reqimouBaseUses(host, stats, player), saveCount, targets }) == null) {
+					if (reqimouOptimalX({ hp: player.hp, shaCount, baseUses: reqimouBaseUses(host, stats, player), saveCount, targets }) == null) {
 						stats.reqimouInfeasible++;
 						return 0;
 					}
@@ -185,7 +185,7 @@ function install(host, stats) {
 								saveCount: reqimouSaveCount(player),
 								targets: reqimouTargets(host, stats, player),
 							});
-							if (optimal != null && result && Array.isArray(result.numbers) && result.numbers.length) {
+							if (optimal != null && result && result.bool !== false && Array.isArray(result.numbers) && result.numbers.length) {
 								const paid = Number(result.numbers[0]);
 								if (Number.isFinite(paid) && paid > optimal) {
 									result.numbers[0] = optimal;

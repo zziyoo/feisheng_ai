@@ -24,7 +24,9 @@ export function reqimouNeedsPayment(targets) {
 		if (!target.canUseIgnoringDistance) continue;
 		const baseUses = interpretBaseUses(target.baseUses);
 		if (!target.currentlyInRange) return true;
-		if (Number(target.hp) > baseUses) return true;
+		const hp = Number(target.hp);
+		const armor = Math.max(0, Math.floor(Number(target.hujia) || 0));
+		if (Number.isFinite(hp) && hp > 0 && hp + armor > baseUses) return true;
 	}
 	return false;
 }
