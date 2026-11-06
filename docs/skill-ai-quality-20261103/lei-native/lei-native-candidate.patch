@@ -1,0 +1,14 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+index 5c6b68c..9b12b28 100644
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -1177,7 +1177,8 @@ const skills = {
+     async cost(event, trigger, player) {
+       event.result = await player.chooseTarget(get.prompt2(event.skill), lib.filter.notMe).set("ai", (target) => {
+         const player2 = get.player();
+-        const num = Math.min(5, player2.countCards("h")) - target.countCards("h");
++        const ownHand = player2.countCards("h"), targetHand = target.countCards("h");
++        const num = ownHand < targetHand ? ownHand - targetHand : Math.min(5, ownHand) - Math.min(5, targetHand);
+         const att = get.attitude(player2, target);
+         return num * att;
+       }).forResult();
