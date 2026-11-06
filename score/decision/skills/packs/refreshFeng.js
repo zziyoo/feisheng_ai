@@ -45,6 +45,19 @@ function reqimouSaveCount(player) {
 	return 0;
 }
 
+/* 只计算自己持有且当前可启用、至少有一个合法目标的实体杀。
+ * 不检查当前次数：奇谋支付可增加次数。未知状态按不可用处理。 */
+function reqimouUsableSha(host, player) {
+	try {
+		if (typeof lib.filter?.cardEnabled !== 'function') return 0;
+		const targets = host.aliveOthers(player);
+		return player.countCards('hs', card => {
+			if (host.cardName(card, player) !== 'sha' || !lib.filter.cardEnabled(card, player)) return false;
+			return targets.some(target => player.canUse(card, target, false));
+		});
+	} catch (e) { return 0; }
+}
+
 function reqimouAttackRange(player) {
 	try {
 		/* 宿主真实 API：含武器与 attackRange/attackRangeFinal 修正；
@@ -146,7 +159,7 @@ function install(host, stats) {
 						stats.reqimouGateSkip++;
 						return 0;
 					}
-					const shaCount = player.countCards('hs', card => host.cardName(card, player) === 'sha');
+					const shaCount = reqimouUsableSha(host, player);
 					if (!shaCount) return 0;
 					const saveCount = reqimouSaveCount(player);
 					if (saveCount > 0) stats.reqimouSelfRescue++;
@@ -178,7 +191,7 @@ function install(host, stats) {
 						const result = await originalForResult.apply(this, forArgs);
 						try {
 							stats.reqimouClampCalls++;
-							const shaCount = player.countCards('hs', card => host.cardName(card, player) === 'sha');
+							const shaCount = reqimouUsableSha(host, player);
 							const optimal = reqimouOptimalX({
 								hp: player.hp, shaCount,
 								baseUses: reqimouBaseUses(host, stats, player),
