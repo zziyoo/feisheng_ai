@@ -1,0 +1,259 @@
+{
+  "completedAt": "2026-11-06T06:41:13.220Z",
+  "seed": "20261101",
+  "scope": "reqimou 人类手动 UI 回归（真实点击路径）",
+  "results": [
+    {
+      "case": "human-pick2",
+      "fixture": {
+        "me": "206944010",
+        "seats": 8,
+        "fan3Distance": 3,
+        "fan4Distance": 4
+      },
+      "state": {
+        "payments": [
+          {
+            "paid": 2,
+            "hpBefore": 4
+          }
+        ],
+        "chooseLog": [
+          {
+            "forced": true,
+            "isMine": true,
+            "resolvedBy": "pick-number-confirm-2",
+            "numbers": null,
+            "at": 72478,
+            "result": {
+              "bool": true,
+              "numbers": [
+                2
+              ]
+            }
+          }
+        ],
+        "hp": 2,
+        "maxHp": 4,
+        "paidStorage": 2,
+        "handCount": 5,
+        "handNames": [
+          "wanjian",
+          "sha",
+          "sha",
+          "sha",
+          "sha"
+        ],
+        "hasReqimou2": true,
+        "fan3": {
+          "hp": 3,
+          "dead": false
+        },
+        "fan4": {
+          "hp": 4,
+          "dead": false
+        },
+        "auto": false,
+        "eventName": "chooseToUse",
+        "eventType": "phase",
+        "numbers": null,
+        "numbersList": null,
+        "dialogOpen": true,
+        "dialogSelects": [],
+        "step": "driver-done",
+        "paused": true,
+        "done": false
+      },
+      "stats": {
+        "installed": true,
+        "fairRedimeng": 0,
+        "redimengMaskFailed": 0,
+        "redimengTrace": [],
+        "keptTao": 0,
+        "keptShan": 0,
+        "skippedExchange": 0,
+        "skippedOrder": 0,
+        "retuxiTargetBonus": 0,
+        "calls": 0,
+        "last": [],
+        "olkongshengCostCalls": 0,
+        "olkongshengCompatible": true,
+        "qimouBypass": 0,
+        "kuangguRecover": 0,
+        "kuangguHp2": 0,
+        "jushouTurned": 0,
+        "jushouThreatHold": 0,
+        "shensuSkipJudge": 0,
+        "shensuCostBlock": 0,
+        "shensu4Restrict": 0,
+        "shensu2ArmorKeep": 0,
+        "guhuoLowHpGuard": 0,
+        "guhuoMaterialGate": 0,
+        "huangtianLastShan": 0,
+        "guhuoCalls": 0,
+        "guidaoHongyanFix": 0,
+        "releijiWeighted": 0,
+        "retianxiangJoint": 0,
+        "liegongDrawUnlock": 0,
+        "liegongExtra": 0,
+        "qimouMinPay": 0,
+        "buquHeuristic": 0,
+        "reqimouGateSkip": 0,
+        "reqimouInfeasible": 0,
+        "reqimouClamp": 0,
+        "reqimouClampCalls": 0,
+        "reqimouSelfRescue": 0,
+        "reqimouInfiniteUses": 0,
+        "luanjiAllyVeto": 0,
+        "luanjiNetVeto": 0,
+        "tianyiDecline": 0,
+        "tianyiKnownWinPass": 0,
+        "tianyiEngineVeto": 0,
+        "jianchuSkip": 0,
+        "packs": {
+          "out_of_scope": {
+            "fairRedimeng": 0,
+            "redimengMaskFailed": 0,
+            "redimengTrace": []
+          },
+          "refresh_standard": {
+            "keptTao": 0,
+            "keptShan": 0,
+            "skippedExchange": 0,
+            "skippedOrder": 0,
+            "retuxiTargetBonus": 0,
+            "calls": 0,
+            "last": []
+          },
+          "shenhua_lei": {
+            "olkongshengCostCalls": 0,
+            "olkongshengCompatible": true
+          },
+          "shenhua_feng": {
+            "qimouBypass": 0,
+            "kuangguRecover": 0,
+            "kuangguHp2": 0,
+            "jushouTurned": 0,
+            "jushouThreatHold": 0,
+            "shensuSkipJudge": 0,
+            "shensuCostBlock": 0,
+            "shensu4Restrict": 0,
+            "shensu2ArmorKeep": 0,
+            "guhuoLowHpGuard": 0,
+            "guhuoMaterialGate": 0,
+            "huangtianLastShan": 0,
+            "guhuoCalls": 0,
+            "guidaoHongyanFix": 0,
+            "releijiWeighted": 0,
+            "retianxiangJoint": 0,
+            "liegongDrawUnlock": 0,
+            "liegongExtra": 0,
+            "qimouMinPay": 0,
+            "buquHeuristic": 0
+          },
+          "refresh_feng": {
+            "reqimouGateSkip": 0,
+            "reqimouInfeasible": 0,
+            "reqimouClamp": 0,
+            "reqimouClampCalls": 0,
+            "reqimouSelfRescue": 0,
+            "reqimouInfiniteUses": 0
+          },
+          "shenhua_huo": {
+            "luanjiAllyVeto": 0,
+            "luanjiNetVeto": 0,
+            "tianyiDecline": 0,
+            "tianyiKnownWinPass": 0,
+            "tianyiEngineVeto": 0,
+            "jianchuSkip": 0
+          }
+        }
+      },
+      "nativeContent": "async function (event, trigger, player) {\n\t\tconst originalChooseNumbers = typeof player.chooseNumbers === 'function' ? player.chooseNumbers : null;\n\t\tlet scopedChooseNumbers = null;\n\t\tif (originalChooseNumbers) {\n\t\t\tscopedChooseNumbers = function (...args) {\n\t\t\t\t/* 一次性作用域：进入即还原，reqimou 结算窗口内其他事件的\n\t\t\t\t * chooseNumbers（如触发技询问）不会被本策略改写。 */\n\t\t\t\tplayer.chooseNumbers = originalChooseNumbers;\n\t\t\t\tconst next = originalChooseNumbers.apply(this, args);\n\t\t\t\tconst originalForResult = typeof next.forResult === 'function' ? next.forResult : null;\n\t\t\t\t/* 宿主优先交给本地或联机真人处理；无法判定时不改选择结果。 */\n\t\t\t\tlet isAI = false;\n\t\t\t\ttry { isAI = typeof next.isMine === 'function' && typeof next.isOnline === 'function' && !next.isMine() && !next.isOnline(); } catch (e) {}\n\t\t\t\tif (originalForResult && isAI) {\n\t\t\t\t\tnext.forResult = async function (...forArgs) {\n\t\t\t\t\t\tconst result = await originalForResult.apply(this, forArgs);\n\t\t\t\t\t\ttry {\n\t\t\t\t\t\t\tstats.reqimouClampCalls++;\n\t\t\t\t\t\t\tconst shaCount = reqimouUsableSha(host, player);\n\t\t\t\t\t\t\tconst optimal = reqimouOptimalX({\n\t\t\t\t\t\t\t\thp: player.hp, shaCount,\n\t\t\t\t\t\t\t\tbaseUses: reqimouBaseUses(host, stats, player),\n\t\t\t\t\t\t\t\tsaveCount: reqimouSaveCount(player),\n\t\t\t\t\t\t\t\ttargets: reqimouTargets(host, stats, player),\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\tif (optimal != null && result && result.bool !== false && Array.isArray(result.numbers) && result.numbers.length) {\n\t\t\t\t\t\t\t\tconst paid = Number(result.numbers[0]);\n\t\t\t\t\t\t\t\tif (Number.isFinite(paid) && paid > optimal) {\n\t\t\t\t\t\t\t\t\tresult.numbers[0] = optimal;\n\t\t\t\t\t\t\t\t\tstats.reqimouClamp++;\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t} catch (e) {}\n\t\t\t\t\t\treturn result;\n\t\t\t\t\t};\n\t\t\t\t}\n\t\t\t\treturn next;\n\t\t\t};\n\t\t\tplayer.chooseNumbers = scopedChooseNumbers;\n\t\t}\n\t\ttry {\n\t\t\treturn await originalContent.apply(this, arguments);\n\t\t} finally {\n\t\t\tif (scopedChooseNumbers && player.chooseNumbers === scopedChooseNumbers) player.chooseNumbers = originalChooseNumbers;\n\t\t}\n\t}",
+      "uiDump": {
+        "uiKeys": [
+          "dialog",
+          "system",
+          "arena",
+          "control",
+          "window",
+          "pause",
+          "backgroundMusic",
+          "special",
+          "mebg",
+          "commandnode",
+          "menuContainer",
+          "auto",
+          "wuxie",
+          "cardPile",
+          "discardPile",
+          "ordering",
+          "timer",
+          "background",
+          "gameinfo",
+          "arenalog",
+          "historybar",
+          "roundmenu",
+          "cardPileNumber",
+          "sidebar",
+          "sidebar3",
+          "canvas",
+          "system1",
+          "system2",
+          "replay",
+          "config2",
+          "cardPileButton",
+          "commonCardPileButton",
+          "autonode",
+          "volumn",
+          "sortCard",
+          "deckMonitor",
+          "playerids",
+          "time",
+          "shortcut",
+          "favmodelist",
+          "favmode",
+          "me",
+          "handcards1Container",
+          "handcards2Container",
+          "handcards1",
+          "handcards2",
+          "extension_source",
+          "background_music_setting",
+          "import_data_button",
+          "favouriteCharacter"
+        ],
+        "skills": null,
+        "skillsList": null,
+        "skills2": null,
+        "skills3": null,
+        "confirm": null,
+        "controls": [
+          {
+            "tag": "DIV",
+            "id": null,
+            "cls": "control removing",
+            "link": null,
+            "text": "确定"
+          },
+          {
+            "tag": "DIV",
+            "id": null,
+            "cls": "control stayleft controlpressdownx",
+            "link": null,
+            "text": "结束回合"
+          }
+        ],
+        "auto": {
+          "tag": "DIV",
+          "id": "autobutton",
+          "cls": "",
+          "link": null,
+          "text": "托管"
+        }
+      },
+      "pageErrors": [],
+      "error": null
+    }
+  ]
+}
