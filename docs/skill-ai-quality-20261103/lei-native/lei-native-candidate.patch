@@ -1,5 +1,5 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 5c6b68c..8a133a2 100644
+index 5c6b68c..4a45682 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
 @@ -792,7 +792,7 @@ const skills = {
@@ -39,3 +39,14 @@ index 5c6b68c..8a133a2 100644
              }).length > 0;
            })) {
              return 1;
+@@ -1420,8 +1421,8 @@ const skills = {
+     locked: true,
+     ai: {
+       effect: {
+-        target(card) {
+-          if (card.name == "tiesuo") {
++        target(card, player, target) {
++          if (card.name == "tiesuo" && !target.isLinked()) {
+             return "zeroplayertarget";
+           }
+         }

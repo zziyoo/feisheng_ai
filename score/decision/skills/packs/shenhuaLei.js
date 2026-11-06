@@ -5,7 +5,7 @@ export const pack = {
 	id: 'shenhua_lei',
 	name: '神话再临·雷',
 	group: 'shenhua',
-	skills: ['olkongsheng', 'xinfu_fuyin'],
+	skills: ['olkongsheng', 'xinfu_fuyin', 'drlt_qianjie'],
 	statsDefaults: { olkongshengCostCalls: 0, olkongshengCompatible: null },
 	install,
 };
@@ -17,6 +17,7 @@ export const pack = {
  * 不复制宿主技能函数，也不改变数组本身的迭代/取值行为。 */
 function install(host, stats) {
 	installFuyin(host);
+	installQianjie(host);
 	const info = lib.skill && lib.skill.olkongsheng;
 	if (!info || typeof info.cost !== 'function') return;
 	const original = info.cost;
@@ -66,5 +67,15 @@ function installFuyin(host) {
 			num = 1 - 2 / 3 / hs.length;
 			return [num, 0, num, 0];
 		} catch (_) { return original.apply(this, arguments); }
+	});
+}
+
+/* 谦节只阻止横置，已横置角色仍可被铁索解除。 */
+function installQianjie(host) {
+	const effect = lib.skill?.drlt_qianjie?.ai?.effect;
+	if (!effect || typeof effect.target !== 'function') return;
+	host.wrap(effect, 'target', 'drlt_qianjie:effect', original => function (card, player, target) {
+		try { if (card?.name === 'tiesuo' && target?.isLinked()) return; } catch (_) {}
+		return original.apply(this, arguments);
 	});
 }
