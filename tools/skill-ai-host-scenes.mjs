@@ -2613,6 +2613,25 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.damage = damage.events.map(item => ({ num: item && item.num, player: item && item.player && item.player.playerid }));
 		});
 
+		await scene('refresh-feng-third-fenji', async rec => {
+			actor.addSkill('fenji');
+			actor.hp = 3; actor.maxHp = 4; actor.update();
+			await give(ally, [['sha', 'spade', 5], ['shan', 'heart', 8]]);
+			rec.setup = { actorHp: actor.hp, allyHand: hand(ally), attitude: get.attitude(actor, ally) };
+		}, async rec => {
+			const originalCheck = lib.skill.fenji.check;
+			const calls = [];
+			lib.skill.fenji.check = function (...args) {
+				const value = originalCheck.apply(this, args);
+				calls.push({ value, target: args[3]?.playerid || null });
+				return value;
+			};
+			const a = instrument(actor), b = instrument(ally);
+			try { await enemy1.discardPlayerCard(ally, 'h', true); }
+			finally { lib.skill.fenji.check = originalCheck; a.restore(); b.restore(); }
+			rec.result = { calls, actorOps: a.log, allyOps: b.log, actorHp: actor.hp, allyHand: hand(ally) };
+		});
+
 		await scene('quality-kuanggu-lowhp', async rec => {
 			actor.addSkill('xinkuanggu');
 			actor.hp = 1; actor.maxHp = 4;
