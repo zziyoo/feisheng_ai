@@ -5,7 +5,7 @@ export const pack = {
 	id: 'refresh_feng',
 	name: '界限突破·风',
 	group: 'refresh',
-	skills: ['reqimou', 'fenji', 'reguhuo', 'oltianxiang'],
+	skills: ['reqimou', 'fenji', 'reguhuo', 'oltianxiang', 'xinliegong'],
 	statsDefaults: {
 		reqimouGateSkip: 0, reqimouInfeasible: 0, reqimouClamp: 0, reqimouClampCalls: 0,
 		reqimouSelfRescue: 0, reqimouInfiniteUses: 0,
@@ -80,6 +80,19 @@ function reqimouTargets(host, stats, player) {
 }
 
 function install(host, stats) {
+	/* 无中生有净增手牌恰可改变烈弓的不可响应条件时提高顺序。 */
+	const liegong = lib.skill?.xinliegong?.mod;
+	if (liegong && typeof liegong.aiOrder === 'function') {
+		host.wrap(liegong, 'aiOrder', 'refresh-feng:liegong-order', original => function (player, card, num) {
+			try {
+				if (num > 0 && card?.name === 'wuzhong' && get.tag(card, 'draw') === 2 && player.getCards('h').includes(card)) {
+					const hand = player.countCards('h');
+					if (player.getCards('h', 'sha').some(sha => game.hasPlayer(target => target !== player && get.attitude(player, target) < 0 && target.countCards('h') === hand && player.canUse(sha, target) && get.effect(target, sha, player, player) > 0))) return num + 7;
+				}
+			} catch (e) {}
+			return original.apply(this, arguments);
+		});
+	}
 	/* 空手时装备公开，可检查实际可弃红桃；有暗牌时保留宿主估值。 */
 	const tianxiangEffect = lib.skill?.oltianxiang?.ai?.effect;
 	if (tianxiangEffect && typeof tianxiangEffect.target === 'function') {
