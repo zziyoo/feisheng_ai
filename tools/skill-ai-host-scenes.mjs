@@ -2659,6 +2659,8 @@ export async function runSkillAiScenes(page, options = {}) {
 			const wind = (await import('/extension/无名AI/score/decision/skills/packs/shenhuaFeng.js?v=42a')).pack;
 			const refresh = (await import('/extension/无名AI/score/decision/skills/packs/refreshFeng.js?v=41a')).pack;
 			const owner = lib.skill.xinliegong.mod, base = owner.aiOrder, material = actor.getCards('h', 'wuzhong')[0], cases = [];
+			for (const used of [1, 0]) {
+			actor.getStat().card.sha = used;
 			for (const [name, first, second, removeFirst] of [
 				['wind-refresh-remove-wind', wind, refresh, true], ['wind-refresh-remove-refresh', wind, refresh, false],
 				['refresh-wind-remove-refresh', refresh, wind, true], ['refresh-wind-remove-wind', refresh, wind, false],
@@ -2669,8 +2671,9 @@ export async function runSkillAiScenes(page, options = {}) {
 					(removeFirst ? h1 : h2).uninstall();
 					const afterOne = { score: owner.aiOrder(actor, material, 10), tag: owner.aiOrder.__djscSkillPolicy || null };
 					(removeFirst ? h2 : h1).uninstall();
-					cases.push({ name, afterOne, fullyRestored: owner.aiOrder === base, remainingTag: owner.aiOrder.__djscSkillPolicy || null });
+					cases.push({ name, remainingSha: actor.getCardUsable('sha'), afterOne, fullyRestored: owner.aiOrder === base, remainingTag: owner.aiOrder.__djscSkillPolicy || null });
 				} finally { h2.uninstall(); h1.uninstall(); owner.aiOrder = base; }
+			}
 			}
 			rec.result = { cases };
 		});
@@ -2689,11 +2692,14 @@ export async function runSkillAiScenes(page, options = {}) {
 			const refresh = (await import('/extension/无名AI/score/decision/skills/packs/refreshFeng.js?v=41a')).pack;
 			const owner = lib.skill.xinliegong.mod, original = owner.aiOrder;
 			const material = actor.getCards('h', 'wuzhong')[0], cases = [];
+			for (const used of [1, 0]) {
+			actor.getStat().card.sha = used;
 			for (const [name, packs] of [['wind', [wind]], ['refresh', [refresh]], ['wind-refresh', [wind, refresh]], ['refresh-wind', [refresh, wind]]]) {
 				const host = core.createPolicyHost();
-				try { host.install(packs); cases.push({ name, order: owner.aiOrder(actor, material, 10), tag: owner.aiOrder.__djscSkillPolicy }); }
+				try { host.install(packs); cases.push({ name, remainingSha: actor.getCardUsable('sha'), order: owner.aiOrder(actor, material, 10), tag: owner.aiOrder.__djscSkillPolicy }); }
 				finally { host.uninstall(); }
 				cases[cases.length - 1].restored = owner.aiOrder === original;
+			}
 			}
 			rec.result = { baseline: original(actor, material, 10), cases };
 		});
