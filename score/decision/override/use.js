@@ -495,6 +495,10 @@ export function installUseOverride() {
                             stage: s.stage, before: s.before?.score ?? null,
                             after: s.after?.score ?? null, changed: s.changed,
                         })),
+                        skillPlan: (decision.utility?.contributions || []).filter(c => c.source === 'refresh-standard-plan').map(c => ({
+                            source: c.source, delta: c.delta, status: c.details?.status,
+                            cost: c.details?.cost, reserve: c.details?.reserve,
+                        })),
                     };
                 } } catch (_) { /* 诊断失败不改变决策 */ }
                 /* @djsc-skill-veto-wiring：注册表否决的技能不 stage，交回宿主自身流程。
@@ -573,6 +577,9 @@ export function installUseOverride() {
                     records.push({ ...trace.decisionSummary, transactionId: trace.transactionId || null,
                         staged: !!trace.staged, accepted: !!trace.candidateAccepted,
                         selected: !!trace.selected, executed: !!trace.executed,
+                        planActionAccepted: trace.decisionSummary.skillPlan?.length ? !!trace.candidateAccepted : null,
+                        planMaterialSelection: 'unconfirmed',
+                        skillPlanChoice: typeof ev.__djscRefreshPlanAudit === 'function' ? ev.__djscRefreshPlanAudit() : null,
                         finalType: trace.hostAction || null,
                         fallback: trace.skillVeto || trace.stageFailure || (trace.staged && !trace.candidateAccepted ? 'uncommitted' : null) });
                     if (records.length > 50) records.shift();
