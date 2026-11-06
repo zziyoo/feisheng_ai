@@ -1,5 +1,5 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 5c6b68c..4a45682 100644
+index 5c6b68c..d489da6 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
 @@ -792,7 +792,7 @@ const skills = {
@@ -21,15 +21,6 @@ index 5c6b68c..4a45682 100644
          const att = get.attitude(player2, target);
          return num * att;
        }).forResult();
-@@ -1323,7 +1324,7 @@ const skills = {
-         };
-         const cards3 = list[0][1].slice(0), tops = [];
-         while (tops.length < _status.event.num) {
--          list.sort(function(a, b) {
-+          cards3.sort(function(a, b) {
-             return check(b) - check(a);
-           });
-           tops.push(cards3.shift());
 @@ -1384,7 +1385,7 @@ const skills = {
            }
            if (game.hasPlayer2(function(current) {
