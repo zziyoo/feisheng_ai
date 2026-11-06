@@ -5,7 +5,7 @@ export const pack = {
 	id: 'refresh_feng',
 	name: '界限突破·风',
 	group: 'refresh',
-	skills: ['reqimou', 'fenji', 'reguhuo'],
+	skills: ['reqimou', 'fenji', 'reguhuo', 'oltianxiang'],
 	statsDefaults: {
 		reqimouGateSkip: 0, reqimouInfeasible: 0, reqimouClamp: 0, reqimouClampCalls: 0,
 		reqimouSelfRescue: 0, reqimouInfiniteUses: 0,
@@ -80,6 +80,16 @@ function reqimouTargets(host, stats, player) {
 }
 
 function install(host, stats) {
+	/* 空手时装备公开，可检查实际可弃红桃；有暗牌时保留宿主估值。 */
+	const tianxiangEffect = lib.skill?.oltianxiang?.ai?.effect;
+	if (tianxiangEffect && typeof tianxiangEffect.target === 'function') {
+		host.wrap(tianxiangEffect, 'target', 'oltianxiang:effect', original => function (card, player, target) {
+			try {
+				if (!get.tag(card, 'damage') || target.countCards('h') || player.hasSkillTag('jueqing', false, target)) return original.apply(this, arguments);
+				return target.hasCard(material => get.suit(material, target) === 'heart' && lib.filter.cardDiscardable(material, target), 'e') ? 0.7 : undefined;
+			} catch (e) { return original.apply(this, arguments); }
+		});
+	}
 	const guhuo = lib.skill && lib.skill.reguhuo && lib.skill.reguhuo.chooseButton;
 	if (guhuo && typeof guhuo.backup === 'function' && String(guhuo.backup).includes('getRand("reguhuo")')) {
 		host.wrap(guhuo, 'backup', 'reguhuo:backup', original => function () {
