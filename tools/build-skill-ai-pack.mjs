@@ -254,9 +254,36 @@ function buildPack(config) {
 	const leiCandidate = config.id === 'shenhua_lei';
 	const refreshFengCandidate = config.id === 'refresh_feng';
 	const standardCandidate = config.id === 'refresh_standard';
-	const nativeSkills = ['rezhiheng', 'rerende', 'new_reyiji', 'new_reluoyi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'new_qingjian', 'new_liyu', 'retieji', 'reganglie', 'reqianxun', 'relianying', 'olyajiao', 'refankui', 'zhaxiang'];
-	const extensionSkills = ['rezhiheng', 'rerende', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'retieji', 'reganglie', 'reqianxun', 'refankui'];
-	const standardCounts = { registered_characters: 29, registered_skills: 57, batch_skills: 17, native_batch_skills: 17, extension_batch_skills: 10, native_only_batch_skills: 7, additional_existing_extension_skills: 1, extension_registered_skills: 11 };
+	const nativeSkills = config.nativeOptimizationSkills || [];
+	const historicalSkills = config.historicalOptimizationSkills || [];
+	const newlyFixedSkills = config.newlyFixedSkills || [];
+	const reviewedNoChangeSkills = config.reviewedNoChangeSkills || [];
+	const notApplicableSkills = config.notApplicableSkills || [];
+	const unresolvedConfirmedDefects = config.unresolvedConfirmedDefects || [];
+	const extensionSkills = config.extensionOptimizationSkills || [];
+	const existingExtensionSkills = config.existingExtensionSkills || [];
+	const runtimeVerifiedSkills = config.runtimeVerifiedSkills || [];
+	const nativeOnlySkills = nativeSkills.filter(skill => !extensionSkills.includes(skill));
+	const standardCounts = standardCandidate ? {
+		registered_characters: pack.target_characters.length,
+		registered_skills: config.auditedSkills.length,
+		reviewed_skills: config.auditedSkills.length,
+		unreviewed_skills: Math.max(0, pack.target_skills.length - config.auditedSkills.length),
+		historical_optimization_skills: historicalSkills.length,
+		current_round_fixed_skills: newlyFixedSkills.length,
+		native_optimization_skills: nativeSkills.length,
+		extension_optimization_skills: extensionSkills.length,
+		native_only_optimization_skills: nativeOnlySkills.length,
+		existing_extension_skills: existingExtensionSkills.length,
+		extension_registered_skills: extensionSkills.length + existingExtensionSkills.length,
+		reviewed_no_change_skills: reviewedNoChangeSkills.length,
+		not_applicable_skills: notApplicableSkills.length,
+		unresolved_confirmed_defects: unresolvedConfirmedDefects.length,
+		confirmed_defect_resolution_skills: newlyFixedSkills.length,
+		extension_safe_takeover_limited_skills: nativeOnlySkills.length,
+		historically_special_validated_skills: historicalSkills.length,
+		current_round_verified_skills: runtimeVerifiedSkills.length,
+	} : null;
 	const refreshFengCounts = { characters: 8, skills: 17, reviewed_skills: 17, unreviewed_skills: 0, native_modified_skills: 7, extension_wired_skills: 5, runtime_verified_skills: 0 };
 	const leiCounts = { characters: 8, skills: 16, reviewed_skills: 16, unreviewed_skills: 0, native_modified_skills: 4, extension_wired_skills: 3, runtime_verified_skills: 0 };
 	const records = recordsFor(config.id);
@@ -334,9 +361,12 @@ function buildPack(config) {
 	}
 	if (standardCandidate) {
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-standard/refresh-standard-native-candidate.patch', 'feisheng-ai-refresh-standard-native-ai.patch');
+		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-standard/PACK-ACCEPTANCE-HANDOFF.md', 'docs/PACK-ACCEPTANCE-HANDOFF.md');
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-standard/VALIDATION-HANDOFF.md', 'docs/VALIDATION-HANDOFF.md');
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-standard/BATCH3-HANDOFF.md', 'docs/BATCH3-HANDOFF.md');
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-standard/BATCH4-HANDOFF.md', 'docs/BATCH4-HANDOFF.md');
+		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-standard/FULL-SKILL-AUDIT.md', 'docs/FULL-SKILL-AUDIT.md');
+		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-standard/FULL-SKILL-ACCEPTANCE-HANDOFF.md', 'docs/FULL-SKILL-ACCEPTANCE-HANDOFF.md');
 	}
 
 	const deliverable = !standardCandidate && !refreshFengCandidate && !leiCandidate && !windCandidate && !!pack.can_mark_deliverable && ['可交付', '已交付'].includes(pack.delivery_status);
@@ -395,7 +425,7 @@ function buildPack(config) {
 	});
 	if (leiCandidate) Object.assign(packJson, { delivery_stage: '待验证候选', complete_delivery: false, pack_status: '已静态审查', delivery_status: '待验证', can_mark_deliverable: false, counts: leiCounts, native_patch: 'feisheng-ai-shenhua-lei-native-ai.patch', all_registered_skills: config.implementedSkills, scenes: [], review_scenes: [] });
 	if (refreshFengCandidate) Object.assign(packJson, { delivery_stage: '待验证候选', complete_delivery: false, pack_status: '已静态审查', delivery_status: '待验证', can_mark_deliverable: false, counts: refreshFengCounts, native_patch: 'feisheng-ai-refresh-feng-native-ai.patch', all_registered_skills: config.implementedSkills, incompatible_packs: ['shenhua_feng'], compatibility_note: '神话风和界风暂不支持同时安装或启用；共享核心已更新，旧核心哈希冲突时安装器拒绝覆盖。', scenes: [], review_scenes: [] });
-	if (standardCandidate) Object.assign(packJson, { delivery_stage: '封包待验收候选', complete_delivery: false, pack_status: '四批技能专项验收由用户提供', delivery_status: '封包待验收', can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, audited_skills: [], native_patch: 'feisheng-ai-refresh-standard-native-ai.patch', native_skills: nativeSkills, extension_batch_skills: extensionSkills, existing_extension_skills: ['new_retuxi'], all_registered_skills: config.implementedSkills, scenes: [], review_scenes: [], dependencies: [...packJson.dependencies, 'score/decision/utility/utilityPipeline.js (applyOwnedUtility)', 'score/decision/utility/utilityVector.js'], validation_note: '用户提供四批技能专项验收结论；本封包尚未执行独立验收。' });
+	if (standardCandidate) Object.assign(packJson, { delivery_stage: '全量源码审查完成·待最终验收', complete_delivery: false, pack_status: '全量静态审查完成；本轮3项AI修复待验收', delivery_status: '封包待验收', can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, audited_skills: config.auditedSkills, historical_optimization_skills: historicalSkills, newly_fixed_skills: newlyFixedSkills, reviewed_no_change_skills: reviewedNoChangeSkills, not_applicable_skills: notApplicableSkills, native_skills: nativeSkills, extension_optimization_skills: extensionSkills, native_only_optimization_skills: nativeOnlySkills, existing_extension_skills: existingExtensionSkills, current_round_verified_skills: runtimeVerifiedSkills, all_registered_skills: config.implementedSkills, scenes: [], review_scenes: [], dependencies: [...packJson.dependencies, 'score/decision/utility/utilityPipeline.js (applyOwnedUtility)', 'score/decision/utility/utilityVector.js'], audit_report: 'docs/FULL-SKILL-AUDIT.md', acceptance_handoff: 'docs/FULL-SKILL-ACCEPTANCE-HANDOFF.md', native_patch: 'feisheng-ai-refresh-standard-native-ai.patch', validation_note: '前四批17项为历史专项验收基线；本轮新增3项源码修复尚未执行验证；完整封包、安装与回滚由独立Agent验收。' });
 	write(stage, 'pack.json', JSON.stringify(packJson, null, 2) + '\n');
 
 	const checklist = {
@@ -420,7 +450,7 @@ function buildPack(config) {
 	});
 	if (leiCandidate) Object.assign(checklist, { pack_status: '已静态审查', delivery_status: '待验证', can_mark_deliverable: false, counts: leiCounts, records: [], criteria: [] });
 	if (refreshFengCandidate) Object.assign(checklist, { pack_status: '已静态审查', delivery_status: '待验证', can_mark_deliverable: false, counts: refreshFengCounts, records: [], criteria: [] });
-	if (standardCandidate) Object.assign(checklist, { pack_status: '四批技能专项验收由用户提供', delivery_status: '封包待验收', can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, native_skills: nativeSkills, extension_batch_skills: extensionSkills, existing_extension_skills: ['new_retuxi'], records: [], criteria: [] });
+	if (standardCandidate) Object.assign(checklist, { pack_status: '全量静态审查完成；本轮3项AI修复待验收', delivery_status: '封包待验收', can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, audited_skills: config.auditedSkills, historical_optimization_skills: historicalSkills, newly_fixed_skills: newlyFixedSkills, reviewed_no_change_skills: reviewedNoChangeSkills, not_applicable_skills: notApplicableSkills, native_skills: nativeSkills, extension_optimization_skills: extensionSkills, native_only_optimization_skills: nativeOnlySkills, existing_extension_skills: existingExtensionSkills, records: [], criteria: [] });
 	write(stage, 'checklist.json', JSON.stringify(checklist, null, 2) + '\n');
 	write(stage, 'checklist.md', windCandidate ? '# 风包候选检查清单\n\n8名武将、11项原生AI修改：曹仁据守；夏侯渊神速；于吉蛊惑；魏延奇谋、狂骨；小乔天香；张角雷击、鬼道、黄天；黄忠烈弓；周泰不屈。红颜为被动关联，不单独修改。宿主场景和安装回滚均待验证。详见 docs/WIND-REVIEW-CANDIDATE.md。\n' : checklistMarkdown(pack, records));
 	write(stage, 'README.md', windCandidate ? `# 神话再临·风 AI 候选（待验证）\n\n8名武将、11项原生AI修改；红颜为被动关联，不单独修改。宿主1.11.7，无名AI 4.4.4；源码提交 ${HEAD}。\n\n原生方案：仅使用根目录 feisheng-ai-shenhua-feng-native-ai.patch，对干净宿主 character/shenhua.js 应用。历史 wind-native.patch 和 0001–0013 不得叠加。\n\n扩展方案：执行 node integration/apply-pack.mjs --extension-root <扩展目录>；回滚使用 node integration/rollback-pack.mjs --extension-root <扩展目录>。先使用 --dry-run 检查。天香新评分仅在原生补丁中，扩展独立安装沿用宿主原始AI；不建议同时接管。\n\n本候选未完成宿主及安装回滚验收，历史结果不能代表本版本。详见 docs/WIND-REVIEW-CANDIDATE.md；manifest.json 含文件SHA256。\n` : readme(pack, config, evidenceNames));
@@ -553,7 +583,7 @@ function buildPack(config) {
 	if (windCandidate) Object.assign(manifest.package, { delivery_stage: '待验证候选', pack_status: '已静态审查', delivery_status: '待验证', complete_delivery: false, can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null });
 	if (leiCandidate) Object.assign(manifest.package, { delivery_stage: '待验证候选', pack_status: '已静态审查', delivery_status: '待验证', complete_delivery: false, can_mark_deliverable: false, counts: leiCounts });
 	if (refreshFengCandidate) Object.assign(manifest.package, { delivery_stage: '待验证候选', pack_status: '已静态审查', delivery_status: '待验证', complete_delivery: false, can_mark_deliverable: false, counts: refreshFengCounts, incompatible_packs: ['shenhua_feng'], compatibility_note: '神话风和界风暂不支持同时安装或启用；共享核心已更新。' });
-	if (standardCandidate) Object.assign(manifest.package, { delivery_stage: '封包待验收候选', pack_status: '四批技能专项验收由用户提供', delivery_status: '封包待验收', complete_delivery: false, can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, native_skills: nativeSkills, extension_batch_skills: extensionSkills, existing_extension_skills: ['new_retuxi'], native_patch: 'feisheng-ai-refresh-standard-native-ai.patch', validation_note: '用户提供四批技能专项验收结论；本封包尚未执行独立验收。' });
+	if (standardCandidate) Object.assign(manifest.package, { delivery_stage: '全量源码审查完成·待最终验收', pack_status: '全量静态审查完成；本轮3项AI修复待验收', delivery_status: '封包待验收', complete_delivery: false, can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, audited_skills: config.auditedSkills, historical_optimization_skills: historicalSkills, newly_fixed_skills: newlyFixedSkills, reviewed_no_change_skills: reviewedNoChangeSkills, not_applicable_skills: notApplicableSkills, native_skills: nativeSkills, extension_optimization_skills: extensionSkills, native_only_optimization_skills: nativeOnlySkills, existing_extension_skills: existingExtensionSkills, native_patch: 'feisheng-ai-refresh-standard-native-ai.patch', audit_report: 'docs/FULL-SKILL-AUDIT.md', acceptance_handoff: 'docs/FULL-SKILL-ACCEPTANCE-HANDOFF.md', validation_note: '前四批17项为历史专项验收基线；本轮新增3项源码修复及全量归档尚待独立验收。' });
 	write(stage, 'manifest.json', JSON.stringify(manifest, null, 2) + '\n');
 
 	const zipName = `feisheng-ai-${config.id.replace(/_/g, '-')}.zip`;

@@ -1,45 +1,42 @@
-# 界限突破·标准：方案 B 第一至第四批开发者候选
+# 界限突破·标准全量静态审查候选
 
-- 分包 `refresh_standard`；无名AI 4.4.4，目标宿主无名杀 1.11.7。
-- 本包源码 HEAD：`{{HEAD}}`；无名AI 上游基线：`{{BASELINE}}`。
-- 用户提供的信息称四批技能专项验收已通过；本 ZIP 的封包、安装、回滚及兼容性尚须独立 Agent 验收。包内未附完整原始验收证据，不能由本包单独复核该结论。
-- 四批专项验收不代表界限突破·标准全部武将完成优化，也不代表完整宿主发布验收。Android 真机性能、完整回归和模型训练均未由本包证明。
+- 分包：`refresh_standard`；无名 AI 4.4.4；目标宿主无名杀 1.11.7。
+- 本包源码 HEAD：`{{HEAD}}`；无名 AI 上游基线：`{{BASELINE}}`。
+- 范围为 29 名武将、57 项登记技能，已经完成静态源码审查。完整入口及结论见 `docs/FULL-SKILL-AUDIT.md`。
+- 当前是源码候选，封包及本轮新增三项修复待独立 Agent 验收。`delivery_stage` 为“全量源码审查完成·待最终验收”；`complete_delivery` 和 `can_mark_deliverable` 为 false。
 
-## 实际范围和接线
+## 本版变化
 
-相较已发送的第一、第二批标准包，本候选新增第三批结姻、清俭、利驭、铁骑、刚烈及第四批谦逊、连营、涯角、反馈、诈降，共 **10 项**。累计原生补丁包含四批 17 项独立技能的 AI 修改，完整 ID 及分批清单见 `checklist.md`。
+此前第一至第四批包含 17 项技能专项优化。本候选在保留这 17 项的基础上，加入全量 57 项审查及三项原生与扩展静态修复：离间 `lijian`、急救 `jijiu`、倾国 `qingguo`。原生累计 AI 优化 20 项。前四批的专项验收结论按既有交接记录保留；本轮三项修复以及新归档的最终封包尚未由独立 Agent 验收。
 
-扩展接线覆盖制衡、仁德、义绝、反间、青囊、结姻、铁骑、刚烈、谦逊、反馈，共 10 项方案 B 优化，另保留既有突袭 `new_retuxi`，共注册 11 项。遗计、裸衣、清俭、利驭、连营、涯角、诈降的新评分仅原生补丁支持，单独安装扩展沿用宿主相应原始 AI。完整引擎候选层不一定消费宿主评分，局部规划选择也不等于完整引擎主动提交或结算成功。
+这不表示 29 名武将均获得了代码优化，也不代表完整宿主回归或正式发布验收。
 
-已知观察：铁骑 AI 标签在极端状态变化时存在边界；反馈的多装备场景尚有未覆盖边界；诈降真实 `loseHp` 牌载体与合成场景的验证层级不同；谦逊宿主效果评分是否被完整引擎最终消费尚未全量证明。这些是待进一步验证的边界，不等于已修复缺陷或已证实的 P1。技能决策细节见 `docs/BATCH3-HANDOFF.md` 和 `docs/BATCH4-HANDOFF.md`；两份文件保留开发时状态，后续专项验收结论依据用户提供的信息，并不代表本 ZIP 已通过封包验收。
+## 原生补丁与扩展策略范围
 
-本包元数据的 `delivery_stage` 为“封包待验收候选”、`delivery_status` 为“封包待验收”，`complete_delivery` 和 `can_mark_deliverable` 均为 false，表示该归档尚未完成独立封包验收，而非否认既有技能专项结果。独立 Agent 可通过外部验收报告记录该 ZIP 的精确哈希及结果；若要修改包内字段，必须重新生成并重新校验该最终归档，不能将旧 ZIP 的验收转移到修改后的 ZIP。即使开发者集成测试候选通过，亦不等于正式发布验收。
+累计原生补丁涵盖 20 项：`rezhiheng`、`rerende`、`new_reyiji`、`new_reluoyi`、`new_yijue`、`refanjian`、`new_reqingnang`、`rejieyin`、`new_qingjian`、`new_liyu`、`retieji`、`reganglie`、`reqianxun`、`relianying`、`olyajiao`、`refankui`、`zhaxiang`、`lijian`、`jijiu`、`qingguo`。
 
-原生补丁与扩展是**替代路线**：不要同时为相同技能启用两份 AI 接管。本包不会自动应用原生补丁。原生路线使用 `feisheng-ai-refresh-standard-native-ai.patch`，目标是 1.11.7 的 `character/refresh.js`。补丁基于开发时的本地宿主副本生成；不同 1.11.7 提交及已有酒次数修复可能产生差异。先在隔离副本确认目标版本、核对 diff 并检查补丁适用性，不可强制应用或覆盖现有修复。
+扩展接管 13 项方案 B 优化：`rezhiheng`、`rerende`、`new_yijue`、`refanjian`、`new_reqingnang`、`rejieyin`、`retieji`、`reganglie`、`reqianxun`、`refankui`、`lijian`、`jijiu`、`qingguo`；另保留既有突袭 `new_retuxi`，扩展策略共注册 14 项。遗计 `new_reyiji`、裸衣 `new_reluoyi`、清俭 `new_qingjian`、利驭 `new_liyu`、连营 `relianying`、涯角 `olyajiao`、诈降 `zhaxiang` 的新增优化只在原生补丁中，扩展独立安装沿用宿主原始 AI。
 
-## 扩展依赖和安装
+原生补丁和扩展是替代路线。不要在同一技能上同时启用两条接管。
 
-包内包括策略模块、局部规则、`policyCore.js`、`skillAIPolicies.js`、`skillVetoRegistry.js`、`skillPlanHints.js`、`boundedSkillUtility.js`、`refreshStandardPlans.js`，以及安装和回滚脚本。宿主扩展还须提供 `score/index.js` 的策略 facade、`score/foundation/adapt/host.js`、`score/decision/safety/aiOverride.js`、`score/decision/utility/utilityPipeline.js`（含 `applyOwnedUtility`）和 `utilityVector.js`。共享依赖使用 `?v=41a` 导入。
+## 已知边界
 
-本包不负责升级完整引擎。旧引擎若没有调用 `applySkillPlanHints`，宿主策略仍可接线，但完整引擎候选的软建议不会生效；先由开发者审查并迁移兼容的完整引擎，不能把复制模块称为已接线。
+- 铁骑 `retieji` AI 标签存在极端状态变化边界；反馈 `refankui` 多装备场景仍有未覆盖边界。
+- 诈降 `zhaxiang` 的真实 `loseHp` 牌载体与合成测试场景处于不同验证层级。
+- 谦逊 `reqianxun` 的完整引擎消费路径尚未全量证明。
+- 前四批的专项验收不替代本轮完整归档、安装、回滚和跨技能组合验收。
+- 本轮没有执行测试、语法检查、补丁应用、宿主、安装或构建。
 
-退出宿主后，在隔离扩展副本中解压本包，先运行：
+## 集成和依赖
 
-```bash
-node integration/apply-pack.mjs --extension-root <扩展根目录> --dry-run
-node integration/apply-pack.mjs --extension-root <扩展根目录>
-```
+包内包含标准策略、局部规则、共享策略核心及实际依赖模块，包括 `skillPlanHints.js`、`boundedSkillUtility.js`、`refreshStandardPlans.js`、安装和回滚工具。完整引擎还须提供策略 facade、host adapter、安全接管与 utility 模块。旧引擎若未接入 `applySkillPlanHints`，软建议不会因此仅凭模块复制而生效。
 
-旧神话风、火、雷和界风包无需重发。它们所用共享核心可能与本包哈希不同：安装预检会拒绝覆盖，不能强制覆盖或直接替换现有文件。先备份扩展和安装记录，检查冲突及现有分包依赖；由开发者在隔离副本协调并迁移兼容共享核心和引擎后重新预检。神话风与界风仍互斥，标准包不解除该限制。
+安装前先在隔离扩展副本检查共享核心版本冲突，再按 `integration/apply-pack.mjs` 说明安装；回滚使用 `integration/rollback-pack.mjs`。安装器拒绝不兼容共享核心时，不得强制覆盖。旧神话风、火、雷、界风包无需重发；它们可能依赖不同哈希的共享核心，需由开发者协调迁移。神话风和界风仍互斥。
 
-回滚本包：
+## 补丁适用性
 
-```bash
-node integration/rollback-pack.mjs --extension-root <扩展根目录>
-```
+`feisheng-ai-refresh-standard-native-ai.patch` 目标为宿主 1.11.7 的 `character/refresh.js` 与 `character/standard.js`。目标宿主提交和既有【酒】次数修复可能有差异。先对隔离副本核对版本和 diff，再检查补丁适用性；不得强制应用或覆盖现有修改。补丁只修改 AI 评分及选择回调，不改技能结算。
 
-回滚按安装记录保护外部修改和共享引擎依赖；遇到冲突应保留现场供开发者处理，不手工删除仍被引擎引用的模块。上述安装生命周期对最终 ZIP 尚待独立验证。
+## 验收与完整性
 
-## 完整性
-
-`manifest.json` 包含除自身外的包内文件大小和 SHA256；外部 `SHA256SUMS.txt` 应包含最终 ZIP 和独立原生补丁的完整哈希。在输出目录执行 `sha256sum -c SHA256SUMS.txt`，也可用包内 `python verify.py --zip <本包.zip>` 检查包内文件。验收必须再核对包内补丁与独立补丁字节一致、文件来源与 HEAD 一致。
+本候选尚未完成独立最终验收，不是正式发布版。全量审查矩阵见 `docs/FULL-SKILL-AUDIT.md`，定向验收步骤见 `docs/FULL-SKILL-ACCEPTANCE-HANDOFF.md`。构建器生成的 `manifest.json` 会记录当前 HEAD、Git blob 来源和包内文件哈希。独立 Agent 应重新构建、核对包内文件、原生补丁、依赖、安装、回滚和三项新修复，再记录实际 ZIP 与补丁 SHA256。

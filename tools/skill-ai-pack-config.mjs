@@ -6,7 +6,41 @@ export const CODE_PACKS = [
 		module: 'refreshStandard',
 		rules: 'refreshStandard',
 		implementedSkills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'retieji', 'reganglie', 'reqianxun', 'refankui', 'qingguo', 'jijiu', 'lijian'],
-		auditedSkills: ['rezhiheng', 'new_retuxi', 'rekurou', 'zhaxiang'],
+		/* 全量审查及覆盖元数据：列表是人数统计的来源，构建器只从列表派生数量。 */
+		auditedSkills: [
+			'new_retuxi', 'reguose', 'liuli', 'rekurou', 'zhaxiang', 'rerende', 'rejijiang', 'lijian', 'rebiyue',
+			'rezhiheng', 'rejiuyuan', 'new_rejianxiong', 'rehujia', 'refankui', 'reguicai', 'tiandu', 'new_reyiji',
+			'new_reluoyi', 'reganglie', 'new_qingjian', 'olpaoxiao', 'oltishen', 'ollongdan', 'olyajiao', 'new_rewusheng',
+			'new_yijue', 'mashu', 'retieji', 'reyingzi', 'refanjian', 'keji', 'qinxue', 'rebotu', 'qixi', 'fenwei',
+			'reqianxun', 'relianying', 'wushuang', 'new_liyu', 'jijiu', 'new_reqingnang', 'rejizhi', 'reqicai', 'xiaoji',
+			'rejieyin', 'reluoshen', 'qingguo', 'reguanxing', 'kongcheng', 'reyaowu', 'shizhan', 'reqiaomeng', 'reyicong',
+			'xunxun', 'xinwangxi', 'zhuhai', 'qianxin',
+		],
+		nativeOptimizationSkills: [
+			'rezhiheng', 'rerende', 'new_reyiji', 'new_reluoyi', 'new_yijue', 'refanjian', 'new_reqingnang',
+			'rejieyin', 'new_qingjian', 'new_liyu', 'retieji', 'reganglie', 'reqianxun', 'relianying', 'olyajiao',
+			'refankui', 'zhaxiang', 'qingguo', 'jijiu', 'lijian',
+		],
+		historicalOptimizationSkills: [
+			'rezhiheng', 'rerende', 'new_reyiji', 'new_reluoyi', 'new_yijue', 'refanjian', 'new_reqingnang',
+			'rejieyin', 'new_qingjian', 'new_liyu', 'retieji', 'reganglie', 'reqianxun', 'relianying', 'olyajiao',
+			'refankui', 'zhaxiang',
+		],
+		newlyFixedSkills: ['lijian', 'jijiu', 'qingguo'],
+		reviewedNoChangeSkills: [
+			'new_retuxi', 'reguose', 'liuli', 'rekurou', 'rejijiang', 'rejiuyuan', 'new_rejianxiong', 'rehujia',
+			'reguicai', 'tiandu', 'oltishen', 'ollongdan', 'new_rewusheng', 'keji', 'qinxue', 'rebotu', 'qixi',
+			'fenwei', 'rejizhi', 'xiaoji', 'reluoshen', 'reguanxing', 'kongcheng', 'reyaowu', 'shizhan',
+			'reqiaomeng', 'xunxun', 'xinwangxi', 'zhuhai',
+		],
+		notApplicableSkills: ['rebiyue', 'olpaoxiao', 'mashu', 'reyingzi', 'wushuang', 'reqicai', 'reyicong', 'qianxin'],
+		unresolvedConfirmedDefects: [],
+		extensionOptimizationSkills: [
+			'rezhiheng', 'rerende', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'retieji', 'reganglie',
+			'reqianxun', 'refankui', 'qingguo', 'jijiu', 'lijian',
+		],
+		existingExtensionSkills: ['new_retuxi'],
+		runtimeVerifiedSkills: [],
 		scenes: [
 			'rezhiheng-3hp', 'rezhiheng-4hp',
 			'rezhiheng-full-3hp-max3', 'rezhiheng-full-4hp-max4', 'rezhiheng-full-1hp-max1',
