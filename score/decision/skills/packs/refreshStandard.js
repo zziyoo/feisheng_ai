@@ -8,7 +8,7 @@ export const pack = {
 	id: 'refresh_standard',
 	name: '界限突破·标准',
 	group: 'refresh',
-	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'retieji', 'reganglie', 'reqianxun'],
+	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'retieji', 'reganglie', 'reqianxun', 'refankui'],
 	statsDefaults: {
 		keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0,
 		retuxiTargetBonus: 0, calls: 0, last: [],
@@ -29,6 +29,7 @@ function install(host, stats) {
 	installTieji(host);
 	installGanglie(host);
 	installQianxun(host);
+	installFankui(host);
 	for (const [id, evaluate] of [['rezhiheng', exchangePlan], ['rerende', currentGiftPlan]]) {
 		host.addCleanup(registerSkillPlanHint(id, player => {
 			const plan = evaluate(player);
@@ -39,6 +40,21 @@ function install(host, stats) {
 				delta: plan.cards.length ? Math.min(0.75, 0.2 + plan.total / 20) : -0.25 };
 		}));
 	}
+}
+
+function installFankui(host) {
+	const effect = lib.skill?.refankui?.ai?.effect;
+	if (typeof effect?.target !== 'function') return;
+	host.wrap(effect, 'target', 'refankui:target', original => function (card, player, target) {
+		const base = original.apply(this, arguments);
+		if (base !== undefined) return base;
+		try {
+			if (!get.tag(card, 'damage') || player.countCards('he') !== 1 || player.countCards('h') !== 0 || player.countGainableCards(target, 'e') !== 1) return base;
+			if (player.hasSkillTag('jueqing', false, target)) return [1, -1.5];
+			if (get.attitude(target, player) < 0) return [1, 1];
+		} catch (_) { /* 无法确认时保留原评分 */ }
+		return base;
+	});
 }
 
 function installQianxun(host) {

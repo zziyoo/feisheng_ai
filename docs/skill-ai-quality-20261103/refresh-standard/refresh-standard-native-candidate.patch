@@ -367,16 +367,25 @@
            if (target.hasSkillTag("nogain")) {
              return 0;
            }
-@@ -15415,6 +15647,9 @@
+@@ -15339,7 +15571,7 @@
+       maixie_defend: true,
+       effect: {
+         target(card, player, target) {
+-          if (player.countCards("he") > 1 && get.tag(card, "damage")) {
++          if (get.tag(card, "damage") && (player.countCards("he") > 1 || player.countCards("h") === 0 && player.countGainableCards(target, "e") === 1)) {
+             if (player.hasSkillTag("jueqing", false, target)) {
+               return [1, -1.5];
+             }
+@@ -15414,6 +15646,9 @@
+     check(event, player) {
        if (!event.source?.isIn()) {
          return Math.random() < 0.5;
-       }
++      }
 +      if (get.attitude(player, event.source) <= 0 && event.source.countDiscardableCards(player, "he") === 0) {
 +        return get.damageEffect(event.source, player, player) > 0;
-+      }
+       }
        return get.attitude(player, event.source) <= 0;
      },
-     prompt2(event, player) {
 @@ -15646,7 +15881,13 @@
        order: 9,
        result: {
