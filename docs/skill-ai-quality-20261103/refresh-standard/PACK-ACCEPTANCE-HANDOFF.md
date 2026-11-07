@@ -18,7 +18,11 @@ Set-Location $isolatedRepo
 node tools/build-skill-ai-pack.mjs --pack refresh_standard --out $outputDir --stage-root $stageDir
 ```
 
-构建器默认要求干净工作树，从该 HEAD 导出主要源码，并运行内置 ZIP 文件验证；它还从工作树读取构建脚本和模板，因此必须使用干净隔离副本。预期输出 `feisheng-ai-refresh-standard.zip`、`feisheng-ai-refresh-standard-native-ai.patch` 和 `SHA256SUMS.txt`；实际文件及哈希须由验收者读取确认。另在输出目录写独立验收记录，列出执行项目、证据及未验证项。
+构建器默认要求干净工作树，并以 `git show HEAD:<path>` 的原始 Buffer 导出归档中原样复制的 Git 文件，包括工具模板；任务清单和配置也从同一 HEAD 读取。外部证据仍从指定证据目录原样读取，生成文件不是 Git blob 副本。manifest 的 `source_kind`、`repo_path` 区分 Git blob、外部证据和生成文件。`--worktree-source` 是显式开发调试模式；`pack.json` 和 manifest 均记录来源模式，不得将该模式产物作为指定提交的精确交付。实际构建仍应在干净隔离副本执行。预期输出 `feisheng-ai-refresh-standard.zip`、`feisheng-ai-refresh-standard-native-ai.patch` 和 `SHA256SUMS.txt`；实际文件及哈希须由验收者读取确认。另在输出目录写独立验收记录，列出执行项目、证据及未验证项。
+
+## Git 字节一致性 P1 复验
+
+上一候选 `353b549a5f5cb68969fbc9db24e991a4d0bf768c28e612673e31feeadaf976c6` 的六个工具脚本因从 Windows 工作树复制而与 Git blob 字节不同，不得作为新包。此修复尚未执行任何构建或测试。独立 Agent 须从新 HEAD 构建，并对 manifest 中每个 `source_kind: git-blob` 文件逐一以 `repo_path` 对照该 HEAD 的原始 blob；重点检查三个安装工具、`verify.py`、构建器与配置。检查生成的注册表等文件不被误标为 blob、外部证据不虚构提交；复核包内外原生补丁及全部 manifest 哈希。另检查 `--worktree-source` 的来源标记、安装回滚和故障注入、旧共享核心冲突拒绝。最终 ZIP 的实际 AI 源码须与历史专项验收版本逐字节对应，不能仅依据旧结论；建议隔离宿主最小加载和策略注册冒烟。
 
 ## 验收重点
 

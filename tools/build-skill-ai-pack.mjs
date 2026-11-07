@@ -8,7 +8,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { CODE_PACKS } from './skill-ai-pack-config.mjs';
 
 const args = process.argv.slice(2);
 const option = name => { const i = args.indexOf('--' + name); return i < 0 ? null : args[i + 1]; };
@@ -22,10 +21,7 @@ const STAGE_ROOT = path.resolve(option('stage-root') || process.env.DJSC_PACK_ST
 const BASELINE = option('baseline') || process.env.DJSC_BASELINE || '1fe5292eb3022dd8d1db494617b21a12be912e61';
 const ALL_REGISTERED = ['rezhiheng', 'new_retuxi', 'qimou', 'reqimou', 'olkongsheng', 'redimeng', 'xinkuanggu', 'luanji', 'jushou', 'xinshensu', 'xinfu_guhuo', 'huangtian'];
 const useWorktree = args.includes('--worktree-source');
-const selected = option('pack') ? [option('pack')] : (args.includes('--all') ? CODE_PACKS.map(item => item.id) : []);
-if (!selected.length) throw new Error('usage: --pack <id> | --all [--repo <dir>] [--evidence <dir>] [--out <dir>] [--stage-root <dir>] [--git <git>]');
 if (!fs.existsSync(TASK_PATH)) throw new Error(`仓库缺少任务清单：${TASK_PATH}；请用 --repo 指向无名AI仓库根目录`);
-if (selected.some(id => id !== 'shenhua_feng' && id !== 'shenhua_lei' && id !== 'refresh_feng' && id !== 'refresh_standard') && !fs.existsSync(EVIDENCE)) throw new Error(`证据目录不存在：${EVIDENCE}；请用 --evidence 指定`);
 
 const git = (params, encoding = 'utf8') => {
 	try {
@@ -41,17 +37,24 @@ const sourceOf = repoPath => useWorktree ? fs.readFileSync(path.join(REPO, repoP
 const sha = data => crypto.createHash('sha256').update(data).digest('hex');
 const textOf = repoPath => sourceOf(repoPath).toString('utf8');
 const readJson = file => JSON.parse(fs.readFileSync(file, 'utf8'));
-const task = readJson(TASK_PATH);
+// 配置及任务清单同样来自本次选择的源码版本；外部证据仍独立读取。
+const { CODE_PACKS } = await import('data:text/javascript;base64,' + sourceOf('tools/skill-ai-pack-config.mjs').toString('base64'));
+const selected = option('pack') ? [option('pack')] : (args.includes('--all') ? CODE_PACKS.map(item => item.id) : []);
+if (!selected.length) throw new Error('usage: --pack <id> | --all [--repo <dir>] [--evidence <dir>] [--out <dir>] [--stage-root <dir>] [--git <git>]');
+if (selected.some(id => id !== 'shenhua_feng' && id !== 'shenhua_lei' && id !== 'refresh_feng' && id !== 'refresh_standard') && !fs.existsSync(EVIDENCE)) throw new Error(`证据目录不存在：${EVIDENCE}；请用 --evidence 指定`);
+const task = JSON.parse(textOf('docs/skill-ai-20261030/142-task-list.json'));
 const taskPacks = Object.fromEntries((task.packs || []).map(pack => [pack.pack_id, pack]));
 const taskRecords = task.records || [];
 const generatedAt = git(['show', '-s', '--format=%cI', HEAD]).trim();
 const short = HEAD.slice(0, 7);
+const sourcePaths = new Map();
 const write = (stage, rel, data) => {
 	const full = path.join(stage, rel);
 	fs.mkdirSync(path.dirname(full), { recursive: true });
 	fs.writeFileSync(full, data);
+	sourcePaths.delete(rel);
 };
-const copyRepo = (stage, repoPath, rel) => write(stage, rel, sourceOf(repoPath));
+const copyRepo = (stage, repoPath, rel) => { write(stage, rel, sourceOf(repoPath)); sourcePaths.set(rel, repoPath); };
 const copyDisk = (stage, source, rel) => write(stage, rel, fs.readFileSync(source));
 const hashFile = file => { const data = fs.readFileSync(file); return { size: data.length, sha256: sha(data) }; };
 
@@ -244,6 +247,7 @@ node tests/trick-real-host-smoke.mjs --mode identity --skill-ai --skill-ai-polic
 }
 
 function buildPack(config) {
+	sourcePaths.clear();
 	const pack = taskPacks[config.id];
 	if (!pack) throw new Error('task list missing pack: ' + config.id);
 	const windCandidate = config.id === 'shenhua_feng';
@@ -273,23 +277,23 @@ function buildPack(config) {
 	copyRepo(stage, 'info.json', 'contract/info.json');
 
 	if (!windCandidate && !leiCandidate && !refreshFengCandidate && !standardCandidate) {
-		copyDisk(stage, path.join(REPO, 'tools', 'pack-templates', `${config.id}.test.mjs`), 'tests/test-pack-rules.mjs');
-		copyDisk(stage, path.join(REPO, 'tools', 'pack-templates', 'test-pack-architecture.mjs'), 'tests/test-pack-architecture.mjs');
-		copyDisk(stage, path.join(REPO, 'tools', 'pack-templates', 'run-pack-tests.mjs'), 'tests/run-pack-tests.mjs');
+		copyRepo(stage, `tools/pack-templates/${config.id}.test.mjs`, 'tests/test-pack-rules.mjs');
+		copyRepo(stage, 'tools/pack-templates/test-pack-architecture.mjs', 'tests/test-pack-architecture.mjs');
+		copyRepo(stage, 'tools/pack-templates/run-pack-tests.mjs', 'tests/run-pack-tests.mjs');
 	}
-	copyDisk(stage, path.join(REPO, 'tools', 'verify.py'), 'verify.py');
+	copyRepo(stage, 'tools/verify.py', 'verify.py');
 	if (!windCandidate && !leiCandidate && !refreshFengCandidate && !standardCandidate) {
-		copyDisk(stage, path.join(REPO, 'tools', 'test-verify-zip.py'), 'tests/test-verify-zip.py');
-		for (const name of ['skill-ai-hp-real-host.mjs', 'skill-ai-host-scenes.mjs', 'trick-real-host-smoke.mjs', 'test-fullgame-settlement.mjs']) copyDisk(stage, path.join(REPO, 'tools', name), `tests/${name}`);
+		copyRepo(stage, 'tools/test-verify-zip.py', 'tests/test-verify-zip.py');
+		for (const name of ['skill-ai-hp-real-host.mjs', 'skill-ai-host-scenes.mjs', 'trick-real-host-smoke.mjs', 'test-fullgame-settlement.mjs']) copyRepo(stage, `tools/${name}`, `tests/${name}`);
 	}
 	if (config.id === 'refresh_feng' && !refreshFengCandidate) {
-		for (const name of ['reqimou-manual-ui.mjs', 'verify-repair-outcomes.mjs']) copyDisk(stage, path.join(REPO, 'tools', name), `tests/${name}`);
+		for (const name of ['reqimou-manual-ui.mjs', 'verify-repair-outcomes.mjs']) copyRepo(stage, `tools/${name}`, `tests/${name}`);
 	}
-	copyDisk(stage, path.join(REPO, 'tools', 'pack-templates', 'apply-pack.mjs'), 'integration/apply-pack.mjs');
-	copyDisk(stage, path.join(REPO, 'tools', 'pack-templates', 'apply-engine-wiring.mjs'), 'integration/apply-engine-wiring.mjs');
-	copyDisk(stage, path.join(REPO, 'tools', 'pack-templates', 'rollback-pack.mjs'), 'integration/rollback-pack.mjs');
-	copyDisk(stage, path.join(REPO, 'tools', 'build-skill-ai-pack.mjs'), 'build-skill-ai-pack.mjs');
-	copyDisk(stage, path.join(REPO, 'tools', 'skill-ai-pack-config.mjs'), 'skill-ai-pack-config.mjs');
+	copyRepo(stage, 'tools/pack-templates/apply-pack.mjs', 'integration/apply-pack.mjs');
+	copyRepo(stage, 'tools/pack-templates/apply-engine-wiring.mjs', 'integration/apply-engine-wiring.mjs');
+	copyRepo(stage, 'tools/pack-templates/rollback-pack.mjs', 'integration/rollback-pack.mjs');
+	copyRepo(stage, 'tools/build-skill-ai-pack.mjs', 'build-skill-ai-pack.mjs');
+	copyRepo(stage, 'tools/skill-ai-pack-config.mjs', 'skill-ai-pack-config.mjs');
 
 	const packOnlyRegistry = `// Generated for ${config.id} (${pack.pack_name}); stage package.\n// @djsc-pack-imports-begin\nimport { pack as ${config.module} } from './packs/${config.module}.js?v=41a';\n// @djsc-pack-imports-end\n\nexport const SKILL_AI_PACKS = [\n\t// @djsc-pack-registry-begin\n\t${config.module},\n\t// @djsc-pack-registry-end\n];\n`;
 	write(stage, 'integration/pack-only/skillAIPolicyPacks.js', packOnlyRegistry);
@@ -322,7 +326,7 @@ function buildPack(config) {
 	}
 
 	if (refreshFengCandidate) {
-		write(stage, 'feisheng-ai-refresh-feng-native-ai.patch', textOf('docs/skill-ai-quality-20261103/refresh-feng/refresh-feng-native-candidate.patch').replace(/\r\n/g, '\n'));
+		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/refresh-feng-native-candidate.patch', 'feisheng-ai-refresh-feng-native-ai.patch');
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/REVIEW.md', 'docs/REVIEW.md');
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/PROGRESS.md', 'docs/PROGRESS.md');
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/FOURTH-ACCEPTANCE.md', 'ACCEPTANCE.md');
@@ -373,6 +377,8 @@ function buildPack(config) {
 		},
 		dependencies: ['score/index.js 已接线策略 facade', 'score/foundation/adapt/host.js', 'score/decision/safety/aiOverride.js'],
 		head: HEAD,
+		source_mode: useWorktree ? 'worktree' : 'git-show-head',
+		worktree_dirty: !!dirty,
 		baseline: BASELINE,
 	};
 	if (windCandidate) Object.assign(packJson, {
@@ -426,7 +432,7 @@ function buildPack(config) {
 	}
 	if (standardCandidate) {
 		write(stage, 'README.md', textOf('docs/skill-ai-quality-20261103/refresh-standard/PACK-README.md').replaceAll('{{HEAD}}', HEAD).replaceAll('{{BASELINE}}', BASELINE));
-		write(stage, 'checklist.md', textOf('docs/skill-ai-quality-20261103/refresh-standard/PACK-COVERAGE.md'));
+		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-standard/PACK-COVERAGE.md', 'checklist.md');
 	}
 	write(stage, 'COMMANDS.md', [
 		'# 本分包测试命令', '',
@@ -489,14 +495,12 @@ function buildPack(config) {
 			if (entry.isDirectory()) { walk(child); continue; }
 			if (child === 'manifest.json') continue;
 			const hash = hashFile(path.join(stage, child));
-			const repoPath = child.startsWith('source/')
-				? child.slice('source/'.length)
-				: (child.startsWith('tests/') ? 'tools/' + child.slice('tests/'.length) : null);
+			const repoPath = sourcePaths.get(child) || null;
 			let commit = null;
-			if (repoPath) {
-				try { commit = git(['log', '-1', '--format=%h', '--', repoPath]).trim() || short; } catch (e) { commit = short; }
+			if (repoPath && !useWorktree) {
+				commit = git(['log', '-1', '--format=%h', HEAD, '--', repoPath]).trim() || null;
 			}
-			const purpose = child.startsWith('source/') ? '运行时分包代码（git show 导出）'
+			const purpose = child.startsWith('source/') ? '运行时分包代码或生成的注册表'
 				: child.startsWith('contract/') ? '只读契约（134维/版本）'
 				: child.startsWith('tests/') ? '测试脚本'
 				: child.startsWith('evidence/') ? '原始运行产物（未修改）'
@@ -505,7 +509,8 @@ function buildPack(config) {
 				: child === 'verify.py' ? '独立 SHA256 校验脚本'
 				: child === 'pack.json' ? '分包元数据与哈希'
 				: '交付文档';
-			files.push({ path: child, size: hash.size, sha256: hash.sha256, commit, batch: '分包' + config.id, purpose });
+			const source_kind = repoPath ? (useWorktree ? 'worktree' : 'git-blob') : (child.startsWith('evidence/') ? 'external-evidence' : 'generated');
+			files.push({ path: child, size: hash.size, sha256: hash.sha256, commit, source_kind, repo_path: repoPath, batch: '分包' + config.id, purpose });
 		}
 	};
 	walk('');
