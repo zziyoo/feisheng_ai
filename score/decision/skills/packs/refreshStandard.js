@@ -8,7 +8,7 @@ export const pack = {
 	id: 'refresh_standard',
 	name: '界限突破·标准',
 	group: 'refresh',
-	skills: ['rezhiheng', 'rerende', 'new_retuxi'],
+	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue'],
 	statsDefaults: {
 		keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0,
 		retuxiTargetBonus: 0, calls: 0, last: [],
@@ -22,6 +22,7 @@ function install(host, stats) {
 	installRezhiheng(host, stats);
 	installRerende(host);
 	installRetuxi(host, stats);
+	installYijue(host);
 	for (const [id, evaluate] of [['rezhiheng', exchangePlan], ['rerende', currentGiftPlan]]) {
 		host.addCleanup(registerSkillPlanHint(id, player => {
 			const plan = evaluate(player);
@@ -32,6 +33,22 @@ function install(host, stats) {
 				delta: plan.cards.length ? Math.min(0.75, 0.2 + plan.total / 20) : -0.25 };
 		}));
 	}
+}
+
+function installYijue(host) {
+	const result = lib.skill?.new_yijue?.ai?.result;
+	if (typeof result?.target !== 'function') return;
+	host.wrap(result, 'target', 'new_yijue:target', original => function (player, target) {
+		const base = original.apply(this, arguments);
+		if (base !== -2) return base;
+		try {
+			const paid = ui.selected?.cards || [];
+			const cards = player.getCards('he').filter(card => !paid.includes(card));
+			const sha = cards.some(card => get.name(card, player) === 'sha');
+			const wusheng = player.hasSkill('new_rewusheng') && cards.some(card => get.color(card, player) === 'red' || get.zhu(player, 'shouyue'));
+			return player.getCardUsable('sha') > 0 && player.canUse('sha', target) && (sha || wusheng) ? base : -0.5;
+		} catch (_) { return base; }
+	});
 }
 
 function currentGiftPlan(player) {

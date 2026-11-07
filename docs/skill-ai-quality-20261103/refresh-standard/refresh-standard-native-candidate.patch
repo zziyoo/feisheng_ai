@@ -238,7 +238,20 @@
        if (result.bool) {
          if (cardsx.length) {
            await player.gain(cardsx, "gain2");
-@@ -14864,6 +15079,8 @@
+@@ -14263,7 +14478,11 @@
+           if (target.countCards("h") > target.hp + 1 && get.recoverEffect(target) > 0) {
+             return 1;
+           }
+-          if (player.canUse("sha", target) && (player.countCards("h", "sha") || player.countCards("he", { color: "red" }))) {
++          const paid = ui.selected.cards || [];
++          const remaining = player.getCards("he").filter(card => !paid.includes(card));
++          const knownSha = remaining.some(card => get.name(card, player) === "sha");
++          const wusheng = player.hasSkill("new_rewusheng") && remaining.some(card => get.color(card, player) === "red" || get.zhu(player, "shouyue"));
++          if (player.getCardUsable("sha") > 0 && player.canUse("sha", target) && (knownSha || wusheng)) {
+             return -2;
+           }
+           return -0.5;
+@@ -14864,6 +15083,8 @@
      selectCard: [1, Infinity],
      allowChooseAll: true,
      check(card) {
@@ -247,7 +260,7 @@
        let player = _status.event.player;
        if (get.position(card) == "h" && !player.countCards("h", "du") && (player.hp > 2 || !player.countCards("h", (i) => {
          return get.value(i) >= 8;
-@@ -14921,10 +15138,12 @@
+@@ -14921,10 +15142,12 @@
      },
      ai: {
        order(item, player) {
@@ -263,7 +276,7 @@
        },
        result: {
          player: 1
-@@ -15041,6 +15260,8 @@
+@@ -15041,6 +15264,8 @@
      lose: false,
      delay: false,
      check(card) {
@@ -272,7 +285,7 @@
        if (ui.selected.cards.length && ui.selected.cards[0].name == "du") {
          return 0;
        }
-@@ -15101,13 +15322,17 @@
+@@ -15101,13 +15326,17 @@
      ai: {
        fireAttack: true,
        order(skill, player) {
