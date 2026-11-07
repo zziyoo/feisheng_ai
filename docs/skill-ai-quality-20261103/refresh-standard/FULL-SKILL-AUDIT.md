@@ -108,6 +108,33 @@
 
 上述代码分别提交：`df7e11b`（倾国）、`bb9fade`（急救）、`907d485`（离间）。均为源码完成、待独立 Agent 验收；不宣称实战收益已验证。
 
+## 技能优化与提交索引
+
+| 技能 ID | 代码/累计补丁提交 |
+| --- | --- |
+| `rezhiheng` | `3cf64f9`, `8141313`, `c3f1ef8`, `f623c4e`（第一批共享方案与补丁收口） |
+| `rerende` | `3cf64f9`, `8141313`, `c3f1ef8`, `f623c4e`（第一批共享方案与补丁收口） |
+| `new_reyiji` | `6eaee79` |
+| `new_reluoyi` | `39e1bdd` |
+| `new_yijue` | `d7618c8` |
+| `refanjian` | `2888b43` |
+| `new_reqingnang` | `b078e0a` |
+| `rejieyin` | `f06f802` |
+| `new_qingjian` | `7f562b0` |
+| `new_liyu` | `afe3878` |
+| `retieji` | `c4abf19` |
+| `reganglie` | `c09be71` |
+| `reqianxun` | `bcbfc17` |
+| `relianying` | `b3888a0` |
+| `olyajiao` | `d079650` |
+| `refankui` | `8b0fb9e` |
+| `zhaxiang` | `d45ae7f` |
+| `lijian` | `907d485` |
+| `jijiu` | `bb9fade` |
+| `qingguo` | `df7e11b` |
+
+全量覆盖元数据、README、封包生成字段和验收交接收口提交：`f0e6232`。本索引记录技能实现/累计补丁提交；场景与验收说明分散在对应批次交接中。
+
 ## 接线差异与历史限制
 
 - 原生累计补丁现在包含 20 项 AI 优化（四批 17 项 + 本轮 3 项）。目标是宿主 1.11.7 `character/refresh.js` 和 `character/standard.js`。
