@@ -8,7 +8,7 @@ export const pack = {
 	id: 'refresh_standard',
 	name: '界限突破·标准',
 	group: 'refresh',
-	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'retieji'],
+	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'retieji', 'reganglie'],
 	statsDefaults: {
 		keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0,
 		retuxiTargetBonus: 0, calls: 0, last: [],
@@ -27,6 +27,7 @@ function install(host, stats) {
 	installQingnang(host);
 	installJieyin(host);
 	installTieji(host);
+	installGanglie(host);
 	for (const [id, evaluate] of [['rezhiheng', exchangePlan], ['rerende', currentGiftPlan]]) {
 		host.addCleanup(registerSkillPlanHint(id, player => {
 			const plan = evaluate(player);
@@ -37,6 +38,21 @@ function install(host, stats) {
 				delta: plan.cards.length ? Math.min(0.75, 0.2 + plan.total / 20) : -0.25 };
 		}));
 	}
+}
+
+function installGanglie(host) {
+	const info = lib.skill?.reganglie;
+	if (typeof info?.check !== 'function') return;
+	host.wrap(info, 'check', 'reganglie:check', original => function (event, player) {
+		const base = original.apply(this, arguments);
+		try {
+			const source = event.source;
+			if (source?.isIn() && get.attitude(player, source) <= 0 && source.countDiscardableCards(player, 'he') === 0) {
+				return get.damageEffect(source, player, player) > 0;
+			}
+		} catch (_) { /* 回退宿主的触发判断 */ }
+		return base;
+	});
 }
 
 function installTieji(host) {

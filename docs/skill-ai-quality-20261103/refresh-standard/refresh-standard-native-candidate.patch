@@ -359,7 +359,17 @@
            if (target.hasSkillTag("nogain")) {
              return 0;
            }
-@@ -15646,7 +15877,13 @@
+@@ -15415,6 +15646,9 @@
+       if (!event.source?.isIn()) {
+         return Math.random() < 0.5;
+       }
++      if (get.attitude(player, event.source) <= 0 && event.source.countDiscardableCards(player, "he") === 0) {
++        return get.damageEffect(event.source, player, player) > 0;
++      }
+       return get.attitude(player, event.source) <= 0;
+     },
+     prompt2(event, player) {
+@@ -15646,7 +15880,13 @@
        order: 9,
        result: {
          target(player, target) {
@@ -374,7 +384,7 @@
          }
        },
        threaten: 2
-@@ -16258,7 +16495,7 @@
+@@ -16258,7 +16498,7 @@
        ignoreSkill: true,
        skillTagFilter(player, tag, arg) {
          if (tag == "directHit_ai") {
