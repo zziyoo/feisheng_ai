@@ -81,7 +81,12 @@ if (registry && registry.mode !== 'already') {
 		const currentBytes = read(registryPath);
 		const currentHash = sha(currentBytes);
 		const text = currentBytes.toString('utf8');
-		const hasOwnLines = text.split('\n').some(line => line.trim() === registry.importLine.trim() || line.trim() === registry.entryLine.trim());
+		const ownedLines = [registry.importLine, registry.entryLine].filter(line => typeof line === 'string' && line.trim()).map(line => line.trim());
+		const hasOwnLines = text.split('\n').some(line => ownedLines.includes(line.trim()));
+		if (registry.importLine && text.split('\n').some(line => /^\s*import\b/.test(line) && line.includes('./packs/' + pack.module + '.js') && line.trim() !== registry.importLine.trim())) {
+			conflicts.push('本分包导入已被修改，不能安全删除其文件；请先人工处理注册表。');
+			unsafeRegistryDelete = true;
+		}
 		if (registry.mode === 'created') {
 			if (currentHash === registry.installedHash) registryAction = { type: 'empty-registry', target: registryPath, registryRel, content: Buffer.from(EMPTY_REGISTRY) };
 			else if (hasOwnLines) registryAction = { type: 'strip-own-lines', target: registryPath, registryRel, text, importLine: registry.importLine, entryLine: registry.entryLine };
@@ -113,7 +118,8 @@ try {
 			atomicWrite(registryAction.target, registryAction.content);
 			performed.push({ type: registryAction.type, target: registryAction.registryRel });
 		} else if (registryAction.type === 'strip-own-lines') {
-			const next = registryAction.text.split('\n').filter(line => line.trim() !== registryAction.importLine.trim() && line.trim() !== registryAction.entryLine.trim()).join('\n');
+			const ownedLines = [registryAction.importLine, registryAction.entryLine].filter(line => typeof line === 'string' && line.trim()).map(line => line.trim());
+			const next = registryAction.text.split('\n').filter(line => !ownedLines.includes(line.trim())).join('\n');
 			if (next !== registryAction.text) atomicWrite(registryAction.target, next);
 			performed.push({ type: registryAction.type, target: registryAction.registryRel });
 		} else {

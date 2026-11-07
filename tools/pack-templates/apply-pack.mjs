@@ -50,25 +50,40 @@ function backupFile(backupDir, targetRel, bytes) {
 }
 
 function verifyRegistryImports(text, pendingModules) {
-	const pattern = /import\s*\{\s*pack\s+as\s+([A-Za-z0-9_$]+)\s*\}\s*from\s*['"]\.\/packs\/([^'"?]+)\.js(?:\?[^'"]*)?['"]/g;
-	const seen = new Set();
-	let match;
-	while ((match = pattern.exec(text))) {
-		const moduleName = match[2];
-		if (pendingModules.has(moduleName)) continue;
-		const target = rel('score/decision/skills/packs/' + moduleName + '.js');
-		if (!exists(target)) fail(`注册表引用了不存在的分包模块：score/decision/skills/packs/${moduleName}.js`);
-		seen.add(moduleName);
+	const imports = [];
+	const modules = new Set(), aliases = new Set();
+	for (const line of text.split(/\r?\n/)) {
+		if (!/^\s*import\b/.test(line)) continue;
+		if (!/\bfrom\s*['"]/.test(line)) fail('注册表含无法安全识别的导入结构，请先手工整理：' + line.trim());
+		if (!line.includes('./packs/')) continue;
+		const match = line.match(/^\s*import\s*\{\s*pack\s+as\s+([A-Za-z_$][\w$]*)\s*\}\s*from\s*(['"])\.\/packs\/([A-Za-z0-9_-]+)\.js(\?[^'"\s]*)?\2\s*;?\s*$/);
+		if (!match) fail('无法安全识别注册表分包导入，请先手工整理：' + line.trim());
+		const [, alias, , moduleName, query = ''] = match;
+		if (modules.has(moduleName)) fail('注册表重复导入分包模块：' + moduleName);
+		if (aliases.has(alias)) fail('注册表重复声明导入别名：' + alias);
+		modules.add(moduleName); aliases.add(alias);
+		if (!pendingModules.has(moduleName) && !exists(rel('score/decision/skills/packs/' + moduleName + '.js'))) fail('注册表引用了不存在的分包模块：' + moduleName);
+		imports.push({ alias, moduleName, query, line: line.trim() });
 	}
-	return seen;
+	return imports;
 }
 
 function plannedModules() {
 	return new Set([pack.module]);
 }
 
+function requestedImport(imports) {
+	const sameModule = imports.find(item => item.moduleName === pack.module);
+	const sameAlias = imports.find(item => item.alias === pack.module);
+	if (sameModule && sameModule.query !== '?v=41a') fail(`分包模块 ${pack.module} 导入版本冲突：已有 ${sameModule.query || '无查询参数'}，待安装 ?v=41a；请先安全迁移或调整现有注册配置。`);
+	if (sameModule && sameModule.alias !== pack.module) fail(`分包模块 ${pack.module} 已使用别名 ${sameModule.alias}，请先手工协调注册配置。`);
+	if (sameAlias && sameAlias.moduleName !== pack.module) fail(`导入别名 ${pack.module} 已用于模块 ${sameAlias.moduleName}，拒绝重复声明。`);
+	return sameModule;
+}
+
 function buildPlan() {
 	if (!pack.id || !pack.module) fail('pack.json 缺少 id/module');
+	if (!/^[A-Za-z_$][\w$]*$/.test(pack.module)) fail('分包模块标识符无效');
 	if (!exists(rel('score/index.js'))) fail('目标不是无名AI扩展根目录（缺少 score/index.js）：' + targetRoot);
 	const index = read(rel('score/index.js')).toString('utf8');
 	if (!index.includes('installSkillAIPolicies') || !index.includes('uninstallSkillAIPolicies')) {
@@ -138,14 +153,24 @@ function buildPlan() {
 	const entryLine = `${pack.module},`;
 	if (!exists(registryPath)) {
 		const source = read(path.join(BASE, 'integration', 'pack-only', 'skillAIPolicyPacks.js')).toString('utf8');
-		verifyRegistryImports(source, pendingModules);
+		const templateImports = verifyRegistryImports(source, pendingModules);
+		if (!requestedImport(templateImports) || (source.match(new RegExp('^[\\t ]*' + pack.module + ',[\\t ]*$', 'gm')) || []).length !== 1) fail('包内注册表模板缺少唯一的本分包导入或条目');
 		plan.registry = { mode: 'created', importLine, entryLine, before: null, after: Buffer.from(source), installedHash: sha(Buffer.from(source)) };
 	} else {
 		const before = read(registryPath);
 		const text = before.toString('utf8');
-		verifyRegistryImports(text, pendingModules);
-		const hasImport = text.includes(importLine);
-		const hasEntry = new RegExp('^\\s*' + pack.module + ',\\s*$', 'm').test(text);
+		const imports = verifyRegistryImports(text, pendingModules);
+		const sameModule = requestedImport(imports);
+		for (const line of text.split(/\r?\n/)) {
+			if (/^\s*import\b/.test(line) && !line.includes('./packs/') && new RegExp('\\b' + pack.module + '\\b').test(line)) fail('其他导入可能占用本分包别名，请先手工检查：' + pack.module);
+		}
+		const hasImport = !!sameModule;
+		const registryArray = text.match(/export\s+const\s+SKILL_AI_PACKS\s*=\s*\[([\s\S]*?)\]\s*;/);
+		if (!registryArray) fail('无法安全识别 SKILL_AI_PACKS 注册数组，请先手工整理。');
+		const entries = registryArray[1].match(new RegExp('^[\\t ]*' + pack.module + ',[\\t ]*$', 'gm')) || [];
+		if (entries.length > 1) fail('注册表存在重复分包条目：' + pack.module);
+		const hasEntry = entries.length === 1;
+		if (hasEntry && !hasImport) fail('注册表已有本分包条目但缺少匹配导入，请先手工修复：' + pack.module);
 		/* 注册表已声明本包但文件缺失属于不一致的预存状态：若补齐后回滚，注册行会指向已删除模块。
 		   安装前拒绝，避免制造无法安全回滚的记录。 */
 		const missingOwnFiles = plan.creates.filter(action => action.kind === '分包');
@@ -160,7 +185,7 @@ function buildPlan() {
 			let next = text;
 			if (!hasImport) next = next.replace('// @djsc-pack-imports-end', importLine + '\n// @djsc-pack-imports-end');
 			if (!hasEntry) next = next.replace('// @djsc-pack-registry-end', entryLine + '\n// @djsc-pack-registry-end');
-			plan.registry = { mode: 'updated', importLine, entryLine, before, after: Buffer.from(next), installedHash: sha(Buffer.from(next)) };
+			plan.registry = { mode: 'updated', importLine: hasImport ? '' : importLine, entryLine: hasEntry ? '' : entryLine, before, after: Buffer.from(next), installedHash: sha(Buffer.from(next)) };
 		}
 	}
 	return plan;
