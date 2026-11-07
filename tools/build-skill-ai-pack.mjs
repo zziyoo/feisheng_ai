@@ -25,7 +25,7 @@ const useWorktree = args.includes('--worktree-source');
 const selected = option('pack') ? [option('pack')] : (args.includes('--all') ? CODE_PACKS.map(item => item.id) : []);
 if (!selected.length) throw new Error('usage: --pack <id> | --all [--repo <dir>] [--evidence <dir>] [--out <dir>] [--stage-root <dir>] [--git <git>]');
 if (!fs.existsSync(TASK_PATH)) throw new Error(`仓库缺少任务清单：${TASK_PATH}；请用 --repo 指向无名AI仓库根目录`);
-if (selected.some(id => id !== 'shenhua_feng' && id !== 'shenhua_lei' && id !== 'refresh_feng') && !fs.existsSync(EVIDENCE)) throw new Error(`证据目录不存在：${EVIDENCE}；请用 --evidence 指定`);
+if (selected.some(id => id !== 'shenhua_feng' && id !== 'shenhua_lei' && id !== 'refresh_feng' && id !== 'refresh_standard') && !fs.existsSync(EVIDENCE)) throw new Error(`证据目录不存在：${EVIDENCE}；请用 --evidence 指定`);
 
 const git = (params, encoding = 'utf8') => {
 	try {
@@ -249,6 +249,10 @@ function buildPack(config) {
 	const windCandidate = config.id === 'shenhua_feng';
 	const leiCandidate = config.id === 'shenhua_lei';
 	const refreshFengCandidate = config.id === 'refresh_feng';
+	const standardCandidate = config.id === 'refresh_standard';
+	const nativeSkills = ['rezhiheng', 'rerende', 'new_reyiji', 'new_reluoyi', 'new_yijue', 'refanjian', 'new_reqingnang'];
+	const extensionSkills = ['rezhiheng', 'rerende', 'new_yijue', 'refanjian', 'new_reqingnang'];
+	const standardCounts = { registered_characters: 29, registered_skills: 57, batch_skills: 7, native_batch_skills: 7, extension_batch_skills: 5, additional_existing_extension_skills: 1 };
 	const refreshFengCounts = { characters: 8, skills: 17, reviewed_skills: 17, unreviewed_skills: 0, native_modified_skills: 7, extension_wired_skills: 5, runtime_verified_skills: 0 };
 	const leiCounts = { characters: 8, skills: 16, reviewed_skills: 16, unreviewed_skills: 0, native_modified_skills: 4, extension_wired_skills: 3, runtime_verified_skills: 0 };
 	const records = recordsFor(config.id);
@@ -268,13 +272,13 @@ function buildPack(config) {
 	copyRepo(stage, 'score/model/features/dimensionAdapter.js', 'contract/score/model/features/dimensionAdapter.js');
 	copyRepo(stage, 'info.json', 'contract/info.json');
 
-	if (!windCandidate && !leiCandidate && !refreshFengCandidate) {
+	if (!windCandidate && !leiCandidate && !refreshFengCandidate && !standardCandidate) {
 		copyDisk(stage, path.join(REPO, 'tools', 'pack-templates', `${config.id}.test.mjs`), 'tests/test-pack-rules.mjs');
 		copyDisk(stage, path.join(REPO, 'tools', 'pack-templates', 'test-pack-architecture.mjs'), 'tests/test-pack-architecture.mjs');
 		copyDisk(stage, path.join(REPO, 'tools', 'pack-templates', 'run-pack-tests.mjs'), 'tests/run-pack-tests.mjs');
 	}
 	copyDisk(stage, path.join(REPO, 'tools', 'verify.py'), 'verify.py');
-	if (!windCandidate && !leiCandidate && !refreshFengCandidate) {
+	if (!windCandidate && !leiCandidate && !refreshFengCandidate && !standardCandidate) {
 		copyDisk(stage, path.join(REPO, 'tools', 'test-verify-zip.py'), 'tests/test-verify-zip.py');
 		for (const name of ['skill-ai-hp-real-host.mjs', 'skill-ai-host-scenes.mjs', 'trick-real-host-smoke.mjs', 'test-fullgame-settlement.mjs']) copyDisk(stage, path.join(REPO, 'tools', name), `tests/${name}`);
 	}
@@ -293,7 +297,7 @@ function buildPack(config) {
 	write(stage, 'source/score/decision/skills/skillAIPolicyPacks.js', packOnlyRegistry);
 
 	const evidenceNames = [];
-	for (const name of (windCandidate || leiCandidate || refreshFengCandidate) ? [] : config.evidence) {
+	for (const name of (windCandidate || leiCandidate || refreshFengCandidate || standardCandidate) ? [] : config.evidence) {
 		const source = path.join(EVIDENCE, name);
 		if (!fs.existsSync(source)) throw new Error(`missing evidence ${name} for ${config.id}; rerun the scenario or use --evidence`);
 		copyDisk(stage, source, `evidence/${name}`);
@@ -324,8 +328,12 @@ function buildPack(config) {
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/FOURTH-ACCEPTANCE.md', 'ACCEPTANCE.md');
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/fourth-exclusive-host.json', 'docs/fourth-exclusive-host.json');
 	}
+	if (standardCandidate) {
+		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-standard/refresh-standard-native-candidate.patch', 'feisheng-ai-refresh-standard-native-ai.patch');
+		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-standard/VALIDATION-HANDOFF.md', 'docs/VALIDATION-HANDOFF.md');
+	}
 
-	const deliverable = !refreshFengCandidate && !leiCandidate && !windCandidate && !!pack.can_mark_deliverable && ['可交付', '已交付'].includes(pack.delivery_status);
+	const deliverable = !standardCandidate && !refreshFengCandidate && !leiCandidate && !windCandidate && !!pack.can_mark_deliverable && ['可交付', '已交付'].includes(pack.delivery_status);
 	const packJson = {
 		schema_version: '1.0',
 		id: config.id,
@@ -379,6 +387,7 @@ function buildPack(config) {
 	});
 	if (leiCandidate) Object.assign(packJson, { delivery_stage: '待验证候选', complete_delivery: false, pack_status: '已静态审查', delivery_status: '待验证', can_mark_deliverable: false, counts: leiCounts, native_patch: 'feisheng-ai-shenhua-lei-native-ai.patch', all_registered_skills: config.implementedSkills, scenes: [], review_scenes: [] });
 	if (refreshFengCandidate) Object.assign(packJson, { delivery_stage: '待验证候选', complete_delivery: false, pack_status: '已静态审查', delivery_status: '待验证', can_mark_deliverable: false, counts: refreshFengCounts, native_patch: 'feisheng-ai-refresh-feng-native-ai.patch', all_registered_skills: config.implementedSkills, incompatible_packs: ['shenhua_feng'], compatibility_note: '神话风和界风暂不支持同时安装或启用；共享核心已更新，旧核心哈希冲突时安装器拒绝覆盖。', scenes: [], review_scenes: [] });
+	if (standardCandidate) Object.assign(packJson, { delivery_stage: '封包待验收候选', complete_delivery: false, pack_status: '两批专项验收由用户提供', delivery_status: '封包待验收', can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, audited_skills: [], native_patch: 'feisheng-ai-refresh-standard-native-ai.patch', native_skills: nativeSkills, extension_batch_skills: extensionSkills, existing_extension_skills: ['new_retuxi'], all_registered_skills: config.implementedSkills, scenes: [], review_scenes: [], dependencies: [...packJson.dependencies, 'score/decision/utility/utilityPipeline.js (applyOwnedUtility)', 'score/decision/utility/utilityVector.js'], validation_note: '用户提供两批专项验收结论；本封包尚未执行独立验收。' });
 	write(stage, 'pack.json', JSON.stringify(packJson, null, 2) + '\n');
 
 	const checklist = {
@@ -403,6 +412,7 @@ function buildPack(config) {
 	});
 	if (leiCandidate) Object.assign(checklist, { pack_status: '已静态审查', delivery_status: '待验证', can_mark_deliverable: false, counts: leiCounts, records: [], criteria: [] });
 	if (refreshFengCandidate) Object.assign(checklist, { pack_status: '已静态审查', delivery_status: '待验证', can_mark_deliverable: false, counts: refreshFengCounts, records: [], criteria: [] });
+	if (standardCandidate) Object.assign(checklist, { pack_status: '两批专项验收由用户提供', delivery_status: '封包待验收', can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, native_skills: nativeSkills, extension_batch_skills: extensionSkills, existing_extension_skills: ['new_retuxi'], records: [], criteria: [] });
 	write(stage, 'checklist.json', JSON.stringify(checklist, null, 2) + '\n');
 	write(stage, 'checklist.md', windCandidate ? '# 风包候选检查清单\n\n8名武将、11项原生AI修改：曹仁据守；夏侯渊神速；于吉蛊惑；魏延奇谋、狂骨；小乔天香；张角雷击、鬼道、黄天；黄忠烈弓；周泰不屈。红颜为被动关联，不单独修改。宿主场景和安装回滚均待验证。详见 docs/WIND-REVIEW-CANDIDATE.md。\n' : checklistMarkdown(pack, records));
 	write(stage, 'README.md', windCandidate ? `# 神话再临·风 AI 候选（待验证）\n\n8名武将、11项原生AI修改；红颜为被动关联，不单独修改。宿主1.11.7，无名AI 4.4.4；源码提交 ${HEAD}。\n\n原生方案：仅使用根目录 feisheng-ai-shenhua-feng-native-ai.patch，对干净宿主 character/shenhua.js 应用。历史 wind-native.patch 和 0001–0013 不得叠加。\n\n扩展方案：执行 node integration/apply-pack.mjs --extension-root <扩展目录>；回滚使用 node integration/rollback-pack.mjs --extension-root <扩展目录>。先使用 --dry-run 检查。天香新评分仅在原生补丁中，扩展独立安装沿用宿主原始AI；不建议同时接管。\n\n本候选未完成宿主及安装回滚验收，历史结果不能代表本版本。详见 docs/WIND-REVIEW-CANDIDATE.md；manifest.json 含文件SHA256。\n` : readme(pack, config, evidenceNames));
@@ -413,6 +423,10 @@ function buildPack(config) {
 	if (refreshFengCandidate) {
 		write(stage, 'README.md', '# 界限突破·风候选（待验证）\n\n8名武将17技能已静态审查，7项原生候选、5项扩展接线；宿主场景未验证。详见 docs/REVIEW.md。\n\n原生：将根目录累计补丁应用于1.11.7的 character/shenhua.js 和 character/refresh.js。扩展：确保 score/index.js 已接入策略 facade，先运行 node integration/apply-pack.mjs --extension-root <扩展目录> --dry-run；移除 --dry-run 安装，回滚用 integration/rollback-pack.mjs。奇谋仅扩展接管。神话风和界风暂不支持同时安装或启用；本包更新共享核心，旧核心哈希不同则拒绝覆盖。切换步骤及未验证边界见 ACCEPTANCE.md。\n');
 		write(stage, 'checklist.md', '# 界风候选\n\n8名武将17技能已静态审查；7项原生候选、5项扩展接线；宿主场景未验证。\n');
+	}
+	if (standardCandidate) {
+		write(stage, 'README.md', textOf('docs/skill-ai-quality-20261103/refresh-standard/PACK-README.md').replaceAll('{{HEAD}}', HEAD).replaceAll('{{BASELINE}}', BASELINE));
+		write(stage, 'checklist.md', textOf('docs/skill-ai-quality-20261103/refresh-standard/PACK-COVERAGE.md'));
 	}
 	write(stage, 'COMMANDS.md', [
 		'# 本分包测试命令', '',
@@ -446,6 +460,7 @@ function buildPack(config) {
 	].join('\n') + '\n');
 	if (windCandidate || leiCandidate || refreshFengCandidate) write(stage, 'COMMANDS.md', '# 候选包检查\n\n文件完整性：`python verify.py --zip <本包.zip>`。宿主场景与安装回滚尚未验证。\n');
 	if (refreshFengCandidate) write(stage, 'COMMANDS.md', '# 候选包检查\n\n文件完整性：`python verify.py --zip <本包.zip>`。测试范围和神话风互斥限制见 ACCEPTANCE.md；切换分包前退出宿主，完成操作后重启。\n');
+	if (standardCandidate) write(stage, 'COMMANDS.md', '# 标准包集成与验收\n\n安装、回滚、依赖和验证范围见 README.md。文件校验：`python verify.py --zip <本包.zip>`；最终封包验收由独立 Agent 完成。\n');
 
 	const patchPaths = [
 		'score/decision/skills/policyCore.js', 'score/decision/skills/skillAIPolicies.js', 'score/decision/skills/skillAIPolicyPacks.js',
@@ -455,7 +470,7 @@ function buildPack(config) {
 		'tools/pack-templates', 'tools/skill-ai-pack-config.mjs', 'tools/build-skill-ai-pack.mjs',
 		'tools/build-skill-ai-task-list.py',
 	];
-	if (!windCandidate && !leiCandidate && !refreshFengCandidate) write(stage, `patches/pack-code.diff`, git(['diff', `${BASELINE}..${HEAD}`, '--binary', '--', ...patchPaths], null));
+	if (!windCandidate && !leiCandidate && !refreshFengCandidate && !standardCandidate) write(stage, `patches/pack-code.diff`, git(['diff', `${BASELINE}..${HEAD}`, '--binary', '--', ...patchPaths], null));
 	write(stage, 'patches/score-index.diff', git(['diff', `${BASELINE}..${HEAD}`, '--binary', '--', 'score/index.js'], null));
 	write(stage, 'integration/registry-snippet.txt', [
 		`import { pack as ${config.module} } from './packs/${config.module}.js?v=41a';`,
@@ -531,6 +546,7 @@ function buildPack(config) {
 	if (windCandidate) Object.assign(manifest.package, { delivery_stage: '待验证候选', pack_status: '已静态审查', delivery_status: '待验证', complete_delivery: false, can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null });
 	if (leiCandidate) Object.assign(manifest.package, { delivery_stage: '待验证候选', pack_status: '已静态审查', delivery_status: '待验证', complete_delivery: false, can_mark_deliverable: false, counts: leiCounts });
 	if (refreshFengCandidate) Object.assign(manifest.package, { delivery_stage: '待验证候选', pack_status: '已静态审查', delivery_status: '待验证', complete_delivery: false, can_mark_deliverable: false, counts: refreshFengCounts, incompatible_packs: ['shenhua_feng'], compatibility_note: '神话风和界风暂不支持同时安装或启用；共享核心已更新。' });
+	if (standardCandidate) Object.assign(manifest.package, { delivery_stage: '封包待验收候选', pack_status: '两批专项验收由用户提供', delivery_status: '封包待验收', complete_delivery: false, can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, native_skills: nativeSkills, extension_batch_skills: extensionSkills, existing_extension_skills: ['new_retuxi'], native_patch: 'feisheng-ai-refresh-standard-native-ai.patch', validation_note: '用户提供两批专项验收结论；本封包尚未执行独立验收。' });
 	write(stage, 'manifest.json', JSON.stringify(manifest, null, 2) + '\n');
 
 	const zipName = `feisheng-ai-${config.id.replace(/_/g, '-')}.zip`;
@@ -540,6 +556,12 @@ function buildPack(config) {
 	const verifyOut = execFileSync('python', [path.join(stage, 'verify.py'), '--zip', zipPath], { cwd: stage, encoding: 'utf8' });
 	if (!verifyOut.includes('VERIFY PASS')) throw new Error('verify failed for ' + zipPath + '\n' + verifyOut);
 	const zipHash = hashFile(zipPath).sha256;
+	if (standardCandidate) {
+		const nativeName = 'feisheng-ai-refresh-standard-native-ai.patch';
+		const nativeBytes = sourceOf('docs/skill-ai-quality-20261103/refresh-standard/refresh-standard-native-candidate.patch');
+		fs.writeFileSync(path.join(OUT, nativeName), nativeBytes);
+		fs.writeFileSync(path.join(OUT, 'SHA256SUMS.txt'), `${zipHash}  ${zipName}\n${sha(nativeBytes)}  ${nativeName}\n`);
+	}
 	return { pack_id: config.id, zip: zipPath, zip_sha256: zipHash, zip_size: fs.statSync(zipPath).size, files: files.length, evidence: evidenceNames.length, verify: verifyOut.trim().split('\n').slice(-1)[0] };
 }
 
@@ -557,7 +579,7 @@ if (fs.existsSync(deliveryPath)) {
 }
 delivery.packs ||= [];
 for (const result of results) {
-	if (result.pack_id === 'shenhua_feng' || result.pack_id === 'shenhua_lei' || result.pack_id === 'refresh_feng') continue;
+	if (result.pack_id === 'shenhua_feng' || result.pack_id === 'shenhua_lei' || result.pack_id === 'refresh_feng' || result.pack_id === 'refresh_standard') continue;
 	const entry = delivery.packs.find(item => item.pack_id === result.pack_id) || { pack_id: result.pack_id };
 	const pack = taskPacks[result.pack_id];
 	const deliverable = !!pack.can_mark_deliverable && ['可交付', '已交付'].includes(pack.delivery_status);
@@ -575,5 +597,5 @@ for (const result of results) {
 		: (entry.note || '阶段包：仍有登记技能未审查，不可标记完整交付。');
 	if (!delivery.packs.includes(entry)) delivery.packs.push(entry);
 }
-if (results.some(result => result.pack_id !== 'shenhua_feng' && result.pack_id !== 'refresh_feng')) fs.writeFileSync(deliveryPath, JSON.stringify(delivery, null, 2) + '\n');
+if (results.some(result => result.pack_id !== 'shenhua_feng' && result.pack_id !== 'refresh_feng' && result.pack_id !== 'refresh_standard')) fs.writeFileSync(deliveryPath, JSON.stringify(delivery, null, 2) + '\n');
 console.log(JSON.stringify({ head: HEAD, results }, null, 2));

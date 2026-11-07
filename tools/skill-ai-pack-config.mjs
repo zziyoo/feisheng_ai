@@ -5,7 +5,7 @@ export const CODE_PACKS = [
 		id: 'refresh_standard',
 		module: 'refreshStandard',
 		rules: 'refreshStandard',
-		implementedSkills: ['rezhiheng', 'new_retuxi'],
+		implementedSkills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang'],
 		auditedSkills: ['rezhiheng', 'new_retuxi', 'rekurou', 'zhaxiang'],
 		scenes: [
 			'rezhiheng-3hp', 'rezhiheng-4hp',
