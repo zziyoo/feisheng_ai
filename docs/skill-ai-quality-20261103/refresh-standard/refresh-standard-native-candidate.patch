@@ -384,6 +384,15 @@
          }
        },
        threaten: 2
+@@ -15688,7 +15928,7 @@
+     ai: {
+       effect: {
+         target(card, player, target) {
+-          if (player == target || !target.hasFriend()) {
++          if (player == target || !target.countCards("h") || !target.hasFriend()) {
+             return;
+           }
+           var type = get.type(card);
 @@ -16258,7 +16498,7 @@
        ignoreSkill: true,
        skillTagFilter(player, tag, arg) {

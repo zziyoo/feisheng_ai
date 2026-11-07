@@ -8,7 +8,7 @@ export const pack = {
 	id: 'refresh_standard',
 	name: '界限突破·标准',
 	group: 'refresh',
-	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'retieji', 'reganglie'],
+	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'retieji', 'reganglie', 'reqianxun'],
 	statsDefaults: {
 		keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0,
 		retuxiTargetBonus: 0, calls: 0, last: [],
@@ -28,6 +28,7 @@ function install(host, stats) {
 	installJieyin(host);
 	installTieji(host);
 	installGanglie(host);
+	installQianxun(host);
 	for (const [id, evaluate] of [['rezhiheng', exchangePlan], ['rerende', currentGiftPlan]]) {
 		host.addCleanup(registerSkillPlanHint(id, player => {
 			const plan = evaluate(player);
@@ -38,6 +39,16 @@ function install(host, stats) {
 				delta: plan.cards.length ? Math.min(0.75, 0.2 + plan.total / 20) : -0.25 };
 		}));
 	}
+}
+
+function installQianxun(host) {
+	const effect = lib.skill?.reqianxun?.ai?.effect;
+	if (typeof effect?.target !== 'function') return;
+	host.wrap(effect, 'target', 'reqianxun:target', original => function (card, player, target) {
+		try { if (target && target.countCards('h') === 0) return; }
+		catch (_) { /* 无法确认时保留宿主评分 */ }
+		return original.apply(this, arguments);
+	});
 }
 
 function installGanglie(host) {
