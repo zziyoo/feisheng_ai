@@ -453,3 +453,11 @@
            }
            return cards2.length;
          };
+@@ -2232,7 +2232,7 @@
+         const geti = () => {
+           if (cards2.includes(card)) {
+-            cards2.indexOf(card);
++            return cards2.indexOf(card);
+           }
+           return cards2.length;
+         };
