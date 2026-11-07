@@ -8,7 +8,7 @@ export const pack = {
 	id: 'refresh_standard',
 	name: '界限突破·标准',
 	group: 'refresh',
-	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian'],
+	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang'],
 	statsDefaults: {
 		keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0,
 		retuxiTargetBonus: 0, calls: 0, last: [],
@@ -24,6 +24,7 @@ function install(host, stats) {
 	installRetuxi(host, stats);
 	installYijue(host);
 	installFanjian(host);
+	installQingnang(host);
 	for (const [id, evaluate] of [['rezhiheng', exchangePlan], ['rerende', currentGiftPlan]]) {
 		host.addCleanup(registerSkillPlanHint(id, player => {
 			const plan = evaluate(player);
@@ -34,6 +35,21 @@ function install(host, stats) {
 				delta: plan.cards.length ? Math.min(0.75, 0.2 + plan.total / 20) : -0.25 };
 		}));
 	}
+}
+
+function installQingnang(host) {
+	const info = lib.skill?.new_reqingnang;
+	if (typeof info?.check !== 'function') return;
+	host.wrap(info, 'check', 'new_reqingnang:check', original => function (card) {
+		const base = original.apply(this, arguments);
+		try {
+			const player = _status.event?.player;
+			if (!player || get.color(card) !== 'black' || base !== 3 - get.value(card)) return base;
+			const targets = game.countPlayer(current => current.hp < current.maxHp && !current.hasSkill('new_reqingnang_off') && get.recoverEffect(current, player, player) > 0 && get.attitude(player, current) > 2);
+			const red = player.getCards('h').some(other => other !== card && get.color(other, player) === 'red' && lib.filter.cardDiscardable(other, player, 'new_reqingnang'));
+			return targets > 1 && red ? base : 9 - get.value(card);
+		} catch (_) { return base; }
+	});
 }
 
 function installFanjian(host) {

@@ -251,7 +251,20 @@
              return -2;
            }
            return -0.5;
-@@ -14864,6 +15083,8 @@
+@@ -14501,8 +14720,10 @@
+     check(card) {
+       var player = _status.event.player;
+       if (game.countPlayer(function(current) {
+-        return get.recoverEffect(current, player, player) > 0 && get.attitude(player, current) > 2;
+-      }) > 1 && get.color(card) == "black" && player.countCards("h", { color: "red" }) > 0) {
++        return current.hp < current.maxHp && !current.hasSkill("new_reqingnang_off") && get.recoverEffect(current, player, player) > 0 && get.attitude(player, current) > 2;
++      }) > 1 && get.color(card) == "black" && player.getCards("h").some(function(other) {
++        return other !== card && get.color(other, player) === "red" && lib.filter.cardDiscardable(other, player, "new_reqingnang");
++      })) {
+         return 3 - get.value(card);
+       }
+       return 9 - get.value(card);
+@@ -14864,6 +15085,8 @@
      selectCard: [1, Infinity],
      allowChooseAll: true,
      check(card) {
@@ -260,7 +273,7 @@
        let player = _status.event.player;
        if (get.position(card) == "h" && !player.countCards("h", "du") && (player.hp > 2 || !player.countCards("h", (i) => {
          return get.value(i) >= 8;
-@@ -14921,10 +15142,12 @@
+@@ -14921,10 +15144,12 @@
      },
      ai: {
        order(item, player) {
@@ -276,7 +289,7 @@
        },
        result: {
          player: 1
-@@ -15041,6 +15264,8 @@
+@@ -15041,6 +15266,8 @@
      lose: false,
      delay: false,
      check(card) {
@@ -285,7 +298,7 @@
        if (ui.selected.cards.length && ui.selected.cards[0].name == "du") {
          return 0;
        }
-@@ -15101,13 +15326,17 @@
+@@ -15101,13 +15328,17 @@
      ai: {
        fireAttack: true,
        order(skill, player) {
@@ -306,7 +319,7 @@
            if (target.hasSkillTag("nogain")) {
              return 0;
            }
-@@ -15646,7 +15875,13 @@
+@@ -15646,7 +15877,13 @@
        order: 9,
        result: {
          target(player, target) {
