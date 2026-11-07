@@ -8,7 +8,7 @@ export const pack = {
 	id: 'refresh_standard',
 	name: '界限突破·标准',
 	group: 'refresh',
-	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'retieji', 'reganglie', 'reqianxun', 'refankui', 'qingguo', 'jijiu'],
+	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'retieji', 'reganglie', 'reqianxun', 'refankui', 'qingguo', 'jijiu', 'lijian'],
 	statsDefaults: {
 		keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0,
 		retuxiTargetBonus: 0, calls: 0, last: [],
@@ -32,6 +32,7 @@ function install(host, stats) {
 	installFankui(host);
 	installQingguo(host);
 	installJijiu(host);
+	installLijian(host);
 	for (const [id, evaluate] of [['rezhiheng', exchangePlan], ['rerende', currentGiftPlan]]) {
 		host.addCleanup(registerSkillPlanHint(id, player => {
 			const plan = evaluate(player);
@@ -73,6 +74,19 @@ function installJijiu(host) {
 			cards.sort((a, b) => (get.name(a) === 'tao' ? 1 : 2) - (get.name(b) === 'tao' ? 1 : 2));
 			const rank = cards.includes(card) ? cards.indexOf(card) : cards.length;
 			return Math.max(num, [6.5, 4, 3, 2][Math.min(rank, 2)]);
+		} catch (_) { return original.apply(this, arguments); }
+	});
+}
+
+function installLijian(host) {
+	const result = lib.skill?.lijian?.ai?.result;
+	if (typeof result?.target !== 'function') return;
+	host.wrap(result, 'target', 'lijian:target', original => function (player, target) {
+		const first = ui.selected?.targets?.[0];
+		if (!first) return original.apply(this, arguments);
+		try {
+			// 离间的第二个目标是决斗来源，第一目标才是决斗受击者。
+			return get.effect(first, { name: 'juedou' }, target, player);
 		} catch (_) { return original.apply(this, arguments); }
 	});
 }

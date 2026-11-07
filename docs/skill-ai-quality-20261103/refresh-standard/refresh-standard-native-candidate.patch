@@ -461,3 +461,12 @@
            }
            return cards2.length;
          };
+@@ -2437,7 +2437,8 @@
+         target(player, target) {
+           if (ui.selected.targets.length === 0) {
+             return -3;
+           } else {
+-            return get.effect(target, { name: "juedou" }, ui.selected.targets[0], target);
++            return get.effect(ui.selected.targets[0], { name: "juedou" }, target, player);
+           }
+         }
