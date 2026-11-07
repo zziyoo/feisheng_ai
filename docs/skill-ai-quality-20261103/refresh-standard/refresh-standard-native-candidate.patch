@@ -201,7 +201,17 @@
  const characters = {
    re_xushu: {
      sex: "male",
-@@ -13934,7 +14130,18 @@
+@@ -13816,6 +14012,9 @@
+       }).set(
+         "juedou",
+         (() => {
++          if (!game.hasPlayer(current => current != player && current != trigger.player && player.canUse("juedou", current))) {
++            return get.attitude(player, trigger.player) < 0 ? 5 : 1;
++          }
+           if (get.attitude(player, trigger.player) > 0 && game.hasPlayer((current) => {
+             return player.canUse({ name: "juedou" }, current) && current != trigger.player && current != player && get.effect(current, { name: "juedou" }, player, player) > 2;
+           })) {
+@@ -13934,7 +14133,18 @@
            selectCard: [1, event.num],
            prompt: "请选择要分配的卡牌和目标",
            ai1(card) {
@@ -221,7 +231,7 @@
            },
            ai2(target) {
              const player2 = _status.event.player;
-@@ -14091,7 +14298,15 @@
+@@ -14091,7 +14301,15 @@
        }
        event.cards = cardsx;
        const prompt = "是否放弃摸牌" + (cardsx.length ? "，改为获得" + get.translation(cardsx) : "") + "？";
@@ -238,7 +248,7 @@
        if (result.bool) {
          if (cardsx.length) {
            await player.gain(cardsx, "gain2");
-@@ -14263,7 +14478,11 @@
+@@ -14263,7 +14481,11 @@
            if (target.countCards("h") > target.hp + 1 && get.recoverEffect(target) > 0) {
              return 1;
            }
@@ -251,7 +261,7 @@
              return -2;
            }
            return -0.5;
-@@ -14433,7 +14652,7 @@
+@@ -14433,7 +14655,7 @@
              return -1;
            }
            for (var i = 0; i < ui.selected.cards.length; i++) {
@@ -260,7 +270,7 @@
                return -1;
              }
            }
-@@ -14501,8 +14720,10 @@
+@@ -14501,8 +14723,10 @@
      check(card) {
        var player = _status.event.player;
        if (game.countPlayer(function(current) {
@@ -273,7 +283,7 @@
          return 3 - get.value(card);
        }
        return 9 - get.value(card);
-@@ -14713,7 +14934,7 @@
+@@ -14713,7 +14937,7 @@
        if (get.position(card) == "e") {
          var subtype = get.subtype(card);
          if (!game.hasPlayer(function(current) {
@@ -282,7 +292,7 @@
          })) {
            return 0;
          }
-@@ -14722,10 +14943,7 @@
+@@ -14722,10 +14946,7 @@
          }
          return 10 - get.value(card);
        } else {
@@ -294,7 +304,7 @@
            return 0;
          }
          return 8 - get.value(card);
-@@ -14864,6 +15082,8 @@
+@@ -14864,6 +15085,8 @@
      selectCard: [1, Infinity],
      allowChooseAll: true,
      check(card) {
@@ -303,7 +313,7 @@
        let player = _status.event.player;
        if (get.position(card) == "h" && !player.countCards("h", "du") && (player.hp > 2 || !player.countCards("h", (i) => {
          return get.value(i) >= 8;
-@@ -14921,10 +15141,12 @@
+@@ -14921,10 +15144,12 @@
      },
      ai: {
        order(item, player) {
@@ -319,7 +329,7 @@
        },
        result: {
          player: 1
-@@ -15041,6 +15263,8 @@
+@@ -15041,6 +15266,8 @@
      lose: false,
      delay: false,
      check(card) {
@@ -328,7 +338,7 @@
        if (ui.selected.cards.length && ui.selected.cards[0].name == "du") {
          return 0;
        }
-@@ -15101,13 +15325,17 @@
+@@ -15101,13 +15328,17 @@
      ai: {
        fireAttack: true,
        order(skill, player) {
@@ -349,7 +359,7 @@
            if (target.hasSkillTag("nogain")) {
              return 0;
            }
-@@ -15646,7 +15874,13 @@
+@@ -15646,7 +15877,13 @@
        order: 9,
        result: {
          target(player, target) {
