@@ -574,10 +574,16 @@ export function installUseOverride() {
                 trace.candidateAccepted = staged?.state === 'committed';
                 try { if (trace.decisionSummary && typeof window !== 'undefined' && window.__DJSC_DECISION_TRACE === true) {
                     const records = window.__DJSC_DECISION_TRACE_RECORDS ||= [];
+                    const selectedSkill = ev.result?.bool && typeof ev.result.skill === 'string' ? ev.result.skill : null;
+                    const selectedCard = ev.result?.bool && !selectedSkill && ev.result.card ? get.name(ev.result.card, player) : null;
+                    const selectedAction = selectedSkill ? { type: 'skill', id: selectedSkill } : selectedCard ? { type: 'card', id: selectedCard } : null;
+                    const matchesSuggestion = selectedAction ? selectedAction.type === decision.type && selectedAction.id === decision.rule : null;
                     records.push({ ...trace.decisionSummary, transactionId: trace.transactionId || null,
-                        staged: !!trace.staged, accepted: !!trace.candidateAccepted,
-                        selected: !!trace.selected, executed: !!trace.executed,
-                        planActionAccepted: trace.decisionSummary.skillPlan?.length ? !!trace.candidateAccepted : null,
+                        staged: !!trace.staged, accepted: trace.candidateAccepted ? true : null,
+                        transactionState: staged?.state || null, selected: !!trace.selected,
+                        selectedAction, matchesSuggestion, executed: trace.executed ? true : null,
+                        skillSettlementConfirmed: null,
+                        planActionAccepted: trace.decisionSummary.skillPlan?.length && trace.candidateAccepted ? true : null,
                         planMaterialSelection: 'unconfirmed',
                         skillPlanChoice: typeof ev.__djscRefreshPlanAudit === 'function' ? ev.__djscRefreshPlanAudit() : null,
                         finalType: trace.hostAction || null,
