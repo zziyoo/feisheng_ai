@@ -8,7 +8,7 @@ export const pack = {
 	id: 'refresh_standard',
 	name: '界限突破·标准',
 	group: 'refresh',
-	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin'],
+	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'retieji'],
 	statsDefaults: {
 		keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0,
 		retuxiTargetBonus: 0, calls: 0, last: [],
@@ -26,6 +26,7 @@ function install(host, stats) {
 	installFanjian(host);
 	installQingnang(host);
 	installJieyin(host);
+	installTieji(host);
 	for (const [id, evaluate] of [['rezhiheng', exchangePlan], ['rerende', currentGiftPlan]]) {
 		host.addCleanup(registerSkillPlanHint(id, player => {
 			const plan = evaluate(player);
@@ -36,6 +37,17 @@ function install(host, stats) {
 				delta: plan.cards.length ? Math.min(0.75, 0.2 + plan.total / 20) : -0.25 };
 		}));
 	}
+}
+
+function installTieji(host) {
+	const ai = lib.skill?.retieji?.ai;
+	if (typeof ai?.skillTagFilter !== 'function') return;
+	host.wrap(ai, 'skillTagFilter', 'retieji:skillTagFilter', original => function (player, tag, arg) {
+		const base = original.apply(this, arguments);
+		if (tag !== 'directHit_ai' || !base) return base;
+		try { return !!arg?.target && arg.target.countCards('he') === 0; }
+		catch (_) { return false; }
+	});
 }
 
 function installJieyin(host) {

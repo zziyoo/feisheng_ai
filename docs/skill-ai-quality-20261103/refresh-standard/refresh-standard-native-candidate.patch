@@ -374,3 +374,12 @@
          }
        },
        threaten: 2
+@@ -16258,7 +16495,7 @@
+       ignoreSkill: true,
+       skillTagFilter(player, tag, arg) {
+         if (tag == "directHit_ai") {
+-          return arg?.target && get.attitude(player, arg.target) <= 0;
++          return arg?.target && get.attitude(player, arg.target) <= 0 && arg.target.countCards("he") === 0;
+         }
+         if (!arg || arg.isLink || !arg.card || arg.card.name != "sha") {
+           return false;
