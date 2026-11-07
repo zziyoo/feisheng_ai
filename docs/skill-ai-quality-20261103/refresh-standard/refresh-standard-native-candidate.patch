@@ -201,7 +201,27 @@
  const characters = {
    re_xushu: {
      sex: "male",
-@@ -14864,6 +15060,8 @@
+@@ -13934,7 +14130,18 @@
+           selectCard: [1, event.num],
+           prompt: "请选择要分配的卡牌和目标",
+           ai1(card) {
+-            return ui.selected.cards.length ? 0 : 1;
++            if (ui.selected.cards.length) return 0;
++            const player = _status.event.player;
++            const name = get.name(card, player);
++            let benefit = 0;
++            game.countPlayer(function(target) {
++              if (target === player || target.hasSkillTag("nogain")) return;
++              const attitude = get.attitude(player, target);
++              if (attitude <= 0) return;
++              const need = name === "tao" && target.isDamaged() ? 1.5 : 1;
++              benefit = Math.max(benefit, attitude * need);
++            });
++            return benefit - get.value(card, player) * 0.5;
+           },
+           ai2(target) {
+             const player2 = _status.event.player;
+@@ -14864,6 +15071,8 @@
      selectCard: [1, Infinity],
      allowChooseAll: true,
      check(card) {
@@ -210,7 +230,7 @@
        let player = _status.event.player;
        if (get.position(card) == "h" && !player.countCards("h", "du") && (player.hp > 2 || !player.countCards("h", (i) => {
          return get.value(i) >= 8;
-@@ -14921,10 +15119,12 @@
+@@ -14921,10 +15130,12 @@
      },
      ai: {
        order(item, player) {
@@ -226,7 +246,7 @@
        },
        result: {
          player: 1
-@@ -15041,6 +15241,8 @@
+@@ -15041,6 +15252,8 @@
      lose: false,
      delay: false,
      check(card) {
@@ -235,7 +255,7 @@
        if (ui.selected.cards.length && ui.selected.cards[0].name == "du") {
          return 0;
        }
-@@ -15101,13 +15303,17 @@
+@@ -15101,13 +15314,17 @@
      ai: {
        fireAttack: true,
        order(skill, player) {
