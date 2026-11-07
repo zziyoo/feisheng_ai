@@ -87,7 +87,7 @@ export function installScoreEngine() {
 		if (!shouldDisableOverride()) {
 			// 软接管：永远安装（保底层，不破坏本体）
 			installAIOverride();
-			try { installSkillAIPolicies(); } catch (e) { if (typeof window !== 'undefined' && window.__DJSC && window.__DJSC.swallow) window.__DJSC.swallow(e); }
+			try { installSkillAIPolicies(); } catch (e) { console.error('[无名AI] 引擎已加载，但技能策略安装失败：', e); if (typeof window !== 'undefined' && window.__DJSC && window.__DJSC.swallow) window.__DJSC.swallow(e); }
 			// 硬接管：逐层安装（每层独立熔断，自动重试）
 			installOverrideLayers();
 		} else {

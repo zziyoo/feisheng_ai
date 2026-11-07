@@ -136,9 +136,13 @@ export function createPolicyHost() {
 		},
 
 		install(nextPacks) {
-			if (installed) return;
 			const requested = Array.isArray(nextPacks) ? nextPacks : [];
 			const winds = requested.filter(pack => pack && exclusiveWindPacks.has(pack.id));
+			if (winds.length > 1) throw new Error('神话再临·风与界限突破·风的烈弓策略暂不支持同时激活；请只选择其中一个分包。');
+			if (installed) {
+				if (requested.length === packs.length && requested.every((pack, index) => pack === packs[index])) return;
+				throw new Error('技能策略已安装，请先卸载再更换分包配置');
+			}
 			if (winds.length > 1 || (winds.length && lib[windLeaseKey])) {
 				throw new Error('神话再临·风与界限突破·风的烈弓策略暂不支持同时激活；请卸载其中一个分包后重启。');
 			}
@@ -156,7 +160,8 @@ export function createPolicyHost() {
 					const cleanup = pack.install(api, stats);
 					if (typeof cleanup === 'function') cleanups.push(cleanup);
 				} catch (e) {
-					try { console.warn('[无名AI·技能策略] 分包安装失败: ' + pack.id, e); } catch (err) {}
+					api.uninstall();
+					throw new Error('技能策略安装失败：' + pack.id + '：' + (e?.message || e));
 				}
 			}
 		},
