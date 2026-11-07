@@ -251,6 +251,15 @@
              return -2;
            }
            return -0.5;
+@@ -14433,7 +14652,7 @@
+             return -1;
+           }
+           for (var i = 0; i < ui.selected.cards.length; i++) {
+-            if (get.type(ui.selected.cards[i]) == get.type(card) || ui.selected.cards[i].name == "du" && card.name != "du") {
++            if (get.type2(ui.selected.cards[i]) == get.type2(card) || ui.selected.cards[i].name == "du" && card.name != "du") {
+               return -1;
+             }
+           }
 @@ -14501,8 +14720,10 @@
      check(card) {
        var player = _status.event.player;
