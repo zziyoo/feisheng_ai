@@ -221,7 +221,24 @@
            },
            ai2(target) {
              const player2 = _status.event.player;
-@@ -14864,6 +15071,8 @@
+@@ -14091,7 +14298,15 @@
+       }
+       event.cards = cardsx;
+       const prompt = "是否放弃摸牌" + (cardsx.length ? "，改为获得" + get.translation(cardsx) : "") + "？";
+-      const result = await player.chooseBool(prompt).set("choice", cardsx.length >= trigger.num).forResult();
++      const canFollowUp = cardsx.length + 1 === trigger.num && player.getCards("h").concat(cardsx).some(function(card) {
++        const name = get.name(card, player);
++        if (name !== "sha" && name !== "juedou") return false;
++        if (name === "sha" && player.getCardUsable("sha") <= 0) return false;
++        return game.hasPlayer(function(target) {
++          return target !== player && player.canUse(card, target) && get.effect(target, card, player, player) > 0;
++        });
++      });
++      const result = await player.chooseBool(prompt).set("choice", cardsx.length >= trigger.num || canFollowUp).forResult();
+       if (result.bool) {
+         if (cardsx.length) {
+           await player.gain(cardsx, "gain2");
+@@ -14864,6 +15079,8 @@
      selectCard: [1, Infinity],
      allowChooseAll: true,
      check(card) {
@@ -230,7 +247,7 @@
        let player = _status.event.player;
        if (get.position(card) == "h" && !player.countCards("h", "du") && (player.hp > 2 || !player.countCards("h", (i) => {
          return get.value(i) >= 8;
-@@ -14921,10 +15130,12 @@
+@@ -14921,10 +15138,12 @@
      },
      ai: {
        order(item, player) {
@@ -246,7 +263,7 @@
        },
        result: {
          player: 1
-@@ -15041,6 +15252,8 @@
+@@ -15041,6 +15260,8 @@
      lose: false,
      delay: false,
      check(card) {
@@ -255,7 +272,7 @@
        if (ui.selected.cards.length && ui.selected.cards[0].name == "du") {
          return 0;
        }
-@@ -15101,13 +15314,17 @@
+@@ -15101,13 +15322,17 @@
      ai: {
        fireAttack: true,
        order(skill, player) {
