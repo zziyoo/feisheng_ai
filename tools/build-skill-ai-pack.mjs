@@ -261,6 +261,9 @@ function buildPack(config) {
 	for (const name of ['policyCore.js', 'skillAIPolicies.js', 'skillAIPolicyPacks.js', 'skillVetoRegistry.js']) copyRepo(stage, `score/decision/skills/${name}`, `source/score/decision/skills/${name}`);
 	copyRepo(stage, `score/decision/skills/packs/${config.module}.js`, `source/score/decision/skills/packs/${config.module}.js`);
 	copyRepo(stage, `score/decision/skills/rules/${config.rules}.js`, `source/score/decision/skills/rules/${config.rules}.js`);
+	if (config.id === 'refresh_standard') {
+		for (const file of ['skillPlanHints.js', 'rules/boundedSkillUtility.js', 'rules/refreshStandardPlans.js']) copyRepo(stage, `score/decision/skills/${file}`, `source/score/decision/skills/${file}`);
+	}
 	copyRepo(stage, 'score/model/features/features.js', 'contract/score/model/features/features.js');
 	copyRepo(stage, 'score/model/features/dimensionAdapter.js', 'contract/score/model/features/dimensionAdapter.js');
 	copyRepo(stage, 'info.json', 'contract/info.json');
@@ -358,6 +361,7 @@ function buildPack(config) {
 		pack_files: {
 			[`packs/${config.module}.js`]: sha(sourceOf(`score/decision/skills/packs/${config.module}.js`)),
 			[`rules/${config.rules}.js`]: sha(sourceOf(`score/decision/skills/rules/${config.rules}.js`)),
+			...(config.id === 'refresh_standard' ? Object.fromEntries(['skillPlanHints.js', 'rules/boundedSkillUtility.js', 'rules/refreshStandardPlans.js'].map(file => [file, sha(sourceOf(`score/decision/skills/${file}`))])) : {}),
 		},
 		dependencies: ['score/index.js 已接线策略 facade', 'score/foundation/adapt/host.js', 'score/decision/safety/aiOverride.js'],
 		head: HEAD,

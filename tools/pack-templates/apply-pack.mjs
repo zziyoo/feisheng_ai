@@ -104,7 +104,10 @@ function buildPlan() {
 	for (const name of ['policyCore.js', 'skillAIPolicies.js', 'skillVetoRegistry.js']) {
 		planCopy('source/score/decision/skills/' + name, 'score/decision/skills/' + name, pack.shared_files[name], '共享核心');
 	}
-	for (const file of [`packs/${pack.module}.js`, `rules/${pack.rules}.js`]) {
+	for (const file of Object.keys(pack.pack_files || { [`packs/${pack.module}.js`]: null, [`rules/${pack.rules}.js`]: null })) {
+		if (!/^(?:packs|rules)\/[A-Za-z0-9_-]+\.js$/.test(file) && file !== 'skillPlanHints.js') fail('非法分包依赖路径：' + file);
+		if (file === 'skillPlanHints.js' && !exists(rel('score/decision/utility/utilityPipeline.js'))) fail('缺少共享基础依赖：score/decision/utility/utilityPipeline.js');
+		if (file === 'skillPlanHints.js' && !exists(rel('score/decision/skills/skillPlanHints.js')) && exists(rel('score/decision/engine/engine.js')) && read(rel('score/decision/engine/engine.js')).toString('utf8').includes('skillPlanHints.js')) fail('完整引擎依赖 skillPlanHints.js；请先更新完整引擎及其共享模块，避免卸载分包后引擎缺失依赖');
 		const expectedHash = pack.pack_files && pack.pack_files[file];
 		planCopy('source/score/decision/skills/' + file, 'score/decision/skills/' + file, expectedHash, '分包');
 	}
