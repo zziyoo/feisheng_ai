@@ -306,3 +306,18 @@
            if (target.hasSkillTag("nogain")) {
              return 0;
            }
+@@ -15646,7 +15875,13 @@
+       order: 9,
+       result: {
+         target(player, target) {
+-          return -target.countCards("he") - (player.countCards("h", "du") ? 1 : 0);
++          const card = ui.selected.cards[0];
++          if (!card) return -target.countCards("he") - (player.countCards("h", "du") ? 1 : 0);
++          const suit = get.suit(card);
++          const exposed = target.getCards("e").filter(item => get.suit(item) === suit && lib.filter.cardDiscardable(item, target, "refanjian")).length;
++          // 对方可选失去体力；手牌同花色数量未知，仅作保守启发式。
++          const pressure = Math.min(1, exposed * 0.5 + target.countCards("h") * 0.25);
++          return -pressure - (get.name(card, player) === "du" ? 1 : 0);
+         }
+       },
+       threaten: 2

@@ -8,7 +8,7 @@ export const pack = {
 	id: 'refresh_standard',
 	name: '界限突破·标准',
 	group: 'refresh',
-	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue'],
+	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian'],
 	statsDefaults: {
 		keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0,
 		retuxiTargetBonus: 0, calls: 0, last: [],
@@ -23,6 +23,7 @@ function install(host, stats) {
 	installRerende(host);
 	installRetuxi(host, stats);
 	installYijue(host);
+	installFanjian(host);
 	for (const [id, evaluate] of [['rezhiheng', exchangePlan], ['rerende', currentGiftPlan]]) {
 		host.addCleanup(registerSkillPlanHint(id, player => {
 			const plan = evaluate(player);
@@ -33,6 +34,21 @@ function install(host, stats) {
 				delta: plan.cards.length ? Math.min(0.75, 0.2 + plan.total / 20) : -0.25 };
 		}));
 	}
+}
+
+function installFanjian(host) {
+	const result = lib.skill?.refanjian?.ai?.result;
+	if (typeof result?.target !== 'function') return;
+	host.wrap(result, 'target', 'refanjian:target', original => function (player, target) {
+		const card = ui.selected?.cards?.[0];
+		if (!card) return original.apply(this, arguments);
+		try {
+			const suit = get.suit(card);
+			const exposed = target.getCards('e').filter(item => get.suit(item) === suit && lib.filter.cardDiscardable(item, target, 'refanjian')).length;
+			const pressure = Math.min(1, exposed * 0.5 + target.countCards('h') * 0.25);
+			return -pressure - (get.name(card, player) === 'du' ? 1 : 0);
+		} catch (_) { return original.apply(this, arguments); }
+	});
 }
 
 function installYijue(host) {
