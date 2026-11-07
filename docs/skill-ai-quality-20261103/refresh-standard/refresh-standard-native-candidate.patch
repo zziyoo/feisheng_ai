@@ -393,7 +393,15 @@
              return;
            }
            var type = get.type(card);
-@@ -16258,7 +16498,7 @@
+@@ -15752,6 +15992,7 @@
+       const num = trigger.getl(player).hs.length;
+       const result = await player.chooseTarget(get.prompt("relianying"), "令至多" + get.cnNumber(num) + "名角色各摸一张牌", [1, num]).set("ai", function(target) {
+         const player2 = _status.event.player;
++        if (target.hasSkillTag("nogain")) return 0;
+         if (player2 == target) {
+           return get.attitude(player2, target) + 10;
+         }
+@@ -16258,7 +16499,7 @@
        ignoreSkill: true,
        skillTagFilter(player, tag, arg) {
          if (tag == "directHit_ai") {
