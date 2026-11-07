@@ -442,3 +442,14 @@
            }
          }
        }
+
+--- a/character/standard.js
++++ b/character/standard.js
+@@ -1067,7 +1067,7 @@
+         const geti = () => {
+           if (cards2.includes(card)) {
+-            cards2.indexOf(card);
++            return cards2.indexOf(card);
+           }
+           return cards2.length;
+         };

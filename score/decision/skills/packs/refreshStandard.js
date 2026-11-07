@@ -8,7 +8,7 @@ export const pack = {
 	id: 'refresh_standard',
 	name: '界限突破·标准',
 	group: 'refresh',
-	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'retieji', 'reganglie', 'reqianxun', 'refankui'],
+	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin', 'retieji', 'reganglie', 'reqianxun', 'refankui', 'qingguo'],
 	statsDefaults: {
 		keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0,
 		retuxiTargetBonus: 0, calls: 0, last: [],
@@ -30,6 +30,7 @@ function install(host, stats) {
 	installGanglie(host);
 	installQianxun(host);
 	installFankui(host);
+	installQingguo(host);
 	for (const [id, evaluate] of [['rezhiheng', exchangePlan], ['rerende', currentGiftPlan]]) {
 		host.addCleanup(registerSkillPlanHint(id, player => {
 			const plan = evaluate(player);
@@ -40,6 +41,23 @@ function install(host, stats) {
 				delta: plan.cards.length ? Math.min(0.75, 0.2 + plan.total / 20) : -0.25 };
 		}));
 	}
+}
+
+function installQingguo(host) {
+	const mod = lib.skill?.qingguo?.mod;
+	if (typeof mod?.aiValue !== 'function') return;
+	host.wrap(mod, 'aiValue', 'qingguo:aiValue', original => function (player, card, num) {
+		try {
+			const name = get.name(card);
+			const color = get.color(card);
+			if (name !== 'shan' && color !== 'black') return original.apply(this, arguments);
+			const cards = player.getCards('hs', item => get.name(item) === 'shan' || get.color(item) === 'black');
+			cards.sort((a, b) => (get.name(b) === 'shan' ? 1 : 2) - (get.name(a) === 'shan' ? 1 : 2));
+			const rank = cards.includes(card) ? cards.indexOf(card) : cards.length;
+			if (name === 'shan') return Math.min(num, [6, 4, 3][Math.min(rank, 2)]) * 0.6;
+			return Math.max(num, [6.5, 4, 3][Math.min(rank, 2)]);
+		} catch (_) { return original.apply(this, arguments); }
+	});
 }
 
 function installFankui(host) {
