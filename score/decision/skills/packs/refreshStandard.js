@@ -8,7 +8,7 @@ export const pack = {
 	id: 'refresh_standard',
 	name: '界限突破·标准',
 	group: 'refresh',
-	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang'],
+	skills: ['rezhiheng', 'rerende', 'new_retuxi', 'new_yijue', 'refanjian', 'new_reqingnang', 'rejieyin'],
 	statsDefaults: {
 		keptTao: 0, keptShan: 0, skippedExchange: 0, skippedOrder: 0,
 		retuxiTargetBonus: 0, calls: 0, last: [],
@@ -25,6 +25,7 @@ function install(host, stats) {
 	installYijue(host);
 	installFanjian(host);
 	installQingnang(host);
+	installJieyin(host);
 	for (const [id, evaluate] of [['rezhiheng', exchangePlan], ['rerende', currentGiftPlan]]) {
 		host.addCleanup(registerSkillPlanHint(id, player => {
 			const plan = evaluate(player);
@@ -35,6 +36,23 @@ function install(host, stats) {
 				delta: plan.cards.length ? Math.min(0.75, 0.2 + plan.total / 20) : -0.25 };
 		}));
 	}
+}
+
+function installJieyin(host) {
+	const info = lib.skill?.rejieyin;
+	if (typeof info?.check !== 'function') return;
+	host.wrap(info, 'check', 'rejieyin:check', original => function (card) {
+		try {
+			const player = _status.event?.player;
+			if (!player) return original.apply(this, arguments);
+			const eligible = equip => game.hasPlayer(current => current !== player && current.hasSex('male') && get.attitude(player, current) > 0 && !current.countCards('e', { subtype: get.subtype(equip) }) && current.canEquip(equip));
+			if (get.position(card) === 'e') {
+				if (!eligible(card)) return 0;
+				return (player.countCards('h', { subtype: get.subtype(card) }) ? 20 : 10) - get.value(card);
+			}
+			return player.getCards('e').some(eligible) ? 0 : 8 - get.value(card);
+		} catch (_) { return original.apply(this, arguments); }
+	});
 }
 
 function installQingnang(host) {

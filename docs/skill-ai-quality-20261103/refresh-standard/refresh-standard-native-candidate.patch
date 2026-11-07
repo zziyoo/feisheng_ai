@@ -264,7 +264,28 @@
          return 3 - get.value(card);
        }
        return 9 - get.value(card);
-@@ -14864,6 +15085,8 @@
+@@ -14713,7 +14934,7 @@
+       if (get.position(card) == "e") {
+         var subtype = get.subtype(card);
+         if (!game.hasPlayer(function(current) {
+-          return current != player && get.attitude(player, current) > 0 && !current.countCards("e", { subtype });
++          return current != player && current.hasSex("male") && get.attitude(player, current) > 0 && !current.countCards("e", { subtype }) && current.canEquip(card);
+         })) {
+           return 0;
+         }
+@@ -14722,10 +14943,7 @@
+         }
+         return 10 - get.value(card);
+       } else {
+-        if (player.countCards("e")) {
+-          return 0;
+-        }
+-        if (player.countCards("h", { type: "equip" })) {
++        if (player.getCards("e").some(equip => game.hasPlayer(current => current != player && current.hasSex("male") && get.attitude(player, current) > 0 && !current.countCards("e", { subtype: get.subtype(equip) }) && current.canEquip(equip)))) {
+           return 0;
+         }
+         return 8 - get.value(card);
+@@ -14864,6 +15082,8 @@
      selectCard: [1, Infinity],
      allowChooseAll: true,
      check(card) {
@@ -273,7 +294,7 @@
        let player = _status.event.player;
        if (get.position(card) == "h" && !player.countCards("h", "du") && (player.hp > 2 || !player.countCards("h", (i) => {
          return get.value(i) >= 8;
-@@ -14921,10 +15144,12 @@
+@@ -14921,10 +15141,12 @@
      },
      ai: {
        order(item, player) {
@@ -289,7 +310,7 @@
        },
        result: {
          player: 1
-@@ -15041,6 +15266,8 @@
+@@ -15041,6 +15263,8 @@
      lose: false,
      delay: false,
      check(card) {
@@ -298,7 +319,7 @@
        if (ui.selected.cards.length && ui.selected.cards[0].name == "du") {
          return 0;
        }
-@@ -15101,13 +15328,17 @@
+@@ -15101,13 +15325,17 @@
      ai: {
        fireAttack: true,
        order(skill, player) {
@@ -319,7 +340,7 @@
            if (target.hasSkillTag("nogain")) {
              return 0;
            }
-@@ -15646,7 +15877,13 @@
+@@ -15646,7 +15874,13 @@
        order: 9,
        result: {
          target(player, target) {
