@@ -50,7 +50,8 @@ let registryAction = null;
 const EMPTY_REGISTRY = `// @djsc-pack-imports-begin\n// @djsc-pack-imports-end\n\nexport const SKILL_AI_PACKS = [\n\t// @djsc-pack-registry-begin\n\t// @djsc-pack-registry-end\n];\n`;
 
 for (const action of [...created].reverse()) {
-	if (action.kind === '共享核心') continue;
+	/* 兼容旧记录：该模块可能已被完整引擎静态导入，始终保留。 */
+	if (action.kind === '共享核心' || action.target === 'score/decision/skills/skillPlanHints.js') continue;
 	const target = rel(action.target);
 	if (!exists(target)) continue;
 	const current = sha(read(target));

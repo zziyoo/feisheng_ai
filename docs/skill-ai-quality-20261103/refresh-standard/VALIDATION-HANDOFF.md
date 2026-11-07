@@ -3,7 +3,8 @@
 ## 第二批集成补修（全部未验证）
 
 - 默认注册表保留神话风，移除界风默认注册；两包互斥仍由策略核心检查。独立安装界风需要替换注册配置或使用分包安装器，不能同时启用。`installSkillAIPolicies(packs)` 可显式传入分包集合；更换已安装集合前需卸载。分包抛错时核心尝试撤销本次所有包装并向上抛错；`skillAIPolicyStats().installation` 暴露状态与原因，完整引擎记录错误但继续运行。策略核心及 facade 文件哈希已变化，旧分包候选需要迁移或重新协调共享核心；不得覆盖已有文件。
-- 标准包构建清单新增 `skillPlanHints.js`、`rules/boundedSkillUtility.js`、`rules/refreshStandardPlans.js` 的复制和哈希，安装器按清单预检并拒绝已有异版本文件。若完整引擎已经静态依赖 `skillPlanHints.js`，目标缺文件时要求先更新完整引擎，不由可卸载分包临时创建该共享依赖。旧 ZIP 不包含这些修改；本轮没有构建。
+- 安装计划允许本次事务补齐缺失的 `skillPlanHints.js`，拒绝异版本覆盖；引擎已引用但目标和安装计划均未提供时拒绝安装。新记录将其标记为共享核心，普通回滚保留；旧记录中的同一路径也保守保留。失败的未完成安装仍恢复安装前状态。
+- 当前完整引擎静态导入并调用 `applySkillPlanHints`。安装器的 `fullEngineHintWired` 是源码形态识别，不能证明运行时消费；旧引擎未接线时明确提示降级，仅宿主策略可用。完整引擎软建议需另行迁移 import 和候选评分调用。旧 ZIP 不含本次修改，旧共享核心哈希不同时需人工迁移，不覆盖；本轮没有构建。
 - 追踪中 `selectedAction` 仅描述宿主选择事件结果，`matchesSuggestion` 仅比较动作类型及 ID，`accepted=true` 仅在事务确认为 committed 时出现，否则为 null；`executed=true` 只表示既有原生事件和历史证据成立，技能结算单列为未知。`skillPlanChoice.adopted` 仅表示材料/目标与局部方案匹配，不归因于引擎事务。现有事件观察时序及事务可能延迟提交，仍须独立验证。
 - 独立 Agent 请复查：默认启动标准包注册；两风包互斥与各自独立安装；建议杀而宿主选技能时的追踪；制衡、仁德材料目标；构建清单和安装回滚。以上全部未验证。
 
@@ -11,7 +12,7 @@
 
 ## 范围与依赖
 
-- 目标扩展分支 `codex/release-v4.4.4`，上游 `1fe5292`；本次没有修改 `policyCore.js`、134 维特征、权重或其他分包策略。
+- 目标扩展分支 `codex/release-v4.4.4`，上游 `1fe5292`；本轮生命周期补修没有修改 `policyCore.js`、134 维特征、权重或其他分包策略。
 - 源码新增 `score/decision/skills/rules/boundedSkillUtility.js`、`refreshStandardPlans.js` 和 `score/decision/skills/skillPlanHints.js`。完整引擎现在静态导入 `skillPlanHints.js`，安装标准包才注册软建议；历史 ZIP 的复制清单未更新，以后打包时必须包含这些依赖并审查共享核心哈希。
 - `refresh-standard-native-candidate.patch` 基于本地安装副本 `character/refresh.js` 生成，未应用验证。原生补丁内含独立估值函数；独立扩展调用对应模块。两端均对仁德及制衡正向方案的 `ai.order` 加 0.5；扩展完整引擎另有候选软建议，需验证不同阶段不会重复放大。扩展还保留旧的制衡低血保护回退。不要叠加两份评分接管。
 - 本机 `noname` 提交 `4c02f7a0e` 与 `9918b3ca5` 均是作者 ziyoo 的酒次数返还修复提交；当前 `喝酒bug` 分支包含前者。本轮没改酒结算。补丁不触及酒，但其宿主基准来自本地安装副本，须在包含用户修复的目标源码上检查应用性及版本差异。

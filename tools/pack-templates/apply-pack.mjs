@@ -79,6 +79,14 @@ function buildPlan() {
 	}
 
 	const plan = { creates: [], updates: [], skips: [], registry: null };
+	const enginePath = rel('score/decision/engine/engine.js');
+	const engineSource = exists(enginePath) ? read(enginePath).toString('utf8') : '';
+	plan.fullEngineHintWired = /import\s*\{[^}]*\bapplySkillPlanHints\b[^}]*\}\s*from\s*['"][^'"]*skillPlanHints\.js/.test(engineSource) && /\bapplySkillPlanHints\s*\(\s*me\s*,\s*acts\s*\)/.test(engineSource);
+	if (pack.id === 'refresh_standard') {
+		for (const file of ['skillPlanHints.js', 'rules/boundedSkillUtility.js', 'rules/refreshStandardPlans.js']) {
+			if (!pack.pack_files?.[file]) fail('标准包依赖清单缺少文件或哈希：' + file);
+		}
+	}
 	const pendingModules = plannedModules();
 	const planCopy = (sourceRel, targetRel, expectedHash, kind) => {
 		const sourcePath = path.join(BASE, ...sourceRel.split('/'));
@@ -106,11 +114,16 @@ function buildPlan() {
 	}
 	for (const file of Object.keys(pack.pack_files || { [`packs/${pack.module}.js`]: null, [`rules/${pack.rules}.js`]: null })) {
 		if (!/^(?:packs|rules)\/[A-Za-z0-9_-]+\.js$/.test(file) && file !== 'skillPlanHints.js') fail('非法分包依赖路径：' + file);
-		if (file === 'skillPlanHints.js' && !exists(rel('score/decision/utility/utilityPipeline.js'))) fail('缺少共享基础依赖：score/decision/utility/utilityPipeline.js');
-		if (file === 'skillPlanHints.js' && !exists(rel('score/decision/skills/skillPlanHints.js')) && exists(rel('score/decision/engine/engine.js')) && read(rel('score/decision/engine/engine.js')).toString('utf8').includes('skillPlanHints.js')) fail('完整引擎依赖 skillPlanHints.js；请先更新完整引擎及其共享模块，避免卸载分包后引擎缺失依赖');
+		if (file === 'skillPlanHints.js') {
+			const pipeline = rel('score/decision/utility/utilityPipeline.js');
+			if (!exists(pipeline) || !exists(rel('score/decision/utility/utilityVector.js'))) fail('缺少共享基础依赖：utilityPipeline.js 或 utilityVector.js；请先迁移完整引擎');
+			if (!/export\s+function\s+applyOwnedUtility\s*\(/.test(read(pipeline).toString('utf8'))) fail('共享 utilityPipeline.js 未提供 applyOwnedUtility；请先迁移兼容的完整引擎');
+		}
 		const expectedHash = pack.pack_files && pack.pack_files[file];
-		planCopy('source/score/decision/skills/' + file, 'score/decision/skills/' + file, expectedHash, '分包');
+		planCopy('source/score/decision/skills/' + file, 'score/decision/skills/' + file, expectedHash, file === 'skillPlanHints.js' ? '共享核心' : '分包');
 	}
+	const hintTarget = 'score/decision/skills/skillPlanHints.js';
+	if (engineSource.includes('skillPlanHints.js') && !exists(rel(hintTarget)) && !plan.creates.some(item => item.targetRel === hintTarget)) fail('完整引擎依赖 skillPlanHints.js，但目标和本次安装计划均未提供该文件');
 
 	const registryRel = 'score/decision/skills/skillAIPolicyPacks.js';
 	const registryPath = rel(registryRel);
@@ -164,6 +177,8 @@ function summarize(plan) {
 		],
 		skips: plan.skips,
 		registry: plan.registry.mode,
+		fullEngineHintWired: plan.fullEngineHintWired,
+		hintNotice: pack.id === 'refresh_standard' && !plan.fullEngineHintWired ? '未确认完整引擎软建议接线；宿主策略可独立使用，完整引擎需另行迁移接线。' : null,
 	};
 }
 
