@@ -327,7 +327,7 @@ function installLiegong(host, stats) {
 	if (!mod || typeof mod.aiOrder !== 'function') return;
 	host.wrap(mod, 'aiOrder', 'liegong:aiOrder', original => function (player, card, num) {
 		try {
-			if (num > 0 && card && card.name === 'wuzhong' && get.tag(card, 'draw') === 2 && player.getCards('h').includes(card)) {
+			if (num > 0 && card && card.name === 'wuzhong' && get.tag(card, 'draw') === 2 && player.getCardUsable('sha') > 0 && player.getCards('h').includes(card)) {
 				const hand = player.countCards('h');
 				if (player.getCards('h', 'sha').some(sha => game.hasPlayer(target =>
 					target != player && get.attitude(player, target) < 0 && target.countCards('h') === hand && player.canUse(sha, target) && get.effect(target, sha, player, player) > 0
