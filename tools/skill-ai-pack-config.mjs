@@ -180,6 +180,10 @@ export const CODE_PACKS = [
 		rules: 'refreshFeng',
 		implementedSkills: ['reqimou', 'fenji', 'reguhuo', 'oltianxiang', 'xinliegong'],
 		auditedSkills: ['xinshensu', 'shebian', 'xinkuanggu', 'reqimou', 'oltianxiang', 'olhongyan', 'piaoling', 'xinleiji', 'xinguidao', 'xinhuangtian', 'reguhuo', 'xinjushou', 'xinjiewei', 'buqu', 'fenji', 'xinliegong', 'remoshi'],
+		nativeOptimizationSkills: ['xinshensu', 'xinkuanggu', 'oltianxiang', 'reguhuo', 'xinjushou', 'fenji', 'xinliegong', 'piaoling'],
+		extensionOptimizationSkills: ['reqimou', 'fenji', 'reguhuo', 'oltianxiang', 'xinliegong'],
+		newlyFixedSkills: ['piaoling'],
+		unresolvedConfirmedDefects: ['buqu'],
 		scenes: [
 			'hp-reqimou-distance4-hp3', 'hp-reqimou-distance4-hp4-defense',
 			'reqimou-near1-2sha-hp2', 'reqimou-near2-2sha-hp2', 'reqimou-far4-2sha-hp3',
