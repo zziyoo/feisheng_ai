@@ -36,6 +36,7 @@ export function createPolicyHost() {
 	let statsByPack = {};
 	let windLease = null;
 	const windOwners = new Map();
+	const childPacks = new Map();
 	const backups = [];
 	const cleanups = [];
 	let installingPack = null;
@@ -62,6 +63,9 @@ export function createPolicyHost() {
 				throw new Error('共享策略入口冲突或已被外部修改：' + key);
 			}
 			if (!entry) {
+				if (contract === 'xinliegong.aiOrder.draw-unlock.v1' && ['liegong:aiOrder', 'refresh-feng:liegong-order'].includes(owner[key].__djscSkillPolicy)) {
+					throw new Error('检测到旧版烈弓包装残留；请卸载旧包并重启。');
+				}
 				entry = { contract, original: owner[key], owners: new Map(), wrapper: null };
 				const state = entry;
 				entry.wrapper = markWrapper(function (...args) {
@@ -229,8 +233,31 @@ export function createPolicyHost() {
 			}
 		},
 
+		/* Incremental installation owns a separate host so failure cannot tear down
+		 * previously installed packs. Shared entry and lease remain process-wide. */
+		installPack(pack) {
+			if (!installed) throw new Error('请先安装策略宿主，再增量安装分包');
+			if (!pack || typeof pack.id !== 'string' || typeof pack.install !== 'function') throw new Error('无效的分包');
+			const existing = packs.find(item => item && item.id === pack.id);
+			if (existing) {
+				if (existing === pack) return;
+				throw new Error('分包 ID 已由不同实例注册：' + pack.id);
+			}
+			const child = createPolicyHost();
+			child.install([pack]);
+			childPacks.set(pack.id, child);
+			packs.push(pack);
+		},
+
 		uninstallPack(packId) {
 			if (!installed || !packs.some(pack => pack && pack.id === packId)) return;
+			const child = childPacks.get(packId);
+			if (child) {
+				child.uninstall();
+				childPacks.delete(packId);
+				packs = packs.filter(pack => !pack || pack.id !== packId);
+				return;
+			}
 			for (let i = cleanups.length - 1; i >= 0; i--) {
 				if (cleanups[i].packId !== packId) continue;
 				const cleanup = cleanups.splice(i, 1)[0];
@@ -265,6 +292,7 @@ export function createPolicyHost() {
 			const result = { installed };
 			const packStats = {};
 			for (const [packId, stats] of Object.entries(statsByPack)) packStats[packId] = stats;
+			for (const child of childPacks.values()) Object.assign(packStats, child.stats().packs);
 			for (const stats of Object.values(packStats)) {
 				for (const [key, value] of Object.entries(stats)) {
 					if (!(key in result)) result[key] = value;
