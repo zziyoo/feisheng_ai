@@ -146,7 +146,13 @@ function buildPlan() {
 	if (conflictingModule && exists(registryPath)) {
 		const existingRegistry = read(registryPath).toString('utf8');
 		const otherImport = new RegExp(String.raw`import\s*\{\s*pack\s+as\s+[\w$]+\s*\}\s*from\s*['"]\./packs/${conflictingModule}\.js(?:\?[^'"]*)?['"]`);
-		if (otherImport.test(existingRegistry)) fail('神话再临·风与界限突破·风暂不支持同时激活；请先回滚另一分包。');
+		if (otherImport.test(existingRegistry)) {
+			const capability = pack.wind_compatibility;
+			const peerPath = rel('score/decision/skills/packs/' + conflictingModule + '.js');
+			if (!capability || capability.protocol !== 'dual-feng-shared-entry-v1' || capability.peer_module !== conflictingModule || !/^[a-f0-9]{64}$/.test(capability.peer_sha256 || '') || !exists(peerPath) || sha(read(peerPath)) !== capability.peer_sha256) {
+				fail('双风版本或对包源码不匹配；请先回滚旧风包并迁移到同一兼容候选，不会覆盖现有文件。');
+			}
+		}
 	}
 	const importLine = `import { pack as ${pack.module} } from './packs/${pack.module}.js?v=41a';`;
 	/* 条目插在 marker 行前；marker 行自带的缩进就是条目缩进，避免双 tab。 */
