@@ -7,11 +7,17 @@ export { lib, game, ui, get, _status };
  * 分包模块只注册自己的技能 ID；核心不知道任何具体技能名。
  */
 
-/* 临时兼容边界：两份冻结策略会在烈弓入口互相捕获，且当前卸载器
- * 无法解除被其他 host 包裹的内层。必须在任何包装之前拒绝同时激活。
- * 单模块作用域也覆盖同一策略核心创建的多个 host。 */
+/* 旧核心把此 Symbol 当作排他锁；保留该锁以拒绝旧版混装。 */
 const exclusiveWindPacks = new Set(['shenhua_feng', 'refresh_feng']);
 const windLeaseKey = Symbol.for('feisheng.skill-ai.exclusive-wind-lease');
+const windProtocol = 'dual-feng-shared-entry-v1';
+/* Shared across policyCore module instances loaded with different query strings. */
+const sharedEntryKey = Symbol.for('feisheng.skill-ai.shared-entry.v1');
+
+function sharedEntries() {
+	if (!lib[sharedEntryKey]) Object.defineProperty(lib, sharedEntryKey, { value: new WeakMap(), configurable: true });
+	return lib[sharedEntryKey];
+}
 
 function markWrapper(wrapped, tag) {
 	try { wrapped.__djscSkillPolicy = tag; } catch (e) {}
@@ -29,8 +35,10 @@ export function createPolicyHost() {
 	let packs = [];
 	let statsByPack = {};
 	let windLease = null;
+	const windOwners = new Map();
 	const backups = [];
 	const cleanups = [];
+	let installingPack = null;
 
 	const api = {
 		lib, game, get, _status,
@@ -38,6 +46,51 @@ export function createPolicyHost() {
 		statsOf(packId, defaults) {
 			if (!statsByPack[packId]) statsByPack[packId] = cloneStats(defaults);
 			return statsByPack[packId];
+		},
+
+		/* All participants must declare the same semantics. Exactly one handler is
+		 * called; handlers are not chained and their scores are never added. */
+		wrapShared(owner, key, contract, factory) {
+			if (!installingPack || !owner || typeof key !== 'string' || typeof owner[key] !== 'function') {
+				throw new Error('共享策略入口缺少安装所有者或宿主回调');
+			}
+			const entries = sharedEntries();
+			let byKey = entries.get(owner);
+			if (!byKey) { byKey = new Map(); entries.set(owner, byKey); }
+			let entry = byKey.get(key);
+			if (entry && (entry.contract !== contract || owner[key] !== entry.wrapper)) {
+				throw new Error('共享策略入口冲突或已被外部修改：' + key);
+			}
+			if (!entry) {
+				entry = { contract, original: owner[key], owners: new Map(), wrapper: null };
+				const state = entry;
+				entry.wrapper = markWrapper(function (...args) {
+					const first = [...state.owners.entries()].sort((a, b) => a[0].localeCompare(b[0]))[0];
+					return (first ? first[1].handler : state.original).apply(this, args);
+				}, 'shared:' + contract);
+			}
+			if (entry.owners.has(installingPack)) throw new Error('共享策略入口重复注册：' + installingPack + '/' + key);
+			const handler = factory(entry.original);
+			if (typeof handler !== 'function') throw new Error('共享策略入口工厂未返回函数：' + key);
+			if (!byKey.has(key)) {
+				owner[key] = entry.wrapper;
+				if (owner[key] !== entry.wrapper) throw new Error('共享策略入口写入失败：' + key);
+				byKey.set(key, entry);
+			}
+			const packId = installingPack;
+			const token = { handler };
+			entry.owners.set(packId, token);
+			cleanups.push({ packId, fn: () => {
+				if (entry.owners.get(packId) !== token) return;
+				entry.owners.delete(packId);
+				if (entry.owners.size) return;
+				if (owner[key] === entry.wrapper) {
+					owner[key] = entry.original;
+					if (owner[key] === entry.original) byKey.delete(key);
+				}
+				/* An external closure may still reference this now-inert wrapper. */
+			} });
+			return entry.wrapper;
 		},
 
 		wrap(owner, key, tag, factory) {
@@ -56,7 +109,7 @@ export function createPolicyHost() {
 			}
 			markWrapper(wrapped, tag);
 			try { owner[key] = wrapped; } catch (e) { return null; }
-			backups.push({ owner, key, original, wrapped, layer });
+			backups.push({ owner, key, original, wrapped, layer, packId: installingPack });
 			return { owner, key, original, wrapped };
 		},
 
@@ -67,7 +120,7 @@ export function createPolicyHost() {
 		},
 
 		addCleanup(fn) {
-			if (typeof fn === 'function') cleanups.push(fn);
+			if (typeof fn === 'function') cleanups.push({ packId: installingPack, fn });
 		},
 
 		aliveOthers(player) {
@@ -138,17 +191,24 @@ export function createPolicyHost() {
 		install(nextPacks) {
 			const requested = Array.isArray(nextPacks) ? nextPacks : [];
 			const winds = requested.filter(pack => pack && exclusiveWindPacks.has(pack.id));
-			if (winds.length > 1) throw new Error('神话再临·风与界限突破·风的烈弓策略暂不支持同时激活；请只选择其中一个分包。');
 			if (installed) {
 				if (requested.length === packs.length && requested.every((pack, index) => pack === packs[index])) return;
 				throw new Error('技能策略已安装，请先卸载再更换分包配置');
 			}
-			if (winds.length > 1 || (winds.length && lib[windLeaseKey])) {
-				throw new Error('神话再临·风与界限突破·风的烈弓策略暂不支持同时激活；请卸载其中一个分包后重启。');
-			}
 			if (winds.length) {
-				windLease = { pack: winds[0].id };
-				Object.defineProperty(lib, windLeaseKey, { value: windLease, configurable: true });
+				if (new Set(winds.map(pack => pack.id)).size !== winds.length || winds.some(pack => pack.windProtocol !== windProtocol)) {
+					throw new Error('风包版本不支持共享入口，或存在重复分包；请先迁移兼容版本。');
+				}
+				const existing = lib[windLeaseKey];
+				if (existing && (existing.protocol !== windProtocol || !(existing.owners instanceof Map))) throw new Error('已存在不兼容的旧版风包租约；请先卸载旧包并重启。');
+				if (existing && winds.some(pack => existing.owners.has(pack.id))) throw new Error('风包已由其他宿主注册；请先卸载原有实例。');
+				windLease = existing || { protocol: windProtocol, owners: new Map() };
+				if (!existing) Object.defineProperty(lib, windLeaseKey, { value: windLease, configurable: true });
+				for (const pack of winds) {
+					const token = {};
+					windOwners.set(pack.id, token);
+					windLease.owners.set(pack.id, token);
+				}
 			}
 			installed = true;
 			packs = requested;
@@ -157,27 +217,44 @@ export function createPolicyHost() {
 				if (!pack || typeof pack.id !== 'string' || typeof pack.install !== 'function') continue;
 				const stats = api.statsOf(pack.id, pack.statsDefaults);
 				try {
+					installingPack = pack.id;
 					const cleanup = pack.install(api, stats);
-					if (typeof cleanup === 'function') cleanups.push(cleanup);
+					if (typeof cleanup === 'function') cleanups.push({ packId: pack.id, fn: cleanup });
 				} catch (e) {
 					api.uninstall();
 					throw new Error('技能策略安装失败：' + pack.id + '：' + (e?.message || e));
+				} finally {
+					installingPack = null;
 				}
 			}
 		},
 
-		uninstall() {
-			for (const cleanup of cleanups.splice(0).reverse()) {
-				try { cleanup(); } catch (e) {}
+		uninstallPack(packId) {
+			if (!installed || !packs.some(pack => pack && pack.id === packId)) return;
+			for (let i = cleanups.length - 1; i >= 0; i--) {
+				if (cleanups[i].packId !== packId) continue;
+				const cleanup = cleanups.splice(i, 1)[0];
+				try { cleanup.fn(); } catch (e) {}
 			}
-			for (const backup of backups.splice(0).reverse()) {
+			for (let i = backups.length - 1; i >= 0; i--) {
+				if (backups[i].packId !== packId) continue;
+				const backup = backups.splice(i, 1)[0];
 				try {
 					/* 外部闭包仍引用时也停用本包策略，保留外部函数不覆盖。 */
 					if (backup.layer) backup.layer.active = false;
 					if (backup.owner && backup.owner[backup.key] === backup.wrapped) backup.owner[backup.key] = backup.original;
 				} catch (e) {}
 			}
-			if (windLease && lib[windLeaseKey] === windLease) delete lib[windLeaseKey];
+			const token = windOwners.get(packId);
+			if (token && windLease && windLease.owners.get(packId) === token) windLease.owners.delete(packId);
+			windOwners.delete(packId);
+			if (windLease && lib[windLeaseKey] === windLease && windLease.owners.size === 0) delete lib[windLeaseKey];
+			packs = packs.filter(pack => !pack || pack.id !== packId);
+			delete statsByPack[packId];
+		},
+
+		uninstall() {
+			for (const pack of [...packs].reverse()) if (pack && typeof pack.id === 'string') api.uninstallPack(pack.id);
 			windLease = null;
 			installed = false;
 			packs = [];

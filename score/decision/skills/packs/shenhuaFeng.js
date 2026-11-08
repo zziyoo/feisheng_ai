@@ -7,6 +7,7 @@ import {
 
 export const pack = {
 	id: 'shenhua_feng',
+	windProtocol: 'dual-feng-shared-entry-v1',
 	name: '神话再临·风',
 	group: 'shenhua',
 	skills: ['qimou', 'xinkuanggu', 'jushou', 'xinshensu', 'xinfu_guhuo', 'huangtian', 'guidao', 'releiji', 'retianxiang', 'xinliegong', 'gzbuqu'],
@@ -325,7 +326,7 @@ function installReleiji(host, stats) {
 function installLiegong(host, stats) {
 	const mod = lib.skill && lib.skill.xinliegong && lib.skill.xinliegong.mod;
 	if (!mod || typeof mod.aiOrder !== 'function') return;
-	host.wrap(mod, 'aiOrder', 'liegong:aiOrder', original => function (player, card, num) {
+	host.wrapShared(mod, 'aiOrder', 'xinliegong.aiOrder.draw-unlock.v1', original => function (player, card, num) {
 		try {
 			if (num > 0 && card && card.name === 'wuzhong' && get.tag(card, 'draw') === 2 && player.getCardUsable('sha') > 0 && player.getCards('h').includes(card)) {
 				const hand = player.countCards('h');

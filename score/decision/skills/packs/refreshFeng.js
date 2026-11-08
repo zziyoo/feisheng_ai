@@ -3,6 +3,7 @@ import { reqimouNeedsPayment, reqimouOptimalX } from '../rules/refreshFeng.js?v=
 
 export const pack = {
 	id: 'refresh_feng',
+	windProtocol: 'dual-feng-shared-entry-v1',
 	name: '界限突破·风',
 	group: 'refresh',
 	skills: ['reqimou', 'fenji', 'reguhuo', 'oltianxiang', 'xinliegong'],
@@ -96,7 +97,7 @@ function install(host, stats) {
 	/* 无中生有净增手牌恰可改变烈弓的不可响应条件时提高顺序。 */
 	const liegong = lib.skill?.xinliegong?.mod;
 	if (liegong && typeof liegong.aiOrder === 'function') {
-		host.wrap(liegong, 'aiOrder', 'refresh-feng:liegong-order', original => function (player, card, num) {
+		host.wrapShared(liegong, 'aiOrder', 'xinliegong.aiOrder.draw-unlock.v1', original => function (player, card, num) {
 			try {
 				if (num > 0 && card?.name === 'wuzhong' && get.tag(card, 'draw') === 2 && player.getCardUsable('sha') > 0 && player.getCards('h').includes(card)) {
 					const hand = player.countCards('h');
