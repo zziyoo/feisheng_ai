@@ -67,7 +67,6 @@ index 5c6b68c..5046fac 100644
      async content(event, trigger, player) {
        const [target] = event.targets;
 diff --git a/character/refresh.js b/character/refresh.js
-index f46cad1..a0f3638 100644
 --- a/character/refresh.js
 +++ b/character/refresh.js
 @@ -9697,8 +9697,12 @@ const skills = {
@@ -85,7 +84,15 @@ index f46cad1..a0f3638 100644
            }
          }
        }
-@@ -12863,7 +12867,8 @@ const skills = {
+@@ -9737,6 +9741,7 @@ const skills = {
+           const result2 = await player.chooseTarget("飘零：令一名角色获得" + get.translation(card) + "，或点【取消】将其置于牌堆顶").set("ai", function(target) {
+             var player2 = _status.event.player;
++            if (target.hasSkillTag("nogain")) return 0;
+             var att = get.attitude(player2, target);
+             if (player2 == target) {
+               att /= 2;
+             }
+@@ -12863,7 +12868,8 @@ const skills = {
              var cardx = lib.skill.reguhuo_backup.viewAs;
              if (hasEnemy && rand > 0.3) {
                if (card.name == cardx.name && (card.name != "sha" || get.is.sameNature(card, cardx))) {
