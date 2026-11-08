@@ -1,5 +1,4 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 5c6b68c..5046fac 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
 @@ -3242,7 +3242,7 @@ const skills = {
@@ -57,7 +56,23 @@ index 5c6b68c..5046fac 100644
        }).setHiddenSkill(event.skill).forResult();
      },
      async content(event, trigger, player) {
-@@ -8359,7 +8373,7 @@ const skills = {
+@@ -8247,8 +8261,13 @@ const skills = {
+       effect: {
+         target(card, player, target) {
+           if (get.tag(card, "damage") || get.tag(card, "loseHp")) {
+-            let num = target.getExpansions("buqu").length || target.getHp();
+-            return (num + 1) / 5;
++            const rawExpansions = Number(target.getExpansions("buqu").length);
++            const rawHp = Number(target.getHp());
++            const expansions = Number.isFinite(rawExpansions) ? Math.max(0, Math.floor(rawExpansions)) : 0;
++            const hp = Number.isFinite(rawHp) ? Math.max(0, Math.floor(rawHp)) : 0;
++            const num = expansions > 0 ? expansions : hp;
++            // 保守上限避免大量创导致线性高估；不是存活或重复点数概率。
++            return Math.min(0.9, (num + 1) / 5);
+           }
+         }
+       }
+@@ -8359,7 +8378,7 @@ const skills = {
        if (get.attitude(player, target) <= 0) {
          return false;
        }
