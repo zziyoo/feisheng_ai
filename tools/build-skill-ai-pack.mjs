@@ -476,6 +476,7 @@ function buildPack(config) {
 		write(stage, 'README.md', textOf('docs/skill-ai-quality-20261103/refresh-standard/PACK-README.md').replaceAll('{{HEAD}}', HEAD).replaceAll('{{BASELINE}}', BASELINE));
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-standard/PACK-COVERAGE.md', 'checklist.md');
 	}
+	if (windCandidate) fs.appendFileSync(path.join(stage, 'README.md'), '\n双风部署必须二选一：使用匹配新版的双风扩展并保持相关原生 AI 未打补丁，或从干净宿主应用双风组合原生补丁并停用两个风包扩展策略。同技能原生与扩展叠加不受支持；安装器无法自动检测宿主原生补丁，部署者须自行核对。\n');
 	write(stage, 'COMMANDS.md', [
 		'# 本分包测试命令', '',
 		'```bash',
@@ -507,7 +508,7 @@ function buildPack(config) {
 		'集成本包：`node integration/apply-pack.mjs --extension-root <扩展> --dry-run`，确认后再执行；apply 会预检注册表依赖、备份将被修改文件并在失败时恢复。回滚：`node integration/rollback-pack.mjs --extension-root <扩展>`；回滚最后一个包保留空注册表，共享核心不删除。',
 	].join('\n') + '\n');
 	if (windCandidate || leiCandidate || refreshFengCandidate) write(stage, 'COMMANDS.md', '# 候选包检查\n\n文件完整性：`python verify.py --zip <本包.zip>`。宿主场景与安装回滚尚未验证。\n');
-	if (refreshFengCandidate) write(stage, 'COMMANDS.md', '# 候选包检查\n\n文件完整性：`python verify.py --zip <本包.zip>`。双风兼容为待验证候选；旧包须先回滚，迁移前退出宿主，完成操作后重启。\n');
+	if (refreshFengCandidate) write(stage, 'COMMANDS.md', '# 候选包检查\n\n文件完整性：`python verify.py --zip <本包.zip>`。双风兼容为待验证候选；旧包须先回滚，迁移前退出宿主，完成操作后重启。原生补丁与同技能扩展策略不得叠加；安装器无法自动检测宿主原生补丁，部署者须先核对。\n');
 	if (standardCandidate) write(stage, 'COMMANDS.md', '# 标准包集成与验收\n\n安装、回滚、依赖和验证范围见 README.md。文件校验：`python verify.py --zip <本包.zip>`；最终封包验收由独立 Agent 完成。\n');
 
 	const patchPaths = [
