@@ -116,12 +116,20 @@ function buildPlan() {
 			plan.creates.push({ targetRel, sourceRel, bytes: source, hash: actualSourceHash, kind });
 			return;
 		}
-		const actual = sha(read(target));
+		const targetBytes = read(target);
+		const actual = sha(targetBytes);
 		if (actual === actualSourceHash) {
 			plan.skips.push({ targetRel, hash: actual, kind });
 			return;
 		}
-		fail(`${kind} 文件已存在且与包内版本不同：${targetRel}\n  目标SHA256=${actual}\n  包内SHA256=${actualSourceHash}\n  为避免覆盖其他开发者修改，未写入；请使用包内 diff 合并或先回滚冲突文件。`);
+		let eolNotice = '';
+		if (kind === '共享核心' && targetRel.endsWith('.js') && !source.includes(13) && !targetBytes.includes(0) && !source.includes(0) && !(targetBytes[0] === 0xef && targetBytes[1] === 0xbb && targetBytes[2] === 0xbf)) {
+			const normalized = Buffer.from(targetBytes.toString('utf8').replace(/\r\n/g, '\n'), 'utf8');
+			if (targetBytes.includes(13) && !normalized.includes(13) && normalized.equals(source) && Buffer.from(normalized.toString('utf8').replace(/\n/g, '\r\n'), 'utf8').equals(targetBytes)) {
+				eolNotice = '\n  检测到完整 CRLF 检出与 LF 包字节仅在行尾上对应；这不证明模板字符串语义等价，仍拒绝覆盖。请退出宿主并备份目标与安装记录，核对所有共享文件使用者；仅在全部使用者已安全回滚且可恢复原字节时，迁移到与包完全一致的 LF 共享核心后重试。';
+			}
+		}
+		fail(`${kind} 文件已存在且与包内版本不同：${targetRel}\n  目标SHA256=${actual}\n  包内SHA256=${actualSourceHash}${eolNotice}\n  为避免覆盖其他开发者修改，未写入；请使用包内 diff 合并或先回滚冲突文件。`);
 	};
 
 	for (const name of ['policyCore.js', 'skillAIPolicies.js', 'skillVetoRegistry.js']) {
