@@ -55,7 +55,7 @@ diff --git a/character/shenhua.js b/character/shenhua.js
    xinliegong: {
      mod: {
        aiOrder(player, card, num) {
-+        if (num > 0 && card.name === "wuzhong" && get.tag(card, "draw") === 2 && player.getCardUsable("sha") > 0 && player.getCards("h").includes(card)) {
++        if (num > 0 && card.name === "wuzhong" && get.tag(card, "draw") === 2 && (() => { try { return player.getCardUsable("sha") > 0; } catch (e) { return false; } })() && player.getCards("h").includes(card)) {
 +          const hand = player.countCards("h");
 +          if (player.getCards("h", "sha").some((sha) => game.hasPlayer((target) =>
 +            target != player && get.attitude(player, target) < 0 && target.countCards("h") === hand && player.canUse(sha, target) && get.effect(target, sha, player, player) > 0
