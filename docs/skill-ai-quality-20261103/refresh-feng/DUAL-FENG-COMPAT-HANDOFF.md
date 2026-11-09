@@ -2,6 +2,14 @@
 
 基线 `3fefae2581c168dc753ebabe003c1658911b7b7c`；开发分支 `codex/dual-feng-compat`。新版共享入口已有独立专项验收；原生组合补丁已提交为源码候选，尚待独立应用及宿主验收。旧包仍互斥，本次未执行验证。
 
+## 最新定向补修（替代以下历史状态）
+
+天香 `retianxiang.content` 的 `chooseControlList` AI 回调按独立试验 `fixB-experiment.diff` 原样使用父事件、`cards[0]` 和触发来源；不增事件字段，选项和结算不变。试验六场景通过不等于正式补丁通过：当父事件或 `aiOptions` 及其结果异常时，目前没有完整回退护栏，须独立验收并视结果定向修复。烈弓只为 `getCardUsable('sha')` 查询增加 try/catch，异常回退原 `+6` 路径；0、负数和 NaN 不满足 `>0`，Infinity 可用。其他异常不被此护栏吞掉。
+
+两条部署路线互斥：扩展双风路线要求未对对应宿主入口应用原生优化；组合原生路线要求干净 1.11.7 且停用双风扩展策略。安装器只能检查扩展目录，无法可靠辨别用户宿主原生补丁或第三方修改，因此不能自动阻止混用；部署者须核对源码和记录并保留备份。旧版回滚后才迁移匹配新版，严格共享核心哈希保护保留。Windows CRLF Gate 6 未见正式结果，仍待独立验收。
+
+独立 Agent 从正式 Git blob 检查补丁 hunk、应用、语法；复现天香六场景与 fixB 的评分、选择及结算，并检查无来源和缺失上下文；复验烈弓 0、1、多次、Infinity、NaN 和抛错。再查狂骨、神速、不屈、飘零与历史技能，双扩展安装卸载和标准包、旧包拒绝及 Windows LF/CRLF 安全迁移。历史记录不等于当前提交通过。
+
 ## 双风原生组合候选（本轮）
 
 `dual-feng-native-candidate.patch` 以两份单包候选共同的 1.11.7 preimage 为基准整理，仅供从干净宿主一次应用；不覆盖原单包补丁，也不支持对已打单包补丁的宿主直接叠加。补丁覆盖 `qimou`、`xinkuanggu`、`xinliegong`、`releiji`、`xinshensu`/`shensu1`、`jushou`、`retianxiang`、`gzbuqu`、`guidao`、`huangtian`、`xinfu_guhuo`、`xinjushou`、`buqu`、`fenji`、`oltianxiang`、`piaoling`、`reguhuo`；具体子入口以补丁为准。
