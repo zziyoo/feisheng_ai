@@ -197,7 +197,7 @@ export function createPolicyHost() {
 			const winds = requested.filter(pack => pack && exclusiveWindPacks.has(pack.id));
 			if (installed) {
 				if (requested.length === packs.length && requested.every((pack, index) => pack === packs[index])) return;
-				throw new Error('技能策略已安装，请先卸载再更换分包配置');
+				throw new Error('全量安装要求空宿主；请先全部卸载，或使用 installSkillAIPolicyPack 增量安装。');
 			}
 			if (winds.length) {
 				if (new Set(winds.map(pack => pack.id)).size !== winds.length || winds.some(pack => pack.windProtocol !== windProtocol)) {

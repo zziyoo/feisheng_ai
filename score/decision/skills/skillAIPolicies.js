@@ -9,7 +9,7 @@ export function installSkillAIPolicies(packs = SKILL_AI_PACKS) {
 		policyHost.install(packs);
 		installStatus = { state: 'installed', reason: null };
 	} catch (error) {
-		installStatus = { state: 'failed', reason: String(error?.message || error) };
+		installStatus = { state: policyHost.stats().installed ? 'installed' : 'failed', reason: String(error?.message || error) };
 		throw error;
 	}
 }
@@ -25,7 +25,14 @@ export function uninstallSkillAIPolicyPack(packId) {
 }
 
 export function installSkillAIPolicyPack(pack) {
-	policyHost.installPack(pack);
+	try {
+		if (policyHost.stats().installed) policyHost.installPack(pack);
+		else policyHost.install([pack]);
+		installStatus = { state: 'installed', reason: null };
+	} catch (error) {
+		installStatus = { state: policyHost.stats().installed ? 'installed' : 'failed', reason: String(error?.message || error) };
+		throw error;
+	}
 }
 
 export function skillAIPolicyStats() {
