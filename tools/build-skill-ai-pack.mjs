@@ -435,6 +435,19 @@ function buildPack(config) {
 	if (refreshFengCandidate) Object.assign(packJson, { delivery_stage: '待验证候选', complete_delivery: false, pack_status: '全量静态审查；不屈修复待正式复验', delivery_status: '待验证', can_mark_deliverable: false, counts: refreshFengCounts, audited_skills: config.auditedSkills, native_skills: nativeSkills, extension_skills: extensionSkills, native_only_skills: nativeOnlySkills, unresolved_skills: unresolvedConfirmedDefects, pending_verification_skills: pendingVerificationSkills, audit_report: 'docs/FULL-SKILL-AUDIT.md', acceptance_handoff: 'docs/FULL-SKILL-ACCEPTANCE-HANDOFF.md', native_patch: 'feisheng-ai-refresh-feng-native-ai.patch', all_registered_skills: config.implementedSkills, incompatible_packs: [], compatibility_note: '双风共享入口为待验证候选；仅相同共享核心和精确匹配的新版对包可安装，旧版须先回滚并迁移。', scenes: [], review_scenes: [] });
 	if (standardCandidate) Object.assign(packJson, { delivery_stage: '全量源码审查完成·待最终验收', complete_delivery: false, pack_status: '全量静态审查完成；本轮3项AI修复待验收', delivery_status: '封包待验收', can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, audited_skills: config.auditedSkills, historical_optimization_skills: historicalSkills, newly_fixed_skills: newlyFixedSkills, reviewed_no_change_skills: reviewedNoChangeSkills, not_applicable_skills: notApplicableSkills, native_skills: nativeSkills, extension_optimization_skills: extensionSkills, native_only_optimization_skills: nativeOnlySkills, existing_extension_skills: existingExtensionSkills, current_round_verified_skills: runtimeVerifiedSkills, all_registered_skills: config.implementedSkills, scenes: [], review_scenes: [], dependencies: [...packJson.dependencies, 'score/decision/utility/utilityPipeline.js (applyOwnedUtility)', 'score/decision/utility/utilityVector.js'], audit_report: 'docs/FULL-SKILL-AUDIT.md', acceptance_handoff: 'docs/FULL-SKILL-ACCEPTANCE-HANDOFF.md', native_patch: 'feisheng-ai-refresh-standard-native-ai.patch', validation_note: '前四批17项为历史专项验收基线；本轮新增3项源码修复尚未执行验证；完整封包、安装与回滚由独立Agent验收。' });
 	if (refreshFengCandidate) packJson.pending_verification_scope = '仅列本轮新增修复；飘零及历史PARTIAL待验收内容见交接文档';
+	const dualStatus = {
+		baseline_acceptance: { head: 'fcc9eb2581e9470e228dea112add930fa0be0e07', status: 'PASS', scope: '历史双风独立交付验收；不自动代表当前候选通过' },
+		delivery_stage: '最终候选', pack_status: '历史基线已验收；本候选待验收', delivery_status: '本候选待验收',
+		complete_delivery: false, can_mark_deliverable: false, external_integration_receipt: 'pending',
+		external_integration_note: '尚未取得外部集成回执，未发布',
+	};
+	const applyDualStatus = obj => {
+		Object.assign(obj, dualStatus);
+		delete obj.pending_verification_scope;
+		delete obj.pending_verification_skills;
+		if (obj.counts) { delete obj.counts.current_fix_pending_verification_skills; delete obj.counts.current_round_runtime_verified_skills; }
+	};
+	if (windCandidate || refreshFengCandidate) applyDualStatus(packJson);
 	write(stage, 'pack.json', JSON.stringify(packJson, null, 2) + '\n');
 
 	const checklist = {
@@ -461,6 +474,7 @@ function buildPack(config) {
 	if (refreshFengCandidate) Object.assign(checklist, { pack_status: '全量静态审查；不屈修复待正式复验', delivery_status: '待验证', can_mark_deliverable: false, counts: refreshFengCounts, audited_skills: config.auditedSkills, native_skills: nativeSkills, extension_skills: extensionSkills, unresolved_skills: unresolvedConfirmedDefects, pending_verification_skills: pendingVerificationSkills, records: [], criteria: [] });
 	if (standardCandidate) Object.assign(checklist, { pack_status: '全量静态审查完成；本轮3项AI修复待验收', delivery_status: '封包待验收', can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, audited_skills: config.auditedSkills, historical_optimization_skills: historicalSkills, newly_fixed_skills: newlyFixedSkills, reviewed_no_change_skills: reviewedNoChangeSkills, not_applicable_skills: notApplicableSkills, native_skills: nativeSkills, extension_optimization_skills: extensionSkills, native_only_optimization_skills: nativeOnlySkills, existing_extension_skills: existingExtensionSkills, records: [], criteria: [] });
 	if (refreshFengCandidate) checklist.pending_verification_scope = '仅列本轮新增修复；飘零及历史PARTIAL待验收内容见交接文档';
+	if (windCandidate || refreshFengCandidate) applyDualStatus(checklist);
 	write(stage, 'checklist.json', JSON.stringify(checklist, null, 2) + '\n');
 	write(stage, 'checklist.md', windCandidate ? '# 风包候选检查清单\n\n8名武将、11项原生AI修改：曹仁据守；夏侯渊神速；于吉蛊惑；魏延奇谋、狂骨；小乔天香；张角雷击、鬼道、黄天；黄忠烈弓；周泰不屈。红颜为被动关联，不单独修改。宿主场景和安装回滚均待验证。详见 docs/WIND-REVIEW-CANDIDATE.md。\n' : checklistMarkdown(pack, records));
 	write(stage, 'README.md', windCandidate ? `# 神话再临·风 AI 候选（待验证）\n\n8名武将、11项原生AI修改；红颜为被动关联，不单独修改。宿主1.11.7，无名AI 4.4.4；源码提交 ${HEAD}。\n\n原生方案：仅使用根目录 feisheng-ai-shenhua-feng-native-ai.patch，对干净宿主 character/shenhua.js 应用。历史 wind-native.patch 和 0001–0013 不得叠加。\n\n扩展方案：执行 node integration/apply-pack.mjs --extension-root <扩展目录>；回滚使用 node integration/rollback-pack.mjs --extension-root <扩展目录>。先使用 --dry-run 检查。天香新评分仅在原生补丁中，扩展独立安装沿用宿主原始AI；不建议同时接管。\n\n本候选未完成宿主及安装回滚验收，历史结果不能代表本版本。详见 docs/WIND-REVIEW-CANDIDATE.md；manifest.json 含文件SHA256。\n` : readme(pack, config, evidenceNames));
@@ -510,6 +524,14 @@ function buildPack(config) {
 	if (windCandidate || leiCandidate || refreshFengCandidate) write(stage, 'COMMANDS.md', '# 候选包检查\n\n文件完整性：`python verify.py --zip <本包.zip>`。宿主场景与安装回滚尚未验证。\n');
 	if (refreshFengCandidate) write(stage, 'COMMANDS.md', '# 候选包检查\n\n文件完整性：`python verify.py --zip <本包.zip>`。双风兼容为待验证候选；旧包须先回滚，迁移前退出宿主，完成操作后重启。原生补丁与同技能扩展策略不得叠加；安装器无法自动检测宿主原生补丁，部署者须先核对。\n');
 	if (standardCandidate) write(stage, 'COMMANDS.md', '# 标准包集成与验收\n\n安装、回滚、依赖和验证范围见 README.md。文件校验：`python verify.py --zip <本包.zip>`；最终封包验收由独立 Agent 完成。\n');
+
+	if (windCandidate || refreshFengCandidate) {
+		const status = `历史基线 fcc9eb2 已通过独立交付验收；本候选待验收（源码 HEAD：${HEAD}）。外部集成回执 pending，尚未发布。历史报告适用于对应历史版本，不能代替本包验收。`;
+		write(stage, 'README.md', `# 双风兼容分包最终候选\n\n${status}\n\n宿主 1.11.7。原生组合补丁与双风扩展只能二选一，禁止叠加；安装器不能自动识别宿主原生补丁，安装前须人工核对。旧版先退出宿主并备份，按旧包记录回滚；共享核心或对包冲突须核对所有使用者并安全迁移，不可强制覆盖。详见交付目录 UPGRADE.md。\n`);
+		write(stage, 'checklist.md', `# 双风候选检查\n\n${status}\n\n运行 verify.py 检查包完整性，按交付说明复核安装、回滚和部署边界。历史技能审查见 docs/。\n`);
+		write(stage, 'ACCEPTANCE.md', `# 双风验收状态\n\n${status}\n`);
+		write(stage, 'COMMANDS.md', `# 双风候选命令\n\n${status}\n\n校验：python verify.py --zip <本包.zip>。先用 node integration/apply-pack.mjs --extension-root <扩展目录> --dry-run 检查；安装去掉 --dry-run，回滚使用 integration/rollback-pack.mjs。详见交付目录 UPGRADE.md。\n`);
+	}
 
 	const patchPaths = [
 		'score/decision/skills/policyCore.js', 'score/decision/skills/skillAIPolicies.js', 'score/decision/skills/skillAIPolicyPacks.js',
@@ -597,6 +619,7 @@ function buildPack(config) {
 	if (refreshFengCandidate) Object.assign(manifest.package, { delivery_stage: '待验证候选', pack_status: '全量静态审查；不屈修复待正式复验', delivery_status: '待验证', complete_delivery: false, can_mark_deliverable: false, counts: refreshFengCounts, audited_skills: config.auditedSkills, native_skills: nativeSkills, extension_skills: extensionSkills, native_only_skills: nativeOnlySkills, unresolved_skills: unresolvedConfirmedDefects, pending_verification_skills: pendingVerificationSkills, incompatible_packs: [], compatibility_note: '双风共享入口待验证；仅精确匹配的新版对包和共享核心可共同安装。' });
 	if (standardCandidate) Object.assign(manifest.package, { delivery_stage: '全量源码审查完成·待最终验收', pack_status: '全量静态审查完成；本轮3项AI修复待验收', delivery_status: '封包待验收', complete_delivery: false, can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, audited_skills: config.auditedSkills, historical_optimization_skills: historicalSkills, newly_fixed_skills: newlyFixedSkills, reviewed_no_change_skills: reviewedNoChangeSkills, not_applicable_skills: notApplicableSkills, native_skills: nativeSkills, extension_optimization_skills: extensionSkills, native_only_optimization_skills: nativeOnlySkills, existing_extension_skills: existingExtensionSkills, native_patch: 'feisheng-ai-refresh-standard-native-ai.patch', audit_report: 'docs/FULL-SKILL-AUDIT.md', acceptance_handoff: 'docs/FULL-SKILL-ACCEPTANCE-HANDOFF.md', validation_note: '前四批17项为历史专项验收基线；本轮新增3项源码修复及全量归档尚待独立验收。' });
 	if (refreshFengCandidate) manifest.package.pending_verification_scope = '仅列本轮新增修复；飘零及历史PARTIAL待验收内容见交接文档';
+	if (windCandidate || refreshFengCandidate) applyDualStatus(manifest.package);
 	write(stage, 'manifest.json', JSON.stringify(manifest, null, 2) + '\n');
 
 	const zipName = `feisheng-ai-${config.id.replace(/_/g, '-')}.zip`;
