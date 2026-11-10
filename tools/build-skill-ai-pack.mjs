@@ -437,7 +437,7 @@ function buildPack(config) {
 	if (refreshFengCandidate) packJson.pending_verification_scope = '仅列本轮新增修复；飘零及历史PARTIAL待验收内容见交接文档';
 	const dualStatus = {
 		baseline_acceptance: { head: 'fcc9eb2581e9470e228dea112add930fa0be0e07', status: 'PASS', scope: '历史双风独立交付验收；不自动代表当前候选通过' },
-		delivery_stage: '最终候选', pack_status: '历史基线已验收；本候选待验收', delivery_status: '本候选待验收',
+		delivery_stage: '最终候选', pack_status: '历史基线已验收；本候选验收结果见交付报告', delivery_status: '本候选验收结果见交付报告',
 		complete_delivery: false, can_mark_deliverable: false, external_integration_receipt: 'pending',
 		external_integration_note: '尚未取得外部集成回执，未发布',
 	};
@@ -526,7 +526,7 @@ function buildPack(config) {
 	if (standardCandidate) write(stage, 'COMMANDS.md', '# 标准包集成与验收\n\n安装、回滚、依赖和验证范围见 README.md。文件校验：`python verify.py --zip <本包.zip>`；最终封包验收由独立 Agent 完成。\n');
 
 	if (windCandidate || refreshFengCandidate) {
-		const status = `历史基线 fcc9eb2 已通过独立交付验收；本候选待验收（源码 HEAD：${HEAD}）。外部集成回执 pending，尚未发布。历史报告适用于对应历史版本，不能代替本包验收。`;
+		const status = `历史基线 fcc9eb2 已通过独立交付验收；本候选验收结果见交付报告（源码 HEAD：${HEAD}）。外部集成回执 pending，尚未发布。历史报告适用于对应历史版本，不能代替本包验收。`;
 		write(stage, 'README.md', `# 双风兼容分包最终候选\n\n${status}\n\n宿主 1.11.7。原生组合补丁与双风扩展只能二选一，禁止叠加；安装器不能自动识别宿主原生补丁，安装前须人工核对。旧版先退出宿主并备份，按旧包记录回滚；共享核心或对包冲突须核对所有使用者并安全迁移，不可强制覆盖。详见交付目录 UPGRADE.md。\n`);
 		write(stage, 'checklist.md', `# 双风候选检查\n\n${status}\n\n运行 verify.py 检查包完整性，按交付说明复核安装、回滚和部署边界。历史技能审查见 docs/。\n`);
 		write(stage, 'ACCEPTANCE.md', `# 双风验收状态\n\n${status}\n`);
