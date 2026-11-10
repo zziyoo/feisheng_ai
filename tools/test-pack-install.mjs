@@ -116,6 +116,17 @@ check('安装 A：创建文件与带 marker 的注册表', () => {
 	assert(fs.existsSync(path.join(root, '.djsc-pack-backups', 'A', 'record.json')));
 });
 
+check('CRLF 注册表安装及回滚保留原始行尾', () => {
+	const root = makeTarget();
+	const before = '// @djsc-pack-imports-begin\r\n// @djsc-pack-imports-end\r\n\r\nexport const SKILL_AI_PACKS = [\r\n\t// @djsc-pack-registry-begin\r\n\t// @djsc-pack-registry-end\r\n];\r\n';
+	write(registryPath(root), before);
+	assert.equal(apply(pkgA, root).status, 0);
+	const installed = readRegistry(root);
+	assert(!/(?<!\r)\n/.test(installed), '不应引入 LF 行');
+	assert.equal(rollback(pkgA, root).status, 0);
+	assert.equal(readRegistry(root), before);
+});
+
 check('重复安装 A：幂等，不重复追加注册行', () => {
 	const root = makeTarget();
 	assert.equal(apply(pkgA, root).status, 0);

@@ -197,8 +197,9 @@ function buildPlan() {
 			const hasMarkers = text.includes('// @djsc-pack-imports-end') && text.includes('// @djsc-pack-registry-end');
 			if (!hasMarkers) fail('目标注册表存在但没有 @djsc-pack-* marker；请用包内 patches/registry.diff 合并，不会覆盖现文件');
 			let next = text;
-			if (!hasImport) next = next.replace('// @djsc-pack-imports-end', importLine + '\n// @djsc-pack-imports-end');
-			if (!hasEntry) next = next.replace('// @djsc-pack-registry-end', entryLine + '\n// @djsc-pack-registry-end');
+			const eol = text.includes('\r\n') && !/(?<!\r)\n/.test(text) ? '\r\n' : '\n';
+			if (!hasImport) next = next.replace('// @djsc-pack-imports-end', importLine + eol + '// @djsc-pack-imports-end');
+			if (!hasEntry) next = next.replace('// @djsc-pack-registry-end', entryLine + eol + '// @djsc-pack-registry-end');
 			plan.registry = { mode: 'updated', importLine: hasImport ? '' : importLine, entryLine: hasEntry ? '' : entryLine, before, after: Buffer.from(next), installedHash: sha(Buffer.from(next)) };
 		}
 	}
