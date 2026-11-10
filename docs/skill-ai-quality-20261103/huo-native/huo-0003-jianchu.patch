@@ -1,5 +1,4 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
-index 179a1b6..29882dc 100644
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
 @@ -3305,7 +3305,14 @@ const skills = {
@@ -11,7 +10,7 @@ index 179a1b6..29882dc 100644
 +      if (get.attitude(player, target) > 0) {
 +        return false;
 +      }
-+      if (target.countCards("e") > 0 || target.countCards("h") <= 1) {
++      if (target.countDiscardableCards(player, "e") > 0 || target.countCards("h") <= 1) {
 +        return true;
 +      }
 +      return target.hp <= 1 && !(target.hujia > 0);
