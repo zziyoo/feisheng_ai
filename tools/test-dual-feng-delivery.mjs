@@ -14,12 +14,12 @@ try {
       const meta = name === 'manifest.json' ? file.package : file;
       assert.equal(meta.baseline_acceptance.head, 'fcc9eb2581e9470e228dea112add930fa0be0e07');
       assert.equal(meta.baseline_acceptance.status, 'PASS');
-      assert.equal(meta.delivery_status, '本候选验收结果见交付报告');
+      assert.equal(meta.delivery_status, '候选待验收');
       assert.equal(meta.external_integration_receipt, 'pending');
     }
     for (const name of ['README.md', 'checklist.md', 'ACCEPTANCE.md', 'COMMANDS.md']) {
       const text = fs.readFileSync(path.join(stage, name), 'utf8');
-      assert(text.includes('fcc9eb2') && text.includes('本候选验收结果见交付报告'), `${id}/${name}`);
+      assert(text.includes('fcc9eb2') && text.includes('候选待验收'), `${id}/${name}`);
     }
     console.log('PASS ' + id);
   }

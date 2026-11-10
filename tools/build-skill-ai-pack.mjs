@@ -36,6 +36,7 @@ if (dirty && !useWorktree) throw new Error('工作区不干净；请先提交，
 const sourceOf = repoPath => useWorktree ? fs.readFileSync(path.join(REPO, repoPath)) : git(['show', `${HEAD}:${repoPath}`], null);
 const sha = data => crypto.createHash('sha256').update(data).digest('hex');
 const textOf = repoPath => sourceOf(repoPath).toString('utf8');
+const { evaluateDualAcceptance } = await import('data:text/javascript;base64,' + sourceOf('tools/dual-feng-acceptance.mjs').toString('base64'));
 const readJson = file => JSON.parse(fs.readFileSync(file, 'utf8'));
 // 配置及任务清单同样来自本次选择的源码版本；外部证据仍独立读取。
 const { CODE_PACKS } = await import('data:text/javascript;base64,' + sourceOf('tools/skill-ai-pack-config.mjs').toString('base64'));
@@ -435,12 +436,14 @@ function buildPack(config) {
 	if (refreshFengCandidate) Object.assign(packJson, { delivery_stage: '待验证候选', complete_delivery: false, pack_status: '全量静态审查；不屈修复待正式复验', delivery_status: '待验证', can_mark_deliverable: false, counts: refreshFengCounts, audited_skills: config.auditedSkills, native_skills: nativeSkills, extension_skills: extensionSkills, native_only_skills: nativeOnlySkills, unresolved_skills: unresolvedConfirmedDefects, pending_verification_skills: pendingVerificationSkills, audit_report: 'docs/FULL-SKILL-AUDIT.md', acceptance_handoff: 'docs/FULL-SKILL-ACCEPTANCE-HANDOFF.md', native_patch: 'feisheng-ai-refresh-feng-native-ai.patch', all_registered_skills: config.implementedSkills, incompatible_packs: [], compatibility_note: '双风共享入口为待验证候选；仅相同共享核心和精确匹配的新版对包可安装，旧版须先回滚并迁移。', scenes: [], review_scenes: [] });
 	if (standardCandidate) Object.assign(packJson, { delivery_stage: '全量源码审查完成·待最终验收', complete_delivery: false, pack_status: '全量静态审查完成；本轮3项AI修复待验收', delivery_status: '封包待验收', can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, audited_skills: config.auditedSkills, historical_optimization_skills: historicalSkills, newly_fixed_skills: newlyFixedSkills, reviewed_no_change_skills: reviewedNoChangeSkills, not_applicable_skills: notApplicableSkills, native_skills: nativeSkills, extension_optimization_skills: extensionSkills, native_only_optimization_skills: nativeOnlySkills, existing_extension_skills: existingExtensionSkills, current_round_verified_skills: runtimeVerifiedSkills, all_registered_skills: config.implementedSkills, scenes: [], review_scenes: [], dependencies: [...packJson.dependencies, 'score/decision/utility/utilityPipeline.js (applyOwnedUtility)', 'score/decision/utility/utilityVector.js'], audit_report: 'docs/FULL-SKILL-AUDIT.md', acceptance_handoff: 'docs/FULL-SKILL-ACCEPTANCE-HANDOFF.md', native_patch: 'feisheng-ai-refresh-standard-native-ai.patch', validation_note: '前四批17项为历史专项验收基线；本轮新增3项源码修复尚未执行验证；完整封包、安装与回滚由独立Agent验收。' });
 	if (refreshFengCandidate) packJson.pending_verification_scope = '仅列本轮新增修复；飘零及历史PARTIAL待验收内容见交接文档';
-	const dualStatus = {
-		baseline_acceptance: { head: 'fcc9eb2581e9470e228dea112add930fa0be0e07', status: 'PASS', scope: '历史双风独立交付验收；不自动代表当前候选通过' },
-		delivery_stage: '最终候选', pack_status: '历史基线已验收；本候选验收结果见交付报告', delivery_status: '本候选验收结果见交付报告',
-		complete_delivery: false, can_mark_deliverable: false, external_integration_receipt: 'pending',
-		external_integration_note: '尚未取得外部集成回执，未发布',
-	};
+	let dualStatus = null;
+	if (windCandidate || refreshFengCandidate) {
+		const evidencePath = 'docs/skill-ai-quality-20261103/refresh-feng/final-candidate/acceptance-evidence.json';
+		const evidence = JSON.parse(textOf(evidencePath));
+		const runtimeChanges = git(['diff', '--name-only', evidence.baseline.head, HEAD, '--', 'score', 'js', 'extension.js', 'info.json', 'tools/skill-ai-pack-config.mjs', 'tools/pack-templates/rollback-pack.mjs', 'docs/skill-ai-quality-20261103/refresh-feng/dual-feng-native-candidate.patch', 'docs/skill-ai-quality-20261103/refresh-feng/refresh-feng-native-candidate.patch', 'docs/skill-ai-quality-20261103/feisheng-ai-shenhua-feng-native-ai.patch']).trim();
+		dualStatus = evaluateDualAcceptance(evidence, { runtime_equivalent: !runtimeChanges, clean_source: !dirty && !useWorktree, installer_sha256: sha(sourceOf('tools/pack-templates/apply-pack.mjs')) });
+		copyRepo(stage, evidencePath, 'evidence/dual-feng-acceptance.json');
+	}
 	const applyDualStatus = obj => {
 		Object.assign(obj, dualStatus);
 		delete obj.pending_verification_scope;
@@ -526,7 +529,7 @@ function buildPack(config) {
 	if (standardCandidate) write(stage, 'COMMANDS.md', '# 标准包集成与验收\n\n安装、回滚、依赖和验证范围见 README.md。文件校验：`python verify.py --zip <本包.zip>`；最终封包验收由独立 Agent 完成。\n');
 
 	if (windCandidate || refreshFengCandidate) {
-		const status = `历史基线 fcc9eb2 已通过独立交付验收；本候选验收结果见交付报告（源码 HEAD：${HEAD}）。外部集成回执 pending，尚未发布。历史报告适用于对应历史版本，不能代替本包验收。`;
+		const status = `历史基线 fcc9eb2 已通过独立交付验收；${dualStatus.delivery_status}（源码 HEAD：${HEAD}）。外部集成回执 pending，尚未发布。本次输入验证证据见 evidence/dual-feng-acceptance.json；实际 ZIP 交付校验结果见外部 ACCEPTANCE.md。`;
 		write(stage, 'README.md', `# 双风兼容分包最终候选\n\n${status}\n\n宿主 1.11.7。原生组合补丁与双风扩展只能二选一，禁止叠加；安装器不能自动识别宿主原生补丁，安装前须人工核对。旧版先退出宿主并备份，按旧包记录回滚；共享核心或对包冲突须核对所有使用者并安全迁移，不可强制覆盖。详见交付目录 UPGRADE.md。\n`);
 		write(stage, 'checklist.md', `# 双风候选检查\n\n${status}\n\n运行 verify.py 检查包完整性，按交付说明复核安装、回滚和部署边界。历史技能审查见 docs/。\n`);
 		write(stage, 'ACCEPTANCE.md', `# 双风验收状态\n\n${status}\n`);
