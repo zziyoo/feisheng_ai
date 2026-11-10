@@ -80,6 +80,11 @@ export function tianyiKnownWinAvailable(input) {
  * （拆掉后杀不可响应）时才值得发动；否则弃手牌会把这张杀送给目标。
  * hp≤1 分支的动机是击杀：目标还有护甲时 1 点伤害先被护甲吸收，
  * 该分支不成立（拆装备/拆最后一张手牌分支不受影响）。 */
+// 与宿主 filter 使用相同的弃牌权限，避免将受保护装备误判为可拆。
+export function jianchuDiscardableEquips(target, player) {
+	return target.countDiscardableCards(player, 'e');
+}
+
 export function jianchuWorthwhile(input) {
 	const { hostile, equips, hp, hand, hujia } = input || {};
 	if (!hostile) return false;

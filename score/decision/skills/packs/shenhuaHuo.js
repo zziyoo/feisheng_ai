@@ -1,7 +1,7 @@
 import { lib, game, get, _status } from '../policyCore.js?v=41a';
 import { registerSkillVeto } from '../skillVetoRegistry.js?v=41a';
 import {
-	luanjiAllyLethal, luanjiNetTooLow, tianyiLowCompare, tianyiKnownWinTarget, tianyiKnownWinAvailable, jianchuWorthwhile,
+	luanjiAllyLethal, luanjiNetTooLow, tianyiLowCompare, tianyiKnownWinTarget, tianyiKnownWinAvailable, jianchuWorthwhile, jianchuDiscardableEquips,
 } from '../rules/shenhuaHuo.js?v=41a';
 
 export const pack = {
@@ -193,7 +193,7 @@ function installJianchu(host, stats) {
 			const target = event.target;
 			const worthwhile = jianchuWorthwhile({
 				hostile: get.attitude(player, target) <= 0,
-				equips: target.countCards('e'),
+				equips: jianchuDiscardableEquips(target, player),
 				hp: target.hp,
 				hand: target.countCards('h'),
 				hujia: target.hujia || 0,
