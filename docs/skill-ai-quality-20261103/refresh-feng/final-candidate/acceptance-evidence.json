@@ -1,0 +1,221 @@
+{
+  "baseline": {
+    "head": "fcc9eb2581e9470e228dea112add930fa0be0e07",
+    "status": "PASS"
+  },
+  "tested_head": "9e699828f48daa260c2841e2c5d1a9ffde5fa7de",
+  "runtime_equivalent": true,
+  "installer_sha256": "c2c4ea3cf2353af83ee6d6c692c0aeecec3974ad35f242e67aacaaa8c7065990",
+  "installer_tests": {
+    "passed": 18,
+    "failed": 0
+  },
+  "package_tests": {
+    "total": 39,
+    "passed": 39,
+    "failed": 0
+  },
+  "package_assertions": [
+    {
+      "scenario": "F1",
+      "name": "wind exit 0 applied",
+      "pass": true
+    },
+    {
+      "scenario": "F1",
+      "name": "shared core == pack (skipped)",
+      "pass": true
+    },
+    {
+      "scenario": "F1",
+      "name": "refresh exit 0 applied",
+      "pass": true
+    },
+    {
+      "scenario": "F1",
+      "name": "registry 2 imports 2 entries ?v=41a",
+      "pass": true
+    },
+    {
+      "scenario": "F1",
+      "name": "shenhuaFeng hash == pack_files",
+      "pass": true
+    },
+    {
+      "scenario": "F1",
+      "name": "refreshFeng hash == pack_files",
+      "pass": true
+    },
+    {
+      "scenario": "F2",
+      "name": "rollback refresh exit 0",
+      "pass": true
+    },
+    {
+      "scenario": "F2",
+      "name": "wind remains after refresh rollback",
+      "pass": true
+    },
+    {
+      "scenario": "F2",
+      "name": "shared core retained after refresh rollback",
+      "pass": true
+    },
+    {
+      "scenario": "F2",
+      "name": "wind rollback exit 0 and empty registry",
+      "pass": true
+    },
+    {
+      "scenario": "F3",
+      "name": "standard exit 0",
+      "pass": true
+    },
+    {
+      "scenario": "F3",
+      "name": "refresh after standard exit 0",
+      "pass": true
+    },
+    {
+      "scenario": "F3",
+      "name": "wind last exit 0",
+      "pass": true
+    },
+    {
+      "scenario": "F3",
+      "name": "registry 3 imports 3 entries",
+      "pass": true
+    },
+    {
+      "scenario": "F3",
+      "name": "rollback wind exit 0",
+      "pass": true
+    },
+    {
+      "scenario": "F3",
+      "name": "standard+refresh remain after wind rollback",
+      "pass": true
+    },
+    {
+      "scenario": "F3",
+      "name": "final empty registry core retained",
+      "pass": true
+    },
+    {
+      "scenario": "F4",
+      "name": "CRLF target safely rejected with eolNotice",
+      "pass": true
+    },
+    {
+      "scenario": "F4",
+      "name": "zero write on reject",
+      "pass": true
+    },
+    {
+      "scenario": "F4",
+      "name": "registry unchanged on reject",
+      "pass": true
+    },
+    {
+      "scenario": "F4",
+      "name": "core migrated to exact LF pack hashes",
+      "pass": true
+    },
+    {
+      "scenario": "F4",
+      "name": "install after migration exit 0",
+      "pass": true
+    },
+    {
+      "scenario": "F4",
+      "name": "refresh after migration exit 0",
+      "pass": true
+    },
+    {
+      "scenario": "F5",
+      "name": "old wind install exit 0",
+      "pass": true
+    },
+    {
+      "scenario": "F5",
+      "name": "new over old core rejected",
+      "pass": true
+    },
+    {
+      "scenario": "F5",
+      "name": "zero write on new-over-old reject",
+      "pass": true
+    },
+    {
+      "scenario": "F5",
+      "name": "old wind rollback exit 0 (core retained)",
+      "pass": true
+    },
+    {
+      "scenario": "F5",
+      "name": "core migrated to new pack bytes",
+      "pass": true
+    },
+    {
+      "scenario": "F5",
+      "name": "new wind install after migration exit 0",
+      "pass": true
+    },
+    {
+      "scenario": "F6",
+      "name": "fault injection exit 1",
+      "pass": true
+    },
+    {
+      "scenario": "F6",
+      "name": "no residue after fault",
+      "pass": true
+    },
+    {
+      "scenario": "F6",
+      "name": "normal install after fault exit 0",
+      "pass": true
+    },
+    {
+      "scenario": "F7",
+      "name": "wind install exit 0",
+      "pass": true
+    },
+    {
+      "scenario": "F7",
+      "name": "tampered peer rejected",
+      "pass": true
+    },
+    {
+      "scenario": "F7",
+      "name": "zero write on tampered peer reject",
+      "pass": true
+    },
+    {
+      "scenario": "F7",
+      "name": "refresh install after restore exit 0",
+      "pass": true
+    },
+    {
+      "scenario": "F8",
+      "name": "second install exit 0 already-installed",
+      "pass": true
+    },
+    {
+      "scenario": "F8",
+      "name": "second install zero write",
+      "pass": true
+    },
+    {
+      "scenario": "F8",
+      "name": "record unchanged on idempotent install",
+      "pass": true
+    }
+  ],
+  "archive_checks": "PASS",
+  "archives": {
+    "shenhua": "8ec1d2777490d01e5670536491e137173d90638b65840fe3837adebef7c517e2",
+    "refresh": "e40d380d87112bb599569a0fdd4d2ed9aff863533f66094628b14d53a7698415"
+  },
+  "evidence_summary_sha256": "b402369a75a14cff0027933a94a9f441e75efde76f7960867073833833092886"
+}
