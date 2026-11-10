@@ -125,7 +125,7 @@ function copyTree(source, target) {
 	}
 }
 
-function makeCleanTarget(name, baseRef = null) {
+function makeCleanTarget(name, baseRef = null, sharedFiles = null) {
 	const root = path.join(WORK, 'targets', name);
 	fs.rmSync(root, { recursive: true, force: true });
 	fs.mkdirSync(root, { recursive: true });
@@ -149,6 +149,12 @@ function makeCleanTarget(name, baseRef = null) {
 	for (const file of ['policyCore.js', 'skillAIPolicies.js', 'skillAIPolicyPacks.js', 'skillAIPolicyRules.js']) fs.rmSync(path.join(skills, file), { force: true });
 	fs.rmSync(path.join(skills, 'packs'), { recursive: true, force: true });
 	fs.rmSync(path.join(skills, 'rules'), { recursive: true, force: true });
+	/* 分包携带的全部共享核心文件也不得预置：干净目标必须由 apply-pack 从
+	 * 包内供应。硬编码清单漏掉了 2026-11-05 起新增的 skillVetoRegistry.js
+	 * （builder shared_files 三件套之一），在 CRLF 检出的验收工作树中会与
+	 * LF 包字节冲突导致安装被拒（LF 工作树恰好字节相同才掩盖至今）。
+	 * 按 pack.json shared_files 动态清除，消除对清单记忆的依赖。 */
+	for (const file of Object.keys(sharedFiles || {})) fs.rmSync(path.join(skills, file), { force: true });
 	return root;
 }
 
@@ -1472,7 +1478,7 @@ try {
 	if (prepared.length === 1) {
 		const pack = prepared[0];
 		result.scenes = EXPLICIT_SCENES || DEFAULT_SCENES[pack.id] || null;
-		const target = makeCleanTarget('single-' + pack.id, BASE_REF);
+		const target = makeCleanTarget('single-' + pack.id, BASE_REF, pack.packJson.shared_files);
 		const contract = captureContract(target);
 		let nativeLoad = null;
 		if (['shenhua_feng', 'shenhua_huo'].includes(pack.id) && HOST && CHROME && PLAYWRIGHT) {
@@ -1524,7 +1530,9 @@ try {
 		for (const pack of prepared) for (const scene of DEFAULT_SCENES[pack.id] || []) if (!requiredScenes.includes(scene)) requiredScenes.push(scene);
 		result.scenes = EXPLICIT_SCENES ? Array.from(new Set([...requiredScenes, ...EXPLICIT_SCENES])) : requiredScenes;
 		if (!result.scenes.length) throw new Error('组合验收缺少技能级宿主场景');
-		const target = makeCleanTarget('combined', BASE_REF);
+		const combinedShared = {};
+		for (const pack of prepared) Object.assign(combinedShared, pack.packJson.shared_files || {});
+		const target = makeCleanTarget('combined', BASE_REF, combinedShared);
 		const contract = captureContract(target);
 		if (WIRE_INDEX) {
 			const first = prepared[0];
