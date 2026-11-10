@@ -34,7 +34,17 @@ check('分包模块只 import 共享核心、自己的规则与安全适配', ()
 check('共享核心与具体技能解耦', () => {
 	const core = read('source/score/decision/skills/policyCore.js');
 	for (const skill of pack.all_registered_skills || []) assert(!core.includes(skill));
-	assert(core.includes('backups.splice(0).reverse()'));
+	// 卸载必须按逆序（LIFO）恢复安装备份。两种合法实现：
+	// 经典全局回滚 backups.splice(0).reverse()，或 wind 线程化按包回滚
+	// （uninstallPack 内 backups.length-1 逆序循环 + splice(i,1) 逐项移除，
+	// 主 uninstall 按包逆序聚合，等价全局 LIFO——真实宿主 policy-lifecycle
+	// 卸载/重装场景逐值验证）。旧断言只匹配经典形态，风包线程化核心演进
+	// （88a2a25/edaab34）后已过时，此处同时接受两种形态。
+	assert(
+		core.includes('backups.splice(0).reverse()')
+		|| (core.includes('backups.length - 1') && core.includes('backups.splice(i, 1)')),
+		'共享核心缺少逆序备份恢复实现（LIFO 回滚）',
+	);
 });
 check('包内只携带本分包策略模块', () => {
 	const dir = path.join(BASE, 'source/score/decision/skills/packs');
