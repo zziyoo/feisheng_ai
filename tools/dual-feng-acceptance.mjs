@@ -3,6 +3,8 @@ export function evaluateDualAcceptance(evidence, inputs) {
  const ok = baseline?.head === 'fcc9eb2581e9470e228dea112add930fa0be0e07' && baseline.status === 'PASS'
    && evidence.runtime_equivalent === true && inputs?.runtime_equivalent === true && inputs?.clean_source === true
    && /^[a-f0-9]{64}$/.test(evidence.installer_sha256 || '') && inputs.installer_sha256 === evidence.installer_sha256
+   && /^[a-f0-9]{64}$/.test(evidence.builder_sha256 || '') && inputs.builder_sha256 === evidence.builder_sha256
+   && /^[a-f0-9]{64}$/.test(evidence.gate_sha256 || '') && inputs.gate_sha256 === evidence.gate_sha256
    && evidence.installer_tests?.passed === 18 && evidence.installer_tests?.failed === 0
    && evidence.package_tests?.total === 39 && evidence.package_tests?.passed === 39 && evidence.package_tests?.failed === 0
    && Array.isArray(evidence.package_assertions) && evidence.package_assertions.length === 39 && evidence.package_assertions.every(item => item.pass === true) && evidence.archive_checks === 'PASS';

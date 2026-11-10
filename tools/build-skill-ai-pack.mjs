@@ -441,7 +441,7 @@ function buildPack(config) {
 		const evidencePath = 'docs/skill-ai-quality-20261103/refresh-feng/final-candidate/acceptance-evidence.json';
 		const evidence = JSON.parse(textOf(evidencePath));
 		const runtimeChanges = git(['diff', '--name-only', evidence.baseline.head, HEAD, '--', 'score', 'js', 'extension.js', 'info.json', 'tools/skill-ai-pack-config.mjs', 'tools/pack-templates/rollback-pack.mjs', 'docs/skill-ai-quality-20261103/refresh-feng/dual-feng-native-candidate.patch', 'docs/skill-ai-quality-20261103/refresh-feng/refresh-feng-native-candidate.patch', 'docs/skill-ai-quality-20261103/feisheng-ai-shenhua-feng-native-ai.patch']).trim();
-		dualStatus = evaluateDualAcceptance(evidence, { runtime_equivalent: !runtimeChanges, clean_source: !dirty && !useWorktree, installer_sha256: sha(sourceOf('tools/pack-templates/apply-pack.mjs')) });
+		dualStatus = evaluateDualAcceptance(evidence, { runtime_equivalent: !runtimeChanges, clean_source: !dirty && !useWorktree, installer_sha256: sha(sourceOf('tools/pack-templates/apply-pack.mjs')), builder_sha256: sha(sourceOf('tools/build-skill-ai-pack.mjs')), gate_sha256: sha(sourceOf('tools/dual-feng-acceptance.mjs')) });
 		copyRepo(stage, evidencePath, 'evidence/dual-feng-acceptance.json');
 	}
 	const applyDualStatus = obj => {
