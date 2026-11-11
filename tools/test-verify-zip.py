@@ -92,7 +92,16 @@ def write_zip(zip_path, members, directory_style='slash'):
 
 
 def run_verify(extra):
-    proc = subprocess.run([sys.executable, VERIFY] + extra, capture_output=True, text=True)
+    # 子进程输出可能含中文：verify.py 的 stdout 编码随环境变化（PYTHONIOENCODING 等），
+    # 这里显式按 UTF-8 解码并对无法映射的字节做替换，避免在非 UTF-8 locale 的
+    # Windows 上因解码失败而把“断言失败”误报成“测试崩溃”。
+    proc = subprocess.run(
+        [sys.executable, VERIFY] + extra,
+        capture_output=True,
+        text=True,
+        encoding='utf-8',
+        errors='replace',
+    )
     return proc.returncode, proc.stdout, proc.stderr
 
 

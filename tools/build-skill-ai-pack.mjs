@@ -323,7 +323,7 @@ function buildPack(config) {
 		for (const name of ['skill-ai-hp-real-host.mjs', 'skill-ai-host-scenes.mjs', 'trick-real-host-smoke.mjs', 'test-fullgame-settlement.mjs']) copyRepo(stage, `tools/${name}`, `tests/${name}`);
 	}
 	if (leiCandidate) {
-		for (const name of ['zhengu-real-host.mjs', 'zhengu-host-scenes.mjs', 'zhengu-compare.mjs', 'lei-history-real-host.mjs', 'lei-history-host-scenes.mjs', 'lei-native-patch-verify.mjs']) copyRepo(stage, `tools/${name}`, `tests/${name}`);
+		for (const name of ['zhengu-real-host.mjs', 'zhengu-host-scenes.mjs', 'zhengu-compare.mjs', 'lei-history-real-host.mjs', 'lei-history-host-scenes.mjs', 'lei-history-compare.mjs', 'lei-native-patch-verify.mjs']) copyRepo(stage, `tools/${name}`, `tests/${name}`);
 	}
 	if (config.id === 'refresh_feng' && !refreshFengCandidate) {
 		for (const name of ['reqimou-manual-ui.mjs', 'verify-repair-outcomes.mjs']) copyRepo(stage, `tools/${name}`, `tests/${name}`);
