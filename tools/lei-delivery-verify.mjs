@@ -183,9 +183,9 @@ else {
 	report.sha256sums = { files: sumChecks.length, allMatch: sumChecks.every(item => item.match !== false), entries: sumChecks.map(item => ({ file: item.file, match: item.match })) };
 }
 
-/* 交付目录文件哈希。SHA256SUMS.txt 自身不列入，避免“报告包含清单哈希、清单包含报告哈希”的循环依赖。 */
+/* 交付目录文件哈希。SHA256SUMS.txt 与本报告自身都不列入，避免互相成为前提。 */
 report.deliveryFiles = fs.readdirSync(DELIVERY, { withFileTypes: true })
-	.filter(item => item.isFile() && item.name !== 'SHA256SUMS.txt')
+	.filter(item => item.isFile() && item.name !== 'SHA256SUMS.txt' && item.name !== 'delivery-verify.json')
 	.map(item => ({ file: item.name, size: fs.statSync(path.join(DELIVERY, item.name)).size, sha256: sha(fs.readFileSync(path.join(DELIVERY, item.name))) }));
 
 report.failures = failures;
