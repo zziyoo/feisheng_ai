@@ -1,12 +1,12 @@
-import { lib, game } from '../policyCore.js?v=41a';
-import { olkongshengCostNeedsFix, olkongshengExpansionView } from '../rules/shenhuaLei.js?v=41a';
+import { lib, game, get } from '../policyCore.js?v=41a';
+import { olkongshengCostNeedsFix, olkongshengExpansionView, zhenguCostNeedsFix, zhenguImmediateDelta } from '../rules/shenhuaLei.js?v=41a';
 
 export const pack = {
 	id: 'shenhua_lei',
 	name: '神话再临·雷',
 	group: 'shenhua',
-	skills: ['olkongsheng', 'xinfu_fuyin', 'drlt_qianjie'],
-	statsDefaults: { olkongshengCostCalls: 0, olkongshengCompatible: null },
+	skills: ['olkongsheng', 'xinfu_fuyin', 'drlt_qianjie', 'drlt_zhengu'],
+	statsDefaults: { olkongshengCostCalls: 0, olkongshengCompatible: null, zhenguCompatible: null, zhenguEngineHook: null, zhenguScoreCalls: 0, zhenguFallbacks: 0, zhenguHookConflict: 0 },
 	install,
 };
 
@@ -20,6 +20,7 @@ const olkongshengScopes = new WeakMap();
 function install(host, stats) {
 	installFuyin(host);
 	installQianjie(host);
+	installZhengu(host, stats);
 	const info = lib.skill && lib.skill.olkongsheng;
 	if (!info || typeof info.cost !== 'function') return;
 	const original = info.cost;
@@ -88,5 +89,68 @@ function installQianjie(host) {
 	host.wrap(effect, 'target', 'drlt_qianjie:effect', original => function (card, player, target) {
 		try { if (card?.name === 'tiesuo' && target?.isLinked()) return; } catch (_) {}
 		return original.apply(this, arguments);
+	});
+}
+
+/* 镇骨的评分回调嵌在异步 cost 的 chooseTarget.set("ai") 里，公共包装无法直接替换。
+ * 宿主 chooseTarget 内容开始时会调用技能自身的 onChooseTarget(event, player)；
+ * 这里只在父事件 skill 为 drlt_zhengu 时替换本次选择事件的评分，不包装公共 chooseTarget，
+ * 也不改动 cost、content 与 sync。(event, player) 的 player 参数仅用于宿主调用约定。 */
+function installZhengu(host, stats) {
+	const info = lib.skill?.drlt_zhengu;
+	if (!info || typeof info.cost !== 'function') {
+		stats.zhenguCompatible = false;
+		return;
+	}
+	stats.zhenguCompatible = zhenguCostNeedsFix(String(info.cost));
+	if (!stats.zhenguCompatible) {
+		try { console.warn('[无名AI·技能策略] drlt_zhengu.cost 已不是旧式评分（可能已打原生补丁），跳过镇骨即时差额修正'); } catch (e) {}
+		return;
+	}
+	const chooseTargetContent = lib.element?.content?.chooseTarget;
+	stats.zhenguEngineHook = Array.isArray(chooseTargetContent) && chooseTargetContent.some(fn => String(fn).includes('onChooseTarget'));
+	if (!stats.zhenguEngineHook) {
+		stats.zhenguCompatible = false;
+		try { console.warn('[无名AI·技能策略] 宿主 chooseTarget 内容不支持 onChooseTarget，跳过镇骨接线'); } catch (e) {}
+		return;
+	}
+	if (info.onChooseTarget) {
+		stats.zhenguHookConflict = 1;
+		try { console.warn('[无名AI·技能策略] drlt_zhengu.onChooseTarget 已被占用，跳过镇骨接线'); } catch (e) {}
+		return;
+	}
+	const hook = function (event) {
+		try {
+			const parent = event?.getParent?.();
+			if (!parent || parent.skill !== 'drlt_zhengu') return;
+			if (!Array.isArray(event.selectTarget) || event.selectTarget[0] !== 1 || event.selectTarget[1] !== 1) return;
+			if (event.filterTarget !== lib.filter.notMe) return;
+			if (event.__djscZhenguScored) return;
+			const originalAI = event.ai;
+			if (typeof originalAI !== 'function') return;
+			event.__djscZhenguScored = true;
+			event.ai = function (target) {
+				try {
+					stats.zhenguScoreCalls++;
+					const player2 = get.player();
+					if (!player2 || !target) return originalAI.apply(this, arguments);
+					return zhenguImmediateDelta(player2.countCards('h'), target.countCards('h')) * get.attitude(player2, target);
+				} catch (e) {
+					stats.zhenguFallbacks = (stats.zhenguFallbacks || 0) + 1;
+					return originalAI.apply(this, arguments);
+				}
+			};
+		} catch (e) {}
+	};
+	try {
+		info.onChooseTarget = hook;
+	} catch (e) {
+		stats.zhenguCompatible = false;
+		return;
+	}
+	host.addCleanup(function () {
+		if (info.onChooseTarget === hook) {
+			try { delete info.onChooseTarget; } catch (e) { try { info.onChooseTarget = undefined; } catch (e2) {} }
+		}
 	});
 }
