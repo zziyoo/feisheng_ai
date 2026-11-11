@@ -41,10 +41,16 @@ if (EVIDENCE && fs.existsSync(EVIDENCE)) {
 	}
 }
 
-/* SHA256SUMS.txt 只列顶层交付文件（证据目录内文件由 evidence 自身清单覆盖） */
-const sums = delivered
-	.filter(item => !item.file.includes('/'))
-	.map(item => item.sha256 + '  ' + item.file)
+/* SHA256SUMS.txt 覆盖交付目录全部顶层文件。
+ * 排除 SHA256SUMS.txt 自身与交付核验报告 delivery-verify.json：
+ * 后者是本清单的核验记录，把它放进清单会让“报告哈希”与“清单哈希”互为前提。 */
+const EXCLUDE = new Set(['SHA256SUMS.txt', 'delivery-verify.json']);
+const topLevel = fs.readdirSync(DELIVERY, { withFileTypes: true })
+	.filter(item => item.isFile() && !EXCLUDE.has(item.name))
+	.map(item => item.name)
+	.sort();
+const sums = topLevel
+	.map(name => sha(fs.readFileSync(path.join(DELIVERY, name))) + '  ' + name)
 	.join('\n') + '\n';
 fs.writeFileSync(path.join(DELIVERY, 'SHA256SUMS.txt'), sums, 'utf8');
 

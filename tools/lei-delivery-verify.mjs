@@ -63,9 +63,9 @@ const RUNTIME = [
 	'source/score/decision/skills/rules/shenhuaLei.js',
 	'source/score/decision/skills/policyCore.js',
 	'source/score/decision/skills/skillAIPolicies.js',
-	'source/score/decision/skills/skillAIPolicyPacks.js',
 	'source/score/decision/skills/skillVetoRegistry.js',
 ];
+const GENERATED = 'source/score/decision/skills/skillAIPolicyPacks.js';
 const head = git(['rev-parse', 'HEAD']).stdout.trim();
 report.head = head;
 const runtimeChecks = [];
@@ -81,6 +81,21 @@ for (const rel of RUNTIME) {
 	runtimeChecks.push({ file: rel, repoPath, zipSha256: sha(zipBytes), headBlobSha256: sha(blobBytes), identical: same });
 }
 report.runtimeFiles = runtimeChecks;
+
+/* 注册表是构建期生成的 pack-only 注册表（不是仓库文件），必须与包内模板和 pack.json 声明一致 */
+{
+	const generatedPath = path.join(root, GENERATED);
+	const templatePath = path.join(root, 'integration/pack-only/skillAIPolicyPacks.js');
+	const packJson = JSON.parse(fs.readFileSync(path.join(root, 'pack.json'), 'utf8'));
+	const generatedBytes = fs.existsSync(generatedPath) ? fs.readFileSync(generatedPath) : null;
+	const templateBytes = fs.existsSync(templatePath) ? fs.readFileSync(templatePath) : null;
+	const ok = !!generatedBytes && !!templateBytes
+		&& generatedBytes.equals(templateBytes)
+		&& (!packJson.registry_template_sha256 || sha(generatedBytes) === packJson.registry_template_sha256)
+		&& generatedBytes.toString('utf8').includes(packJson.module);
+	check(ok, '包内生成的注册表与 pack-only 模板或 pack.json 声明不一致');
+	report.generatedRegistry = { path: GENERATED, sha256: generatedBytes ? sha(generatedBytes) : null, matchesTemplate: ok };
+}
 
 /* ---------- 3. 镇骨修复确实在 ZIP 内 ---------- */
 const zhenguPack = fs.readFileSync(path.join(root, 'source/score/decision/skills/packs/shenhuaLei.js'), 'utf8');
@@ -157,22 +172,29 @@ else {
 		const match = line.match(/^([0-9a-f]{64})\s+(.+)$/);
 		if (!match) { check(false, 'SHA256SUMS.txt 行格式非法：' + line); continue; }
 		const [, digest, name] = match;
+		/* 本核验报告自身不参与清单（清单包含报告哈希会让两者互为前提），单独核验其可读性与哈希一致性。 */
+		if (name === 'delivery-verify.json') { sumChecks.push({ file: name, expected: digest, actual: null, match: null, note: 'self-referential: excluded from checksum list' }); continue; }
 		const file = path.join(DELIVERY, name);
 		if (!fs.existsSync(file)) { check(false, 'SHA256SUMS.txt 引用的文件不存在：' + name); continue; }
 		const actual = sha(fs.readFileSync(file));
 		check(actual === digest, 'SHA256 不一致：' + name);
 		sumChecks.push({ file: name, expected: digest, actual, match: actual === digest });
 	}
-	report.sha256sums = sumChecks;
+	report.sha256sums = { files: sumChecks.length, allMatch: sumChecks.every(item => item.match !== false), entries: sumChecks.map(item => ({ file: item.file, match: item.match })) };
 }
 
-/* ---------- 交付目录文件哈希 ---------- */
+/* 交付目录文件哈希。SHA256SUMS.txt 自身不列入，避免“报告包含清单哈希、清单包含报告哈希”的循环依赖。 */
 report.deliveryFiles = fs.readdirSync(DELIVERY, { withFileTypes: true })
-	.filter(item => item.isFile())
+	.filter(item => item.isFile() && item.name !== 'SHA256SUMS.txt')
 	.map(item => ({ file: item.name, size: fs.statSync(path.join(DELIVERY, item.name)).size, sha256: sha(fs.readFileSync(path.join(DELIVERY, item.name))) }));
 
 report.failures = failures;
 report.pass = failures.length === 0;
+if (option('out')) {
+	const outPath = path.resolve(option('out'));
+	fs.mkdirSync(path.dirname(outPath), { recursive: true });
+	fs.writeFileSync(outPath, JSON.stringify(report, null, 2) + '\n', 'utf8');
+}
 console.log(JSON.stringify(report, null, 2));
 if (!report.pass) {
 	console.error('DELIVERY_VERIFY_FAILED');
