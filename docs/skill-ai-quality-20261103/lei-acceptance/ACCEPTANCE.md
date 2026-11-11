@@ -158,7 +158,21 @@
 - 真实宿主测试：全部关键结论均来自真实无名杀 1.11.7 宿主（Chrome headless，固定种子，身份局 8 人，真实 `phaseJieshu`/`phaseEnd`/`chooseTarget`/`get.effect`/技能 `sync` 结算）。
 - 已知夹具噪声：测试服务器对 `noname.config.txt` 返回空值，宿主 `BrowserAdapter.stat` 偶发把该次 fetch 失败报成 `IO_ERROR` 并弹出“加载内容失败”；已单独归入 `benignErrors`，与本包代码无关。
 
-## 九、复现命令
+## 九、交付产物
+
+| 项目 | 值 |
+| --- | --- |
+| 交付目录 | `C:\Users\32360\Desktop\feisheng-ai-shenhua-lei-final-ca9d2d2` |
+| 正式 ZIP | `feisheng-ai-shenhua-lei.zip`，54 文件，257628 字节，SHA256 `c8fc8befd55f03734e10429bb85785a977f4860afde1a6b4bc7d66f99783f277` |
+| 原生补丁 | `feisheng-ai-shenhua-lei-native-ai.patch`，2268 字节，SHA256 `805ec28922619748d829886ec0ca581162bc7b91085f261eab8756d9d894734a` |
+| **最终构建输入（ZIP 对应源码提交）** | `ca9d2d221a02920f34aef99614245f2e20a4a8c1`（验收分支 `codex/shenhua-lei-acceptance`，构建时工作区干净） |
+| 交付台账记录提交 | 记录 ZIP SHA256 的提交晚于构建提交，只改 `docs/skill-ai-20261030/pack-delivery.json`，不改任何运行文件 |
+| 交付核验 | `DELIVERY_VERIFY_PASS`：ZIP 路径安全、运行文件与 HEAD blob 一致、注册表为构建期生成且与模板一致、镇骨修复标记齐全、原生补丁 LF 且可对真实宿主应用、manifest 53/53 一致、SHA256SUMS 一致；连续三次运行结果稳定 |
+| 实际 ZIP 验收 | `ACCEPTANCE PASS (1 pack)`：解压/校验、包内 15 项测试、安装、安装核验、宿主加载、回滚、回滚核验、回滚后宿主加载、重装全部 passed；134 维契约未改 |
+
+ZIP 为可复现构建：成员按 POSIX 路径排序、时间戳固定，`manifest.json` 记录每个文件的 SHA256 与来源提交。
+
+## 十、复现命令
 
 ```bash
 # 镇骨四配置与对比

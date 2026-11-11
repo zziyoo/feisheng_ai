@@ -1,0 +1,363 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-11T11:11:12.376Z",
+  "mode": "single",
+  "repo": "C:\\Users\\32360\\.codex\\worktrees\\shenhua-lei-acceptance",
+  "repo_head": "ca9d2d221a02920f34aef99614245f2e20a4a8c1",
+  "base_ref": null,
+  "wired_index": null,
+  "scenes": [
+    "olkongsheng-array-count",
+    "olkongsheng-repeat"
+  ],
+  "contract": {
+    "single": true,
+    "combined": null
+  },
+  "skillChecks": {
+    "shenhua_lei": {
+      "packId": "shenhua_lei",
+      "checks": [
+        {
+          "name": "policy-counters",
+          "passed": true,
+          "detail": {
+            "olkongshengCostCalls": 3,
+            "selected": [
+              "wuxie"
+            ],
+            "runs": [
+              1,
+              1
+            ]
+          }
+        }
+      ],
+      "signature": {
+        "olkongshengCostCalls": 3,
+        "olkongshengCompatible": true,
+        "selected": [
+          "wuxie"
+        ],
+        "runs": [
+          1,
+          1
+        ],
+        "scopeRestored": true
+      }
+    }
+  },
+  "baseline_comparison": [],
+  "native_comparison": null,
+  "packs": [
+    {
+      "id": "shenhua_lei",
+      "name": "神话再临·雷",
+      "zip": "C:\\Users\\32360\\Desktop\\feisheng-ai-shenhua-lei-final-ca9d2d2\\feisheng-ai-shenhua-lei.zip",
+      "zip_size": 257628,
+      "zip_sha256": "c8fc8befd55f03734e10429bb85785a977f4860afde1a6b4bc7d66f99783f277",
+      "delivery_stage": "可交付",
+      "implemented_skills": [
+        "olkongsheng",
+        "xinfu_fuyin",
+        "drlt_qianjie",
+        "drlt_zhengu"
+      ],
+      "target_skills_count": 16,
+      "package_tests_status": 0,
+      "verify_zip_status": 0,
+      "verify_dir_status": 0,
+      "verify_cross_platform_status": 0
+    }
+  ],
+  "steps": [
+    {
+      "step": "extract+verify",
+      "pack": "shenhua_lei",
+      "status": "passed",
+      "package_tests": {
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\AppData\\Local\\Temp\\lei-accept-final\\extract\\0\\tests\\run-pack-tests.mjs",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS 成本指纹只在原表达式存在时命中\nPASS 数组视图保留索引/长度/迭代/JSON 语义\nPASS 非数组输入原样返回\nPASS 镇骨旧式评分指纹只在宿主未修复时命中\nPASS 镇骨即时差额与宿主 sync 的实际变化一致\nPASS 镇骨即时差额的边界与非法输入\nPASS 旧式评分在 7/6 与 6/8 两档与即时差额不一致\nALL PASS (7)\nPASS 包元数据与目标技能一致\nPASS 分包模块只 import 共享核心、自己的规则与安全适配\nPASS 共享核心与具体技能解耦\nPASS 包内只携带本分包策略模块\nPASS 注册表与 pack-only 注册表可安全合并\nPASS 134 维模型契约与版本未被本分包修改\nPASS 分包声明的静态约束成立\nPASS 分包规则不读取宿主实现\nALL PASS (8)\nALL PACK TESTS PASS (15)\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_zip": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\lei-accept-final\\extract\\0\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-shenhua-lei-final-ca9d2d2\\feisheng-ai-shenhua-lei.zip",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=zip files_listed=54 ok=54 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=ca9d2d221a02920f34aef99614245f2e20a4a8c1 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_dir": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\lei-accept-final\\extract\\0\\verify.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=dir files_listed=54 ok=54 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=ca9d2d221a02920f34aef99614245f2e20a4a8c1 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_cross_platform": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\lei-accept-final\\extract\\0\\tests\\test-verify-zip.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS verify.py --zip accepts POSIX member paths\r\nPASS verify.py --root accepts POSIX package\r\nPASS verify.py --zip accepts Windows backslash members and manifest paths\r\nPASS verify.py --zip accepts manifest at archive root\r\nPASS verify.py --zip rejects archive without root manifest\r\nPASS verify.py --zip rejects duplicate normalized members\r\nPASS verify.py --zip rejects size mismatch\r\nALL PASS (verify.zip cross-platform regression)\r\n",
+        "stderr": "",
+        "error": null
+      }
+    },
+    {
+      "step": "apply",
+      "pack": "shenhua_lei",
+      "status": "passed",
+      "output": {
+        "pack": "shenhua_lei",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\lei-accept-final\\targets\\single-shenhua_lei",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/policyCore.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillAIPolicies.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillVetoRegistry.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/shenhuaLei.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/shenhuaLei.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-created",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [],
+        "registry": "created",
+        "fullEngineHintWired": true,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\shenhua_lei"
+      }
+    },
+    {
+      "step": "install-check",
+      "pack": "shenhua_lei",
+      "status": "passed",
+      "checks": [
+        {
+          "file": "packs/shenhuaLei.js",
+          "sha256": "39cb60c266e2ea8db744bc8a242eaa1c54b2ba78de5897eb86519730a079ba40"
+        },
+        {
+          "file": "rules/shenhuaLei.js",
+          "sha256": "d7954ce7aeeb222aec31325bd774a9a18307d26a6f7ac801b70c2ed797e2cc88"
+        },
+        {
+          "file": "shared/policyCore.js",
+          "sha256": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19"
+        },
+        {
+          "file": "shared/skillAIPolicies.js",
+          "sha256": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad"
+        },
+        {
+          "file": "shared/skillVetoRegistry.js",
+          "sha256": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2"
+        }
+      ],
+      "imports": [
+        {
+          "alias": "shenhuaLei",
+          "module": "shenhuaLei",
+          "file": "score/decision/skills/packs/shenhuaLei.js"
+        }
+      ]
+    },
+    {
+      "step": "host-load-installed",
+      "pack": "shenhua_lei",
+      "status": "passed",
+      "scenes": [
+        "olkongsheng-array-count",
+        "olkongsheng-repeat"
+      ],
+      "policyStats": {
+        "installed": true,
+        "olkongshengCostCalls": 3,
+        "olkongshengCompatible": true,
+        "zhenguCompatible": true,
+        "zhenguEngineHook": true,
+        "zhenguScoreCalls": 0,
+        "zhenguFallbacks": 0,
+        "zhenguHookConflict": 0,
+        "packs": {
+          "shenhua_lei": {
+            "olkongshengCostCalls": 3,
+            "olkongshengCompatible": true,
+            "zhenguCompatible": true,
+            "zhenguEngineHook": true,
+            "zhenguScoreCalls": 0,
+            "zhenguFallbacks": 0,
+            "zhenguHookConflict": 0
+          }
+        },
+        "installation": {
+          "state": "installed",
+          "reason": null
+        }
+      },
+      "skillChecks": {
+        "shenhua_lei": {
+          "packId": "shenhua_lei",
+          "checks": [
+            {
+              "name": "policy-counters",
+              "passed": true,
+              "detail": {
+                "olkongshengCostCalls": 3,
+                "selected": [
+                  "wuxie"
+                ],
+                "runs": [
+                  1,
+                  1
+                ]
+              }
+            }
+          ],
+          "signature": {
+            "olkongshengCostCalls": 3,
+            "olkongshengCompatible": true,
+            "selected": [
+              "wuxie"
+            ],
+            "runs": [
+              1,
+              1
+            ],
+            "scopeRestored": true
+          }
+        }
+      },
+      "output": "host-single-shenhua_lei-installed.json"
+    },
+    {
+      "step": "rollback",
+      "pack": "shenhua_lei",
+      "status": "passed",
+      "output": {
+        "status": "rolled-back",
+        "pack": "shenhua_lei",
+        "files": [
+          "score/decision/skills/rules/shenhuaLei.js",
+          "score/decision/skills/packs/shenhuaLei.js"
+        ],
+        "registry": "empty-registry",
+        "performed": [
+          {
+            "type": "empty-registry",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          },
+          {
+            "type": "delete",
+            "target": "score/decision/skills/rules/shenhuaLei.js"
+          },
+          {
+            "type": "delete",
+            "target": "score/decision/skills/packs/shenhuaLei.js"
+          }
+        ]
+      }
+    },
+    {
+      "step": "rollback-check",
+      "pack": "shenhua_lei",
+      "status": "passed",
+      "imports": []
+    },
+    {
+      "step": "host-load-rolledback",
+      "pack": "shenhua_lei",
+      "status": "passed",
+      "scenes": [
+        "olkongsheng-array-count",
+        "olkongsheng-repeat"
+      ],
+      "policyStats": {
+        "installed": true,
+        "packs": {},
+        "installation": {
+          "state": "installed",
+          "reason": null
+        }
+      },
+      "skillChecks": {},
+      "output": "host-single-shenhua_lei-rolledback.json"
+    },
+    {
+      "step": "reinstall",
+      "pack": "shenhua_lei",
+      "status": "passed",
+      "output": {
+        "pack": "shenhua_lei",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\lei-accept-final\\targets\\single-shenhua_lei",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/shenhuaLei.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/shenhuaLei.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": true,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\shenhua_lei"
+      }
+    }
+  ],
+  "pass": true,
+  "workdir": "C:\\Users\\32360\\AppData\\Local\\Temp\\lei-accept-final",
+  "target": "C:\\Users\\32360\\AppData\\Local\\Temp\\lei-accept-final\\targets\\single-shenhua_lei"
+}
