@@ -241,9 +241,9 @@ export const CODE_PACKS = [
 		id: 'shenhua_lei',
 		module: 'shenhuaLei',
 		rules: 'shenhuaLei',
-		implementedSkills: ['olkongsheng', 'xinfu_fuyin', 'drlt_qianjie'],
+		implementedSkills: ['olkongsheng', 'xinfu_fuyin', 'drlt_qianjie', 'drlt_zhengu'],
 		auditedSkills: ['zhengrong', 'hongju', 'dcwanglie', 'drlt_qianjie', 'drlt_jueyan', 'drlt_poshi', 'olliangyin', 'olkongsheng', 'drlt_xiongluan', 'drlt_congjian', 'twjuxiang', 'drlt_yongsi', 'drlt_weidi', 'drlt_zhengu', 'xinfu_zuilun', 'xinfu_fuyin'],
-		scenes: ['kongsheng-stash', 'olkongsheng-array-count', 'olkongsheng-repeat', 'olkongsheng-cost-error'],
+		scenes: ['kongsheng-count-threshold', 'kongsheng-cost-error', 'qianjie-tiesuo', 'fuyin-history', 'fuyin-current-event', 'skill-ledger-smoke', 'multi-pack-lifecycle'],
 		evidence: [
 			'split-suite-native.json', 'split-suite-policy.json', 'split-suite-extension.json',
 			'repair-node-tests.json',

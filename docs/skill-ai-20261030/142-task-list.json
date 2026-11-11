@@ -863,24 +863,26 @@
       "counts": {
         "characters": 8,
         "skills": 16,
-        "reviewed_skills": 1,
-        "fixed_skills": 1,
-        "verified_skills": 0,
-        "unreviewed_skills": 15,
+        "reviewed_skills": 16,
+        "fixed_skills": 4,
+        "verified_skills": 12,
+        "runtime_verified_skills": 4,
+        "unreviewed_skills": 0,
         "skill_status": {
-          "尚未验证": 15,
-          "已修复": 1
+          "尚未验证": 0,
+          "已修复": 4,
+          "已验证无问题": 12
         }
       },
-      "review_status": "部分修复",
-      "status": "部分修复",
-      "delivery_status": "阶段性",
+      "review_status": "验证完成",
+      "status": "验证完成",
+      "delivery_status": "可交付",
       "delivery": {
         "pack_id": "shenhua_lei",
-        "status": "阶段性",
-        "delivery_status": "阶段性",
+        "status": "可交付",
+        "delivery_status": "可交付",
         "zip_name": "feisheng-ai-shenhua-lei.zip",
-        "note": "阶段包：olkongsheng 已修复，其余登记技能尚未审查。",
+        "note": "完整可交付包：16项技能全部审查；箜声数量、镇骨即时差额、父荫历史对象、谦节铁索解除共4项原生修复，扩展同步接线4项；镇骨P1经真实宿主四配置矩阵验证，扩展与原生部署决策一致。",
         "zip_sha256": "11585739cba93ea833e8da77fdf353f35061b0533e988feaa0a8688bb4d79246",
         "zip_size": 309220,
         "built_at": "2026-11-02T04:21:30.195Z",
@@ -893,7 +895,7 @@
         "upstream_acceptance_sha256": "03bb0d0b6ebfcee8281b8a05e17cb678be41db1a0d14ce8fd58958d6b7c8039d"
       },
       "blocking_issues": [],
-      "can_mark_deliverable": false,
+      "can_mark_deliverable": true,
       "criteria": "该分包全部目标武将的登记技能均已审查、已发现的缺陷已解决、无阻塞性问题，才能标记完整可交付；验证无问题也计入完成。"
     },
     {

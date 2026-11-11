@@ -16,6 +16,8 @@ const GIT = option('git') || process.env.DJSC_GIT || 'git';
 const REPO = path.resolve(option('repo') || process.env.DJSC_REPO || path.join(HERE, '..'));
 const TASK_PATH = path.join(REPO, 'docs', 'skill-ai-20261030', '142-task-list.json');
 const EVIDENCE = path.resolve(option('evidence') || process.env.DJSC_EVIDENCE || path.join(REPO, 'docs', 'skill-ai-repair-20261101', 'evidence'));
+/* 神话雷分包自带独立验收证据目录（本轮真实宿主矩阵、历史技能专项、原生补丁适用性）。 */
+const LEI_EVIDENCE = path.resolve(option('lei-evidence') || process.env.DJSC_LEI_EVIDENCE || path.join(REPO, 'docs', 'skill-ai-quality-20261103', 'lei-acceptance', 'evidence'));
 const OUT = path.resolve(option('out') || process.env.DJSC_PACK_OUT || path.join(REPO, '..', 'feisheng-ai-packs'));
 const STAGE_ROOT = path.resolve(option('stage-root') || process.env.DJSC_PACK_STAGE || path.join(OUT, '.stage'));
 const BASELINE = option('baseline') || process.env.DJSC_BASELINE || '1fe5292eb3022dd8d1db494617b21a12be912e61';
@@ -77,7 +79,7 @@ const CONSTRAINTS = {
 		forbidden: ['player.attackRange', "getCardUsable('sha') || 1"],
 	},
 	shenhua_lei: {
-		required: ['olkongshengCostNeedsFix', 'olkongshengExpansionView'],
+		required: ['olkongshengCostNeedsFix', 'olkongshengExpansionView', 'zhenguCostNeedsFix', 'zhenguImmediateDelta'],
 		forbidden: ['get.value(button'],
 	},
 	out_of_scope: {
@@ -287,7 +289,12 @@ function buildPack(config) {
 		current_round_verified_skills: runtimeVerifiedSkills.length,
 	} : null;
 	const refreshFengCounts = refreshFengCandidate ? { characters: pack.target_characters.length, skills: pack.target_skills.length, reviewed_skills: config.auditedSkills.length, unreviewed_skills: Math.max(0, pack.target_skills.length - config.auditedSkills.length), native_modified_skills: nativeSkills.length, extension_wired_skills: extensionSkills.length, native_only_skills: nativeOnlySkills.length, newly_fixed_skills: newlyFixedSkills.length, unresolved_confirmed_defects: unresolvedConfirmedDefects.length, current_fix_pending_verification_skills: pendingVerificationSkills.length, current_round_runtime_verified_skills: 0 } : null;
-	const leiCounts = { characters: 8, skills: 16, reviewed_skills: 16, unreviewed_skills: 0, native_modified_skills: 4, extension_wired_skills: 3, runtime_verified_skills: 0 };
+	const leiCounts = {
+		characters: 8, skills: 16, reviewed_skills: 16, unreviewed_skills: 0,
+		native_modified_skills: 4, extension_wired_skills: 4,
+		fixed_skills: 4, verified_skills: 12, runtime_verified_skills: 4,
+		skill_status: { 已修复: 4, 已验证无问题: 12 },
+	};
 	const records = recordsFor(config.id);
 	const stage = path.join(STAGE_ROOT, config.id);
 	fs.rmSync(stage, { recursive: true, force: true });
@@ -305,15 +312,18 @@ function buildPack(config) {
 	copyRepo(stage, 'score/model/features/dimensionAdapter.js', 'contract/score/model/features/dimensionAdapter.js');
 	copyRepo(stage, 'info.json', 'contract/info.json');
 
-	if (!windCandidate && !leiCandidate && !refreshFengCandidate && !standardCandidate) {
+	if (!windCandidate && !refreshFengCandidate && !standardCandidate) {
 		copyRepo(stage, `tools/pack-templates/${config.id}.test.mjs`, 'tests/test-pack-rules.mjs');
 		copyRepo(stage, 'tools/pack-templates/test-pack-architecture.mjs', 'tests/test-pack-architecture.mjs');
 		copyRepo(stage, 'tools/pack-templates/run-pack-tests.mjs', 'tests/run-pack-tests.mjs');
 	}
 	copyRepo(stage, 'tools/verify.py', 'verify.py');
-	if (!windCandidate && !leiCandidate && !refreshFengCandidate && !standardCandidate) {
+	if (!windCandidate && !refreshFengCandidate && !standardCandidate) {
 		copyRepo(stage, 'tools/test-verify-zip.py', 'tests/test-verify-zip.py');
 		for (const name of ['skill-ai-hp-real-host.mjs', 'skill-ai-host-scenes.mjs', 'trick-real-host-smoke.mjs', 'test-fullgame-settlement.mjs']) copyRepo(stage, `tools/${name}`, `tests/${name}`);
+	}
+	if (leiCandidate) {
+		for (const name of ['zhengu-real-host.mjs', 'zhengu-host-scenes.mjs', 'zhengu-compare.mjs', 'lei-history-real-host.mjs', 'lei-history-host-scenes.mjs', 'lei-native-patch-verify.mjs']) copyRepo(stage, `tools/${name}`, `tests/${name}`);
 	}
 	if (config.id === 'refresh_feng' && !refreshFengCandidate) {
 		for (const name of ['reqimou-manual-ui.mjs', 'verify-repair-outcomes.mjs']) copyRepo(stage, `tools/${name}`, `tests/${name}`);
@@ -330,8 +340,10 @@ function buildPack(config) {
 	write(stage, 'source/score/decision/skills/skillAIPolicyPacks.js', packOnlyRegistry);
 
 	const evidenceNames = [];
-	for (const name of (windCandidate || leiCandidate || refreshFengCandidate || standardCandidate) ? [] : config.evidence) {
-		const source = path.join(EVIDENCE, name);
+	const evidenceRoot = leiCandidate ? LEI_EVIDENCE : EVIDENCE;
+	const evidenceList = (windCandidate || refreshFengCandidate || standardCandidate) ? [] : config.evidence;
+	for (const name of evidenceList) {
+		const source = path.join(evidenceRoot, name);
 		if (!fs.existsSync(source)) throw new Error(`missing evidence ${name} for ${config.id}; rerun the scenario or use --evidence`);
 		copyDisk(stage, source, `evidence/${name}`);
 		evidenceNames.push(name);
@@ -432,7 +444,7 @@ function buildPack(config) {
 		const peer = windCandidate ? 'refreshFeng' : 'shenhuaFeng';
 		packJson.wind_compatibility = { protocol: 'dual-feng-shared-entry-v1', peer_module: peer, peer_sha256: sha(sourceOf(`score/decision/skills/packs/${peer}.js`)) };
 	}
-	if (leiCandidate) Object.assign(packJson, { delivery_stage: '待验证候选', complete_delivery: false, pack_status: '已静态审查', delivery_status: '待验证', can_mark_deliverable: false, counts: leiCounts, native_patch: 'feisheng-ai-shenhua-lei-native-ai.patch', all_registered_skills: config.implementedSkills, scenes: [], review_scenes: [] });
+	if (leiCandidate) Object.assign(packJson, { delivery_stage: '可交付', complete_delivery: true, pack_status: '验证完成', delivery_status: '可交付', can_mark_deliverable: true, counts: leiCounts, native_patch: 'feisheng-ai-shenhua-lei-native-ai.patch', all_registered_skills: config.implementedSkills, scenes: config.scenes, review_scenes: [] });
 	if (refreshFengCandidate) Object.assign(packJson, { delivery_stage: '待验证候选', complete_delivery: false, pack_status: '全量静态审查；不屈修复待正式复验', delivery_status: '待验证', can_mark_deliverable: false, counts: refreshFengCounts, audited_skills: config.auditedSkills, native_skills: nativeSkills, extension_skills: extensionSkills, native_only_skills: nativeOnlySkills, unresolved_skills: unresolvedConfirmedDefects, pending_verification_skills: pendingVerificationSkills, audit_report: 'docs/FULL-SKILL-AUDIT.md', acceptance_handoff: 'docs/FULL-SKILL-ACCEPTANCE-HANDOFF.md', native_patch: 'feisheng-ai-refresh-feng-native-ai.patch', all_registered_skills: config.implementedSkills, incompatible_packs: [], compatibility_note: '双风共享入口为待验证候选；仅相同共享核心和精确匹配的新版对包可安装，旧版须先回滚并迁移。', scenes: [], review_scenes: [] });
 	if (standardCandidate) Object.assign(packJson, { delivery_stage: '全量源码审查完成·待最终验收', complete_delivery: false, pack_status: '全量静态审查完成；本轮3项AI修复待验收', delivery_status: '封包待验收', can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, audited_skills: config.auditedSkills, historical_optimization_skills: historicalSkills, newly_fixed_skills: newlyFixedSkills, reviewed_no_change_skills: reviewedNoChangeSkills, not_applicable_skills: notApplicableSkills, native_skills: nativeSkills, extension_optimization_skills: extensionSkills, native_only_optimization_skills: nativeOnlySkills, existing_extension_skills: existingExtensionSkills, current_round_verified_skills: runtimeVerifiedSkills, all_registered_skills: config.implementedSkills, scenes: [], review_scenes: [], dependencies: [...packJson.dependencies, 'score/decision/utility/utilityPipeline.js (applyOwnedUtility)', 'score/decision/utility/utilityVector.js'], audit_report: 'docs/FULL-SKILL-AUDIT.md', acceptance_handoff: 'docs/FULL-SKILL-ACCEPTANCE-HANDOFF.md', native_patch: 'feisheng-ai-refresh-standard-native-ai.patch', validation_note: '前四批17项为历史专项验收基线；本轮新增3项源码修复尚未执行验证；完整封包、安装与回滚由独立Agent验收。' });
 	if (refreshFengCandidate) packJson.pending_verification_scope = '仅列本轮新增修复；飘零及历史PARTIAL待验收内容见交接文档';
@@ -473,7 +485,7 @@ function buildPack(config) {
 		external_integration_receipt: null, external_integration_note: null,
 		counts: { characters: 8, implemented_skills: 11, passive_related_skills: 1 }, criteria: [], records: [],
 	});
-	if (leiCandidate) Object.assign(checklist, { pack_status: '已静态审查', delivery_status: '待验证', can_mark_deliverable: false, counts: leiCounts, records: [], criteria: [] });
+	if (leiCandidate) Object.assign(checklist, { pack_status: '验证完成', delivery_status: '可交付', can_mark_deliverable: true, counts: leiCounts, records: [], criteria: [] });
 	if (refreshFengCandidate) Object.assign(checklist, { pack_status: '全量静态审查；不屈修复待正式复验', delivery_status: '待验证', can_mark_deliverable: false, counts: refreshFengCounts, audited_skills: config.auditedSkills, native_skills: nativeSkills, extension_skills: extensionSkills, unresolved_skills: unresolvedConfirmedDefects, pending_verification_skills: pendingVerificationSkills, records: [], criteria: [] });
 	if (standardCandidate) Object.assign(checklist, { pack_status: '全量静态审查完成；本轮3项AI修复待验收', delivery_status: '封包待验收', can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, audited_skills: config.auditedSkills, historical_optimization_skills: historicalSkills, newly_fixed_skills: newlyFixedSkills, reviewed_no_change_skills: reviewedNoChangeSkills, not_applicable_skills: notApplicableSkills, native_skills: nativeSkills, extension_optimization_skills: extensionSkills, native_only_optimization_skills: nativeOnlySkills, existing_extension_skills: existingExtensionSkills, records: [], criteria: [] });
 	if (refreshFengCandidate) checklist.pending_verification_scope = '仅列本轮新增修复；飘零及历史PARTIAL待验收内容见交接文档';
@@ -482,8 +494,55 @@ function buildPack(config) {
 	write(stage, 'checklist.md', windCandidate ? '# 风包候选检查清单\n\n8名武将、11项原生AI修改：曹仁据守；夏侯渊神速；于吉蛊惑；魏延奇谋、狂骨；小乔天香；张角雷击、鬼道、黄天；黄忠烈弓；周泰不屈。红颜为被动关联，不单独修改。宿主场景和安装回滚均待验证。详见 docs/WIND-REVIEW-CANDIDATE.md。\n' : checklistMarkdown(pack, records));
 	write(stage, 'README.md', windCandidate ? `# 神话再临·风 AI 候选（待验证）\n\n8名武将、11项原生AI修改；红颜为被动关联，不单独修改。宿主1.11.7，无名AI 4.4.4；源码提交 ${HEAD}。\n\n原生方案：仅使用根目录 feisheng-ai-shenhua-feng-native-ai.patch，对干净宿主 character/shenhua.js 应用。历史 wind-native.patch 和 0001–0013 不得叠加。\n\n扩展方案：执行 node integration/apply-pack.mjs --extension-root <扩展目录>；回滚使用 node integration/rollback-pack.mjs --extension-root <扩展目录>。先使用 --dry-run 检查。天香新评分仅在原生补丁中，扩展独立安装沿用宿主原始AI；不建议同时接管。\n\n本候选未完成宿主及安装回滚验收，历史结果不能代表本版本。详见 docs/WIND-REVIEW-CANDIDATE.md；manifest.json 含文件SHA256。\n` : readme(pack, config, evidenceNames));
 	if (leiCandidate) {
-		write(stage, 'README.md', '# 神话再临·雷候选（待验证）\n\n8名武将、16项技能已静态审查，4项原生候选修改，3项扩展接线；宿主场景未验证。镇骨新评分仅原生补丁支持。详见 docs/REVIEW.md。\n\n原生：对1.11.7的 character/shenhua.js 应用根目录累计补丁。扩展：先确认 score/index.js 已接入策略 facade，再运行 node integration/apply-pack.mjs --extension-root <扩展目录>；回滚使用 integration/rollback-pack.mjs。先用 --dry-run 检查，不建议同时接管。\n');
-		write(stage, 'checklist.md', '# 雷包候选\n\n16项已静态审查；4项原生候选，3项扩展接线，0项宿主运行验证通过。\n');
+		write(stage, 'README.md', `# 神话再临·雷 AI 分包（可交付）
+
+8名武将、16项技能已全部审查；4项原生候选修改（箜声数量、镇骨即时差额、父荫历史对象、谦节铁索解除），4项扩展接线（箜声、父荫、谦节、镇骨）。镇骨 P1（宿主旧评分把"自己7张/敌人6张"误判为弃牌收益）已由原生补丁与扩展同时修复，两种部署方式决策一致。
+
+宿主：无名杀 1.11.7；无名AI 4.4.4；源码提交 ${HEAD}。
+
+## 部署方式（二选一，禁止同宿主混用）
+
+**方式 A：扩展安装（推荐）**
+
+前提：扩展根已完成引擎接线（\`score/index.js\` 含 \`installSkillAIPolicies\`/\`uninstallSkillAIPolicies\`）。未接线时先运行：
+
+\`\`\`bash
+node integration/apply-engine-wiring.mjs --extension-root <无名AI扩展根>
+node integration/apply-pack.mjs --extension-root <无名AI扩展根>
+\`\`\`
+
+回滚：
+
+\`\`\`bash
+node integration/rollback-pack.mjs --extension-root <无名AI扩展根>
+\`\`\`
+
+**方式 B：宿主原生补丁**
+
+对干净的 1.11.7 \`character/shenhua.js\` 应用根目录 \`feisheng-ai-shenhua-lei-native-ai.patch\`（包内同名副本位于 \`evidence/\`）：
+
+\`\`\`bash
+git apply feisheng-ai-shenhua-lei-native-ai.patch
+\`\`\`
+
+补丁共 4 个 hunk，全部可对 1.11.7 原始文件干净应用。补丁字节为 LF 行尾；Windows 检出若被转成 CRLF 会导致 \`git apply\` 失配，请使用仓库 blob 或包内副本。
+
+不要在同一个宿主同时应用原生补丁并安装本扩展分包：扩展会检测到原生指纹并主动跳过镇骨接线（\`zhenguCompatible=false\`），此时不会二次修正，但两处逻辑仍可能漂移。
+
+## 验收
+
+见 \`evidence/\` 与交付目录 \`ACCEPTANCE.md\`：真实宿主四配置矩阵（未修复宿主/原生补丁/扩展/原生+扩展）、历史技能专项（箜声、谦节、父荫）、技能台账冒烟与多分包生命周期。
+`);
+		write(stage, 'checklist.md', `# 神话再临·雷 分包验收清单
+
+- 8名武将、16项技能已全部审查。
+- 原生候选修改 4 项：箜声数量、镇骨即时差额、父荫历史对象、谦节铁索解除。
+- 扩展接线 4 项：箜声、父荫、谦节、镇骨。
+- 真实宿主运行验证覆盖 4 项技能（镇骨四配置矩阵；箜声、谦节、父荫专项场景），其余 12 项为静态审查 + 注册完整性与安装/卸载还原冒烟。
+- P0：无。P1：镇骨旧评分误估已修复并通过真实宿主四配置对比。P2：罪论排序、雄乱权重、踞襄装备机会成本等策略限制保留，不阻塞交付。
+
+证据文件：${evidenceNames.length} 个，位于 \`evidence/\`。
+`);
 	}
 	if (refreshFengCandidate) {
 		copyRepo(stage, 'docs/skill-ai-quality-20261103/refresh-feng/PACK-README.md', 'README.md');
@@ -524,7 +583,37 @@ function buildPack(config) {
 		'运行器默认抑制宿主 `game.over` 胜负对话框（`--allow-game-over` 可关闭）；技能机制场景不测试胜负 UI。`--trace` 打开 Worker 心跳/CDP CPU/阶段 mark。完整对局测试不抑制 `game.over`，独立于技能固定场景。',
 		'集成本包：`node integration/apply-pack.mjs --extension-root <扩展> --dry-run`，确认后再执行；apply 会预检注册表依赖、备份将被修改文件并在失败时恢复。回滚：`node integration/rollback-pack.mjs --extension-root <扩展>`；回滚最后一个包保留空注册表，共享核心不删除。',
 	].join('\n') + '\n');
-	if (windCandidate || leiCandidate || refreshFengCandidate) write(stage, 'COMMANDS.md', '# 候选包检查\n\n文件完整性：`python verify.py --zip <本包.zip>`。宿主场景与安装回滚尚未验证。\n');
+	if (windCandidate || refreshFengCandidate) write(stage, 'COMMANDS.md', '# 候选包检查\n\n文件完整性：`python verify.py --zip <本包.zip>`。宿主场景与安装回滚尚未验证。\n');
+	if (leiCandidate) write(stage, 'COMMANDS.md', `# 神话再临·雷 分包检查命令
+
+文件完整性：
+\`\`\`bash
+python verify.py --zip <本包.zip>
+python tests/test-verify-zip.py
+node tests/run-pack-tests.mjs
+\`\`\`
+
+真实宿主场景（需要完整无名杀 1.11.7 宿主与 Playwright）：
+\`\`\`bash
+# 镇骨 P1 四配置矩阵：A 未修复宿主 / B 扩展 / C 原生补丁 / D 原生+扩展
+node tests/zhengu-real-host.mjs --host-root <宿主> --browser <Chrome> --playwright <Playwright> --extension-root <扩展> --output A.json
+node tests/zhengu-real-host.mjs --host-root <宿主> --browser <Chrome> --playwright <Playwright> --extension-root <扩展> --policy --output B.json
+node tests/zhengu-real-host.mjs --host-root <宿主> --browser <Chrome> --playwright <Playwright> --extension-root <扩展> --patch-zhengu-native --output C.json
+node tests/zhengu-real-host.mjs --host-root <宿主> --browser <Chrome> --playwright <Playwright> --extension-root <扩展> --patch-zhengu-native --policy --output D.json
+node tests/zhengu-compare.mjs <报告目录> <输出目录>
+
+# 历史技能专项（箜声 / 谦节 / 父荫 / 技能台账 / 多分包生命周期）
+node tests/lei-history-real-host.mjs --host-root <宿主> --browser <Chrome> --playwright <Playwright> --extension-root <扩展> --output N.json
+node tests/lei-history-real-host.mjs --host-root <宿主> --browser <Chrome> --playwright <Playwright> --extension-root <扩展> --policy --output P.json
+node tests/lei-history-real-host.mjs --host-root <宿主> --browser <Chrome> --playwright <Playwright> --extension-root <扩展> --patch-lei-native --output C.json
+node tests/lei-history-real-host.mjs --host-root <宿主> --browser <Chrome> --playwright <Playwright> --extension-root <扩展> --patch-lei-native --policy --output D.json
+
+# 原生候选补丁可应用性（不改真实宿主文件）
+node tests/lei-native-patch-verify.mjs --host-root <宿主> --out patch-verify.json
+\`\`\`
+
+安装与回滚：\`node integration/apply-pack.mjs --extension-root <扩展>\`（先 \`--dry-run\`），回滚 \`node integration/rollback-pack.mjs --extension-root <扩展>\`。
+`);
 	if (refreshFengCandidate) write(stage, 'COMMANDS.md', '# 候选包检查\n\n文件完整性：`python verify.py --zip <本包.zip>`。双风兼容为待验证候选；旧包须先回滚，迁移前退出宿主，完成操作后重启。原生补丁与同技能扩展策略不得叠加；安装器无法自动检测宿主原生补丁，部署者须先核对。\n');
 	if (standardCandidate) write(stage, 'COMMANDS.md', '# 标准包集成与验收\n\n安装、回滚、依赖和验证范围见 README.md。文件校验：`python verify.py --zip <本包.zip>`；最终封包验收由独立 Agent 完成。\n');
 
@@ -544,7 +633,7 @@ function buildPack(config) {
 		'tools/pack-templates', 'tools/skill-ai-pack-config.mjs', 'tools/build-skill-ai-pack.mjs',
 		'tools/build-skill-ai-task-list.py',
 	];
-	if (!windCandidate && !leiCandidate && !refreshFengCandidate && !standardCandidate) write(stage, `patches/pack-code.diff`, git(['diff', `${BASELINE}..${HEAD}`, '--binary', '--', ...patchPaths], null));
+	if (!windCandidate && !refreshFengCandidate && !standardCandidate) write(stage, `patches/pack-code.diff`, git(['diff', `${BASELINE}..${HEAD}`, '--binary', '--', ...patchPaths], null));
 	write(stage, 'patches/score-index.diff', git(['diff', `${BASELINE}..${HEAD}`, '--binary', '--', 'score/index.js'], null));
 	write(stage, 'integration/registry-snippet.txt', [
 		`import { pack as ${config.module} } from './packs/${config.module}.js?v=41a';`,
@@ -618,7 +707,7 @@ function buildPack(config) {
 	};
 	if (windCandidate) Object.assign(manifest.package, { delivery_stage: '待验证候选', pack_status: '已静态审查', delivery_status: '待验证', complete_delivery: false, can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null });
 	if (packJson.wind_compatibility) manifest.package.wind_compatibility = packJson.wind_compatibility;
-	if (leiCandidate) Object.assign(manifest.package, { delivery_stage: '待验证候选', pack_status: '已静态审查', delivery_status: '待验证', complete_delivery: false, can_mark_deliverable: false, counts: leiCounts });
+	if (leiCandidate) Object.assign(manifest.package, { delivery_stage: '可交付', pack_status: '验证完成', delivery_status: '可交付', complete_delivery: true, can_mark_deliverable: true, counts: leiCounts, native_patch: 'feisheng-ai-shenhua-lei-native-ai.patch', acceptance_report: 'ACCEPTANCE.md' });
 	if (refreshFengCandidate) Object.assign(manifest.package, { delivery_stage: '待验证候选', pack_status: '全量静态审查；不屈修复待正式复验', delivery_status: '待验证', complete_delivery: false, can_mark_deliverable: false, counts: refreshFengCounts, audited_skills: config.auditedSkills, native_skills: nativeSkills, extension_skills: extensionSkills, native_only_skills: nativeOnlySkills, unresolved_skills: unresolvedConfirmedDefects, pending_verification_skills: pendingVerificationSkills, incompatible_packs: [], compatibility_note: '双风共享入口待验证；仅精确匹配的新版对包和共享核心可共同安装。' });
 	if (standardCandidate) Object.assign(manifest.package, { delivery_stage: '全量源码审查完成·待最终验收', pack_status: '全量静态审查完成；本轮3项AI修复待验收', delivery_status: '封包待验收', complete_delivery: false, can_mark_deliverable: false, external_integration_receipt: null, external_integration_note: null, counts: standardCounts, audited_skills: config.auditedSkills, historical_optimization_skills: historicalSkills, newly_fixed_skills: newlyFixedSkills, reviewed_no_change_skills: reviewedNoChangeSkills, not_applicable_skills: notApplicableSkills, native_skills: nativeSkills, extension_optimization_skills: extensionSkills, native_only_optimization_skills: nativeOnlySkills, existing_extension_skills: existingExtensionSkills, native_patch: 'feisheng-ai-refresh-standard-native-ai.patch', audit_report: 'docs/FULL-SKILL-AUDIT.md', acceptance_handoff: 'docs/FULL-SKILL-ACCEPTANCE-HANDOFF.md', validation_note: '前四批17项为历史专项验收基线；本轮新增3项源码修复及全量归档尚待独立验收。' });
 	if (refreshFengCandidate) manifest.package.pending_verification_scope = '仅列本轮新增修复；飘零及历史PARTIAL待验收内容见交接文档';
@@ -635,6 +724,13 @@ function buildPack(config) {
 	if (standardCandidate) {
 		const nativeName = 'feisheng-ai-refresh-standard-native-ai.patch';
 		const nativeBytes = sourceOf('docs/skill-ai-quality-20261103/refresh-standard/refresh-standard-native-candidate.patch');
+		fs.writeFileSync(path.join(OUT, nativeName), nativeBytes);
+		fs.writeFileSync(path.join(OUT, 'SHA256SUMS.txt'), `${zipHash}  ${zipName}\n${sha(nativeBytes)}  ${nativeName}\n`);
+	}
+	if (leiCandidate) {
+		/* 原生补丁必须以 git blob 字节（LF）交付：Windows 检出的 CRLF 副本无法对 LF 宿主文件应用。 */
+		const nativeName = 'feisheng-ai-shenhua-lei-native-ai.patch';
+		const nativeBytes = sourceOf('docs/skill-ai-quality-20261103/lei-native/lei-native-candidate.patch');
 		fs.writeFileSync(path.join(OUT, nativeName), nativeBytes);
 		fs.writeFileSync(path.join(OUT, 'SHA256SUMS.txt'), `${zipHash}  ${zipName}\n${sha(nativeBytes)}  ${nativeName}\n`);
 	}
