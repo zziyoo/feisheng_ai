@@ -6,3 +6,8 @@ __pycache__/
 *.py[cod]
 *.bak
 build/  
+
+# 真实宿主验收夹具产生的临时截图与日志，不进入正式源码
+tools/.*-failure.png
+tools/.*failure*.png
+*.log

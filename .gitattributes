@@ -1,0 +1,4 @@
+# 补丁文件必须保持 LF 行尾：目标宿主 character/shenhua.js 为 LF，
+# Windows 检出若把补丁转成 CRLF，git apply 会因上下文失配而无法应用。
+*.patch text eol=lf
+*.diff text eol=lf
