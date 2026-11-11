@@ -1,0 +1,467 @@
+{
+  "checkedConfigs": [
+    "A",
+    "B",
+    "C",
+    "D"
+  ],
+  "checkedAt": "2026-11-11T11:01:52.089Z",
+  "matrix": [
+    {
+      "config": "A",
+      "scene": "710e",
+      "own": 7,
+      "target": 6,
+      "attitude": -4,
+      "score": 4,
+      "activated": true,
+      "delta": 0,
+      "formula": "host-old"
+    },
+    {
+      "config": "A",
+      "scene": "608e",
+      "own": 6,
+      "target": 8,
+      "attitude": -4,
+      "score": 12,
+      "activated": true,
+      "delta": -2,
+      "formula": "host-old"
+    },
+    {
+      "config": "A",
+      "scene": "301e",
+      "own": 3,
+      "target": 1,
+      "attitude": -4,
+      "score": -8,
+      "activated": false,
+      "delta": 0,
+      "formula": "host-old"
+    },
+    {
+      "config": "A",
+      "scene": "305e",
+      "own": 3,
+      "target": 5,
+      "attitude": -4,
+      "score": 8,
+      "activated": true,
+      "delta": -2,
+      "formula": "host-old"
+    },
+    {
+      "config": "A",
+      "scene": "710a",
+      "own": 7,
+      "target": 6,
+      "attitude": 6,
+      "score": -6,
+      "activated": false,
+      "delta": 0,
+      "formula": "host-old"
+    },
+    {
+      "config": "A",
+      "scene": "608a",
+      "own": 6,
+      "target": 8,
+      "attitude": 6,
+      "score": -18,
+      "activated": false,
+      "delta": 0,
+      "formula": "host-old"
+    },
+    {
+      "config": "A",
+      "scene": "301a",
+      "own": 3,
+      "target": 1,
+      "attitude": 6,
+      "score": 12,
+      "activated": true,
+      "delta": 2,
+      "formula": "host-old"
+    },
+    {
+      "config": "A",
+      "scene": "305a",
+      "own": 3,
+      "target": 5,
+      "attitude": 6,
+      "score": -12,
+      "activated": false,
+      "delta": 0,
+      "formula": "host-old"
+    },
+    {
+      "config": "B",
+      "scene": "710e",
+      "own": 7,
+      "target": 6,
+      "attitude": -4,
+      "score": 0,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "B",
+      "scene": "608e",
+      "own": 6,
+      "target": 8,
+      "attitude": -4,
+      "score": 8,
+      "activated": true,
+      "delta": -2,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "B",
+      "scene": "301e",
+      "own": 3,
+      "target": 1,
+      "attitude": -4,
+      "score": -8,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "B",
+      "scene": "305e",
+      "own": 3,
+      "target": 5,
+      "attitude": -4,
+      "score": 8,
+      "activated": true,
+      "delta": -2,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "B",
+      "scene": "710a",
+      "own": 7,
+      "target": 6,
+      "attitude": 6,
+      "score": 0,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "B",
+      "scene": "608a",
+      "own": 6,
+      "target": 8,
+      "attitude": 6,
+      "score": -12,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "B",
+      "scene": "301a",
+      "own": 3,
+      "target": 1,
+      "attitude": 6,
+      "score": 12,
+      "activated": true,
+      "delta": 2,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "B",
+      "scene": "305a",
+      "own": 3,
+      "target": 5,
+      "attitude": 6,
+      "score": -12,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "C",
+      "scene": "710e",
+      "own": 7,
+      "target": 6,
+      "attitude": -4,
+      "score": 0,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "C",
+      "scene": "608e",
+      "own": 6,
+      "target": 8,
+      "attitude": -4,
+      "score": 8,
+      "activated": true,
+      "delta": -2,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "C",
+      "scene": "301e",
+      "own": 3,
+      "target": 1,
+      "attitude": -4,
+      "score": -8,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "C",
+      "scene": "305e",
+      "own": 3,
+      "target": 5,
+      "attitude": -4,
+      "score": 8,
+      "activated": true,
+      "delta": -2,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "C",
+      "scene": "710a",
+      "own": 7,
+      "target": 6,
+      "attitude": 6,
+      "score": 0,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "C",
+      "scene": "608a",
+      "own": 6,
+      "target": 8,
+      "attitude": 6,
+      "score": -12,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "C",
+      "scene": "301a",
+      "own": 3,
+      "target": 1,
+      "attitude": 6,
+      "score": 12,
+      "activated": true,
+      "delta": 2,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "C",
+      "scene": "305a",
+      "own": 3,
+      "target": 5,
+      "attitude": 6,
+      "score": -12,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "D",
+      "scene": "710e",
+      "own": 7,
+      "target": 6,
+      "attitude": -4,
+      "score": 0,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "D",
+      "scene": "608e",
+      "own": 6,
+      "target": 8,
+      "attitude": -4,
+      "score": 8,
+      "activated": true,
+      "delta": -2,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "D",
+      "scene": "301e",
+      "own": 3,
+      "target": 1,
+      "attitude": -4,
+      "score": -8,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "D",
+      "scene": "305e",
+      "own": 3,
+      "target": 5,
+      "attitude": -4,
+      "score": 8,
+      "activated": true,
+      "delta": -2,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "D",
+      "scene": "710a",
+      "own": 7,
+      "target": 6,
+      "attitude": 6,
+      "score": 0,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "D",
+      "scene": "608a",
+      "own": 6,
+      "target": 8,
+      "attitude": 6,
+      "score": -12,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "D",
+      "scene": "301a",
+      "own": 3,
+      "target": 1,
+      "attitude": 6,
+      "score": 12,
+      "activated": true,
+      "delta": 2,
+      "formula": "sync-fixed"
+    },
+    {
+      "config": "D",
+      "scene": "305a",
+      "own": 3,
+      "target": 5,
+      "attitude": 6,
+      "score": -12,
+      "activated": false,
+      "delta": 0,
+      "formula": "sync-fixed"
+    }
+  ],
+  "conclusions": {
+    "hostOldScores": [
+      {
+        "scene": "710e",
+        "score": 4,
+        "activated": true,
+        "delta": 0
+      },
+      {
+        "scene": "608e",
+        "score": 12,
+        "activated": true,
+        "delta": -2
+      },
+      {
+        "scene": "301e",
+        "score": -8,
+        "activated": false,
+        "delta": 0
+      },
+      {
+        "scene": "305e",
+        "score": 8,
+        "activated": true,
+        "delta": -2
+      },
+      {
+        "scene": "710a",
+        "score": -6,
+        "activated": false,
+        "delta": 0
+      },
+      {
+        "scene": "608a",
+        "score": -18,
+        "activated": false,
+        "delta": 0
+      },
+      {
+        "scene": "301a",
+        "score": 12,
+        "activated": true,
+        "delta": 2
+      },
+      {
+        "scene": "305a",
+        "score": -12,
+        "activated": false,
+        "delta": 0
+      }
+    ],
+    "fixedScores": [
+      {
+        "scene": "710e",
+        "score": 0,
+        "activated": false,
+        "delta": 0
+      },
+      {
+        "scene": "608e",
+        "score": 8,
+        "activated": true,
+        "delta": -2
+      },
+      {
+        "scene": "301e",
+        "score": -8,
+        "activated": false,
+        "delta": 0
+      },
+      {
+        "scene": "305e",
+        "score": 8,
+        "activated": true,
+        "delta": -2
+      },
+      {
+        "scene": "710a",
+        "score": 0,
+        "activated": false,
+        "delta": 0
+      },
+      {
+        "scene": "608a",
+        "score": -12,
+        "activated": false,
+        "delta": 0
+      },
+      {
+        "scene": "301a",
+        "score": 12,
+        "activated": true,
+        "delta": 2
+      },
+      {
+        "scene": "305a",
+        "score": -12,
+        "activated": false,
+        "delta": 0
+      }
+    ],
+    "unpatchedExtensionEqualsNative": true,
+    "patchedExtensionSkips": true
+  }
+}

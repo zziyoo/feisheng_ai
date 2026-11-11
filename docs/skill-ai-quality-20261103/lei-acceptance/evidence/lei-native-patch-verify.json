@@ -1,0 +1,63 @@
+{
+  "checkedAt": "2026-11-11T10:35:50.345Z",
+  "hostRoot": "C:\\Users\\32360\\Desktop\\无名杀-win32-x64\\resources\\app",
+  "hostFile": "character/shenhua.js",
+  "hostVersion": "1.11.7",
+  "hostSha256Before": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+  "patch": {
+    "repoPath": "docs/skill-ai-quality-20261103/lei-native/lei-native-candidate.patch",
+    "source": "git blob (HEAD)",
+    "sha256": "805ec28922619748d829886ec0ca581162bc7b91085f261eab8756d9d894734a",
+    "bytes": 2268,
+    "eol": "LF",
+    "eolDetail": {
+      "crlf": 0,
+      "lf_only": 43,
+      "cr_only": 0,
+      "eol": "LF"
+    }
+  },
+  "worktreePatchBytes": {
+    "sha256": "99de9b1bd64098d88222024c5e7c4f067477340083939bf48da761edf384e9ef",
+    "eol": "CRLF",
+    "bytes": 2311
+  },
+  "worktreeApply": {
+    "eol": "CRLF",
+    "sha256": "99de9b1bd64098d88222024c5e7c4f067477340083939bf48da761edf384e9ef",
+    "applies": false,
+    "detail": "            return false;?\n\nerror: patch failed: character/shenhua.js:792\nerror: character/shenhua.js: patch does not apply"
+  },
+  "applies": true,
+  "applyDetail": "Checking patch character/shenhua.js...",
+  "hostSha256After": "37328a22bd1b6c78b9118fc6992e174792d7a1bd068538d4d6e6df7f43791a5f",
+  "hunks": [
+    {
+      "index": 1,
+      "header": "@@ -792,7 +792,7 @@ const skills = {",
+      "status": "applies",
+      "detail": "Checking patch character/shenhua.js..."
+    },
+    {
+      "index": 2,
+      "header": "@@ -1177,7 +1177,8 @@ const skills = {",
+      "status": "applies",
+      "detail": "Checking patch character/shenhua.js..."
+    },
+    {
+      "index": 3,
+      "header": "@@ -1384,7 +1385,7 @@ const skills = {",
+      "status": "applies",
+      "detail": "Checking patch character/shenhua.js...\nHunk #1 succeeded at 1384 (offset -1 lines)."
+    },
+    {
+      "index": 4,
+      "header": "@@ -1420,8 +1421,8 @@ const skills = {",
+      "status": "applies",
+      "detail": "Checking patch character/shenhua.js...\nHunk #1 succeeded at 1420 (offset -1 lines)."
+    }
+  ],
+  "hunkCount": 4,
+  "appliedHunks": 4,
+  "applyOutput": ""
+}

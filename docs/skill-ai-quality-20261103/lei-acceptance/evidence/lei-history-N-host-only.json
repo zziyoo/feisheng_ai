@@ -1,0 +1,443 @@
+{
+  "completedAt": "2026-11-11T11:02:15.055Z",
+  "status": "passed",
+  "scope": "真实无名杀1.11.7身份局宿主；固定公开手牌；真实技能 cost/ai.effect.target/get.effect 消费路径；非完整对局",
+  "config": {
+    "patchedHost": false,
+    "policyInstalled": false
+  },
+  "nativePatch": null,
+  "seed": "20261111",
+  "browserVersion": "157.0.8103.40",
+  "installState": {
+    "policyInstalled": false,
+    "hostVersion": "1.11.7",
+    "mode": "identity",
+    "players": 8,
+    "hasSkill": true,
+    "qianjieWrapMarker": null,
+    "qianjieSource": "target(card) {\n          if (card.name == \"tiesuo\") {\n            return \"zeroplayertarget\";\n          }\n        }",
+    "fuyinWrapMarker": null,
+    "fuyinSource": "target(card, player, target) {\n          let hs = player.getCards(\"h\", (i2) => i2 !== card && (!card.cards || !card.cards.includes(i2))), num = player.getCardUsable(\"sha\");\n          if (card.name !== \"sha\" && card.name ",
+    "kongshengWrapMarker": null,
+    "zhenguHook": "undefined",
+    "stats": null
+  },
+  "scenes": [
+    {
+      "name": "kongsheng-count-threshold",
+      "equipCardName": "chitu",
+      "probeFound": true,
+      "probeValue": 4,
+      "probeType": "equip",
+      "expansionsBefore": 1,
+      "viewInstalled": false,
+      "expansionsIsArray": true,
+      "expansionsLength": 1,
+      "scoreSelectedOne": 1,
+      "selectedOneLen": 1,
+      "scoreSelectedZero": 1,
+      "costResolved": true,
+      "viewRestored": true,
+      "expansionsAfter": 1
+    },
+    {
+      "name": "kongsheng-cost-error",
+      "threw": true,
+      "error": "fixture-choose-card",
+      "viewRestored": true
+    },
+    {
+      "name": "qianjie-tiesuo",
+      "hasEffectTarget": true,
+      "skillExists": true,
+      "effectExists": true,
+      "wrapMarker": null,
+      "effectSourceHead": "target(card) {\n          if (card.name == \"tiesuo\") {\n            return \"zeroplayertarget\";\n          }\n        }",
+      "effectNotLinked": "zeroplayertarget",
+      "getEffectNotLinked": 0,
+      "noLinkTag": true,
+      "isLinked": true,
+      "effectLinked": "zeroplayertarget",
+      "getEffectLinked": 0,
+      "noLinkTagAfter": true
+    },
+    {
+      "name": "fuyin-history",
+      "hasEffectTarget": true,
+      "diagnostics": {
+        "attackerHand": [
+          "sha",
+          "juedou"
+        ],
+        "targetHand": [
+          "shan"
+        ],
+        "canUseSha": true,
+        "canUseJuedou": true,
+        "distance": 1
+      },
+      "firstSha": {
+        "value": [
+          0.33333333333333337,
+          0,
+          0.33333333333333337,
+          0
+        ]
+      },
+      "firstJuedou": {
+        "value": [
+          0.33333333333333337,
+          0,
+          0.33333333333333337,
+          0
+        ]
+      },
+      "historyBefore": 0,
+      "historyAfter": 1,
+      "historyTargets": [
+        [
+          "33256093591:hanmeng"
+        ]
+      ],
+      "secondSha": {
+        "value": [
+          0.33333333333333337,
+          0,
+          0.33333333333333337,
+          0
+        ]
+      },
+      "secondJuedou": {
+        "value": [
+          0.33333333333333337,
+          0,
+          0.33333333333333337,
+          0
+        ]
+      },
+      "allyHistory": 0
+    },
+    {
+      "name": "fuyin-current-event",
+      "consulted": true,
+      "consultCardName": "sha",
+      "consultPlayer": "27409293592:libai",
+      "consultTarget": "33256093591:hanmeng",
+      "historyLength": 0,
+      "currentEventName": "leiHistoryScene",
+      "currentEventSkill": null,
+      "currentEventInHistory": false,
+      "historyTargets": [],
+      "historyEntries": [],
+      "fixedCheckWouldMatch": false,
+      "legacyCheckWouldMatch": false,
+      "result": "zeroplayertarget",
+      "useCardDone": true,
+      "allyHpAfter": 4,
+      "allyHasFuyin": true
+    },
+    {
+      "name": "skill-ledger-smoke",
+      "snapshotBefore": {
+        "zhengrong": {
+          "exists": true,
+          "cost": 507,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "hongju": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": true,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "dcwanglie": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": true,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": true,
+          "sync": false
+        },
+        "drlt_qianjie": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": true,
+          "effectTarget": true,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "drlt_jueyan": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": true,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "drlt_poshi": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "olliangyin": {
+          "exists": true,
+          "cost": 584,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "olkongsheng": {
+          "exists": true,
+          "cost": 1199,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "drlt_xiongluan": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": true,
+          "effectTarget": false,
+          "resultTarget": true,
+          "check": false,
+          "sync": false
+        },
+        "drlt_congjian": {
+          "exists": true,
+          "cost": 1025,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "twjuxiang": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "drlt_yongsi": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "drlt_weidi": {
+          "exists": true,
+          "cost": 1737,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "drlt_zhengu": {
+          "exists": true,
+          "cost": 377,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": true
+        },
+        "xinfu_zuilun": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": true,
+          "sync": false
+        },
+        "xinfu_fuyin": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": true,
+          "effectTarget": true,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        }
+      },
+      "snapshotAfter": {
+        "zhengrong": {
+          "exists": true,
+          "cost": 507,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "hongju": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": true,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "dcwanglie": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": true,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": true,
+          "sync": false
+        },
+        "drlt_qianjie": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": true,
+          "effectTarget": true,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "drlt_jueyan": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": true,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "drlt_poshi": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "olliangyin": {
+          "exists": true,
+          "cost": 584,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "olkongsheng": {
+          "exists": true,
+          "cost": 1199,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "drlt_xiongluan": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": true,
+          "effectTarget": false,
+          "resultTarget": true,
+          "check": false,
+          "sync": false
+        },
+        "drlt_congjian": {
+          "exists": true,
+          "cost": 1025,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "twjuxiang": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "drlt_yongsi": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "drlt_weidi": {
+          "exists": true,
+          "cost": 1737,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        },
+        "drlt_zhengu": {
+          "exists": true,
+          "cost": 377,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": false,
+          "sync": true
+        },
+        "xinfu_zuilun": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": false,
+          "effectTarget": false,
+          "resultTarget": false,
+          "check": true,
+          "sync": false
+        },
+        "xinfu_fuyin": {
+          "exists": true,
+          "cost": 0,
+          "hasAi": true,
+          "effectTarget": true,
+          "resultTarget": false,
+          "check": false,
+          "sync": false
+        }
+      },
+      "registryPacks": [],
+      "duplicates": []
+    }
+  ],
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "players": 8,
+  "errors": [],
+  "benignErrors": []
+}

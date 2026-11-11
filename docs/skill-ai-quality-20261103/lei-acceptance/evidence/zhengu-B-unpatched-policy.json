@@ -1,0 +1,1542 @@
+{
+  "completedAt": "2026-11-11T11:01:31.617Z",
+  "status": "passed",
+  "scope": "真实无名杀1.11.7身份局宿主；固定公开手牌；真实 phaseJieshu/phaseEnd 触发、技能 chooseTarget AI 与 sync 结算；非完整对局",
+  "config": {
+    "patchedHost": false,
+    "policyInstalled": true
+  },
+  "seed": "20261111",
+  "browserVersion": "157.0.8103.40",
+  "installState": {
+    "policyInstalled": true,
+    "hostVersion": "1.11.7",
+    "mode": "identity",
+    "players": 8,
+    "hasSkill": true,
+    "costHasOldFormula": true,
+    "costHasNativeFormula": false,
+    "onChooseTarget": true,
+    "stats": {
+      "installed": true,
+      "fairRedimeng": 0,
+      "redimengMaskFailed": 0,
+      "redimengTrace": [],
+      "keptTao": 0,
+      "keptShan": 0,
+      "skippedExchange": 0,
+      "skippedOrder": 0,
+      "retuxiTargetBonus": 0,
+      "calls": 0,
+      "last": [],
+      "olkongshengCostCalls": 0,
+      "olkongshengCompatible": true,
+      "zhenguCompatible": true,
+      "zhenguEngineHook": true,
+      "zhenguScoreCalls": 0,
+      "zhenguFallbacks": 0,
+      "zhenguHookConflict": 0,
+      "qimouBypass": 0,
+      "kuangguRecover": 0,
+      "kuangguHp2": 0,
+      "jushouTurned": 0,
+      "jushouThreatHold": 0,
+      "shensuSkipJudge": 0,
+      "shensuCostBlock": 0,
+      "shensu4Restrict": 0,
+      "shensu2ArmorKeep": 0,
+      "guhuoLowHpGuard": 0,
+      "guhuoMaterialGate": 0,
+      "huangtianLastShan": 0,
+      "guhuoCalls": 0,
+      "guidaoHongyanFix": 0,
+      "releijiWeighted": 0,
+      "retianxiangJoint": 0,
+      "liegongDrawUnlock": 0,
+      "liegongExtra": 0,
+      "qimouMinPay": 0,
+      "buquHeuristic": 0,
+      "luanjiAllyVeto": 0,
+      "luanjiNetVeto": 0,
+      "tianyiDecline": 0,
+      "tianyiKnownWinPass": 0,
+      "tianyiEngineVeto": 0,
+      "jianchuSkip": 0,
+      "packs": {
+        "out_of_scope": {
+          "fairRedimeng": 0,
+          "redimengMaskFailed": 0,
+          "redimengTrace": []
+        },
+        "refresh_standard": {
+          "keptTao": 0,
+          "keptShan": 0,
+          "skippedExchange": 0,
+          "skippedOrder": 0,
+          "retuxiTargetBonus": 0,
+          "calls": 0,
+          "last": []
+        },
+        "shenhua_lei": {
+          "olkongshengCostCalls": 0,
+          "olkongshengCompatible": true,
+          "zhenguCompatible": true,
+          "zhenguEngineHook": true,
+          "zhenguScoreCalls": 136,
+          "zhenguFallbacks": 0,
+          "zhenguHookConflict": 0
+        },
+        "shenhua_feng": {
+          "qimouBypass": 0,
+          "kuangguRecover": 0,
+          "kuangguHp2": 0,
+          "jushouTurned": 0,
+          "jushouThreatHold": 0,
+          "shensuSkipJudge": 0,
+          "shensuCostBlock": 0,
+          "shensu4Restrict": 0,
+          "shensu2ArmorKeep": 0,
+          "guhuoLowHpGuard": 0,
+          "guhuoMaterialGate": 0,
+          "huangtianLastShan": 0,
+          "guhuoCalls": 0,
+          "guidaoHongyanFix": 0,
+          "releijiWeighted": 0,
+          "retianxiangJoint": 0,
+          "liegongDrawUnlock": 0,
+          "liegongExtra": 0,
+          "qimouMinPay": 0,
+          "buquHeuristic": 0
+        },
+        "shenhua_huo": {
+          "luanjiAllyVeto": 0,
+          "luanjiNetVeto": 0,
+          "tianyiDecline": 0,
+          "tianyiKnownWinPass": 0,
+          "tianyiEngineVeto": 0,
+          "jianchuSkip": 0
+        }
+      },
+      "installation": {
+        "state": "installed",
+        "reason": null
+      }
+    }
+  },
+  "scenes": [
+    {
+      "name": "710e",
+      "relation": "enemy",
+      "own": 7,
+      "target": 6,
+      "targetPlayer": "27409293592:libai",
+      "attitude": -4,
+      "costEvents": 1,
+      "scores": [
+        {
+          "target": "89889483597:jsrg_caofang",
+          "score": -20
+        },
+        {
+          "target": "33256093591:chengjichengcui",
+          "score": -18
+        },
+        {
+          "target": "27409293592:libai",
+          "score": 0
+        },
+        {
+          "target": "37637263593:xizheng",
+          "score": -16
+        },
+        {
+          "target": "38741323595:sm_chixia",
+          "score": -20
+        },
+        {
+          "target": "21322943596:luoxian",
+          "score": -20
+        },
+        {
+          "target": "86181953594:zj_huangchong",
+          "score": -20
+        }
+      ],
+      "targetScore": 0,
+      "choice": {
+        "bool": false,
+        "targets": [],
+        "cancel": true
+      },
+      "costSnapshot": {
+        "prompt": "是否发动【镇骨】？",
+        "prompt2": "结束阶段，你可以选择一名其他角色，你的回合结束时和该角色的下个回合结束时，其将手牌摸至或弃至X张。（X为你的手牌数且至多为5）",
+        "selectTarget": [
+          1,
+          1
+        ],
+        "forced": false,
+        "filterTargetType": "function"
+      },
+      "aiThrew": null,
+      "afterCost": {
+        "43568443590": 7,
+        "33256093591": 10,
+        "27409293592": 6,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "markAfterCost": false,
+      "markSkillAfterCost": false,
+      "afterFirstSync": {
+        "43568443590": 7,
+        "33256093591": 10,
+        "27409293592": 6,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "firstDelta": 0
+    },
+    {
+      "name": "608e",
+      "relation": "enemy",
+      "own": 6,
+      "target": 8,
+      "targetPlayer": "27409293592:libai",
+      "attitude": -4,
+      "costEvents": 1,
+      "scores": [
+        {
+          "target": "37637263593:xizheng",
+          "score": -16
+        },
+        {
+          "target": "27409293592:libai",
+          "score": 8
+        },
+        {
+          "target": "38741323595:sm_chixia",
+          "score": -20
+        },
+        {
+          "target": "89889483597:jsrg_caofang",
+          "score": -20
+        },
+        {
+          "target": "33256093591:chengjichengcui",
+          "score": -24
+        },
+        {
+          "target": "86181953594:zj_huangchong",
+          "score": -20
+        },
+        {
+          "target": "21322943596:luoxian",
+          "score": -20
+        }
+      ],
+      "targetScore": 8,
+      "choice": {
+        "bool": true,
+        "targets": [
+          "27409293592:libai"
+        ],
+        "cancel": false
+      },
+      "costSnapshot": {
+        "prompt": "是否发动【镇骨】？",
+        "prompt2": "结束阶段，你可以选择一名其他角色，你的回合结束时和该角色的下个回合结束时，其将手牌摸至或弃至X张。（X为你的手牌数且至多为5）",
+        "selectTarget": [
+          1,
+          1
+        ],
+        "forced": false,
+        "filterTargetType": "function"
+      },
+      "aiThrew": null,
+      "afterCost": {
+        "43568443590": 6,
+        "33256093591": 10,
+        "27409293592": 8,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "markAfterCost": true,
+      "markSkillAfterCost": true,
+      "afterFirstSync": {
+        "43568443590": 6,
+        "33256093591": 10,
+        "27409293592": 6,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "firstDelta": -2
+    },
+    {
+      "name": "301e",
+      "relation": "enemy",
+      "own": 3,
+      "target": 1,
+      "targetPlayer": "27409293592:libai",
+      "attitude": -4,
+      "costEvents": 1,
+      "scores": [
+        {
+          "target": "21322943596:luoxian",
+          "score": -12
+        },
+        {
+          "target": "86181953594:zj_huangchong",
+          "score": -12
+        },
+        {
+          "target": "37637263593:xizheng",
+          "score": -8
+        },
+        {
+          "target": "33256093591:chengjichengcui",
+          "score": -42
+        },
+        {
+          "target": "89889483597:jsrg_caofang",
+          "score": -12
+        },
+        {
+          "target": "27409293592:libai",
+          "score": -8
+        },
+        {
+          "target": "38741323595:sm_chixia",
+          "score": -12
+        }
+      ],
+      "targetScore": -8,
+      "choice": {
+        "bool": false,
+        "targets": [],
+        "cancel": true
+      },
+      "costSnapshot": {
+        "prompt": "是否发动【镇骨】？",
+        "prompt2": "结束阶段，你可以选择一名其他角色，你的回合结束时和该角色的下个回合结束时，其将手牌摸至或弃至X张。（X为你的手牌数且至多为5）",
+        "selectTarget": [
+          1,
+          1
+        ],
+        "forced": false,
+        "filterTargetType": "function"
+      },
+      "aiThrew": null,
+      "afterCost": {
+        "43568443590": 3,
+        "33256093591": 10,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "markAfterCost": false,
+      "markSkillAfterCost": false,
+      "afterFirstSync": {
+        "43568443590": 3,
+        "33256093591": 10,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "firstDelta": 0
+    },
+    {
+      "name": "305e",
+      "relation": "enemy",
+      "own": 3,
+      "target": 5,
+      "targetPlayer": "27409293592:libai",
+      "attitude": -4,
+      "costEvents": 1,
+      "scores": [
+        {
+          "target": "86181953594:zj_huangchong",
+          "score": -12
+        },
+        {
+          "target": "33256093591:chengjichengcui",
+          "score": -42
+        },
+        {
+          "target": "38741323595:sm_chixia",
+          "score": -12
+        },
+        {
+          "target": "89889483597:jsrg_caofang",
+          "score": -12
+        },
+        {
+          "target": "37637263593:xizheng",
+          "score": -8
+        },
+        {
+          "target": "21322943596:luoxian",
+          "score": -12
+        },
+        {
+          "target": "27409293592:libai",
+          "score": 8
+        }
+      ],
+      "targetScore": 8,
+      "choice": {
+        "bool": true,
+        "targets": [
+          "27409293592:libai"
+        ],
+        "cancel": false
+      },
+      "costSnapshot": {
+        "prompt": "是否发动【镇骨】？",
+        "prompt2": "结束阶段，你可以选择一名其他角色，你的回合结束时和该角色的下个回合结束时，其将手牌摸至或弃至X张。（X为你的手牌数且至多为5）",
+        "selectTarget": [
+          1,
+          1
+        ],
+        "forced": false,
+        "filterTargetType": "function"
+      },
+      "aiThrew": null,
+      "afterCost": {
+        "43568443590": 3,
+        "33256093591": 10,
+        "27409293592": 5,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "markAfterCost": true,
+      "markSkillAfterCost": true,
+      "afterFirstSync": {
+        "43568443590": 3,
+        "33256093591": 10,
+        "27409293592": 3,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "firstDelta": -2
+    },
+    {
+      "name": "710a",
+      "relation": "ally",
+      "own": 7,
+      "target": 6,
+      "targetPlayer": "33256093591:chengjichengcui",
+      "attitude": 6,
+      "costEvents": 1,
+      "scores": [
+        {
+          "target": "38741323595:sm_chixia",
+          "score": -20
+        },
+        {
+          "target": "89889483597:jsrg_caofang",
+          "score": -20
+        },
+        {
+          "target": "37637263593:xizheng",
+          "score": -16
+        },
+        {
+          "target": "33256093591:chengjichengcui",
+          "score": 0
+        },
+        {
+          "target": "21322943596:luoxian",
+          "score": -20
+        },
+        {
+          "target": "27409293592:libai",
+          "score": -16
+        },
+        {
+          "target": "86181953594:zj_huangchong",
+          "score": -20
+        }
+      ],
+      "targetScore": 0,
+      "choice": {
+        "bool": false,
+        "targets": [],
+        "cancel": true
+      },
+      "costSnapshot": {
+        "prompt": "是否发动【镇骨】？",
+        "prompt2": "结束阶段，你可以选择一名其他角色，你的回合结束时和该角色的下个回合结束时，其将手牌摸至或弃至X张。（X为你的手牌数且至多为5）",
+        "selectTarget": [
+          1,
+          1
+        ],
+        "forced": false,
+        "filterTargetType": "function"
+      },
+      "aiThrew": null,
+      "afterCost": {
+        "43568443590": 7,
+        "33256093591": 6,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "markAfterCost": false,
+      "markSkillAfterCost": false,
+      "afterFirstSync": {
+        "43568443590": 7,
+        "33256093591": 6,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "firstDelta": 0
+    },
+    {
+      "name": "608a",
+      "relation": "ally",
+      "own": 6,
+      "target": 8,
+      "targetPlayer": "33256093591:chengjichengcui",
+      "attitude": 6,
+      "costEvents": 1,
+      "scores": [
+        {
+          "target": "21322943596:luoxian",
+          "score": -20
+        },
+        {
+          "target": "86181953594:zj_huangchong",
+          "score": -20
+        },
+        {
+          "target": "89889483597:jsrg_caofang",
+          "score": -20
+        },
+        {
+          "target": "38741323595:sm_chixia",
+          "score": -20
+        },
+        {
+          "target": "33256093591:chengjichengcui",
+          "score": -12
+        },
+        {
+          "target": "37637263593:xizheng",
+          "score": -16
+        },
+        {
+          "target": "27409293592:libai",
+          "score": -16
+        }
+      ],
+      "targetScore": -12,
+      "choice": {
+        "bool": false,
+        "targets": [],
+        "cancel": true
+      },
+      "costSnapshot": {
+        "prompt": "是否发动【镇骨】？",
+        "prompt2": "结束阶段，你可以选择一名其他角色，你的回合结束时和该角色的下个回合结束时，其将手牌摸至或弃至X张。（X为你的手牌数且至多为5）",
+        "selectTarget": [
+          1,
+          1
+        ],
+        "forced": false,
+        "filterTargetType": "function"
+      },
+      "aiThrew": null,
+      "afterCost": {
+        "43568443590": 6,
+        "33256093591": 8,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "markAfterCost": false,
+      "markSkillAfterCost": false,
+      "afterFirstSync": {
+        "43568443590": 6,
+        "33256093591": 8,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "firstDelta": 0
+    },
+    {
+      "name": "301a",
+      "relation": "ally",
+      "own": 3,
+      "target": 1,
+      "targetPlayer": "33256093591:chengjichengcui",
+      "attitude": 6,
+      "costEvents": 1,
+      "scores": [
+        {
+          "target": "37637263593:xizheng",
+          "score": -8
+        },
+        {
+          "target": "33256093591:chengjichengcui",
+          "score": 12
+        },
+        {
+          "target": "38741323595:sm_chixia",
+          "score": -12
+        },
+        {
+          "target": "86181953594:zj_huangchong",
+          "score": -12
+        },
+        {
+          "target": "27409293592:libai",
+          "score": -8
+        },
+        {
+          "target": "21322943596:luoxian",
+          "score": -12
+        },
+        {
+          "target": "89889483597:jsrg_caofang",
+          "score": -12
+        }
+      ],
+      "targetScore": 12,
+      "choice": {
+        "bool": true,
+        "targets": [
+          "33256093591:chengjichengcui"
+        ],
+        "cancel": false
+      },
+      "costSnapshot": {
+        "prompt": "是否发动【镇骨】？",
+        "prompt2": "结束阶段，你可以选择一名其他角色，你的回合结束时和该角色的下个回合结束时，其将手牌摸至或弃至X张。（X为你的手牌数且至多为5）",
+        "selectTarget": [
+          1,
+          1
+        ],
+        "forced": false,
+        "filterTargetType": "function"
+      },
+      "aiThrew": null,
+      "afterCost": {
+        "43568443590": 3,
+        "33256093591": 1,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "markAfterCost": true,
+      "markSkillAfterCost": true,
+      "afterFirstSync": {
+        "43568443590": 3,
+        "33256093591": 3,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "firstDelta": 2
+    },
+    {
+      "name": "305a",
+      "relation": "ally",
+      "own": 3,
+      "target": 5,
+      "targetPlayer": "33256093591:chengjichengcui",
+      "attitude": 6,
+      "costEvents": 1,
+      "scores": [
+        {
+          "target": "27409293592:libai",
+          "score": -8
+        },
+        {
+          "target": "89889483597:jsrg_caofang",
+          "score": -12
+        },
+        {
+          "target": "21322943596:luoxian",
+          "score": -12
+        },
+        {
+          "target": "86181953594:zj_huangchong",
+          "score": -12
+        },
+        {
+          "target": "38741323595:sm_chixia",
+          "score": -12
+        },
+        {
+          "target": "33256093591:chengjichengcui",
+          "score": -12
+        },
+        {
+          "target": "37637263593:xizheng",
+          "score": -8
+        }
+      ],
+      "targetScore": -12,
+      "choice": {
+        "bool": false,
+        "targets": [],
+        "cancel": true
+      },
+      "costSnapshot": {
+        "prompt": "是否发动【镇骨】？",
+        "prompt2": "结束阶段，你可以选择一名其他角色，你的回合结束时和该角色的下个回合结束时，其将手牌摸至或弃至X张。（X为你的手牌数且至多为5）",
+        "selectTarget": [
+          1,
+          1
+        ],
+        "forced": false,
+        "filterTargetType": "function"
+      },
+      "aiThrew": null,
+      "afterCost": {
+        "43568443590": 3,
+        "33256093591": 5,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "markAfterCost": false,
+      "markSkillAfterCost": false,
+      "afterFirstSync": {
+        "43568443590": 3,
+        "33256093591": 5,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "firstDelta": 0
+    },
+    {
+      "name": "710-mixed",
+      "attitudeAlly": 6,
+      "attitudeEnemy": -4,
+      "scores": [
+        {
+          "target": "89889483597:jsrg_caofang",
+          "score": -20
+        },
+        {
+          "target": "21322943596:luoxian",
+          "score": -20
+        },
+        {
+          "target": "38741323595:sm_chixia",
+          "score": -20
+        },
+        {
+          "target": "27409293592:libai",
+          "score": 0
+        },
+        {
+          "target": "37637263593:xizheng",
+          "score": -16
+        },
+        {
+          "target": "86181953594:zj_huangchong",
+          "score": -20
+        },
+        {
+          "target": "33256093591:chengjichengcui",
+          "score": 0
+        }
+      ],
+      "choice": {
+        "bool": false,
+        "targets": [],
+        "cancel": true
+      },
+      "markAfterCost": false,
+      "afterFirstSync": {
+        "43568443590": 7,
+        "33256093591": 6,
+        "27409293592": 6,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      }
+    },
+    {
+      "name": "second-sync",
+      "actorId": "43568443590",
+      "targetId": "33256093591",
+      "choice": {
+        "bool": true,
+        "targets": [
+          "33256093591:chengjichengcui"
+        ],
+        "cancel": false
+      },
+      "markBeforeFirst": true,
+      "handsAfterFirst": {
+        "43568443590": 3,
+        "33256093591": 3,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "handsBeforeSecond": {
+        "43568443590": 5,
+        "33256093591": 3,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "handsAfterSecond": {
+        "43568443590": 5,
+        "33256093591": 5,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "markAfterSecond": false,
+      "markSkillAfterSecond": false,
+      "handsAfterThird": {
+        "43568443590": 5,
+        "33256093591": 5,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      }
+    },
+    {
+      "name": "cancel-retry",
+      "firstChoice": {
+        "bool": false,
+        "targets": [],
+        "cancel": true
+      },
+      "firstMark": false,
+      "firstHands": {
+        "43568443590": 7,
+        "33256093591": 6,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "firstHandsAfterEnd": {
+        "43568443590": 7,
+        "33256093591": 6,
+        "27409293592": 1,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      },
+      "secondChoice": {
+        "bool": true,
+        "targets": [
+          "33256093591:chengjichengcui"
+        ],
+        "cancel": false
+      },
+      "secondDelta": 2,
+      "secondMark": true
+    },
+    {
+      "name": "two-users",
+      "actorChoice": {
+        "bool": false,
+        "targets": [],
+        "cancel": true
+      },
+      "actorScores": [
+        {
+          "target": "86181953594:zj_huangchong",
+          "score": -20
+        },
+        {
+          "target": "27409293592:libai",
+          "score": 0
+        },
+        {
+          "target": "37637263593:xizheng",
+          "score": -16
+        },
+        {
+          "target": "33256093591:chengjichengcui",
+          "score": 0
+        },
+        {
+          "target": "89889483597:jsrg_caofang",
+          "score": -20
+        },
+        {
+          "target": "38741323595:sm_chixia",
+          "score": -20
+        },
+        {
+          "target": "21322943596:luoxian",
+          "score": -20
+        }
+      ],
+      "actorMark": [],
+      "allyChoice": {
+        "bool": false,
+        "targets": [],
+        "cancel": true
+      },
+      "allyScores": [
+        {
+          "target": "89889483597:jsrg_caofang",
+          "score": -40
+        },
+        {
+          "target": "86181953594:zj_huangchong",
+          "score": -40
+        },
+        {
+          "target": "21322943596:luoxian",
+          "score": -40
+        },
+        {
+          "target": "38741323595:sm_chixia",
+          "score": -40
+        },
+        {
+          "target": "27409293592:libai",
+          "score": 0
+        },
+        {
+          "target": "37637263593:xizheng",
+          "score": -32
+        },
+        {
+          "target": "43568443590:re_panshu",
+          "score": 0
+        }
+      ],
+      "allyMark": [],
+      "handsAfterSync": {
+        "43568443590": 7,
+        "33256093591": 7,
+        "27409293592": 6,
+        "37637263593": 1,
+        "86181953594": 0,
+        "38741323595": 0,
+        "21322943596": 0,
+        "89889483597": 0
+      }
+    },
+    {
+      "name": "foreign-choice-target",
+      "events": 1,
+      "scores": [
+        {
+          "target": "38741323595:sm_chixia",
+          "score": 0.125
+        },
+        {
+          "target": "27409293592:libai",
+          "score": 0.125
+        },
+        {
+          "target": "86181953594:zj_huangchong",
+          "score": 0.125
+        },
+        {
+          "target": "89889483597:jsrg_caofang",
+          "score": 0.125
+        },
+        {
+          "target": "43568443590:re_panshu",
+          "score": 0.125
+        },
+        {
+          "target": "21322943596:luoxian",
+          "score": 0.125
+        },
+        {
+          "target": "37637263593:xizheng",
+          "score": 0.125
+        },
+        {
+          "target": "33256093591:chengjichengcui",
+          "score": 0.125
+        }
+      ],
+      "choice": {
+        "bool": true,
+        "targets": [
+          "38741323595:sm_chixia"
+        ],
+        "cancel": false
+      }
+    },
+    {
+      "name": "same-event-multi-choice",
+      "events": 2,
+      "scores": [
+        {
+          "index": 0,
+          "scores": [
+            {
+              "target": "37637263593:xizheng",
+              "score": -20
+            },
+            {
+              "target": "38741323595:sm_chixia",
+              "score": -20
+            },
+            {
+              "target": "89889483597:jsrg_caofang",
+              "score": -20
+            },
+            {
+              "target": "27409293592:libai",
+              "score": 0
+            },
+            {
+              "target": "21322943596:luoxian",
+              "score": -20
+            },
+            {
+              "target": "33256093591:chengjichengcui",
+              "score": 30
+            },
+            {
+              "target": "86181953594:zj_huangchong",
+              "score": -20
+            }
+          ],
+          "choice": {
+            "bool": true,
+            "targets": [
+              "33256093591:chengjichengcui"
+            ],
+            "cancel": false
+          }
+        },
+        {
+          "index": 1,
+          "scores": [
+            {
+              "target": "37637263593:xizheng",
+              "score": -20
+            },
+            {
+              "target": "86181953594:zj_huangchong",
+              "score": -20
+            },
+            {
+              "target": "89889483597:jsrg_caofang",
+              "score": -20
+            },
+            {
+              "target": "33256093591:chengjichengcui",
+              "score": 30
+            },
+            {
+              "target": "27409293592:libai",
+              "score": 0
+            },
+            {
+              "target": "21322943596:luoxian",
+              "score": -20
+            },
+            {
+              "target": "38741323595:sm_chixia",
+              "score": -20
+            }
+          ],
+          "choice": {
+            "bool": true,
+            "targets": [
+              "33256093591:chengjichengcui"
+            ],
+            "cancel": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "external-chooseTarget-wrapper",
+      "externalHits": 1,
+      "externalMarker": true,
+      "choice": {
+        "bool": false,
+        "targets": [],
+        "cancel": true
+      },
+      "scores": [
+        {
+          "target": "37637263593:xizheng",
+          "score": -16
+        },
+        {
+          "target": "27409293592:libai",
+          "score": 0
+        },
+        {
+          "target": "33256093591:chengjichengcui",
+          "score": -18
+        },
+        {
+          "target": "21322943596:luoxian",
+          "score": -20
+        },
+        {
+          "target": "89889483597:jsrg_caofang",
+          "score": -20
+        },
+        {
+          "target": "38741323595:sm_chixia",
+          "score": -20
+        },
+        {
+          "target": "86181953594:zj_huangchong",
+          "score": -20
+        }
+      ]
+    },
+    {
+      "name": "ai-callback-exception",
+      "hookType": "function",
+      "aiReplaced": true,
+      "originalCalls": 1,
+      "value": 7,
+      "thrown": null
+    },
+    {
+      "name": "hook-conflict-preinstall",
+      "hookIsExternal": true,
+      "conflictCounter": 1,
+      "zhenguCompatible": true,
+      "run": {
+        "choice": {
+          "bool": true,
+          "targets": [
+            "27409293592:libai"
+          ],
+          "cancel": false
+        },
+        "scores": [
+          {
+            "target": "21322943596:luoxian",
+            "score": -20
+          },
+          {
+            "target": "33256093591:chengjichengcui",
+            "score": -30
+          },
+          {
+            "target": "89889483597:jsrg_caofang",
+            "score": -20
+          },
+          {
+            "target": "27409293592:libai",
+            "score": 4
+          },
+          {
+            "target": "86181953594:zj_huangchong",
+            "score": -20
+          },
+          {
+            "target": "38741323595:sm_chixia",
+            "score": -20
+          },
+          {
+            "target": "37637263593:xizheng",
+            "score": -16
+          }
+        ]
+      },
+      "externalKeptOnUninstall": true,
+      "hookStillExternal": false,
+      "restored": "function"
+    },
+    {
+      "name": "hook-conflict-postinstall",
+      "hookIsExternal": true,
+      "run": {
+        "choice": {
+          "bool": true,
+          "targets": [
+            "27409293592:libai"
+          ],
+          "cancel": false
+        },
+        "scores": [
+          {
+            "target": "27409293592:libai",
+            "score": 4
+          },
+          {
+            "target": "33256093591:chengjichengcui",
+            "score": -30
+          },
+          {
+            "target": "86181953594:zj_huangchong",
+            "score": -20
+          },
+          {
+            "target": "37637263593:xizheng",
+            "score": -16
+          },
+          {
+            "target": "38741323595:sm_chixia",
+            "score": -20
+          },
+          {
+            "target": "21322943596:luoxian",
+            "score": -20
+          },
+          {
+            "target": "89889483597:jsrg_caofang",
+            "score": -20
+          }
+        ]
+      },
+      "externalKeptOnUninstall": true,
+      "hookIsExtension": true,
+      "restored": "function"
+    },
+    {
+      "name": "lifecycle",
+      "hookAfterInstall": "function",
+      "installedRun": {
+        "choice": {
+          "bool": false,
+          "targets": [],
+          "cancel": true
+        },
+        "scores": [
+          {
+            "target": "86181953594:zj_huangchong",
+            "score": -20
+          },
+          {
+            "target": "37637263593:xizheng",
+            "score": -16
+          },
+          {
+            "target": "21322943596:luoxian",
+            "score": -20
+          },
+          {
+            "target": "89889483597:jsrg_caofang",
+            "score": -20
+          },
+          {
+            "target": "27409293592:libai",
+            "score": 0
+          },
+          {
+            "target": "33256093591:chengjichengcui",
+            "score": -18
+          },
+          {
+            "target": "38741323595:sm_chixia",
+            "score": -20
+          }
+        ]
+      },
+      "hookAfterPackUninstall": "undefined",
+      "uninstalledRun": {
+        "choice": {
+          "bool": true,
+          "targets": [
+            "27409293592:libai"
+          ],
+          "cancel": false
+        },
+        "scores": [
+          {
+            "target": "86181953594:zj_huangchong",
+            "score": -20
+          },
+          {
+            "target": "33256093591:chengjichengcui",
+            "score": -30
+          },
+          {
+            "target": "21322943596:luoxian",
+            "score": -20
+          },
+          {
+            "target": "38741323595:sm_chixia",
+            "score": -20
+          },
+          {
+            "target": "89889483597:jsrg_caofang",
+            "score": -20
+          },
+          {
+            "target": "27409293592:libai",
+            "score": 4
+          },
+          {
+            "target": "37637263593:xizheng",
+            "score": -16
+          }
+        ]
+      },
+      "hookAfterPackReinstall": "function",
+      "reinstalledRun": {
+        "choice": {
+          "bool": false,
+          "targets": [],
+          "cancel": true
+        },
+        "scores": [
+          {
+            "target": "38741323595:sm_chixia",
+            "score": -20
+          },
+          {
+            "target": "37637263593:xizheng",
+            "score": -16
+          },
+          {
+            "target": "27409293592:libai",
+            "score": 0
+          },
+          {
+            "target": "21322943596:luoxian",
+            "score": -20
+          },
+          {
+            "target": "89889483597:jsrg_caofang",
+            "score": -20
+          },
+          {
+            "target": "33256093591:chengjichengcui",
+            "score": -18
+          },
+          {
+            "target": "86181953594:zj_huangchong",
+            "score": -20
+          }
+        ]
+      },
+      "externalKeptOnUninstall": true,
+      "hookAfterSecondReinstall": "function",
+      "hookAfterFullUninstall": "undefined",
+      "olkongshengAfterFullUninstall": false,
+      "hookAfterFullReinstall": "function",
+      "olkongshengAfterFullReinstall": "olkongsheng:cost",
+      "fuyinAfterFullReinstall": "xinfu_fuyin:effect",
+      "qianjieAfterFullReinstall": "drlt_qianjie:effect",
+      "fullReinstalledRun": {
+        "choice": {
+          "bool": false,
+          "targets": [],
+          "cancel": true
+        },
+        "scores": [
+          {
+            "target": "86181953594:zj_huangchong",
+            "score": -20
+          },
+          {
+            "target": "27409293592:libai",
+            "score": 0
+          },
+          {
+            "target": "33256093591:chengjichengcui",
+            "score": -18
+          },
+          {
+            "target": "37637263593:xizheng",
+            "score": -16
+          },
+          {
+            "target": "21322943596:luoxian",
+            "score": -20
+          },
+          {
+            "target": "38741323595:sm_chixia",
+            "score": -20
+          },
+          {
+            "target": "89889483597:jsrg_caofang",
+            "score": -20
+          }
+        ]
+      },
+      "statsAfterFullReinstall": {
+        "installed": true,
+        "fairRedimeng": 0,
+        "redimengMaskFailed": 0,
+        "redimengTrace": [],
+        "keptTao": 0,
+        "keptShan": 0,
+        "skippedExchange": 0,
+        "skippedOrder": 0,
+        "retuxiTargetBonus": 0,
+        "calls": 0,
+        "last": [],
+        "olkongshengCostCalls": 0,
+        "olkongshengCompatible": true,
+        "zhenguCompatible": true,
+        "zhenguEngineHook": true,
+        "zhenguScoreCalls": 8,
+        "zhenguFallbacks": 0,
+        "zhenguHookConflict": 0,
+        "qimouBypass": 0,
+        "kuangguRecover": 0,
+        "kuangguHp2": 0,
+        "jushouTurned": 0,
+        "jushouThreatHold": 0,
+        "shensuSkipJudge": 0,
+        "shensuCostBlock": 0,
+        "shensu4Restrict": 0,
+        "shensu2ArmorKeep": 0,
+        "guhuoLowHpGuard": 0,
+        "guhuoMaterialGate": 0,
+        "huangtianLastShan": 0,
+        "guhuoCalls": 0,
+        "guidaoHongyanFix": 0,
+        "releijiWeighted": 0,
+        "retianxiangJoint": 0,
+        "liegongDrawUnlock": 0,
+        "liegongExtra": 0,
+        "qimouMinPay": 0,
+        "buquHeuristic": 0,
+        "luanjiAllyVeto": 0,
+        "luanjiNetVeto": 0,
+        "tianyiDecline": 0,
+        "tianyiKnownWinPass": 0,
+        "tianyiEngineVeto": 0,
+        "jianchuSkip": 0,
+        "packs": {
+          "out_of_scope": {
+            "fairRedimeng": 0,
+            "redimengMaskFailed": 0,
+            "redimengTrace": []
+          },
+          "refresh_standard": {
+            "keptTao": 0,
+            "keptShan": 0,
+            "skippedExchange": 0,
+            "skippedOrder": 0,
+            "retuxiTargetBonus": 0,
+            "calls": 0,
+            "last": []
+          },
+          "shenhua_lei": {
+            "olkongshengCostCalls": 0,
+            "olkongshengCompatible": true,
+            "zhenguCompatible": true,
+            "zhenguEngineHook": true,
+            "zhenguScoreCalls": 8,
+            "zhenguFallbacks": 0,
+            "zhenguHookConflict": 0
+          },
+          "shenhua_feng": {
+            "qimouBypass": 0,
+            "kuangguRecover": 0,
+            "kuangguHp2": 0,
+            "jushouTurned": 0,
+            "jushouThreatHold": 0,
+            "shensuSkipJudge": 0,
+            "shensuCostBlock": 0,
+            "shensu4Restrict": 0,
+            "shensu2ArmorKeep": 0,
+            "guhuoLowHpGuard": 0,
+            "guhuoMaterialGate": 0,
+            "huangtianLastShan": 0,
+            "guhuoCalls": 0,
+            "guidaoHongyanFix": 0,
+            "releijiWeighted": 0,
+            "retianxiangJoint": 0,
+            "liegongDrawUnlock": 0,
+            "liegongExtra": 0,
+            "qimouMinPay": 0,
+            "buquHeuristic": 0
+          },
+          "shenhua_huo": {
+            "luanjiAllyVeto": 0,
+            "luanjiNetVeto": 0,
+            "tianyiDecline": 0,
+            "tianyiKnownWinPass": 0,
+            "tianyiEngineVeto": 0,
+            "jianchuSkip": 0
+          }
+        },
+        "installation": {
+          "state": "installed",
+          "reason": null
+        }
+      }
+    }
+  ],
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "players": 8,
+  "errors": [],
+  "benignErrors": []
+}

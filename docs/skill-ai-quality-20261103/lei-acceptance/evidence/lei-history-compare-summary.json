@@ -1,0 +1,346 @@
+{
+  "checkedConfigs": [
+    "N",
+    "P",
+    "C",
+    "D"
+  ],
+  "checkedAt": "2026-11-11T11:04:51.921Z",
+  "assertions": "全部通过",
+  "matrix": [
+    {
+      "config": "N",
+      "scene": "kongsheng-count-threshold",
+      "behavior": {
+        "scoreSelectedOne": 1,
+        "scoreSelectedZero": 1,
+        "viewInstalled": false,
+        "viewRestored": true
+      }
+    },
+    {
+      "config": "N",
+      "scene": "kongsheng-cost-error",
+      "behavior": {
+        "threw": true,
+        "viewRestored": true
+      }
+    },
+    {
+      "config": "N",
+      "scene": "qianjie-tiesuo",
+      "behavior": {
+        "effectNotLinked": "zeroplayertarget",
+        "effectLinked": "zeroplayertarget",
+        "noLinkTag": true,
+        "noLinkTagAfter": true
+      }
+    },
+    {
+      "config": "N",
+      "scene": "fuyin-history",
+      "behavior": {
+        "firstSha": [
+          0.33333333333333337,
+          0,
+          0.33333333333333337,
+          0
+        ],
+        "firstJuedou": [
+          0.33333333333333337,
+          0,
+          0.33333333333333337,
+          0
+        ],
+        "secondSha": [
+          0.33333333333333337,
+          0,
+          0.33333333333333337,
+          0
+        ],
+        "secondJuedou": [
+          0.33333333333333337,
+          0,
+          0.33333333333333337,
+          0
+        ]
+      }
+    },
+    {
+      "config": "N",
+      "scene": "fuyin-current-event",
+      "behavior": {
+        "consulted": true,
+        "historyLength": 0,
+        "currentEventInHistory": false,
+        "fixedCheckWouldMatch": false,
+        "legacyCheckWouldMatch": false,
+        "result": "zeroplayertarget"
+      }
+    },
+    {
+      "config": "P",
+      "scene": "kongsheng-count-threshold",
+      "behavior": {
+        "scoreSelectedOne": 0,
+        "scoreSelectedZero": 1,
+        "viewInstalled": true,
+        "viewRestored": true
+      }
+    },
+    {
+      "config": "P",
+      "scene": "kongsheng-cost-error",
+      "behavior": {
+        "threw": true,
+        "viewRestored": true
+      }
+    },
+    {
+      "config": "P",
+      "scene": "qianjie-tiesuo",
+      "behavior": {
+        "effectNotLinked": "zeroplayertarget",
+        "effectLinked": null,
+        "noLinkTag": true,
+        "noLinkTagAfter": true
+      }
+    },
+    {
+      "config": "P",
+      "scene": "fuyin-history",
+      "behavior": {
+        "firstSha": [
+          0.33333333333333337,
+          0,
+          0.33333333333333337,
+          0
+        ],
+        "firstJuedou": [
+          0.33333333333333337,
+          0,
+          0.33333333333333337,
+          0
+        ],
+        "secondSha": 1,
+        "secondJuedou": 1
+      }
+    },
+    {
+      "config": "P",
+      "scene": "fuyin-current-event",
+      "behavior": {
+        "consulted": true,
+        "historyLength": 0,
+        "currentEventInHistory": false,
+        "fixedCheckWouldMatch": false,
+        "legacyCheckWouldMatch": false,
+        "result": "zeroplayertarget"
+      }
+    },
+    {
+      "config": "C",
+      "scene": "kongsheng-count-threshold",
+      "behavior": {
+        "scoreSelectedOne": 0,
+        "scoreSelectedZero": 1,
+        "viewInstalled": false,
+        "viewRestored": true
+      }
+    },
+    {
+      "config": "C",
+      "scene": "kongsheng-cost-error",
+      "behavior": {
+        "threw": true,
+        "viewRestored": true
+      }
+    },
+    {
+      "config": "C",
+      "scene": "qianjie-tiesuo",
+      "behavior": {
+        "effectNotLinked": "zeroplayertarget",
+        "effectLinked": null,
+        "noLinkTag": true,
+        "noLinkTagAfter": true
+      }
+    },
+    {
+      "config": "C",
+      "scene": "fuyin-history",
+      "behavior": {
+        "firstSha": [
+          0.33333333333333337,
+          0,
+          0.33333333333333337,
+          0
+        ],
+        "firstJuedou": [
+          0.33333333333333337,
+          0,
+          0.33333333333333337,
+          0
+        ],
+        "secondSha": 1,
+        "secondJuedou": 1
+      }
+    },
+    {
+      "config": "C",
+      "scene": "fuyin-current-event",
+      "behavior": {
+        "consulted": true,
+        "historyLength": 0,
+        "currentEventInHistory": false,
+        "fixedCheckWouldMatch": false,
+        "legacyCheckWouldMatch": false,
+        "result": "zeroplayertarget"
+      }
+    },
+    {
+      "config": "D",
+      "scene": "kongsheng-count-threshold",
+      "behavior": {
+        "scoreSelectedOne": 0,
+        "scoreSelectedZero": 1,
+        "viewInstalled": false,
+        "viewRestored": true
+      }
+    },
+    {
+      "config": "D",
+      "scene": "kongsheng-cost-error",
+      "behavior": {
+        "threw": true,
+        "viewRestored": true
+      }
+    },
+    {
+      "config": "D",
+      "scene": "qianjie-tiesuo",
+      "behavior": {
+        "effectNotLinked": "zeroplayertarget",
+        "effectLinked": null,
+        "noLinkTag": true,
+        "noLinkTagAfter": true
+      }
+    },
+    {
+      "config": "D",
+      "scene": "fuyin-history",
+      "behavior": {
+        "firstSha": [
+          0.33333333333333337,
+          0,
+          0.33333333333333337,
+          0
+        ],
+        "firstJuedou": [
+          0.33333333333333337,
+          0,
+          0.33333333333333337,
+          0
+        ],
+        "secondSha": 1,
+        "secondJuedou": 1
+      }
+    },
+    {
+      "config": "D",
+      "scene": "fuyin-current-event",
+      "behavior": {
+        "consulted": true,
+        "historyLength": 0,
+        "currentEventInHistory": false,
+        "fixedCheckWouldMatch": false,
+        "legacyCheckWouldMatch": false,
+        "result": "zeroplayertarget"
+      }
+    },
+    {
+      "config": "P==C",
+      "scene": "kongsheng-count-threshold",
+      "behavior": "identical"
+    },
+    {
+      "config": "D==C",
+      "scene": "kongsheng-count-threshold",
+      "behavior": "identical"
+    },
+    {
+      "config": "N!=P",
+      "scene": "kongsheng-count-threshold",
+      "behavior": "differs"
+    },
+    {
+      "config": "P==C",
+      "scene": "kongsheng-cost-error",
+      "behavior": "identical"
+    },
+    {
+      "config": "D==C",
+      "scene": "kongsheng-cost-error",
+      "behavior": "identical"
+    },
+    {
+      "config": "N!=P",
+      "scene": "kongsheng-cost-error",
+      "behavior": "same"
+    },
+    {
+      "config": "P==C",
+      "scene": "qianjie-tiesuo",
+      "behavior": "identical"
+    },
+    {
+      "config": "D==C",
+      "scene": "qianjie-tiesuo",
+      "behavior": "identical"
+    },
+    {
+      "config": "N!=P",
+      "scene": "qianjie-tiesuo",
+      "behavior": "differs"
+    },
+    {
+      "config": "P==C",
+      "scene": "fuyin-history",
+      "behavior": "identical"
+    },
+    {
+      "config": "D==C",
+      "scene": "fuyin-history",
+      "behavior": "identical"
+    },
+    {
+      "config": "N!=P",
+      "scene": "fuyin-history",
+      "behavior": "differs"
+    },
+    {
+      "config": "P==C",
+      "scene": "fuyin-current-event",
+      "behavior": "identical"
+    },
+    {
+      "config": "D==C",
+      "scene": "fuyin-current-event",
+      "behavior": "identical"
+    },
+    {
+      "config": "N!=P",
+      "scene": "fuyin-current-event",
+      "behavior": "same"
+    }
+  ],
+  "conclusions": {
+    "extensionEqualsNative": true,
+    "nativePlusExtensionEqualsNative": true,
+    "hostBaselineDiffers": [
+      "kongsheng-count-threshold",
+      "qianjie-tiesuo",
+      "fuyin-history"
+    ]
+  }
+}
