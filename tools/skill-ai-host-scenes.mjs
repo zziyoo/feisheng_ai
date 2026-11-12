@@ -413,8 +413,9 @@ export async function runSkillAiScenes(page, options = {}) {
 				[ally.playerid]: ally.countCards('h'),
 				[enemy1.playerid]: enemy1.countCards('h'),
 			};
+			const historyBefore = actor.getHistory('useSkill').length;
 			const result = await actor.chooseToUse({ type: 'phase', filterCard: () => true, filterTarget: () => false });
-			const used = actor.getHistory('useSkill').slice(-1)[0] || null;
+			const used = actor.getHistory('useSkill').slice(historyBefore).filter(evt => evt.skill === 'redimeng').slice(-1)[0] || null;
 			const usedTargets = used && Array.isArray(used.targets) ? used.targets.map(p => p.playerid) : [];
 			rec.choice = recordChoice(result);
 			rec.beforeTargets = beforeTargets;
@@ -458,8 +459,9 @@ export async function runSkillAiScenes(page, options = {}) {
 		}, async rec => {
 			_status.currentPhase = actor;
 			const before = counts();
+			const historyBefore = actor.getHistory('useSkill').length;
 			const result = await actor.chooseToUse({ type: 'phase', filterCard: () => true, filterTarget: () => false });
-			const used = actor.getHistory('useSkill').slice(-1)[0] || null;
+			const used = actor.getHistory('useSkill').slice(historyBefore).filter(evt => evt.skill === 'redimeng').slice(-1)[0] || null;
 			rec.choice = recordChoice(result);
 			rec.beforeCounts = before;
 			rec.afterCounts = counts();
