@@ -586,6 +586,156 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.actorHand = hand(actor);
 		});
 
+		/* 2026-11 标准包三项修复：直接调用真实宿主 mod/ai 回调，并同时观察 get.value 消费入口。 */
+		await scene('standard-qingguo-ai-value', async () => {
+			actor.addSkill('qingguo');
+			actor.hp = 4;
+			actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 501], ['wuxie', 'club', 502], ['guohe', 'spade', 503], ['shan', 'heart', 504]]);
+			actor.update();
+		}, async rec => {
+			const cards = actor.getCards('h');
+			const mod = lib.skill.qingguo && lib.skill.qingguo.mod;
+			rec.cards = cards.map(item => {
+				let aiValue = null, value = null, useful = null;
+				try { aiValue = mod.aiValue(actor, item, 4); } catch (e) { aiValue = 'ERR:' + e.message; }
+				try { value = get.value(item, actor); } catch (e) { value = 'ERR:' + e.message; }
+				try { useful = get.useful(item, actor); } catch (e) { useful = 'ERR:' + e.message; }
+				return { name: get.name(item), color: get.color(item), aiValue, value, useful };
+			});
+			rec.hasMod = !!(mod && typeof mod.aiValue === 'function');
+		});
+		await scene('standard-qingguo-no-black', async () => {
+			actor.addSkill('qingguo');
+			await give(actor, [['sha', 'heart', 510], ['tao', 'diamond', 511]]);
+			actor.update();
+		}, async rec => {
+			const cards = actor.getCards('h');
+			const mod = lib.skill.qingguo && lib.skill.qingguo.mod;
+			rec.values = cards.map(item => {
+				try { return { name: get.name(item), color: get.color(item), aiValue: mod.aiValue(actor, item, 1) }; }
+				catch (e) { return { name: get.name(item), error: String(e.message) }; }
+			});
+		});
+
+		await scene('standard-jijiu-ai-value', async () => {
+			actor.addSkill('jijiu');
+			actor.hp = 2;
+			actor.maxHp = 4;
+			await give(actor, [['tao', 'heart', 520], ['sha', 'heart', 521], ['wuxie', 'diamond', 522], ['sha', 'spade', 523]]);
+			actor.update();
+		}, async rec => {
+			const cards = actor.getCards('h');
+			const mod = lib.skill.jijiu && lib.skill.jijiu.mod;
+			rec.cards = cards.map(item => {
+				let aiValue = null, value = null, useful = null;
+				try { aiValue = mod.aiValue(actor, item, 1); } catch (e) { aiValue = 'ERR:' + e.message; }
+				try { value = get.value(item, actor); } catch (e) { value = 'ERR:' + e.message; }
+				try { useful = get.useful(item, actor); } catch (e) { useful = 'ERR:' + e.message; }
+				return { name: get.name(item), color: get.color(item), aiValue, value, useful };
+			});
+			rec.hasMod = !!(mod && typeof mod.aiValue === 'function');
+		});
+		await scene('standard-jijiu-no-red', async () => {
+			actor.addSkill('jijiu');
+			await give(actor, [['sha', 'spade', 530], ['shan', 'club', 531]]);
+			actor.update();
+		}, async rec => {
+			const cards = actor.getCards('h');
+			const mod = lib.skill.jijiu && lib.skill.jijiu.mod;
+			rec.values = cards.map(item => {
+				try { return { name: get.name(item), color: get.color(item), aiValue: mod.aiValue(actor, item, 1) }; }
+				catch (e) { return { name: get.name(item), error: String(e.message) }; }
+			});
+		});
+
+		await scene('standard-lijian-target-score', async rec => {
+			actor.addSkill('lijian');
+			enemy1.hp = 4; enemy1.maxHp = 4; enemy1.update();
+			enemy2.hp = 4; enemy2.maxHp = 4; enemy2.update();
+			ally.hp = 1; ally.maxHp = 4; ally.update();
+			rec.targets = { first: nameOf(enemy1), allies: [nameOf(ally)], enemies: [nameOf(enemy2)] };
+		}, async rec => {
+			const callback = lib.skill.lijian && lib.skill.lijian.ai && lib.skill.lijian.ai.result && lib.skill.lijian.ai.result.target;
+			const selected = realHost.ui.selected.targets;
+			selected.length = 0;
+			selected.push(enemy1);
+			try {
+				rec.scores = [ally, enemy2].map(candidate => {
+					let score = null;
+					try { score = callback(actor, candidate); } catch (e) { score = 'ERR:' + e.message; }
+					const oldFormula = get.effect(candidate, { name: 'juedou', isCard: true }, enemy1, candidate);
+					const fixedFormula = get.effect(enemy1, { name: 'juedou', isCard: true }, candidate, actor);
+					return {
+						candidate: nameOf(candidate),
+						isAlly: candidate === ally,
+						hp: candidate.hp,
+						attitude: get.attitude(actor, candidate),
+						score,
+						oldFormula,
+						fixedFormula,
+					};
+				});
+			} finally {
+				selected.length = 0;
+			}
+			try { rec.emptySelectionScore = callback(actor, ally); } catch (e) { rec.emptySelectionScore = 'ERR:' + e.message; }
+		});
+		await scene('standard-lijian-choice', async rec => {
+			actor.addSkill('lijian');
+			enemy1.hp = 4; enemy1.maxHp = 4; enemy1.update();
+			enemy2.hp = 4; enemy2.maxHp = 4; enemy2.update();
+			ally.hp = 1; ally.maxHp = 4; ally.update();
+			rec.first = nameOf(enemy1);
+		}, async rec => {
+			const callback = lib.skill.lijian && lib.skill.lijian.ai && lib.skill.lijian.ai.result && lib.skill.lijian.ai.result.target;
+			const selected = realHost.ui.selected.targets;
+			selected.length = 0;
+			const scores = [];
+			try {
+				const evt = actor.chooseTarget('lijian probe', 1);
+				evt.set('filterTarget', (card, player, target) => target !== actor && target !== enemy1 && target.hasSex('male') && target.canUse({ name: 'juedou' }, enemy1));
+				evt.set('ai', target => {
+					let score = null;
+					selected.length = 0;
+					selected.push(enemy1);
+					try { score = callback(actor, target); } catch (e) { score = 'ERR:' + e.message; }
+					finally { selected.length = 0; }
+					scores.push({ target: nameOf(target), score });
+					return score;
+				});
+				const result = await evt.forResult();
+				rec.choice = { bool: !!result?.bool, targets: (result?.targets || []).map(nameOf) };
+				rec.scores = scores;
+			} finally {
+				selected.length = 0;
+			}
+		});
+
+		await scene('standard-lijian-first-ally', async rec => {
+			actor.addSkill('lijian');
+			ally.hp = 4; ally.maxHp = 4; ally.update();
+			enemy1.hp = 1; enemy1.maxHp = 4; enemy1.update();
+			enemy2.hp = 4; enemy2.maxHp = 4; enemy2.update();
+			rec.targets = { first: nameOf(ally) };
+		}, async rec => {
+			const callback = lib.skill.lijian && lib.skill.lijian.ai && lib.skill.lijian.ai.result && lib.skill.lijian.ai.result.target;
+			const selected = realHost.ui.selected.targets;
+			selected.length = 0;
+			selected.push(ally);
+			try {
+				rec.scores = [enemy1, enemy2].map(candidate => {
+					let score = null;
+					try { score = callback(actor, candidate); } catch (e) { score = 'ERR:' + e.message; }
+					const oldFormula = get.effect(candidate, { name: 'juedou', isCard: true }, ally, candidate);
+					const fixedFormula = get.effect(ally, { name: 'juedou', isCard: true }, candidate, actor);
+					return { candidate: nameOf(candidate), hp: candidate.hp, score, oldFormula, fixedFormula };
+				});
+			} finally {
+				selected.length = 0;
+			}
+		});
+
 		// === 第二批：生命支付与爆发时机（只固定公开局面，不伪造AI手牌/摸牌） ===
 		const hpTarget = (index, hp, maxHp = 4) => {
 			const target = game.players[index] || enemy2;

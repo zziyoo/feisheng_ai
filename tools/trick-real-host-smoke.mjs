@@ -16,6 +16,7 @@ const seed=option('seed')||'20261030';
 const repoRoot=fileURLToPath(new URL('../',import.meta.url));
 const hostRoot=path.resolve(option('host-root') || path.join(repoRoot,'../..'));
 const extensionRoot=path.resolve(option('extension-root')||repoRoot);
+const characterOverride=option('character-override-dir')?path.resolve(option('character-override-dir')):null;
 const require=createRequire(import.meta.url);
 const {chromium}=require(option('playwright') || 'playwright');
 const mime={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.ts':'text/javascript','.json':'application/json','.css':'text/css','.svg':'image/svg+xml','.wasm':'application/wasm','.png':'image/png','.jpg':'image/jpeg','.woff2':'font/woff2'};
@@ -48,7 +49,8 @@ const server=http.createServer(async(req,res)=>{
             }
             res.setHeader('Content-Type','application/json');res.end(JSON.stringify({success:true,data}));
         } else {
-            data=await fs.readFile(filename);
+            const overrideName=relative==='character/refresh.js'||relative==='character/standard.js'?path.basename(relative):null;
+            data=overrideName&&characterOverride?await fs.readFile(path.join(characterOverride,overrideName)):await fs.readFile(filename);
             if(relative==='game/config.json'){const config=JSON.parse(data.toString());config.mode=hostMode;config.extensions=[];config.extension_auto_import=false;if(!config.mode_config.doudizhu)config.mode_config.doudizhu={};if(!config.mode_config.versus)config.mode_config.versus={};if(config.mode_config.doudizhu)config.mode_config.doudizhu.doudizhu_mode='normal';if(config.mode_config.versus){config.mode_config.versus.versus_mode='two';config.mode_config.versus.two_assign=false;}data=Buffer.from(JSON.stringify(config));}
             res.setHeader('Content-Type',mime[path.extname(filename)] || 'application/octet-stream');
             res.setHeader('Cache-Control','no-store');res.end(data);
