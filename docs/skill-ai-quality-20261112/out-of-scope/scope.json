@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "pack_id": "out_of_scope",
   "task_list": "docs/skill-ai-20261030/142-task-list.json",
-  "task_list_sha256": "74de0d252753f95042a75c3bde44c50c60e26795434ba77423949e215b2421f4",
+  "task_list_sha256": "a07c87cc5976077663db77ac7a9d086a087779a01a7c6595895e5f0f18a7d358",
   "registered_characters": [
     {
       "task_id": "activity_lusu",
