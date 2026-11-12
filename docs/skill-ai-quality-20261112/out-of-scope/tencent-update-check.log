@@ -1,0 +1,7 @@
+PASS rows=5; sheets= ['01_四包32名_匹配底稿', '03_技能修复明细', '04_分包交付凭据', '06_覆盖范围与待办']
+PASS main=D activity_lusu（宿主 lusu）, status=内部PASS（分包内部PASS）
+PASS skill=redimeng, implementation=已修复, route=仅扩展策略
+PASS delivery_zip_sha256= f1d06169b53dd908205224e46f403ac97c2db0f6717d47fad1897e0fe1b7a79d
+PASS no public-release wording; no refresh_standard row in main/detail
+PASS 2008 standard untouched (no row added)
+TENCENT UPDATE CHECK PASS

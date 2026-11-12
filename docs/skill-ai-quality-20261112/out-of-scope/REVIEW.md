@@ -65,7 +65,17 @@ ReferenceError: i is not defined
 - 原生 1.11.7：暗牌公平未覆盖、`find(2)` 仍抛错；本包不提供原生补丁，不能宣称两条路线等价。
 - 不支持原生补丁与扩展同时接管；同一 AI 入口只允许一条路线。
 
-## 7. 证据与限制
+## 7. 安装、上游与六包共存
+
+- 实际 ZIP 单包验收：`verify.py --zip/--dir`、包内测试 12/12、干净目标安装、五场景宿主、卸载后原生两场景、重装、最终回滚全部通过（`accept-out_of_scope.json`）。
+- 上游 1fe5292：未接线 apply 先拒绝 → 应用 `patches/score-index.diff` → 安装 → 五场景宿主 → 卸载/回滚 → 重装全部通过（`accept-upstream-out_of_scope.json`）。`fullEngineHintWired=false`，说明基线引擎不依赖 `skillPlanHints.js`。
+- 六包共存（当前已封版版本：神话风/界风 7d79d8c、神话火 4fb57e1、神话雷 ca9d2d2、标准 0fa2c07、本包）：六个 `apply-pack` 实际安装后，真实宿主 `policyStats.packs` 同时出现六包，红门五场景通过，`errors=[]`（`host-coexist.json`）。卸载 out_of_scope 后，其余五包仍加载、注册表保留、`redimeng` 钩子消失（`host-after-rollback.json`）；重装后六包恢复（`host-coexist-reinstalled.json`）。
+- 双风结论：本组包使用共享核心 `545ee71d…`，两风包均声明 `dual-feng-shared-entry-v1` 且对包哈希匹配；实际六包共存通过。标准包报告中“神话风与界风互斥”只适用于旧的单 owner/旧包组合，不能套到本组精确版本。未修改双风代码。
+- 当前 HEAD 的完整引擎依赖 `score/decision/skills/skillPlanHints.js`（由 refresh_standard 包提供）。在同一总目标中先装标准包再装风/火/雷，可避免安装器安全拒绝；这不是 out_of_scope 的代码依赖，上游 1fe5292 独立安装不受影响。
+- 共享核心不匹配：篡改 `policyCore.js` 后 apply 安全拒绝，`score` 文件逐字节零变化（`shared-core-mismatch.json`）。
+- 故障注入：`DJSC_PACK_TEST_FAIL_AFTER=2` 后 apply 失败，`score` 文件逐字节零变化（`fault-injection.json`）。
+
+## 8. 证据与限制
 
 - `evidence/native-hidden.json`：原生暗牌/置换基线。
 - `evidence/policy-all.json`：策略层五场景 + 生命周期。

@@ -1,0 +1,958 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-12T06:38:26.098Z",
+  "mode": "single",
+  "repo": "C:\\Users\\32360\\.codex\\worktrees\\out-of-scope-acceptance",
+  "repo_head": "56735aea155040c70ee621e232ed96dce021b57a",
+  "base_ref": null,
+  "wired_index": null,
+  "scenes": [
+    "redimeng-hidden-info",
+    "redimeng-permute-values",
+    "redimeng-target-legal",
+    "redimeng-target-zero-cost",
+    "redimeng-target-infeasible"
+  ],
+  "contract": {
+    "single": true,
+    "combined": null
+  },
+  "skillChecks": {
+    "out_of_scope": {
+      "packId": "out_of_scope",
+      "checks": [
+        {
+          "name": "hidden-settlement",
+          "passed": true,
+          "detail": {
+            "mixed": [
+              "sha",
+              "shan",
+              "tao",
+              "wuzhong"
+            ],
+            "gained": [
+              [
+                "sha",
+                "tao"
+              ],
+              [
+                "shan",
+                "wuzhong"
+              ]
+            ]
+          }
+        },
+        {
+          "name": "permute-invariance",
+          "passed": true,
+          "detail": {
+            "indices": [
+              [
+                [
+                  0,
+                  1
+                ],
+                [
+                  2,
+                  3
+                ]
+              ],
+              [
+                [
+                  0,
+                  1
+                ],
+                [
+                  2,
+                  3
+                ]
+              ]
+            ],
+            "fairRedimeng": 13,
+            "redimengMaskFailed": 0
+          }
+        },
+        {
+          "name": "target-legal",
+          "passed": true,
+          "detail": {
+            "targets": [
+              "50265723591",
+              "74695553592"
+            ],
+            "cost": 2,
+            "total": 4
+          }
+        },
+        {
+          "name": "target-zero-cost",
+          "passed": true,
+          "detail": {
+            "targets": [
+              "50265723591",
+              "74695553592"
+            ],
+            "cost": 0,
+            "total": 2
+          }
+        },
+        {
+          "name": "target-infeasible",
+          "passed": true,
+          "detail": {
+            "choice": {
+              "bool": false,
+              "skill": null,
+              "cards": [],
+              "targets": []
+            },
+            "usedTargets": []
+          }
+        },
+        {
+          "name": "redimeng-lifecycle",
+          "passed": true,
+          "detail": {
+            "before": {
+              "rezhiheng": false,
+              "qimou": false,
+              "reqimouContent": false,
+              "reqimouGate": false,
+              "jushou": false,
+              "shensu1": false,
+              "guhuo": false,
+              "huangtian": false,
+              "redimengFind": true,
+              "redimengChooseButton": false
+            },
+            "afterUninstall": {
+              "rezhiheng": false,
+              "qimou": false,
+              "reqimouContent": false,
+              "reqimouGate": false,
+              "jushou": false,
+              "shensu1": false,
+              "guhuo": false,
+              "huangtian": false,
+              "redimengFind": false,
+              "redimengChooseButton": false
+            },
+            "afterReinstall": {
+              "rezhiheng": false,
+              "qimou": false,
+              "reqimouContent": false,
+              "reqimouGate": false,
+              "jushou": false,
+              "shensu1": false,
+              "guhuo": false,
+              "huangtian": false,
+              "redimengFind": true,
+              "redimengChooseButton": true
+            }
+          }
+        }
+      ],
+      "signature": {
+        "hiddenMixed": [
+          "sha",
+          "shan",
+          "tao",
+          "wuzhong"
+        ],
+        "hiddenGainedPools": [
+          [
+            "sha",
+            "tao"
+          ],
+          [
+            "shan",
+            "wuzhong"
+          ]
+        ],
+        "permuteIndices": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ]
+        ],
+        "fairRedimeng": 13,
+        "redimengMaskFailed": 0,
+        "redimengFindCalls": 4,
+        "redimengFindFixed": 4,
+        "redimengFindFallbacks": 0
+      }
+    }
+  },
+  "baseline_comparison": [],
+  "native_comparison": null,
+  "packs": [
+    {
+      "id": "out_of_scope",
+      "name": "清单外角色",
+      "zip": "C:\\Users\\32360\\AppData\\Local\\Temp\\out-of-scope-build\\feisheng-ai-out-of-scope.zip",
+      "zip_size": 200828,
+      "zip_sha256": "f1d06169b53dd908205224e46f403ac97c2db0f6717d47fad1897e0fe1b7a79d",
+      "delivery_stage": "可交付",
+      "implemented_skills": [
+        "redimeng"
+      ],
+      "target_skills_count": 1,
+      "package_tests_status": 0,
+      "verify_zip_status": 0,
+      "verify_dir_status": 0,
+      "verify_cross_platform_status": 0
+    }
+  ],
+  "steps": [
+    {
+      "step": "extract+verify",
+      "pack": "out_of_scope",
+      "status": "passed",
+      "package_tests": {
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\AppData\\Local\\Temp\\out-of-scope-accept\\extract\\0\\tests\\run-pack-tests.mjs",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS 公平选择只依赖玩家与位置\nPASS 不同位置分数稳定且互不读取牌面\nPASS 遮蔽只对 AI 且只在 redimeng 上下文\nPASS 只识别宿主 find(2) 的已知块级变量越界\nALL PASS (4)\nPASS 包元数据与目标技能一致\nPASS 分包模块只 import 共享核心、自己的规则与安全适配\nPASS 共享核心与具体技能解耦\nPASS 包内只携带本分包策略模块\nPASS 注册表与 pack-only 注册表可安全合并\nPASS 134 维模型契约与版本未被本分包修改\nPASS 分包声明的静态约束成立\nPASS 分包规则不读取宿主实现\nALL PASS (8)\nALL PACK TESTS PASS (12)\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_zip": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\out-of-scope-accept\\extract\\0\\verify.py --zip C:\\Users\\32360\\AppData\\Local\\Temp\\out-of-scope-build\\feisheng-ai-out-of-scope.zip",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=zip files_listed=38 ok=38 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=56735aea155040c70ee621e232ed96dce021b57a baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_dir": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\out-of-scope-accept\\extract\\0\\verify.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=dir files_listed=38 ok=38 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=56735aea155040c70ee621e232ed96dce021b57a baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_cross_platform": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\out-of-scope-accept\\extract\\0\\tests\\test-verify-zip.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS verify.py --zip accepts POSIX member paths\r\nPASS verify.py --root accepts POSIX package\r\nPASS verify.py --zip accepts Windows backslash members and manifest paths\r\nPASS verify.py --zip accepts manifest at archive root\r\nPASS verify.py --zip rejects archive without root manifest\r\nPASS verify.py --zip rejects duplicate normalized members\r\nPASS verify.py --zip rejects size mismatch\r\nALL PASS (verify.zip cross-platform regression)\r\n",
+        "stderr": "",
+        "error": null
+      }
+    },
+    {
+      "step": "apply",
+      "pack": "out_of_scope",
+      "status": "passed",
+      "output": {
+        "pack": "out_of_scope",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\out-of-scope-accept\\targets\\single-out_of_scope",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/policyCore.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillAIPolicies.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillVetoRegistry.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/outOfScope.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/outOfScope.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-created",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [],
+        "registry": "created",
+        "fullEngineHintWired": true,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\out_of_scope"
+      }
+    },
+    {
+      "step": "install-check",
+      "pack": "out_of_scope",
+      "status": "passed",
+      "checks": [
+        {
+          "file": "packs/outOfScope.js",
+          "sha256": "eaf575d4dfbd432b4b9a460d7768078cd4eb211026e443e418efbee90b2083a2"
+        },
+        {
+          "file": "rules/outOfScope.js",
+          "sha256": "16be048f459ae4797b3bda1addcd856f83b3beb8892f04433796b3a189a9aaa1"
+        },
+        {
+          "file": "shared/policyCore.js",
+          "sha256": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19"
+        },
+        {
+          "file": "shared/skillAIPolicies.js",
+          "sha256": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad"
+        },
+        {
+          "file": "shared/skillVetoRegistry.js",
+          "sha256": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2"
+        }
+      ],
+      "imports": [
+        {
+          "alias": "outOfScope",
+          "module": "outOfScope",
+          "file": "score/decision/skills/packs/outOfScope.js"
+        }
+      ]
+    },
+    {
+      "step": "host-load-installed",
+      "pack": "out_of_scope",
+      "status": "passed",
+      "scenes": [
+        "redimeng-hidden-info",
+        "redimeng-permute-values",
+        "redimeng-target-legal",
+        "redimeng-target-zero-cost",
+        "redimeng-target-infeasible"
+      ],
+      "policyStats": {
+        "installed": true,
+        "fairRedimeng": 13,
+        "redimengMaskFailed": 0,
+        "redimengFindCalls": 4,
+        "redimengFindFixed": 4,
+        "redimengFindFallbacks": 0,
+        "redimengTrace": [
+          {
+            "playerid": "50265723591",
+            "index": 0,
+            "score": 0.112,
+            "buttons": 4
+          },
+          {
+            "playerid": "50265723591",
+            "index": 1,
+            "score": 0.731,
+            "buttons": 4
+          },
+          {
+            "playerid": "50265723591",
+            "index": 2,
+            "score": 0.35,
+            "buttons": 4
+          },
+          {
+            "playerid": "50265723591",
+            "index": 3,
+            "score": 0.969,
+            "buttons": 4
+          },
+          {
+            "playerid": "50265723591",
+            "index": 3,
+            "score": 0.969,
+            "buttons": 4
+          },
+          {
+            "playerid": "74695553592",
+            "index": 0,
+            "score": 0.947,
+            "buttons": 3
+          },
+          {
+            "playerid": "74695553592",
+            "index": 1,
+            "score": 0.328,
+            "buttons": 3
+          },
+          {
+            "playerid": "74695553592",
+            "index": 2,
+            "score": 0.185,
+            "buttons": 3
+          },
+          {
+            "playerid": "74695553592",
+            "index": 0,
+            "score": 0.947,
+            "buttons": 3
+          },
+          {
+            "playerid": "50265723591",
+            "index": 0,
+            "score": 0.112,
+            "buttons": 2
+          },
+          {
+            "playerid": "50265723591",
+            "index": 1,
+            "score": 0.731,
+            "buttons": 2
+          },
+          {
+            "playerid": "50265723591",
+            "index": 1,
+            "score": 0.731,
+            "buttons": 2
+          },
+          {
+            "playerid": "50265723591",
+            "index": 0,
+            "score": 0.112,
+            "buttons": 4
+          },
+          {
+            "playerid": "50265723591",
+            "index": 1,
+            "score": 0.731,
+            "buttons": 4
+          },
+          {
+            "playerid": "50265723591",
+            "index": 2,
+            "score": 0.35,
+            "buttons": 4
+          },
+          {
+            "playerid": "50265723591",
+            "index": 3,
+            "score": 0.969,
+            "buttons": 4
+          },
+          {
+            "playerid": "50265723591",
+            "index": 3,
+            "score": 0.969,
+            "buttons": 4
+          },
+          {
+            "playerid": "74695553592",
+            "index": 0,
+            "score": 0.947,
+            "buttons": 3
+          },
+          {
+            "playerid": "74695553592",
+            "index": 1,
+            "score": 0.328,
+            "buttons": 3
+          },
+          {
+            "playerid": "74695553592",
+            "index": 2,
+            "score": 0.185,
+            "buttons": 3
+          },
+          {
+            "playerid": "74695553592",
+            "index": 0,
+            "score": 0.947,
+            "buttons": 3
+          },
+          {
+            "playerid": "50265723591",
+            "index": 0,
+            "score": 0.112,
+            "buttons": 2
+          },
+          {
+            "playerid": "50265723591",
+            "index": 1,
+            "score": 0.731,
+            "buttons": 2
+          },
+          {
+            "playerid": "50265723591",
+            "index": 1,
+            "score": 0.731,
+            "buttons": 2
+          }
+        ],
+        "packs": {
+          "out_of_scope": {
+            "fairRedimeng": 13,
+            "redimengMaskFailed": 0,
+            "redimengFindCalls": 4,
+            "redimengFindFixed": 4,
+            "redimengFindFallbacks": 0,
+            "redimengTrace": [
+              {
+                "playerid": "50265723591",
+                "index": 0,
+                "score": 0.112,
+                "buttons": 4
+              },
+              {
+                "playerid": "50265723591",
+                "index": 1,
+                "score": 0.731,
+                "buttons": 4
+              },
+              {
+                "playerid": "50265723591",
+                "index": 2,
+                "score": 0.35,
+                "buttons": 4
+              },
+              {
+                "playerid": "50265723591",
+                "index": 3,
+                "score": 0.969,
+                "buttons": 4
+              },
+              {
+                "playerid": "50265723591",
+                "index": 3,
+                "score": 0.969,
+                "buttons": 4
+              },
+              {
+                "playerid": "74695553592",
+                "index": 0,
+                "score": 0.947,
+                "buttons": 3
+              },
+              {
+                "playerid": "74695553592",
+                "index": 1,
+                "score": 0.328,
+                "buttons": 3
+              },
+              {
+                "playerid": "74695553592",
+                "index": 2,
+                "score": 0.185,
+                "buttons": 3
+              },
+              {
+                "playerid": "74695553592",
+                "index": 0,
+                "score": 0.947,
+                "buttons": 3
+              },
+              {
+                "playerid": "50265723591",
+                "index": 0,
+                "score": 0.112,
+                "buttons": 2
+              },
+              {
+                "playerid": "50265723591",
+                "index": 1,
+                "score": 0.731,
+                "buttons": 2
+              },
+              {
+                "playerid": "50265723591",
+                "index": 1,
+                "score": 0.731,
+                "buttons": 2
+              },
+              {
+                "playerid": "50265723591",
+                "index": 0,
+                "score": 0.112,
+                "buttons": 4
+              },
+              {
+                "playerid": "50265723591",
+                "index": 1,
+                "score": 0.731,
+                "buttons": 4
+              },
+              {
+                "playerid": "50265723591",
+                "index": 2,
+                "score": 0.35,
+                "buttons": 4
+              },
+              {
+                "playerid": "50265723591",
+                "index": 3,
+                "score": 0.969,
+                "buttons": 4
+              },
+              {
+                "playerid": "50265723591",
+                "index": 3,
+                "score": 0.969,
+                "buttons": 4
+              },
+              {
+                "playerid": "74695553592",
+                "index": 0,
+                "score": 0.947,
+                "buttons": 3
+              },
+              {
+                "playerid": "74695553592",
+                "index": 1,
+                "score": 0.328,
+                "buttons": 3
+              },
+              {
+                "playerid": "74695553592",
+                "index": 2,
+                "score": 0.185,
+                "buttons": 3
+              },
+              {
+                "playerid": "74695553592",
+                "index": 0,
+                "score": 0.947,
+                "buttons": 3
+              },
+              {
+                "playerid": "50265723591",
+                "index": 0,
+                "score": 0.112,
+                "buttons": 2
+              },
+              {
+                "playerid": "50265723591",
+                "index": 1,
+                "score": 0.731,
+                "buttons": 2
+              },
+              {
+                "playerid": "50265723591",
+                "index": 1,
+                "score": 0.731,
+                "buttons": 2
+              }
+            ]
+          }
+        },
+        "installation": {
+          "state": "installed",
+          "reason": null
+        }
+      },
+      "skillChecks": {
+        "out_of_scope": {
+          "packId": "out_of_scope",
+          "checks": [
+            {
+              "name": "hidden-settlement",
+              "passed": true,
+              "detail": {
+                "mixed": [
+                  "sha",
+                  "shan",
+                  "tao",
+                  "wuzhong"
+                ],
+                "gained": [
+                  [
+                    "sha",
+                    "tao"
+                  ],
+                  [
+                    "shan",
+                    "wuzhong"
+                  ]
+                ]
+              }
+            },
+            {
+              "name": "permute-invariance",
+              "passed": true,
+              "detail": {
+                "indices": [
+                  [
+                    [
+                      0,
+                      1
+                    ],
+                    [
+                      2,
+                      3
+                    ]
+                  ],
+                  [
+                    [
+                      0,
+                      1
+                    ],
+                    [
+                      2,
+                      3
+                    ]
+                  ]
+                ],
+                "fairRedimeng": 13,
+                "redimengMaskFailed": 0
+              }
+            },
+            {
+              "name": "target-legal",
+              "passed": true,
+              "detail": {
+                "targets": [
+                  "50265723591",
+                  "74695553592"
+                ],
+                "cost": 2,
+                "total": 4
+              }
+            },
+            {
+              "name": "target-zero-cost",
+              "passed": true,
+              "detail": {
+                "targets": [
+                  "50265723591",
+                  "74695553592"
+                ],
+                "cost": 0,
+                "total": 2
+              }
+            },
+            {
+              "name": "target-infeasible",
+              "passed": true,
+              "detail": {
+                "choice": {
+                  "bool": false,
+                  "skill": null,
+                  "cards": [],
+                  "targets": []
+                },
+                "usedTargets": []
+              }
+            },
+            {
+              "name": "redimeng-lifecycle",
+              "passed": true,
+              "detail": {
+                "before": {
+                  "rezhiheng": false,
+                  "qimou": false,
+                  "reqimouContent": false,
+                  "reqimouGate": false,
+                  "jushou": false,
+                  "shensu1": false,
+                  "guhuo": false,
+                  "huangtian": false,
+                  "redimengFind": true,
+                  "redimengChooseButton": false
+                },
+                "afterUninstall": {
+                  "rezhiheng": false,
+                  "qimou": false,
+                  "reqimouContent": false,
+                  "reqimouGate": false,
+                  "jushou": false,
+                  "shensu1": false,
+                  "guhuo": false,
+                  "huangtian": false,
+                  "redimengFind": false,
+                  "redimengChooseButton": false
+                },
+                "afterReinstall": {
+                  "rezhiheng": false,
+                  "qimou": false,
+                  "reqimouContent": false,
+                  "reqimouGate": false,
+                  "jushou": false,
+                  "shensu1": false,
+                  "guhuo": false,
+                  "huangtian": false,
+                  "redimengFind": true,
+                  "redimengChooseButton": true
+                }
+              }
+            }
+          ],
+          "signature": {
+            "hiddenMixed": [
+              "sha",
+              "shan",
+              "tao",
+              "wuzhong"
+            ],
+            "hiddenGainedPools": [
+              [
+                "sha",
+                "tao"
+              ],
+              [
+                "shan",
+                "wuzhong"
+              ]
+            ],
+            "permuteIndices": [
+              [
+                [
+                  0,
+                  1
+                ],
+                [
+                  2,
+                  3
+                ]
+              ],
+              [
+                [
+                  0,
+                  1
+                ],
+                [
+                  2,
+                  3
+                ]
+              ]
+            ],
+            "fairRedimeng": 13,
+            "redimengMaskFailed": 0,
+            "redimengFindCalls": 4,
+            "redimengFindFixed": 4,
+            "redimengFindFallbacks": 0
+          }
+        }
+      },
+      "output": "host-single-out_of_scope-installed.json"
+    },
+    {
+      "step": "rollback",
+      "pack": "out_of_scope",
+      "status": "passed",
+      "output": {
+        "status": "rolled-back",
+        "pack": "out_of_scope",
+        "files": [
+          "score/decision/skills/rules/outOfScope.js",
+          "score/decision/skills/packs/outOfScope.js"
+        ],
+        "registry": "empty-registry",
+        "performed": [
+          {
+            "type": "empty-registry",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          },
+          {
+            "type": "delete",
+            "target": "score/decision/skills/rules/outOfScope.js"
+          },
+          {
+            "type": "delete",
+            "target": "score/decision/skills/packs/outOfScope.js"
+          }
+        ]
+      }
+    },
+    {
+      "step": "rollback-check",
+      "pack": "out_of_scope",
+      "status": "passed",
+      "imports": []
+    },
+    {
+      "step": "host-load-rolledback",
+      "pack": "out_of_scope",
+      "status": "passed",
+      "scenes": [
+        "redimeng-hidden-info",
+        "redimeng-permute-values"
+      ],
+      "policyStats": {
+        "installed": true,
+        "packs": {},
+        "installation": {
+          "state": "installed",
+          "reason": null
+        }
+      },
+      "skillChecks": {},
+      "output": "host-single-out_of_scope-rolledback.json"
+    },
+    {
+      "step": "reinstall",
+      "pack": "out_of_scope",
+      "status": "passed",
+      "output": {
+        "pack": "out_of_scope",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\out-of-scope-accept\\targets\\single-out_of_scope",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/outOfScope.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/outOfScope.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": true,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\out_of_scope"
+      }
+    }
+  ],
+  "pass": true,
+  "workdir": "C:\\Users\\32360\\AppData\\Local\\Temp\\out-of-scope-accept",
+  "native_scenes": [
+    "redimeng-hidden-info",
+    "redimeng-permute-values"
+  ],
+  "target": "C:\\Users\\32360\\AppData\\Local\\Temp\\out-of-scope-accept\\targets\\single-out_of_scope"
+}
