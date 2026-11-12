@@ -3704,6 +3704,8 @@ export async function runSkillAiScenes(page, options = {}) {
 				shensu1: !!(lib.skill.shensu1 && lib.skill.shensu1.cost && lib.skill.shensu1.cost.__djscSkillPolicy),
 				guhuo: !!(lib.skill.xinfu_guhuo && lib.skill.xinfu_guhuo.chooseButton && lib.skill.xinfu_guhuo.chooseButton.check && lib.skill.xinfu_guhuo.chooseButton.check.__djscSkillPolicy),
 				huangtian: !!(lib.skill.huangtian2 && lib.skill.huangtian2.ai && lib.skill.huangtian2.ai.result && lib.skill.huangtian2.ai.result.target && lib.skill.huangtian2.ai.result.target.__djscSkillPolicy),
+				redimengFind: !!(lib.skill.redimeng && lib.skill.redimeng.find && lib.skill.redimeng.find.__djscSkillPolicy),
+				redimengChooseButton: !!(lib.element.Player && lib.element.Player.prototype.chooseButton && lib.element.Player.prototype.chooseButton.__djscSkillPolicy),
 			});
 			const before = marked();
 			policyModule.uninstallSkillAIPolicies();

@@ -1213,6 +1213,11 @@ function analyzePackScenes(packId, report, requestedScenes) {
 			if (JSON.stringify(infeasible.beforeCounts) !== JSON.stringify(infeasible.afterCounts)) throw new Error('redimeng 不可行场景改变了手牌');
 			pass('target-infeasible', { choice: infeasible.choice, usedTargets: infeasible.usedTargets });
 		}
+		const lifecycle = findScene(report, 'policy-lifecycle');
+		if (!lifecycle.before.redimengFind || lifecycle.afterUninstall.redimengFind || !lifecycle.afterReinstall.redimengFind) {
+			throw new Error('redimeng find 钩子生命周期未按安装/卸载/重装恢复：' + JSON.stringify(lifecycle));
+		}
+		pass('redimeng-lifecycle', { before: lifecycle.before, afterUninstall: lifecycle.afterUninstall, afterReinstall: lifecycle.afterReinstall });
 		return {
 			packId, checks,
 			signature: {
@@ -1499,6 +1504,8 @@ try {
 	if (prepared.length === 1) {
 		const pack = prepared[0];
 		result.scenes = EXPLICIT_SCENES || DEFAULT_SCENES[pack.id] || null;
+		/* 1.11.7 原生 redimeng.find(2) 已知抛错；卸载/回滚后的原生基线只跑不经过目标评估的场景。 */
+		const nativeScenes = pack.id === 'out_of_scope' ? result.scenes.filter(name => !name.startsWith('redimeng-target')) : result.scenes;
 		const target = makeCleanTarget('single-' + pack.id, BASE_REF, pack.packJson.shared_files);
 		const contract = captureContract(target);
 		let nativeLoad = null;
@@ -1536,7 +1543,8 @@ try {
 		result.steps.push({ step: 'rollback', pack: pack.id, status: 'passed', output: rolled.json });
 		const after = assertRolledBack(target, pack, []);
 		result.steps.push({ step: 'rollback-check', pack: pack.id, status: 'passed', imports: after });
-		const loadAfter = loadSkillScenesGrouped(target, 'single-' + pack.id + '-rolledback', result.scenes, []);
+		const loadAfter = loadSkillScenesGrouped(target, 'single-' + pack.id + '-rolledback', nativeScenes, []);
+		result.native_scenes = nativeScenes;
 		result.steps.push({ step: 'host-load-rolledback', pack: pack.id, ...loadAfter });
 		const reinstall = runJson(path.join(pack.root, 'integration/apply-pack.mjs'), ['--extension-root', target], { cwd: pack.root });
 		if (reinstall.status !== 0 || !['applied', 'already-installed'].includes(reinstall.json.status)) throw new Error('重装失败：' + reinstall.stderr);
@@ -1551,6 +1559,7 @@ try {
 		for (const pack of prepared) for (const scene of DEFAULT_SCENES[pack.id] || []) if (!requiredScenes.includes(scene)) requiredScenes.push(scene);
 		result.scenes = EXPLICIT_SCENES ? Array.from(new Set([...requiredScenes, ...EXPLICIT_SCENES])) : requiredScenes;
 		if (!result.scenes.length) throw new Error('组合验收缺少技能级宿主场景');
+		const nativeScenes = result.scenes.filter(name => !name.startsWith('redimeng-target'));
 		const combinedShared = {};
 		for (const pack of prepared) Object.assign(combinedShared, pack.packJson.shared_files || {});
 		const target = makeCleanTarget('combined', BASE_REF, combinedShared);
@@ -1606,7 +1615,8 @@ try {
 		}
 		const afterText = read(path.join(target, 'score/decision/skills/skillAIPolicyPacks.js')).toString('utf8');
 		if (!afterText.includes('developer,')) throw new Error('回滚误删开发者注册行');
-		const loadAfter = loadSkillScenesGrouped(target, 'combined-rolledback', result.scenes, []);
+		const loadAfter = loadSkillScenesGrouped(target, 'combined-rolledback', nativeScenes, []);
+		result.native_scenes = nativeScenes;
 		result.steps.push({ step: 'host-load-rolledback', pack: 'combined', ...loadAfter });
 		result.target = target;
 	}
