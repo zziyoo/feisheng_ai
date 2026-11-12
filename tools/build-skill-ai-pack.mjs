@@ -81,7 +81,7 @@ const CONSTRAINTS = {
 		forbidden: ['get.value(button'],
 	},
 	out_of_scope: {
-		required: ['shouldMaskHiddenButtonChoice', 'fairButtonScore'],
+		required: ['shouldMaskHiddenButtonChoice', 'fairButtonScore', 'redimengFindNeedsFix'],
 		forbidden: ['get.value(button'],
 	},
 };

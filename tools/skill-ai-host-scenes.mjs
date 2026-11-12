@@ -405,6 +405,69 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.runs.push(await runOnce([['sha', 'club', 84]], [['tao', 'diamond', 85], ['wuzhong', 'spade', 86], ['shan', 'heart', 87]]));
 		});
 
+		// 9d) 界鲁肃缔盟：真实 AI 选目标，弃牌数必须等于两名目标的手牌差。
+		const runRedimengChoice = async rec => {
+			_status.currentPhase = actor;
+			const beforeActor = actor.countCards('h');
+			const beforeTargets = {
+				[ally.playerid]: ally.countCards('h'),
+				[enemy1.playerid]: enemy1.countCards('h'),
+			};
+			const result = await actor.chooseToUse({ type: 'phase', filterCard: () => true, filterTarget: () => false });
+			const used = actor.getHistory('useSkill').slice(-1)[0] || null;
+			const usedTargets = used && Array.isArray(used.targets) ? used.targets.map(p => p.playerid) : [];
+			rec.choice = recordChoice(result);
+			rec.beforeTargets = beforeTargets;
+			rec.usedSkill = used && used.skill || null;
+			rec.usedTargets = usedTargets;
+			rec.costCards = beforeActor - actor.countCards('h');
+			rec.legalTargets = !!(used && usedTargets.length === 2
+				&& new Set(usedTargets).size === 2
+				&& !usedTargets.includes(actor.playerid)
+				&& Math.abs((beforeTargets[usedTargets[0]] || 0) - (beforeTargets[usedTargets[1]] || 0)) === rec.costCards);
+			rec.afterTargets = {
+				[ally.playerid]: ally.countCards('h'),
+				[enemy1.playerid]: enemy1.countCards('h'),
+			};
+			rec.targetTotalBefore = beforeTargets[ally.playerid] + beforeTargets[enemy1.playerid];
+			rec.targetTotalAfter = rec.afterTargets[ally.playerid] + rec.afterTargets[enemy1.playerid];
+			rec.completed = !!used;
+		};
+		await scene('redimeng-target-legal', async () => {
+			actor.addSkill('redimeng');
+			actor.hp = 3; actor.maxHp = 3;
+			await give(actor, [['wuxie', 'spade', 90], ['wuxie', 'heart', 91]]);
+			await give(ally, [['tao', 'heart', 92]]);
+			await give(enemy1, [['sha', 'spade', 93], ['shan', 'diamond', 94], ['wuzhong', 'heart', 95]]);
+			actor.update();
+		}, runRedimengChoice);
+		await scene('redimeng-target-zero-cost', async () => {
+			actor.addSkill('redimeng');
+			actor.hp = 3; actor.maxHp = 3;
+			await give(ally, [['tao', 'heart', 96]]);
+			await give(enemy1, [['sha', 'spade', 97]]);
+			actor.update();
+		}, runRedimengChoice);
+		await scene('redimeng-target-infeasible', async () => {
+			actor.addSkill('redimeng');
+			actor.hp = 3; actor.maxHp = 3;
+			await give(actor, [['wuxie', 'spade', 98], ['wuxie', 'heart', 99]]);
+			await give(ally, [['tao', 'heart', 100]]);
+			await give(enemy1, [['sha', 'spade', 101], ['shan', 'diamond', 102], ['wuzhong', 'heart', 103], ['tao', 'club', 104]]);
+			actor.update();
+		}, async rec => {
+			_status.currentPhase = actor;
+			const before = counts();
+			const result = await actor.chooseToUse({ type: 'phase', filterCard: () => true, filterTarget: () => false });
+			const used = actor.getHistory('useSkill').slice(-1)[0] || null;
+			rec.choice = recordChoice(result);
+			rec.beforeCounts = before;
+			rec.afterCounts = counts();
+			rec.usedSkill = used && used.skill || null;
+			rec.usedTargets = used && Array.isArray(used.targets) ? used.targets.map(p => p.playerid) : [];
+			rec.completed = JSON.stringify(before) === JSON.stringify(rec.afterCounts) && rec.usedTargets.length === 0;
+		});
+
 		// 8b) 标准制衡完整 phaseUse：低血/桃/闪/混合/击杀/防具。
 		const blockNeighborSha = () => {
 			for (const index of [1, 7]) {

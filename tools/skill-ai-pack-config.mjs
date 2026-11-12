@@ -263,7 +263,7 @@ export const CODE_PACKS = [
 		rules: 'outOfScope',
 		implementedSkills: ['redimeng'],
 		auditedSkills: ['redimeng'],
-		scenes: ['redimeng-hidden-info', 'redimeng-permute-values'],
+		scenes: ['redimeng-hidden-info', 'redimeng-permute-values', 'redimeng-target-legal', 'redimeng-target-zero-cost', 'redimeng-target-infeasible'],
 		evidence: [
 			'split-suite-native.json', 'split-suite-policy.json', 'split-suite-extension.json',
 			'repair-node-tests.json',

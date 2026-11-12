@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { fairButtonScore, shouldMaskHiddenButtonChoice } from '../source/score/decision/skills/rules/outOfScope.js';
+import { fairButtonScore, redimengFindNeedsFix, shouldMaskHiddenButtonChoice } from '../source/score/decision/skills/rules/outOfScope.js';
 
 let passed = 0;
 const check = (name, fn) => { fn(); passed++; console.log('PASS', name); };
@@ -21,5 +21,14 @@ check('遮蔽只对 AI 且只在 redimeng 上下文', () => {
 	assert.equal(shouldMaskHiddenButtonChoice(true, true, ['redimeng']), true);
 	assert.equal(shouldMaskHiddenButtonChoice(false, false, ['dimeng']), false);
 	assert.equal(shouldMaskHiddenButtonChoice(false, false, null), false);
+});
+check('只识别宿主 find(2) 的已知块级变量越界', () => {
+	const broken = 'find(type){ for (let i2 = 0; i2 < list.length; i2++) { count = i2; } return list[i]; }';
+	const brokenSource = 'find(type){ for (let i = 0; i < list.length; i++) { count = i; } return list[i]; }';
+	const fixed = 'find(type){ for (let i2 = 0; i2 < list.length; i2++) { count = i2; } return list[i2]; }';
+	assert.equal(redimengFindNeedsFix(broken), true);
+	assert.equal(redimengFindNeedsFix(brokenSource), true);
+	assert.equal(redimengFindNeedsFix(fixed), false);
+	assert.equal(redimengFindNeedsFix(''), false);
 });
 console.log('ALL PASS (' + passed + ')');

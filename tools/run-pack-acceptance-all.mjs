@@ -67,7 +67,7 @@ const SCENES = {
 	],
 	refresh_feng: ['hp-reqimou-distance4-hp3'],
 	shenhua_lei: ['olkongsheng-array-count', 'olkongsheng-repeat'],
-	out_of_scope: ['redimeng-hidden-info', 'redimeng-permute-values'],
+	out_of_scope: ['redimeng-hidden-info', 'redimeng-permute-values', 'redimeng-target-legal', 'redimeng-target-zero-cost', 'redimeng-target-infeasible'],
 };
 const UNION = IDS.flatMap(id => SCENES[id]).filter((name, index, list) => list.indexOf(name) === index);
 const zips = IDS.map(id => ({ id, zip: path.join(PACKS_DIR, `feisheng-ai-${id.replace(/_/g, '-')}.zip`) }));

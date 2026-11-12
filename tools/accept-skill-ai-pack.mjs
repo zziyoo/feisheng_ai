@@ -68,7 +68,7 @@ const DEFAULT_SCENES = {
 	],
 	refresh_feng: ['hp-reqimou-distance4-hp3'],
 	shenhua_lei: ['olkongsheng-array-count', 'olkongsheng-repeat'],
-	out_of_scope: ['redimeng-hidden-info', 'redimeng-permute-values'],
+	out_of_scope: ['redimeng-hidden-info', 'redimeng-permute-values', 'redimeng-target-legal', 'redimeng-target-zero-cost', 'redimeng-target-infeasible'],
 };
 const sha = data => crypto.createHash('sha256').update(data).digest('hex');
 const exists = file => fs.existsSync(file);
@@ -1175,7 +1175,7 @@ function analyzePackScenes(packId, report, requestedScenes) {
 	if (!stats) throw new Error('策略统计缺少分包：' + packId);
 	const checks = [];
 	const pass = (name, detail) => checks.push({ name, passed: true, detail });
-	if (packId === 'out_of_scope' && (requestedScenes.includes('redimeng-hidden-info') || requestedScenes.includes('redimeng-permute-values'))) {
+	if (packId === 'out_of_scope' && requestedScenes.some(name => name.startsWith('redimeng-'))) {
 		const hidden = findScene(report, 'redimeng-hidden-info');
 		const permute = findScene(report, 'redimeng-permute-values');
 		const mixed = normalizeNames(hidden.mixed);
@@ -1195,6 +1195,24 @@ function analyzePackScenes(packId, report, requestedScenes) {
 		if (!(Number(stats.fairRedimeng) > 0)) throw new Error('fairRedimeng 未命中');
 		if (Number(stats.redimengMaskFailed) !== 0) throw new Error('redimengMaskFailed=' + stats.redimengMaskFailed);
 		pass('permute-invariance', { indices: groups, fairRedimeng: stats.fairRedimeng, redimengMaskFailed: stats.redimengMaskFailed });
+		if (requestedScenes.includes('redimeng-target-legal')) {
+			const legal = findScene(report, 'redimeng-target-legal');
+			if (legal.usedSkill !== 'redimeng' || !legal.legalTargets) throw new Error('redimeng 合法目标未完成：' + JSON.stringify(legal));
+			if (legal.targetTotalBefore !== legal.targetTotalAfter) throw new Error('redimeng 目标手牌结算不守恒');
+			pass('target-legal', { targets: legal.usedTargets, cost: legal.costCards, total: legal.targetTotalAfter });
+		}
+		if (requestedScenes.includes('redimeng-target-zero-cost')) {
+			const zero = findScene(report, 'redimeng-target-zero-cost');
+			if (zero.usedSkill !== 'redimeng' || !zero.legalTargets || zero.costCards !== 0) throw new Error('redimeng 0 费合法目标未完成：' + JSON.stringify(zero));
+			if (zero.targetTotalBefore !== zero.targetTotalAfter) throw new Error('redimeng 0 费目标手牌结算不守恒');
+			pass('target-zero-cost', { targets: zero.usedTargets, cost: zero.costCards, total: zero.targetTotalAfter });
+		}
+		if (requestedScenes.includes('redimeng-target-infeasible')) {
+			const infeasible = findScene(report, 'redimeng-target-infeasible');
+			if (!infeasible.completed) throw new Error('redimeng 非法目标场景不应发动：' + JSON.stringify(infeasible));
+			if (JSON.stringify(infeasible.beforeCounts) !== JSON.stringify(infeasible.afterCounts)) throw new Error('redimeng 不可行场景改变了手牌');
+			pass('target-infeasible', { choice: infeasible.choice, usedTargets: infeasible.usedTargets });
+		}
 		return {
 			packId, checks,
 			signature: {
@@ -1203,6 +1221,9 @@ function analyzePackScenes(packId, report, requestedScenes) {
 				permuteIndices: groups,
 				fairRedimeng: stats.fairRedimeng,
 				redimengMaskFailed: stats.redimengMaskFailed,
+				redimengFindCalls: stats.redimengFindCalls,
+				redimengFindFixed: stats.redimengFindFixed,
+				redimengFindFallbacks: stats.redimengFindFallbacks,
 			},
 		};
 	}
