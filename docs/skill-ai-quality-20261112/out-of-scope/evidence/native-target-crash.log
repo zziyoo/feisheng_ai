@@ -1,0 +1,139 @@
+[smoke] browser ready
+[smoke] phase hook ready
+[smoke] startup state {"auto":true,"paused":false,"event":"game","body":"选项暂停托管♫\n显示身份\n托管中...\n跳过向导\n继续\n翻面\n翻面\n翻面\n翻面\n翻面\n翻面\n翻面\n翻面\n欢迎来到无名杀，是否进入新手向导？\n跳过后，你可以在选项-其它中重置新手向导\n重来\n退出\n记录\n托管\n开始选项武将卡牌扩展其它\n身份国战对决联机挑战斗地主单挑战棋塔防乱斗炉石\n游戏模式\n标准\n游戏人数\n八人\n双内奸\n神武将选择势力\n双将模式\n特殊身份\n明忠卡牌替换\n主内单挑特效\n双将体力上限\n平均值\n自动显示身份\n关闭\n自动标记身份\n加强主公\n关闭\n自由选将\n自由选择身份和座位\n开启换将卡\n开启手气卡\n禁用\n开启首轮强化卡牌\n内奸自动标记伪装反贼\n显示再战\n死亡后显示重来\n死亡后显示复活\n屏蔽身份\n关闭\n屏蔽身份2\n关闭\n屏蔽身份3\n关闭\n内奸策略\n均衡\nAI对人类态度\n一般\n主公候选武将数\n3\n常备主候选武将数\n按势力筛选\n忠臣候选武将数\n4\n内奸候选武将数\n6\n反贼候选武将数\n3\n启用平民\n平民候选武将数\n4\n启用年机制\n启用明察\n上移↑下移↓\n隐藏此模式\n启"}
+[smoke] retry startup after page.waitForFunction: Timeout 30000ms exceeded.
+[smoke] phase hook ready
+[smoke] game initialized
+选项暂停托管♫
+牌堆公共区域显示身份
+托管中...
+翻面
+主
+神姜维
+2
+翻面
+忠
+TW贾充
+1
+翻面
+反
+周宣
+3
+翻面
+反
+汉神张宝
+0
+翻面
+反
+虎牢神吕布
+0
+翻面
+反
+杨奉
+0
+翻面
+反
+周群
+0
+翻面
+反
+新夏侯玄
+0
+♠︎ 90
+无懈可击
+♥︎ 91
+无懈可击
+♠︎ 90
+无懈可击
+♥︎ 91
+无懈可击
+♥︎ 92
+桃
+♠︎ 93
+杀
+♦︎ 94
+闪
+♥︎ 95
+无中生有
+重来
+退出
+记录
+托管
+开始选项武将卡牌扩展其它
+身份国战对决联机挑战斗地主单挑战棋塔防乱斗炉石
+游戏模式
+标准
+游戏人数
+八人
+双内奸
+神武将选择势力
+双将模式
+特殊身份
+明忠卡牌替换
+主内单挑特效
+双将体力上限
+平均值
+自动显示身份
+关闭
+自动标记身份
+加强主公
+关闭
+自由选将
+自由选择身份和座位
+开启换将卡
+开启手气卡
+禁用
+开启首轮强化卡牌
+内奸自动标记伪装反贼
+显示再战
+死亡后显示重来
+死亡后显示复活
+屏蔽身份
+关闭
+屏蔽身份2
+关闭
+屏蔽身份3
+关闭
+内奸策略
+均衡
+AI对人类态度
+一般
+主公候选武将数
+3
+常备主候选武将数
+按势力筛选
+忠臣候选武将数
+4
+内奸候选武将数
+6
+反贼候选武将数
+3
+启用平民
+平民候选武将数
+4
+启用年机制
+启用明察
+上移↑下移↓
+隐藏此模式
+启
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.evaluate: ReferenceError: i is not defined
+    at Object.find (http://127.0.0.1:64390/character/shenhua.js:3524:19)
+    at player (http://127.0.0.1:64390/character/shenhua.js:3548:46)
+    at Get.effect_use (http://127.0.0.1:64390/noname/get/index.js:6589:17)
+    at Proxy.wrapFunc (http://127.0.0.1:64390/noname/library/cache/cacheContext.js:145:30)
+    at cacheEffectUse (http://127.0.0.1:64390/noname/get/index.js:6538:22)
+    at Basic.chooseTarget (http://127.0.0.1:64390/noname/ai/basic.js:206:21)
+    at GameEvent.<anonymous> (http://127.0.0.1:64390/noname/library/element/content.js:4650:23)
+    at GameEvent.content (http://127.0.0.1:64390/noname/library/element/GameEvent/compilers/ArrayCompiler.js:26:34)
+    at async GameEvent.loop (http://127.0.0.1:64390/noname/library/element/gameEvent.js:241:11)
+    at async http://127.0.0.1:64390/noname/library/element/gameEvent.js:206:7
+    at runSkillAiScenes (C:\Users\32360\.codex\worktrees\out-of-scope-acceptance\tools\skill-ai-host-scenes.mjs:6:28)
+    at C:\Users\32360\.codex\worktrees\out-of-scope-acceptance\tools\trick-real-host-smoke.mjs:126:26 {
+  log: []
+}
+
+Node.js v24.14.0

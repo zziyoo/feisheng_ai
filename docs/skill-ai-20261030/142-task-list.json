@@ -1514,20 +1514,26 @@
       "priority_revised": "P0",
       "review_status": "已修复",
       "implementation_status": "已实施",
-      "test_status": "真实宿主通过",
+      "test_status": "真实宿主通过（扩展路线；原生路线未覆盖）",
       "skill_statuses": [
         {
           "id": "redimeng",
           "name": "缔盟",
           "status": "已修复",
           "implementation": "已实施",
-          "test": "真实宿主通过",
-          "evidence": "混合后的暗牌选择中，原生AI用 get.value(button.link) 直接挑最高价值牌；真实验证第一个选择者拿走桃+无中生有，人类同界面为暗牌。公平钩子改为按位置/玩家id的稳定分数；同一局面置换暗牌牌面后，两次选择的索引一致。",
-          "notes": "只对AI选择者生效；人类路径不变；卸载还原；选择器异常不调用原生看牌评分。"
+          "test": "真实宿主通过（扩展路线；原生路线未覆盖）",
+          "evidence": "暗牌公平：原生AI用 get.value(button.link) 直接挑最高价值牌；真实验证第一个选择者拿走无中生有+桃。公平钩子改为按位置/玩家id的稳定分数；同一局面置换暗牌牌面后，两次选择的索引一致。目标选择：原生 find(2) 在循环外引用块级变量 i，真实 AI chooseToUse 抛 ReferenceError；策略层只包装 find(2)，合法2费、0费、不可行三场景完成且结算守恒。",
+          "notes": "只对AI选择者生效；人类路径不变；find(1)/find(3)/技能结算保持宿主原实现；卸载还原；原生1.11.7仍需宿主补丁才能覆盖 find(2)。"
         }
       ],
-      "evidence": "混合后的暗牌选择中，原生AI用 get.value(button.link) 直接挑最高价值牌；公平钩子改为按位置/玩家id的稳定分数；同一局面置换暗牌牌面后，两次选择的索引一致。",
-      "notes": "只对AI选择者生效；人类路径不变；卸载还原；选择器异常不调用原生看牌评分。"
+      "evidence": "暗牌公平：原生AI用 get.value(button.link) 直接挑最高价值牌；真实验证第一个选择者拿走无中生有+桃。公平钩子改为按位置/玩家id的稳定分数；同一局面置换暗牌牌面后，两次选择的索引一致。目标选择：原生 find(2) 在循环外引用块级变量 i，真实 AI chooseToUse 抛 ReferenceError；策略层只包装 find(2)，合法2费、0费、不可行三场景完成且结算守恒。",
+      "notes": "只对AI选择者生效；人类路径不变；find(1)/find(3)/技能结算保持宿主原实现；卸载还原；原生1.11.7仍需宿主补丁才能覆盖 find(2)。",
+      "target_selection": {
+        "root_cause": "宿主 1.11.7 redimeng.find(2) 在循环外 return list[i]；i 是块级循环变量，评估第二目标时抛 ReferenceError",
+        "fix": "outOfScope 包装 find(2)，保持 find(1)/find(3) 与技能结算不变",
+        "native_route": "原生 1.11.7 仍抛错；本包只支持扩展路线，不提供原生补丁",
+        "evidence": "redimeng-target-legal（2费）、redimeng-target-zero-cost（0费）、redimeng-target-infeasible（不可行）均真实宿主通过"
+      }
     }
   ],
   "records": [

@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "pack_id": "out_of_scope",
+  "task_list": "docs/skill-ai-20261030/142-task-list.json",
+  "task_list_sha256": "74de0d252753f95042a75c3bde44c50c60e26795434ba77423949e215b2421f4",
+  "registered_characters": [
+    {
+      "task_id": "activity_lusu",
+      "host_character_id": "lusu",
+      "character_name": "界鲁肃（活动武将/DIY组）",
+      "host_source": "extension/活动武将/js/content.js:1077",
+      "skills": ["haoshi", "redimeng"]
+    }
+  ],
+  "registered_skills": [
+    {
+      "id": "redimeng",
+      "name": "缔盟",
+      "owner": "native",
+      "host_source": "character/shenhua.js:3356",
+      "host_find": "character/shenhua.js:3492",
+      "route": "extension-only",
+      "pack_files": [
+        "score/decision/skills/packs/outOfScope.js",
+        "score/decision/skills/rules/outOfScope.js"
+      ]
+    }
+  ],
+  "counts": {
+    "characters": 1,
+    "skills": 1,
+    "pack_registered_skills": 1
+  },
+  "notes": [
+    "142-task-list 的 out_of_scope 分包只登记 activity_lusu / redimeng；生成器 recordsFor('out_of_scope') 也只取该条。",
+    "活动武将扩展还注册了 old_liuzhang 等其他角色，但它们不在 142 清单或 out_of_scope 登记范围，不能据此扩包。",
+    "角色上的 haoshi 未列入 out_of_scope target_skills；本轮只处理 redimeng，不把它冒充为新增修复。",
+    "本包没有原生补丁；宿主 1.11.7 原生路线仍保留 find(2) 缺陷，扩展是唯一受支持路线。"
+  ],
+  "historical_source": {
+    "base_commit": "12c8b6f24b10a1e34d32e9807390129761b74a5e",
+    "pre_change_head": "0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea",
+    "pre_change_blobs": {
+      "packs/outOfScope.js": "f7fbac9553be6b340057d47367b4ec1b90e37533cdc965661e2f6f6d3f485602",
+      "rules/outOfScope.js": "8a76b0273eb06fd06206ef348b0df232b0054b389166deb043aa0bc78836adb6"
+    },
+    "old_zip_sha256": "908a54f24c3d0899bc7072f53a23e3c442c6306f010923d1c022204ee6703b58",
+    "old_zip_present": false,
+    "inheritance": "暗牌公平实现自 12c8b6f 至 0fa2c07 未变化，可按 blob 继承；旧 ZIP 不在本机，未做 ZIP 文件级对照。"
+  }
+}

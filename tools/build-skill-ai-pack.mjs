@@ -141,6 +141,13 @@ function readme(pack, config, evidenceNames) {
 不要在同一个宿主同时应用原生补丁并安装本分包：两者会重复接管同一 AI 入口，后续维护可能出现两处逻辑漂移。扩展虽然会在原生结果上做幂等判断，不会重复扣血/摸牌，但这不等于应当同时启用。原生补丁只修改 AI 决策函数，不改技能规则、目标合法性、伤害/回复结算或非 AI 流程。
 `
 		: '';
+	const nativeRouteNote = config.id === 'out_of_scope'
+		? `
+## 部署路线限制（out_of_scope）
+
+本包只有扩展路线。宿主 1.11.7 原生 \`redimeng.find(2)\` 仍会抛 \`ReferenceError\`，本包不提供原生补丁；不要把本包与任何原生补丁或其他分包重复接管同一入口。原生/扩展覆盖差异见交付目录 \`ACCEPTANCE.md\`。
+`
+		: '';
 	const intro = deliverable
 		? (reviewOnly
 			? `**完整复核包。** 本包登记 ${pack.counts.characters} 名武将、${pack.counts.skills} 个技能已全部审查；复核后未发现需要覆盖的 AI 缺陷，因此本包不包含运行时策略覆盖。
@@ -172,7 +179,7 @@ ${externalNote}
 - \`integration/pack-only/skillAIPolicyPacks.js\`：只包含本分包的注册表
 
 **不包含**其他分包未完成的策略代码、模型权重、训练数据、后端配置或完整扩展包。
-${nativePatchNote}
+${nativePatchNote}${nativeRouteNote}
 ## 集成
 
 目标必须是已接入无名AI策略 facade 的扩展（\`score/index.js\` 含 \`installSkillAIPolicies\`/\`uninstallSkillAIPolicies\`；否则先应用 \`patches/score-index.diff\`）。
