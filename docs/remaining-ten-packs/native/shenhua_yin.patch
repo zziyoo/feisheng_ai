@@ -19,3 +19,16 @@ diff --git a/character/shenhua.js b/character/shenhua.js
                  return false;
                }
                if (list.includes(cardx.name)) {
+diff --git a/character/sp.js b/character/sp.js
+--- a/character/sp.js
++++ b/character/sp.js
+@@ -38452,6 +38452,9 @@
+         return !_status.event.targets.includes(target2) && target2.countCards("he") > 0;
+       }).set("ai", function(target2) {
+         var player3 = _status.event.player;
++        if (!target2.hasCard((card2) => lib.filter.canBeDiscarded(card2, player3, target2, "qizhi"), "he")) {
++          return 0;
++        }
+         if (target2 == player3) {
+           return 2;
+         }
