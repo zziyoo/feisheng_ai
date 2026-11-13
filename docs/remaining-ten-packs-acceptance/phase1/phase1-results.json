@@ -1,0 +1,1566 @@
+{
+  "generatedAt": "2026-11-13T09:11:07.941Z",
+  "host": "C:/Users/32360/AppData/Local/Temp/remaining-ten-accept/host-phase1",
+  "patchDir": "C:\\Users\\32360\\.codex\\worktrees\\remaining-ten-packs-acceptance\\docs\\remaining-ten-packs\\native",
+  "patches": [
+    {
+      "name": "standard_2008",
+      "rel": "docs/remaining-ten-packs/native/standard_2008.patch",
+      "sha256": "d0e233259a1db09c9bfa3e4c686ea4a361bff6956edbadaca1c5341bcea410db",
+      "headBlob": "1da744bc8ec67f4cd93e1de4c2e811c96399e197",
+      "worktreeBlob": "1da744bc8ec67f4cd93e1de4c2e811c96399e197",
+      "headMatchesWorktree": true,
+      "commit": "404e305dc58f8ad964a9764ecc433320af17f6e4\tfix(ai): review standard 2008 and correct tieji and yiji",
+      "eol": "LF",
+      "files": [
+        "character/standard.js"
+      ],
+      "checks": {
+        "preReset": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        },
+        "applyCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "node": {
+          "character/standard.js": {
+            "status": 0,
+            "stderr": ""
+          }
+        },
+        "reverseCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "reverseApply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "afterReverse": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        }
+      },
+      "diff": {
+        "numstat": "3\t8\tcharacter/standard.js",
+        "stat": "character/standard.js | 11 +++--------\n 1 file changed, 3 insertions(+), 8 deletions(-)",
+        "whitespaceCheckOk": true,
+        "whitespaceCheck": "",
+        "addedLines": [
+          "            if (target.hasSkillTag(\"nogain\")) {",
+          "              return 0;",
+          "            }"
+        ],
+        "removedLines": [
+          "    },",
+          "    ai: {",
+          "      directHit_ai: true,",
+          "      skillTagFilter(player, tag, arg) {",
+          "        if (get.attitude(player, arg.target) > 0 || arg.card.name !== \"sha\" || !ui.cardPile.firstChild || get.color(ui.cardPile.firstChild, player) !== \"red\") {",
+          "          return false;",
+          "        }",
+          "      }"
+        ],
+        "settlementLikeChanges": []
+      }
+    },
+    {
+      "name": "standard_2013",
+      "rel": "docs/remaining-ten-packs/native/standard_2013.patch",
+      "sha256": "a70a185ecebb78f2e30afeeea3009b665914fa59f169857081500e9860f8558f",
+      "headBlob": "09c3338aae29f42cda3761ffbb14e85a99ea6a7f",
+      "worktreeBlob": "09c3338aae29f42cda3761ffbb14e85a99ea6a7f",
+      "headMatchesWorktree": true,
+      "commit": "eba7ded6c925da6b0f8f5ed1812d81d340f0a7e6\tfix(ai): review standard 2013 and protect hidden shan in retongji",
+      "eol": "LF",
+      "files": [
+        "character/standard.js"
+      ],
+      "checks": {
+        "preReset": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        },
+        "applyCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "node": {
+          "character/standard.js": {
+            "status": 0,
+            "stderr": ""
+          }
+        },
+        "reverseCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "reverseApply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "afterReverse": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        }
+      },
+      "diff": {
+        "numstat": "3\t5\tcharacter/standard.js",
+        "stat": "character/standard.js | 8 +++-----\n 1 file changed, 3 insertions(+), 5 deletions(-)",
+        "whitespaceCheckOk": true,
+        "whitespaceCheck": "",
+        "addedLines": [
+          "          const target = trigger.target;",
+          "          if ((target.hp === 1 || target.hp === 2) && player.isAllCardsKnown(target) && !player.hasKnownCards(target, \"shan\")) {",
+          "            return (target.hp === 1 ? 10 : 8) - get.attitude(target, player);"
+        ],
+        "removedLines": [
+          "          if (trigger.target.hp === 1 && !player.hasCards(\"h\", \"shan\")) {",
+          "            return 10 - get.attitude(trigger.target, player);",
+          "          }",
+          "          if (trigger.target.hp === 2 && !player.hasCards(\"h\", \"shan\")) {",
+          "            return 8 - get.attitude(trigger.target, player);"
+        ],
+        "settlementLikeChanges": []
+      }
+    },
+    {
+      "name": "standard_2019",
+      "rel": "docs/remaining-ten-packs/native/standard_2019.patch",
+      "sha256": "bf843e22e9c7085019bb87f94865d29a6873a1b95c4390a24b576f949a931521",
+      "headBlob": "92ce2fd6e7e1ceed6c3c675333b4254c10f67017",
+      "worktreeBlob": "92ce2fd6e7e1ceed6c3c675333b4254c10f67017",
+      "headMatchesWorktree": true,
+      "commit": "959661831683211f3266f8efa4a05a4c91e4e4fa\tfix(ai): review standard 2019 and improve jijie and jiyuan scoring",
+      "eol": "LF",
+      "files": [
+        "character/standard.js"
+      ],
+      "checks": {
+        "preReset": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        },
+        "applyCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "node": {
+          "character/standard.js": {
+            "status": 0,
+            "stderr": ""
+          }
+        },
+        "reverseCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "reverseApply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "afterReverse": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        }
+      },
+      "diff": {
+        "numstat": "4\t1\tcharacter/standard.js",
+        "stat": "character/standard.js | 5 ++++-\n 1 file changed, 4 insertions(+), 1 deletion(-)",
+        "whitespaceCheckOk": true,
+        "whitespaceCheck": "",
+        "addedLines": [
+          "          if (target.hasSkillTag(\"nogain\")) {",
+          "            return 0;",
+          "          }",
+          "      return get.attitude(player, target) > 0 && (event.name === \"dying\" || !target.hasSkillTag(\"nogain\"));"
+        ],
+        "removedLines": [
+          "      return get.attitude(player, target) > 0;"
+        ],
+        "settlementLikeChanges": []
+      }
+    },
+    {
+      "name": "standard_2023",
+      "rel": "docs/remaining-ten-packs/native/standard_2023.patch",
+      "sha256": "d1b7fa5430b9050e7fbf7b405702c45e4883848619ac7c4633508414940e8074",
+      "headBlob": "6210b00a4c844a3a4386677f75d4b12adaafcc9e",
+      "worktreeBlob": "6210b00a4c844a3a4386677f75d4b12adaafcc9e",
+      "headMatchesWorktree": true,
+      "commit": "64df8e6dfb09a56430c487b4edd378edd973fef7\tfix(ai): review standard 2023 and correct xiaoguo and recovery choices",
+      "eol": "LF",
+      "files": [
+        "character/sp.js",
+        "character/standard.js"
+      ],
+      "checks": {
+        "preReset": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        },
+        "applyCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "node": {
+          "character/sp.js": {
+            "status": 0,
+            "stderr": ""
+          },
+          "character/standard.js": {
+            "status": 0,
+            "stderr": ""
+          }
+        },
+        "reverseCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "reverseApply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "afterReverse": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        }
+      },
+      "diff": {
+        "numstat": "1\t1\tcharacter/sp.js\n10\t4\tcharacter/standard.js",
+        "stat": "character/sp.js       |  2 +-\n character/standard.js | 14 ++++++++++----\n 2 files changed, 11 insertions(+), 5 deletions(-)",
+        "whitespaceCheckOk": true,
+        "whitespaceCheck": "",
+        "addedLines": [
+          "      if (!player2.isDamaged() || player2.hp > 2) {",
+          "          if (target.hasSkillTag(\"noe\") && get.damageEffect(target, player, target) <= 0) {",
+          "            const canDiscardEquip = (card) => get.type(card) === \"equip\" && lib.filter.cardDiscardable(card, target, \"stdxiaoguo\");",
+          "            if (target.hasCards(\"e\", canDiscardEquip) || target.getKnownCards(player).some(canDiscardEquip)) {",
+          "              return get.attitude(player, target);",
+          "            }",
+          "          return get.damageEffect(target, player, player);",
+          "          if (target.hasSkillTag(\"nogain\")) {",
+          "            return 0;",
+          "          }",
+          "          return get.attitude(get.player(), target) * (target.hasCards(\"h\") ? 1 : 2);"
+        ],
+        "removedLines": [
+          "      if (player2.hp > 2) {",
+          "          if (target.hasSkillTag(\"noe\")) {",
+          "            return get.attitude(_status.event.player, target);",
+          "          return get.damageEffect(target, player, _status.event.player);",
+          "          return get.attitude(get.player(), target);"
+        ],
+        "settlementLikeChanges": []
+      }
+    },
+    {
+      "name": "shenhua_lin",
+      "rel": "docs/remaining-ten-packs/native/shenhua_lin.patch",
+      "sha256": "ae017875df282cc852cf3a11d4530fb15d906b6c7cdbf87b44a5ea9d09f0bc67",
+      "headBlob": "96ec8b59f5c1539d7e8473a0a676d868573707bf",
+      "worktreeBlob": "96ec8b59f5c1539d7e8473a0a676d868573707bf",
+      "headMatchesWorktree": true,
+      "commit": "22e19db1a82c8555a5fa22332a1a409d48be90fe\tfix(ai): review shenhua lin and correct dimeng roulin and luanwu",
+      "eol": "LF",
+      "files": [
+        "character/shenhua.js"
+      ],
+      "checks": {
+        "preReset": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        },
+        "applyCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "node": {
+          "character/shenhua.js": {
+            "status": 0,
+            "stderr": ""
+          }
+        },
+        "reverseCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "reverseApply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "afterReverse": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        }
+      },
+      "diff": {
+        "numstat": "9\t12\tcharacter/shenhua.js",
+        "stat": "character/shenhua.js | 21 +++++++++------------\n 1 file changed, 9 insertions(+), 12 deletions(-)",
+        "whitespaceCheckOk": true,
+        "whitespaceCheck": "",
+        "addedLines": [
+          "            if (!list.length) {",
+          "              return 0;",
+          "            }",
+          "      halfneg: true",
+          "          if (lib.config.mode == \"identity\" && game.zhu?.isZhu && player.identity == \"fan\") {",
+          "            if (players[i2] == player || players[i2].hp <= 0) {",
+          "              continue;",
+          "            }",
+          "            if (players[i2].hp <= 3) {"
+        ],
+        "removedLines": [
+          "      halfneg: true,",
+          "      directHit_ai: true,",
+          "      skillTagFilter(player, tag, arg) {",
+          "        if (tag === \"directHit_ai\") {",
+          "          return;",
+          "        }",
+          "        if (arg.card.name != \"sha\" || !arg.target.hasSex(\"female\") || arg.target.countCards(\"h\", \"shan\") > 1) {",
+          "          return false;",
+          "        }",
+          "      }",
+          "          if (lib.config.mode == \"identity\" && game.zhu.isZhu && player.identity == \"fan\") {",
+          "            if (players[i2] != player && players[i2].hp <= 3) {"
+        ],
+        "settlementLikeChanges": []
+      }
+    },
+    {
+      "name": "shenhua_shan",
+      "rel": "docs/remaining-ten-packs/native/shenhua_shan.patch",
+      "sha256": "b74fd8d3eec392e7fa9b4e491ad86646705b3b072aea08f5f44d14b19c6abf15",
+      "headBlob": "7cb3417e990aed8d5ba5775dd89975b07971bede",
+      "worktreeBlob": "7cb3417e990aed8d5ba5775dd89975b07971bede",
+      "headMatchesWorktree": true,
+      "commit": "f091f79ecdd1cd0a4c527a81936f41e1cafba2e7\tfix(ai): review shenhua shan and protect hidden response and compare cards",
+      "eol": "LF",
+      "files": [
+        "character/shenhua.js"
+      ],
+      "checks": {
+        "preReset": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        },
+        "applyCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "node": {
+          "character/shenhua.js": {
+            "status": 0,
+            "stderr": ""
+          }
+        },
+        "reverseCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "reverseApply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "afterReverse": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        }
+      },
+      "diff": {
+        "numstat": "7\t5\tcharacter/shenhua.js",
+        "stat": "character/shenhua.js | 12 +++++++-----\n 1 file changed, 7 insertions(+), 5 deletions(-)",
+        "whitespaceCheckOk": true,
+        "whitespaceCheck": "",
+        "addedLines": [
+          "          const viewer = get.player() || player;",
+          "          if (typeof card === \"object\" && get.name(card) === \"sha\" && target.mayHaveShan(viewer, \"use\")) {",
+          "          if (target.isUnderControl(true, viewer)) {",
+          "            const estimatedResponses = target.mayHaveSha(viewer, undefined, undefined, \"count\") + target.mayHaveShan(viewer, undefined, undefined, \"count\");",
+          "            return [0.5, Math.max(target.countCards(\"h\") / 4, estimatedResponses)];",
+          "              const cards2 = target.getKnownCards(player);",
+          "              if (maxnum < 5 && target.countCards(\"h\") > 1) {"
+        ],
+        "removedLines": [
+          "          if (typeof card === \"object\" && get.name(card) === \"sha\" && target.mayHaveShan(player, \"use\")) {",
+          "          if (target.isUnderControl(true, player)) {",
+          "            return [0.5, Math.max(target.countCards(\"h\") / 4, target.countCards(\"h\", \"sha\") + target.countCards(\"h\", \"shan\"))];",
+          "              const cards2 = target.getCards(\"h\");",
+          "              if (maxnum < 5 && cards2.length > 1) {"
+        ],
+        "settlementLikeChanges": []
+      }
+    },
+    {
+      "name": "shenhua_yin",
+      "rel": "docs/remaining-ten-packs/native/shenhua_yin.patch",
+      "sha256": "f83fb96114f9b2aa20672f14f6f901c40e71fbcbb4e9a6f620eb4ac9b86b3747",
+      "headBlob": "b91bdf518a7b253bd7c9da974cbab4a042b4eebf",
+      "worktreeBlob": "b91bdf518a7b253bd7c9da974cbab4a042b4eebf",
+      "headMatchesWorktree": true,
+      "commit": "b79ce0ce3db1d136ec8d8e2e78017d31454b2527\tfix(ai): review shenhua yin and correct kuizhu and mingren choices",
+      "eol": "LF",
+      "files": [
+        "character/shenhua.js"
+      ],
+      "checks": {
+        "preReset": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        },
+        "applyCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "node": {
+          "character/shenhua.js": {
+            "status": 0,
+            "stderr": ""
+          }
+        },
+        "reverseCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "reverseApply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "afterReverse": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        }
+      },
+      "diff": {
+        "numstat": "2\t2\tcharacter/shenhua.js",
+        "stat": "character/shenhua.js | 4 ++--\n 1 file changed, 2 insertions(+), 2 deletions(-)",
+        "whitespaceCheckOk": true,
+        "whitespaceCheck": "",
+        "addedLines": [
+          "          return target.hp == _status.event.num && get.attitude(player2, target) < 0;",
+          "              if (cardx == card || get.color(cardx) != color) {"
+        ],
+        "removedLines": [
+          "          return get.attitude(player2, target) < 0;",
+          "              if (cardx != card || get.color(cardx) != color) {"
+        ],
+        "settlementLikeChanges": []
+      }
+    },
+    {
+      "name": "refresh_huo",
+      "rel": "docs/remaining-ten-packs/native/refresh_huo.patch",
+      "sha256": "7d7cf2c6b83623deb2e9b7ec10e60d17d26ca949efd1f849a996254f7c707d88",
+      "headBlob": "c2410ae30cabea4b4717deb68fe7591fa7142e27",
+      "worktreeBlob": "c2410ae30cabea4b4717deb68fe7591fa7142e27",
+      "headMatchesWorktree": true,
+      "commit": "dcf0dd3d2d9b031c60521ce50ed98cb32e9bef52\tfix(ai): review refresh huo and score oljieming by max hp",
+      "eol": "LF",
+      "files": [
+        "character/refresh.js"
+      ],
+      "checks": {
+        "preReset": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        },
+        "applyCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "node": {
+          "character/refresh.js": {
+            "status": 0,
+            "stderr": ""
+          }
+        },
+        "reverseCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "reverseApply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "afterReverse": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        }
+      },
+      "diff": {
+        "numstat": "1\t1\tcharacter/refresh.js",
+        "stat": "character/refresh.js | 2 +-\n 1 file changed, 1 insertion(+), 1 deletion(-)",
+        "whitespaceCheckOk": true,
+        "whitespaceCheck": "",
+        "addedLines": [
+          "                max = Math.max(Math.min(5, players[i].maxHp) - players[i].countCards(\"h\"), max);"
+        ],
+        "removedLines": [
+          "                max = Math.max(Math.min(5, players[i].hp) - players[i].countCards(\"h\"), max);"
+        ],
+        "settlementLikeChanges": []
+      }
+    },
+    {
+      "name": "refresh_lin",
+      "rel": "docs/remaining-ten-packs/native/refresh_lin.patch",
+      "sha256": "8c3e6c8c138460bb7ef920934a526cf47a7d0029414cce0e3a460abe820ef26c",
+      "headBlob": "e6798f661f716c642a54ec86480a891a34fb4df0",
+      "worktreeBlob": "e6798f661f716c642a54ec86480a891a34fb4df0",
+      "headMatchesWorktree": true,
+      "commit": "92214435d6e98410808eb75613d9028ec91f51fc\tfix(ai): review refresh lin and correct olhaoshi and oldimeng",
+      "eol": "LF",
+      "files": [
+        "character/refresh.js"
+      ],
+      "checks": {
+        "preReset": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        },
+        "applyCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "node": {
+          "character/refresh.js": {
+            "status": 0,
+            "stderr": ""
+          }
+        },
+        "reverseCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "reverseApply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "afterReverse": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        }
+      },
+      "diff": {
+        "numstat": "19\t30\tcharacter/refresh.js",
+        "stat": "character/refresh.js | 49 +++++++++++++++++++------------------------------\n 1 file changed, 19 insertions(+), 30 deletions(-)",
+        "whitespaceCheckOk": true,
+        "whitespaceCheck": "",
+        "addedLines": [
+          "              const player2 = _status.event.player;",
+          "              const goon = _status.event.targets.some((target2) => get.attitude(target2, player2) > 0 && get.attitude(player2, target2) > 0);",
+          "              const player2 = _status.event.player;",
+          "              const value = get.value(card, player2);",
+          "              if (value < 0) {",
+          "                return 1;",
+          "              }",
+          "              const incoming = _status.event.getTrigger();",
+          "              const name = get.name(card, player2);",
+          "              const response = name == \"shan\" ? \"respondShan\" : name == \"sha\" ? \"respondSha\" : null;",
+          "              if (response && incoming?.card && incoming.target && get.tag(incoming.card, response)) {",
+          "                const recipient = incoming.target;",
+          "                const known = recipient.countKnownCards(player2, (knownCard) => get.name(knownCard, recipient) == name);",
+          "                if (known < player2.countCards(\"h\", name)) {",
+          "                  return 2;",
+          "                }",
+          "                return 0.5 / Math.max(1, value);",
+          "          const first = ui.selected.targets[0].countCards(\"h\");",
+          "          return Math.max(0, first - target.countCards(\"h\"));"
+        ],
+        "removedLines": [
+          "              var goon = false, player2 = _status.event.player;",
+          "              for (var i of _status.event.targets) {",
+          "                if (get.attitude(i, player2) > 0 && get.attitude(player2, i) > 0) {",
+          "                  goon = true;",
+          "                }",
+          "                break;",
+          "              }",
+          "              var player2 = _status.event.player, target2 = _status.event.getTrigger().player;",
+          "                if (get.value(card, player2) < 0 || get.value(card, target2) < 0) {",
+          "                  return 1;",
+          "                }",
+          "              var cardx = _status.event.getTrigger().card;",
+          "              if (card.name == \"shan\" && get.tag(cardx, \"respondShan\") && target2.countCards(\"h\", \"shan\") < player2.countCards(\"h\", \"shan\")) {",
+          "                return 2;",
+          "              }",
+          "              if (card.name == \"sha\" && (cardx.name == \"juedou\" || get.tag(card, \"respondSha\") && target2.countCards(\"h\", \"sha\") < player2.countCards(\"h\", \"sha\"))) {",
+          "                return 2;",
+          "              }",
+          "              if (get.value(card, target2) > get.value(card, player2) || target2.getUseValue(card) > player2.getUseValue(card)) {",
+          "                return 1;",
+          "                return 0.5 / Math.max(1, get.value(card, player2));",
+          "          var h1 = ui.selected.targets[0].getCards(\"h\"), h2 = target.getCards(\"h\");",
+          "          if (h2.length > h1.length) {",
+          "            return 0;",
+          "          }",
+          "          var delval = get.value(h2, target) - get.value(h1, ui.selected.targets[0]);",
+          "          if (delval >= 0) {",
+          "            return 0;",
+          "          }",
+          "          return -delval * (h1.length - h2.length);"
+        ],
+        "settlementLikeChanges": []
+      }
+    },
+    {
+      "name": "refresh_shan",
+      "rel": "docs/remaining-ten-packs/native/refresh_shan.patch",
+      "sha256": "306431fa8e7246d2eb3225fc49fbda7a1071cc7940b7ce25708f7549bad54a6e",
+      "headBlob": "18366ae17d71fbf4a79617240a770abdcf4c0789",
+      "worktreeBlob": "18366ae17d71fbf4a79617240a770abdcf4c0789",
+      "headMatchesWorktree": true,
+      "commit": "a9031aade343ef3e219e733297708ada59a8383b\tfix(ai): review refresh shan and correct huashen and zhiba scoring",
+      "eol": "LF",
+      "files": [
+        "character/refresh.js"
+      ],
+      "checks": {
+        "preReset": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        },
+        "applyCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "node": {
+          "character/refresh.js": {
+            "status": 0,
+            "stderr": ""
+          }
+        },
+        "reverseCheck": {
+          "status": 0,
+          "stderr": ""
+        },
+        "reverseApply": {
+          "status": 0,
+          "stderr": ""
+        },
+        "afterReverse": {
+          "verify": {
+            "ok": true,
+            "actual": {
+              "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+              "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+              "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+              "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+              "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+            },
+            "mismatches": []
+          },
+          "status": {
+            "ok": true,
+            "status": "",
+            "raw": {
+              "status": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          }
+        }
+      },
+      "diff": {
+        "numstat": "20\t13\tcharacter/refresh.js",
+        "stat": "character/refresh.js | 33 ++++++++++++++++++++-------------\n 1 file changed, 20 insertions(+), 13 deletions(-)",
+        "whitespaceCheckOk": true,
+        "whitespaceCheck": "",
+        "addedLines": [
+          "            var cards2 = target.getKnownCards(player);",
+          "            if (maxnum < 5 && target.countCards(\"h\") > 1) {",
+          "        const { character, map, current, current2 } = player2.storage.rehuashen;",
+          "        const skills2 = character.flatMap((name) => map[name] || []);",
+          "        if (!skills2.length || skills2[0] === current2 || get.skillRank(skills2[0], cond) < 1) {",
+          "          return character.some((name) => name !== current) ? \"制衡其他化身\" : \"cancel2\";",
+          "      }).set(\"cond\", event.triggername === \"phaseBegin\" ? \"in\" : \"out\").set(\"prompt\", prompt).forResult();",
+          "      const rankContext = event.triggername === \"phaseBegin\" ? \"in\" : \"out\";",
+          "            const { character, map } = player2.storage.rehuashen;",
+          "            const candidates = map[button.link] || [];",
+          "            if (!candidates.length) {",
+          "              return 0;",
+          "            }",
+          "            const skills2 = character.flatMap((name) => map[name] || []);",
+          "            return candidates.includes(skills2[0]) ? 2.5 : 1 + Math.random();",
+          "          next.set(\"cond\", rankContext);",
+          "            const { cond, controls } = get.event();",
+          "            const skills2 = controls.filter((control) => control !== \"返回\");",
+          "            return skills2[0] || \"返回\";",
+          "          }).set(\"cond\", rankContext).forResult();"
+        ],
+        "removedLines": [
+          "            var cards2 = target.getCards(\"h\");",
+          "            if (maxnum < 5 && cards2.length > 1) {",
+          "        let skills2 = player2.storage.rehuashen.character.map((i) => get.character(i).skills).flat();",
+          "        if (skills2[0] === player2.storage.rehuashen.current2 || get.skillRank(skills2[0], cond) < 1) {",
+          "          return \"制衡其他化身\";",
+          "      }).set(\"cond\", event.triggername).set(\"prompt\", prompt).forResult();",
+          "            let skills2 = player2.storage.rehuashen.character.map((i) => get.character(i).skills).flat();",
+          "            return player2.storage.rehuashen.map[button.link].includes(skills2[0]) ? 2.5 : 1 + Math.random();",
+          "          next.set(\"cond\", event.triggername);",
+          "            const { player: player2, cond, controls } = get.event();",
+          "            let skills2 = controls.slice();",
+          "            return skills2[0];",
+          "          }).set(\"cond\", event.triggername).forResult();"
+        ],
+        "settlementLikeChanges": []
+      }
+    }
+  ],
+  "cumulative": {
+    "order": [
+      "standard_2008",
+      "standard_2013",
+      "standard_2019",
+      "standard_2023",
+      "shenhua_lin",
+      "shenhua_shan",
+      "shenhua_yin",
+      "refresh_huo",
+      "refresh_lin",
+      "refresh_shan"
+    ],
+    "steps": [
+      {
+        "name": "standard_2008",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "standard_2013",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "standard_2019",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "standard_2023",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "shenhua_lin",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "shenhua_shan",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "shenhua_yin",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "refresh_huo",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "refresh_lin",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "refresh_shan",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      }
+    ],
+    "node": {
+      "character/standard.js": {
+        "status": 0,
+        "stderr": ""
+      },
+      "character/shenhua.js": {
+        "status": 0,
+        "stderr": ""
+      },
+      "character/refresh.js": {
+        "status": 0,
+        "stderr": ""
+      },
+      "character/sp.js": {
+        "status": 0,
+        "stderr": ""
+      }
+    },
+    "diff": {
+      "numstat": "40\t44\tcharacter/refresh.js\n18\t19\tcharacter/shenhua.js\n1\t1\tcharacter/sp.js\n20\t18\tcharacter/standard.js",
+      "stat": "character/refresh.js  | 84 ++++++++++++++++++++++++---------------------------\n character/shenhua.js  | 37 +++++++++++------------\n character/sp.js       |  2 +-\n character/standard.js | 38 ++++++++++++-----------\n 4 files changed, 79 insertions(+), 82 deletions(-)",
+      "whitespaceCheckOk": true,
+      "whitespaceCheck": "",
+      "addedLines": [
+        "                max = Math.max(Math.min(5, players[i].maxHp) - players[i].countCards(\"h\"), max);",
+        "              const player2 = _status.event.player;",
+        "              const goon = _status.event.targets.some((target2) => get.attitude(target2, player2) > 0 && get.attitude(player2, target2) > 0);",
+        "              const player2 = _status.event.player;",
+        "              const value = get.value(card, player2);",
+        "              if (value < 0) {",
+        "                return 1;",
+        "              }",
+        "              const incoming = _status.event.getTrigger();",
+        "              const name = get.name(card, player2);",
+        "              const response = name == \"shan\" ? \"respondShan\" : name == \"sha\" ? \"respondSha\" : null;",
+        "              if (response && incoming?.card && incoming.target && get.tag(incoming.card, response)) {",
+        "                const recipient = incoming.target;",
+        "                const known = recipient.countKnownCards(player2, (knownCard) => get.name(knownCard, recipient) == name);",
+        "                if (known < player2.countCards(\"h\", name)) {",
+        "                  return 2;",
+        "                }",
+        "                return 0.5 / Math.max(1, value);",
+        "          const first = ui.selected.targets[0].countCards(\"h\");",
+        "          return Math.max(0, first - target.countCards(\"h\"));",
+        "            var cards2 = target.getKnownCards(player);",
+        "            if (maxnum < 5 && target.countCards(\"h\") > 1) {",
+        "        const { character, map, current, current2 } = player2.storage.rehuashen;",
+        "        const skills2 = character.flatMap((name) => map[name] || []);",
+        "        if (!skills2.length || skills2[0] === current2 || get.skillRank(skills2[0], cond) < 1) {",
+        "          return character.some((name) => name !== current) ? \"制衡其他化身\" : \"cancel2\";",
+        "      }).set(\"cond\", event.triggername === \"phaseBegin\" ? \"in\" : \"out\").set(\"prompt\", prompt).forResult();",
+        "      const rankContext = event.triggername === \"phaseBegin\" ? \"in\" : \"out\";",
+        "            const { character, map } = player2.storage.rehuashen;",
+        "            const candidates = map[button.link] || [];",
+        "            if (!candidates.length) {",
+        "              return 0;",
+        "            }",
+        "            const skills2 = character.flatMap((name) => map[name] || []);",
+        "            return candidates.includes(skills2[0]) ? 2.5 : 1 + Math.random();",
+        "          next.set(\"cond\", rankContext);",
+        "            const { cond, controls } = get.event();",
+        "            const skills2 = controls.filter((control) => control !== \"返回\");",
+        "            return skills2[0] || \"返回\";",
+        "          }).set(\"cond\", rankContext).forResult();",
+        "          return target.hp == _status.event.num && get.attitude(player2, target) < 0;",
+        "              if (cardx == card || get.color(cardx) != color) {",
+        "          const viewer = get.player() || player;",
+        "          if (typeof card === \"object\" && get.name(card) === \"sha\" && target.mayHaveShan(viewer, \"use\")) {",
+        "          if (target.isUnderControl(true, viewer)) {",
+        "            const estimatedResponses = target.mayHaveSha(viewer, undefined, undefined, \"count\") + target.mayHaveShan(viewer, undefined, undefined, \"count\");",
+        "            return [0.5, Math.max(target.countCards(\"h\") / 4, estimatedResponses)];",
+        "              const cards2 = target.getKnownCards(player);",
+        "              if (maxnum < 5 && target.countCards(\"h\") > 1) {",
+        "            if (!list.length) {",
+        "              return 0;",
+        "            }",
+        "      halfneg: true",
+        "          if (lib.config.mode == \"identity\" && game.zhu?.isZhu && player.identity == \"fan\") {",
+        "            if (players[i2] == player || players[i2].hp <= 0) {",
+        "              continue;",
+        "            }",
+        "            if (players[i2].hp <= 3) {",
+        "      if (!player2.isDamaged() || player2.hp > 2) {",
+        "          if (target.hasSkillTag(\"noe\") && get.damageEffect(target, player, target) <= 0) {",
+        "            const canDiscardEquip = (card) => get.type(card) === \"equip\" && lib.filter.cardDiscardable(card, target, \"stdxiaoguo\");",
+        "            if (target.hasCards(\"e\", canDiscardEquip) || target.getKnownCards(player).some(canDiscardEquip)) {",
+        "              return get.attitude(player, target);",
+        "            }",
+        "          return get.damageEffect(target, player, player);",
+        "          if (target.hasSkillTag(\"nogain\")) {",
+        "            return 0;",
+        "          }",
+        "          return get.attitude(get.player(), target) * (target.hasCards(\"h\") ? 1 : 2);",
+        "          const target = trigger.target;",
+        "          if ((target.hp === 1 || target.hp === 2) && player.isAllCardsKnown(target) && !player.hasKnownCards(target, \"shan\")) {",
+        "            return (target.hp === 1 ? 10 : 8) - get.attitude(target, player);",
+        "            if (target.hasSkillTag(\"nogain\")) {",
+        "              return 0;",
+        "            }",
+        "          if (target.hasSkillTag(\"nogain\")) {",
+        "            return 0;",
+        "          }",
+        "      return get.attitude(player, target) > 0 && (event.name === \"dying\" || !target.hasSkillTag(\"nogain\"));"
+      ],
+      "removedLines": [
+        "                max = Math.max(Math.min(5, players[i].hp) - players[i].countCards(\"h\"), max);",
+        "              var goon = false, player2 = _status.event.player;",
+        "              for (var i of _status.event.targets) {",
+        "                if (get.attitude(i, player2) > 0 && get.attitude(player2, i) > 0) {",
+        "                  goon = true;",
+        "                }",
+        "                break;",
+        "              }",
+        "              var player2 = _status.event.player, target2 = _status.event.getTrigger().player;",
+        "                if (get.value(card, player2) < 0 || get.value(card, target2) < 0) {",
+        "                  return 1;",
+        "                }",
+        "              var cardx = _status.event.getTrigger().card;",
+        "              if (card.name == \"shan\" && get.tag(cardx, \"respondShan\") && target2.countCards(\"h\", \"shan\") < player2.countCards(\"h\", \"shan\")) {",
+        "                return 2;",
+        "              }",
+        "              if (card.name == \"sha\" && (cardx.name == \"juedou\" || get.tag(card, \"respondSha\") && target2.countCards(\"h\", \"sha\") < player2.countCards(\"h\", \"sha\"))) {",
+        "                return 2;",
+        "              }",
+        "              if (get.value(card, target2) > get.value(card, player2) || target2.getUseValue(card) > player2.getUseValue(card)) {",
+        "                return 1;",
+        "                return 0.5 / Math.max(1, get.value(card, player2));",
+        "          var h1 = ui.selected.targets[0].getCards(\"h\"), h2 = target.getCards(\"h\");",
+        "          if (h2.length > h1.length) {",
+        "            return 0;",
+        "          }",
+        "          var delval = get.value(h2, target) - get.value(h1, ui.selected.targets[0]);",
+        "          if (delval >= 0) {",
+        "            return 0;",
+        "          }",
+        "          return -delval * (h1.length - h2.length);",
+        "            var cards2 = target.getCards(\"h\");",
+        "            if (maxnum < 5 && cards2.length > 1) {",
+        "        let skills2 = player2.storage.rehuashen.character.map((i) => get.character(i).skills).flat();",
+        "        if (skills2[0] === player2.storage.rehuashen.current2 || get.skillRank(skills2[0], cond) < 1) {",
+        "          return \"制衡其他化身\";",
+        "      }).set(\"cond\", event.triggername).set(\"prompt\", prompt).forResult();",
+        "            let skills2 = player2.storage.rehuashen.character.map((i) => get.character(i).skills).flat();",
+        "            return player2.storage.rehuashen.map[button.link].includes(skills2[0]) ? 2.5 : 1 + Math.random();",
+        "          next.set(\"cond\", event.triggername);",
+        "            const { player: player2, cond, controls } = get.event();",
+        "            let skills2 = controls.slice();",
+        "            return skills2[0];",
+        "          }).set(\"cond\", event.triggername).forResult();",
+        "          return get.attitude(player2, target) < 0;",
+        "              if (cardx != card || get.color(cardx) != color) {",
+        "          if (typeof card === \"object\" && get.name(card) === \"sha\" && target.mayHaveShan(player, \"use\")) {",
+        "          if (target.isUnderControl(true, player)) {",
+        "            return [0.5, Math.max(target.countCards(\"h\") / 4, target.countCards(\"h\", \"sha\") + target.countCards(\"h\", \"shan\"))];",
+        "              const cards2 = target.getCards(\"h\");",
+        "              if (maxnum < 5 && cards2.length > 1) {",
+        "      halfneg: true,",
+        "      directHit_ai: true,",
+        "      skillTagFilter(player, tag, arg) {",
+        "        if (tag === \"directHit_ai\") {",
+        "          return;",
+        "        }",
+        "        if (arg.card.name != \"sha\" || !arg.target.hasSex(\"female\") || arg.target.countCards(\"h\", \"shan\") > 1) {",
+        "          return false;",
+        "        }",
+        "      }",
+        "          if (lib.config.mode == \"identity\" && game.zhu.isZhu && player.identity == \"fan\") {",
+        "            if (players[i2] != player && players[i2].hp <= 3) {",
+        "      if (player2.hp > 2) {",
+        "          if (target.hasSkillTag(\"noe\")) {",
+        "            return get.attitude(_status.event.player, target);",
+        "          return get.damageEffect(target, player, _status.event.player);",
+        "          return get.attitude(get.player(), target);",
+        "          if (trigger.target.hp === 1 && !player.hasCards(\"h\", \"shan\")) {",
+        "            return 10 - get.attitude(trigger.target, player);",
+        "          }",
+        "          if (trigger.target.hp === 2 && !player.hasCards(\"h\", \"shan\")) {",
+        "            return 8 - get.attitude(trigger.target, player);",
+        "    },",
+        "    ai: {",
+        "      directHit_ai: true,",
+        "      skillTagFilter(player, tag, arg) {",
+        "        if (get.attitude(player, arg.target) > 0 || arg.card.name !== \"sha\" || !ui.cardPile.firstChild || get.color(ui.cardPile.firstChild, player) !== \"red\") {",
+        "          return false;",
+        "        }",
+        "      }",
+        "      return get.attitude(player, target) > 0;"
+      ],
+      "settlementLikeChanges": []
+    },
+    "reverse": [
+      {
+        "name": "refresh_shan",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "refresh_lin",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "refresh_huo",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "shenhua_yin",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "shenhua_shan",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "shenhua_lin",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "standard_2023",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "standard_2019",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "standard_2013",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      },
+      {
+        "name": "standard_2008",
+        "check": {
+          "status": 0,
+          "stderr": ""
+        },
+        "apply": {
+          "status": 0,
+          "stderr": ""
+        }
+      }
+    ],
+    "final": {
+      "verify": {
+        "ok": true,
+        "actual": {
+          "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+          "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+          "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+          "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+          "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+        },
+        "mismatches": []
+      },
+      "status": {
+        "ok": true,
+        "status": "",
+        "raw": {
+          "status": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      }
+    }
+  },
+  "original": {
+    "verify": {
+      "ok": true,
+      "actual": {
+        "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+        "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+        "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+        "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+        "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+      },
+      "mismatches": []
+    },
+    "status": {
+      "ok": true,
+      "status": "",
+      "raw": {
+        "status": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    }
+  },
+  "errors": []
+}
