@@ -1,0 +1,212 @@
+{
+  "generatedAt": "2026-11-13T11:30:33.645Z",
+  "patched": "C:\\Users\\32360\\AppData\\Local\\Temp\\sixteen-pack-acceptance\\phase3-native-under-extension\\native-ten-pack-scenes-patched.json",
+  "extension": "C:\\Users\\32360\\AppData\\Local\\Temp\\sixteen-pack-acceptance\\phase3-native-under-extension\\native-ten-pack-scenes-extension.json",
+  "allDeterministicMatch": true,
+  "rows": [
+    {
+      "name": "dimeng-friendly",
+      "same": true,
+      "patched": -6,
+      "extension": -6
+    },
+    {
+      "name": "luanwu-no-zhu",
+      "same": true,
+      "patched": -2.6666666666666665,
+      "extension": -2.6666666666666665
+    },
+    {
+      "name": "tieji-roulin-tags",
+      "same": true,
+      "patched": [
+        null,
+        "undefined",
+        null,
+        "undefined",
+        true
+      ],
+      "extension": [
+        null,
+        "undefined",
+        null,
+        "undefined",
+        true
+      ]
+    },
+    {
+      "name": "oljieming-maxhp",
+      "same": true,
+      "patched": [
+        0,
+        4
+      ],
+      "extension": [
+        0,
+        4
+      ]
+    },
+    {
+      "name": "shenzhi-check",
+      "same": true,
+      "patched": [
+        false,
+        true
+      ],
+      "extension": [
+        false,
+        true
+      ]
+    },
+    {
+      "name": "xinfu-jiyuan-check",
+      "same": true,
+      "patched": [
+        false,
+        true,
+        true
+      ],
+      "extension": [
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "oldimeng-public",
+      "same": true,
+      "patched": 2,
+      "extension": 2
+    },
+    {
+      "name": "zhiba-hidden",
+      "same": true,
+      "patched": [
+        0,
+        0,
+        5,
+        2
+      ],
+      "extension": [
+        0,
+        0,
+        5,
+        2
+      ]
+    },
+    {
+      "name": "retongji-hidden",
+      "same": true,
+      "patched": false,
+      "extension": false
+    },
+    {
+      "name": "yiji-nogain",
+      "same": true,
+      "patched": [
+        [
+          "hm_shen_zhangbao"
+        ],
+        [
+          "hm_shen_zhangbao"
+        ]
+      ],
+      "extension": [
+        [
+          "hm_shen_zhangbao"
+        ],
+        [
+          "hm_shen_zhangbao"
+        ]
+      ]
+    },
+    {
+      "name": "xinfu-jijie-nogain",
+      "same": true,
+      "patched": [
+        [
+          "hm_shen_zhangbao"
+        ]
+      ],
+      "extension": [
+        [
+          "hm_shen_zhangbao"
+        ]
+      ]
+    },
+    {
+      "name": "stdshushen-nogain",
+      "same": true,
+      "patched": {
+        "confirm": "cancel",
+        "bool": false
+      },
+      "extension": {
+        "confirm": "cancel",
+        "bool": false
+      }
+    },
+    {
+      "name": "stdxiaoguo-eff",
+      "same": true,
+      "patched": -12.149999999999999,
+      "extension": -12.149999999999999
+    },
+    {
+      "name": "kuizhu-target",
+      "same": true,
+      "patched": [
+        "hp2"
+      ],
+      "extension": [
+        "hp2"
+      ]
+    },
+    {
+      "name": "mingren-samecolor",
+      "same": true,
+      "patched": [],
+      "extension": []
+    },
+    {
+      "name": "ui-identity",
+      "same": true,
+      "patched": [
+        true,
+        false,
+        true,
+        0,
+        1
+      ],
+      "extension": [
+        true,
+        false,
+        true,
+        0,
+        1
+      ]
+    }
+  ],
+  "stochastic": [
+    {
+      "name": "tuntian-viewer",
+      "patched": [
+        true,
+        true,
+        [
+          0.6,
+          0.75
+        ]
+      ],
+      "extension": [
+        false,
+        false,
+        [
+          0.5,
+          0.49404761904761907
+        ]
+      ],
+      "note": "该场景的 mayHaveShan 为宿主随机估计；扩展引擎改变 RNG 消耗后估计翻转，不代表读取隐藏牌面。受控隐藏牌场景 edge-tuntian-hidden 两边一致。"
+    }
+  ]
+}

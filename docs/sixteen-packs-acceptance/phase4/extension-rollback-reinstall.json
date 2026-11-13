@@ -1,0 +1,166 @@
+{
+  "generatedAt": "2026-11-13T11:29:47.683Z",
+  "host": "C:/Users/32360/AppData/Local/Temp/remaining-ten-accept/host-ten",
+  "extension": "C:\\Users\\32360\\AppData\\Local\\Temp\\sixteen-pack-acceptance\\phase3-native-under-extension\\extension",
+  "before": {
+    "hostHashes": {
+      "standard.js": "614be8c1ee9bcf82e37477ab9a09f1e781dbe2f32c77aa9725446e1689bc9b48",
+      "shenhua.js": "7b7bb42574cbe06283505e7417217af8e6691aee4f1d824ae61ca6cd28d3a3ed",
+      "refresh.js": "73fd1f6c1ee90bb6a6e35591249415dd4f23f51fd38864c9d01c9471735e3e01",
+      "sp.js": "8386e05b611762321acf1730e1387231bb947fae32884335acbd975c8a654e2f",
+      "tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+    },
+    "registryImports": 6,
+    "coreHashes": {
+      "policyCore.js": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+      "skillAIPolicies.js": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+      "skillVetoRegistry.js": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+      "skillPlanHints.js": "b6a0db923a46da1d3d1b0c347db3f2fdbece9853035d2b5a0609b51ea9ac2d5e"
+    }
+  },
+  "rollback": [
+    {
+      "pack": "out_of_scope",
+      "status": "rolled-back",
+      "registry": "restore-before",
+      "files": [
+        "score/decision/skills/rules/outOfScope.js",
+        "score/decision/skills/packs/outOfScope.js"
+      ]
+    },
+    {
+      "pack": "shenhua_lei",
+      "status": "rolled-back",
+      "registry": "restore-before",
+      "files": [
+        "score/decision/skills/rules/shenhuaLei.js",
+        "score/decision/skills/packs/shenhuaLei.js"
+      ]
+    },
+    {
+      "pack": "shenhua_huo",
+      "status": "rolled-back",
+      "registry": "restore-before",
+      "files": [
+        "score/decision/skills/rules/shenhuaHuo.js",
+        "score/decision/skills/packs/shenhuaHuo.js"
+      ]
+    },
+    {
+      "pack": "shenhua_feng",
+      "status": "rolled-back",
+      "registry": "restore-before",
+      "files": [
+        "score/decision/skills/rules/shenhuaFeng.js",
+        "score/decision/skills/packs/shenhuaFeng.js"
+      ]
+    },
+    {
+      "pack": "refresh_feng",
+      "status": "rolled-back",
+      "registry": "restore-before",
+      "files": [
+        "score/decision/skills/rules/refreshFeng.js",
+        "score/decision/skills/packs/refreshFeng.js"
+      ]
+    },
+    {
+      "pack": "refresh_standard",
+      "status": "rolled-back",
+      "registry": "restore-before",
+      "files": [
+        "score/decision/skills/rules/refreshStandardPlans.js",
+        "score/decision/skills/rules/boundedSkillUtility.js",
+        "score/decision/skills/rules/refreshStandard.js",
+        "score/decision/skills/packs/refreshStandard.js"
+      ]
+    }
+  ],
+  "reinstall": [
+    {
+      "pack": "refresh_standard",
+      "status": "applied",
+      "registry": "updated"
+    },
+    {
+      "pack": "refresh_feng",
+      "status": "applied",
+      "registry": "updated"
+    },
+    {
+      "pack": "shenhua_feng",
+      "status": "applied",
+      "registry": "updated"
+    },
+    {
+      "pack": "shenhua_huo",
+      "status": "applied",
+      "registry": "updated"
+    },
+    {
+      "pack": "shenhua_lei",
+      "status": "applied",
+      "registry": "updated"
+    },
+    {
+      "pack": "out_of_scope",
+      "status": "applied",
+      "registry": "updated"
+    }
+  ],
+  "checks": {
+    "beforeSixImports": true,
+    "beforeCoreMatches": true,
+    "rollback_out_of_scope": true,
+    "rollback_shenhua_lei": true,
+    "rollback_shenhua_huo": true,
+    "rollback_shenhua_feng": true,
+    "rollback_refresh_feng": true,
+    "rollback_refresh_standard": true,
+    "rollbackHostUntouched": true,
+    "rollbackRegistryEmpty": true,
+    "rollbackCoreRetained": true,
+    "reinstall_refresh_standard": true,
+    "reinstall_refresh_feng": true,
+    "reinstall_shenhua_feng": true,
+    "reinstall_shenhua_huo": true,
+    "reinstall_shenhua_lei": true,
+    "reinstall_out_of_scope": true,
+    "reinstallHostUntouched": true,
+    "reinstallSixImports": true,
+    "reinstallCoreMatches": true
+  },
+  "afterRollback": {
+    "hostHashes": {
+      "standard.js": "614be8c1ee9bcf82e37477ab9a09f1e781dbe2f32c77aa9725446e1689bc9b48",
+      "shenhua.js": "7b7bb42574cbe06283505e7417217af8e6691aee4f1d824ae61ca6cd28d3a3ed",
+      "refresh.js": "73fd1f6c1ee90bb6a6e35591249415dd4f23f51fd38864c9d01c9471735e3e01",
+      "sp.js": "8386e05b611762321acf1730e1387231bb947fae32884335acbd975c8a654e2f",
+      "tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+    },
+    "registryImports": 0,
+    "coreHashes": {
+      "policyCore.js": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+      "skillAIPolicies.js": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+      "skillVetoRegistry.js": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+      "skillPlanHints.js": "b6a0db923a46da1d3d1b0c347db3f2fdbece9853035d2b5a0609b51ea9ac2d5e"
+    }
+  },
+  "afterReinstall": {
+    "hostHashes": {
+      "standard.js": "614be8c1ee9bcf82e37477ab9a09f1e781dbe2f32c77aa9725446e1689bc9b48",
+      "shenhua.js": "7b7bb42574cbe06283505e7417217af8e6691aee4f1d824ae61ca6cd28d3a3ed",
+      "refresh.js": "73fd1f6c1ee90bb6a6e35591249415dd4f23f51fd38864c9d01c9471735e3e01",
+      "sp.js": "8386e05b611762321acf1730e1387231bb947fae32884335acbd975c8a654e2f",
+      "tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+    },
+    "registryImports": 6,
+    "coreHashes": {
+      "policyCore.js": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+      "skillAIPolicies.js": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+      "skillVetoRegistry.js": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+      "skillPlanHints.js": "b6a0db923a46da1d3d1b0c347db3f2fdbece9853035d2b5a0609b51ea9ac2d5e"
+    }
+  },
+  "status": "passed"
+}

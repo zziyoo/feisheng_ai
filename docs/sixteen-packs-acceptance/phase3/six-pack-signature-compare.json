@@ -1,0 +1,524 @@
+{
+  "generatedAt": "2026-11-13T11:30:33.640Z",
+  "baseline": "C:/Users/32360/.codex/worktrees/six-pack-final-integration-v2/evidence/accept-six-new-feng.json",
+  "combined": "C:\\Users\\32360\\AppData\\Local\\Temp\\sixteen-pack-acceptance\\phase3-six-on-ten\\final\\accept-six-on-ten.json",
+  "allMatch": true,
+  "rows": [
+    {
+      "pack": "refresh_standard",
+      "same": true,
+      "baseline": {
+        "calls": 9,
+        "retuxiTargetBonus": 7,
+        "keptTao": 4,
+        "keptShan": 0,
+        "lost": [
+          0,
+          1,
+          1
+        ]
+      },
+      "combined": {
+        "calls": 9,
+        "retuxiTargetBonus": 7,
+        "keptTao": 4,
+        "keptShan": 0,
+        "lost": [
+          0,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "pack": "refresh_feng",
+      "same": true,
+      "baseline": {
+        "reqimouClampCalls": 1,
+        "reqimouClamp": 0,
+        "reqimouGateSkip": 0,
+        "reqimouInfeasible": 1,
+        "usedReqimou": true,
+        "paid": 3
+      },
+      "combined": {
+        "reqimouClampCalls": 1,
+        "reqimouClamp": 0,
+        "reqimouGateSkip": 0,
+        "reqimouInfeasible": 1,
+        "usedReqimou": true,
+        "paid": 3
+      }
+    },
+    {
+      "pack": "shenhua_feng",
+      "same": true,
+      "baseline": {
+        "qimou": {
+          "qimouBypass": 2,
+          "usedQimou": true,
+          "paid": 2,
+          "reachableAfter": true,
+          "enemyHpLoss": 1
+        },
+        "releiji": {
+          "targetEnemy": true,
+          "thunderDamage": 2
+        },
+        "guidao": {
+          "replaced": true,
+          "gainedOriginal": true,
+          "declineWhenEqual": true
+        },
+        "huangtian": {
+          "used": true,
+          "tempSkill": true,
+          "gaveToZhu": true,
+          "noShanDecline": true,
+          "lastShanKept": true
+        },
+        "guhuoReal": {
+          "declaredSha": true,
+          "chanyuan": true,
+          "damage": 1,
+          "cancelled": false
+        },
+        "guhuoFake": {
+          "declaredSha": true,
+          "noDamage": true,
+          "noChanyuan": true,
+          "outcome": "declined"
+        },
+        "shensu": {
+          "usedSha": true,
+          "targetHpDelta": -1,
+          "judgeSkipped": true,
+          "lowHandDecline": true,
+          "lowHandJudgeSkip": true
+        },
+        "tianxiang": {
+          "targetEnemy": true,
+          "control": 1,
+          "actorHpDelta": 0,
+          "targetHpDelta": -1,
+          "noHeartDamage": true
+        },
+        "hongyan": {
+          "spadeAsHeart": true,
+          "spadeAsRed": true
+        },
+        "kuanggu": {
+          "drawChoice": "draw_card",
+          "recoverChoice": "recover_hp",
+          "draw": 1,
+          "recover": 1,
+          "fullHpDraw": true,
+          "lowHpRecover": true,
+          "midHpRecover": true
+        },
+        "jushou": {
+          "emptyTriggered": false,
+          "draw": 3,
+          "turnedOver": true,
+          "turnedFreeDraw": true
+        },
+        "buqu": {
+          "damageExpansions": true,
+          "negativeExpansions": 0,
+          "recoverPick": 1,
+          "recoverHp": 2
+        },
+        "liegong": {
+          "hitDamage": 2,
+          "hitDirect": true,
+          "negativeDamage": 1,
+          "negativeDirect": false
+        },
+        "guhuo": {
+          "lowHpBluffGuard": true
+        }
+      },
+      "combined": {
+        "qimou": {
+          "qimouBypass": 2,
+          "usedQimou": true,
+          "paid": 2,
+          "reachableAfter": true,
+          "enemyHpLoss": 1
+        },
+        "releiji": {
+          "targetEnemy": true,
+          "thunderDamage": 2
+        },
+        "guidao": {
+          "replaced": true,
+          "gainedOriginal": true,
+          "declineWhenEqual": true
+        },
+        "huangtian": {
+          "used": true,
+          "tempSkill": true,
+          "gaveToZhu": true,
+          "noShanDecline": true,
+          "lastShanKept": true
+        },
+        "guhuoReal": {
+          "declaredSha": true,
+          "chanyuan": true,
+          "damage": 1,
+          "cancelled": false
+        },
+        "guhuoFake": {
+          "declaredSha": true,
+          "noDamage": true,
+          "noChanyuan": true,
+          "outcome": "declined"
+        },
+        "shensu": {
+          "usedSha": true,
+          "targetHpDelta": -1,
+          "judgeSkipped": true,
+          "lowHandDecline": true,
+          "lowHandJudgeSkip": true
+        },
+        "tianxiang": {
+          "targetEnemy": true,
+          "control": 1,
+          "actorHpDelta": 0,
+          "targetHpDelta": -1,
+          "noHeartDamage": true
+        },
+        "hongyan": {
+          "spadeAsHeart": true,
+          "spadeAsRed": true
+        },
+        "kuanggu": {
+          "drawChoice": "draw_card",
+          "recoverChoice": "recover_hp",
+          "draw": 1,
+          "recover": 1,
+          "fullHpDraw": true,
+          "lowHpRecover": true,
+          "midHpRecover": true
+        },
+        "jushou": {
+          "emptyTriggered": false,
+          "draw": 3,
+          "turnedOver": true,
+          "turnedFreeDraw": true
+        },
+        "buqu": {
+          "damageExpansions": true,
+          "negativeExpansions": 0,
+          "recoverPick": 1,
+          "recoverHp": 2
+        },
+        "liegong": {
+          "hitDamage": 2,
+          "hitDirect": true,
+          "negativeDamage": 1,
+          "negativeDirect": false
+        },
+        "guhuo": {
+          "lowHpBluffGuard": true
+        }
+      }
+    },
+    {
+      "pack": "shenhua_huo",
+      "same": true,
+      "baseline": {
+        "qiangxix": {
+          "used": true,
+          "targetHp": 1,
+          "actorHp": 1,
+          "weaponDiscarded": true
+        },
+        "quhu": {
+          "used": true,
+          "targetEnemy": true,
+          "damage": 1,
+          "noTargetDecline": true,
+          "riskyDecline": true
+        },
+        "jieming": {
+          "targetAlly": true,
+          "allyDraw": 4,
+          "noBenefitDecline": true
+        },
+        "lianhuan": {
+          "usedOnEnemies": true,
+          "targetCount": 2,
+          "allyRiskRecast": true,
+          "unlinkAlly": true,
+          "unlinkLowHpAlly": true,
+          "keepEnemyLinked": true,
+          "fullLinkedRecast": true,
+          "linkEnemies": true,
+          "unlinkedAllyRecast": true,
+          "unlinkSelf": true,
+          "recastBlockedStillUses": true
+        },
+        "oldniepan": {
+          "used": true,
+          "hp": 3,
+          "taoPreserved": true
+        },
+        "tianyi": {
+          "winBuff": true,
+          "winSha": true,
+          "loseDecline": true,
+          "loseBlocksSha": true
+        },
+        "shuangxiong": {
+          "viewas": true,
+          "duelUsed": true,
+          "noJudgeDecline": true
+        },
+        "luanji": {
+          "used": true,
+          "multiTarget": true,
+          "enemyDamaged": true,
+          "noPairDecline": true,
+          "conservativeDecline": true,
+          "allyLethalVeto": true
+        },
+        "huoji": {
+          "used": true,
+          "fireDamage": true,
+          "conservativeDecline": true,
+          "noRedDecline": true
+        },
+        "kanpo": {
+          "responded": true,
+          "damage": 0,
+          "noBlackDecline": true
+        },
+        "bazhen": {
+          "baguaJudged": true,
+          "damage": 0,
+          "armorDisabled": true
+        },
+        "passive": {
+          "mashuDistance": 1,
+          "maxHandcard": 10,
+          "bazhenExtra": true,
+          "kanpoView": true
+        },
+        "jianchu": {
+          "directHit": true,
+          "equipDiscarded": true,
+          "damage": 1,
+          "noEquipTrade": true
+        }
+      },
+      "combined": {
+        "qiangxix": {
+          "used": true,
+          "targetHp": 1,
+          "actorHp": 1,
+          "weaponDiscarded": true
+        },
+        "quhu": {
+          "used": true,
+          "targetEnemy": true,
+          "damage": 1,
+          "noTargetDecline": true,
+          "riskyDecline": true
+        },
+        "jieming": {
+          "targetAlly": true,
+          "allyDraw": 4,
+          "noBenefitDecline": true
+        },
+        "lianhuan": {
+          "usedOnEnemies": true,
+          "targetCount": 2,
+          "allyRiskRecast": true,
+          "unlinkAlly": true,
+          "unlinkLowHpAlly": true,
+          "keepEnemyLinked": true,
+          "fullLinkedRecast": true,
+          "linkEnemies": true,
+          "unlinkedAllyRecast": true,
+          "unlinkSelf": true,
+          "recastBlockedStillUses": true
+        },
+        "oldniepan": {
+          "used": true,
+          "hp": 3,
+          "taoPreserved": true
+        },
+        "tianyi": {
+          "winBuff": true,
+          "winSha": true,
+          "loseDecline": true,
+          "loseBlocksSha": true
+        },
+        "shuangxiong": {
+          "viewas": true,
+          "duelUsed": true,
+          "noJudgeDecline": true
+        },
+        "luanji": {
+          "used": true,
+          "multiTarget": true,
+          "enemyDamaged": true,
+          "noPairDecline": true,
+          "conservativeDecline": true,
+          "allyLethalVeto": true
+        },
+        "huoji": {
+          "used": true,
+          "fireDamage": true,
+          "conservativeDecline": true,
+          "noRedDecline": true
+        },
+        "kanpo": {
+          "responded": true,
+          "damage": 0,
+          "noBlackDecline": true
+        },
+        "bazhen": {
+          "baguaJudged": true,
+          "damage": 0,
+          "armorDisabled": true
+        },
+        "passive": {
+          "mashuDistance": 1,
+          "maxHandcard": 10,
+          "bazhenExtra": true,
+          "kanpoView": true
+        },
+        "jianchu": {
+          "directHit": true,
+          "equipDiscarded": true,
+          "damage": 1,
+          "noEquipTrade": true
+        }
+      }
+    },
+    {
+      "pack": "shenhua_lei",
+      "same": true,
+      "baseline": {
+        "olkongshengCostCalls": 3,
+        "olkongshengCompatible": true,
+        "selected": [
+          "wuxie"
+        ],
+        "runs": [
+          1,
+          1
+        ],
+        "scopeRestored": true
+      },
+      "combined": {
+        "olkongshengCostCalls": 3,
+        "olkongshengCompatible": true,
+        "selected": [
+          "wuxie"
+        ],
+        "runs": [
+          1,
+          1
+        ],
+        "scopeRestored": true
+      }
+    },
+    {
+      "pack": "out_of_scope",
+      "same": true,
+      "baseline": {
+        "hiddenMixed": [
+          "sha",
+          "shan",
+          "tao",
+          "wuzhong"
+        ],
+        "hiddenGainedPools": [
+          [
+            "sha",
+            "tao"
+          ],
+          [
+            "shan",
+            "wuzhong"
+          ]
+        ],
+        "permuteIndices": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ]
+        ],
+        "fairRedimeng": 13,
+        "redimengMaskFailed": 0,
+        "redimengFindCalls": 4,
+        "redimengFindFixed": 4,
+        "redimengFindFallbacks": 0
+      },
+      "combined": {
+        "hiddenMixed": [
+          "sha",
+          "shan",
+          "tao",
+          "wuzhong"
+        ],
+        "hiddenGainedPools": [
+          [
+            "sha",
+            "tao"
+          ],
+          [
+            "shan",
+            "wuzhong"
+          ]
+        ],
+        "permuteIndices": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ]
+        ],
+        "fairRedimeng": 13,
+        "redimengMaskFailed": 0,
+        "redimengFindCalls": 4,
+        "redimengFindFixed": 4,
+        "redimengFindFallbacks": 0
+      }
+    }
+  ]
+}

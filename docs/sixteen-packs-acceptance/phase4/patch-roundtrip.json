@@ -1,0 +1,66 @@
+{
+  "generatedAt": "2026-11-13T11:29:43.678Z",
+  "hostSource": "C:/Users/32360/AppData/Local/Temp/shv-accept/host-a",
+  "applied": [
+    "standard_2008",
+    "standard_2013",
+    "standard_2019",
+    "standard_2023",
+    "shenhua_lin",
+    "shenhua_shan",
+    "shenhua_yin",
+    "refresh_huo",
+    "refresh_lin",
+    "refresh_shan"
+  ],
+  "reversed": [
+    "refresh_shan",
+    "refresh_lin",
+    "refresh_huo",
+    "shenhua_yin",
+    "shenhua_shan",
+    "shenhua_lin",
+    "standard_2023",
+    "standard_2019",
+    "standard_2013",
+    "standard_2008"
+  ],
+  "checks": {
+    "cleanMatches": true,
+    "patchedMatches": true,
+    "syntax": {
+      "standard.js": "ok",
+      "shenhua.js": "ok",
+      "refresh.js": "ok",
+      "sp.js": "ok"
+    },
+    "duplicateApplyRejected": true,
+    "duplicateLeftFileUnchanged": true,
+    "restoredMatches": true,
+    "extensionUntouched": true
+  },
+  "cleanHashes": {
+    "standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+    "shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+    "refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+    "sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+    "tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+  },
+  "extensionTreeBefore": "93fd2f947a3ec0e498001ad5c62a2cac4c1d9fb778b2dcd09538c3196e19daa3",
+  "patchedHashes": {
+    "standard.js": "614be8c1ee9bcf82e37477ab9a09f1e781dbe2f32c77aa9725446e1689bc9b48",
+    "shenhua.js": "7b7bb42574cbe06283505e7417217af8e6691aee4f1d824ae61ca6cd28d3a3ed",
+    "refresh.js": "73fd1f6c1ee90bb6a6e35591249415dd4f23f51fd38864c9d01c9471735e3e01",
+    "sp.js": "8386e05b611762321acf1730e1387231bb947fae32884335acbd975c8a654e2f",
+    "tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+  },
+  "restoredHashes": {
+    "standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+    "shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+    "refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+    "sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+    "tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+  },
+  "extensionTreeAfter": "93fd2f947a3ec0e498001ad5c62a2cac4c1d9fb778b2dcd09538c3196e19daa3",
+  "status": "passed"
+}

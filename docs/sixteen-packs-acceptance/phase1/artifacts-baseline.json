@@ -1,0 +1,228 @@
+{
+  "generatedAt": "2026-11-13T11:28:31.107Z",
+  "repo": "C:\\Users\\32360\\.codex\\worktrees\\sixteen-packs-final-integration",
+  "repoRemote": "https://github.com/zziyoo/feisheng_ai.git",
+  "branches": {
+    "sixPackFinal": {
+      "ref": "codex/six-pack-final-integration-v2",
+      "head": "75eb630fd259def3f42afea8f9bbb823a9eb71af"
+    },
+    "tenPack": {
+      "ref": "codex/remaining-ten-packs",
+      "head": "1598a41cb7fb1ca03607657da2e6550f72ebe0cb"
+    },
+    "tenPackAcceptance": {
+      "ref": "codex/remaining-ten-packs-acceptance",
+      "head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94"
+    },
+    "integration": {
+      "ref": "codex/sixteen-packs-final-integration",
+      "head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94"
+    }
+  },
+  "ancestry": {
+    "sixPackIsAncestorOfTenPack": true,
+    "tenPackIsAncestorOfAcceptance": true,
+    "acceptanceIsAncestorOfIntegration": true
+  },
+  "sixPackDelivery": {
+    "dir": "C:/Users/32360/Desktop/feisheng-ai-six-packs-final-v2-kuanggu-20261113",
+    "sha256sums": {
+      "file": "C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final-v2-kuanggu-20261113\\SHA256SUMS.txt",
+      "size": 5720,
+      "sha256": "bcfb80861284ca3de4d9bec99e0d2472cdca77ff4cee048b12379971367407c6"
+    },
+    "packs": [
+      {
+        "id": "shenhua_feng",
+        "file": "C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final-v2-kuanggu-20261113\\packs\\feisheng-ai-shenhua-feng.zip",
+        "size": 92235,
+        "sha256": "dcfac0a35ea231c3838912a1681e27006530e5b0d549e94f4a62376e555c658c",
+        "expectedSha256": "dcfac0a35ea231c3838912a1681e27006530e5b0d549e94f4a62376e555c658c",
+        "sha256Matches": true,
+        "buildHead": "25b9503"
+      },
+      {
+        "id": "refresh_feng",
+        "file": "C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final-v2-kuanggu-20261113\\packs\\feisheng-ai-refresh-feng.zip",
+        "size": 90676,
+        "sha256": "193085553119f7cc56769b474994b4f1868439413de7e657811dc1e73b7f70ef",
+        "expectedSha256": "193085553119f7cc56769b474994b4f1868439413de7e657811dc1e73b7f70ef",
+        "sha256Matches": true,
+        "buildHead": "7d79d8c"
+      },
+      {
+        "id": "shenhua_huo",
+        "file": "C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final-v2-kuanggu-20261113\\packs\\feisheng-ai-shenhua-huo.zip",
+        "size": 253547,
+        "sha256": "68a180f26cb47f33ffe6ff7af95ff3cb2767d1dfd0de829611f6380173e43f0d",
+        "expectedSha256": "68a180f26cb47f33ffe6ff7af95ff3cb2767d1dfd0de829611f6380173e43f0d",
+        "sha256Matches": true,
+        "buildHead": "4fb57e1"
+      },
+      {
+        "id": "shenhua_lei",
+        "file": "C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final-v2-kuanggu-20261113\\packs\\feisheng-ai-shenhua-lei.zip",
+        "size": 257628,
+        "sha256": "c8fc8befd55f03734e10429bb85785a977f4860afde1a6b4bc7d66f99783f277",
+        "expectedSha256": "c8fc8befd55f03734e10429bb85785a977f4860afde1a6b4bc7d66f99783f277",
+        "sha256Matches": true,
+        "buildHead": "ca9d2d2"
+      },
+      {
+        "id": "refresh_standard",
+        "file": "C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final-v2-kuanggu-20261113\\packs\\feisheng-ai-refresh-standard.zip",
+        "size": 114963,
+        "sha256": "b148f29c94768347eaf24984b6e14c73174bf482fd96d72ce717b4e9afa4ccd0",
+        "expectedSha256": "b148f29c94768347eaf24984b6e14c73174bf482fd96d72ce717b4e9afa4ccd0",
+        "sha256Matches": true,
+        "buildHead": "0fa2c07"
+      },
+      {
+        "id": "out_of_scope",
+        "file": "C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final-v2-kuanggu-20261113\\packs\\feisheng-ai-out-of-scope.zip",
+        "size": 200828,
+        "sha256": "f1d06169b53dd908205224e46f403ac97c2db0f6717d47fad1897e0fe1b7a79d",
+        "expectedSha256": "f1d06169b53dd908205224e46f403ac97c2db0f6717d47fad1897e0fe1b7a79d",
+        "sha256Matches": true,
+        "buildHead": "56735ae"
+      }
+    ],
+    "baseRef": "1fe5292eb3022dd8d1db494617b21a12be912e61",
+    "installOrder": [
+      "refresh_standard",
+      "refresh_feng",
+      "shenhua_feng",
+      "shenhua_huo",
+      "shenhua_lei",
+      "out_of_scope"
+    ],
+    "nativePatchRouteExcluded": [
+      "native/dual-feng-native-candidate.patch",
+      "native/feisheng-ai-refresh-standard-native-ai.patch",
+      "native/feisheng-ai-shenhua-huo-native-ai.patch",
+      "native/feisheng-ai-shenhua-lei-native-ai.patch"
+    ]
+  },
+  "tenPackPatches": {
+    "dir": "C:\\Users\\32360\\.codex\\worktrees\\sixteen-packs-final-integration\\docs\\remaining-ten-packs\\native",
+    "applyOrder": [
+      "standard_2008",
+      "standard_2013",
+      "standard_2019",
+      "standard_2023",
+      "shenhua_lin",
+      "shenhua_shan",
+      "shenhua_yin",
+      "refresh_huo",
+      "refresh_lin",
+      "refresh_shan"
+    ],
+    "patches": [
+      {
+        "pack": "standard_2008",
+        "file": "C:\\Users\\32360\\.codex\\worktrees\\sixteen-packs-final-integration\\docs\\remaining-ten-packs\\native\\standard_2008.patch",
+        "size": 828,
+        "sha256": "d0e233259a1db09c9bfa3e4c686ea4a361bff6956edbadaca1c5341bcea410db",
+        "commit": "404e305dc58f8ad964a9764ecc433320af17f6e4",
+        "headMatchesWorktree": true
+      },
+      {
+        "pack": "standard_2013",
+        "file": "C:\\Users\\32360\\.codex\\worktrees\\sixteen-packs-final-integration\\docs\\remaining-ten-packs\\native\\standard_2013.patch",
+        "size": 803,
+        "sha256": "a70a185ecebb78f2e30afeeea3009b665914fa59f169857081500e9860f8558f",
+        "commit": "eba7ded6c925da6b0f8f5ed1812d81d340f0a7e6",
+        "headMatchesWorktree": true
+      },
+      {
+        "pack": "standard_2019",
+        "file": "C:\\Users\\32360\\.codex\\worktrees\\sixteen-packs-final-integration\\docs\\remaining-ten-packs\\native\\standard_2019.patch",
+        "size": 666,
+        "sha256": "bf843e22e9c7085019bb87f94865d29a6873a1b95c4390a24b576f949a931521",
+        "commit": "959661831683211f3266f8efa4a05a4c91e4e4fa",
+        "headMatchesWorktree": true
+      },
+      {
+        "pack": "standard_2023",
+        "file": "C:\\Users\\32360\\.codex\\worktrees\\sixteen-packs-final-integration\\docs\\remaining-ten-packs\\native\\standard_2023.patch",
+        "size": 1554,
+        "sha256": "d1b7fa5430b9050e7fbf7b405702c45e4883848619ac7c4633508414940e8074",
+        "commit": "64df8e6dfb09a56430c487b4edd378edd973fef7",
+        "headMatchesWorktree": true
+      },
+      {
+        "pack": "shenhua_lin",
+        "file": "C:\\Users\\32360\\.codex\\worktrees\\sixteen-packs-final-integration\\docs\\remaining-ten-packs\\native\\shenhua_lin.patch",
+        "size": 1953,
+        "sha256": "ae017875df282cc852cf3a11d4530fb15d906b6c7cdbf87b44a5ea9d09f0bc67",
+        "commit": "22e19db1a82c8555a5fa22332a1a409d48be90fe",
+        "headMatchesWorktree": true
+      },
+      {
+        "pack": "shenhua_shan",
+        "file": "C:\\Users\\32360\\.codex\\worktrees\\sixteen-packs-final-integration\\docs\\remaining-ten-packs\\native\\shenhua_shan.patch",
+        "size": 2240,
+        "sha256": "b74fd8d3eec392e7fa9b4e491ad86646705b3b072aea08f5f44d14b19c6abf15",
+        "commit": "f091f79ecdd1cd0a4c527a81936f41e1cafba2e7",
+        "headMatchesWorktree": true
+      },
+      {
+        "pack": "shenhua_yin",
+        "file": "C:\\Users\\32360\\.codex\\worktrees\\sixteen-packs-final-integration\\docs\\remaining-ten-packs\\native\\shenhua_yin.patch",
+        "size": 914,
+        "sha256": "f83fb96114f9b2aa20672f14f6f901c40e71fbcbb4e9a6f620eb4ac9b86b3747",
+        "commit": "b79ce0ce3db1d136ec8d8e2e78017d31454b2527",
+        "headMatchesWorktree": true
+      },
+      {
+        "pack": "refresh_huo",
+        "file": "C:\\Users\\32360\\.codex\\worktrees\\sixteen-packs-final-integration\\docs\\remaining-ten-packs\\native\\refresh_huo.patch",
+        "size": 596,
+        "sha256": "7d7cf2c6b83623deb2e9b7ec10e60d17d26ca949efd1f849a996254f7c707d88",
+        "commit": "dcf0dd3d2d9b031c60521ce50ed98cb32e9bef52",
+        "headMatchesWorktree": true
+      },
+      {
+        "pack": "refresh_lin",
+        "file": "C:\\Users\\32360\\.codex\\worktrees\\sixteen-packs-final-integration\\docs\\remaining-ten-packs\\native\\refresh_lin.patch",
+        "size": 4031,
+        "sha256": "8c3e6c8c138460bb7ef920934a526cf47a7d0029414cce0e3a460abe820ef26c",
+        "commit": "92214435d6e98410808eb75613d9028ec91f51fc",
+        "headMatchesWorktree": true
+      },
+      {
+        "pack": "refresh_shan",
+        "file": "C:\\Users\\32360\\.codex\\worktrees\\sixteen-packs-final-integration\\docs\\remaining-ten-packs\\native\\refresh_shan.patch",
+        "size": 4570,
+        "sha256": "306431fa8e7246d2eb3225fc49fbda7a1071cc7940b7ce25708f7549bad54a6e",
+        "commit": "a9031aade343ef3e219e733297708ada59a8383b",
+        "headMatchesWorktree": true
+      }
+    ]
+  },
+  "host": {
+    "version": "1.11.7",
+    "clean": {
+      "root": "C:/Users/32360/AppData/Local/Temp/shv-accept/host-a",
+      "files": {
+        "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+        "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+        "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+        "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+        "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+      }
+    },
+    "patched": {
+      "root": "C:/Users/32360/AppData/Local/Temp/remaining-ten-accept/host-ten",
+      "files": {
+        "character/standard.js": "614be8c1ee9bcf82e37477ab9a09f1e781dbe2f32c77aa9725446e1689bc9b48",
+        "character/shenhua.js": "7b7bb42574cbe06283505e7417217af8e6691aee4f1d824ae61ca6cd28d3a3ed",
+        "character/refresh.js": "73fd1f6c1ee90bb6a6e35591249415dd4f23f51fd38864c9d01c9471735e3e01",
+        "character/sp.js": "8386e05b611762321acf1730e1387231bb947fae32884335acbd975c8a654e2f",
+        "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+      }
+    }
+  },
+  "scope": "十份剩余分包原生 AI 补丁 + 六份既有扩展分包；不含六包原生补丁路线；不生成新扩展 ZIP"
+}

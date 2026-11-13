@@ -1,0 +1,348 @@
+{
+  "generatedAt": "2026-11-13T11:30:33.649Z",
+  "patched": "C:\\Users\\32360\\.codex\\worktrees\\sixteen-packs-final-integration\\docs\\remaining-ten-packs-acceptance\\host\\evidence\\edge-patched.json",
+  "extension": "C:\\Users\\32360\\AppData\\Local\\Temp\\sixteen-pack-acceptance\\phase3-native-under-extension\\native-edge-extension.json",
+  "allMatch": true,
+  "rows": [
+    {
+      "name": "edge-dimeng-direct-empty",
+      "same": true,
+      "patched": [
+        0,
+        -6,
+        true
+      ],
+      "extension": [
+        0,
+        -6,
+        true
+      ]
+    },
+    {
+      "name": "edge-dimeng-event-empty",
+      "same": true,
+      "patched": [
+        false,
+        0,
+        true
+      ],
+      "extension": [
+        false,
+        0,
+        true
+      ]
+    },
+    {
+      "name": "edge-dimeng-legal-event",
+      "same": true,
+      "patched": [
+        true,
+        [
+          "jiachong",
+          "dc_zhouxuān"
+        ],
+        true
+      ],
+      "extension": [
+        true,
+        [
+          "jiachong",
+          "dc_zhouxuān"
+        ],
+        true
+      ]
+    },
+    {
+      "name": "edge-tuntian-hidden",
+      "same": true,
+      "patched": [
+        [
+          0.5,
+          0.9880952380952381
+        ],
+        [
+          0.5,
+          0.9880952380952381
+        ],
+        [
+          0.5,
+          0.9880952380952381
+        ],
+        0,
+        0,
+        0,
+        0
+      ],
+      "extension": [
+        [
+          0.5,
+          0.9880952380952381
+        ],
+        [
+          0.5,
+          0.9880952380952381
+        ],
+        [
+          0.5,
+          0.9880952380952381
+        ],
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "edge-olhaoshi-give",
+      "same": true,
+      "patched": [
+        2,
+        "sha",
+        [
+          "74695553592"
+        ],
+        [
+          "wuzhong",
+          "wuxie",
+          "wuxie"
+        ]
+      ],
+      "extension": [
+        2,
+        "sha",
+        [
+          "74695553592"
+        ],
+        [
+          "wuzhong",
+          "wuxie",
+          "wuxie"
+        ]
+      ]
+    },
+    {
+      "name": "edge-olhaoshi-help",
+      "same": true,
+      "patched": [
+        2,
+        0,
+        true
+      ],
+      "extension": [
+        2,
+        0,
+        true
+      ]
+    },
+    {
+      "name": "edge-rehuashen-legal",
+      "same": true,
+      "patched": [
+        [
+          "phaseBegin",
+          "替换当前化身",
+          [
+            "in",
+            "in"
+          ]
+        ],
+        [
+          "phaseEnd",
+          "替换当前化身",
+          [
+            "out",
+            "out"
+          ]
+        ]
+      ],
+      "extension": [
+        [
+          "phaseBegin",
+          "替换当前化身",
+          [
+            "in",
+            "in"
+          ]
+        ],
+        [
+          "phaseEnd",
+          "替换当前化身",
+          [
+            "out",
+            "out"
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "edge-rehuashen-empty",
+      "same": true,
+      "patched": [
+        false,
+        "cancel2",
+        true
+      ],
+      "extension": [
+        false,
+        "cancel2",
+        true
+      ]
+    },
+    {
+      "name": "edge-qizhi-protected-only",
+      "same": true,
+      "patched": [
+        true,
+        1,
+        true
+      ],
+      "extension": [
+        true,
+        1,
+        true
+      ]
+    },
+    {
+      "name": "edge-reqiaobian-context",
+      "same": true,
+      "patched": {
+        "judgeOnly": {
+          "filterJudge": true,
+          "filterDraw": false,
+          "filter": true,
+          "cancelled": false,
+          "handAfter": [
+            "sha"
+          ],
+          "ok": true
+        },
+        "drawOnly": {
+          "filterJudge": false,
+          "filterDraw": true,
+          "filter": false,
+          "contentSkippedByFilter": true,
+          "ownContextWouldAllow": true,
+          "cancelled": false,
+          "handAfter": [
+            "sha"
+          ],
+          "ok": true
+        },
+        "allContexts": {
+          "filterJudge": true,
+          "filterDraw": true,
+          "filter": true,
+          "cancelled": true,
+          "handAfter": [
+            "shan",
+            "tao"
+          ],
+          "ok": true
+        }
+      },
+      "extension": {
+        "judgeOnly": {
+          "filterJudge": true,
+          "filterDraw": false,
+          "filter": true,
+          "cancelled": false,
+          "handAfter": [
+            "sha"
+          ],
+          "ok": true
+        },
+        "drawOnly": {
+          "filterJudge": false,
+          "filterDraw": true,
+          "filter": false,
+          "contentSkippedByFilter": true,
+          "ownContextWouldAllow": true,
+          "cancelled": false,
+          "handAfter": [
+            "sha"
+          ],
+          "ok": true
+        },
+        "allContexts": {
+          "filterJudge": true,
+          "filterDraw": true,
+          "filter": true,
+          "cancelled": true,
+          "handAfter": [
+            "shan",
+            "tao"
+          ],
+          "ok": true
+        }
+      }
+    },
+    {
+      "name": "edge-feijun-postpay",
+      "same": true,
+      "patched": [
+        [
+          "74695553592"
+        ],
+        true,
+        3,
+        0
+      ],
+      "extension": [
+        [
+          "74695553592"
+        ],
+        true,
+        3,
+        0
+      ]
+    },
+    {
+      "name": "edge-feijun-no-target",
+      "same": true,
+      "patched": [
+        true,
+        [],
+        0
+      ],
+      "extension": [
+        true,
+        [],
+        0
+      ]
+    }
+  ],
+  "stochastic": [
+    {
+      "name": "edge-tuntian-hidden",
+      "patchedRaw": [
+        [
+          0.6,
+          0.75
+        ],
+        [
+          0.5,
+          0.9880952380952381
+        ],
+        [
+          0.6,
+          0.75
+        ]
+      ],
+      "extensionRaw": [
+        [
+          0.6,
+          0.75
+        ],
+        [
+          0.6,
+          0.75
+        ],
+        [
+          0.5,
+          0.9880952380952381
+        ]
+      ],
+      "note": "juedou 目标收益在隐藏牌置换下稳定，known 计数为 0；sha 使用评分含宿主 mayHaveShan 随机估计，跨进程 RNG 状态不同会变化，不构成隐藏牌面读取。"
+    }
+  ]
+}
