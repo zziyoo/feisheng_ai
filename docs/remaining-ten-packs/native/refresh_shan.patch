@@ -1,0 +1,88 @@
+diff --git a/character/refresh.js b/character/refresh.js
+index f46cad1..de3785e 100644
+--- a/character/refresh.js
++++ b/character/refresh.js
+@@ -12188,7 +12188,7 @@ const skills = {
+               return 0;
+             }
+             var maxnum = 0;
+-            var cards2 = target.getCards("h");
++            var cards2 = target.getKnownCards(player);
+             for (var i = 0; i < cards2.length; i++) {
+               if (get.number(cards2[i]) > maxnum) {
+                 maxnum = get.number(cards2[i]);
+@@ -12197,7 +12197,7 @@ const skills = {
+             if (maxnum > 10) {
+               maxnum = 10;
+             }
+-            if (maxnum < 5 && cards2.length > 1) {
++            if (maxnum < 5 && target.countCards("h") > 1) {
+               maxnum = 5;
+             }
+             var cards3 = player.getCards("h");
+@@ -12333,14 +12333,15 @@ const skills = {
+       const prompt = "###" + get.prompt(event.skill) + '###<div class="text center">替换当前化身牌或制衡至多两张其他化身牌</div>';
+       const result = await player.chooseControl("替换当前化身", "制衡其他化身", "cancel2").set("ai", () => {
+         const { player: player2, cond } = get.event();
+-        let skills2 = player2.storage.rehuashen.character.map((i) => get.character(i).skills).flat();
++        const { character, map, current, current2 } = player2.storage.rehuashen;
++        const skills2 = character.flatMap((name) => map[name] || []);
+         skills2.randomSort();
+         skills2.sort((a, b) => get.skillRank(b, cond) - get.skillRank(a, cond));
+-        if (skills2[0] === player2.storage.rehuashen.current2 || get.skillRank(skills2[0], cond) < 1) {
+-          return "制衡其他化身";
++        if (!skills2.length || skills2[0] === current2 || get.skillRank(skills2[0], cond) < 1) {
++          return character.some((name) => name !== current) ? "制衡其他化身" : "cancel2";
+         }
+         return "替换当前化身";
+-      }).set("cond", event.triggername).set("prompt", prompt).forResult();
++      }).set("cond", event.triggername === "phaseBegin" ? "in" : "out").set("prompt", prompt).forResult();
+       const control = result.control;
+       event.result = { bool: typeof control === "string" && control !== "cancel2", cost_data: control };
+     },
+@@ -12428,6 +12429,7 @@ const skills = {
+           game.stopCountChoose();
+         }
+       };
++      const rankContext = event.triggername === "phaseBegin" ? "in" : "out";
+       while (true) {
+         const next = player.chooseButton(true).set("dialog", id);
+         if (choice === "制衡其他化身") {
+@@ -12437,12 +12439,17 @@ const skills = {
+         } else {
+           next.set("ai", (button) => {
+             const { player: player2, cond } = get.event();
+-            let skills2 = player2.storage.rehuashen.character.map((i) => get.character(i).skills).flat();
++            const { character, map } = player2.storage.rehuashen;
++            const candidates = map[button.link] || [];
++            if (!candidates.length) {
++              return 0;
++            }
++            const skills2 = character.flatMap((name) => map[name] || []);
+             skills2.randomSort();
+             skills2.sort((a, b) => get.skillRank(b, cond) - get.skillRank(a, cond));
+-            return player2.storage.rehuashen.map[button.link].includes(skills2[0]) ? 2.5 : 1 + Math.random();
++            return candidates.includes(skills2[0]) ? 2.5 : 1 + Math.random();
+           });
+-          next.set("cond", event.triggername);
++          next.set("cond", rankContext);
+         }
+         const result = await next.forResult();
+         if (choice === "制衡其他化身") {
+@@ -12474,12 +12481,12 @@ const skills = {
+             func(card, id);
+           }
+           const result2 = await player.chooseControl(player.storage.rehuashen.map[card], "返回").set("ai", () => {
+-            const { player: player2, cond, controls } = get.event();
+-            let skills2 = controls.slice();
++            const { cond, controls } = get.event();
++            const skills2 = controls.filter((control) => control !== "返回");
+             skills2.randomSort();
+             skills2.sort((a, b) => get.skillRank(b, cond) - get.skillRank(a, cond));
+-            return skills2[0];
+-          }).set("cond", event.triggername).forResult();
++            return skills2[0] || "返回";
++          }).set("cond", rankContext).forResult();
+           const control = result2.control;
+           if (control === "返回") {
+             const func2 = function(card2, id2) {
