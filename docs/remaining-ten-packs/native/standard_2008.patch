@@ -1,0 +1,27 @@
+--- a/character/standard.js
++++ b/character/standard.js
+@@ -924,6 +924,9 @@
+           forced: true,
+           ai(target) {
+             const { player: player2, enemy } = get.event();
++            if (target.hasSkillTag("nogain")) {
++              return 0;
++            }
+             const att = get.attitude(player2, target);
+             if (enemy) {
+               return -att;
+@@ -1684,14 +1687,6 @@
+       }).forResult();
+       if (bool) {
+         trigger.getParent()?.directHit.add(trigger.target);
+-      }
+-    },
+-    ai: {
+-      directHit_ai: true,
+-      skillTagFilter(player, tag, arg) {
+-        if (get.attitude(player, arg.target) > 0 || arg.card.name !== "sha" || !ui.cardPile.firstChild || get.color(ui.cardPile.firstChild, player) !== "red") {
+-          return false;
+-        }
+       }
+     }
+   },
