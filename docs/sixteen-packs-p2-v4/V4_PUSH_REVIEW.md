@@ -26,8 +26,10 @@ c5ec662  v3 基线（codex/sixteen-packs-p2-hardening-v3）
                           └─ 1dfac6f  build(accept): derive v4 packs from sealed v3 archives
                               └─ 4745865  test(accept): add v4 real-host five-fix scenes
                                   └─ 5206c5e  test(accept): record sixteen-pack v4 independent acceptance
-                                      └─ <review>  docs(accept): trace v4 source and push review
+                                      └─ docs(accept): trace v4 source and push review（本文件所在提交）
 ```
+
+本次 docs-only 审查提交的完整哈希以 `git rev-parse codex/sixteen-packs-v4-acceptance` 为准；为避免文件自引用，正文不重复自身哈希。交付报告同时给出该完整哈希。
 
 - 验收对象开发 HEAD：`b1719c3c82228ffbcf344a81f2bc109a398578a2`。
 - 构建提交：`1dfac6ff0dbe5be9a5ff7a249ff34d9b86631a40`（仅新增 `tools/build-v4-pack.py`、`tools/install-six-v4.py`）。
