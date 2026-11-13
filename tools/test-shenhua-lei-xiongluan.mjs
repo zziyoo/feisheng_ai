@@ -19,7 +19,7 @@ const player = {
 	countCards(position, predicate) { return this.getCards(position).filter(predicate).length; },
 };
 const target = { hp: 1, hujia: 0, equip: 'bagua', getEquip(name) { return this.equip === name; } };
-const get = { name: card => card.name, tag: card => card.damage, effect: (_, card) => card.effect, attitude: current => current.attitude };
+const get = { name: card => card.name, tag: card => card.damage, effect: (_, card) => card.effect, attitude: (current, other) => current === player ? other.attitude : current.attitude };
 const game = { others: [], countPlayer(fn) { return this.others.reduce((sum, current) => sum + fn(current), 0); } };
 const stock = Function('get', 'game', `return (${callback})`)(get, game);
 const result = { target: stock };
@@ -42,7 +42,9 @@ const wrapperHost = {
 		const wrapped = factory(original);
 		owner[key] = wrapped;
 		cleanups.push(() => { if (owner[key] === wrapped) owner[key] = original; });
+		return { wrapped };
 	},
+	addCleanup(cleanup) { cleanups.push(cleanup); },
 };
 
 assert.equal(stock(player, target), -1, 'Stock counts the fractional score as a whole card');
@@ -71,14 +73,73 @@ const incompatiblePlayer = { countCards: () => 2 };
 assert.equal(fixed(incompatiblePlayer, target), stock(incompatiblePlayer, target), 'Original callback is used when the wrapper cannot evaluate');
 
 pack.install(wrapperHost, {});
-assert.equal(cleanups.length, 1, 'Repeated installation cannot wrap its own callback again');
+assert.equal(cleanups.length, 2, 'Repeated installation cannot wrap its own callback again');
+cleanups[1]();
 cleanups[0]();
 assert.equal(result.target, stock, 'Teardown restores the stock callback');
+assert.equal('effect' in lib.skill.drlt_xiongluan.ai, false);
 pack.install(wrapperHost, {});
 const foreign = () => 13;
 result.target = foreign;
-cleanups[1]();
+cleanups[3]();
+cleanups[2]();
 pack.install(wrapperHost, {});
 assert.equal(result.target, foreign, 'Teardown and installation preserve a third-party callback');
-assert.equal(cleanups.length, 2);
+assert.equal(cleanups.length, 4);
+
+// Use both real host aggregators with the old engine's player-side direction bonus.
+const getSource = await readFile(resolve(hostRoot, 'noname/get/index.js'), 'utf8');
+const hostEffects = Function('CacheContext', '_status', 'get', 'game', 'lib', `return ({
+	${getSource.match(/^  effect_use\([\s\S]+?^  \}/m)[0]},
+	${getSource.match(/^  effect\([\s\S]+?^  \}/m)[0]},
+})`);
+const engine = { ai: { effect: { player(card, actor, recipient) {
+	if (card === 'drlt_xiongluan') return [1, recipient.attitude < 0 ? -12 : 1.5];
+	return [1, 2];
+} } } };
+const readInfo = subject => lib.skill[subject] || { ai: { result: {} } };
+lib.skill.global = ['_djsc_engine'];
+lib.skill._djsc_engine = engine;
+get.info = readInfo;
+get.result = subject => readInfo(subject).ai.result || {};
+game.expandSkills = () => {};
+player.getSkills = () => ['drlt_xiongluan'];
+target.getSkills = () => [];
+player.attitude = 10;
+get.attitude = (actor, recipient) => actor === recipient ? 10 : recipient.attitude ?? actor.attitude;
+get.effect = (recipient, card) => recipient.attitude < 0 ? card.effect : -card.effect;
+get.tag = (card, tag) => tag === 'damage' && Boolean(card.damage);
+const cache = { get, delegate: obj => obj };
+const effects = hostEffects({ requireCacheContext: () => cache }, { event: {} }, get, game, lib);
+const evaluate = (fn, subject = 'drlt_xiongluan') => fn(target, subject, player, player);
+result.target = stock;
+target.equip = 'bagua';
+target.attitude = -4;
+player.cards = [sha];
+assert.equal(evaluate(effects.effect), -116);
+const beforeUnrelated = evaluate(effects.effect, 'other_skill');
+pack.install(wrapperHost, {});
+for (const effect of [effects.effect, effects.effect_use]) {
+	assert.equal(evaluate(effect), 0, 'One half-weight Sha must remain neutral against an enemy');
+	player.cards = [sha, sha];
+	assert.equal(evaluate(effect), 4, 'Enemy benefit comes from the target result and negative attitude');
+	target.attitude = 6;
+	assert.equal(evaluate(effect), 0, 'An attack with nonpositive card utility must not promote an ally');
+	player.cards = [sha];
+	target.attitude = -4;
+	assert.equal(evaluate(effect, 'other_skill'), beforeUnrelated, 'Other effects retain their player component');
+}
+const ai = lib.skill.drlt_xiongluan.ai;
+const installedEffect = ai.effect;
+assert.ok(installedEffect);
+const installedTarget = result.target;
+result.target = foreign;
+assert.equal(installedEffect.player('drlt_xiongluan'), undefined, 'A replaced target callback disables the local effect');
+result.target = installedTarget;
+const foreignEffect = { player: () => 7 };
+ai.effect = foreignEffect;
+for (const cleanup of cleanups.slice(4).reverse()) cleanup();
+assert.equal(ai.effect, foreignEffect, 'An effect replaced after install survives cleanup');
+pack.install(wrapperHost, {});
+assert.equal(ai.effect, foreignEffect, 'Existing third-party effect is preserved');
 console.log('PASS xiongluan stock callback, weighted decisions, fallback, and hook identity');

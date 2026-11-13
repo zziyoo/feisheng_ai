@@ -61,9 +61,10 @@ function install(host, stats) {
 
 /* 雄乱的 countCards 谓词只判断真假，直接累加原评分才能保留八卦权重。 */
 function installXiongluan(host) {
-	const result = lib.skill?.drlt_xiongluan?.ai?.result;
+	const ai = lib.skill?.drlt_xiongluan?.ai;
+	const result = ai?.result;
 	if (!xiongluanTargetNeedsFix(result?.target)) return;
-	host.wrap(result, 'target', 'drlt_xiongluan:target', original => function (player, target) {
+	const wrapped = host.wrap(result, 'target', 'drlt_xiongluan:target', original => function (player, target) {
 		try {
 			const damage = player.getCards('h').reduce((score, card) => {
 				if (!get.tag(card, 'damage') || get.effect(target, card, player, player) <= 0) return score;
@@ -80,6 +81,18 @@ function installXiongluan(host) {
 			if (Number.isFinite(threshold)) return damage >= threshold ? -damage : 0;
 		} catch (_) {}
 		return original.apply(this, arguments);
+	});
+	// Stock 雄乱 scores only the recipient. The generic engine can mistake its
+	// temporary ban for support and inject an unrelated actor-side bonus.
+	if (!wrapped || 'effect' in ai || 'player' in result || 'player_use' in result || 'target_use' in result) return;
+	const effect = {
+		player(subject) {
+			if (subject === 'drlt_xiongluan' && result.target === wrapped.wrapped) return 'zeroplayer';
+		},
+	};
+	try { ai.effect = effect; } catch (_) { return; }
+	host.addCleanup(() => {
+		if (ai.effect === effect) delete ai.effect;
 	});
 }
 
