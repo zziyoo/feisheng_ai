@@ -1,0 +1,43 @@
+--- a/character/standard.js
++++ b/character/standard.js
+@@ -259,10 +259,13 @@
+       }).set(
+         "eff",
+         (() => {
+-          if (target.hasSkillTag("noe")) {
+-            return get.attitude(_status.event.player, target);
+-          }
+-          return get.damageEffect(target, player, _status.event.player);
++          if (target.hasSkillTag("noe") && get.damageEffect(target, player, target) <= 0) {
++            const canDiscardEquip = (card) => get.type(card) === "equip" && lib.filter.cardDiscardable(card, target, "stdxiaoguo");
++            if (target.hasCards("e", canDiscardEquip) || target.getKnownCards(player).some(canDiscardEquip)) {
++              return get.attitude(player, target);
++            }
++          }
++          return get.damageEffect(target, player, player);
+         })()
+       ).forResult();
+     },
+@@ -304,7 +307,10 @@
+         prompt: get.prompt2(event.skill),
+         filterTarget: lib.filter.notMe,
+         ai(target) {
+-          return get.attitude(get.player(), target);
++          if (target.hasSkillTag("nogain")) {
++            return 0;
++          }
++          return get.attitude(get.player(), target) * (target.hasCards("h") ? 1 : 2);
+         }
+       }).forResult();
+     },
+--- a/character/sp.js
++++ b/character/sp.js
+@@ -43026,7 +43026,7 @@
+     audio: 2,
+     trigger: { player: "phaseZhunbeiBegin" },
+     check(event2, player2) {
+-      if (player2.hp > 2) {
++      if (!player2.isDamaged() || player2.hp > 2) {
+         return false;
+       }
+       var cards2 = player2.getCards("h");
