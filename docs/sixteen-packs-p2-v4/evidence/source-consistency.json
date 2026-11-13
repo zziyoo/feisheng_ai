@@ -1,0 +1,93 @@
+{
+  "generated_at": "2026-11-13",
+  "note": "v4 final ZIP runtime source compared with tested candidate and declared Git blobs",
+  "packs": {
+    "feisheng-ai-out-of-scope.zip": {
+      "head": "56735aea155040c70ee621e232ed96dce021b57a",
+      "source_files": 5,
+      "source_git_ok": 5,
+      "source_bad": [],
+      "runtime_changed": null,
+      "changed_files": null,
+      "tested_candidate_source_diff": [],
+      "pack_files": {
+        "packs/outOfScope.js": "eaf575d4dfbd432b4b9a460d7768078cd4eb211026e443e418efbee90b2083a2",
+        "rules/outOfScope.js": "16be048f459ae4797b3bda1addcd856f83b3beb8892f04433796b3a189a9aaa1"
+      }
+    },
+    "feisheng-ai-refresh-feng.zip": {
+      "head": "b1719c3c82228ffbcf344a81f2bc109a398578a2",
+      "source_files": 5,
+      "source_git_ok": 5,
+      "source_bad": [],
+      "runtime_changed": true,
+      "changed_files": [
+        "score/decision/skills/packs/refreshFeng.js"
+      ],
+      "tested_candidate_source_diff": [],
+      "pack_files": {
+        "packs/refreshFeng.js": "5ee2bac6f5454db7670c564aa98b3565c5ab6c3ba54fb7881a6e2d17a674288c",
+        "rules/refreshFeng.js": "a6b4ff9eb1a6064b1aa9168610c4f3848d6ab1d64d2f737ecf255582a3586c19"
+      }
+    },
+    "feisheng-ai-refresh-standard.zip": {
+      "head": "0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea",
+      "source_files": 8,
+      "source_git_ok": 8,
+      "source_bad": [],
+      "runtime_changed": null,
+      "changed_files": null,
+      "tested_candidate_source_diff": [],
+      "pack_files": {
+        "packs/refreshStandard.js": "06cb6fe953e79834cb044b5f0d943e39c85e5f64d1c8f26891aacae0ce7a9a40",
+        "rules/refreshStandard.js": "6ba907a2f0528063449094862443b36a62182e670f491f9246cdc626fa23d84c",
+        "skillPlanHints.js": "b6a0db923a46da1d3d1b0c347db3f2fdbece9853035d2b5a0609b51ea9ac2d5e",
+        "rules/boundedSkillUtility.js": "1691ee0fb5d8441294d41994448d56cf892fb7c2af52f182e6fac83f9545090c",
+        "rules/refreshStandardPlans.js": "10270d801413a6d9820b8926787cfa57e653151aaebf4338d33eab124e3b7e2a"
+      }
+    },
+    "feisheng-ai-shenhua-feng.zip": {
+      "head": "25b950356627b9c236c4faf3be82e3481ad09111",
+      "source_files": 5,
+      "source_git_ok": 5,
+      "source_bad": [],
+      "runtime_changed": false,
+      "changed_files": [],
+      "tested_candidate_source_diff": [],
+      "pack_files": {
+        "packs/shenhuaFeng.js": "deb67719192d27dcf057d670d822f31e734cb53490a44d197f5ad9cdb7577ffd",
+        "rules/shenhuaFeng.js": "43885bfef36d14ddb144d0ef13cd98385e1ebb28a2b47e968a515079eb3fd53e"
+      }
+    },
+    "feisheng-ai-shenhua-huo.zip": {
+      "head": "b1719c3c82228ffbcf344a81f2bc109a398578a2",
+      "source_files": 5,
+      "source_git_ok": 5,
+      "source_bad": [],
+      "runtime_changed": true,
+      "changed_files": [
+        "score/decision/skills/packs/shenhuaHuo.js"
+      ],
+      "tested_candidate_source_diff": [],
+      "pack_files": {
+        "packs/shenhuaHuo.js": "94addbdee96533c44cf02be12c0fc4586e9bf7c185396bb20c59597c2990d388",
+        "rules/shenhuaHuo.js": "7dde055fe9cd1d74d772dbeaf9a8c895d052c55357fa255990bb7e3af92e2c44"
+      }
+    },
+    "feisheng-ai-shenhua-lei.zip": {
+      "head": "b1719c3c82228ffbcf344a81f2bc109a398578a2",
+      "source_files": 5,
+      "source_git_ok": 5,
+      "source_bad": [],
+      "runtime_changed": true,
+      "changed_files": [
+        "score/decision/skills/packs/shenhuaLei.js"
+      ],
+      "tested_candidate_source_diff": [],
+      "pack_files": {
+        "packs/shenhuaLei.js": "8ae698e2523a90183b8406f2473ca60ebb801111275e27943acf519cb8116e0a",
+        "rules/shenhuaLei.js": "4fb832acd9be2d6265d260299faedcc4368344b4376e1109a8b6478ccc431841"
+      }
+    }
+  }
+}

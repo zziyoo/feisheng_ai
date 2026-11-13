@@ -1,0 +1,167 @@
+{
+  "generated_at": "2026-11-13",
+  "zips": {
+    "feisheng-ai-out-of-scope.zip": {
+      "sha256": "f1d06169b53dd908205224e46f403ac97c2db0f6717d47fad1897e0fe1b7a79d",
+      "size": 200828,
+      "verify_exit": 0,
+      "verify": "mode=zip files_listed=38 ok=38 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0",
+      "manifest_files": 38,
+      "missing": [],
+      "hash_mismatch": [],
+      "git_blob_ok": 22,
+      "git_blob_bad": [],
+      "generated": 16,
+      "pack": {
+        "head": "56735aea155040c70ee621e232ed96dce021b57a",
+        "source_mode": "git-show-head",
+        "delivery_status": "可交付",
+        "pack_files": {
+          "packs/outOfScope.js": "eaf575d4dfbd432b4b9a460d7768078cd4eb211026e443e418efbee90b2083a2",
+          "rules/outOfScope.js": "16be048f459ae4797b3bda1addcd856f83b3beb8892f04433796b3a189a9aaa1"
+        },
+        "wind_compatibility": null,
+        "v4_changed_skills": null,
+        "build_head": null
+      }
+    },
+    "feisheng-ai-refresh-feng.zip": {
+      "sha256": "1d12d8b6c37244b3d790eaaea003a0747728856e4d0ce61835c72846012956e3",
+      "size": 92832,
+      "verify_exit": 0,
+      "verify": "mode=zip files_listed=32 ok=32 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0",
+      "manifest_files": 32,
+      "missing": [],
+      "hash_mismatch": [],
+      "git_blob_ok": 22,
+      "git_blob_bad": [],
+      "generated": 10,
+      "pack": {
+        "head": "b1719c3c82228ffbcf344a81f2bc109a398578a2",
+        "source_mode": "sealed-v3-plus-git-blobs",
+        "delivery_status": "内部验收通过",
+        "pack_files": {
+          "packs/refreshFeng.js": "5ee2bac6f5454db7670c564aa98b3565c5ab6c3ba54fb7881a6e2d17a674288c",
+          "rules/refreshFeng.js": "a6b4ff9eb1a6064b1aa9168610c4f3848d6ab1d64d2f737ecf255582a3586c19"
+        },
+        "wind_compatibility": {
+          "protocol": "dual-feng-shared-entry-v1",
+          "peer_module": "shenhuaFeng",
+          "peer_sha256": "deb67719192d27dcf057d670d822f31e734cb53490a44d197f5ad9cdb7577ffd"
+        },
+        "v4_changed_skills": [
+          "reqimou"
+        ],
+        "build_head": "1dfac6ff0dbe5be9a5ff7a249ff34d9b86631a40"
+      }
+    },
+    "feisheng-ai-refresh-standard.zip": {
+      "sha256": "b148f29c94768347eaf24984b6e14c73174bf482fd96d72ce717b4e9afa4ccd0",
+      "size": 114963,
+      "verify_exit": 0,
+      "verify": "mode=zip files_listed=33 ok=33 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0",
+      "manifest_files": 33,
+      "missing": [],
+      "hash_mismatch": [],
+      "git_blob_ok": 25,
+      "git_blob_bad": [],
+      "generated": 8,
+      "pack": {
+        "head": "0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea",
+        "source_mode": "git-show-head",
+        "delivery_status": "封包待验收",
+        "pack_files": {
+          "packs/refreshStandard.js": "06cb6fe953e79834cb044b5f0d943e39c85e5f64d1c8f26891aacae0ce7a9a40",
+          "rules/refreshStandard.js": "6ba907a2f0528063449094862443b36a62182e670f491f9246cdc626fa23d84c",
+          "skillPlanHints.js": "b6a0db923a46da1d3d1b0c347db3f2fdbece9853035d2b5a0609b51ea9ac2d5e",
+          "rules/boundedSkillUtility.js": "1691ee0fb5d8441294d41994448d56cf892fb7c2af52f182e6fac83f9545090c",
+          "rules/refreshStandardPlans.js": "10270d801413a6d9820b8926787cfa57e653151aaebf4338d33eab124e3b7e2a"
+        },
+        "wind_compatibility": null,
+        "v4_changed_skills": null,
+        "build_head": null
+      }
+    },
+    "feisheng-ai-shenhua-feng.zip": {
+      "sha256": "3b0536f41c907942bcee8e99a6acdde6311f4601bd9e16f1ee118530ccc52ed8",
+      "size": 93478,
+      "verify_exit": 0,
+      "verify": "mode=zip files_listed=29 ok=29 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0",
+      "manifest_files": 29,
+      "missing": [],
+      "hash_mismatch": [],
+      "git_blob_ok": 17,
+      "git_blob_bad": [],
+      "generated": 12,
+      "pack": {
+        "head": "25b950356627b9c236c4faf3be82e3481ad09111",
+        "source_mode": "sealed-v3-metadata",
+        "delivery_status": "内部验收通过",
+        "pack_files": {
+          "packs/shenhuaFeng.js": "deb67719192d27dcf057d670d822f31e734cb53490a44d197f5ad9cdb7577ffd",
+          "rules/shenhuaFeng.js": "43885bfef36d14ddb144d0ef13cd98385e1ebb28a2b47e968a515079eb3fd53e"
+        },
+        "wind_compatibility": {
+          "protocol": "dual-feng-shared-entry-v1",
+          "peer_module": "refreshFeng",
+          "peer_sha256": "5ee2bac6f5454db7670c564aa98b3565c5ab6c3ba54fb7881a6e2d17a674288c"
+        },
+        "v4_changed_skills": [],
+        "build_head": "1dfac6ff0dbe5be9a5ff7a249ff34d9b86631a40"
+      }
+    },
+    "feisheng-ai-shenhua-huo.zip": {
+      "sha256": "5e1f2d0643b145c6aa76458a972a60ec579968be71813fbb7b4c08aa189af250",
+      "size": 256869,
+      "verify_exit": 0,
+      "verify": "mode=zip files_listed=52 ok=52 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0",
+      "manifest_files": 52,
+      "missing": [],
+      "hash_mismatch": [],
+      "git_blob_ok": 22,
+      "git_blob_bad": [],
+      "generated": 30,
+      "pack": {
+        "head": "b1719c3c82228ffbcf344a81f2bc109a398578a2",
+        "source_mode": "sealed-v3-plus-git-blobs",
+        "delivery_status": "内部验收通过",
+        "pack_files": {
+          "packs/shenhuaHuo.js": "94addbdee96533c44cf02be12c0fc4586e9bf7c185396bb20c59597c2990d388",
+          "rules/shenhuaHuo.js": "7dde055fe9cd1d74d772dbeaf9a8c895d052c55357fa255990bb7e3af92e2c44"
+        },
+        "wind_compatibility": null,
+        "v4_changed_skills": [
+          "qiangxix"
+        ],
+        "build_head": "1dfac6ff0dbe5be9a5ff7a249ff34d9b86631a40"
+      }
+    },
+    "feisheng-ai-shenhua-lei.zip": {
+      "sha256": "bdfca87fd1072c63302f13bb5cf4ebf8f244b010226800a14ceba76916494e72",
+      "size": 265344,
+      "verify_exit": 0,
+      "verify": "mode=zip files_listed=54 ok=54 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0",
+      "manifest_files": 54,
+      "missing": [],
+      "hash_mismatch": [],
+      "git_blob_ok": 31,
+      "git_blob_bad": [],
+      "generated": 23,
+      "pack": {
+        "head": "b1719c3c82228ffbcf344a81f2bc109a398578a2",
+        "source_mode": "sealed-v3-plus-git-blobs",
+        "delivery_status": "内部验收通过",
+        "pack_files": {
+          "packs/shenhuaLei.js": "8ae698e2523a90183b8406f2473ca60ebb801111275e27943acf519cb8116e0a",
+          "rules/shenhuaLei.js": "4fb832acd9be2d6265d260299faedcc4368344b4376e1109a8b6478ccc431841"
+        },
+        "wind_compatibility": null,
+        "v4_changed_skills": [
+          "xinfu_zuilun",
+          "twjuxiang"
+        ],
+        "build_head": "1dfac6ff0dbe5be9a5ff7a249ff34d9b86631a40"
+      }
+    }
+  }
+}

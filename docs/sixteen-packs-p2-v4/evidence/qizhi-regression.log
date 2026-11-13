@@ -1,0 +1,18 @@
+=== tools/test-shenhua-lei-xiongluan.mjs
+PASS xiongluan stock callback, weighted decisions, fallback, and hook identity
+exit=0
+=== tools/test-shenhua-huo-qiangxix.mjs
+PASS stock Basic.chooseCard, safe crossbow opportunity, preservation controls, and lifecycle
+exit=0
+=== tools/test-shenhua-lei-zuilun.mjs
+PASS zuilun public judgments, legal partition, immutable inputs, event ownership and cleanup
+exit=0
+=== tools/test-shenhua-lei-juxiang-v4.mjs
+PASS twjuxiang stock scoring, survival veto, branch and scope controls, lifecycle
+exit=0
+=== tools/test-refresh-feng-reqimou-v4.mjs
+PASS reqimou long-range promotion, actual stock payment and conservative controls
+exit=0
+=== tools/test-native-qizhi-p2.mjs
+qizhi: 7 protected, eligible, and unchanged target-filter assertions passed
+exit=0

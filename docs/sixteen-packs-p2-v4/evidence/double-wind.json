@@ -1,0 +1,73 @@
+{
+  "official_order": {
+    "order": [
+      "refresh_standard",
+      "refresh_feng",
+      "shenhua_feng",
+      "shenhua_huo",
+      "shenhua_lei",
+      "out_of_scope"
+    ],
+    "source": "installer-battery-final-v4.json",
+    "pass": true
+  },
+  "reverse_order": {
+    "order": [
+      "refresh_standard",
+      "shenhua_feng",
+      "refresh_feng"
+    ],
+    "steps": [
+      {
+        "pack": "refresh-standard",
+        "exit": 0,
+        "applied": "applied",
+        "stderr": ""
+      },
+      {
+        "pack": "shenhua-feng",
+        "exit": 0,
+        "applied": "applied",
+        "stderr": ""
+      },
+      {
+        "pack": "refresh-feng",
+        "exit": 0,
+        "applied": "applied",
+        "stderr": ""
+      }
+    ],
+    "pass": true,
+    "installed": {
+      "refreshFeng.js": {
+        "pack_file_sha256": "5ee2bac6f5454db7670c564aa98b3565c5ab6c3ba54fb7881a6e2d17a674288c"
+      },
+      "shenhuaFeng.js": {
+        "pack_file_sha256": "deb67719192d27dcf057d670d822f31e734cb53490a44d197f5ad9cdb7577ffd"
+      }
+    }
+  },
+  "mismatched_old_peer": {
+    "setup": [
+      {
+        "pack": "refresh-standard",
+        "exit": 0
+      },
+      {
+        "pack": "shenhua-feng",
+        "exit": 0
+      }
+    ],
+    "exit": 1,
+    "stderr": "APPLY FAIL: 双风版本或对包源码不匹配；请先回滚旧风包并迁移到同一兼容候选，不会覆盖现有文件。",
+    "zero_write": true,
+    "before": {
+      "score/decision/skills/packs/refreshFeng.js": null,
+      "score/decision/skills/packs/shenhuaFeng.js": "deb67719192d27dcf057d670d822f31e734cb53490a44d197f5ad9cdb7577ffd"
+    },
+    "after": {
+      "score/decision/skills/packs/refreshFeng.js": null,
+      "score/decision/skills/packs/shenhuaFeng.js": "deb67719192d27dcf057d670d822f31e734cb53490a44d197f5ad9cdb7577ffd"
+    }
+  }
+}

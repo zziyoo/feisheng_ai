@@ -1,0 +1,7 @@
+pack_id,skill,status,evidence,tencent_sync,note
+shenhua_lei,drlt_xiongluan,已修复并验收,v4-xiongluan-auto.json,未同步（本轮未访问在线台账）,方向偏置与小数权重
+shenhua_huo,qiangxix,已修复并验收,v4-qiangxix-zuilun-juxiang.json,未同步（本轮未访问在线台账）,窄场景保留连弩
+shenhua_lei,xinfu_zuilun,已修复并验收,v4-qiangxix-zuilun-juxiang.json,未同步（本轮未访问在线台账）,公开信息排序；隐藏差异未由宿主 fixture 复现
+shenhua_lei,twjuxiang,已修复并验收,v4-qiangxix-zuilun-juxiang.json,未同步（本轮未访问在线台账）,窄场景保留八卦/仁王
+refresh_feng,reqimou,已修复并验收,v4-reqimou.json,未同步（本轮未访问在线台账）,长兵器射程漏判；保守阈值保留
+qizhi,qizhi,规则残项保留,qizhi-regression.log,未同步（本轮未访问在线台账）,手动选择后不弃牌仍摸牌为宿主结算残项
