@@ -1,0 +1,2045 @@
+{
+  "completedAt": "2026-11-13T09:42:12.084Z",
+  "status": "passed",
+  "scope": "真实身份局宿主、固定公开局面、技能AI选择与结算观察；原生AI基线",
+  "seed": "20261030",
+  "browserVersion": "157.0.8103.78",
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "scenes": [
+    {
+      "name": "inspect-skills",
+      "hostVersion": "1.11.7",
+      "mode": "identity",
+      "skills": {
+        "tieji": {
+          "id": "tieji",
+          "exists": true,
+          "keys": [
+            "audio",
+            "trigger",
+            "check",
+            "filter",
+            "logTarget",
+            "preHidden",
+            "content",
+            "ai",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "function",
+          "filter": "function",
+          "aiKeys": [
+            "directHit_ai",
+            "skillTagFilter"
+          ],
+          "directHit_ai": true,
+          "skillTagFilter": "function",
+          "aiResultKeys": [],
+          "aiEffectKeys": [],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": null
+        },
+        "yiji": {
+          "id": "yiji",
+          "exists": true,
+          "keys": [
+            "audio",
+            "trigger",
+            "frequent",
+            "filter",
+            "getIndex",
+            "content",
+            "ai",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "undefined",
+          "filter": "function",
+          "aiKeys": [
+            "maixie",
+            "maixie_hp",
+            "effect"
+          ],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [],
+          "aiEffectKeys": [
+            "target"
+          ],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": "target(card, player, target) {\n          if (get.tag(card, \"damage\")) {\n            if (player.hasSkillTag(\"jueqing\", false, target)) {\n              return [1, -2];\n            }\n            if (!target.hasFriend()) {\n              return;"
+        },
+        "retongji": {
+          "id": "retongji",
+          "exists": true,
+          "keys": [
+            "trigger",
+            "logTarget",
+            "audio",
+            "filter",
+            "cost",
+            "content",
+            "ai",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "undefined",
+          "filter": "function",
+          "aiKeys": [
+            "neg"
+          ],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [],
+          "aiEffectKeys": [],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": null
+        },
+        "xinfu_jijie": {
+          "id": "xinfu_jijie",
+          "exists": true,
+          "keys": [
+            "enable",
+            "usable",
+            "audio",
+            "content",
+            "ai",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "undefined",
+          "filter": "undefined",
+          "aiKeys": [
+            "order",
+            "result"
+          ],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [
+            "player"
+          ],
+          "aiEffectKeys": [],
+          "aiOrder": 7.2,
+          "aiResultPlayer": 1,
+          "aiResultTarget": null,
+          "aiEffectTarget": null
+        },
+        "xinfu_jiyuan": {
+          "id": "xinfu_jiyuan",
+          "exists": true,
+          "keys": [
+            "trigger",
+            "audio",
+            "getIndex",
+            "filter",
+            "logTarget",
+            "check",
+            "content",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "function",
+          "filter": "function",
+          "aiKeys": [],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [],
+          "aiEffectKeys": [],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": null
+        },
+        "stdshushen": {
+          "id": "stdshushen",
+          "exists": true,
+          "keys": [
+            "audio",
+            "trigger",
+            "getIndex",
+            "cost",
+            "content",
+            "ai",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "undefined",
+          "filter": "undefined",
+          "aiKeys": [
+            "threaten",
+            "expose"
+          ],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [],
+          "aiEffectKeys": [],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": null
+        },
+        "shenzhi": {
+          "id": "shenzhi",
+          "exists": true,
+          "keys": [
+            "audio",
+            "trigger",
+            "check",
+            "filter",
+            "preHidden",
+            "content",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "function",
+          "filter": "function",
+          "aiKeys": [],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [],
+          "aiEffectKeys": [],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": null
+        },
+        "stdxiaoguo": {
+          "id": "stdxiaoguo",
+          "exists": true,
+          "keys": [
+            "audio",
+            "trigger",
+            "filter",
+            "cost",
+            "logTarget",
+            "content",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "undefined",
+          "filter": "function",
+          "aiKeys": [],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [],
+          "aiEffectKeys": [],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": null
+        },
+        "dimeng": {
+          "id": "dimeng",
+          "exists": true,
+          "keys": [
+            "audio",
+            "enable",
+            "usable",
+            "position",
+            "filterCard",
+            "selectCard",
+            "selectTarget",
+            "complexCard",
+            "complexTarget",
+            "filterTarget",
+            "multitarget",
+            "multiline",
+            "content",
+            "check",
+            "ai",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "function",
+          "filter": "undefined",
+          "aiKeys": [
+            "order",
+            "threaten",
+            "expose",
+            "result"
+          ],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [
+            "target"
+          ],
+          "aiEffectKeys": [],
+          "aiOrder": 6,
+          "aiResultPlayer": null,
+          "aiResultTarget": "target(player, target) {\n          const list = [];\n          const num = player.countCards(\"he\");\n          const players = game.filterPlayer();\n          if (ui.selected.targets.length == 0) {\n            for (let i2 = 0; i2 < players.len",
+          "aiEffectTarget": null
+        },
+        "roulin": {
+          "id": "roulin",
+          "exists": true,
+          "keys": [
+            "audio",
+            "audioname",
+            "trigger",
+            "forced",
+            "filter",
+            "check",
+            "content",
+            "ai",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "function",
+          "filter": "function",
+          "aiKeys": [
+            "halfneg",
+            "directHit_ai",
+            "skillTagFilter"
+          ],
+          "directHit_ai": true,
+          "skillTagFilter": "function",
+          "aiResultKeys": [],
+          "aiEffectKeys": [],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": null
+        },
+        "luanwu": {
+          "id": "luanwu",
+          "exists": true,
+          "keys": [
+            "audio",
+            "audioname",
+            "enable",
+            "filter",
+            "limited",
+            "skillAnimation",
+            "animationColor",
+            "filterTarget",
+            "selectTarget",
+            "multiline",
+            "contentBefore",
+            "content",
+            "ai",
+            "skill_id",
+            "mark",
+            "intro",
+            "init",
+            "_priority"
+          ],
+          "check": "undefined",
+          "filter": "function",
+          "aiKeys": [
+            "order",
+            "result"
+          ],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [
+            "player"
+          ],
+          "aiEffectKeys": [],
+          "aiOrder": 1,
+          "aiResultPlayer": "player(player) {\n          if (lib.config.mode == \"identity\" && game.zhu.isZhu && player.identity == \"fan\") {\n            if (game.zhu.hp == 1 && game.zhu.countCards(\"h\") <= 2) {\n              return 1;\n            }\n          }\n          c",
+          "aiResultTarget": null,
+          "aiEffectTarget": null
+        },
+        "tuntian": {
+          "id": "tuntian",
+          "exists": true,
+          "keys": [
+            "audio",
+            "audioname",
+            "trigger",
+            "frequent",
+            "preHidden",
+            "filter",
+            "content",
+            "callback",
+            "marktext",
+            "intro",
+            "onremove",
+            "group",
+            "locked",
+            "subSkill",
+            "ai",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "undefined",
+          "filter": "function",
+          "aiKeys": [
+            "effect",
+            "threaten",
+            "nodiscard",
+            "nolose",
+            "notemp"
+          ],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [],
+          "aiEffectKeys": [
+            "target"
+          ],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": "target(card, player, target, current) {\n          if (typeof card === \"object\" && get.name(card) === \"sha\" && target.mayHaveShan(player, \"use\")) {\n            return [0.6, 0.75];\n          }\n          if (!target.hasFriend() && !player.hasU"
+        },
+        "zhiba": {
+          "id": "zhiba",
+          "exists": true,
+          "keys": [
+            "global",
+            "audioname",
+            "audioname2",
+            "audio",
+            "zhuSkill",
+            "subSkill",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "undefined",
+          "filter": "undefined",
+          "aiKeys": [],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [],
+          "aiEffectKeys": [],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": null
+        },
+        "nzry_kuizhu": {
+          "id": "nzry_kuizhu",
+          "exists": true,
+          "keys": [
+            "audio",
+            "trigger",
+            "filter",
+            "cost",
+            "content",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "undefined",
+          "filter": "function",
+          "aiKeys": [],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [],
+          "aiEffectKeys": [],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": null
+        },
+        "nzry_mingren": {
+          "id": "nzry_mingren",
+          "exists": true,
+          "keys": [
+            "audio",
+            "drawNum",
+            "audioname",
+            "trigger",
+            "forced",
+            "locked",
+            "filter",
+            "content",
+            "marktext",
+            "intro",
+            "onremove",
+            "group",
+            "ai",
+            "subSkill",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "undefined",
+          "filter": "function",
+          "aiKeys": [
+            "notemp"
+          ],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [],
+          "aiEffectKeys": [],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": null
+        },
+        "oljieming": {
+          "id": "oljieming",
+          "exists": true,
+          "keys": [
+            "audio",
+            "audioname2",
+            "trigger",
+            "forceDie",
+            "filter",
+            "getIndex",
+            "cost",
+            "content",
+            "ai",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "undefined",
+          "filter": "function",
+          "aiKeys": [
+            "expose",
+            "maixie",
+            "maixie_hp",
+            "effect"
+          ],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [],
+          "aiEffectKeys": [
+            "target"
+          ],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": "target(card, player, target, current) {\n          if (get.tag(card, \"damage\") && target.hp > 1) {\n            if (player.hasSkillTag(\"jueqing\", false, target)) {\n              return [1, -2];\n            }\n            var max = 0;\n         "
+        },
+        "olhaoshi": {
+          "id": "olhaoshi",
+          "exists": true,
+          "keys": [
+            "audio",
+            "trigger",
+            "filter",
+            "check",
+            "content",
+            "subSkill",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "function",
+          "filter": "function",
+          "aiKeys": [],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [],
+          "aiEffectKeys": [],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": null
+        },
+        "oldimeng": {
+          "id": "oldimeng",
+          "exists": true,
+          "keys": [
+            "audio",
+            "enable",
+            "usable",
+            "filter",
+            "selectTarget",
+            "complexTarget",
+            "filterTarget",
+            "multitarget",
+            "multiline",
+            "content",
+            "ai",
+            "subSkill",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "undefined",
+          "filter": "function",
+          "aiKeys": [
+            "threaten",
+            "pretao",
+            "nokeep",
+            "order",
+            "expose",
+            "result"
+          ],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [
+            "target"
+          ],
+          "aiEffectKeys": [],
+          "aiOrder": 1,
+          "aiResultPlayer": null,
+          "aiResultTarget": "target(player, target) {\n          if (!ui.selected.targets.length) {\n            return -Math.sqrt(target.countCards(\"h\"));\n          }\n          var h1 = ui.selected.targets[0].getCards(\"h\"), h2 = target.getCards(\"h\");\n          if (h2.le",
+          "aiEffectTarget": null
+        },
+        "rehuashen": {
+          "id": "rehuashen",
+          "exists": true,
+          "keys": [
+            "unique",
+            "audio",
+            "trigger",
+            "filter",
+            "cost",
+            "content",
+            "init",
+            "banned",
+            "bannedType",
+            "addHuashen",
+            "addHuashens",
+            "removeHuashen",
+            "drawCharacter",
+            "$createButton",
+            "mark",
+            "intro",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "undefined",
+          "filter": "function",
+          "aiKeys": [],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [],
+          "aiEffectKeys": [],
+          "aiOrder": null,
+          "aiResultPlayer": null,
+          "aiResultTarget": null,
+          "aiEffectTarget": null
+        },
+        "olzhiba2": {
+          "id": "olzhiba2",
+          "exists": true,
+          "keys": [
+            "ai",
+            "enable",
+            "prompt",
+            "filter",
+            "filterTarget",
+            "prepare",
+            "direct",
+            "clearTime",
+            "contentBefore",
+            "content",
+            "skill_id",
+            "_priority"
+          ],
+          "check": "undefined",
+          "filter": "function",
+          "aiKeys": [
+            "order",
+            "result"
+          ],
+          "directHit_ai": null,
+          "skillTagFilter": "undefined",
+          "aiResultKeys": [
+            "target"
+          ],
+          "aiEffectKeys": [],
+          "aiOrder": 1,
+          "aiResultPlayer": null,
+          "aiResultTarget": "target(player, target) {\n          if (player.hasZhuSkill(\"olzhiba\") && !player.hasSkill(\"olzhiba3\") && target.group == \"wu\") {\n            if (player.countCards(\"h\", function(card) {\n              var val = get.value(card);\n              i",
+          "aiEffectTarget": null
+        }
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 4157.5
+    },
+    {
+      "name": "ui-identity",
+      "realUi": true,
+      "windowUiExists": false,
+      "windowUiSame": null,
+      "libUiSame": true,
+      "gameUiSame": null,
+      "selectedDesc": {
+        "value": {
+          "buttons": [],
+          "cards": [],
+          "targets": [
+            "ref: <Node>"
+          ]
+        },
+        "writable": true,
+        "enumerable": true,
+        "configurable": true
+      },
+      "targetsDesc": {
+        "value": [],
+        "writable": true,
+        "enumerable": true,
+        "configurable": true
+      },
+      "beforeLen": 0,
+      "afterLen": 1,
+      "windowAfter": null,
+      "windowSelectedSame": null,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1
+    },
+    {
+      "name": "dimeng-friendly",
+      "attitudes": [
+        [
+          "75027863590",
+          10
+        ],
+        [
+          "50265723591",
+          6
+        ],
+        [
+          "74695553592",
+          6
+        ],
+        [
+          "60505463593",
+          6
+        ]
+      ],
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wuxie",
+            "wuxie"
+          ],
+          "50265723591": [
+            "sha"
+          ],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "dimeng"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "selectedLen": 1,
+      "selectedIds": [
+        "50265723591"
+      ],
+      "source": "target(player, target) {\n          const list = [];\n          const num = player.countCards(\"he\");\n          const players = game.filterPlayer();\n          if (ui.selected.targets.length == 0) {\n            for (let i2 = 0; i2 < players.length; i2++) {\n              if (players[i2] != player && get.attitude(player, players[i2]) > 3) {\n                list.push(players[i2]);\n              }\n            }\n            list.sort(function(a, b) {\n              return a.countCards(\"h\") - b.countCards(\"h\");\n            });\n            if (target == list[0]) {\n              return get.attitude(player,",
+      "uiSame": true,
+      "result": -6,
+      "ok": true,
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wuxie",
+            "wuxie"
+          ],
+          "50265723591": [
+            "sha"
+          ],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "dimeng"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 178.1
+    },
+    {
+      "name": "luanwu-no-zhu",
+      "mode": "identity",
+      "zhu": null,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "ok": false,
+      "error": "TypeError: Cannot read properties of null (reading 'isZhu')",
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1020.6
+    },
+    {
+      "name": "tieji-roulin-tags",
+      "tieji": {
+        "directHit_ai": true,
+        "skillTagFilter": "function"
+      },
+      "roulin": {
+        "directHit_ai": true,
+        "skillTagFilter": "function",
+        "halfneg": true
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 0.6
+    },
+    {
+      "name": "oljieming-maxhp",
+      "attitude": 6,
+      "before": {
+        "hp": {
+          "75027863590": 2,
+          "50265723591": 1,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "result": [
+        1,
+        2
+      ],
+      "ok": true,
+      "after": {
+        "hp": {
+          "75027863590": 2,
+          "50265723591": 1,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1.3
+    },
+    {
+      "name": "shenzhi-check",
+      "full": true,
+      "damaged": true,
+      "before": {
+        "hp": {
+          "75027863590": 2,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wuxie",
+            "wuxie"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 2,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wuxie",
+            "wuxie"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 109.5
+    },
+    {
+      "name": "xinfu-jiyuan-check",
+      "nogainSkill": "zishu",
+      "tag": true,
+      "attitude": 6,
+      "dying": true,
+      "recover": true,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [
+            "zishu"
+          ],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [
+            "zishu"
+          ],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 522.6
+    },
+    {
+      "name": "oldimeng-public",
+      "firstHand": 3,
+      "targetHand": 1,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wuxie",
+            "wuxie",
+            "wuxie"
+          ],
+          "50265723591": [
+            "sha",
+            "sha",
+            "shan"
+          ],
+          "74695553592": [
+            "tao"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "result": 6.920508075688776,
+      "ok": true,
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wuxie",
+            "wuxie",
+            "wuxie"
+          ],
+          "50265723591": [
+            "sha",
+            "sha",
+            "shan"
+          ],
+          "74695553592": [
+            "tao"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 239.6
+    },
+    {
+      "name": "zhiba-hidden",
+      "known": 5,
+      "targetHand": 2,
+      "olzhiba2": 1,
+      "olzhiba2Ok": true,
+      "zhibaGlobal": 1,
+      "zhibaGlobalOk": true,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha",
+            "sha",
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "tao",
+            "tao"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha",
+            "sha",
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "tao",
+            "tao"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1714.8
+    },
+    {
+      "name": "tuntian-viewer",
+      "mayActor": true,
+      "mayAlly": true,
+      "viewer": "50265723591",
+      "score": [
+        0.6,
+        0.75
+      ],
+      "ok": true,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "shan"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "shan"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1090.8
+    },
+    {
+      "name": "retongji-hidden",
+      "attitude": 6,
+      "check": true,
+      "bool": null,
+      "discarded": [],
+      "ok": true,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 1,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wuxie"
+          ],
+          "50265723591": [
+            "wuxie"
+          ],
+          "74695553592": [
+            "sha"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "retongji"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 1,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wuxie"
+          ],
+          "50265723591": [
+            "wuxie"
+          ],
+          "74695553592": [
+            "sha"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "retongji"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 754.1
+    },
+    {
+      "name": "yiji-nogain",
+      "tag": true,
+      "attitudes": {
+        "ally": 6,
+        "enemy1": -4
+      },
+      "ok": true,
+      "choices": [
+        {
+          "bool": true,
+          "targets": [
+            "75027863590:shen_jiangwei"
+          ],
+          "check": null
+        },
+        {
+          "bool": true,
+          "targets": [
+            "75027863590:shen_jiangwei"
+          ],
+          "check": null
+        }
+      ],
+      "before": {
+        "hp": {
+          "75027863590": 3,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "shan",
+            "wuxie"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "wuxie"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "yiji"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 3,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "shan",
+            "wuxie"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "wuxie"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "yiji"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1658.2
+    },
+    {
+      "name": "xinfu-jijie-nogain",
+      "tag": true,
+      "attitudes": {
+        "self": 10,
+        "ally": 6,
+        "enemy1": -4,
+        "enemy2": 6
+      },
+      "ok": true,
+      "choices": [
+        {
+          "bool": true,
+          "targets": [
+            "75027863590:shen_jiangwei"
+          ],
+          "check": null
+        }
+      ],
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "wuxie"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinfu_jijie"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "wuxie"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinfu_jijie"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1194.3
+    },
+    {
+      "name": "stdshushen-nogain",
+      "tag": true,
+      "attitudes": {
+        "self": 10,
+        "ally": 6,
+        "enemy1": -4,
+        "enemy2": -4
+      },
+      "ok": true,
+      "result": {
+        "buttons": [],
+        "cards": [],
+        "targets": [
+          "ref: <Node>"
+        ],
+        "confirm": "ok",
+        "bool": true,
+        "links": []
+      },
+      "choices": [
+        {
+          "bool": true,
+          "targets": [
+            "50265723591:jiachong"
+          ],
+          "check": null
+        }
+      ],
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "stdshushen"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "stdshushen"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1025.7
+    },
+    {
+      "name": "stdxiaoguo-eff",
+      "tag": true,
+      "eff": 6,
+      "ok": true,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "stdxiaoguo"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "stdxiaoguo"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 117.9
+    },
+    {
+      "name": "kuizhu-target",
+      "historyLose": 10,
+      "inStack": false,
+      "chooseNum": 2,
+      "insideEventSame": false,
+      "aiEnemyHp2": true,
+      "aiEnemyHp1": true,
+      "ok": true,
+      "chosen": [
+        "74695553592:hp2"
+      ],
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 2,
+          "60505463593": 1,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_kuizhu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 2,
+          "60505463593": 1,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_kuizhu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1130.2
+    },
+    {
+      "name": "mingren-samecolor",
+      "ok": true,
+      "hasAi": true,
+      "aiCandidate": 87.27272727272727,
+      "chosen": [],
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wuxie",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_mingren_1"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wuxie",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_mingren_1"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 220.7
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,327 @@
+{
+  "generatedAt": "2026-11-13T09:44:18.221Z",
+  "devHead": "1598a41cb7fb1ca03607657da2e6550f72ebe0cb",
+  "acceptanceBranch": "codex/remaining-ten-packs-acceptance",
+  "hostHashes": {
+    "clean": {
+      "standard": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+      "shenhua": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+      "refresh": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+      "sp": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+      "tw": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+    },
+    "patched": {
+      "standard": "614be8c1ee9bcf82e37477ab9a09f1e781dbe2f32c77aa9725446e1689bc9b48",
+      "shenhua": "7b7bb42574cbe06283505e7417217af8e6691aee4f1d824ae61ca6cd28d3a3ed",
+      "refresh": "73fd1f6c1ee90bb6a6e35591249415dd4f23f51fd38864c9d01c9471735e3e01",
+      "sp": "8386e05b611762321acf1730e1387231bb947fae32884335acbd975c8a654e2f",
+      "tw": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+    }
+  },
+  "patchHashes": [
+    [
+      "standard_2008",
+      "d0e233259a1db09c9bfa3e4c686ea4a361bff6956edbadaca1c5341bcea410db",
+      "404e305dc58f8ad964a9764ecc433320af17f6e4\tfix(ai): review standard 2008 and correct tieji and yiji",
+      true
+    ],
+    [
+      "standard_2013",
+      "a70a185ecebb78f2e30afeeea3009b665914fa59f169857081500e9860f8558f",
+      "eba7ded6c925da6b0f8f5ed1812d81d340f0a7e6\tfix(ai): review standard 2013 and protect hidden shan in retongji",
+      true
+    ],
+    [
+      "standard_2019",
+      "bf843e22e9c7085019bb87f94865d29a6873a1b95c4390a24b576f949a931521",
+      "959661831683211f3266f8efa4a05a4c91e4e4fa\tfix(ai): review standard 2019 and improve jijie and jiyuan scoring",
+      true
+    ],
+    [
+      "standard_2023",
+      "d1b7fa5430b9050e7fbf7b405702c45e4883848619ac7c4633508414940e8074",
+      "64df8e6dfb09a56430c487b4edd378edd973fef7\tfix(ai): review standard 2023 and correct xiaoguo and recovery choices",
+      true
+    ],
+    [
+      "shenhua_lin",
+      "ae017875df282cc852cf3a11d4530fb15d906b6c7cdbf87b44a5ea9d09f0bc67",
+      "22e19db1a82c8555a5fa22332a1a409d48be90fe\tfix(ai): review shenhua lin and correct dimeng roulin and luanwu",
+      true
+    ],
+    [
+      "shenhua_shan",
+      "b74fd8d3eec392e7fa9b4e491ad86646705b3b072aea08f5f44d14b19c6abf15",
+      "f091f79ecdd1cd0a4c527a81936f41e1cafba2e7\tfix(ai): review shenhua shan and protect hidden response and compare cards",
+      true
+    ],
+    [
+      "shenhua_yin",
+      "f83fb96114f9b2aa20672f14f6f901c40e71fbcbb4e9a6f620eb4ac9b86b3747",
+      "b79ce0ce3db1d136ec8d8e2e78017d31454b2527\tfix(ai): review shenhua yin and correct kuizhu and mingren choices",
+      true
+    ],
+    [
+      "refresh_huo",
+      "7d7cf2c6b83623deb2e9b7ec10e60d17d26ca949efd1f849a996254f7c707d88",
+      "dcf0dd3d2d9b031c60521ce50ed98cb32e9bef52\tfix(ai): review refresh huo and score oljieming by max hp",
+      true
+    ],
+    [
+      "refresh_lin",
+      "8c3e6c8c138460bb7ef920934a526cf47a7d0029414cce0e3a460abe820ef26c",
+      "92214435d6e98410808eb75613d9028ec91f51fc\tfix(ai): review refresh lin and correct olhaoshi and oldimeng",
+      true
+    ],
+    [
+      "refresh_shan",
+      "306431fa8e7246d2eb3225fc49fbda7a1071cc7940b7ce25708f7549bad54a6e",
+      "a9031aade343ef3e219e733297708ada59a8383b\tfix(ai): review refresh shan and correct huashen and zhiba scoring",
+      true
+    ]
+  ],
+  "probes": [
+    {
+      "pack": "standard_2008",
+      "skill": "tieji 铁骑",
+      "scene": "tieji-roulin-tags",
+      "status": "PASS",
+      "clean": "directHit_ai=true; skillTagFilter=function",
+      "patched": "directHit_ai=null; skillTagFilter=undefined",
+      "note": "移除未公开顶牌读取与必中标签；肉林同场景确认移除 directHit_ai/skillTagFilter"
+    },
+    {
+      "pack": "standard_2008",
+      "skill": "yiji 遗计",
+      "scene": "yiji-nogain",
+      "status": "PASS",
+      "clean": "目标选择为自身（nogain 未生效）",
+      "patched": "目标选择为正常可获牌友方",
+      "note": "真实 damage→yiji content→chooseTarget 调用链；自身与 nogain 友方均被补丁降为 0，正常友方被选中"
+    },
+    {
+      "pack": "standard_2013",
+      "skill": "retongji 同疾",
+      "scene": "retongji-hidden",
+      "status": "PASS",
+      "clean": "check=true（读取同疾拥有者真实手牌）",
+      "patched": "check=false（仅按目标已知牌判断）",
+      "note": "真实 retongji.cost→chooseToDiscard check；隐藏手牌交换后补丁不再依赖未公开信息"
+    },
+    {
+      "pack": "standard_2019",
+      "skill": "xinfu_jijie 机捷",
+      "scene": "xinfu-jijie-nogain",
+      "status": "PASS",
+      "clean": "目标选择为自身",
+      "patched": "目标选择为正常可获牌友方",
+      "note": "真实 xinfu_jijie.content→chooseTarget；自身 nogain 被跳过"
+    },
+    {
+      "pack": "standard_2019",
+      "skill": "xinfu_jiyuan 急援",
+      "scene": "xinfu-jiyuan-check",
+      "status": "PASS",
+      "clean": "recover=true",
+      "patched": "recover=false；dying=true 两侧相同",
+      "note": "真实 check 调用；濒死窗口保留，非濒死 nogain 目标被排除"
+    },
+    {
+      "pack": "standard_2023",
+      "skill": "shenzhi 神智",
+      "scene": "shenzhi-check",
+      "status": "PASS",
+      "clean": "full=true; damaged=true",
+      "patched": "full=false; damaged=true",
+      "note": "满血不再弃整手；受伤分支保留"
+    },
+    {
+      "pack": "standard_2023",
+      "skill": "stdshushen 淑慎",
+      "scene": "stdshushen-nogain",
+      "status": "PASS",
+      "clean": "选择 nogain 友方",
+      "patched": "无合法正常目标时取消",
+      "note": "真实 stdshushen.cost→chooseTarget；补丁不再把 nogain 目标当作正收益"
+    },
+    {
+      "pack": "standard_2023",
+      "skill": "stdxiaoguo 骁果",
+      "scene": "stdxiaoguo-eff",
+      "status": "PASS",
+      "clean": "eff=6",
+      "patched": "eff=-12.15",
+      "note": "真实 stdxiaoguo.cost→chooseToDiscard eff；无装备的 noe 目标不再获得正收益"
+    },
+    {
+      "pack": "shenhua_lin",
+      "skill": "luanwu 乱武",
+      "scene": "luanwu-no-zhu",
+      "status": "PASS",
+      "clean": "TypeError: Cannot read properties of null (reading isZhu)",
+      "patched": "返回 -2.6667，无异常",
+      "note": "P0 无主公场景已关闭"
+    },
+    {
+      "pack": "shenhua_lin",
+      "skill": "roulin 肉林",
+      "scene": "tieji-roulin-tags",
+      "status": "PASS",
+      "clean": "directHit_ai=true; skillTagFilter=function; halfneg=true",
+      "patched": "directHit_ai=null; skillTagFilter=undefined; halfneg=true",
+      "note": "移除错误必中标签，保留 halfneg"
+    },
+    {
+      "pack": "shenhua_lin",
+      "skill": "dimeng 缔盟",
+      "scene": "dimeng-friendly",
+      "status": "INCONCLUSIVE",
+      "clean": "result=-6（未进入空候选分支）",
+      "patched": "result=-6（未进入空候选分支）",
+      "note": "静态补丁含 !list.length guard；真实宿主中技能模块的 ui.selected 与测试页 lib.ui.selected 非同一实例，无法在不替换宿主实现的情况下强制空候选；P0 仍需手工选目标/完整对局确认"
+    },
+    {
+      "pack": "shenhua_shan",
+      "skill": "tuntian 屯田",
+      "scene": "tuntian-viewer",
+      "status": "INCONCLUSIVE",
+      "clean": "[0.6,0.75]; mayActor=true; mayAlly=true",
+      "patched": "[0.6,0.75]; mayActor=true; mayAlly=true",
+      "note": "补丁改为按观察者 mayHaveSha/mayHaveShan 与 getKnownCards 估计；当前固定局两种视角同值，未能构造可观察差异；静态 diff 已核对"
+    },
+    {
+      "pack": "shenhua_shan",
+      "skill": "zhiba 制霸",
+      "scene": "zhiba-hidden",
+      "status": "PASS",
+      "clean": "olzhiba2=1; zhiba_global=1",
+      "patched": "olzhiba2=0; zhiba_global=0",
+      "note": "隐藏高点手牌（13/12）未被公开；补丁不再读取真实点数"
+    },
+    {
+      "pack": "shenhua_yin",
+      "skill": "nzry_kuizhu 溃诛",
+      "scene": "kuizhu-target",
+      "status": "PASS",
+      "clean": "未选出合法伤害目标",
+      "patched": "选出 hp=2 的匹配目标",
+      "note": "真实 phaseDiscard 历史 + 伤害分支 chooseTarget；补丁要求目标体力等于弃牌数；AI 函数上下文由宿主事件提供，单独调用值不作结论"
+    },
+    {
+      "pack": "shenhua_yin",
+      "skill": "nzry_mingren 明任",
+      "scene": "mingren-samecolor",
+      "status": "PASS",
+      "clean": "aiCandidate=87.27",
+      "patched": "aiCandidate=0",
+      "note": "真实 nzry_mingren_1.cost→chooseCard AI；补丁改为统计换后仍留手的同色响应，本固定局无剩余同色牌故为 0"
+    },
+    {
+      "pack": "refresh_huo",
+      "skill": "oljieming 节命",
+      "scene": "oljieming-maxhp",
+      "status": "PASS",
+      "clean": "[1,2]",
+      "patched": "[0,4]",
+      "note": "按体力上限而非当前体力计算受伤补牌收益"
+    },
+    {
+      "pack": "refresh_lin",
+      "skill": "oldimeng 缔盟",
+      "scene": "oldimeng-public",
+      "status": "PASS",
+      "clean": "6.9205",
+      "patched": "2",
+      "note": "目标评分改为公开手牌数差，不再读取未知牌面"
+    },
+    {
+      "pack": "refresh_shan",
+      "skill": "olzhiba2 制霸",
+      "scene": "zhiba-hidden",
+      "status": "PASS",
+      "clean": "olzhiba2=1",
+      "patched": "olzhiba2=0",
+      "note": "隐藏高点手牌；补丁改用 getKnownCards"
+    },
+    {
+      "pack": "refresh_lin",
+      "skill": "olhaoshi 好施",
+      "scene": null,
+      "status": "NOT TESTED",
+      "clean": "-",
+      "patched": "-",
+      "note": "补丁含 ai1 与援助 chooseCard AI 两处；本轮未构造真实交牌/援助固定局"
+    },
+    {
+      "pack": "refresh_shan",
+      "skill": "rehuashen 化身",
+      "scene": null,
+      "status": "NOT TESTED",
+      "clean": "-",
+      "patched": "-",
+      "note": "补丁含阶段控制、制衡按钮、返回过滤三处；本轮未构造真实化身池固定局"
+    }
+  ],
+  "packStatus": [
+    [
+      "standard_2008",
+      "PASS",
+      "tieji/yiji 两项修改技能均有真实宿主差异"
+    ],
+    [
+      "standard_2013",
+      "PASS",
+      "retongji 修改技能有真实宿主差异"
+    ],
+    [
+      "standard_2019",
+      "PASS",
+      "xinfu_jijie/xinfu_jiyuan 均有真实宿主差异"
+    ],
+    [
+      "standard_2023",
+      "PASS",
+      "stdshushen/shenzhi/stdxiaoguo 均有真实宿主差异"
+    ],
+    [
+      "shenhua_lin",
+      "PARTIAL / BLOCKED",
+      "luanwu/roulin PASS；dimeng P0 真实空候选未直接确认"
+    ],
+    [
+      "shenhua_shan",
+      "PARTIAL",
+      "zhiba PASS；tuntian 隐藏信息差异未观察"
+    ],
+    [
+      "shenhua_yin",
+      "PASS",
+      "nzry_kuizhu/nzry_mingren 均有真实宿主差异"
+    ],
+    [
+      "refresh_huo",
+      "PASS",
+      "oljieming 有真实宿主差异"
+    ],
+    [
+      "refresh_lin",
+      "PARTIAL",
+      "oldimeng PASS；olhaoshi 未测"
+    ],
+    [
+      "refresh_shan",
+      "PARTIAL",
+      "olzhiba2 PASS；rehuashen 未测"
+    ]
+  ],
+  "counts": {
+    "total": 20,
+    "pass": 16,
+    "inconclusive": 2,
+    "notTested": 2,
+    "packsPass": 6,
+    "packsPartial": 4
+  },
+  "overall": "PHASE1_PASS_REAL_HOST_PARTIAL",
+  "fullTenPackPass": false
+}
