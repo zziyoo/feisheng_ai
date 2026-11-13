@@ -78,6 +78,7 @@ function reqimouTargets(host, stats, player) {
 		let record = null;
 		try {
 			record = {
+				target,
 				currentlyInRange: !!player.canUse('sha', target),
 				canUseIgnoringDistance: !!player.canUse('sha', target, false),
 				effect: get.effect(target, { name: 'sha' }, player, player),
@@ -91,6 +92,36 @@ function reqimouTargets(host, stats, player) {
 		} catch (e) { record = null; }
 		return record;
 	}).filter(Boolean);
+}
+
+function reqimouHasStockGate(callback) {
+	const source = Function.prototype.toString.call(callback).replace(/\s+/g, '').replace(/'/g, '"');
+	return source === [
+		'player(player){if(player.hp<3){returnfalse;}varmindist=player.hp;',
+		'if(player.countCards("hs",(card)=>player.canSaveCard(card,player))){mindist++;}',
+		'if(game.hasPlayer(function(current){returnget.distance(player,current)<=mindist',
+		'&&player.canUse("sha",current,false)&&get.effect(current,{name:"sha"},player,player)>0;})){return1;}return0;}',
+	].join('');
+}
+
+/* 原生门禁只按体力限定距离。仅在额外射程解锁较明确的攻击收益时补上漏判。 */
+function reqimouLongRangeBenefit(host, player, targets, payment) {
+	if (player.hp - payment < 2 || !(player.getCardUsable('sha') >= 0) || player.hasSkill('undist')) return false;
+	const shas = player.getCards('hs', card => host.cardName(card, player) === 'sha' && lib.filter.cardEnabled(card, player));
+	return targets.some(record => {
+		const { target, attackRange, baseUses, currentlyInRange, distance } = record;
+		if (attackRange <= 1 || currentlyInRange || !(get.attitude(player, target) < 0)) return false;
+		if (target.hasSkill('undist') || target.countCards('hs') || target.getVEquip(2) || target.hasSkillTag('respondShan', true, 'use', true)) return false;
+		// 杀以 inRange 为准。发现特殊修正时不把普通距离公式外推到支付后。
+		if (game.checkMod(player, target, 'unchanged', 'inRange', player) !== 'unchanged' ||
+			game.checkMod(player, target, 'unchanged', 'inRangeOf', target) !== 'unchanged' ||
+			get.distance(player, target, 'attack') !== distance) return false;
+		if (shas.some(card => player.canUse(card, target))) return false;
+		const shaCount = shas.filter(card => player.canUse(card, target, false) &&
+			get.effect(target, card, player, player) > 0 &&
+			game.checkMod(card, player, target, 'unchanged', 'targetInRange', player) === 'unchanged').length;
+		return reqimouOptimalX({ hp: player.hp, shaCount, baseUses, targets: [record] }) === payment;
+	});
 }
 
 function install(host, stats) {
@@ -150,12 +181,15 @@ function install(host, stats) {
 	const info = lib.skill && lib.skill.reqimou;
 	const result = info && info.ai && info.ai.result;
 	if (result && typeof result.player === 'function') {
+		const stockGate = reqimouHasStockGate(result.player);
 		host.wrap(result, 'player', 'reqimou:gate', original => function (player) {
 			const native = original.apply(this, arguments);
 			try {
+				const canPromote = stockGate && native === 0 && player.hp >= 3 && reqimouAttackRange(player) > 1;
+				if (!(Number(native) > 0) && !canPromote) return native;
 				const targets = reqimouTargets(host, stats, player);
 				/* 目标枚举为空说明读局失败，保留原生 gate，不误拦。 */
-				if (Number(native) > 0 && targets.length) {
+				if (targets.length) {
 					if (!reqimouNeedsPayment(targets)) {
 						stats.reqimouGateSkip++;
 						return 0;
@@ -164,10 +198,12 @@ function install(host, stats) {
 					if (!shaCount) return 0;
 					const saveCount = reqimouSaveCount(player);
 					if (saveCount > 0) stats.reqimouSelfRescue++;
-					if (reqimouOptimalX({ hp: player.hp, shaCount, baseUses: reqimouBaseUses(host, stats, player), saveCount, targets }) == null) {
+					const optimal = reqimouOptimalX({ hp: player.hp, shaCount, baseUses: reqimouBaseUses(host, stats, player), saveCount, targets });
+					if (optimal == null) {
 						stats.reqimouInfeasible++;
 						return 0;
 					}
+					if (canPromote && reqimouLongRangeBenefit(host, player, targets, optimal)) return 1;
 				}
 			} catch (e) {}
 			return native;
