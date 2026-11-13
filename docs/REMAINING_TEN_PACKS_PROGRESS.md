@@ -60,3 +60,21 @@
 待验收铁骑红/非红、授钺、改判与不同顶牌可见性，遗计普通牌/毒牌、不能获牌与多点伤害的实际分配。历史界标共用条目的证据见 [界标逐技能审查](skill-ai-quality-20261103/refresh-standard/FULL-SKILL-AUDIT.md)。
 
 分包提交以本分支的单包提交为准，可用 `git log -- docs/remaining-ten-packs/native/standard_2008.patch` 追溯补丁（如有）。
+
+## 标准包·2013版 `standard_2013`
+
+宿主 `character/standard.js` 的角色分组和技能数组与 3 名武将和 5 项登记技能一致。恂恂和忘隙解析到 `character/refresh.js`。下列位置使用 1.11.7 原始行号。
+
+| 武将 | 技能 | 宿主位置与 AI 审查 |
+| --- | --- | --- |
+| 袁术 `re_yuanshu` | `rewangzun` 妄尊 | `standard.js:344`。准备阶段强制比较双方血量，按模式识别明置君主后额外摸牌和减少其手牌上限；`rewangzun2` 的标记由临时技能清除。无独立发动选择。 |
+| 袁术 `re_yuanshu` | `retongji` 同疾 | `standard.js:390`。原目标用弃一张牌换转移杀，宿主处理攻击范围、重复目标和弃置合法性；原支付评分低血分支读取袁术未公开的闪。候选补丁使用原目标视角的 `isAllCardsKnown` 和 `hasKnownCards`，再判断已知无闪的分支。已修复，待宿主验收。 |
+| 李典 `old_re_lidian` | `xunxun` 恂恂 | `refresh.js:16709`。共用界标 ID，嵌套 `processAI` 只排序刚看到的四张牌，保留两张到顶部，另两张到底部。保留。 |
+| 李典 `old_re_lidian` | `wangxi` 忘隙 | `refresh.js:16742`。伤害双方不同且存活，每点伤害各摸一；原 `check` 出牌阶段无条件倾向发动，其他阶段按对手态度阈值。自己受获牌限制、敌方补牌收益更高时可能倒向。界标 `xinwangxi` 与 `junkwangxi` 继承这一 `check` 并结算不同，留待宿主验证后确定版本专用入口。 |
+| 华雄 `huaxiong` | `yaowu` 耀武 | `standard.js:2458`。红杀造成伤害且来源在场时强制，来源以通用 `chooseDrawRecover` 比较实际回血与摸牌。`ai.effect.target` 按红杀附加受伤代价；来源视角与绝情等交互留待宿主对照。保留。 |
+
+候选补丁 [standard_2013.patch](remaining-ten-packs/native/standard_2013.patch) 修复同疾的隐藏牌依赖。对照原始和补丁后的源码回调，未知手牌分别藏闪和杀时旧实现输出不同，修复后输出一致。袁术零手牌或全部手牌已知且无闪时，低血目标仍可倾向转移；已经公开有闪、自己有闪且能转移给敌方的分支也已覆盖。临时宿主源码副本通过 `git apply --check` 与 `node --check`。
+
+待验收原目标自己有闪、濒死危险、已知/未知袁术手牌、虚拟闪、防止杀重复指向袁术、不同模式下妄尊减上限，以及忘隙与界标派生的收益差异。
+
+分包提交以本分支的单包提交为准，可用 `git log -- docs/remaining-ten-packs/native/standard_2013.patch` 追溯补丁（如有）。

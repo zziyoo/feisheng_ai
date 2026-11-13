@@ -1,0 +1,17 @@
+--- a/character/standard.js
++++ b/character/standard.js
+@@ -415,11 +415,9 @@
+           if (get.attitude(trigger.target, player) < 5) {
+             return 6 - get.attitude(trigger.target, player);
+           }
+-          if (trigger.target.hp === 1 && !player.hasCards("h", "shan")) {
+-            return 10 - get.attitude(trigger.target, player);
+-          }
+-          if (trigger.target.hp === 2 && !player.hasCards("h", "shan")) {
+-            return 8 - get.attitude(trigger.target, player);
++          const target = trigger.target;
++          if ((target.hp === 1 || target.hp === 2) && player.isAllCardsKnown(target) && !player.hasKnownCards(target, "shan")) {
++            return (target.hp === 1 ? 10 : 8) - get.attitude(target, player);
+           }
+           return -1;
+         })() > 0
