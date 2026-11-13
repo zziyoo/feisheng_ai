@@ -5,7 +5,7 @@ export const pack = {
 	id: 'shenhua_lei',
 	name: '神话再临·雷',
 	group: 'shenhua',
-	skills: ['olkongsheng', 'xinfu_fuyin', 'drlt_qianjie', 'drlt_zhengu', 'drlt_xiongluan', 'xinfu_zuilun'],
+	skills: ['olkongsheng', 'xinfu_fuyin', 'drlt_qianjie', 'drlt_zhengu', 'drlt_xiongluan', 'xinfu_zuilun', 'twjuxiang'],
 	statsDefaults: { olkongshengCostCalls: 0, olkongshengCompatible: null, zhenguCompatible: null, zhenguEngineHook: null, zhenguScoreCalls: 0, zhenguFallbacks: 0, zhenguHookConflict: 0 },
 	install,
 };
@@ -23,6 +23,7 @@ function install(host, stats) {
 	installZhengu(host, stats);
 	installXiongluan(host);
 	installZuilun(host);
+	installJuxiang(host);
 	const info = lib.skill && lib.skill.olkongsheng;
 	if (!info || typeof info.cost !== 'function') return;
 	const original = info.cost;
@@ -58,6 +59,41 @@ function install(host, stats) {
 			}
 		}
 	});
+}
+
+/* 一血空手者失去最后一件防具会暴露于敌方攻击。保留常规送装和复栏决策。 */
+function installJuxiang(host) {
+	const skill = lib.skill?.twjuxiang_global;
+	if (typeof skill?.check !== 'function' || Function.prototype.toString.call(skill.check).replace(/\s+/g, '') !== 'check(card){returnget.value(card);}') return;
+	host.wrap(skill, 'check', 'twjuxiang:check', original => function (card) {
+		try {
+			const event = get.event();
+			const player = event?.player;
+			if (event?.name === 'chooseToUse' && event.type === 'phase' && event.skill === 'twjuxiang_global'
+				&& player?.group === 'qun' && player.hp === 1 && player.hujia === 0 && player.countCards('h') === 0
+				&& !player.hasSkillTag('noe') && !player.hasSkillTag('nolose') && shouldKeepJuxiangArmor(player, card)) return 0;
+		} catch (_) {}
+		return original.apply(this, arguments);
+	});
+}
+
+function shouldKeepJuxiangArmor(player, card) {
+	if (card?.isViewAsCard || card?.destroyed || !['bagua', 'renwang'].includes(get.name(card, false))) return false;
+	const info = get.info(card, false);
+	if (info?.onLose || info?.onEquip || get.equipValueNumber(card) <= 0) return false;
+	const slots = get.subtypes(card, false);
+	if (slots.length !== 1 || slots[0] !== 'equip2') return false;
+	const equips = player.getVEquips('equip2');
+	const [armor] = equips;
+	if (equips.length !== 1 || armor.name !== card.name || armor.cards?.length !== 1 || armor.cards[0] !== card) return false;
+
+	const targets = game.filterPlayer(target => target !== player && target.hasZhuSkill('twjuxiang', player)
+		&& (target.hasEmptySlot('equip2') || target.hasDisabledSlot('equip2')));
+	if (targets.length !== 1) return false;
+	const [lord] = targets;
+	return lord.hp >= 3 && get.attitude(player, lord) > 0 && lord.hasEmptySlot('equip2')
+		&& !lord.isMin() && lord.canEquip(card)
+		&& game.hasPlayer(enemy => enemy !== player && get.attitude(player, enemy) < 0 && enemy.inRange(player));
 }
 
 /* 雄乱的 countCards 谓词只判断真假，直接累加原评分才能保留八卦权重。 */

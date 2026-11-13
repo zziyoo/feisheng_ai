@@ -242,7 +242,7 @@ export const CODE_PACKS = [
 		id: 'shenhua_lei',
 		module: 'shenhuaLei',
 		rules: 'shenhuaLei',
-		implementedSkills: ['olkongsheng', 'xinfu_fuyin', 'drlt_qianjie', 'drlt_zhengu', 'drlt_xiongluan', 'xinfu_zuilun'],
+		implementedSkills: ['olkongsheng', 'xinfu_fuyin', 'drlt_qianjie', 'drlt_zhengu', 'drlt_xiongluan', 'xinfu_zuilun', 'twjuxiang'],
 		auditedSkills: ['zhengrong', 'hongju', 'dcwanglie', 'drlt_qianjie', 'drlt_jueyan', 'drlt_poshi', 'olliangyin', 'olkongsheng', 'drlt_xiongluan', 'drlt_congjian', 'twjuxiang', 'drlt_yongsi', 'drlt_weidi', 'drlt_zhengu', 'xinfu_zuilun', 'xinfu_fuyin'],
 		scenes: ['kongsheng-stash', 'olkongsheng-array-count', 'olkongsheng-repeat', 'olkongsheng-cost-error'],
 		evidence: [
