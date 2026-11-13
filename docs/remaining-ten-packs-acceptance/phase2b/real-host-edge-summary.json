@@ -1,0 +1,963 @@
+{
+  "generatedAt": "2026-11-13T10:43:33.649Z",
+  "scope": "剩余十包第二阶段：四项未决技能（dimeng/tuntian/olhaoshi/rehuashen）与三个宿主边界（qizhi/reqiaobian/feijun）",
+  "devHead": "1598a41cb7fb1ca03607657da2e6550f72ebe0cb",
+  "acceptanceBaseHead": "075508dd36a484d812b607cea01da5369f71eb7b",
+  "hostHashes": {
+    "clean": {
+      "character/standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+      "character/shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+      "character/refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+      "character/sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+      "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+    },
+    "patched": {
+      "character/standard.js": "614be8c1ee9bcf82e37477ab9a09f1e781dbe2f32c77aa9725446e1689bc9b48",
+      "character/shenhua.js": "7b7bb42574cbe06283505e7417217af8e6691aee4f1d824ae61ca6cd28d3a3ed",
+      "character/refresh.js": "73fd1f6c1ee90bb6a6e35591249415dd4f23f51fd38864c9d01c9471735e3e01",
+      "character/sp.js": "8386e05b611762321acf1730e1387231bb947fae32884335acbd975c8a654e2f",
+      "character/tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+    }
+  },
+  "scenes": {
+    "totalPerHost": 14,
+    "cleanPageErrors": 0,
+    "patchedPageErrors": 0,
+    "cleanExpectedCaughtErrors": [
+      {
+        "name": "edge-dimeng-direct-empty",
+        "error": "TypeError: Cannot read properties of undefined (reading 'countCards')"
+      },
+      {
+        "name": "edge-dimeng-event-empty",
+        "error": "TypeError: Cannot read properties of undefined (reading 'countCards')"
+      }
+    ]
+  },
+  "mainSkills": {
+    "dimeng": {
+      "clean": {
+        "direct": {
+          "ok": false,
+          "error": "TypeError: Cannot read properties of undefined (reading 'countCards')",
+          "selectedAfter": 1
+        },
+        "event": {
+          "ok": false,
+          "sceneOk": false,
+          "error": "TypeError: Cannot read properties of undefined (reading 'countCards')",
+          "selectedAfter": [
+            "50265723591"
+          ]
+        },
+        "legal": {
+          "ok": true,
+          "result": {
+            "bool": true,
+            "targets": [
+              "50265723591:jiachong",
+              "74695553592:dc_zhouxuān"
+            ],
+            "targetHands": [
+              1,
+              3
+            ]
+          },
+          "settlementOk": true,
+          "settlement": {
+            "before": [
+              [
+                "sha"
+              ],
+              [
+                "tao",
+                "shan",
+                "sha"
+              ]
+            ],
+            "after": [
+              [
+                "tao",
+                "shan",
+                "sha"
+              ],
+              [
+                "sha"
+              ]
+            ],
+            "actorHand": []
+          }
+        }
+      },
+      "patched": {
+        "direct": {
+          "ok": true,
+          "result": 0,
+          "selectedAfter": 1
+        },
+        "event": {
+          "ok": true,
+          "result": {
+            "bool": false,
+            "targets": []
+          },
+          "selectedAfter": []
+        },
+        "legal": {
+          "ok": true,
+          "result": {
+            "bool": true,
+            "targets": [
+              "50265723591:jiachong",
+              "74695553592:dc_zhouxuān"
+            ],
+            "targetHands": [
+              1,
+              3
+            ]
+          },
+          "settlementOk": true,
+          "settlement": {
+            "before": [
+              [
+                "sha"
+              ],
+              [
+                "tao",
+                "shan",
+                "sha"
+              ]
+            ],
+            "after": [
+              [
+                "tao",
+                "shan",
+                "sha"
+              ],
+              [
+                "sha"
+              ]
+            ],
+            "actorHand": []
+          }
+        }
+      },
+      "evidenceLevel": "A",
+      "verdict": "PASS：空候选在真实 chooseTarget 事件中可触发并已被补丁消除；合法非空候选与交换结算不变。"
+    },
+    "tuntian": {
+      "clean": {
+        "caseShaTao": {
+          "hand": [
+            "sha",
+            "tao"
+          ],
+          "knownByActor": 0,
+          "knownByViewer": 0,
+          "viewer": "50265723591",
+          "juedou": [
+            0.5,
+            1
+          ],
+          "juedouOk": true,
+          "sha": [
+            0.6,
+            0.75
+          ],
+          "shaOk": true,
+          "effectJuedou": -1.225062498405694,
+          "effectOk": true
+        },
+        "caseShaSha": {
+          "hand": [
+            "sha",
+            "sha"
+          ],
+          "knownByActor": 0,
+          "knownByViewer": 0,
+          "viewer": "50265723591",
+          "juedou": [
+            0.5,
+            2
+          ],
+          "juedouOk": true,
+          "sha": [
+            0.5,
+            2
+          ],
+          "shaOk": true,
+          "effectJuedou": -6.125312492028469,
+          "effectOk": true
+        },
+        "caseShanTao": {
+          "hand": [
+            "shan",
+            "tao"
+          ],
+          "knownByActor": 0,
+          "knownByViewer": 0,
+          "viewer": "50265723591",
+          "juedou": [
+            0.5,
+            1
+          ],
+          "juedouOk": true,
+          "sha": [
+            0.6,
+            0.75
+          ],
+          "shaOk": true,
+          "effectJuedou": -1.225062498405694,
+          "effectOk": true
+        }
+      },
+      "patched": {
+        "caseShaTao": {
+          "hand": [
+            "sha",
+            "tao"
+          ],
+          "knownByActor": 0,
+          "knownByViewer": 0,
+          "viewer": "50265723591",
+          "juedou": [
+            0.5,
+            0.9880952380952381
+          ],
+          "juedouOk": true,
+          "sha": [
+            0.6,
+            0.75
+          ],
+          "shaOk": true,
+          "effectJuedou": -1.1667261889578038,
+          "effectOk": true
+        },
+        "caseShaSha": {
+          "hand": [
+            "sha",
+            "sha"
+          ],
+          "knownByActor": 0,
+          "knownByViewer": 0,
+          "viewer": "50265723591",
+          "juedou": [
+            0.5,
+            0.9880952380952381
+          ],
+          "juedouOk": true,
+          "sha": [
+            0.5,
+            0.9880952380952381
+          ],
+          "shaOk": true,
+          "effectJuedou": -1.1667261889578038,
+          "effectOk": true
+        },
+        "caseShanTao": {
+          "hand": [
+            "shan",
+            "tao"
+          ],
+          "knownByActor": 0,
+          "knownByViewer": 0,
+          "viewer": "50265723591",
+          "juedou": [
+            0.5,
+            0.9880952380952381
+          ],
+          "juedouOk": true,
+          "sha": [
+            0.6,
+            0.75
+          ],
+          "shaOk": true,
+          "effectJuedou": -1.1667261889578038,
+          "effectOk": true
+        }
+      },
+      "evidenceLevel": "A",
+      "verdict": "PASS：公开信息相同、隐藏牌面不同时，原宿主 juedou 估值 1/2 随暗牌变化，补丁稳定为 0.9881；get.effect 同步稳定。"
+    },
+    "olhaoshi": {
+      "clean": {
+        "give": {
+          "ai1": 0.16666666666666666,
+          "chosenTarget": [
+            "74695553592"
+          ],
+          "chosenCards": [
+            "wuxie",
+            "sha",
+            "tao"
+          ]
+        },
+        "help": {
+          "aiShan": 0,
+          "aiTao": 0,
+          "result": {
+            "bool": false,
+            "cards": []
+          },
+          "afterActorHand": [
+            "tao"
+          ]
+        }
+      },
+      "patched": {
+        "give": {
+          "ai1": 2,
+          "chosenTarget": [
+            "74695553592"
+          ],
+          "chosenCards": [
+            "wuzhong",
+            "wuxie",
+            "wuxie"
+          ]
+        },
+        "help": {
+          "aiShan": 2,
+          "aiTao": 0,
+          "result": {
+            "bool": true,
+            "cards": [
+              "shan"
+            ]
+          },
+          "afterActorHand": [
+            "shan",
+            "tao"
+          ]
+        }
+      },
+      "evidenceLevel": "A",
+      "verdict": "PASS：并列最低目标首位为敌方时，原宿主只检查首位而漏掉友方；补丁正确识别全部目标。援助回调原宿主不交闪，补丁交出闪。"
+    },
+    "rehuashen": {
+      "clean": {
+        "legal": {
+          "ok": true,
+          "cycles": [
+            {
+              "triggername": "phaseBegin",
+              "costResult": {
+                "bool": true,
+                "cost_data": "替换当前化身"
+              },
+              "controls": [
+                {
+                  "cond": "phaseBegin",
+                  "controls": [
+                    "替换当前化身",
+                    "制衡其他化身",
+                    "cancel2"
+                  ]
+                },
+                {
+                  "cond": "phaseBegin",
+                  "controls": [
+                    "oldingxi",
+                    "olnengchen",
+                    "olhuojie",
+                    "返回"
+                  ]
+                }
+              ],
+              "storage": {
+                "character": [
+                  "wupu",
+                  "clan_xunshuang",
+                  "ol_jsrg_caocao"
+                ],
+                "current": "ol_jsrg_caocao",
+                "current2": "oldingxi",
+                "choosed": [
+                  "ol_jsrg_caocao"
+                ],
+                "currentLegal": true
+              }
+            },
+            {
+              "triggername": "phaseEnd",
+              "costResult": {
+                "bool": true,
+                "cost_data": "替换当前化身"
+              },
+              "controls": [
+                {
+                  "cond": "phaseEnd",
+                  "controls": [
+                    "替换当前化身",
+                    "制衡其他化身",
+                    "cancel2"
+                  ]
+                },
+                {
+                  "cond": "phaseEnd",
+                  "controls": [
+                    "clanyangji",
+                    "clandandao",
+                    "clanqingli",
+                    "clandaojie",
+                    "返回"
+                  ]
+                }
+              ],
+              "storage": {
+                "character": [
+                  "wupu",
+                  "clan_xunshuang",
+                  "ol_jsrg_caocao"
+                ],
+                "current": "clan_xunshuang",
+                "current2": "clandaojie",
+                "choosed": [
+                  "ol_jsrg_caocao",
+                  "clan_xunshuang"
+                ],
+                "currentLegal": true
+              }
+            }
+          ],
+          "rawVsMap": {
+            "wupu": {
+              "raw": [
+                "dcduanti",
+                "dcshicao"
+              ],
+              "mapped": [
+                "dcduanti",
+                "dcshicao"
+              ],
+              "excluded": []
+            },
+            "clan_xunshuang": {
+              "raw": [
+                "clanyangji",
+                "clandandao",
+                "clanqingli",
+                "clandaojie"
+              ],
+              "mapped": [
+                "clanyangji",
+                "clandandao",
+                "clanqingli",
+                "clandaojie"
+              ],
+              "excluded": []
+            },
+            "ol_jsrg_caocao": {
+              "raw": [
+                "oldingxi",
+                "olnengchen",
+                "olhuojie"
+              ],
+              "mapped": [
+                "oldingxi",
+                "olnengchen",
+                "olhuojie"
+              ],
+              "excluded": []
+            }
+          },
+          "ranks": {
+            "wupu": [
+              [
+                "dcduanti",
+                1,
+                1
+              ],
+              [
+                "dcshicao",
+                1.5,
+                1
+              ]
+            ],
+            "clan_xunshuang": [
+              [
+                "clanyangji",
+                1.5,
+                1.1
+              ],
+              [
+                "clandandao",
+                1,
+                1.1
+              ],
+              [
+                "clanqingli",
+                1,
+                1.1
+              ],
+              [
+                "clandaojie",
+                1.3,
+                1
+              ]
+            ],
+            "ol_jsrg_caocao": [
+              [
+                "oldingxi",
+                1.55,
+                1.5
+              ],
+              [
+                "olnengchen",
+                0,
+                0
+              ],
+              [
+                "olhuojie",
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "empty": {
+          "legalCharacterCount": 3,
+          "legalFilter": true,
+          "emptyFilter": false,
+          "result": {
+            "bool": true,
+            "cost_data": "制衡其他化身"
+          }
+        }
+      },
+      "patched": {
+        "legal": {
+          "ok": true,
+          "cycles": [
+            {
+              "triggername": "phaseBegin",
+              "costResult": {
+                "bool": true,
+                "cost_data": "替换当前化身"
+              },
+              "controls": [
+                {
+                  "cond": "in",
+                  "controls": [
+                    "替换当前化身",
+                    "制衡其他化身",
+                    "cancel2"
+                  ]
+                },
+                {
+                  "cond": "in",
+                  "controls": [
+                    "dcsbqinqiang",
+                    "dcsbyizhen",
+                    "返回"
+                  ]
+                }
+              ],
+              "storage": {
+                "character": [
+                  "dc_sb_xusheng",
+                  "ren_jiangwei",
+                  "clan_zhongyan"
+                ],
+                "current": "dc_sb_xusheng",
+                "current2": "dcsbqinqiang",
+                "choosed": [
+                  "dc_sb_xusheng"
+                ],
+                "currentLegal": true
+              }
+            },
+            {
+              "triggername": "phaseEnd",
+              "costResult": {
+                "bool": true,
+                "cost_data": "替换当前化身"
+              },
+              "controls": [
+                {
+                  "cond": "out",
+                  "controls": [
+                    "替换当前化身",
+                    "制衡其他化身",
+                    "cancel2"
+                  ]
+                },
+                {
+                  "cond": "out",
+                  "controls": [
+                    "dcsbqinqiang",
+                    "dcsbyizhen",
+                    "返回"
+                  ]
+                }
+              ],
+              "storage": {
+                "character": [
+                  "dc_sb_xusheng",
+                  "ren_jiangwei",
+                  "clan_zhongyan"
+                ],
+                "current": "dc_sb_xusheng",
+                "current2": "dcsbyizhen",
+                "choosed": [
+                  "dc_sb_xusheng"
+                ],
+                "currentLegal": true
+              }
+            }
+          ],
+          "rawVsMap": {
+            "dc_sb_xusheng": {
+              "raw": [
+                "dcsbqinqiang",
+                "dcsbyizhen"
+              ],
+              "mapped": [
+                "dcsbqinqiang",
+                "dcsbyizhen"
+              ],
+              "excluded": []
+            },
+            "ren_jiangwei": {
+              "raw": [
+                "renhuoluan",
+                "renguxing"
+              ],
+              "mapped": [
+                "renhuoluan"
+              ],
+              "excluded": [
+                "renguxing"
+              ]
+            },
+            "clan_zhongyan": {
+              "raw": [
+                "clanguangu",
+                "clanxiaoyong",
+                "clanbaozu"
+              ],
+              "mapped": [
+                "clanguangu",
+                "clanxiaoyong"
+              ],
+              "excluded": [
+                "clanbaozu"
+              ]
+            }
+          },
+          "ranks": {
+            "dc_sb_xusheng": [
+              [
+                "dcsbqinqiang",
+                1.3,
+                1
+              ],
+              [
+                "dcsbyizhen",
+                1,
+                1.1
+              ]
+            ],
+            "ren_jiangwei": [
+              [
+                "renhuoluan",
+                1.5,
+                1
+              ]
+            ],
+            "clan_zhongyan": [
+              [
+                "clanguangu",
+                1.5,
+                1
+              ],
+              [
+                "clanxiaoyong",
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "empty": {
+          "legalCharacterCount": 3,
+          "legalFilter": true,
+          "emptyFilter": false,
+          "result": {
+            "bool": false,
+            "cost_data": "cancel2"
+          }
+        }
+      },
+      "evidenceLevel": "A/B",
+      "verdict": "PASS：合法化身池两轮 phaseBegin/phaseEnd 均完成，补丁使用 in/out 排名且只选合法地图技能；空池阶段过滤器为 false，人工空态下补丁安全 cancel2（空池不可由阶段触发合法到达）。"
+    }
+  },
+  "boundaries": {
+    "attribution": {
+      "qizhi": "十份原生补丁均无 qizhi 命中；宿主原生 character/sp.js。",
+      "reqiaobian": "十份原生补丁均无 reqiaobian 命中；宿主原生 character/refresh.js。",
+      "feijun": "十份原生补丁均无 nzry_feijun 命中；shenhua_yin.patch 的 2557 行上下文属于 nzry_kuizhu，不是 feijun。"
+    },
+    "qizhi": {
+      "clean": {
+        "mixed": {
+          "beforeTarget": {
+            "hand": [
+              "tao"
+            ],
+            "equip": [
+              "bagua"
+            ],
+            "protected": true
+          },
+          "discardable": [
+            "tao"
+          ],
+          "nonDiscardable": [
+            "bagua"
+          ],
+          "costResult": {
+            "bool": true,
+            "targets": [
+              "60505463593"
+            ]
+          },
+          "afterTarget": {
+            "hand": [
+              "shan"
+            ],
+            "equip": [
+              "bagua"
+            ],
+            "protected": true
+          }
+        },
+        "protectedOnly": {
+          "beforeTarget": {
+            "hand": [],
+            "equip": [
+              "bagua"
+            ],
+            "protected": true
+          },
+          "discardable": [],
+          "costResult": {
+            "bool": true,
+            "targets": [
+              "60505463593"
+            ]
+          },
+          "afterTarget": {
+            "hand": [
+              "wuxie"
+            ],
+            "equip": [
+              "bagua"
+            ],
+            "protected": true
+          }
+        }
+      },
+      "patched": {
+        "mixed": {
+          "beforeTarget": {
+            "hand": [
+              "tao"
+            ],
+            "equip": [
+              "bagua"
+            ],
+            "protected": true
+          },
+          "discardable": [
+            "tao"
+          ],
+          "nonDiscardable": [
+            "bagua"
+          ],
+          "costResult": {
+            "bool": true,
+            "targets": [
+              "60505463593"
+            ]
+          },
+          "afterTarget": {
+            "hand": [
+              "shan"
+            ],
+            "equip": [
+              "bagua"
+            ],
+            "protected": true
+          }
+        },
+        "protectedOnly": {
+          "beforeTarget": {
+            "hand": [],
+            "equip": [
+              "bagua"
+            ],
+            "protected": true
+          },
+          "discardable": [],
+          "costResult": {
+            "bool": true,
+            "targets": [
+              "60505463593"
+            ]
+          },
+          "afterTarget": {
+            "hand": [
+              "wuxie"
+            ],
+            "equip": [
+              "bagua"
+            ],
+            "protected": true
+          }
+        }
+      },
+      "conclusion": "宿主原生 P2：混合牌时只弃可弃牌并保留受保护装备；全部受保护时弃置 0 张但仍摸 1 张。补丁未修改。"
+    },
+    "reqiaobian": {
+      "clean": {
+        "cases": {
+          "judgeOnly": {
+            "filterJudge": true,
+            "filterDraw": false,
+            "filter": true,
+            "cancelled": false,
+            "handAfter": [
+              "sha"
+            ],
+            "ok": true
+          },
+          "drawOnly": {
+            "filterJudge": false,
+            "filterDraw": true,
+            "filter": false,
+            "contentSkippedByFilter": true,
+            "ownContextWouldAllow": true,
+            "cancelled": false,
+            "handAfter": [
+              "sha"
+            ],
+            "ok": true
+          },
+          "allContexts": {
+            "filterJudge": true,
+            "filterDraw": true,
+            "filter": true,
+            "cancelled": true,
+            "handAfter": [
+              "shan",
+              "tao"
+            ],
+            "ok": true
+          }
+        }
+      },
+      "patched": {
+        "cases": {
+          "judgeOnly": {
+            "filterJudge": true,
+            "filterDraw": false,
+            "filter": true,
+            "cancelled": false,
+            "handAfter": [
+              "sha"
+            ],
+            "ok": true
+          },
+          "drawOnly": {
+            "filterJudge": false,
+            "filterDraw": true,
+            "filter": false,
+            "contentSkippedByFilter": true,
+            "ownContextWouldAllow": true,
+            "cancelled": false,
+            "handAfter": [
+              "sha"
+            ],
+            "ok": true
+          },
+          "allContexts": {
+            "filterJudge": true,
+            "filterDraw": true,
+            "filter": true,
+            "cancelled": true,
+            "handAfter": [
+              "shan",
+              "tao"
+            ],
+            "ok": true
+          }
+        }
+      },
+      "conclusion": "宿主原生 P2：过滤器固定使用 reqiaobian_judge 上下文。仅弃牌上下文为 draw 的牌可弃时过滤器 false，合法跳过机会被漏掉；仅 judge 可弃时过滤器通过但只提供取消，无非法跳过。"
+    },
+    "feijun": {
+      "clean": {
+        "postpay": {
+          "aiBefore": null,
+          "filterBefore": true,
+          "afterActorHand": 3,
+          "afterEnemyHand": 0,
+          "storage": [
+            "74695553592"
+          ],
+          "binglveMarker": true
+        },
+        "noTarget": {
+          "filter": true,
+          "afterActorHand": 0,
+          "storage": []
+        }
+      },
+      "patched": {
+        "postpay": {
+          "aiBefore": null,
+          "filterBefore": true,
+          "afterActorHand": 3,
+          "afterEnemyHand": 0,
+          "storage": [
+            "74695553592"
+          ],
+          "binglveMarker": true
+        },
+        "noTarget": {
+          "filter": true,
+          "afterActorHand": 0,
+          "storage": []
+        }
+      },
+      "conclusion": "宿主原生 P2：支付前 1 手对 1 手时 AI 返回空、不会发动；支付后目标合法，实际取得一张并触发兵略摸二。无合法目标时安全结束。补丁未修改。"
+    }
+  },
+  "packStatus": {
+    "standard_2008": "PASS",
+    "standard_2013": "PASS",
+    "standard_2019": "PASS",
+    "standard_2023": "PASS",
+    "shenhua_lin": "PASS",
+    "shenhua_shan": "PASS",
+    "shenhua_yin": "PASS（宿主原生 qizhi/feijun P2 保留）",
+    "refresh_huo": "PASS",
+    "refresh_lin": "PASS",
+    "refresh_shan": "PASS（宿主原生 reqiaobian P2 保留）"
+  },
+  "openP0P1": [],
+  "p2": [
+    "qizhi：全部牌受保护时仍摸一张（宿主原生，未改）",
+    "reqiaobian：filter 使用 reqiaobian_judge 上下文，draw 上下文可弃时可能漏触发（宿主原生，未改）",
+    "feijun：AI 发动评分用支付前张数，支付后合法的目标被漏估（宿主原生，未改）",
+    "rehuashen：空化身池仅能由人工破坏状态构造；阶段过滤器阻断，补丁为防御性 cancel2",
+    "其他开发台账 P2 未在本轮逐项重审"
+  ],
+  "combinationGate": {
+    "executed": false,
+    "canEnter": true,
+    "note": "十包原生补丁范围达到交付门禁；十包原生 + 旧六包扩展的受支持组合尚未执行，本轮不声明十六包兼容 PASS。"
+  }
+}

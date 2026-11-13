@@ -1,5 +1,7 @@
 # 剩余十包独立验收 - 真实宿主报告
 
+> **历史记录说明（2026-11-13 第二阶段专项验收后）**：本文件保留第一阶段 20 项探针结果，其中 `dimeng`、`tuntian` 的 INCONCLUSIVE 与 `olhaoshi`、`rehuashen` 的 NOT TESTED 已在 `../phase2b/real-host-edge-report.md` 中用真实宿主固定局复验；`dimeng` 的“ui.selected 非同一实例”判断已被更正。当前十包状态以 `../phase2b/real-host-edge-summary.json` 为准。
+
 生成时间：2026-11-13T09:44:18.220Z
 
 ## 1. 环境与对象

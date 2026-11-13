@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-13T09:44:18.226Z",
+  "generatedAt": "2026-11-13T10:44:47.586Z",
   "devHead": "1598a41cb7fb1ca03607657da2e6550f72ebe0cb",
   "acceptanceBranch": "codex/remaining-ten-packs-acceptance",
   "deliveryRoute": "native-ai-patches-only; no extension ZIPs",
-  "overall": "PHASE1_PASS_REAL_HOST_PARTIAL",
-  "fullTenPackPass": false,
+  "overall": "PHASE1_PASS_TEN_PACK_PATCH_SCOPE_PASS_P2_OPEN",
+  "fullTenPackPass": true,
   "patches": [
     {
       "pack": "standard_2008",
@@ -126,8 +126,8 @@
     },
     {
       "file": "docs/remaining-ten-packs-acceptance/phase2/real-host-report.md",
-      "size": 10456,
-      "sha256": "46c6bec70ed4f356ba83c4198b92f7fd5e90e1b7a8098a6b51d1de97aa4750ac"
+      "size": 10886,
+      "sha256": "2e814d815cac67202135c4a9fc4fcd1fac7c691e7a748649eb2a7ff40f16b67e"
     },
     {
       "file": "docs/remaining-ten-packs-acceptance/phase2/real-host-summary.json",
@@ -146,20 +146,67 @@
     },
     {
       "file": "docs/remaining-ten-packs-acceptance/host/run-host.mjs",
-      "size": 23225,
-      "sha256": "399dcb8adecc47f65eefca91bf8b43c487ee5ca45cac34dcb2d4254d62952842"
+      "size": 24050,
+      "sha256": "19d2eccbc74bcdd91ac200a764213cc47837117c61945ec98342384ec56a299f"
     },
     {
       "file": "docs/remaining-ten-packs-acceptance/host/ten-pack-scenes.mjs",
       "size": 23452,
       "sha256": "26d0eb6912a3044098a98b0722bf1c756ccf1ebecba2d6253b1c412b485f7ce0"
+    },
+    {
+      "file": "docs/remaining-ten-packs-acceptance/host/edge-scenes.mjs",
+      "size": 38000,
+      "sha256": "11dafe48607958a70551cfef366f28edce8991da426a6ed0ec38b1c0e7d42434"
+    },
+    {
+      "file": "docs/remaining-ten-packs-acceptance/host/evidence/edge-clean.json",
+      "size": 56362,
+      "sha256": "0174f815389c1ece87e4a325c2f8836194917acb0993a671a3778c3d8b9ddcf1"
+    },
+    {
+      "file": "docs/remaining-ten-packs-acceptance/host/evidence/edge-patched.json",
+      "size": 53734,
+      "sha256": "6fd065b1979b6af83a39aa61df165471d6069d75901497c70d7d8c7db470b810"
+    },
+    {
+      "file": "docs/remaining-ten-packs-acceptance/phase2b/real-host-edge-report.md",
+      "size": 15549,
+      "sha256": "1468637ceda0c4ce641f3daeb0dec2ebb8a4bab462060d39309ad11cfecdb2fe"
+    },
+    {
+      "file": "docs/remaining-ten-packs-acceptance/phase2b/real-host-edge-summary.json",
+      "size": 25194,
+      "sha256": "c9cc74bb7485579908732f2b37f5033c1433c3e03b76d68395351397d2c5886d"
     }
   ],
-  "blockers": [
-    "shenhua_lin dimeng empty-candidate P0 real-host manual selection not directly confirmed",
-    "shenhua_shan tuntian hidden-viewer difference not observed",
-    "refresh_lin olhaoshi real-host fixed scenario not executed",
-    "refresh_shan rehuashen real-host fixed scenario not executed",
-    "qizhi protected-card, reqiaobian discard context, feijun post-payment, huashen empty pool, old six-pack coexistence, full 81/164 matrix not covered"
+  "blockers": [],
+  "fullTenPackScope": "ten native AI patches only; host-native P2 retained; no extension ZIPs",
+  "sixteenPackCombinationPass": false,
+  "p2Closed": false,
+  "phase2b": {
+    "status": "PASS",
+    "scope": "dimeng/tuntian/olhaoshi/rehuashen + qizhi/reqiaobian/feijun",
+    "report": "docs/remaining-ten-packs-acceptance/phase2b/real-host-edge-report.md",
+    "summary": "docs/remaining-ten-packs-acceptance/phase2b/real-host-edge-summary.json",
+    "evidence": [
+      "docs/remaining-ten-packs-acceptance/host/evidence/edge-clean.json",
+      "docs/remaining-ten-packs-acceptance/host/evidence/edge-patched.json"
+    ],
+    "openP0P1": [],
+    "p2": [
+      "qizhi protected-only free draw (host-native)",
+      "reqiaobian judge-context filter mismatch (host-native)",
+      "feijun pre-payment AI underestimate (host-native)",
+      "rehuashen empty pool artificial/unreachable via phase trigger",
+      "other ledger P2 not re-audited"
+    ],
+    "combinationGate": "ready to enter; not executed"
+  },
+  "resolvedBlockers": [
+    "shenhua_lin dimeng empty-candidate P0 reproduced in real chooseTarget and fixed",
+    "shenhua_shan tuntian hidden-viewer leak reproduced and fixed",
+    "refresh_lin olhaoshi give/help callbacks reproduced and fixed",
+    "refresh_shan rehuashen legal two-cycle selection verified; empty-pool guard verified as defensive"
   ]
 }

@@ -1,6 +1,6 @@
 # 剩余十包独立验收 - 交付产物与兼容性说明
 
-生成时间：2026-11-13T09:44:18.226Z
+生成时间：2026-11-13（第二阶段专项验收后更新）
 
 ## 交付路线
 
@@ -41,18 +41,39 @@ git -c core.autocrlf=false apply -R <补丁>
 | --- | ---: | --- |
 | `docs/remaining-ten-packs-acceptance/phase1/phase1-report.md` | 3383 | `caa502bd0a0326dcf805b202c1209cbe02a12be5bc68ba0a24f0e873bdf90284` |
 | `docs/remaining-ten-packs-acceptance/phase1/phase1-results.json` | 61307 | `4ecc114142fe5fb44fd707bef1864160d082f6af83a1bfbb247040f64445526b` |
-| `docs/remaining-ten-packs-acceptance/phase2/real-host-report.md` | 10456 | `46c6bec70ed4f356ba83c4198b92f7fd5e90e1b7a8098a6b51d1de97aa4750ac` |
+| `docs/remaining-ten-packs-acceptance/phase2/real-host-report.md` | 10886 | `2e814d815cac67202135c4a9fc4fcd1fac7c691e7a748649eb2a7ff40f16b67e` |
 | `docs/remaining-ten-packs-acceptance/phase2/real-host-summary.json` | 11476 | `d49f9d5b82bb8b8ebe822f314df9f1fc97b577cee706633204fcbe05fbd790b6` |
 | `docs/remaining-ten-packs-acceptance/host/evidence/real-host-clean.json` | 50350 | `d0fc87472e65b69a56b64a80a021048816f37ae05628b1923f648f3b060845c3` |
 | `docs/remaining-ten-packs-acceptance/host/evidence/real-host-patched.json` | 49961 | `83548fca5c267cd38225b61fb8c9a38eaaa3137fd477aa86ff0ff55822b99c25` |
-| `docs/remaining-ten-packs-acceptance/host/run-host.mjs` | 23225 | `399dcb8adecc47f65eefca91bf8b43c487ee5ca45cac34dcb2d4254d62952842` |
+| `docs/remaining-ten-packs-acceptance/host/run-host.mjs` | 24050 | `19d2eccbc74bcdd91ac200a764213cc47837117c61945ec98342384ec56a299f` |
 | `docs/remaining-ten-packs-acceptance/host/ten-pack-scenes.mjs` | 23452 | `26d0eb6912a3044098a98b0722bf1c756ccf1ebecba2d6253b1c412b485f7ce0` |
+| `docs/remaining-ten-packs-acceptance/host/edge-scenes.mjs` | 38000 | `11dafe48607958a70551cfef366f28edce8991da426a6ed0ec38b1c0e7d42434` |
+| `docs/remaining-ten-packs-acceptance/host/evidence/edge-clean.json` | 56362 | `0174f815389c1ece87e4a325c2f8836194917acb0993a671a3778c3d8b9ddcf1` |
+| `docs/remaining-ten-packs-acceptance/host/evidence/edge-patched.json` | 53734 | `6fd065b1979b6af83a39aa61df165471d6069d75901497c70d7d8c7db470b810` |
+| `docs/remaining-ten-packs-acceptance/phase2b/real-host-edge-report.md` | 15549 | `1468637ceda0c4ce641f3daeb0dec2ebb8a4bab462060d39309ad11cfecdb2fe` |
+| `docs/remaining-ten-packs-acceptance/phase2b/real-host-edge-summary.json` | 25194 | `c9cc74bb7485579908732f2b37f5033c1433c3e03b76d68395351397d2c5886d` |
+
+## 第二阶段专项验收（2026-11-13）
+
+`phase2b/real-host-edge-report.md` 与 `phase2b/real-host-edge-summary.json` 覆盖 4 项未决技能和 3 个宿主边界：
+
+- `dimeng`：真实 `chooseTarget` 空候选在干净宿主抛 `countCards` TypeError；补丁正常取消。合法非空候选选中双目标并完成手牌交换，结算不变。
+- `tuntian`：公开信息相同、隐藏牌面不同（杀+桃 / 杀+杀 / 闪+桃）时，干净宿主 `juedou` 估值 1/2 随暗牌变化；补丁稳定为 0.9881。
+- `olhaoshi`：并列最低目标首位为敌方时，干净宿主 `ai1=0.1667` 且漏掉友方；补丁 `ai1=2`。援助回调干净宿主不交闪，补丁交闪。
+- `rehuashen`：合法池两轮 `phaseBegin/phaseEnd` 选择完成；干净 cond 为 `phaseBegin/phaseEnd`，补丁为 `in/out`，且只选 map 内合法技能；人工空池干净返回“制衡其他化身”，补丁 `cancel2`。
+- `qizhi`：全部牌受保护时仍摸 1 张（宿主原生 P2）。
+- `reqiaobian`：过滤器复用 `reqiaobian_judge` 上下文，draw 上下文可弃时漏触发；仅 judge 可弃时安全取消（宿主原生 P2）。
+- `feijun`：支付前 AI 返回空、漏估；支付后实际取得 1 张并触发兵略摸 2；无目标安全结束（宿主原生 P2）。
+
+`qizhi`、`reqiaobian`、`nzry_feijun` 均不出现在十份补丁中；三者为宿主原生边界，不作为补丁回归。
 
 ## 状态与限制
 
 - Phase 1：十份补丁独立/累计应用、四文件语法、逆向恢复、原始字节恢复、HEAD 一致性、LF 检查全部 PASS。
-- 真实宿主：16 项 PASS、2 项 INCONCLUSIVE（dimeng、tuntian）、2 项 NOT TESTED（olhaoshi、rehuashen）；按分包 6 PASS / 4 PARTIAL。
-- **不宣布“剩余10个分包最终内部交付 PASS”**；P0/P1 阻塞项与未覆盖边界见 `phase2/real-host-report.md`。
-- 未 push、未合并、未创建 Release/Tag；P2 未关闭；P2 沿用开发台账。
+- 真实宿主第一阶段：16 项 PASS、2 项 INCONCLUSIVE、2 项 NOT TESTED；第二阶段专项验收已解决四项阻塞。
+- 十包原生 AI 补丁范围：**10/10 PASS**；无未关闭 P0/P1；`shenhua_lin`、`shenhua_shan`、`refresh_lin`、`refresh_shan` 已从 PARTIAL 更新为 PASS。
+- **P2 未清零**：`qizhi`、`reqiaobian`、`feijun` 三项宿主原生 P2 保留；`rehuashen` 空池仅人工可达；开发台账其他 P2 未逐项重审。
+- **未执行十包原生 + 旧六包扩展的受支持组合测试；不宣布十六包全量兼容 PASS。**
+- 未 push、未合并、未创建 Release/Tag；开发分支未被修改。
 
 开发 HEAD：`1598a41cb7fb1ca03607657da2e6550f72ebe0cb`；验收分支：`codex/remaining-ten-packs-acceptance`。

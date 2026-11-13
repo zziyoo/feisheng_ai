@@ -125,6 +125,14 @@ try {
       const result={completedAt:new Date().toISOString(),status:errors.length?'failed':'passed',scope:'真实身份局宿主、固定公开局面、技能AI选择与结算观察；'+(withExtension?'已安装无名AI决策引擎':(policyOnly?'仅技能AI薄策略层':'原生AI基线'))+(fullLifecycle?'；含完整引擎卸载/重装':'') ,seed,browserVersion:await browser.version(),...report,errors};
       if(option('output'))await fs.writeFile(option('output'),JSON.stringify(result,null,2)+'\n');
       console.log(JSON.stringify(result,null,2));assert.deepEqual(errors,[]);
+    }else if(args.includes('--edge')){
+      const {runEdgeScenes}=await import('./edge-scenes.mjs');
+      const scenes=option('scenes')?option('scenes').split(',').map(item=>item.trim()).filter(Boolean):null;
+      const report=await runEdgeScenes(page,{scenes});
+      const result={completedAt:new Date().toISOString(),status:errors.length?(args.includes('--allow-errors')?'recorded-errors':'failed'):'passed',scope:'真实身份局宿主边界专场；真实技能content/trigger与结算；干净宿主预期异常单独记录',seed,browserVersion:await browser.version(),...report,errors};
+      if(option('output'))await fs.writeFile(option('output'),JSON.stringify(result,null,2)+'\n');
+      console.log(JSON.stringify(result,null,2));
+      if(!args.includes('--allow-errors'))assert.deepEqual(errors,[]);
     }else if(args.includes('--manual')){
       const {runManualIntentScenes}=await import('./manual-intent-host-scenes.mjs');
       const report=await runManualIntentScenes(page);
