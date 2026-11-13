@@ -1,11 +1,11 @@
 import { lib, game, get } from '../policyCore.js?v=41a';
-import { olkongshengCostNeedsFix, olkongshengExpansionView, zhenguCostNeedsFix, zhenguImmediateDelta } from '../rules/shenhuaLei.js?v=41a';
+import { olkongshengCostNeedsFix, olkongshengExpansionView, xiongluanTargetNeedsFix, zhenguCostNeedsFix, zhenguImmediateDelta } from '../rules/shenhuaLei.js?v=41a';
 
 export const pack = {
 	id: 'shenhua_lei',
 	name: '神话再临·雷',
 	group: 'shenhua',
-	skills: ['olkongsheng', 'xinfu_fuyin', 'drlt_qianjie', 'drlt_zhengu'],
+	skills: ['olkongsheng', 'xinfu_fuyin', 'drlt_qianjie', 'drlt_zhengu', 'drlt_xiongluan'],
 	statsDefaults: { olkongshengCostCalls: 0, olkongshengCompatible: null, zhenguCompatible: null, zhenguEngineHook: null, zhenguScoreCalls: 0, zhenguFallbacks: 0, zhenguHookConflict: 0 },
 	install,
 };
@@ -21,6 +21,7 @@ function install(host, stats) {
 	installFuyin(host);
 	installQianjie(host);
 	installZhengu(host, stats);
+	installXiongluan(host);
 	const info = lib.skill && lib.skill.olkongsheng;
 	if (!info || typeof info.cost !== 'function') return;
 	const original = info.cost;
@@ -55,6 +56,30 @@ function install(host, stats) {
 				if (olkongshengScopes.get(player) === scope) olkongshengScopes.delete(player);
 			}
 		}
+	});
+}
+
+/* 雄乱的 countCards 谓词只判断真假，直接累加原评分才能保留八卦权重。 */
+function installXiongluan(host) {
+	const result = lib.skill?.drlt_xiongluan?.ai?.result;
+	if (!xiongluanTargetNeedsFix(result?.target)) return;
+	host.wrap(result, 'target', 'drlt_xiongluan:target', original => function (player, target) {
+		try {
+			const damage = player.getCards('h').reduce((score, card) => {
+				if (!get.tag(card, 'damage') || get.effect(target, card, player, player) <= 0) return score;
+				if (get.name(card, player) === 'sha') {
+					if (target.getEquip('bagua')) return score + 0.5;
+					if (target.getEquip('rewrite_bagua')) return score + 0.25;
+				}
+				return score + 1;
+			}, 0);
+			const threshold = target.hp + target.hujia + game.countPlayer(current => {
+				if (get.attitude(current, target) > 0) return current.countCards('hs') / 8;
+				return 0;
+			});
+			if (Number.isFinite(threshold)) return damage >= threshold ? -damage : 0;
+		} catch (_) {}
+		return original.apply(this, arguments);
 	});
 }
 

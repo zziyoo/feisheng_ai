@@ -14,6 +14,21 @@ export function zhenguImmediateDelta(ownHand, targetHand) {
 	return own < target ? own - target : Math.min(5, own) - Math.min(5, target);
 }
 
+/* Match the stock 1.11.7 scorer so a different native or third-party scorer stays in place. */
+export function xiongluanTargetNeedsFix(callback) {
+	if (typeof callback !== 'function') return false;
+	const source = Function.prototype.toString.call(callback).replace(/\s+/g, '').replace(/'/g, '"');
+	return source === [
+		'(player,target)=>{leths=player.countCards("h",(card)=>{',
+		'if(!get.tag(card,"damage")||get.effect(target,card,player,player)<=0){return0;}',
+		'if(get.name(card,player)==="sha"){if(target.getEquip("bagua")){return0.5;}',
+		'if(target.getEquip("rewrite_bagua")){return0.25;}}return1;}),',
+		'ts=target.hp+target.hujia+game.countPlayer((current)=>{',
+		'if(get.attitude(current,target)>0){returncurrent.countCards("hs")/8;}return0;});',
+		'if(hs>=ts){return-hs;}return0;}',
+	].join('');
+}
+
 /* 旧版箜声成本 AI 的兼容性指纹。宿主改写这段表达式后不再套 shim。 */
 export function olkongshengCostNeedsFix(source) {
 	const text = String(source || '');
