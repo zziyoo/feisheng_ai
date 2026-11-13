@@ -1,0 +1,50 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -4286,7 +4286,8 @@
+     ai: {
+       effect: {
+         target(card, player, target, current) {
+-          if (typeof card === "object" && get.name(card) === "sha" && target.mayHaveShan(player, "use")) {
++          const viewer = get.player() || player;
++          if (typeof card === "object" && get.name(card) === "sha" && target.mayHaveShan(viewer, "use")) {
+             return [0.6, 0.75];
+           }
+           if (!target.hasFriend() && !player.hasUnknown()) {
+@@ -4301,7 +4302,7 @@
+             }
+             return [0.5, Math.max(2, target.countCards("h"))];
+           }
+-          if (target.isUnderControl(true, player)) {
++          if (target.isUnderControl(true, viewer)) {
+             if (get.tag(card, "respondSha") && target.countCards("h", "sha") || get.tag(card, "respondShan") && target.countCards("h", "shan")) {
+               if (target.hasSkill("ziliang")) {
+                 return 0.7;
+@@ -4324,7 +4325,8 @@
+             if (get.mode() == "guozhan") {
+               return 0.5;
+             }
+-            return [0.5, Math.max(target.countCards("h") / 4, target.countCards("h", "sha") + target.countCards("h", "shan"))];
++            const estimatedResponses = target.mayHaveSha(viewer, undefined, undefined, "count") + target.mayHaveShan(viewer, undefined, undefined, "count");
++            return [0.5, Math.max(target.countCards("h") / 4, estimatedResponses)];
+           }
+         }
+       },
+@@ -4573,7 +4575,7 @@
+                 return 0;
+               }
+               let maxnum = 0;
+-              const cards2 = target.getCards("h");
++              const cards2 = target.getKnownCards(player);
+               for (let i2 = 0; i2 < cards2.length; i2++) {
+                 if (get.number(cards2[i2]) > maxnum) {
+                   maxnum = get.number(cards2[i2]);
+@@ -4582,7 +4584,7 @@
+               if (maxnum > 10) {
+                 maxnum = 10;
+               }
+-              if (maxnum < 5 && cards2.length > 1) {
++              if (maxnum < 5 && target.countCards("h") > 1) {
+                 maxnum = 5;
+               }
+               const cards3 = player.getCards("h");
