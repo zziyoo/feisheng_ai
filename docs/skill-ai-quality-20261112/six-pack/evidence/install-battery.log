@@ -1,0 +1,10 @@
+PASS order-skillPlanHints
+PASS install-six
+PASS idempotent-reinstall
+PASS rollback-one
+PASS reinstall-one
+PASS full-rollback
+PASS full-reinstall
+PASS fault-injection
+PASS shared-core-mismatch
+INSTALL BATTERY PASS; result=C:\Users\32360\.codex\worktrees\six-pack-integration\docs\skill-ai-quality-20261112\six-pack\install-battery.json

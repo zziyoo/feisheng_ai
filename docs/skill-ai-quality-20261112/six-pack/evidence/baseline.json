@@ -1,0 +1,318 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-13",
+  "host": "无名杀 1.11.7",
+  "packs": {
+    "shenhua_feng": {
+      "zip": "feisheng-ai-shenhua-feng.zip",
+      "zip_sha256": "7a45c323876f8b1af9408c9c4bb86388e839c13c51ef31e28aded0a2076e8ac9",
+      "zip_size": 82366,
+      "build_head": "7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e",
+      "delivery_status": "内部验收通过",
+      "can_mark_deliverable": true,
+      "module": "shenhuaFeng",
+      "implemented_skills": [
+        "qimou",
+        "xinkuanggu",
+        "jushou",
+        "xinshensu",
+        "xinfu_guhuo",
+        "huangtian",
+        "guidao",
+        "releiji",
+        "retianxiang",
+        "gzbuqu",
+        "xinliegong"
+      ],
+      "shared_files": {
+        "policyCore.js": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+        "skillAIPolicies.js": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+        "skillVetoRegistry.js": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2"
+      },
+      "installer_files": {
+        "integration/apply-pack.mjs": "c2c4ea3cf2353af83ee6d6c692c0aeecec3974ad35f242e67aacaaa8c7065990",
+        "integration/rollback-pack.mjs": "cb2e141c694809b47a230a4ca4d700a3274c0ad8835d321dd94eed41f7c75388",
+        "integration/apply-engine-wiring.mjs": "22be32444a850d605b6ab524c7edaed24355f81c4348efc450948fcbe2bb5ae7",
+        "patches/score-index.diff": "a6d28b98b8e3d8e3966464d4846944435497d93e8497cff7e017eba56d63cd3e",
+        "verify.py": "8407a074201509b1ea5aeb86ff373543c9edd32a7fa0f10047ea5053759efb05"
+      },
+      "pack_files": {
+        "packs/shenhuaFeng.js": "fa549b1065aa01566657121b9cf5b4f2cfef5cdc72d2f029622952ac1a050250",
+        "rules/shenhuaFeng.js": "0b2f233f928ea72490c07aad5ab0c5555d7eff6eed7a39b332245a0f2904957e"
+      },
+      "native_patch": "feisheng-ai-shenhua-feng-native-ai.patch",
+      "wind_compatibility": {
+        "protocol": "dual-feng-shared-entry-v1",
+        "peer_module": "refreshFeng",
+        "peer_sha256": "d5519b7df9605c13672117e1f957c21ffc1dec8c00c84a750d1864bc5658c803"
+      },
+      "counts": {
+        "characters": 8,
+        "implemented_skills": 11,
+        "passive_related_skills": 1
+      }
+    },
+    "refresh_feng": {
+      "zip": "feisheng-ai-refresh-feng.zip",
+      "zip_sha256": "193085553119f7cc56769b474994b4f1868439413de7e657811dc1e73b7f70ef",
+      "zip_size": 90676,
+      "build_head": "7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e",
+      "delivery_status": "内部验收通过",
+      "can_mark_deliverable": true,
+      "module": "refreshFeng",
+      "implemented_skills": [
+        "reqimou",
+        "fenji",
+        "reguhuo",
+        "oltianxiang",
+        "xinliegong"
+      ],
+      "shared_files": {
+        "policyCore.js": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+        "skillAIPolicies.js": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+        "skillVetoRegistry.js": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2"
+      },
+      "installer_files": {
+        "integration/apply-pack.mjs": "c2c4ea3cf2353af83ee6d6c692c0aeecec3974ad35f242e67aacaaa8c7065990",
+        "integration/rollback-pack.mjs": "cb2e141c694809b47a230a4ca4d700a3274c0ad8835d321dd94eed41f7c75388",
+        "integration/apply-engine-wiring.mjs": "22be32444a850d605b6ab524c7edaed24355f81c4348efc450948fcbe2bb5ae7",
+        "patches/score-index.diff": "a6d28b98b8e3d8e3966464d4846944435497d93e8497cff7e017eba56d63cd3e",
+        "verify.py": "8407a074201509b1ea5aeb86ff373543c9edd32a7fa0f10047ea5053759efb05"
+      },
+      "pack_files": {
+        "packs/refreshFeng.js": "d5519b7df9605c13672117e1f957c21ffc1dec8c00c84a750d1864bc5658c803",
+        "rules/refreshFeng.js": "a6b4ff9eb1a6064b1aa9168610c4f3848d6ab1d64d2f737ecf255582a3586c19"
+      },
+      "native_patch": "feisheng-ai-refresh-feng-native-ai.patch",
+      "wind_compatibility": {
+        "protocol": "dual-feng-shared-entry-v1",
+        "peer_module": "shenhuaFeng",
+        "peer_sha256": "fa549b1065aa01566657121b9cf5b4f2cfef5cdc72d2f029622952ac1a050250"
+      },
+      "counts": {
+        "characters": 8,
+        "skills": 17,
+        "reviewed_skills": 17,
+        "unreviewed_skills": 0,
+        "native_modified_skills": 9,
+        "extension_wired_skills": 5,
+        "native_only_skills": 5,
+        "newly_fixed_skills": 1,
+        "unresolved_confirmed_defects": 0
+      }
+    },
+    "shenhua_huo": {
+      "zip": "feisheng-ai-shenhua-huo.zip",
+      "zip_sha256": "68a180f26cb47f33ffe6ff7af95ff3cb2767d1dfd0de829611f6380173e43f0d",
+      "zip_size": 253547,
+      "build_head": "4fb57e10dd4077cf2cfa39f5ad2783e61ce69cd3",
+      "delivery_status": "可交付",
+      "can_mark_deliverable": true,
+      "module": "shenhuaHuo",
+      "implemented_skills": [
+        "luanji",
+        "tianyi",
+        "jianchu"
+      ],
+      "shared_files": {
+        "policyCore.js": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+        "skillAIPolicies.js": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+        "skillVetoRegistry.js": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2"
+      },
+      "installer_files": {
+        "integration/apply-pack.mjs": "c2c4ea3cf2353af83ee6d6c692c0aeecec3974ad35f242e67aacaaa8c7065990",
+        "integration/rollback-pack.mjs": "cb2e141c694809b47a230a4ca4d700a3274c0ad8835d321dd94eed41f7c75388",
+        "integration/apply-engine-wiring.mjs": "22be32444a850d605b6ab524c7edaed24355f81c4348efc450948fcbe2bb5ae7",
+        "patches/score-index.diff": "a6d28b98b8e3d8e3966464d4846944435497d93e8497cff7e017eba56d63cd3e",
+        "verify.py": "8407a074201509b1ea5aeb86ff373543c9edd32a7fa0f10047ea5053759efb05"
+      },
+      "pack_files": {
+        "packs/shenhuaHuo.js": "96987c681c73a810c4521c304aced9376a2d336335327a6c74c4ce185b3137ea",
+        "rules/shenhuaHuo.js": "7dde055fe9cd1d74d772dbeaf9a8c895d052c55357fa255990bb7e3af92e2c44"
+      },
+      "native_patch": null,
+      "wind_compatibility": null,
+      "counts": {
+        "characters": 8,
+        "skills": 14,
+        "reviewed_skills": 14,
+        "fixed_skills": 3,
+        "verified_skills": 11,
+        "unreviewed_skills": 0,
+        "skill_status": {
+          "已验证无问题": 11,
+          "已修复": 3
+        }
+      }
+    },
+    "shenhua_lei": {
+      "zip": "feisheng-ai-shenhua-lei.zip",
+      "zip_sha256": "c8fc8befd55f03734e10429bb85785a977f4860afde1a6b4bc7d66f99783f277",
+      "zip_size": 257628,
+      "build_head": "ca9d2d221a02920f34aef99614245f2e20a4a8c1",
+      "delivery_status": "可交付",
+      "can_mark_deliverable": true,
+      "module": "shenhuaLei",
+      "implemented_skills": [
+        "olkongsheng",
+        "xinfu_fuyin",
+        "drlt_qianjie",
+        "drlt_zhengu"
+      ],
+      "shared_files": {
+        "policyCore.js": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+        "skillAIPolicies.js": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+        "skillVetoRegistry.js": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2"
+      },
+      "installer_files": {
+        "integration/apply-pack.mjs": "c2c4ea3cf2353af83ee6d6c692c0aeecec3974ad35f242e67aacaaa8c7065990",
+        "integration/rollback-pack.mjs": "cb2e141c694809b47a230a4ca4d700a3274c0ad8835d321dd94eed41f7c75388",
+        "integration/apply-engine-wiring.mjs": "22be32444a850d605b6ab524c7edaed24355f81c4348efc450948fcbe2bb5ae7",
+        "patches/score-index.diff": "a6d28b98b8e3d8e3966464d4846944435497d93e8497cff7e017eba56d63cd3e",
+        "verify.py": "8407a074201509b1ea5aeb86ff373543c9edd32a7fa0f10047ea5053759efb05"
+      },
+      "pack_files": {
+        "packs/shenhuaLei.js": "39cb60c266e2ea8db744bc8a242eaa1c54b2ba78de5897eb86519730a079ba40",
+        "rules/shenhuaLei.js": "d7954ce7aeeb222aec31325bd774a9a18307d26a6f7ac801b70c2ed797e2cc88"
+      },
+      "native_patch": "feisheng-ai-shenhua-lei-native-ai.patch",
+      "wind_compatibility": null,
+      "counts": {
+        "characters": 8,
+        "skills": 16,
+        "reviewed_skills": 16,
+        "unreviewed_skills": 0,
+        "native_modified_skills": 4,
+        "extension_wired_skills": 4,
+        "fixed_skills": 4,
+        "verified_skills": 12,
+        "runtime_verified_skills": 4,
+        "skill_status": {
+          "已修复": 4,
+          "已验证无问题": 12
+        }
+      }
+    },
+    "refresh_standard": {
+      "zip": "feisheng-ai-refresh-standard.zip",
+      "zip_sha256": "b148f29c94768347eaf24984b6e14c73174bf482fd96d72ce717b4e9afa4ccd0",
+      "zip_size": 114963,
+      "build_head": "0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea",
+      "delivery_status": "封包待验收",
+      "can_mark_deliverable": false,
+      "module": "refreshStandard",
+      "implemented_skills": [
+        "rezhiheng",
+        "rerende",
+        "new_retuxi",
+        "new_yijue",
+        "refanjian",
+        "new_reqingnang",
+        "rejieyin",
+        "retieji",
+        "reganglie",
+        "reqianxun",
+        "refankui",
+        "qingguo",
+        "jijiu",
+        "lijian"
+      ],
+      "shared_files": {
+        "policyCore.js": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+        "skillAIPolicies.js": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+        "skillVetoRegistry.js": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+        "skillPlanHints.js": "b6a0db923a46da1d3d1b0c347db3f2fdbece9853035d2b5a0609b51ea9ac2d5e"
+      },
+      "installer_files": {
+        "integration/apply-pack.mjs": "c2c4ea3cf2353af83ee6d6c692c0aeecec3974ad35f242e67aacaaa8c7065990",
+        "integration/rollback-pack.mjs": "cb2e141c694809b47a230a4ca4d700a3274c0ad8835d321dd94eed41f7c75388",
+        "integration/apply-engine-wiring.mjs": "22be32444a850d605b6ab524c7edaed24355f81c4348efc450948fcbe2bb5ae7",
+        "patches/score-index.diff": "a6d28b98b8e3d8e3966464d4846944435497d93e8497cff7e017eba56d63cd3e",
+        "verify.py": "8407a074201509b1ea5aeb86ff373543c9edd32a7fa0f10047ea5053759efb05"
+      },
+      "pack_files": {
+        "packs/refreshStandard.js": "06cb6fe953e79834cb044b5f0d943e39c85e5f64d1c8f26891aacae0ce7a9a40",
+        "rules/refreshStandard.js": "6ba907a2f0528063449094862443b36a62182e670f491f9246cdc626fa23d84c",
+        "skillPlanHints.js": "b6a0db923a46da1d3d1b0c347db3f2fdbece9853035d2b5a0609b51ea9ac2d5e",
+        "rules/boundedSkillUtility.js": "1691ee0fb5d8441294d41994448d56cf892fb7c2af52f182e6fac83f9545090c",
+        "rules/refreshStandardPlans.js": "10270d801413a6d9820b8926787cfa57e653151aaebf4338d33eab124e3b7e2a"
+      },
+      "native_patch": "feisheng-ai-refresh-standard-native-ai.patch",
+      "wind_compatibility": null,
+      "counts": {
+        "registered_characters": 29,
+        "registered_skills": 57,
+        "reviewed_skills": 57,
+        "unreviewed_skills": 0,
+        "historical_optimization_skills": 17,
+        "current_round_fixed_skills": 3,
+        "native_optimization_skills": 20,
+        "extension_optimization_skills": 13,
+        "native_only_optimization_skills": 7,
+        "existing_extension_skills": 1,
+        "extension_registered_skills": 14,
+        "reviewed_no_change_skills": 29,
+        "not_applicable_skills": 8,
+        "unresolved_confirmed_defects": 0,
+        "confirmed_defect_resolution_skills": 3,
+        "extension_safe_takeover_limited_skills": 7,
+        "historically_special_validated_skills": 17,
+        "current_round_verified_skills": 0
+      }
+    },
+    "out_of_scope": {
+      "zip": "feisheng-ai-out-of-scope.zip",
+      "zip_sha256": "f1d06169b53dd908205224e46f403ac97c2db0f6717d47fad1897e0fe1b7a79d",
+      "zip_size": 200828,
+      "build_head": "56735aea155040c70ee621e232ed96dce021b57a",
+      "delivery_status": "可交付",
+      "can_mark_deliverable": true,
+      "module": "outOfScope",
+      "implemented_skills": [
+        "redimeng"
+      ],
+      "shared_files": {
+        "policyCore.js": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+        "skillAIPolicies.js": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+        "skillVetoRegistry.js": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2"
+      },
+      "installer_files": {
+        "integration/apply-pack.mjs": "c2c4ea3cf2353af83ee6d6c692c0aeecec3974ad35f242e67aacaaa8c7065990",
+        "integration/rollback-pack.mjs": "cb2e141c694809b47a230a4ca4d700a3274c0ad8835d321dd94eed41f7c75388",
+        "integration/apply-engine-wiring.mjs": "22be32444a850d605b6ab524c7edaed24355f81c4348efc450948fcbe2bb5ae7",
+        "patches/score-index.diff": "a6d28b98b8e3d8e3966464d4846944435497d93e8497cff7e017eba56d63cd3e",
+        "verify.py": "8407a074201509b1ea5aeb86ff373543c9edd32a7fa0f10047ea5053759efb05"
+      },
+      "pack_files": {
+        "packs/outOfScope.js": "eaf575d4dfbd432b4b9a460d7768078cd4eb211026e443e418efbee90b2083a2",
+        "rules/outOfScope.js": "16be048f459ae4797b3bda1addcd856f83b3beb8892f04433796b3a189a9aaa1"
+      },
+      "native_patch": null,
+      "wind_compatibility": null,
+      "counts": {
+        "characters": 1,
+        "skills": 1,
+        "reviewed_skills": 1,
+        "fixed_skills": 1,
+        "verified_skills": 0,
+        "unreviewed_skills": 0,
+        "skill_status": {
+          "已修复": 1
+        }
+      }
+    }
+  },
+  "shared_core_expected": {
+    "policyCore.js": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+    "skillAIPolicies.js": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+    "skillVetoRegistry.js": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2"
+  },
+  "install_order": [
+    "refresh_standard",
+    "shenhua_feng",
+    "refresh_feng",
+    "shenhua_huo",
+    "shenhua_lei",
+    "out_of_scope"
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-13T01:30:14.559Z",
+  "repo": "C:\\Users\\32360\\.codex\\worktrees\\six-pack-integration",
+  "repo_head": "a863553cdfae1b997a2fb4e2899ea84323903bcd",
+  "base_ref": "1fe5292eb3022dd8d1db494617b21a12be912e61",
+  "full_engine_ref": "a863553cdfae1b997a2fb4e2899ea84323903bcd",
+  "install_order": [
+    "refresh_standard",
+    "shenhua_feng",
+    "refresh_feng",
+    "shenhua_huo",
+    "shenhua_lei",
+    "out_of_scope"
+  ],
+  "packs": [
+    {
+      "id": "refresh_standard",
+      "zip": "feisheng-ai-refresh-standard.zip",
+      "zip_sha256": "b148f29c94768347eaf24984b6e14c73174bf482fd96d72ce717b4e9afa4ccd0",
+      "module": "refreshStandard"
+    },
+    {
+      "id": "shenhua_feng",
+      "zip": "feisheng-ai-shenhua-feng.zip",
+      "zip_sha256": "7a45c323876f8b1af9408c9c4bb86388e839c13c51ef31e28aded0a2076e8ac9",
+      "module": "shenhuaFeng"
+    },
+    {
+      "id": "refresh_feng",
+      "zip": "feisheng-ai-refresh-feng.zip",
+      "zip_sha256": "193085553119f7cc56769b474994b4f1868439413de7e657811dc1e73b7f70ef",
+      "module": "refreshFeng"
+    },
+    {
+      "id": "shenhua_huo",
+      "zip": "feisheng-ai-shenhua-huo.zip",
+      "zip_sha256": "68a180f26cb47f33ffe6ff7af95ff3cb2767d1dfd0de829611f6380173e43f0d",
+      "module": "shenhuaHuo"
+    },
+    {
+      "id": "shenhua_lei",
+      "zip": "feisheng-ai-shenhua-lei.zip",
+      "zip_sha256": "c8fc8befd55f03734e10429bb85785a977f4860afde1a6b4bc7d66f99783f277",
+      "module": "shenhuaLei"
+    },
+    {
+      "id": "out_of_scope",
+      "zip": "feisheng-ai-out-of-scope.zip",
+      "zip_sha256": "f1d06169b53dd908205224e46f403ac97c2db0f6717d47fad1897e0fe1b7a79d",
+      "module": "outOfScope"
+    }
+  ],
+  "steps": [
+    {
+      "step": "order-skillPlanHints",
+      "status": "passed",
+      "first": [
+        "APPLY FAIL: 完整引擎依赖 skillPlanHints.js，但目标和本次安装计划均未提供该文件"
+      ],
+      "standard": "applied",
+      "second": "applied"
+    },
+    {
+      "step": "install-six",
+      "status": "passed",
+      "entries": 7,
+      "imports": 7,
+      "shared": {
+        "policyCore.js": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+        "skillAIPolicies.js": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+        "skillVetoRegistry.js": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2"
+      }
+    },
+    {
+      "step": "idempotent-reinstall",
+      "status": "already-installed",
+      "entries": 7
+    },
+    {
+      "step": "rollback-one",
+      "status": "passed",
+      "rolled": "out_of_scope",
+      "remaining": [
+        "refresh_standard",
+        "shenhua_feng",
+        "refresh_feng",
+        "shenhua_huo",
+        "shenhua_lei"
+      ]
+    },
+    {
+      "step": "reinstall-one",
+      "status": "applied",
+      "entries": 7
+    },
+    {
+      "step": "full-rollback",
+      "status": "passed",
+      "entries": 1,
+      "imports": 1
+    },
+    {
+      "step": "full-reinstall",
+      "status": "passed",
+      "entries": 7,
+      "imports": 7
+    },
+    {
+      "step": "fault-injection",
+      "status": "passed",
+      "exit": 1,
+      "changed": null,
+      "journal_status": null
+    },
+    {
+      "step": "shared-core-mismatch",
+      "status": "passed",
+      "exit": 1,
+      "changed": null,
+      "stderr": [
+        "APPLY FAIL: 共享核心 文件已存在且与包内版本不同：score/decision/skills/policyCore.js",
+        "  目标SHA256=de06cb663ce9c50aebc3d0f884f58926501295708aa54572fadccbdf61818f08",
+        "  包内SHA256=545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+        "  为避免覆盖其他开发者修改，未写入；请使用包内 diff 合并或先回滚冲突文件。"
+      ]
+    }
+  ],
+  "pass": true
+}

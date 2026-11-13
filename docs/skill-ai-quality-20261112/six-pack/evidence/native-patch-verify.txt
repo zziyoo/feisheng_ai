@@ -1,0 +1,32 @@
+=== baseline hashes
+62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e *character/shenhua.js
+25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0 *character/refresh.js
+2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63 *character/standard.js
+=== dual-feng-native-candidate.patch
+b4f291b0d52451e0cb4f09385edced368d75df65268b50953bccfac0d5ea8740 *C:/Users/32360/Desktop/feisheng-ai-six-packs-final/native/dual-feng-native-candidate.patch
+APPLY_CHECK_OK
+=== feisheng-ai-shenhua-huo-native-ai.patch
+7005c403b08a59fdcaf5521faa7a5e7235e6b610c08f04fc9326289fcca53bce *C:/Users/32360/Desktop/feisheng-ai-six-packs-final/native/feisheng-ai-shenhua-huo-native-ai.patch
+APPLY_CHECK_OK
+=== feisheng-ai-shenhua-lei-native-ai.patch
+805ec28922619748d829886ec0ca581162bc7b91085f261eab8756d9d894734a *C:/Users/32360/Desktop/feisheng-ai-six-packs-final/native/feisheng-ai-shenhua-lei-native-ai.patch
+APPLY_CHECK_OK
+=== feisheng-ai-refresh-standard-native-ai.patch
+5ada665477c35618438971b0933ac1a0d725b69e58397c815d3bfafa2832357e *C:/Users/32360/Desktop/feisheng-ai-six-packs-final/native/feisheng-ai-refresh-standard-native-ai.patch
+APPLY_CHECK_OK
+dual APPLY+SYNTAX OK
+3f7c4e0f6b7b70ccb04db47f5076394bf5820847cf6015b8ba1e94e22db3ada6 *character/refresh.js
+c407d23b26f8e7979a37d1921bde5586feff86bd3f060d1ead99de528c8620a7 *character/shenhua.js
+2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63 *character/standard.js
+huo APPLY+SYNTAX OK
+25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0 *character/refresh.js
+60b50a4487973cf4bc0b1e5b987944e1a04748c0ec521e1be18f61eb57c7a6ec *character/shenhua.js
+2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63 *character/standard.js
+lei APPLY+SYNTAX OK
+25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0 *character/refresh.js
+37328a22bd1b6c78b9118fc6992e174792d7a1bd068538d4d6e6df7f43791a5f *character/shenhua.js
+2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63 *character/standard.js
+standard APPLY+SYNTAX OK
+dd2f72347176923b9b2d1f28794d36b2671c576a90f3426293066a4a44031517 *character/refresh.js
+62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e *character/shenhua.js
+5b71aa89854beea6ec10ad232e41153bd38bad4b30c1a8fddd467dc946d51630 *character/standard.js

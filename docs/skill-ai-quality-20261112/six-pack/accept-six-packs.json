@@ -1,0 +1,831 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-13T01:30:43.122Z",
+  "mode": "combined",
+  "repo": "C:\\Users\\32360\\.codex\\worktrees\\six-pack-integration",
+  "repo_head": "a863553cdfae1b997a2fb4e2899ea84323903bcd",
+  "base_ref": "1fe5292eb3022dd8d1db494617b21a12be912e61",
+  "wired_index": {
+    "applied": true,
+    "patch": "..\\..\\extract\\0\\patches\\score-index.diff",
+    "patch_sha256": "a6d28b98b8e3d8e3966464d4846944435497d93e8497cff7e017eba56d63cd3e"
+  },
+  "scenes": [
+    "rezhiheng-3hp",
+    "new-retuxi-order",
+    "hp-qimou-distance4-hp3",
+    "hp-qimou-distance4-hp4-negative",
+    "hp-qimou-distance3-hp2",
+    "shenhua-releiji-target",
+    "shenhua-guidao-replace",
+    "shenhua-guidao-decline",
+    "shenhua-huangtian-give",
+    "shenhua-huangtian-negative",
+    "shenhua-guhuo-claim",
+    "shenhua-guhuo-real-questioned",
+    "shenhua-guhuo-fake-questioned",
+    "shenhua-guhuo-phase",
+    "shenhua-shensu-skip",
+    "shenhua-shensu-negative",
+    "quality-shensu1-lowhand-lebu",
+    "quality-shensu1-reverse-lowvalue",
+    "shenhua-tianxiang-redirect",
+    "shenhua-tianxiang-negative",
+    "shenhua-hongyan-suit",
+    "shenhua-kuanggu-draw",
+    "shenhua-kuanggu-recover",
+    "quality-kuanggu-lowhp",
+    "quality-kuanggu-midhp",
+    "quality-jushou-turned",
+    "quality-jushou-normal",
+    "quality-guhuo-bluff-lowhp",
+    "quality-guhuo-bluff-midhp",
+    "quality-guhuo-full-lowhp-fake-lastshan",
+    "quality-guhuo-full-lowhp-true-sha-forced",
+    "quality-guhuo-full-lowhp-fake-expendable",
+    "quality-guhuo-full-midhp-fake-expendable",
+    "quality-huangtian-last-shan",
+    "quality-huangtian-midhp",
+    "quality-huangtian-last-shan-with-shandian",
+    "quality-huangtian-forced-shan-with-shandian",
+    "shenhua-jushou-4hp-empty",
+    "shenhua-jushou-lowhp",
+    "shenhua-buqu-damage",
+    "shenhua-buqu-negative",
+    "shenhua-buqu-recover-choice",
+    "shenhua-liegong-hit",
+    "shenhua-liegong-negative",
+    "hp-reqimou-distance4-hp3",
+    "hp-qiangxix-2hp-target1",
+    "hp-qiangxix-2hp-weapon-target2",
+    "shenhua-huo-quhu-compare",
+    "shenhua-huo-quhu-no-target",
+    "shenhua-huo-quhu-risky-decline",
+    "shenhua-huo-jieming-damage",
+    "shenhua-huo-jieming-no-benefit",
+    "shenhua-huo-lianhuan-tiesuo",
+    "shenhua-huo-lianhuan-ally-risk",
+    "shenhua-huo-lianhuan-recast",
+    "shenhua-huo-lianhuan-unlink-ally-risk",
+    "shenhua-huo-lianhuan-keep-enemy-linked",
+    "shenhua-huo-lianhuan-full-linked-recast",
+    "shenhua-huo-lianhuan-link-enemies",
+    "shenhua-huo-lianhuan-unlinked-ally-only",
+    "shenhua-huo-lianhuan-self-linked",
+    "shenhua-huo-lianhuan-recast-blocked",
+    "shenhua-huo-oldniepan-dying",
+    "shenhua-huo-oldniepan-tao",
+    "shenhua-huo-tianyi-compare",
+    "shenhua-huo-tianyi-win-sha",
+    "shenhua-huo-tianyi-lose-sha",
+    "shenhua-huo-tianyi-lose-content",
+    "shenhua-huo-shuangxiong-judge",
+    "shenhua-huo-shuangxiong-duel",
+    "shenhua-huo-shuangxiong-no-judge",
+    "shenhua-huo-luanji-wanjian",
+    "shenhua-huo-luanji-wanjian-use",
+    "shenhua-huo-luanji-no-pair",
+    "quality-luanji-ally-lethal",
+    "shenhua-huo-huoji-red",
+    "shenhua-huo-huoji-use",
+    "shenhua-huo-huoji-no-red",
+    "shenhua-huo-kanpo-response",
+    "shenhua-huo-kanpo-no-black",
+    "shenhua-huo-bazhen-bagua",
+    "shenhua-huo-bazhen-armor-negative",
+    "shenhua-huo-jianchu-sha",
+    "shenhua-huo-jianchu-no-equip",
+    "shenhua-huo-passive-rules",
+    "olkongsheng-array-count",
+    "olkongsheng-repeat",
+    "redimeng-hidden-info",
+    "redimeng-permute-values",
+    "redimeng-target-legal",
+    "redimeng-target-zero-cost",
+    "redimeng-target-infeasible"
+  ],
+  "contract": {
+    "single": null,
+    "combined": true
+  },
+  "skillChecks": {},
+  "baseline_comparison": [],
+  "native_comparison": null,
+  "packs": [
+    {
+      "id": "refresh_standard",
+      "name": "界限突破·标准",
+      "zip": "C:\\Users\\32360\\Desktop\\feisheng-ai-refresh-standard-full-0fa2c07\\feisheng-ai-refresh-standard.zip",
+      "zip_size": 114963,
+      "zip_sha256": "b148f29c94768347eaf24984b6e14c73174bf482fd96d72ce717b4e9afa4ccd0",
+      "delivery_stage": "全量源码审查完成·待最终验收",
+      "implemented_skills": [
+        "rezhiheng",
+        "rerende",
+        "new_retuxi",
+        "new_yijue",
+        "refanjian",
+        "new_reqingnang",
+        "rejieyin",
+        "retieji",
+        "reganglie",
+        "reqianxun",
+        "refankui",
+        "qingguo",
+        "jijiu",
+        "lijian"
+      ],
+      "target_skills_count": 57,
+      "tests_present": false,
+      "package_tests_status": 0,
+      "verify_zip_status": 0,
+      "verify_dir_status": 0,
+      "verify_cross_platform_status": 0
+    },
+    {
+      "id": "shenhua_feng",
+      "name": "神话再临·风",
+      "zip": "C:\\Users\\32360\\Desktop\\dual-feng-final-delivery-7d79d8c\\feisheng-ai-shenhua-feng.zip",
+      "zip_size": 82366,
+      "zip_sha256": "7a45c323876f8b1af9408c9c4bb86388e839c13c51ef31e28aded0a2076e8ac9",
+      "delivery_stage": "内部验收通过",
+      "implemented_skills": [
+        "qimou",
+        "xinkuanggu",
+        "jushou",
+        "xinshensu",
+        "xinfu_guhuo",
+        "huangtian",
+        "guidao",
+        "releiji",
+        "retianxiang",
+        "gzbuqu",
+        "xinliegong"
+      ],
+      "target_skills_count": 12,
+      "tests_present": false,
+      "package_tests_status": 0,
+      "verify_zip_status": 0,
+      "verify_dir_status": 0,
+      "verify_cross_platform_status": 0
+    },
+    {
+      "id": "refresh_feng",
+      "name": "界限突破·风",
+      "zip": "C:\\Users\\32360\\Desktop\\dual-feng-final-delivery-7d79d8c\\feisheng-ai-refresh-feng.zip",
+      "zip_size": 90676,
+      "zip_sha256": "193085553119f7cc56769b474994b4f1868439413de7e657811dc1e73b7f70ef",
+      "delivery_stage": "内部验收通过",
+      "implemented_skills": [
+        "reqimou",
+        "fenji",
+        "reguhuo",
+        "oltianxiang",
+        "xinliegong"
+      ],
+      "target_skills_count": 17,
+      "tests_present": false,
+      "package_tests_status": 0,
+      "verify_zip_status": 0,
+      "verify_dir_status": 0,
+      "verify_cross_platform_status": 0
+    },
+    {
+      "id": "shenhua_huo",
+      "name": "神话再临·火",
+      "zip": "C:\\Users\\32360\\Desktop\\feisheng-ai-shenhua-huo-accept-4fb57e1\\feisheng-ai-shenhua-huo.zip",
+      "zip_size": 253547,
+      "zip_sha256": "68a180f26cb47f33ffe6ff7af95ff3cb2767d1dfd0de829611f6380173e43f0d",
+      "delivery_stage": "可交付",
+      "implemented_skills": [
+        "luanji",
+        "tianyi",
+        "jianchu"
+      ],
+      "target_skills_count": 14,
+      "tests_present": true,
+      "package_tests_status": 0,
+      "verify_zip_status": 0,
+      "verify_dir_status": 0,
+      "verify_cross_platform_status": 0
+    },
+    {
+      "id": "shenhua_lei",
+      "name": "神话再临·雷",
+      "zip": "C:\\Users\\32360\\Desktop\\feisheng-ai-shenhua-lei-final-ca9d2d2\\feisheng-ai-shenhua-lei.zip",
+      "zip_size": 257628,
+      "zip_sha256": "c8fc8befd55f03734e10429bb85785a977f4860afde1a6b4bc7d66f99783f277",
+      "delivery_stage": "可交付",
+      "implemented_skills": [
+        "olkongsheng",
+        "xinfu_fuyin",
+        "drlt_qianjie",
+        "drlt_zhengu"
+      ],
+      "target_skills_count": 16,
+      "tests_present": true,
+      "package_tests_status": 0,
+      "verify_zip_status": 0,
+      "verify_dir_status": 0,
+      "verify_cross_platform_status": 0
+    },
+    {
+      "id": "out_of_scope",
+      "name": "清单外角色",
+      "zip": "C:\\Users\\32360\\Desktop\\feisheng-ai-out-of-scope-full-56735ae\\feisheng-ai-out-of-scope.zip",
+      "zip_size": 200828,
+      "zip_sha256": "f1d06169b53dd908205224e46f403ac97c2db0f6717d47fad1897e0fe1b7a79d",
+      "delivery_stage": "可交付",
+      "implemented_skills": [
+        "redimeng"
+      ],
+      "target_skills_count": 1,
+      "tests_present": true,
+      "package_tests_status": 0,
+      "verify_zip_status": 0,
+      "verify_dir_status": 0,
+      "verify_cross_platform_status": 0
+    }
+  ],
+  "steps": [
+    {
+      "step": "extract+verify",
+      "pack": "refresh_standard",
+      "status": "passed",
+      "package_tests": {
+        "command": "node C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\0\\tests\\run-pack-tests.mjs",
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": null,
+        "skipped": true,
+        "reason": "ZIP 不含 tests/run-pack-tests.mjs"
+      },
+      "verify_zip": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\0\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-refresh-standard-full-0fa2c07\\feisheng-ai-refresh-standard.zip",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=zip files_listed=33 ok=33 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_dir": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\0\\verify.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=dir files_listed=33 ok=33 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_cross_platform": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\0\\tests\\test-verify-zip.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": null,
+        "skipped": true,
+        "reason": "ZIP 不含 tests/test-verify-zip.py"
+      }
+    },
+    {
+      "step": "extract+verify",
+      "pack": "shenhua_feng",
+      "status": "passed",
+      "package_tests": {
+        "command": "node C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\1\\tests\\run-pack-tests.mjs",
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": null,
+        "skipped": true,
+        "reason": "ZIP 不含 tests/run-pack-tests.mjs"
+      },
+      "verify_zip": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\1\\verify.py --zip C:\\Users\\32360\\Desktop\\dual-feng-final-delivery-7d79d8c\\feisheng-ai-shenhua-feng.zip",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=zip files_listed=27 ok=27 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_dir": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\1\\verify.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=dir files_listed=27 ok=27 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_cross_platform": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\1\\tests\\test-verify-zip.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": null,
+        "skipped": true,
+        "reason": "ZIP 不含 tests/test-verify-zip.py"
+      }
+    },
+    {
+      "step": "extract+verify",
+      "pack": "refresh_feng",
+      "status": "passed",
+      "package_tests": {
+        "command": "node C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\2\\tests\\run-pack-tests.mjs",
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": null,
+        "skipped": true,
+        "reason": "ZIP 不含 tests/run-pack-tests.mjs"
+      },
+      "verify_zip": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\2\\verify.py --zip C:\\Users\\32360\\Desktop\\dual-feng-final-delivery-7d79d8c\\feisheng-ai-refresh-feng.zip",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=zip files_listed=32 ok=32 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_dir": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\2\\verify.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=dir files_listed=32 ok=32 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_cross_platform": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\2\\tests\\test-verify-zip.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": null,
+        "skipped": true,
+        "reason": "ZIP 不含 tests/test-verify-zip.py"
+      }
+    },
+    {
+      "step": "extract+verify",
+      "pack": "shenhua_huo",
+      "status": "passed",
+      "package_tests": {
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\3\\tests\\run-pack-tests.mjs",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS 火包清单登记乱击/天义/鞬出三项AI优化（区分缺陷修复与质量提升）\nPASS 火包携带共享依赖 skillVetoRegistry 且哈希登记\nPASS 乱击濒死否决：1血空手且无确定免伤（护甲吸收/藤甲）\nPASS 乱击概率防御不视为必然安全（镜像原生补丁0001）\nPASS 乱击小规模对局净收益门槛（镜像原生补丁0001）\nPASS 天义低点数默认保守（镜像原生补丁0002）\nPASS 天义已知必胜逐目标绑定：只用完全公开手牌且点数确定更低（镜像原生补丁0002）\nPASS 鞬出仅在值得发动时触发；hp<=1击杀动机在有护甲时不成立（镜像原生补丁0003）\nPASS 纯规则出口完整\nALL PASS (9)\nPASS 包元数据与目标技能一致\nPASS 分包模块只 import 共享核心、自己的规则与安全适配\nPASS 共享核心与具体技能解耦\nPASS 包内只携带本分包策略模块\nPASS 注册表与 pack-only 注册表可安全合并\nPASS 134 维模型契约与版本未被本分包修改\nPASS 分包声明的静态约束成立\nPASS 分包规则不读取宿主实现\nALL PASS (8)\nALL PACK TESTS PASS (17)\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_zip": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\3\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-shenhua-huo-accept-4fb57e1\\feisheng-ai-shenhua-huo.zip",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=zip files_listed=52 ok=52 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=4fb57e10dd4077cf2cfa39f5ad2783e61ce69cd3 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_dir": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\3\\verify.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=dir files_listed=52 ok=52 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=4fb57e10dd4077cf2cfa39f5ad2783e61ce69cd3 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_cross_platform": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\3\\tests\\test-verify-zip.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS verify.py --zip accepts POSIX member paths\r\nPASS verify.py --root accepts POSIX package\r\nPASS verify.py --zip accepts Windows backslash members and manifest paths\r\nPASS verify.py --zip accepts manifest at archive root\r\nPASS verify.py --zip rejects archive without root manifest\r\nPASS verify.py --zip rejects duplicate normalized members\r\nPASS verify.py --zip rejects size mismatch\r\nALL PASS (verify.zip cross-platform regression)\r\n",
+        "stderr": "",
+        "error": null
+      }
+    },
+    {
+      "step": "extract+verify",
+      "pack": "shenhua_lei",
+      "status": "passed",
+      "package_tests": {
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\4\\tests\\run-pack-tests.mjs",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS 成本指纹只在原表达式存在时命中\nPASS 数组视图保留索引/长度/迭代/JSON 语义\nPASS 非数组输入原样返回\nPASS 镇骨旧式评分指纹只在宿主未修复时命中\nPASS 镇骨即时差额与宿主 sync 的实际变化一致\nPASS 镇骨即时差额的边界与非法输入\nPASS 旧式评分在 7/6 与 6/8 两档与即时差额不一致\nALL PASS (7)\nPASS 包元数据与目标技能一致\nPASS 分包模块只 import 共享核心、自己的规则与安全适配\nPASS 共享核心与具体技能解耦\nPASS 包内只携带本分包策略模块\nPASS 注册表与 pack-only 注册表可安全合并\nPASS 134 维模型契约与版本未被本分包修改\nPASS 分包声明的静态约束成立\nPASS 分包规则不读取宿主实现\nALL PASS (8)\nALL PACK TESTS PASS (15)\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_zip": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\4\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-shenhua-lei-final-ca9d2d2\\feisheng-ai-shenhua-lei.zip",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=zip files_listed=54 ok=54 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=ca9d2d221a02920f34aef99614245f2e20a4a8c1 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_dir": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\4\\verify.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=dir files_listed=54 ok=54 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=ca9d2d221a02920f34aef99614245f2e20a4a8c1 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_cross_platform": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\4\\tests\\test-verify-zip.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS verify.py --zip accepts POSIX member paths\r\nPASS verify.py --root accepts POSIX package\r\nPASS verify.py --zip accepts Windows backslash members and manifest paths\r\nPASS verify.py --zip accepts manifest at archive root\r\nPASS verify.py --zip rejects archive without root manifest\r\nPASS verify.py --zip rejects duplicate normalized members\r\nPASS verify.py --zip rejects size mismatch\r\nALL PASS (verify.zip cross-platform regression)\r\n",
+        "stderr": "",
+        "error": null
+      }
+    },
+    {
+      "step": "extract+verify",
+      "pack": "out_of_scope",
+      "status": "passed",
+      "package_tests": {
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\5\\tests\\run-pack-tests.mjs",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS 公平选择只依赖玩家与位置\nPASS 不同位置分数稳定且互不读取牌面\nPASS 遮蔽只对 AI 且只在 redimeng 上下文\nPASS 只识别宿主 find(2) 的已知块级变量越界\nALL PASS (4)\nPASS 包元数据与目标技能一致\nPASS 分包模块只 import 共享核心、自己的规则与安全适配\nPASS 共享核心与具体技能解耦\nPASS 包内只携带本分包策略模块\nPASS 注册表与 pack-only 注册表可安全合并\nPASS 134 维模型契约与版本未被本分包修改\nPASS 分包声明的静态约束成立\nPASS 分包规则不读取宿主实现\nALL PASS (8)\nALL PACK TESTS PASS (12)\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_zip": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\5\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-out-of-scope-full-56735ae\\feisheng-ai-out-of-scope.zip",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=zip files_listed=38 ok=38 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=56735aea155040c70ee621e232ed96dce021b57a baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_dir": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\5\\verify.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=dir files_listed=38 ok=38 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=56735aea155040c70ee621e232ed96dce021b57a baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_cross_platform": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\extract\\5\\tests\\test-verify-zip.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS verify.py --zip accepts POSIX member paths\r\nPASS verify.py --root accepts POSIX package\r\nPASS verify.py --zip accepts Windows backslash members and manifest paths\r\nPASS verify.py --zip accepts manifest at archive root\r\nPASS verify.py --zip rejects archive without root manifest\r\nPASS verify.py --zip rejects duplicate normalized members\r\nPASS verify.py --zip rejects size mismatch\r\nALL PASS (verify.zip cross-platform regression)\r\n",
+        "stderr": "",
+        "error": null
+      }
+    },
+    {
+      "step": "wiring-required",
+      "pack": "refresh_standard",
+      "status": "passed",
+      "stderr": "APPLY FAIL: 目标 score/index.js 未接线策略层；请先应用包内 patches/score-index.diff，或手工加入 install/uninstall 调用"
+    },
+    {
+      "step": "index-wiring",
+      "pack": "combined",
+      "status": "passed",
+      "applied": true,
+      "patch": "..\\..\\extract\\0\\patches\\score-index.diff",
+      "patch_sha256": "a6d28b98b8e3d8e3966464d4846944435497d93e8497cff7e017eba56d63cd3e"
+    },
+    {
+      "step": "apply-coexist",
+      "pack": "refresh_standard",
+      "status": "passed",
+      "output": {
+        "pack": "refresh_standard",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\targets\\combined",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/policyCore.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillAIPolicies.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillVetoRegistry.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/refreshStandard.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/refreshStandard.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillPlanHints.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/boundedSkillUtility.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/refreshStandardPlans.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": "未确认完整引擎软建议接线；宿主策略可独立使用，完整引擎需另行迁移接线。",
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\refresh_standard"
+      }
+    },
+    {
+      "step": "apply-coexist",
+      "pack": "shenhua_feng",
+      "status": "passed",
+      "output": {
+        "pack": "shenhua_feng",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\targets\\combined",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/shenhuaFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/shenhuaFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\shenhua_feng"
+      }
+    },
+    {
+      "step": "apply-coexist",
+      "pack": "refresh_feng",
+      "status": "passed",
+      "output": {
+        "pack": "refresh_feng",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\targets\\combined",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/refreshFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/refreshFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\refresh_feng"
+      }
+    },
+    {
+      "step": "apply-coexist",
+      "pack": "shenhua_huo",
+      "status": "passed",
+      "output": {
+        "pack": "shenhua_huo",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\targets\\combined",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/shenhuaHuo.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/shenhuaHuo.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\shenhua_huo"
+      }
+    },
+    {
+      "step": "apply-coexist",
+      "pack": "shenhua_lei",
+      "status": "passed",
+      "output": {
+        "pack": "shenhua_lei",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\targets\\combined",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/shenhuaLei.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/shenhuaLei.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\shenhua_lei"
+      }
+    },
+    {
+      "step": "apply-coexist",
+      "pack": "out_of_scope",
+      "status": "passed",
+      "output": {
+        "pack": "out_of_scope",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept\\targets\\combined",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/outOfScope.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/outOfScope.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\out_of_scope"
+      }
+    }
+  ],
+  "skipped_checks": [
+    {
+      "pack": "refresh_standard",
+      "check": "package-tests",
+      "reason": "ZIP 不含 tests/run-pack-tests.mjs"
+    },
+    {
+      "pack": "refresh_standard",
+      "check": "verify-cross-platform",
+      "reason": "ZIP 不含 tests/test-verify-zip.py"
+    },
+    {
+      "pack": "shenhua_feng",
+      "check": "package-tests",
+      "reason": "ZIP 不含 tests/run-pack-tests.mjs"
+    },
+    {
+      "pack": "shenhua_feng",
+      "check": "verify-cross-platform",
+      "reason": "ZIP 不含 tests/test-verify-zip.py"
+    },
+    {
+      "pack": "refresh_feng",
+      "check": "package-tests",
+      "reason": "ZIP 不含 tests/run-pack-tests.mjs"
+    },
+    {
+      "pack": "refresh_feng",
+      "check": "verify-cross-platform",
+      "reason": "ZIP 不含 tests/test-verify-zip.py"
+    }
+  ],
+  "pass": false,
+  "workdir": "C:\\Users\\32360\\AppData\\Local\\Temp\\sixpack-accept",
+  "error": "Error: 狂骨未选择回复体力\n    at fail (file:///C:/Users/32360/.codex/worktrees/six-pack-integration/tools/accept-skill-ai-pack.mjs:300:34)\n    at analyzeShenhuaFengScenes (file:///C:/Users/32360/.codex/worktrees/six-pack-integration/tools/accept-skill-ai-pack.mjs:513:54)\n    at analyzePackScenes (file:///C:/Users/32360/.codex/worktrees/six-pack-integration/tools/accept-skill-ai-pack.mjs:1260:20)\n    at loadSkillScenesGrouped (file:///C:/Users/32360/.codex/worktrees/six-pack-integration/tools/accept-skill-ai-pack.mjs:1439:61)\n    at file:///C:/Users/32360/.codex/worktrees/six-pack-integration/tools/accept-skill-ai-pack.mjs:1614:16\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)"
+}

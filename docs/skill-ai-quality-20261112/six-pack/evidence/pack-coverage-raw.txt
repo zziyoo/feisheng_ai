@@ -1,0 +1,182 @@
+============================== shenhua_feng
+schema_version : "1.0"
+id : "shenhua_feng"
+name : "神话再临·风"
+group : "神话再临"
+delivery_stage : "内部验收通过"
+complete_delivery : true
+pack_status : "内部验收通过"
+delivery_status : "内部验收通过"
+can_mark_deliverable : true
+external_integration_receipt : "pending"
+external_integration_note : "外部集成回执尚未取得"
+module : "shenhuaFeng"
+rules : "shenhuaFeng"
+implemented_skills : ["qimou", "xinkuanggu", "jushou", "xinshensu", "xinfu_guhuo", "huangtian", "guidao", "releiji", "retianxiang", "gzbuqu", "xinliegong"]
+review_only : false
+audited_skills : ["releiji", "guidao", "huangtian", "xinfu_guhuo", "xinshensu", "retianxiang", "hongyan", "xinkuanggu", "qimou", "jushou", "gzbuqu", "xinliegong"]
+target_characters : [{"character_id": "sp_zhangjiao", "character_name": "张角"}, {"character_id": "re_yuji", "character_name": "于吉"}, {"character_id": "re_xiahouyuan", "character_name": "夏侯渊"}, {"character_id": "xiaoqiao", "character_name": "小乔"}, {"character_id": "re_weiyan", "character_name": "魏延"}, {"character_id": "old_caoren", "character_name": "曹仁"}, {"character_id": "old_zhoutai", "character_name": "周泰"}, {"character_id": "re_huangzhong", "character_name": "黄忠"}]
+counts : {"characters": 8, "implemented_skills": 11, "passive_related_skills": 1}
+registry_template_sha256 : "b8eecaa3aeed268c7054aa3cf2a097d4a05cb12a98fb7d94d4da66681d317af0"
+dependencies : ["score/index.js 已接线策略 facade", "score/foundation/adapt/host.js", "score/decision/safety/aiOverride.js"]
+head : "7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e"
+source_mode : "git-show-head"
+worktree_dirty : false
+baseline : "1fe5292eb3022dd8d1db494617b21a12be912e61"
+native_patch : "feisheng-ai-shenhua-feng-native-ai.patch"
+extension_difference : "天香新评分仅在原生补丁中；扩展独立安装使用宿主原始AI。"
+wind_compatibility : {"protocol": "dual-feng-shared-entry-v1", "peer_module": "refreshFeng", "peer_sha256": "d5519b7df9605c13672117e1f957c21ffc1dec8c00c84a750d1864bc5658c803"}
+baseline_acceptance : {"head": "fcc9eb2581e9470e228dea112add930fa0be0e07", "status": "PASS"}
+publication_status : "未发布"
+============================== refresh_feng
+schema_version : "1.0"
+id : "refresh_feng"
+name : "界限突破·风"
+group : "界限突破"
+delivery_stage : "内部验收通过"
+complete_delivery : true
+pack_status : "内部验收通过"
+delivery_status : "内部验收通过"
+can_mark_deliverable : true
+external_integration_receipt : "pending"
+external_integration_note : "外部集成回执尚未取得"
+module : "refreshFeng"
+rules : "refreshFeng"
+implemented_skills : ["reqimou", "fenji", "reguhuo", "oltianxiang", "xinliegong"]
+review_only : false
+audited_skills : ["xinshensu", "shebian", "xinkuanggu", "reqimou", "oltianxiang", "olhongyan", "piaoling", "xinleiji", "xinguidao", "xinhuangtian", "reguhuo", "xinjushou", "xinjiewei", "buqu", "fenji", "xinliegong", "remoshi"]
+target_characters : [{"character_id": "ol_xiahouyuan", "character_name": "界夏侯渊"}, {"character_id": "ol_weiyan", "character_name": "界魏延"}, {"character_id": "ol_xiaoqiao", "character_name": "界小乔"}, {"character_id": "re_zhangjiao", "character_name": "界张角"}, {"character_id": "xin_yuji", "character_name": "界于吉"}, {"character_id": "caoren", "character_name": "界曹仁"}, {"character_id": "zhoutai", "character_name": "界周泰"}, {"character_id": "ol_huangzhong", "character_name": "界黄忠"}]
+counts : {"characters": 8, "skills": 17, "reviewed_skills": 17, "unreviewed_skills": 0, "native_modified_skills": 9, "extension_wired_skills": 5, "native_only_skills": 5, "newly_fixed_skills": 1, "unresolved_confirmed_defects": 0}
+registry_template_sha256 : "fa989f879a50bbd0a8aceb0cd1595a867c2c48d5e97a0bbff96f3b0f032ce6e2"
+dependencies : ["score/index.js 已接线策略 facade", "score/foundation/adapt/host.js", "score/decision/safety/aiOverride.js"]
+head : "7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e"
+source_mode : "git-show-head"
+worktree_dirty : false
+baseline : "1fe5292eb3022dd8d1db494617b21a12be912e61"
+wind_compatibility : {"protocol": "dual-feng-shared-entry-v1", "peer_module": "shenhuaFeng", "peer_sha256": "fa549b1065aa01566657121b9cf5b4f2cfef5cdc72d2f029622952ac1a050250"}
+native_skills : ["xinshensu", "xinkuanggu", "oltianxiang", "reguhuo", "xinjushou", "fenji", "xinliegong", "piaoling", "buqu"]
+extension_skills : ["reqimou", "fenji", "reguhuo", "oltianxiang", "xinliegong"]
+native_only_skills : ["xinshensu", "xinkuanggu", "xinjushou", "piaoling", "buqu"]
+unresolved_skills : []
+audit_report : "docs/FULL-SKILL-AUDIT.md"
+acceptance_handoff : "docs/FULL-SKILL-ACCEPTANCE-HANDOFF.md"
+native_patch : "feisheng-ai-refresh-feng-native-ai.patch"
+incompatible_packs : []
+compatibility_note : "双风共享入口为待验证候选；仅相同共享核心和精确匹配的新版对包可安装，旧版须先回滚并迁移。"
+baseline_acceptance : {"head": "fcc9eb2581e9470e228dea112add930fa0be0e07", "status": "PASS"}
+publication_status : "未发布"
+============================== shenhua_huo
+schema_version : "1.0"
+id : "shenhua_huo"
+name : "神话再临·火"
+group : "神话再临"
+delivery_stage : "可交付"
+complete_delivery : true
+pack_status : "验证完成"
+delivery_status : "可交付"
+can_mark_deliverable : true
+external_integration_receipt : null
+external_integration_note : null
+module : "shenhuaHuo"
+rules : "shenhuaHuo"
+implemented_skills : ["luanji", "tianyi", "jianchu"]
+optimization_types : {"luanji": "缺陷修复", "tianyi": "质量提升", "jianchu": "质量提升"}
+review_only : false
+audited_skills : ["qiangxix", "quhu", "jieming", "lianhuan", "oldniepan", "tianyi", "shuangxiong", "luanji", "xueyi", "bazhen", "huoji", "kanpo", "mashu", "jianchu"]
+target_characters : [{"character_id": "dianwei", "character_name": "典韦"}, {"character_id": "xunyu", "character_name": "荀彧"}, {"character_id": "pangtong", "character_name": "庞统"}, {"character_id": "taishici", "character_name": "太史慈"}, {"character_id": "yanwen", "character_name": "颜良文丑"}, {"character_id": "re_yuanshao", "character_name": "袁绍"}, {"character_id": "sp_zhugeliang", "character_name": "卧龙"}, {"character_id": "re_pangde", "character_name": "庞德"}]
+counts : {"characters": 8, "skills": 14, "reviewed_skills": 14, "fixed_skills": 3, "verified_skills": 11, "unreviewed_skills": 0, "skill_status": {"已验证无问题": 11, "已修复": 3}}
+registry_template_sha256 : "c4638675fc802e3118934c1717def7a122671969883e6fe4e7cfad6bf9f214b2"
+dependencies : ["score/index.js 已接线策略 facade", "score/foundation/adapt/host.js", "score/decision/safety/aiOverride.js"]
+head : "4fb57e10dd4077cf2cfa39f5ad2783e61ce69cd3"
+source_mode : "git-show-head"
+worktree_dirty : false
+baseline : "1fe5292eb3022dd8d1db494617b21a12be912e61"
+============================== shenhua_lei
+schema_version : "1.0"
+id : "shenhua_lei"
+name : "神话再临·雷"
+group : "神话再临"
+delivery_stage : "可交付"
+complete_delivery : true
+pack_status : "验证完成"
+delivery_status : "可交付"
+can_mark_deliverable : true
+external_integration_receipt : null
+external_integration_note : null
+module : "shenhuaLei"
+rules : "shenhuaLei"
+implemented_skills : ["olkongsheng", "xinfu_fuyin", "drlt_qianjie", "drlt_zhengu"]
+review_only : false
+audited_skills : ["zhengrong", "hongju", "dcwanglie", "drlt_qianjie", "drlt_jueyan", "drlt_poshi", "olliangyin", "olkongsheng", "drlt_xiongluan", "drlt_congjian", "twjuxiang", "drlt_yongsi", "drlt_weidi", "drlt_zhengu", "xinfu_zuilun", "xinfu_fuyin"]
+target_characters : [{"character_id": "guanqiujian", "character_name": "毌丘俭"}, {"character_id": "chendao", "character_name": "陈到"}, {"character_id": "lukang", "character_name": "陆抗"}, {"character_id": "zhoufei", "character_name": "周妃"}, {"character_id": "zhangxiu", "character_name": "张绣"}, {"character_id": "yl_yuanshu", "character_name": "新杀袁术"}, {"character_id": "haozhao", "character_name": "郝昭"}, {"character_id": "zhugezhan", "character_name": "诸葛瞻"}]
+counts : {"characters": 8, "skills": 16, "reviewed_skills": 16, "unreviewed_skills": 0, "native_modified_skills": 4, "extension_wired_skills": 4, "fixed_skills": 4, "verified_skills": 12, "runtime_verified_skills": 4, "skill_status": {"已修复": 4, "已验证无问题": 12}}
+registry_template_sha256 : "32bd939a0a47c966c9d7a61ab7a9b678d89e4badae7b45350b03909775a55880"
+dependencies : ["score/index.js 已接线策略 facade", "score/foundation/adapt/host.js", "score/decision/safety/aiOverride.js"]
+head : "ca9d2d221a02920f34aef99614245f2e20a4a8c1"
+source_mode : "git-show-head"
+worktree_dirty : false
+baseline : "1fe5292eb3022dd8d1db494617b21a12be912e61"
+native_patch : "feisheng-ai-shenhua-lei-native-ai.patch"
+============================== refresh_standard
+schema_version : "1.0"
+id : "refresh_standard"
+name : "界限突破·标准"
+group : "界限突破"
+delivery_stage : "全量源码审查完成·待最终验收"
+complete_delivery : false
+pack_status : "全量静态审查完成；本轮3项AI修复待验收"
+delivery_status : "封包待验收"
+can_mark_deliverable : false
+external_integration_receipt : null
+external_integration_note : null
+module : "refreshStandard"
+rules : "refreshStandard"
+implemented_skills : ["rezhiheng", "rerende", "new_retuxi", "new_yijue", "refanjian", "new_reqingnang", "rejieyin", "retieji", "reganglie", "reqianxun", "refankui", "qingguo", "jijiu", "lijian"]
+review_only : false
+audited_skills : ["new_retuxi", "reguose", "liuli", "rekurou", "zhaxiang", "rerende", "rejijiang", "lijian", "rebiyue", "rezhiheng", "rejiuyuan", "new_rejianxiong", "rehujia", "refankui", "reguicai", "tiandu", "new_reyiji", "new_reluoyi", "reganglie", "new_qingjian", "olpaoxiao", "oltishen", "ollongdan", "olyajiao", "new_rewusheng", "new_yijue", "mashu", "retieji", "reyingzi", "refanjian", "keji", "qinxue", "rebotu", "qixi", "fenwei", "reqianxun", "relianying", "wushuang", "new_liyu", "jijiu", "new_reqingnang", "rejizhi", "reqicai", "xiaoji", "rejieyin", "reluoshen", "qingguo", "reguanxing", "kongcheng", "reyaowu", "shizhan", "reqiaomeng", "reyicong", "xunxun", "xinwangxi", "zhuhai", "qianxin"]
+target_characters : [{"character_id": "re_zhangliao", "character_name": "界张辽"}, {"character_id": "re_daqiao", "character_name": "界大乔"}, {"character_id": "re_huanggai", "character_name": "界黄盖"}, {"character_id": "re_liubei", "character_name": "界刘备"}, {"character_id": "re_diaochan", "character_name": "界貂蝉"}, {"character_id": "re_sunquan", "character_name": "界孙权"}, {"character_id": "re_caocao", "character_name": "界曹操"}, {"character_id": "re_simayi", "character_name": "界司马懿"}, {"character_id": "re_guojia", "character_name": "界郭嘉"}, {"character_id": "re_xuzhu", "character_name": "界许褚"}, {"character_id": "re_xiahoudun", "character_name": "界夏侯惇"}, {"character_id": "re_zhangfei", "character_name": "界张飞"}, {"character_id": "re_zhaoyun", "character_name": "界赵云"}, {"character_id": "re_guanyu", "character_name": "界关羽"}, {"character_id": "re_machao", "character_name": "界马超"}, {"character_id": "re_zhouyu", "character_name": "界周瑜"}, {"character_id": "re_lvmeng", "character_name": "界吕蒙"}, {"character_id": "re_ganning", "character_name": "界甘宁"}, {"character_id": "re_luxun", "character_name": "界陆逊"}, {"character_id": "re_lvbu", "character_name": "界吕布"}, {"character_id": "re_huatuo", "character_name": "界华佗"}, {"character_id": "re_huangyueying", "character_name": "界黄月英"}, {"character_id": "re_sunshangxiang", "character_name": "界孙尚香"}, {"character_id": "re_zhenji", "character_name": "界甄宓"}, {"character_id": "re_zhugeliang", "character_name": "界诸葛亮"}, {"character_id": "re_huaxiong", "character_name": "界华雄"}, {"character_id": "re_gongsunzan", "character_name": "界公孙瓒"}, {"character_id": "re_lidian", "character_name": "界李典"}, {"character_id": "re_xushu", "character_name": "界徐庶"}]
+counts : {"registered_characters": 29, "registered_skills": 57, "reviewed_skills": 57, "unreviewed_skills": 0, "historical_optimization_skills": 17, "current_round_fixed_skills": 3, "native_optimization_skills": 20, "extension_optimization_skills": 13, "native_only_optimization_skills": 7, "existing_extension_skills": 1, "extension_registered_skills": 14, "reviewed_no_change_skills": 29, "not_applicable_skills": 8, "unresolved_confirmed_defects": 0, "confirmed_defect_resolution_skills": 3, "extension_safe_takeover_limited_skills": 7, "historically_special_validated_skills": 17, "current_round_verified_skills": 0}
+registry_template_sha256 : "88a88902af01be0b929f1e9c5b341c802e4afbdf080ea534b23a314469730b99"
+dependencies : ["score/index.js 已接线策略 facade", "score/foundation/adapt/host.js", "score/decision/safety/aiOverride.js", "score/decision/utility/utilityPipeline.js (applyOwnedUtility)", "score/decision/utility/utilityVector.js"]
+head : "0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea"
+source_mode : "git-show-head"
+worktree_dirty : false
+baseline : "1fe5292eb3022dd8d1db494617b21a12be912e61"
+historical_optimization_skills : ["rezhiheng", "rerende", "new_reyiji", "new_reluoyi", "new_yijue", "refanjian", "new_reqingnang", "rejieyin", "new_qingjian", "new_liyu", "retieji", "reganglie", "reqianxun", "relianying", "olyajiao", "refankui", "zhaxiang"]
+newly_fixed_skills : ["lijian", "jijiu", "qingguo"]
+reviewed_no_change_skills : ["new_retuxi", "reguose", "liuli", "rekurou", "rejijiang", "rejiuyuan", "new_rejianxiong", "rehujia", "reguicai", "tiandu", "oltishen", "ollongdan", "new_rewusheng", "keji", "qinxue", "rebotu", "qixi", "fenwei", "rejizhi", "xiaoji", "reluoshen", "reguanxing", "kongcheng", "reyaowu", "shizhan", "reqiaomeng", "xunxun", "xinwangxi", "zhuhai"]
+not_applicable_skills : ["rebiyue", "olpaoxiao", "mashu", "reyingzi", "wushuang", "reqicai", "reyicong", "qianxin"]
+native_skills : ["rezhiheng", "rerende", "new_reyiji", "new_reluoyi", "new_yijue", "refanjian", "new_reqingnang", "rejieyin", "new_qingjian", "new_liyu", "retieji", "reganglie", "reqianxun", "relianying", "olyajiao", "refankui", "zhaxiang", "qingguo", "jijiu", "lijian"]
+extension_optimization_skills : ["rezhiheng", "rerende", "new_yijue", "refanjian", "new_reqingnang", "rejieyin", "retieji", "reganglie", "reqianxun", "refankui", "qingguo", "jijiu", "lijian"]
+native_only_optimization_skills : ["new_reyiji", "new_reluoyi", "new_qingjian", "new_liyu", "relianying", "olyajiao", "zhaxiang"]
+existing_extension_skills : ["new_retuxi"]
+current_round_verified_skills : []
+audit_report : "docs/FULL-SKILL-AUDIT.md"
+acceptance_handoff : "docs/FULL-SKILL-ACCEPTANCE-HANDOFF.md"
+native_patch : "feisheng-ai-refresh-standard-native-ai.patch"
+validation_note : "前四批17项为历史专项验收基线；本轮新增3项源码修复尚未执行验证；完整封包、安装与回滚由独立Agent验收。"
+============================== out_of_scope
+schema_version : "1.0"
+id : "out_of_scope"
+name : "清单外角色"
+group : "清单外角色"
+delivery_stage : "可交付"
+complete_delivery : true
+pack_status : "验证完成"
+delivery_status : "可交付"
+can_mark_deliverable : true
+external_integration_receipt : null
+external_integration_note : null
+module : "outOfScope"
+rules : "outOfScope"
+implemented_skills : ["redimeng"]
+review_only : false
+audited_skills : ["redimeng"]
+target_characters : [{"character_id": "activity_lusu", "character_name": "活动武将/界鲁肃（非142清单ID）"}]
+counts : {"characters": 1, "skills": 1, "reviewed_skills": 1, "fixed_skills": 1, "verified_skills": 0, "unreviewed_skills": 0, "skill_status": {"已修复": 1}}
+registry_template_sha256 : "a83a787ab170d495db24abb56e280181b7fbdb20827534d413ad12b2e316eaf8"
+dependencies : ["score/index.js 已接线策略 facade", "score/foundation/adapt/host.js", "score/decision/safety/aiOverride.js"]
+head : "56735aea155040c70ee621e232ed96dce021b57a"
+source_mode : "git-show-head"
+worktree_dirty : false
+baseline : "1fe5292eb3022dd8d1db494617b21a12be912e61"

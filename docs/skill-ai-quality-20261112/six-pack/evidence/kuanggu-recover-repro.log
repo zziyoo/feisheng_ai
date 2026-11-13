@@ -1,0 +1,17 @@
+{
+  "source_zip": "feisheng-ai-shenhua-feng.zip",
+  "source_zip_sha256": "7a45c323876f8b1af9408c9c4bb86388e839c13c51ef31e28aded0a2076e8ac9",
+  "source_file": "source/score/decision/skills/rules/shenhuaFeng.js",
+  "inputs": {
+    "hp": 3,
+    "isDamaged": true,
+    "recoverEffect": 1,
+    "shaReady": 1,
+    "shaUsable": 0
+  },
+  "native_condition": true,
+  "native_choice": "recover_hp",
+  "extension_choice": "draw_card",
+  "acceptance_expectation": "recover_hp",
+  "result": "MISMATCH"
+}

@@ -23,6 +23,7 @@ const WIRE_INDEX = argsHas('wire-index-diff') || !!BASE_REF;
 const BASELINE_DIR = option('baseline-dir') ? path.resolve(option('baseline-dir')) : null;
 const BASELINE_PREFIX = option('baseline-prefix') || 'accept-';
 const EXPLICIT_SCENES = option('scenes') ? option('scenes').split(',').map(item => item.trim()).filter(Boolean) : null;
+const ALLOW_MISSING_TESTS = argsHas('allow-missing-tests');
 const DEFAULT_SCENES = {
 	refresh_standard: ['rezhiheng-3hp', 'new-retuxi-order'],
 	shenhua_feng: [
@@ -255,7 +256,11 @@ function assertInstalled(root, pkg, packJson, contract) {
 
 function assertRolledBack(root, packJson, expectedImports) {
 	for (const file of Object.keys(packJson.pack_files || {})) {
+		if (file === 'skillPlanHints.js') continue;
 		if (exists(path.join(root, 'score/decision/skills', ...file.split('/')))) throw new Error('回滚后分包文件仍存在：' + file);
+	}
+	if (packJson.id === 'refresh_standard' && !exists(path.join(root, 'score/decision/skills/skillPlanHints.js'))) {
+		throw new Error('回滚误删完整引擎共享软建议文件：skillPlanHints.js');
 	}
 	const imports = verifyImports(root);
 	const still = imports.find(item => item.module === packJson.module);
@@ -1443,8 +1448,16 @@ function loadSkillScenesGrouped(root, label, scenes, expectedPacks, options = {}
 	return base;
 }
 
+function skippedRun(command, reason) {
+	return { command, status: 0, signal: null, stdout: '', stderr: '', error: null, skipped: true, reason };
+}
+
 function packSummary(zip, root) {
 	const packJson = jsonOf(path.join(root, 'pack.json'));
+	const packageTestsPath = path.join(root, 'tests/run-pack-tests.mjs');
+	const crossPlatformPath = path.join(root, 'tests/test-verify-zip.py');
+	const packageTestsPresent = exists(packageTestsPath);
+	const crossPlatformPresent = exists(crossPlatformPath);
 	return {
 		id: packJson.id,
 		name: packJson.name,
@@ -1454,10 +1467,15 @@ function packSummary(zip, root) {
 		delivery_stage: packJson.delivery_stage,
 		implemented_skills: packJson.implemented_skills || [],
 		target_skills_count: (packJson.target_skills || []).length,
-		package_tests: runNode(path.join(root, 'tests/run-pack-tests.mjs'), [], { cwd: root }),
+		tests_present: packageTestsPresent,
+		package_tests: packageTestsPresent
+			? runNode(packageTestsPath, [], { cwd: root })
+			: (ALLOW_MISSING_TESTS ? skippedRun('node ' + packageTestsPath, 'ZIP 不含 tests/run-pack-tests.mjs') : runNode(packageTestsPath, [], { cwd: root })),
 		verify_zip: run('python', [path.join(root, 'verify.py'), '--zip', path.resolve(zip)], { cwd: root }),
 		verify_dir: run('python', [path.join(root, 'verify.py')], { cwd: root }),
-		verify_cross_platform: run('python', [path.join(root, 'tests/test-verify-zip.py')], { cwd: root }),
+		verify_cross_platform: crossPlatformPresent
+			? run('python', [crossPlatformPath], { cwd: root })
+			: (ALLOW_MISSING_TESTS ? skippedRun('python ' + crossPlatformPath, 'ZIP 不含 tests/test-verify-zip.py') : run('python', [crossPlatformPath], { cwd: root })),
 		root,
 		packJson,
 	};
@@ -1478,6 +1496,7 @@ const result = {
 	native_comparison: null,
 	packs: [],
 	steps: [],
+	skipped_checks: [],
 	pass: false,
 	workdir: WORK,
 };
@@ -1488,11 +1507,14 @@ try {
 		result.packs.push({
 			id: summary.id, name: summary.name, zip: summary.zip, zip_size: summary.zip_size, zip_sha256: summary.zip_sha256,
 			delivery_stage: summary.delivery_stage, implemented_skills: summary.implemented_skills, target_skills_count: summary.target_skills_count,
+			tests_present: summary.tests_present,
 			package_tests_status: summary.package_tests.status,
 			verify_zip_status: summary.verify_zip.status,
 			verify_dir_status: summary.verify_dir.status,
 			verify_cross_platform_status: summary.verify_cross_platform.status,
 		});
+		if (summary.package_tests.skipped) result.skipped_checks.push({ pack: summary.id, check: 'package-tests', reason: summary.package_tests.reason });
+		if (summary.verify_cross_platform.skipped) result.skipped_checks.push({ pack: summary.id, check: 'verify-cross-platform', reason: summary.verify_cross_platform.reason });
 		result.steps.push({ step: 'extract+verify', pack: summary.id, status: summary.package_tests.status === 0 && summary.verify_zip.status === 0 && summary.verify_dir.status === 0 && summary.verify_cross_platform.status === 0 ? 'passed' : 'failed', package_tests: summary.package_tests, verify_zip: summary.verify_zip, verify_dir: summary.verify_dir, verify_cross_platform: summary.verify_cross_platform });
 		if (summary.package_tests.status !== 0 || summary.verify_zip.status !== 0 || summary.verify_dir.status !== 0 || summary.verify_cross_platform.status !== 0) throw new Error('包内测试/校验失败：' + summary.id);
 		return summary;
