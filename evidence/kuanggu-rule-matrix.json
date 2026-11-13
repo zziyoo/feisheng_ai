@@ -1,0 +1,376 @@
+{
+  "tool": "kuanggu-rule-matrix",
+  "rule_sha256": "87a1a83de4548c7e5b9f4fb12ba94b3acb235d2bd4ba84f88984f4947adce9ea",
+  "measured_note": "仅 measured-real-host 行使用真实宿主探针输出的 get.recoverEffect/get.effect 值；synthetic 行不冒充宿主结果。",
+  "rows": [
+    {
+      "name": "real-original",
+      "source": "measured-real-host",
+      "host": "A/B/C/D: hp3 2sha chitu; after first sha",
+      "input": {
+        "hp": 3,
+        "isDamaged": true,
+        "recoverEffect": 19.5,
+        "drawEffect": 13,
+        "shaReady": 1,
+        "shaUsable": 0
+      },
+      "real": {
+        "A": "recover_hp",
+        "B": "recover_hp",
+        "C": "draw_card",
+        "D": "recover_hp"
+      },
+      "old": "draw_card",
+      "new": "recover_hp",
+      "native_patch": "recover_hp",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "real-draw-zhuge",
+      "source": "measured-real-host",
+      "host": "A/B/C/D: hp3 zhuge 1sha; after sha, shaUsable=Infinity",
+      "input": {
+        "hp": 3,
+        "isDamaged": true,
+        "recoverEffect": 22.5,
+        "drawEffect": 15,
+        "shaReady": 0,
+        "shaUsable": null
+      },
+      "real": {
+        "A": "draw_card",
+        "B": "recover_hp",
+        "C": "draw_card",
+        "D": "recover_hp"
+      },
+      "old": "draw_card",
+      "new": "recover_hp",
+      "native_patch": "recover_hp",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "real-fullhp",
+      "source": "measured-real-host",
+      "host": "A/B/C/D: hp4/4 2sha; after sha",
+      "input": {
+        "hp": 4,
+        "isDamaged": false,
+        "recoverEffect": 0,
+        "drawEffect": 11.7,
+        "shaReady": 1,
+        "shaUsable": 0
+      },
+      "real": {
+        "A": "draw_card",
+        "B": "draw_card",
+        "C": "draw_card",
+        "D": "draw_card"
+      },
+      "old": "draw_card",
+      "new": "draw_card",
+      "native_patch": "draw_card",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "real-lowhp",
+      "source": "measured-real-host",
+      "host": "A/B/C/D: hp1/4 2sha; after sha",
+      "input": {
+        "hp": 1,
+        "isDamaged": true,
+        "recoverEffect": 58.5,
+        "drawEffect": 39,
+        "shaReady": 1,
+        "shaUsable": 0
+      },
+      "real": {
+        "A": "recover_hp",
+        "B": "recover_hp",
+        "C": "recover_hp",
+        "D": "recover_hp"
+      },
+      "old": "recover_hp",
+      "new": "recover_hp",
+      "native_patch": "recover_hp",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "real-nosha",
+      "source": "measured-real-host",
+      "host": "A/B/C/D: hp3 1sha; after sha, ready=0 usable=0",
+      "input": {
+        "hp": 3,
+        "isDamaged": true,
+        "recoverEffect": 22.5,
+        "drawEffect": 15,
+        "shaReady": 0,
+        "shaUsable": 0
+      },
+      "real": {
+        "A": "recover_hp",
+        "B": "recover_hp",
+        "C": "draw_card",
+        "D": "recover_hp"
+      },
+      "old": "draw_card",
+      "new": "recover_hp",
+      "native_patch": "recover_hp",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "real-midhp-direct",
+      "source": "measured-real-host",
+      "host": "A/B/C/D: hp3 no hand; direct damage, ready=0 usable=1",
+      "input": {
+        "hp": 3,
+        "isDamaged": true,
+        "recoverEffect": 22.5,
+        "drawEffect": 15,
+        "shaReady": 0,
+        "shaUsable": 1
+      },
+      "real": {
+        "A": "draw_card",
+        "B": "recover_hp",
+        "C": "draw_card",
+        "D": "recover_hp"
+      },
+      "old": "draw_card",
+      "new": "recover_hp",
+      "native_patch": "recover_hp",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "real-multihit-1",
+      "source": "measured-real-host",
+      "host": "A/B/C/D: hp2 no hand; first direct damage",
+      "input": {
+        "hp": 2,
+        "isDamaged": true,
+        "recoverEffect": 40.5,
+        "drawEffect": 27,
+        "shaReady": 0,
+        "shaUsable": 1
+      },
+      "real": {
+        "A": "draw_card",
+        "B": "recover_hp",
+        "C": "draw_card",
+        "D": "recover_hp"
+      },
+      "old": "draw_card",
+      "new": "recover_hp",
+      "native_patch": "recover_hp",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "real-multihit-2",
+      "source": "measured-real-host",
+      "host": "A/B/C/D: hp3 after first recovery; second direct damage",
+      "input": {
+        "hp": 3,
+        "isDamaged": true,
+        "recoverEffect": 22.5,
+        "drawEffect": 15,
+        "shaReady": 0,
+        "shaUsable": 1
+      },
+      "real": {
+        "A": "draw_card",
+        "B": "recover_hp",
+        "C": "draw_card",
+        "D": "recover_hp"
+      },
+      "old": "draw_card",
+      "new": "recover_hp",
+      "native_patch": "recover_hp",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "synthetic-recover-1-draw-0.5",
+      "source": "synthetic-rule-input",
+      "input": {
+        "hp": 3,
+        "isDamaged": true,
+        "recoverEffect": 1,
+        "drawEffect": 0.5,
+        "shaReady": 0,
+        "shaUsable": 1
+      },
+      "old": "draw_card",
+      "new": "recover_hp",
+      "native_patch": "recover_hp",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "synthetic-recover-1-draw-1",
+      "source": "synthetic-rule-input",
+      "input": {
+        "hp": 3,
+        "isDamaged": true,
+        "recoverEffect": 1,
+        "drawEffect": 1,
+        "shaReady": 0,
+        "shaUsable": 1
+      },
+      "old": "draw_card",
+      "new": "draw_card",
+      "native_patch": "draw_card",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "synthetic-recover-1-draw-1.5",
+      "source": "synthetic-rule-input",
+      "input": {
+        "hp": 3,
+        "isDamaged": true,
+        "recoverEffect": 1,
+        "drawEffect": 1.5,
+        "shaReady": 0,
+        "shaUsable": 1
+      },
+      "old": "draw_card",
+      "new": "draw_card",
+      "native_patch": "draw_card",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "synthetic-recover-0-draw-1",
+      "source": "synthetic-rule-input",
+      "input": {
+        "hp": 3,
+        "isDamaged": true,
+        "recoverEffect": 0,
+        "drawEffect": 1,
+        "shaReady": 0,
+        "shaUsable": 1
+      },
+      "old": "draw_card",
+      "new": "draw_card",
+      "native_patch": "draw_card",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "synthetic-recover-1-draw-0",
+      "source": "synthetic-rule-input",
+      "input": {
+        "hp": 3,
+        "isDamaged": true,
+        "recoverEffect": 1,
+        "drawEffect": 0,
+        "shaReady": 0,
+        "shaUsable": 1
+      },
+      "old": "draw_card",
+      "new": "recover_hp",
+      "native_patch": "recover_hp",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "synthetic-recover-1-draw-neg1",
+      "source": "synthetic-rule-input",
+      "input": {
+        "hp": 3,
+        "isDamaged": true,
+        "recoverEffect": 1,
+        "drawEffect": -1,
+        "shaReady": 0,
+        "shaUsable": 1
+      },
+      "old": "draw_card",
+      "new": "recover_hp",
+      "native_patch": "recover_hp",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "synthetic-draw-nan",
+      "source": "synthetic-rule-input",
+      "input": {
+        "hp": 3,
+        "isDamaged": true,
+        "recoverEffect": 1,
+        "drawEffect": null,
+        "shaReady": 0,
+        "shaUsable": 1
+      },
+      "old": "draw_card",
+      "new": "draw_card",
+      "native_patch": "draw_card",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "synthetic-draw-infinity",
+      "source": "synthetic-rule-input",
+      "input": {
+        "hp": 3,
+        "isDamaged": true,
+        "recoverEffect": 1,
+        "drawEffect": null,
+        "shaReady": 0,
+        "shaUsable": 1
+      },
+      "old": "draw_card",
+      "new": "draw_card",
+      "native_patch": "draw_card",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "synthetic-lowhp-recover0",
+      "source": "synthetic-rule-input",
+      "input": {
+        "hp": 1,
+        "isDamaged": true,
+        "recoverEffect": 0,
+        "drawEffect": 1,
+        "shaReady": 0,
+        "shaUsable": 1
+      },
+      "old": "draw_card",
+      "new": "draw_card",
+      "native_patch": "draw_card",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "synthetic-sha-sufficient",
+      "source": "synthetic-rule-input",
+      "input": {
+        "hp": 3,
+        "isDamaged": true,
+        "recoverEffect": 1,
+        "drawEffect": 2,
+        "shaReady": 2,
+        "shaUsable": 2
+      },
+      "old": "recover_hp",
+      "new": "recover_hp",
+      "native_patch": "recover_hp",
+      "new_matches_native_patch": true
+    },
+    {
+      "name": "synthetic-not-damaged",
+      "source": "synthetic-rule-input",
+      "input": {
+        "hp": 4,
+        "maxHp": 4,
+        "isDamaged": false,
+        "recoverEffect": 0,
+        "drawEffect": 1,
+        "shaReady": 0,
+        "shaUsable": 1
+      },
+      "old": "draw_card",
+      "new": "draw_card",
+      "native_patch": "draw_card",
+      "new_matches_native_patch": true
+    }
+  ],
+  "verdict": {
+    "measured_rows": 8,
+    "synthetic_rows": 11,
+    "measured_D_matches_rule": true,
+    "measured_new_matches_native_patch": true,
+    "all_new_matches_native_patch": true,
+    "original_p1_reproduced_old_draw_new_recover": true
+  }
+}

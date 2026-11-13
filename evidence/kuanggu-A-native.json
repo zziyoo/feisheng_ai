@@ -1,0 +1,1229 @@
+{
+  "completedAt": "2026-11-13T02:28:05.114Z",
+  "status": "passed",
+  "scope": "真实身份局宿主、固定公开局面、技能AI选择与结算观察；原生AI基线",
+  "seed": "20261030",
+  "browserVersion": "157.0.8103.78",
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "players": 8,
+  "extensionInstalled": false,
+  "policyStats": null,
+  "scenes": [
+    {
+      "name": "kuanggu-probe-original",
+      "setup": {
+        "hp": 3,
+        "maxHp": 4,
+        "hand": [
+          "sha",
+          "sha"
+        ],
+        "distance": 1,
+        "enemyHp": 3,
+        "zhuge": false
+      },
+      "before": {
+        "hp": {
+          "75027863590": 3,
+          "50265723591": 4,
+          "74695553592": 3,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "probe": {
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 19.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 19.5
+          }
+        ],
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 19.5,
+            "drawEffect": 13,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "damage": [
+          {
+            "checkKuanggu": true,
+            "num": 1,
+            "source": "75027863590",
+            "player": "74695553592"
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [
+            "sha"
+          ],
+          "enemyHp": 2
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 2,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 4868.5
+    },
+    {
+      "name": "kuanggu-probe-draw-zhuge",
+      "setup": {
+        "hp": 3,
+        "maxHp": 4,
+        "hand": [
+          "sha"
+        ],
+        "distance": 1,
+        "enemyHp": 3,
+        "zhuge": true
+      },
+      "before": {
+        "hp": {
+          "75027863590": 3,
+          "50265723591": 4,
+          "74695553592": 3,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinkuanggu",
+            "zhuge_skill"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "probe": {
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 22.5
+          }
+        ],
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": null,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "shan"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "damage": [
+          {
+            "checkKuanggu": true,
+            "num": 1,
+            "source": "75027863590",
+            "player": "74695553592"
+          }
+        ],
+        "after": {
+          "actorHp": 3,
+          "actorHand": [
+            "shan"
+          ],
+          "enemyHp": 2
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 3,
+          "50265723591": 4,
+          "74695553592": 2,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinkuanggu",
+            "zhuge_skill"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 1311.9
+    },
+    {
+      "name": "kuanggu-probe-fullhp",
+      "setup": {
+        "hp": 4,
+        "maxHp": 4,
+        "hand": [
+          "sha",
+          "sha"
+        ],
+        "distance": 1,
+        "enemyHp": 3,
+        "zhuge": false
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 3,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "probe": {
+        "calls": [],
+        "atChoose": [
+          {
+            "hp": 4,
+            "maxHp": 4,
+            "isDamaged": false,
+            "recoverEffect": 0,
+            "drawEffect": 11.700000000000001,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "wuxie"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "damage": [
+          {
+            "checkKuanggu": true,
+            "num": 1,
+            "source": "75027863590",
+            "player": "74695553592"
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [
+            "wuxie",
+            "sha"
+          ],
+          "enemyHp": 2
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 2,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wuxie",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 1268.2
+    },
+    {
+      "name": "kuanggu-probe-lowhp",
+      "setup": {
+        "hp": 1,
+        "maxHp": 4,
+        "hand": [
+          "sha",
+          "sha"
+        ],
+        "distance": 1,
+        "enemyHp": 3,
+        "zhuge": false
+      },
+      "before": {
+        "hp": {
+          "75027863590": 1,
+          "50265723591": 4,
+          "74695553592": 3,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "probe": {
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 1,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 58.50000000000001
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 1,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 58.50000000000001
+          }
+        ],
+        "atChoose": [
+          {
+            "hp": 1,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 58.50000000000001,
+            "drawEffect": 39,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "damage": [
+          {
+            "checkKuanggu": true,
+            "num": 1,
+            "source": "75027863590",
+            "player": "74695553592"
+          }
+        ],
+        "after": {
+          "actorHp": 2,
+          "actorHand": [
+            "sha"
+          ],
+          "enemyHp": 2
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 2,
+          "50265723591": 4,
+          "74695553592": 2,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 1153.9
+    },
+    {
+      "name": "kuanggu-probe-nosha",
+      "setup": {
+        "hp": 3,
+        "maxHp": 4,
+        "hand": [
+          "sha"
+        ],
+        "distance": 1,
+        "enemyHp": 3,
+        "zhuge": false
+      },
+      "before": {
+        "hp": {
+          "75027863590": 3,
+          "50265723591": 4,
+          "74695553592": 3,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "probe": {
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 22.5
+          }
+        ],
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": 0,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "damage": [
+          {
+            "checkKuanggu": true,
+            "num": 1,
+            "source": "75027863590",
+            "player": "74695553592"
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [],
+          "enemyHp": 2
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 2,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 1166.7
+    },
+    {
+      "name": "kuanggu-probe-midhp-direct",
+      "setup": {
+        "hp": 3,
+        "maxHp": 4,
+        "hand": [],
+        "distance": 1,
+        "enemyHp": 3,
+        "zhuge": false
+      },
+      "before": {
+        "hp": {
+          "75027863590": 3,
+          "50265723591": 4,
+          "74695553592": 3,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "probe": {
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 22.5
+          }
+        ],
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "sha"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "damage": [
+          {
+            "checkKuanggu": true,
+            "num": 1,
+            "source": "75027863590",
+            "player": "74695553592"
+          }
+        ],
+        "after": {
+          "actorHp": 3,
+          "actorHand": [
+            "sha"
+          ],
+          "enemyHp": 2
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 3,
+          "50265723591": 4,
+          "74695553592": 2,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 638.9
+    },
+    {
+      "name": "kuanggu-probe-multihit",
+      "setup": {
+        "hp": 2,
+        "maxHp": 4,
+        "hand": [],
+        "distance": 1,
+        "enemyHp": 4,
+        "zhuge": false
+      },
+      "before": {
+        "hp": {
+          "75027863590": 2,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "probe": {
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 2,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 40.50000000000001
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 2,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 40.50000000000001
+          },
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 2,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 35.1
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 2,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 35.1
+          }
+        ],
+        "atChoose": [
+          {
+            "hp": 2,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 40.50000000000001,
+            "drawEffect": 27,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 3,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          },
+          {
+            "hp": 2,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 35.1,
+            "drawEffect": 23.400000000000002,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [
+              "shan"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "shan"
+              ],
+              "draw"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "fangtian"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "damage": [
+          {
+            "checkKuanggu": true,
+            "num": 1,
+            "source": "75027863590",
+            "player": "74695553592"
+          },
+          {
+            "checkKuanggu": true,
+            "num": 1,
+            "source": "75027863590",
+            "player": "74695553592"
+          }
+        ],
+        "after": {
+          "actorHp": 2,
+          "actorHand": [
+            "fangtian",
+            "shan"
+          ],
+          "enemyHp": 2
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 2,
+          "50265723591": 4,
+          "74695553592": 2,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "fangtian",
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 735.1
+    },
+    {
+      "name": "engine-disabled-gate",
+      "before": true,
+      "off": false,
+      "on": true
+    }
+  ],
+  "errors": []
+}

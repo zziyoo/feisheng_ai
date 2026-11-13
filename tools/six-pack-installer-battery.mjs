@@ -98,6 +98,7 @@ function makeTarget(name, ref, options = {}) {
 		const diff = path.join(byId.refresh_standard.root, 'patches/score-index.diff');
 		const wired = run('git', ['apply', diff], { cwd: root });
 		assert.equal(wired.status, 0, wired.stderr);
+		assert(fs.readFileSync(path.join(root, 'score/index.js'), 'utf8').includes('installSkillAIPolicies'), 'score-index.diff 未实际写入 score/index.js');
 	}
 	if (options.scrubPacks) {
 		const skills = path.join(root, 'score/decision/skills');
@@ -179,7 +180,8 @@ const packs = ZIPS.map((zip, index) => {
 	return { id: json.id, json, root, zip: path.resolve(zip), sha256: sha(read(zip)) };
 });
 const byId = Object.fromEntries(packs.map(pack => [pack.id, pack]));
-const ORDER = ['refresh_standard', 'shenhua_feng', 'refresh_feng', 'shenhua_huo', 'shenhua_lei', 'out_of_scope'];
+/* 本版新神话风只声明旧界风对包哈希；双风必须界风先装。顺序与交付 README/UPGRADE 一致。 */
+const ORDER = ['refresh_standard', 'refresh_feng', 'shenhua_feng', 'shenhua_huo', 'shenhua_lei', 'out_of_scope'];
 assert.deepEqual(packs.map(pack => pack.id), ORDER, 'ZIP 顺序必须与安装顺序一致');
 
 const results = {

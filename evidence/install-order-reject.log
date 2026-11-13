@@ -1,0 +1,9 @@
+EXIT=1
+STDOUT:
+
+STDERR:
+APPLY FAIL: 双风版本或对包源码不匹配；请先回滚旧风包并迁移到同一兼容候选，不会覆盖现有文件。
+
+BEFORE={"score/decision/skills/skillAIPolicyPacks.js":{"sha256":"2fca6a104a34132267ffd06a821190878ea30d231bf561bbd4d97db22ed16dc7","size":398},"score/decision/skills/packs/refreshFeng.js":null,"score/decision/skills/rules/refreshFeng.js":null,"score/decision/skills/policyCore.js":{"sha256":"545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19","size":11723}}
+AFTER={"score/decision/skills/skillAIPolicyPacks.js":{"sha256":"2fca6a104a34132267ffd06a821190878ea30d231bf561bbd4d97db22ed16dc7","size":398},"score/decision/skills/packs/refreshFeng.js":null,"score/decision/skills/rules/refreshFeng.js":null,"score/decision/skills/policyCore.js":{"sha256":"545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19","size":11723}}
+PASS=true

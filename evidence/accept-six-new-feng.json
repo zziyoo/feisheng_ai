@@ -1,0 +1,4170 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-13T03:01:43.517Z",
+  "mode": "combined",
+  "repo": "C:\\Users\\32360\\.codex\\worktrees\\kuanggu-acceptance",
+  "repo_head": "25b950356627b9c236c4faf3be82e3481ad09111",
+  "base_ref": "1fe5292eb3022dd8d1db494617b21a12be912e61",
+  "wired_index": {
+    "applied": true,
+    "patch": "..\\..\\extract\\0\\patches\\score-index.diff",
+    "patch_sha256": "a6d28b98b8e3d8e3966464d4846944435497d93e8497cff7e017eba56d63cd3e"
+  },
+  "scenes": [
+    "rezhiheng-3hp",
+    "new-retuxi-order",
+    "hp-reqimou-distance4-hp2",
+    "hp-reqimou-distance4-hp3",
+    "hp-qimou-distance4-hp3",
+    "hp-qimou-distance4-hp4-negative",
+    "hp-qimou-distance3-hp2",
+    "shenhua-releiji-target",
+    "shenhua-guidao-replace",
+    "shenhua-guidao-decline",
+    "shenhua-huangtian-give",
+    "shenhua-huangtian-negative",
+    "shenhua-guhuo-claim",
+    "shenhua-guhuo-real-questioned",
+    "shenhua-guhuo-fake-questioned",
+    "shenhua-guhuo-phase",
+    "shenhua-shensu-skip",
+    "shenhua-shensu-negative",
+    "quality-shensu1-lowhand-lebu",
+    "quality-shensu1-reverse-lowvalue",
+    "shenhua-tianxiang-redirect",
+    "shenhua-tianxiang-negative",
+    "shenhua-hongyan-suit",
+    "shenhua-kuanggu-draw-fullhp",
+    "shenhua-kuanggu-recover",
+    "quality-kuanggu-lowhp",
+    "quality-kuanggu-midhp-recover",
+    "quality-jushou-turned",
+    "quality-jushou-normal",
+    "quality-guhuo-bluff-lowhp",
+    "quality-guhuo-bluff-midhp",
+    "quality-guhuo-full-lowhp-fake-lastshan",
+    "quality-guhuo-full-lowhp-true-sha-forced",
+    "quality-guhuo-full-lowhp-fake-expendable",
+    "quality-guhuo-full-midhp-fake-expendable",
+    "quality-huangtian-last-shan",
+    "quality-huangtian-midhp",
+    "quality-huangtian-last-shan-with-shandian",
+    "quality-huangtian-forced-shan-with-shandian",
+    "shenhua-jushou-4hp-empty",
+    "shenhua-jushou-lowhp",
+    "shenhua-buqu-damage",
+    "shenhua-buqu-negative",
+    "shenhua-buqu-recover-choice",
+    "shenhua-liegong-hit",
+    "shenhua-liegong-negative",
+    "hp-qiangxix-2hp-target1",
+    "hp-qiangxix-2hp-weapon-target2",
+    "shenhua-huo-quhu-compare",
+    "shenhua-huo-quhu-no-target",
+    "shenhua-huo-quhu-risky-decline",
+    "shenhua-huo-jieming-damage",
+    "shenhua-huo-jieming-no-benefit",
+    "shenhua-huo-lianhuan-tiesuo",
+    "shenhua-huo-lianhuan-ally-risk",
+    "shenhua-huo-lianhuan-recast",
+    "shenhua-huo-lianhuan-unlink-ally-risk",
+    "shenhua-huo-lianhuan-keep-enemy-linked",
+    "shenhua-huo-lianhuan-full-linked-recast",
+    "shenhua-huo-lianhuan-link-enemies",
+    "shenhua-huo-lianhuan-unlinked-ally-only",
+    "shenhua-huo-lianhuan-self-linked",
+    "shenhua-huo-lianhuan-recast-blocked",
+    "shenhua-huo-oldniepan-dying",
+    "shenhua-huo-oldniepan-tao",
+    "shenhua-huo-tianyi-compare",
+    "shenhua-huo-tianyi-win-sha",
+    "shenhua-huo-tianyi-lose-sha",
+    "shenhua-huo-tianyi-lose-content",
+    "shenhua-huo-shuangxiong-judge",
+    "shenhua-huo-shuangxiong-duel",
+    "shenhua-huo-shuangxiong-no-judge",
+    "shenhua-huo-luanji-wanjian",
+    "shenhua-huo-luanji-wanjian-use",
+    "shenhua-huo-luanji-no-pair",
+    "quality-luanji-ally-lethal",
+    "shenhua-huo-huoji-red",
+    "shenhua-huo-huoji-use",
+    "shenhua-huo-huoji-no-red",
+    "shenhua-huo-kanpo-response",
+    "shenhua-huo-kanpo-no-black",
+    "shenhua-huo-bazhen-bagua",
+    "shenhua-huo-bazhen-armor-negative",
+    "shenhua-huo-jianchu-sha",
+    "shenhua-huo-jianchu-no-equip",
+    "shenhua-huo-passive-rules",
+    "olkongsheng-array-count",
+    "olkongsheng-repeat",
+    "redimeng-hidden-info",
+    "redimeng-permute-values",
+    "redimeng-target-legal",
+    "redimeng-target-zero-cost",
+    "redimeng-target-infeasible"
+  ],
+  "contract": {
+    "single": null,
+    "combined": true
+  },
+  "skillChecks": {
+    "refresh_standard": {
+      "packId": "refresh_standard",
+      "checks": [
+        {
+          "name": "policy-counters",
+          "passed": true,
+          "detail": {
+            "calls": 9,
+            "retuxiTargetBonus": 7,
+            "lost": [
+              0,
+              1,
+              1
+            ]
+          }
+        }
+      ],
+      "signature": {
+        "calls": 9,
+        "retuxiTargetBonus": 7,
+        "keptTao": 4,
+        "keptShan": 0,
+        "lost": [
+          0,
+          1,
+          1
+        ]
+      }
+    },
+    "refresh_feng": {
+      "packId": "refresh_feng",
+      "checks": [
+        {
+          "name": "policy-counters",
+          "passed": true,
+          "detail": {
+            "reqimouClampCalls": 1,
+            "reqimouClamp": 0,
+            "paid": 3,
+            "reqimouInfeasible": 1
+          }
+        }
+      ],
+      "signature": {
+        "reqimouClampCalls": 1,
+        "reqimouClamp": 0,
+        "reqimouGateSkip": 0,
+        "reqimouInfeasible": 1,
+        "usedReqimou": true,
+        "paid": 3
+      }
+    },
+    "shenhua_feng": {
+      "packId": "shenhua_feng",
+      "checks": [
+        {
+          "name": "qimou-settlement",
+          "passed": true,
+          "detail": {
+            "scene": "hp-qimou-distance4-hp3",
+            "qimouBypass": 2,
+            "paid": 3,
+            "reachableAfter": true,
+            "enemyHpLoss": 3
+          }
+        },
+        {
+          "name": "qimou-settlement",
+          "passed": true,
+          "detail": {
+            "scene": "hp-qimou-distance3-hp2",
+            "qimouBypass": 2,
+            "paid": 2,
+            "reachableAfter": true,
+            "enemyHpLoss": 1
+          }
+        },
+        {
+          "name": "qimou-negative-settlement",
+          "passed": true,
+          "detail": {
+            "usedQimou": false,
+            "paid": 0,
+            "enemyHpLoss": 0
+          }
+        },
+        {
+          "name": "releiji-target-settlement",
+          "passed": true,
+          "detail": {
+            "targetEnemy": true,
+            "damage": {
+              "num": 2,
+              "nature": "thunder"
+            },
+            "hpDelta": -2
+          }
+        },
+        {
+          "name": "guidao-replace-settlement",
+          "passed": true,
+          "detail": {
+            "replaced": true,
+            "judgingSuit": "spade",
+            "gainedOriginal": true,
+            "picked": [
+              {
+                "name": "sha",
+                "suit": "spade"
+              }
+            ]
+          }
+        },
+        {
+          "name": "guidao-decline-settlement",
+          "passed": true,
+          "detail": {
+            "replaced": false,
+            "handKept": true
+          }
+        },
+        {
+          "name": "huangtian-give-settlement",
+          "passed": true,
+          "detail": {
+            "used": true,
+            "tempSkill": true,
+            "gaveToZhu": true
+          }
+        },
+        {
+          "name": "huangtian-negative-settlement",
+          "passed": true,
+          "detail": {
+            "used": false
+          }
+        },
+        {
+          "name": "guhuo-real-questioned-settlement",
+          "passed": true,
+          "detail": {
+            "declaredSha": true,
+            "chanyuan": true,
+            "damage": 1,
+            "cancelled": false
+          }
+        },
+        {
+          "name": "guhuo-fake-questioned-declined",
+          "passed": true,
+          "detail": {
+            "declaredSha": true,
+            "declined": true,
+            "noDamage": true
+          }
+        },
+        {
+          "name": "shensu-skip-settlement",
+          "passed": true,
+          "detail": {
+            "usedSha": true,
+            "targetEnemy": true,
+            "hpDelta": -1,
+            "judgeSkipped": true
+          }
+        },
+        {
+          "name": "shensu-negative-settlement",
+          "passed": true,
+          "detail": {
+            "usedSha": false,
+            "judgeResolved": true
+          }
+        },
+        {
+          "name": "tianxiang-redirect-settlement",
+          "passed": true,
+          "detail": {
+            "targetEnemy": true,
+            "control": 1,
+            "actorHpDelta": 0,
+            "targetHpDelta": -1
+          }
+        },
+        {
+          "name": "tianxiang-negative-settlement",
+          "passed": true,
+          "detail": {
+            "noTarget": true,
+            "damageProceeded": true
+          }
+        },
+        {
+          "name": "hongyan-passive-rule",
+          "passed": true,
+          "detail": {
+            "spadeAsHeart": true,
+            "spadeAsRed": true
+          }
+        },
+        {
+          "name": "kuanggu-recover-settlement",
+          "passed": true,
+          "detail": {
+            "choice": "recover_hp",
+            "hpDelta": 1,
+            "draw": 0
+          }
+        },
+        {
+          "name": "kuanggu-draw-fullhp-settlement",
+          "passed": true,
+          "detail": {
+            "choice": "draw_card",
+            "recoverEffect": 0,
+            "drawEffect": 13.5,
+            "draw": 1
+          }
+        },
+        {
+          "name": "kuanggu-lowhp-recover",
+          "passed": true,
+          "detail": {
+            "hp": 2,
+            "recovered": true
+          }
+        },
+        {
+          "name": "kuanggu-midhp-recover-settlement",
+          "passed": true,
+          "detail": {
+            "hp": 4,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "recovered": true
+          }
+        },
+        {
+          "name": "jushou-empty-settlement",
+          "passed": true,
+          "detail": {
+            "triggered": false,
+            "turnedOver": false
+          }
+        },
+        {
+          "name": "jushou-lowhp-settlement",
+          "passed": true,
+          "detail": {
+            "draw": 3,
+            "turnedOver": true
+          }
+        },
+        {
+          "name": "buqu-damage-settlement",
+          "passed": true,
+          "detail": {
+            "hp": 0,
+            "expansions": 1,
+            "dying": false,
+            "alive": true
+          }
+        },
+        {
+          "name": "buqu-negative-settlement",
+          "passed": true,
+          "detail": {
+            "hp": 1,
+            "expansions": 0
+          }
+        },
+        {
+          "name": "buqu-recover-choice-settlement",
+          "passed": true,
+          "detail": {
+            "picks": [
+              "sha"
+            ],
+            "expansions": 1,
+            "hp": 2
+          }
+        },
+        {
+          "name": "liegong-hit-settlement",
+          "passed": true,
+          "detail": {
+            "damage": 2,
+            "directHit": true,
+            "extraDamage": 1
+          }
+        },
+        {
+          "name": "liegong-negative-settlement",
+          "passed": true,
+          "detail": {
+            "damage": 1,
+            "directHit": false
+          }
+        },
+        {
+          "name": "jushou-turned-free-draw",
+          "passed": true,
+          "detail": {
+            "drew": 3,
+            "turned": false
+          }
+        },
+        {
+          "name": "jushou-normal-no-draw",
+          "passed": true,
+          "detail": {
+            "drew": 0,
+            "turned": false
+          }
+        },
+        {
+          "name": "shensu1-lowhand-lebu",
+          "passed": true,
+          "detail": {
+            "usedSha": true,
+            "judgeSkipped": true,
+            "targetEnemy": true
+          }
+        },
+        {
+          "name": "shensu1-opportunity-cost",
+          "passed": true,
+          "detail": {
+            "usedSha": 0,
+            "judgeCalls": 1,
+            "handCount": 2
+          }
+        },
+        {
+          "name": "guhuo-lowhp-guard",
+          "passed": true,
+          "detail": {
+            "checkScores": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "used": false
+          }
+        },
+        {
+          "name": "guhuo-midhp-native-bluff",
+          "passed": true,
+          "detail": {
+            "checkScores": [
+              4.703350401575457,
+              4.703350401575457,
+              4.703350401575457,
+              4.703350401575457
+            ]
+          }
+        },
+        {
+          "name": "guhuo-full-lowhp-fake-declined",
+          "passed": true,
+          "detail": {
+            "activated": false,
+            "hand": [
+              "shan"
+            ],
+            "hp": 1
+          }
+        },
+        {
+          "name": "guhuo-full-lowhp-true-used",
+          "passed": true,
+          "detail": {
+            "activated": true,
+            "hidden": [
+              "sha"
+            ],
+            "enemyHp": 1,
+            "chanyuan": true
+          }
+        },
+        {
+          "name": "guhuo-full-lowhp-expendable",
+          "passed": true,
+          "detail": {
+            "activated": true,
+            "lost": [
+              "shandian"
+            ],
+            "hand": [
+              "shan"
+            ],
+            "enemyHp": 2
+          }
+        },
+        {
+          "name": "guhuo-full-midhp-expendable",
+          "passed": true,
+          "detail": {
+            "activated": true,
+            "hidden": [
+              "shandian"
+            ],
+            "enemyHp": 1
+          }
+        },
+        {
+          "name": "huangtian-last-shan-kept",
+          "passed": true,
+          "detail": {
+            "used": false,
+            "hand": [
+              "shan"
+            ]
+          }
+        },
+        {
+          "name": "huangtian-midhp-give",
+          "passed": true,
+          "detail": {
+            "used": true,
+            "allyHand": [
+              "shan"
+            ]
+          }
+        },
+        {
+          "name": "huangtian-shandian-given-shan-kept",
+          "passed": true,
+          "detail": {
+            "used": true,
+            "allyHand": [
+              "shandian"
+            ]
+          }
+        },
+        {
+          "name": "huangtian-forced-shan-kept",
+          "passed": true,
+          "detail": {
+            "used": false,
+            "scores": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "hand": [
+              "shan"
+            ]
+          }
+        }
+      ],
+      "signature": {
+        "qimou": {
+          "qimouBypass": 2,
+          "usedQimou": true,
+          "paid": 2,
+          "reachableAfter": true,
+          "enemyHpLoss": 1
+        },
+        "releiji": {
+          "targetEnemy": true,
+          "thunderDamage": 2
+        },
+        "guidao": {
+          "replaced": true,
+          "gainedOriginal": true,
+          "declineWhenEqual": true
+        },
+        "huangtian": {
+          "used": true,
+          "tempSkill": true,
+          "gaveToZhu": true,
+          "noShanDecline": true,
+          "lastShanKept": true
+        },
+        "guhuoReal": {
+          "declaredSha": true,
+          "chanyuan": true,
+          "damage": 1,
+          "cancelled": false
+        },
+        "guhuoFake": {
+          "declaredSha": true,
+          "noDamage": true,
+          "noChanyuan": true,
+          "outcome": "declined"
+        },
+        "shensu": {
+          "usedSha": true,
+          "targetHpDelta": -1,
+          "judgeSkipped": true,
+          "lowHandDecline": true,
+          "lowHandJudgeSkip": true
+        },
+        "tianxiang": {
+          "targetEnemy": true,
+          "control": 1,
+          "actorHpDelta": 0,
+          "targetHpDelta": -1,
+          "noHeartDamage": true
+        },
+        "hongyan": {
+          "spadeAsHeart": true,
+          "spadeAsRed": true
+        },
+        "kuanggu": {
+          "drawChoice": "draw_card",
+          "recoverChoice": "recover_hp",
+          "draw": 1,
+          "recover": 1,
+          "fullHpDraw": true,
+          "lowHpRecover": true,
+          "midHpRecover": true
+        },
+        "jushou": {
+          "emptyTriggered": false,
+          "draw": 3,
+          "turnedOver": true,
+          "turnedFreeDraw": true
+        },
+        "buqu": {
+          "damageExpansions": true,
+          "negativeExpansions": 0,
+          "recoverPick": 1,
+          "recoverHp": 2
+        },
+        "liegong": {
+          "hitDamage": 2,
+          "hitDirect": true,
+          "negativeDamage": 1,
+          "negativeDirect": false
+        },
+        "guhuo": {
+          "lowHpBluffGuard": true
+        }
+      },
+      "validation": {
+        "qimou": {
+          "level": "确认缺陷并已修复",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true
+        },
+        "releiji": {
+          "level": "AI决策验证通过",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": false,
+          "note": "目标选择与黑桃判定后的 2 点雷电伤害均有真实结算断言；未额外构造无目标负向场景。"
+        },
+        "guidao": {
+          "level": "正反向决策验证通过",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true
+        },
+        "huangtian": {
+          "level": "确认存在质量提升并已实现",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true,
+          "note": "1血最后一张闪不转交；持闪+闪电时只转交闪电；3血双闪仍按原生转交。"
+        },
+        "xinshensu": {
+          "level": "确认存在质量提升并已实现",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true,
+          "note": "低手牌+不良判定且目标收益高于摸牌价值时使用神速1；目标收益低于摸牌价值时放弃并正常结算判定。"
+        },
+        "retianxiang": {
+          "level": "正反向决策验证通过",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true
+        },
+        "hongyan": {
+          "level": "规则结算验证通过",
+          "rule_settlement": true,
+          "ai_decision": false,
+          "positive_negative": false,
+          "note": "纯被动规则，无独立 AI 决策入口；只验证花色/颜色规则。"
+        },
+        "xinkuanggu": {
+          "level": "确认存在质量提升并已实现",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true,
+          "note": "1血可回复时优先回复；反向场景保持原生摸牌。"
+        },
+        "jushou": {
+          "level": "确认存在质量提升并已实现",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true,
+          "note": "已翻面时据守摸3张并翻回正面；正常4血3手牌反向不发动。"
+        },
+        "gzbuqu": {
+          "level": "AI决策验证通过",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true,
+          "note": "主触发为锁定技；额外验证回复后移创的 chooseCardButton AI 选择。"
+        },
+        "xinliegong": {
+          "level": "正反向决策验证通过",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true
+        },
+        "xinfu_guhuo": {
+          "level": "确认存在质量提升并已实现",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true,
+          "note": "1血无真牌不诈称；3血同局面仍保留原生诈称分。"
+        }
+      }
+    },
+    "shenhua_huo": {
+      "packId": "shenhua_huo",
+      "checks": [
+        {
+          "name": "qiangxix-target1-regression",
+          "passed": true,
+          "detail": {
+            "targetHp": 1,
+            "actorHp": 1
+          }
+        },
+        {
+          "name": "qiangxix-weapon-regression",
+          "passed": true,
+          "detail": {
+            "weaponDiscarded": true,
+            "actorHp": 2,
+            "targetHp": 1
+          }
+        },
+        {
+          "name": "quhu-settlement",
+          "passed": true,
+          "detail": {
+            "targetEnemy": true,
+            "enemyHpLoss": 1
+          }
+        },
+        {
+          "name": "quhu-no-target",
+          "passed": true,
+          "detail": {
+            "used": false
+          }
+        },
+        {
+          "name": "quhu-risky-decline",
+          "passed": true,
+          "detail": {
+            "used": false,
+            "actorHp": 1
+          }
+        },
+        {
+          "name": "jieming-damage-settlement",
+          "passed": true,
+          "detail": {
+            "targetAlly": true,
+            "draw": 4
+          }
+        },
+        {
+          "name": "jieming-no-benefit",
+          "passed": true,
+          "detail": {
+            "targetCount": 0,
+            "enemyGain": 0
+          }
+        },
+        {
+          "name": "lianhuan-tiesuo-settlement",
+          "passed": true,
+          "detail": {
+            "targetEnemy": true,
+            "targets": 2
+          }
+        },
+        {
+          "name": "lianhuan-ally-risk-recast",
+          "passed": true,
+          "detail": {
+            "recast": true,
+            "allyTargeted": false
+          }
+        },
+        {
+          "name": "lianhuan-unlink-settlement",
+          "passed": true,
+          "detail": {
+            "targetAlly": true,
+            "unlinked": true,
+            "recast": false
+          }
+        },
+        {
+          "name": "lianhuan-unlink-ally-risk",
+          "passed": true,
+          "detail": {
+            "targetAlly": true,
+            "allyHp": 1,
+            "enemyFireSkill": true
+          }
+        },
+        {
+          "name": "lianhuan-keep-enemy-linked",
+          "passed": true,
+          "detail": {
+            "recast": true,
+            "chainTargets": 2
+          }
+        },
+        {
+          "name": "lianhuan-full-linked-recast",
+          "passed": true,
+          "detail": {
+            "recast": true,
+            "targets": 0,
+            "draws": 1
+          }
+        },
+        {
+          "name": "lianhuan-link-enemies",
+          "passed": true,
+          "detail": {
+            "targets": 2,
+            "chainTargets": 2
+          }
+        },
+        {
+          "name": "lianhuan-unlinked-ally-only",
+          "passed": true,
+          "detail": {
+            "recast": true,
+            "targets": 0
+          }
+        },
+        {
+          "name": "lianhuan-self-linked",
+          "passed": true,
+          "detail": {
+            "targetSelf": true,
+            "unlinked": true
+          }
+        },
+        {
+          "name": "lianhuan-recast-blocked",
+          "passed": true,
+          "detail": {
+            "targets": 2,
+            "actorLinked": false,
+            "allyLinked": false
+          }
+        },
+        {
+          "name": "oldniepan-dying-settlement",
+          "passed": true,
+          "detail": {
+            "used": true,
+            "hp": 3,
+            "hand": 3
+          }
+        },
+        {
+          "name": "oldniepan-tao-preserved",
+          "passed": true,
+          "detail": {
+            "usedOldniepan": false,
+            "usedTao": true,
+            "hp": 1
+          }
+        },
+        {
+          "name": "tianyi-compare-win",
+          "passed": true,
+          "detail": {
+            "tianyi2": true
+          }
+        },
+        {
+          "name": "tianyi-win-sha-settlement",
+          "passed": true,
+          "detail": {
+            "used": true,
+            "tianyi2": true,
+            "shaUsed": true,
+            "enemyHpLoss": 2
+          }
+        },
+        {
+          "name": "tianyi-lose-decline",
+          "passed": true,
+          "detail": {
+            "used": false,
+            "shaUsed": true
+          }
+        },
+        {
+          "name": "tianyi-lose-content",
+          "passed": true,
+          "detail": {
+            "tianyi3": true,
+            "shaEnabled": false
+          }
+        },
+        {
+          "name": "shuangxiong-judge-viewas",
+          "passed": true,
+          "detail": {
+            "viewas": true
+          }
+        },
+        {
+          "name": "shuangxiong-duel-settlement",
+          "passed": true,
+          "detail": {
+            "judged": true,
+            "viewas": true,
+            "juedou": 2,
+            "enemyHpLoss": 3
+          }
+        },
+        {
+          "name": "shuangxiong-no-judge",
+          "passed": true,
+          "detail": {
+            "judged": false,
+            "viewas": false
+          }
+        },
+        {
+          "name": "luanji-wanjian-settlement",
+          "passed": true,
+          "detail": {
+            "targets": 7,
+            "enemyDamage": 13
+          }
+        },
+        {
+          "name": "luanji-no-pair",
+          "passed": true,
+          "detail": {
+            "used": false,
+            "handKept": true
+          }
+        },
+        {
+          "name": "luanji-conservative-decline",
+          "passed": true,
+          "detail": {
+            "used": false
+          }
+        },
+        {
+          "name": "luanji-ally-lethal-veto",
+          "passed": true,
+          "detail": {
+            "check": 0,
+            "used": false,
+            "allyHp": 1
+          }
+        },
+        {
+          "name": "huoji-use-settlement",
+          "passed": true,
+          "detail": {
+            "huogong": true,
+            "fireDamage": true
+          }
+        },
+        {
+          "name": "huoji-conservative-decline",
+          "passed": true,
+          "detail": {
+            "used": false
+          }
+        },
+        {
+          "name": "huoji-no-red",
+          "passed": true,
+          "detail": {
+            "used": false
+          }
+        },
+        {
+          "name": "kanpo-response-settlement",
+          "passed": true,
+          "detail": {
+            "used": true,
+            "damage": 0
+          }
+        },
+        {
+          "name": "kanpo-no-black",
+          "passed": true,
+          "detail": {
+            "used": false,
+            "damage": 1
+          }
+        },
+        {
+          "name": "bazhen-bagua-settlement",
+          "passed": true,
+          "detail": {
+            "judged": true,
+            "damage": 0
+          }
+        },
+        {
+          "name": "bazhen-armor-negative",
+          "passed": true,
+          "detail": {
+            "bazhenExtra": false,
+            "damage": 1
+          }
+        },
+        {
+          "name": "passive-rules",
+          "passed": true,
+          "detail": {
+            "mashuDistance": 1,
+            "maxHandcard": 10
+          }
+        },
+        {
+          "name": "jianchu-sha-settlement",
+          "passed": true,
+          "detail": {
+            "directHit": true,
+            "equips": 0,
+            "enemyHpLoss": 1
+          }
+        },
+        {
+          "name": "jianchu-no-equip",
+          "passed": true,
+          "detail": {
+            "directHit": false,
+            "enemyGainedSha": true,
+            "damage": 1
+          }
+        }
+      ],
+      "signature": {
+        "qiangxix": {
+          "used": true,
+          "targetHp": 1,
+          "actorHp": 1,
+          "weaponDiscarded": true
+        },
+        "quhu": {
+          "used": true,
+          "targetEnemy": true,
+          "damage": 1,
+          "noTargetDecline": true,
+          "riskyDecline": true
+        },
+        "jieming": {
+          "targetAlly": true,
+          "allyDraw": 4,
+          "noBenefitDecline": true
+        },
+        "lianhuan": {
+          "usedOnEnemies": true,
+          "targetCount": 2,
+          "allyRiskRecast": true,
+          "unlinkAlly": true,
+          "unlinkLowHpAlly": true,
+          "keepEnemyLinked": true,
+          "fullLinkedRecast": true,
+          "linkEnemies": true,
+          "unlinkedAllyRecast": true,
+          "unlinkSelf": true,
+          "recastBlockedStillUses": true
+        },
+        "oldniepan": {
+          "used": true,
+          "hp": 3,
+          "taoPreserved": true
+        },
+        "tianyi": {
+          "winBuff": true,
+          "winSha": true,
+          "loseDecline": true,
+          "loseBlocksSha": true
+        },
+        "shuangxiong": {
+          "viewas": true,
+          "duelUsed": true,
+          "noJudgeDecline": true
+        },
+        "luanji": {
+          "used": true,
+          "multiTarget": true,
+          "enemyDamaged": true,
+          "noPairDecline": true,
+          "conservativeDecline": true,
+          "allyLethalVeto": true
+        },
+        "huoji": {
+          "used": true,
+          "fireDamage": true,
+          "conservativeDecline": true,
+          "noRedDecline": true
+        },
+        "kanpo": {
+          "responded": true,
+          "damage": 0,
+          "noBlackDecline": true
+        },
+        "bazhen": {
+          "baguaJudged": true,
+          "damage": 0,
+          "armorDisabled": true
+        },
+        "passive": {
+          "mashuDistance": 1,
+          "maxHandcard": 10,
+          "bazhenExtra": true,
+          "kanpoView": true
+        },
+        "jianchu": {
+          "directHit": true,
+          "equipDiscarded": true,
+          "damage": 1,
+          "noEquipTrade": true
+        }
+      },
+      "validation": {
+        "qiangxix": {
+          "level": "已验证无问题",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": false,
+          "note": "沿用第二批完整回合证据，本轮回归仍通过。"
+        },
+        "quhu": {
+          "level": "正反向决策验证通过",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true
+        },
+        "jieming": {
+          "level": "正反向决策验证通过",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true
+        },
+        "lianhuan": {
+          "level": "验证无问题",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true,
+          "note": "原生 get.effect 已区分解除友方/自身横置的保护收益与解除敌方的损失；10 个固定局面（7 个新增边界 + 3 个首轮）由原生与扩展逐场景对照，未保留任何 ai2 覆盖。"
+        },
+        "oldniepan": {
+          "level": "正反向决策验证通过",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true
+        },
+        "tianyi": {
+          "level": "正反向决策验证通过",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true
+        },
+        "shuangxiong": {
+          "level": "正反向决策验证通过",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true
+        },
+        "luanji": {
+          "level": "确认存在质量提升并已实现",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true,
+          "note": "1血空手无防具队友被万箭打入濒死时拒绝发动；全敌方反向场景仍发动。"
+        },
+        "huoji": {
+          "level": "AI决策验证通过",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true
+        },
+        "kanpo": {
+          "level": "正反向决策验证通过",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true
+        },
+        "bazhen": {
+          "level": "规则结算验证通过",
+          "rule_settlement": true,
+          "ai_decision": false,
+          "positive_negative": true,
+          "note": "八卦为自动响应规则，无独立目标 AI；正反向验证判定成功与护甲槽占用后的失效。"
+        },
+        "mashu": {
+          "level": "规则结算验证通过",
+          "rule_settlement": true,
+          "ai_decision": false,
+          "positive_negative": false,
+          "note": "纯被动距离规则。"
+        },
+        "xueyi": {
+          "level": "规则结算验证通过",
+          "rule_settlement": true,
+          "ai_decision": false,
+          "positive_negative": false,
+          "note": "纯被动手牌上限规则。"
+        },
+        "jianchu": {
+          "level": "AI决策验证通过",
+          "rule_settlement": true,
+          "ai_decision": true,
+          "positive_negative": true,
+          "note": "无装备分支按技能文本交换目标一张手牌并令其获得此杀，未发现非法目标或隐藏信息读取，只记录真实结算。"
+        }
+      }
+    },
+    "shenhua_lei": {
+      "packId": "shenhua_lei",
+      "checks": [
+        {
+          "name": "policy-counters",
+          "passed": true,
+          "detail": {
+            "olkongshengCostCalls": 3,
+            "selected": [
+              "wuxie"
+            ],
+            "runs": [
+              1,
+              1
+            ]
+          }
+        }
+      ],
+      "signature": {
+        "olkongshengCostCalls": 3,
+        "olkongshengCompatible": true,
+        "selected": [
+          "wuxie"
+        ],
+        "runs": [
+          1,
+          1
+        ],
+        "scopeRestored": true
+      }
+    },
+    "out_of_scope": {
+      "packId": "out_of_scope",
+      "checks": [
+        {
+          "name": "hidden-settlement",
+          "passed": true,
+          "detail": {
+            "mixed": [
+              "sha",
+              "shan",
+              "tao",
+              "wuzhong"
+            ],
+            "gained": [
+              [
+                "sha",
+                "tao"
+              ],
+              [
+                "shan",
+                "wuzhong"
+              ]
+            ]
+          }
+        },
+        {
+          "name": "permute-invariance",
+          "passed": true,
+          "detail": {
+            "indices": [
+              [
+                [
+                  0,
+                  1
+                ],
+                [
+                  2,
+                  3
+                ]
+              ],
+              [
+                [
+                  0,
+                  1
+                ],
+                [
+                  2,
+                  3
+                ]
+              ]
+            ],
+            "fairRedimeng": 13,
+            "redimengMaskFailed": 0
+          }
+        },
+        {
+          "name": "target-legal",
+          "passed": true,
+          "detail": {
+            "targets": [
+              "50265723591",
+              "74695553592"
+            ],
+            "cost": 2,
+            "total": 4
+          }
+        },
+        {
+          "name": "target-zero-cost",
+          "passed": true,
+          "detail": {
+            "targets": [
+              "50265723591",
+              "74695553592"
+            ],
+            "cost": 0,
+            "total": 2
+          }
+        },
+        {
+          "name": "target-infeasible",
+          "passed": true,
+          "detail": {
+            "choice": {
+              "bool": false,
+              "skill": null,
+              "cards": [],
+              "targets": []
+            },
+            "usedTargets": []
+          }
+        },
+        {
+          "name": "redimeng-lifecycle",
+          "passed": true,
+          "detail": {
+            "before": {
+              "rezhiheng": true,
+              "qimou": true,
+              "reqimouContent": true,
+              "reqimouGate": true,
+              "jushou": true,
+              "shensu1": true,
+              "guhuo": true,
+              "huangtian": true,
+              "redimengFind": true,
+              "redimengChooseButton": false
+            },
+            "afterUninstall": {
+              "rezhiheng": false,
+              "qimou": false,
+              "reqimouContent": false,
+              "reqimouGate": false,
+              "jushou": false,
+              "shensu1": false,
+              "guhuo": false,
+              "huangtian": false,
+              "redimengFind": false,
+              "redimengChooseButton": false
+            },
+            "afterReinstall": {
+              "rezhiheng": true,
+              "qimou": true,
+              "reqimouContent": true,
+              "reqimouGate": true,
+              "jushou": true,
+              "shensu1": true,
+              "guhuo": true,
+              "huangtian": true,
+              "redimengFind": true,
+              "redimengChooseButton": true
+            }
+          }
+        }
+      ],
+      "signature": {
+        "hiddenMixed": [
+          "sha",
+          "shan",
+          "tao",
+          "wuzhong"
+        ],
+        "hiddenGainedPools": [
+          [
+            "sha",
+            "tao"
+          ],
+          [
+            "shan",
+            "wuzhong"
+          ]
+        ],
+        "permuteIndices": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ]
+        ],
+        "fairRedimeng": 13,
+        "redimengMaskFailed": 0,
+        "redimengFindCalls": 4,
+        "redimengFindFixed": 4,
+        "redimengFindFallbacks": 0
+      }
+    }
+  },
+  "baseline_comparison": [],
+  "native_comparison": null,
+  "packs": [
+    {
+      "id": "refresh_standard",
+      "name": "界限突破·标准",
+      "zip": "C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final\\packs\\feisheng-ai-refresh-standard.zip",
+      "zip_size": 114963,
+      "zip_sha256": "b148f29c94768347eaf24984b6e14c73174bf482fd96d72ce717b4e9afa4ccd0",
+      "delivery_stage": "全量源码审查完成·待最终验收",
+      "implemented_skills": [
+        "rezhiheng",
+        "rerende",
+        "new_retuxi",
+        "new_yijue",
+        "refanjian",
+        "new_reqingnang",
+        "rejieyin",
+        "retieji",
+        "reganglie",
+        "reqianxun",
+        "refankui",
+        "qingguo",
+        "jijiu",
+        "lijian"
+      ],
+      "target_skills_count": 57,
+      "tests_present": false,
+      "package_tests_status": 0,
+      "verify_zip_status": 0,
+      "verify_dir_status": 0,
+      "verify_cross_platform_status": 0
+    },
+    {
+      "id": "refresh_feng",
+      "name": "界限突破·风",
+      "zip": "C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final\\packs\\feisheng-ai-refresh-feng.zip",
+      "zip_size": 90676,
+      "zip_sha256": "193085553119f7cc56769b474994b4f1868439413de7e657811dc1e73b7f70ef",
+      "delivery_stage": "内部验收通过",
+      "implemented_skills": [
+        "reqimou",
+        "fenji",
+        "reguhuo",
+        "oltianxiang",
+        "xinliegong"
+      ],
+      "target_skills_count": 17,
+      "tests_present": false,
+      "package_tests_status": 0,
+      "verify_zip_status": 0,
+      "verify_dir_status": 0,
+      "verify_cross_platform_status": 0
+    },
+    {
+      "id": "shenhua_feng",
+      "name": "神话再临·风",
+      "zip": "C:\\Users\\32360\\.codex\\worktrees\\kuanggu-acceptance\\build\\feisheng-ai-shenhua-feng.zip",
+      "zip_size": 82597,
+      "zip_sha256": "50429c24c8ce8f939667b284aad8f28622087aeb02082ea044a309f500a9d7d3",
+      "delivery_stage": "候选待验收",
+      "implemented_skills": [
+        "qimou",
+        "xinkuanggu",
+        "jushou",
+        "xinshensu",
+        "xinfu_guhuo",
+        "huangtian",
+        "guidao",
+        "releiji",
+        "retianxiang",
+        "gzbuqu",
+        "xinliegong"
+      ],
+      "target_skills_count": 12,
+      "tests_present": false,
+      "package_tests_status": 0,
+      "verify_zip_status": 0,
+      "verify_dir_status": 0,
+      "verify_cross_platform_status": 0
+    },
+    {
+      "id": "shenhua_huo",
+      "name": "神话再临·火",
+      "zip": "C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final\\packs\\feisheng-ai-shenhua-huo.zip",
+      "zip_size": 253547,
+      "zip_sha256": "68a180f26cb47f33ffe6ff7af95ff3cb2767d1dfd0de829611f6380173e43f0d",
+      "delivery_stage": "可交付",
+      "implemented_skills": [
+        "luanji",
+        "tianyi",
+        "jianchu"
+      ],
+      "target_skills_count": 14,
+      "tests_present": true,
+      "package_tests_status": 0,
+      "verify_zip_status": 0,
+      "verify_dir_status": 0,
+      "verify_cross_platform_status": 0
+    },
+    {
+      "id": "shenhua_lei",
+      "name": "神话再临·雷",
+      "zip": "C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final\\packs\\feisheng-ai-shenhua-lei.zip",
+      "zip_size": 257628,
+      "zip_sha256": "c8fc8befd55f03734e10429bb85785a977f4860afde1a6b4bc7d66f99783f277",
+      "delivery_stage": "可交付",
+      "implemented_skills": [
+        "olkongsheng",
+        "xinfu_fuyin",
+        "drlt_qianjie",
+        "drlt_zhengu"
+      ],
+      "target_skills_count": 16,
+      "tests_present": true,
+      "package_tests_status": 0,
+      "verify_zip_status": 0,
+      "verify_dir_status": 0,
+      "verify_cross_platform_status": 0
+    },
+    {
+      "id": "out_of_scope",
+      "name": "清单外角色",
+      "zip": "C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final\\packs\\feisheng-ai-out-of-scope.zip",
+      "zip_size": 200828,
+      "zip_sha256": "f1d06169b53dd908205224e46f403ac97c2db0f6717d47fad1897e0fe1b7a79d",
+      "delivery_stage": "可交付",
+      "implemented_skills": [
+        "redimeng"
+      ],
+      "target_skills_count": 1,
+      "tests_present": true,
+      "package_tests_status": 0,
+      "verify_zip_status": 0,
+      "verify_dir_status": 0,
+      "verify_cross_platform_status": 0
+    }
+  ],
+  "steps": [
+    {
+      "step": "extract+verify",
+      "pack": "refresh_standard",
+      "status": "passed",
+      "package_tests": {
+        "command": "node C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\0\\tests\\run-pack-tests.mjs",
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": null,
+        "skipped": true,
+        "reason": "ZIP 不含 tests/run-pack-tests.mjs"
+      },
+      "verify_zip": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\0\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final\\packs\\feisheng-ai-refresh-standard.zip",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=zip files_listed=33 ok=33 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_dir": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\0\\verify.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=dir files_listed=33 ok=33 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_cross_platform": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\0\\tests\\test-verify-zip.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": null,
+        "skipped": true,
+        "reason": "ZIP 不含 tests/test-verify-zip.py"
+      }
+    },
+    {
+      "step": "extract+verify",
+      "pack": "refresh_feng",
+      "status": "passed",
+      "package_tests": {
+        "command": "node C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\1\\tests\\run-pack-tests.mjs",
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": null,
+        "skipped": true,
+        "reason": "ZIP 不含 tests/run-pack-tests.mjs"
+      },
+      "verify_zip": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\1\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final\\packs\\feisheng-ai-refresh-feng.zip",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=zip files_listed=32 ok=32 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_dir": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\1\\verify.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=dir files_listed=32 ok=32 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_cross_platform": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\1\\tests\\test-verify-zip.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": null,
+        "skipped": true,
+        "reason": "ZIP 不含 tests/test-verify-zip.py"
+      }
+    },
+    {
+      "step": "extract+verify",
+      "pack": "shenhua_feng",
+      "status": "passed",
+      "package_tests": {
+        "command": "node C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\2\\tests\\run-pack-tests.mjs",
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": null,
+        "skipped": true,
+        "reason": "ZIP 不含 tests/run-pack-tests.mjs"
+      },
+      "verify_zip": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\2\\verify.py --zip C:\\Users\\32360\\.codex\\worktrees\\kuanggu-acceptance\\build\\feisheng-ai-shenhua-feng.zip",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=zip files_listed=27 ok=27 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=25b950356627b9c236c4faf3be82e3481ad09111 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_dir": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\2\\verify.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=dir files_listed=27 ok=27 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=25b950356627b9c236c4faf3be82e3481ad09111 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_cross_platform": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\2\\tests\\test-verify-zip.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": null,
+        "skipped": true,
+        "reason": "ZIP 不含 tests/test-verify-zip.py"
+      }
+    },
+    {
+      "step": "extract+verify",
+      "pack": "shenhua_huo",
+      "status": "passed",
+      "package_tests": {
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\3\\tests\\run-pack-tests.mjs",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS 火包清单登记乱击/天义/鞬出三项AI优化（区分缺陷修复与质量提升）\nPASS 火包携带共享依赖 skillVetoRegistry 且哈希登记\nPASS 乱击濒死否决：1血空手且无确定免伤（护甲吸收/藤甲）\nPASS 乱击概率防御不视为必然安全（镜像原生补丁0001）\nPASS 乱击小规模对局净收益门槛（镜像原生补丁0001）\nPASS 天义低点数默认保守（镜像原生补丁0002）\nPASS 天义已知必胜逐目标绑定：只用完全公开手牌且点数确定更低（镜像原生补丁0002）\nPASS 鞬出仅在值得发动时触发；hp<=1击杀动机在有护甲时不成立（镜像原生补丁0003）\nPASS 纯规则出口完整\nALL PASS (9)\nPASS 包元数据与目标技能一致\nPASS 分包模块只 import 共享核心、自己的规则与安全适配\nPASS 共享核心与具体技能解耦\nPASS 包内只携带本分包策略模块\nPASS 注册表与 pack-only 注册表可安全合并\nPASS 134 维模型契约与版本未被本分包修改\nPASS 分包声明的静态约束成立\nPASS 分包规则不读取宿主实现\nALL PASS (8)\nALL PACK TESTS PASS (17)\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_zip": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\3\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final\\packs\\feisheng-ai-shenhua-huo.zip",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=zip files_listed=52 ok=52 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=4fb57e10dd4077cf2cfa39f5ad2783e61ce69cd3 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_dir": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\3\\verify.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=dir files_listed=52 ok=52 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=4fb57e10dd4077cf2cfa39f5ad2783e61ce69cd3 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_cross_platform": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\3\\tests\\test-verify-zip.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS verify.py --zip accepts POSIX member paths\r\nPASS verify.py --root accepts POSIX package\r\nPASS verify.py --zip accepts Windows backslash members and manifest paths\r\nPASS verify.py --zip accepts manifest at archive root\r\nPASS verify.py --zip rejects archive without root manifest\r\nPASS verify.py --zip rejects duplicate normalized members\r\nPASS verify.py --zip rejects size mismatch\r\nALL PASS (verify.zip cross-platform regression)\r\n",
+        "stderr": "",
+        "error": null
+      }
+    },
+    {
+      "step": "extract+verify",
+      "pack": "shenhua_lei",
+      "status": "passed",
+      "package_tests": {
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\4\\tests\\run-pack-tests.mjs",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS 成本指纹只在原表达式存在时命中\nPASS 数组视图保留索引/长度/迭代/JSON 语义\nPASS 非数组输入原样返回\nPASS 镇骨旧式评分指纹只在宿主未修复时命中\nPASS 镇骨即时差额与宿主 sync 的实际变化一致\nPASS 镇骨即时差额的边界与非法输入\nPASS 旧式评分在 7/6 与 6/8 两档与即时差额不一致\nALL PASS (7)\nPASS 包元数据与目标技能一致\nPASS 分包模块只 import 共享核心、自己的规则与安全适配\nPASS 共享核心与具体技能解耦\nPASS 包内只携带本分包策略模块\nPASS 注册表与 pack-only 注册表可安全合并\nPASS 134 维模型契约与版本未被本分包修改\nPASS 分包声明的静态约束成立\nPASS 分包规则不读取宿主实现\nALL PASS (8)\nALL PACK TESTS PASS (15)\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_zip": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\4\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final\\packs\\feisheng-ai-shenhua-lei.zip",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=zip files_listed=54 ok=54 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=ca9d2d221a02920f34aef99614245f2e20a4a8c1 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_dir": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\4\\verify.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=dir files_listed=54 ok=54 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=ca9d2d221a02920f34aef99614245f2e20a4a8c1 baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_cross_platform": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\4\\tests\\test-verify-zip.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS verify.py --zip accepts POSIX member paths\r\nPASS verify.py --root accepts POSIX package\r\nPASS verify.py --zip accepts Windows backslash members and manifest paths\r\nPASS verify.py --zip accepts manifest at archive root\r\nPASS verify.py --zip rejects archive without root manifest\r\nPASS verify.py --zip rejects duplicate normalized members\r\nPASS verify.py --zip rejects size mismatch\r\nALL PASS (verify.zip cross-platform regression)\r\n",
+        "stderr": "",
+        "error": null
+      }
+    },
+    {
+      "step": "extract+verify",
+      "pack": "out_of_scope",
+      "status": "passed",
+      "package_tests": {
+        "command": "C:\\Program Files\\nodejs\\node.exe C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\5\\tests\\run-pack-tests.mjs",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS 公平选择只依赖玩家与位置\nPASS 不同位置分数稳定且互不读取牌面\nPASS 遮蔽只对 AI 且只在 redimeng 上下文\nPASS 只识别宿主 find(2) 的已知块级变量越界\nALL PASS (4)\nPASS 包元数据与目标技能一致\nPASS 分包模块只 import 共享核心、自己的规则与安全适配\nPASS 共享核心与具体技能解耦\nPASS 包内只携带本分包策略模块\nPASS 注册表与 pack-only 注册表可安全合并\nPASS 134 维模型契约与版本未被本分包修改\nPASS 分包声明的静态约束成立\nPASS 分包规则不读取宿主实现\nALL PASS (8)\nALL PACK TESTS PASS (12)\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_zip": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\5\\verify.py --zip C:\\Users\\32360\\Desktop\\feisheng-ai-six-packs-final\\packs\\feisheng-ai-out-of-scope.zip",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=zip files_listed=38 ok=38 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=56735aea155040c70ee621e232ed96dce021b57a baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_dir": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\5\\verify.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "mode=dir files_listed=38 ok=38 missing=0 mismatched=0 size_mismatch=0 extra=0 duplicate=0\r\nhead=56735aea155040c70ee621e232ed96dce021b57a baseline=1fe5292eb3022dd8d1db494617b21a12be912e61\r\nVERIFY PASS\r\n",
+        "stderr": "",
+        "error": null
+      },
+      "verify_cross_platform": {
+        "command": "python C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\extract\\5\\tests\\test-verify-zip.py",
+        "status": 0,
+        "signal": null,
+        "stdout": "PASS verify.py --zip accepts POSIX member paths\r\nPASS verify.py --root accepts POSIX package\r\nPASS verify.py --zip accepts Windows backslash members and manifest paths\r\nPASS verify.py --zip accepts manifest at archive root\r\nPASS verify.py --zip rejects archive without root manifest\r\nPASS verify.py --zip rejects duplicate normalized members\r\nPASS verify.py --zip rejects size mismatch\r\nALL PASS (verify.zip cross-platform regression)\r\n",
+        "stderr": "",
+        "error": null
+      }
+    },
+    {
+      "step": "wiring-required",
+      "pack": "refresh_standard",
+      "status": "passed",
+      "stderr": "APPLY FAIL: 目标 score/index.js 未接线策略层；请先应用包内 patches/score-index.diff，或手工加入 install/uninstall 调用"
+    },
+    {
+      "step": "index-wiring",
+      "pack": "combined",
+      "status": "passed",
+      "applied": true,
+      "patch": "..\\..\\extract\\0\\patches\\score-index.diff",
+      "patch_sha256": "a6d28b98b8e3d8e3966464d4846944435497d93e8497cff7e017eba56d63cd3e"
+    },
+    {
+      "step": "apply-coexist",
+      "pack": "refresh_standard",
+      "status": "passed",
+      "output": {
+        "pack": "refresh_standard",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\targets\\combined",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/policyCore.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillAIPolicies.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillVetoRegistry.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/refreshStandard.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/refreshStandard.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillPlanHints.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/boundedSkillUtility.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/refreshStandardPlans.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": "未确认完整引擎软建议接线；宿主策略可独立使用，完整引擎需另行迁移接线。",
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\refresh_standard"
+      }
+    },
+    {
+      "step": "apply-coexist",
+      "pack": "refresh_feng",
+      "status": "passed",
+      "output": {
+        "pack": "refresh_feng",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\targets\\combined",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/refreshFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/refreshFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\refresh_feng"
+      }
+    },
+    {
+      "step": "apply-coexist",
+      "pack": "shenhua_feng",
+      "status": "passed",
+      "output": {
+        "pack": "shenhua_feng",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\targets\\combined",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/shenhuaFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/shenhuaFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\shenhua_feng"
+      }
+    },
+    {
+      "step": "apply-coexist",
+      "pack": "shenhua_huo",
+      "status": "passed",
+      "output": {
+        "pack": "shenhua_huo",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\targets\\combined",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/shenhuaHuo.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/shenhuaHuo.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\shenhua_huo"
+      }
+    },
+    {
+      "step": "apply-coexist",
+      "pack": "shenhua_lei",
+      "status": "passed",
+      "output": {
+        "pack": "shenhua_lei",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\targets\\combined",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/shenhuaLei.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/shenhuaLei.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\shenhua_lei"
+      }
+    },
+    {
+      "step": "apply-coexist",
+      "pack": "out_of_scope",
+      "status": "passed",
+      "output": {
+        "pack": "out_of_scope",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\targets\\combined",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/outOfScope.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/outOfScope.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\out_of_scope"
+      }
+    },
+    {
+      "step": "host-load-installed",
+      "pack": "refresh_standard,refresh_feng,shenhua_feng,shenhua_huo,shenhua_lei,out_of_scope",
+      "status": "passed",
+      "scenes": [
+        "rezhiheng-3hp",
+        "new-retuxi-order",
+        "hp-reqimou-distance4-hp2",
+        "hp-reqimou-distance4-hp3",
+        "hp-qimou-distance4-hp3",
+        "hp-qimou-distance4-hp4-negative",
+        "hp-qimou-distance3-hp2",
+        "shenhua-releiji-target",
+        "shenhua-guidao-replace",
+        "shenhua-guidao-decline",
+        "shenhua-huangtian-give",
+        "shenhua-huangtian-negative",
+        "shenhua-guhuo-claim",
+        "shenhua-guhuo-real-questioned",
+        "shenhua-guhuo-fake-questioned",
+        "shenhua-guhuo-phase",
+        "shenhua-shensu-skip",
+        "shenhua-shensu-negative",
+        "quality-shensu1-lowhand-lebu",
+        "quality-shensu1-reverse-lowvalue",
+        "shenhua-tianxiang-redirect",
+        "shenhua-tianxiang-negative",
+        "shenhua-hongyan-suit",
+        "shenhua-kuanggu-draw-fullhp",
+        "shenhua-kuanggu-recover",
+        "quality-kuanggu-lowhp",
+        "quality-kuanggu-midhp-recover",
+        "quality-jushou-turned",
+        "quality-jushou-normal",
+        "quality-guhuo-bluff-lowhp",
+        "quality-guhuo-bluff-midhp",
+        "quality-guhuo-full-lowhp-fake-lastshan",
+        "quality-guhuo-full-lowhp-true-sha-forced",
+        "quality-guhuo-full-lowhp-fake-expendable",
+        "quality-guhuo-full-midhp-fake-expendable",
+        "quality-huangtian-last-shan",
+        "quality-huangtian-midhp",
+        "quality-huangtian-last-shan-with-shandian",
+        "quality-huangtian-forced-shan-with-shandian",
+        "shenhua-jushou-4hp-empty",
+        "shenhua-jushou-lowhp",
+        "shenhua-buqu-damage",
+        "shenhua-buqu-negative",
+        "shenhua-buqu-recover-choice",
+        "shenhua-liegong-hit",
+        "shenhua-liegong-negative",
+        "hp-qiangxix-2hp-target1",
+        "hp-qiangxix-2hp-weapon-target2",
+        "shenhua-huo-quhu-compare",
+        "shenhua-huo-quhu-no-target",
+        "shenhua-huo-quhu-risky-decline",
+        "shenhua-huo-jieming-damage",
+        "shenhua-huo-jieming-no-benefit",
+        "shenhua-huo-lianhuan-tiesuo",
+        "shenhua-huo-lianhuan-ally-risk",
+        "shenhua-huo-lianhuan-recast",
+        "shenhua-huo-lianhuan-unlink-ally-risk",
+        "shenhua-huo-lianhuan-keep-enemy-linked",
+        "shenhua-huo-lianhuan-full-linked-recast",
+        "shenhua-huo-lianhuan-link-enemies",
+        "shenhua-huo-lianhuan-unlinked-ally-only",
+        "shenhua-huo-lianhuan-self-linked",
+        "shenhua-huo-lianhuan-recast-blocked",
+        "shenhua-huo-oldniepan-dying",
+        "shenhua-huo-oldniepan-tao",
+        "shenhua-huo-tianyi-compare",
+        "shenhua-huo-tianyi-win-sha",
+        "shenhua-huo-tianyi-lose-sha",
+        "shenhua-huo-tianyi-lose-content",
+        "shenhua-huo-shuangxiong-judge",
+        "shenhua-huo-shuangxiong-duel",
+        "shenhua-huo-shuangxiong-no-judge",
+        "shenhua-huo-luanji-wanjian",
+        "shenhua-huo-luanji-wanjian-use",
+        "shenhua-huo-luanji-no-pair",
+        "quality-luanji-ally-lethal",
+        "shenhua-huo-huoji-red",
+        "shenhua-huo-huoji-use",
+        "shenhua-huo-huoji-no-red",
+        "shenhua-huo-kanpo-response",
+        "shenhua-huo-kanpo-no-black",
+        "shenhua-huo-bazhen-bagua",
+        "shenhua-huo-bazhen-armor-negative",
+        "shenhua-huo-jianchu-sha",
+        "shenhua-huo-jianchu-no-equip",
+        "shenhua-huo-passive-rules",
+        "olkongsheng-array-count",
+        "olkongsheng-repeat",
+        "redimeng-hidden-info",
+        "redimeng-permute-values",
+        "redimeng-target-legal",
+        "redimeng-target-zero-cost",
+        "redimeng-target-infeasible"
+      ],
+      "policyStats": {
+        "installed": true,
+        "keptTao": 4,
+        "keptShan": 0,
+        "skippedExchange": 0,
+        "skippedOrder": 0,
+        "retuxiTargetBonus": 7,
+        "calls": 9,
+        "last": [
+          {
+            "sid": "rezhiheng",
+            "card": "tao",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": -1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "tao",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": -1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "sha",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": 1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "tao",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": -1
+          },
+          {
+            "sid": "rezhiheng",
+            "card": "tao",
+            "hp": 3,
+            "pos": "h",
+            "base": 1,
+            "adjusted": -1
+          }
+        ],
+        "reqimouGateSkip": 0,
+        "reqimouInfeasible": 1,
+        "reqimouClamp": 0,
+        "reqimouClampCalls": 1,
+        "reqimouSelfRescue": 0,
+        "reqimouInfiniteUses": 0,
+        "qimouBypass": 2,
+        "kuangguRecover": 4,
+        "kuangguHp2": 7,
+        "jushouTurned": 1,
+        "jushouThreatHold": 0,
+        "shensuSkipJudge": 7,
+        "shensuCostBlock": 7,
+        "shensu4Restrict": 0,
+        "shensu2ArmorKeep": 0,
+        "guhuoLowHpGuard": 8,
+        "guhuoMaterialGate": 11,
+        "huangtianLastShan": 6,
+        "guhuoCalls": 48,
+        "guidaoHongyanFix": 0,
+        "releijiWeighted": 8,
+        "retianxiangJoint": 0,
+        "liegongDrawUnlock": 0,
+        "liegongExtra": 0,
+        "qimouMinPay": 0,
+        "buquHeuristic": 0,
+        "luanjiAllyVeto": 1,
+        "luanjiNetVeto": 0,
+        "tianyiDecline": 2,
+        "tianyiKnownWinPass": 0,
+        "tianyiEngineVeto": 0,
+        "jianchuSkip": 0,
+        "olkongshengCostCalls": 3,
+        "olkongshengCompatible": true,
+        "zhenguCompatible": true,
+        "zhenguEngineHook": true,
+        "zhenguScoreCalls": 0,
+        "zhenguFallbacks": 0,
+        "zhenguHookConflict": 0,
+        "fairRedimeng": 13,
+        "redimengMaskFailed": 0,
+        "redimengFindCalls": 4,
+        "redimengFindFixed": 4,
+        "redimengFindFallbacks": 0,
+        "redimengTrace": [],
+        "packs": {
+          "refresh_standard": {
+            "keptTao": 4,
+            "keptShan": 0,
+            "skippedExchange": 0,
+            "skippedOrder": 0,
+            "retuxiTargetBonus": 7,
+            "calls": 9,
+            "last": [
+              {
+                "sid": "rezhiheng",
+                "card": "tao",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": -1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "sha",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": 1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "sha",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": 1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "sha",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": 1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "tao",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": -1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "sha",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": 1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "sha",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": 1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "tao",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": -1
+              },
+              {
+                "sid": "rezhiheng",
+                "card": "tao",
+                "hp": 3,
+                "pos": "h",
+                "base": 1,
+                "adjusted": -1
+              }
+            ]
+          },
+          "refresh_feng": {
+            "reqimouGateSkip": 0,
+            "reqimouInfeasible": 1,
+            "reqimouClamp": 0,
+            "reqimouClampCalls": 1,
+            "reqimouSelfRescue": 0,
+            "reqimouInfiniteUses": 0
+          },
+          "shenhua_feng": {
+            "qimouBypass": 2,
+            "kuangguRecover": 4,
+            "kuangguHp2": 7,
+            "jushouTurned": 1,
+            "jushouThreatHold": 0,
+            "shensuSkipJudge": 7,
+            "shensuCostBlock": 7,
+            "shensu4Restrict": 0,
+            "shensu2ArmorKeep": 0,
+            "guhuoLowHpGuard": 8,
+            "guhuoMaterialGate": 11,
+            "huangtianLastShan": 6,
+            "guhuoCalls": 48,
+            "guidaoHongyanFix": 0,
+            "releijiWeighted": 8,
+            "retianxiangJoint": 0,
+            "liegongDrawUnlock": 0,
+            "liegongExtra": 0,
+            "qimouMinPay": 0,
+            "buquHeuristic": 0
+          },
+          "shenhua_huo": {
+            "luanjiAllyVeto": 1,
+            "luanjiNetVeto": 0,
+            "tianyiDecline": 2,
+            "tianyiKnownWinPass": 0,
+            "tianyiEngineVeto": 0,
+            "jianchuSkip": 0
+          },
+          "shenhua_lei": {
+            "olkongshengCostCalls": 3,
+            "olkongshengCompatible": true,
+            "zhenguCompatible": true,
+            "zhenguEngineHook": true,
+            "zhenguScoreCalls": 0,
+            "zhenguFallbacks": 0,
+            "zhenguHookConflict": 0
+          },
+          "out_of_scope": {
+            "fairRedimeng": 13,
+            "redimengMaskFailed": 0,
+            "redimengFindCalls": 4,
+            "redimengFindFixed": 4,
+            "redimengFindFallbacks": 0,
+            "redimengTrace": []
+          }
+        },
+        "installation": {
+          "state": "installed",
+          "reason": null
+        }
+      },
+      "skillChecks": {
+        "refresh_standard": {
+          "packId": "refresh_standard",
+          "checks": [
+            {
+              "name": "policy-counters",
+              "passed": true,
+              "detail": {
+                "calls": 9,
+                "retuxiTargetBonus": 7,
+                "lost": [
+                  0,
+                  1,
+                  1
+                ]
+              }
+            }
+          ],
+          "signature": {
+            "calls": 9,
+            "retuxiTargetBonus": 7,
+            "keptTao": 4,
+            "keptShan": 0,
+            "lost": [
+              0,
+              1,
+              1
+            ]
+          }
+        },
+        "refresh_feng": {
+          "packId": "refresh_feng",
+          "checks": [
+            {
+              "name": "policy-counters",
+              "passed": true,
+              "detail": {
+                "reqimouClampCalls": 1,
+                "reqimouClamp": 0,
+                "paid": 3,
+                "reqimouInfeasible": 1
+              }
+            }
+          ],
+          "signature": {
+            "reqimouClampCalls": 1,
+            "reqimouClamp": 0,
+            "reqimouGateSkip": 0,
+            "reqimouInfeasible": 1,
+            "usedReqimou": true,
+            "paid": 3
+          }
+        },
+        "shenhua_feng": {
+          "packId": "shenhua_feng",
+          "checks": [
+            {
+              "name": "qimou-settlement",
+              "passed": true,
+              "detail": {
+                "scene": "hp-qimou-distance4-hp3",
+                "qimouBypass": 2,
+                "paid": 3,
+                "reachableAfter": true,
+                "enemyHpLoss": 3
+              }
+            },
+            {
+              "name": "qimou-settlement",
+              "passed": true,
+              "detail": {
+                "scene": "hp-qimou-distance3-hp2",
+                "qimouBypass": 2,
+                "paid": 2,
+                "reachableAfter": true,
+                "enemyHpLoss": 1
+              }
+            },
+            {
+              "name": "qimou-negative-settlement",
+              "passed": true,
+              "detail": {
+                "usedQimou": false,
+                "paid": 0,
+                "enemyHpLoss": 0
+              }
+            },
+            {
+              "name": "releiji-target-settlement",
+              "passed": true,
+              "detail": {
+                "targetEnemy": true,
+                "damage": {
+                  "num": 2,
+                  "nature": "thunder"
+                },
+                "hpDelta": -2
+              }
+            },
+            {
+              "name": "guidao-replace-settlement",
+              "passed": true,
+              "detail": {
+                "replaced": true,
+                "judgingSuit": "spade",
+                "gainedOriginal": true,
+                "picked": [
+                  {
+                    "name": "sha",
+                    "suit": "spade"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "guidao-decline-settlement",
+              "passed": true,
+              "detail": {
+                "replaced": false,
+                "handKept": true
+              }
+            },
+            {
+              "name": "huangtian-give-settlement",
+              "passed": true,
+              "detail": {
+                "used": true,
+                "tempSkill": true,
+                "gaveToZhu": true
+              }
+            },
+            {
+              "name": "huangtian-negative-settlement",
+              "passed": true,
+              "detail": {
+                "used": false
+              }
+            },
+            {
+              "name": "guhuo-real-questioned-settlement",
+              "passed": true,
+              "detail": {
+                "declaredSha": true,
+                "chanyuan": true,
+                "damage": 1,
+                "cancelled": false
+              }
+            },
+            {
+              "name": "guhuo-fake-questioned-declined",
+              "passed": true,
+              "detail": {
+                "declaredSha": true,
+                "declined": true,
+                "noDamage": true
+              }
+            },
+            {
+              "name": "shensu-skip-settlement",
+              "passed": true,
+              "detail": {
+                "usedSha": true,
+                "targetEnemy": true,
+                "hpDelta": -1,
+                "judgeSkipped": true
+              }
+            },
+            {
+              "name": "shensu-negative-settlement",
+              "passed": true,
+              "detail": {
+                "usedSha": false,
+                "judgeResolved": true
+              }
+            },
+            {
+              "name": "tianxiang-redirect-settlement",
+              "passed": true,
+              "detail": {
+                "targetEnemy": true,
+                "control": 1,
+                "actorHpDelta": 0,
+                "targetHpDelta": -1
+              }
+            },
+            {
+              "name": "tianxiang-negative-settlement",
+              "passed": true,
+              "detail": {
+                "noTarget": true,
+                "damageProceeded": true
+              }
+            },
+            {
+              "name": "hongyan-passive-rule",
+              "passed": true,
+              "detail": {
+                "spadeAsHeart": true,
+                "spadeAsRed": true
+              }
+            },
+            {
+              "name": "kuanggu-recover-settlement",
+              "passed": true,
+              "detail": {
+                "choice": "recover_hp",
+                "hpDelta": 1,
+                "draw": 0
+              }
+            },
+            {
+              "name": "kuanggu-draw-fullhp-settlement",
+              "passed": true,
+              "detail": {
+                "choice": "draw_card",
+                "recoverEffect": 0,
+                "drawEffect": 13.5,
+                "draw": 1
+              }
+            },
+            {
+              "name": "kuanggu-lowhp-recover",
+              "passed": true,
+              "detail": {
+                "hp": 2,
+                "recovered": true
+              }
+            },
+            {
+              "name": "kuanggu-midhp-recover-settlement",
+              "passed": true,
+              "detail": {
+                "hp": 4,
+                "recoverEffect": 22.5,
+                "drawEffect": 15,
+                "recovered": true
+              }
+            },
+            {
+              "name": "jushou-empty-settlement",
+              "passed": true,
+              "detail": {
+                "triggered": false,
+                "turnedOver": false
+              }
+            },
+            {
+              "name": "jushou-lowhp-settlement",
+              "passed": true,
+              "detail": {
+                "draw": 3,
+                "turnedOver": true
+              }
+            },
+            {
+              "name": "buqu-damage-settlement",
+              "passed": true,
+              "detail": {
+                "hp": 0,
+                "expansions": 1,
+                "dying": false,
+                "alive": true
+              }
+            },
+            {
+              "name": "buqu-negative-settlement",
+              "passed": true,
+              "detail": {
+                "hp": 1,
+                "expansions": 0
+              }
+            },
+            {
+              "name": "buqu-recover-choice-settlement",
+              "passed": true,
+              "detail": {
+                "picks": [
+                  "sha"
+                ],
+                "expansions": 1,
+                "hp": 2
+              }
+            },
+            {
+              "name": "liegong-hit-settlement",
+              "passed": true,
+              "detail": {
+                "damage": 2,
+                "directHit": true,
+                "extraDamage": 1
+              }
+            },
+            {
+              "name": "liegong-negative-settlement",
+              "passed": true,
+              "detail": {
+                "damage": 1,
+                "directHit": false
+              }
+            },
+            {
+              "name": "jushou-turned-free-draw",
+              "passed": true,
+              "detail": {
+                "drew": 3,
+                "turned": false
+              }
+            },
+            {
+              "name": "jushou-normal-no-draw",
+              "passed": true,
+              "detail": {
+                "drew": 0,
+                "turned": false
+              }
+            },
+            {
+              "name": "shensu1-lowhand-lebu",
+              "passed": true,
+              "detail": {
+                "usedSha": true,
+                "judgeSkipped": true,
+                "targetEnemy": true
+              }
+            },
+            {
+              "name": "shensu1-opportunity-cost",
+              "passed": true,
+              "detail": {
+                "usedSha": 0,
+                "judgeCalls": 1,
+                "handCount": 2
+              }
+            },
+            {
+              "name": "guhuo-lowhp-guard",
+              "passed": true,
+              "detail": {
+                "checkScores": [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "used": false
+              }
+            },
+            {
+              "name": "guhuo-midhp-native-bluff",
+              "passed": true,
+              "detail": {
+                "checkScores": [
+                  4.703350401575457,
+                  4.703350401575457,
+                  4.703350401575457,
+                  4.703350401575457
+                ]
+              }
+            },
+            {
+              "name": "guhuo-full-lowhp-fake-declined",
+              "passed": true,
+              "detail": {
+                "activated": false,
+                "hand": [
+                  "shan"
+                ],
+                "hp": 1
+              }
+            },
+            {
+              "name": "guhuo-full-lowhp-true-used",
+              "passed": true,
+              "detail": {
+                "activated": true,
+                "hidden": [
+                  "sha"
+                ],
+                "enemyHp": 1,
+                "chanyuan": true
+              }
+            },
+            {
+              "name": "guhuo-full-lowhp-expendable",
+              "passed": true,
+              "detail": {
+                "activated": true,
+                "lost": [
+                  "shandian"
+                ],
+                "hand": [
+                  "shan"
+                ],
+                "enemyHp": 2
+              }
+            },
+            {
+              "name": "guhuo-full-midhp-expendable",
+              "passed": true,
+              "detail": {
+                "activated": true,
+                "hidden": [
+                  "shandian"
+                ],
+                "enemyHp": 1
+              }
+            },
+            {
+              "name": "huangtian-last-shan-kept",
+              "passed": true,
+              "detail": {
+                "used": false,
+                "hand": [
+                  "shan"
+                ]
+              }
+            },
+            {
+              "name": "huangtian-midhp-give",
+              "passed": true,
+              "detail": {
+                "used": true,
+                "allyHand": [
+                  "shan"
+                ]
+              }
+            },
+            {
+              "name": "huangtian-shandian-given-shan-kept",
+              "passed": true,
+              "detail": {
+                "used": true,
+                "allyHand": [
+                  "shandian"
+                ]
+              }
+            },
+            {
+              "name": "huangtian-forced-shan-kept",
+              "passed": true,
+              "detail": {
+                "used": false,
+                "scores": [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "hand": [
+                  "shan"
+                ]
+              }
+            }
+          ],
+          "signature": {
+            "qimou": {
+              "qimouBypass": 2,
+              "usedQimou": true,
+              "paid": 2,
+              "reachableAfter": true,
+              "enemyHpLoss": 1
+            },
+            "releiji": {
+              "targetEnemy": true,
+              "thunderDamage": 2
+            },
+            "guidao": {
+              "replaced": true,
+              "gainedOriginal": true,
+              "declineWhenEqual": true
+            },
+            "huangtian": {
+              "used": true,
+              "tempSkill": true,
+              "gaveToZhu": true,
+              "noShanDecline": true,
+              "lastShanKept": true
+            },
+            "guhuoReal": {
+              "declaredSha": true,
+              "chanyuan": true,
+              "damage": 1,
+              "cancelled": false
+            },
+            "guhuoFake": {
+              "declaredSha": true,
+              "noDamage": true,
+              "noChanyuan": true,
+              "outcome": "declined"
+            },
+            "shensu": {
+              "usedSha": true,
+              "targetHpDelta": -1,
+              "judgeSkipped": true,
+              "lowHandDecline": true,
+              "lowHandJudgeSkip": true
+            },
+            "tianxiang": {
+              "targetEnemy": true,
+              "control": 1,
+              "actorHpDelta": 0,
+              "targetHpDelta": -1,
+              "noHeartDamage": true
+            },
+            "hongyan": {
+              "spadeAsHeart": true,
+              "spadeAsRed": true
+            },
+            "kuanggu": {
+              "drawChoice": "draw_card",
+              "recoverChoice": "recover_hp",
+              "draw": 1,
+              "recover": 1,
+              "fullHpDraw": true,
+              "lowHpRecover": true,
+              "midHpRecover": true
+            },
+            "jushou": {
+              "emptyTriggered": false,
+              "draw": 3,
+              "turnedOver": true,
+              "turnedFreeDraw": true
+            },
+            "buqu": {
+              "damageExpansions": true,
+              "negativeExpansions": 0,
+              "recoverPick": 1,
+              "recoverHp": 2
+            },
+            "liegong": {
+              "hitDamage": 2,
+              "hitDirect": true,
+              "negativeDamage": 1,
+              "negativeDirect": false
+            },
+            "guhuo": {
+              "lowHpBluffGuard": true
+            }
+          },
+          "validation": {
+            "qimou": {
+              "level": "确认缺陷并已修复",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true
+            },
+            "releiji": {
+              "level": "AI决策验证通过",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": false,
+              "note": "目标选择与黑桃判定后的 2 点雷电伤害均有真实结算断言；未额外构造无目标负向场景。"
+            },
+            "guidao": {
+              "level": "正反向决策验证通过",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true
+            },
+            "huangtian": {
+              "level": "确认存在质量提升并已实现",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true,
+              "note": "1血最后一张闪不转交；持闪+闪电时只转交闪电；3血双闪仍按原生转交。"
+            },
+            "xinshensu": {
+              "level": "确认存在质量提升并已实现",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true,
+              "note": "低手牌+不良判定且目标收益高于摸牌价值时使用神速1；目标收益低于摸牌价值时放弃并正常结算判定。"
+            },
+            "retianxiang": {
+              "level": "正反向决策验证通过",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true
+            },
+            "hongyan": {
+              "level": "规则结算验证通过",
+              "rule_settlement": true,
+              "ai_decision": false,
+              "positive_negative": false,
+              "note": "纯被动规则，无独立 AI 决策入口；只验证花色/颜色规则。"
+            },
+            "xinkuanggu": {
+              "level": "确认存在质量提升并已实现",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true,
+              "note": "1血可回复时优先回复；反向场景保持原生摸牌。"
+            },
+            "jushou": {
+              "level": "确认存在质量提升并已实现",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true,
+              "note": "已翻面时据守摸3张并翻回正面；正常4血3手牌反向不发动。"
+            },
+            "gzbuqu": {
+              "level": "AI决策验证通过",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true,
+              "note": "主触发为锁定技；额外验证回复后移创的 chooseCardButton AI 选择。"
+            },
+            "xinliegong": {
+              "level": "正反向决策验证通过",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true
+            },
+            "xinfu_guhuo": {
+              "level": "确认存在质量提升并已实现",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true,
+              "note": "1血无真牌不诈称；3血同局面仍保留原生诈称分。"
+            }
+          }
+        },
+        "shenhua_huo": {
+          "packId": "shenhua_huo",
+          "checks": [
+            {
+              "name": "qiangxix-target1-regression",
+              "passed": true,
+              "detail": {
+                "targetHp": 1,
+                "actorHp": 1
+              }
+            },
+            {
+              "name": "qiangxix-weapon-regression",
+              "passed": true,
+              "detail": {
+                "weaponDiscarded": true,
+                "actorHp": 2,
+                "targetHp": 1
+              }
+            },
+            {
+              "name": "quhu-settlement",
+              "passed": true,
+              "detail": {
+                "targetEnemy": true,
+                "enemyHpLoss": 1
+              }
+            },
+            {
+              "name": "quhu-no-target",
+              "passed": true,
+              "detail": {
+                "used": false
+              }
+            },
+            {
+              "name": "quhu-risky-decline",
+              "passed": true,
+              "detail": {
+                "used": false,
+                "actorHp": 1
+              }
+            },
+            {
+              "name": "jieming-damage-settlement",
+              "passed": true,
+              "detail": {
+                "targetAlly": true,
+                "draw": 4
+              }
+            },
+            {
+              "name": "jieming-no-benefit",
+              "passed": true,
+              "detail": {
+                "targetCount": 0,
+                "enemyGain": 0
+              }
+            },
+            {
+              "name": "lianhuan-tiesuo-settlement",
+              "passed": true,
+              "detail": {
+                "targetEnemy": true,
+                "targets": 2
+              }
+            },
+            {
+              "name": "lianhuan-ally-risk-recast",
+              "passed": true,
+              "detail": {
+                "recast": true,
+                "allyTargeted": false
+              }
+            },
+            {
+              "name": "lianhuan-unlink-settlement",
+              "passed": true,
+              "detail": {
+                "targetAlly": true,
+                "unlinked": true,
+                "recast": false
+              }
+            },
+            {
+              "name": "lianhuan-unlink-ally-risk",
+              "passed": true,
+              "detail": {
+                "targetAlly": true,
+                "allyHp": 1,
+                "enemyFireSkill": true
+              }
+            },
+            {
+              "name": "lianhuan-keep-enemy-linked",
+              "passed": true,
+              "detail": {
+                "recast": true,
+                "chainTargets": 2
+              }
+            },
+            {
+              "name": "lianhuan-full-linked-recast",
+              "passed": true,
+              "detail": {
+                "recast": true,
+                "targets": 0,
+                "draws": 1
+              }
+            },
+            {
+              "name": "lianhuan-link-enemies",
+              "passed": true,
+              "detail": {
+                "targets": 2,
+                "chainTargets": 2
+              }
+            },
+            {
+              "name": "lianhuan-unlinked-ally-only",
+              "passed": true,
+              "detail": {
+                "recast": true,
+                "targets": 0
+              }
+            },
+            {
+              "name": "lianhuan-self-linked",
+              "passed": true,
+              "detail": {
+                "targetSelf": true,
+                "unlinked": true
+              }
+            },
+            {
+              "name": "lianhuan-recast-blocked",
+              "passed": true,
+              "detail": {
+                "targets": 2,
+                "actorLinked": false,
+                "allyLinked": false
+              }
+            },
+            {
+              "name": "oldniepan-dying-settlement",
+              "passed": true,
+              "detail": {
+                "used": true,
+                "hp": 3,
+                "hand": 3
+              }
+            },
+            {
+              "name": "oldniepan-tao-preserved",
+              "passed": true,
+              "detail": {
+                "usedOldniepan": false,
+                "usedTao": true,
+                "hp": 1
+              }
+            },
+            {
+              "name": "tianyi-compare-win",
+              "passed": true,
+              "detail": {
+                "tianyi2": true
+              }
+            },
+            {
+              "name": "tianyi-win-sha-settlement",
+              "passed": true,
+              "detail": {
+                "used": true,
+                "tianyi2": true,
+                "shaUsed": true,
+                "enemyHpLoss": 2
+              }
+            },
+            {
+              "name": "tianyi-lose-decline",
+              "passed": true,
+              "detail": {
+                "used": false,
+                "shaUsed": true
+              }
+            },
+            {
+              "name": "tianyi-lose-content",
+              "passed": true,
+              "detail": {
+                "tianyi3": true,
+                "shaEnabled": false
+              }
+            },
+            {
+              "name": "shuangxiong-judge-viewas",
+              "passed": true,
+              "detail": {
+                "viewas": true
+              }
+            },
+            {
+              "name": "shuangxiong-duel-settlement",
+              "passed": true,
+              "detail": {
+                "judged": true,
+                "viewas": true,
+                "juedou": 2,
+                "enemyHpLoss": 3
+              }
+            },
+            {
+              "name": "shuangxiong-no-judge",
+              "passed": true,
+              "detail": {
+                "judged": false,
+                "viewas": false
+              }
+            },
+            {
+              "name": "luanji-wanjian-settlement",
+              "passed": true,
+              "detail": {
+                "targets": 7,
+                "enemyDamage": 13
+              }
+            },
+            {
+              "name": "luanji-no-pair",
+              "passed": true,
+              "detail": {
+                "used": false,
+                "handKept": true
+              }
+            },
+            {
+              "name": "luanji-conservative-decline",
+              "passed": true,
+              "detail": {
+                "used": false
+              }
+            },
+            {
+              "name": "luanji-ally-lethal-veto",
+              "passed": true,
+              "detail": {
+                "check": 0,
+                "used": false,
+                "allyHp": 1
+              }
+            },
+            {
+              "name": "huoji-use-settlement",
+              "passed": true,
+              "detail": {
+                "huogong": true,
+                "fireDamage": true
+              }
+            },
+            {
+              "name": "huoji-conservative-decline",
+              "passed": true,
+              "detail": {
+                "used": false
+              }
+            },
+            {
+              "name": "huoji-no-red",
+              "passed": true,
+              "detail": {
+                "used": false
+              }
+            },
+            {
+              "name": "kanpo-response-settlement",
+              "passed": true,
+              "detail": {
+                "used": true,
+                "damage": 0
+              }
+            },
+            {
+              "name": "kanpo-no-black",
+              "passed": true,
+              "detail": {
+                "used": false,
+                "damage": 1
+              }
+            },
+            {
+              "name": "bazhen-bagua-settlement",
+              "passed": true,
+              "detail": {
+                "judged": true,
+                "damage": 0
+              }
+            },
+            {
+              "name": "bazhen-armor-negative",
+              "passed": true,
+              "detail": {
+                "bazhenExtra": false,
+                "damage": 1
+              }
+            },
+            {
+              "name": "passive-rules",
+              "passed": true,
+              "detail": {
+                "mashuDistance": 1,
+                "maxHandcard": 10
+              }
+            },
+            {
+              "name": "jianchu-sha-settlement",
+              "passed": true,
+              "detail": {
+                "directHit": true,
+                "equips": 0,
+                "enemyHpLoss": 1
+              }
+            },
+            {
+              "name": "jianchu-no-equip",
+              "passed": true,
+              "detail": {
+                "directHit": false,
+                "enemyGainedSha": true,
+                "damage": 1
+              }
+            }
+          ],
+          "signature": {
+            "qiangxix": {
+              "used": true,
+              "targetHp": 1,
+              "actorHp": 1,
+              "weaponDiscarded": true
+            },
+            "quhu": {
+              "used": true,
+              "targetEnemy": true,
+              "damage": 1,
+              "noTargetDecline": true,
+              "riskyDecline": true
+            },
+            "jieming": {
+              "targetAlly": true,
+              "allyDraw": 4,
+              "noBenefitDecline": true
+            },
+            "lianhuan": {
+              "usedOnEnemies": true,
+              "targetCount": 2,
+              "allyRiskRecast": true,
+              "unlinkAlly": true,
+              "unlinkLowHpAlly": true,
+              "keepEnemyLinked": true,
+              "fullLinkedRecast": true,
+              "linkEnemies": true,
+              "unlinkedAllyRecast": true,
+              "unlinkSelf": true,
+              "recastBlockedStillUses": true
+            },
+            "oldniepan": {
+              "used": true,
+              "hp": 3,
+              "taoPreserved": true
+            },
+            "tianyi": {
+              "winBuff": true,
+              "winSha": true,
+              "loseDecline": true,
+              "loseBlocksSha": true
+            },
+            "shuangxiong": {
+              "viewas": true,
+              "duelUsed": true,
+              "noJudgeDecline": true
+            },
+            "luanji": {
+              "used": true,
+              "multiTarget": true,
+              "enemyDamaged": true,
+              "noPairDecline": true,
+              "conservativeDecline": true,
+              "allyLethalVeto": true
+            },
+            "huoji": {
+              "used": true,
+              "fireDamage": true,
+              "conservativeDecline": true,
+              "noRedDecline": true
+            },
+            "kanpo": {
+              "responded": true,
+              "damage": 0,
+              "noBlackDecline": true
+            },
+            "bazhen": {
+              "baguaJudged": true,
+              "damage": 0,
+              "armorDisabled": true
+            },
+            "passive": {
+              "mashuDistance": 1,
+              "maxHandcard": 10,
+              "bazhenExtra": true,
+              "kanpoView": true
+            },
+            "jianchu": {
+              "directHit": true,
+              "equipDiscarded": true,
+              "damage": 1,
+              "noEquipTrade": true
+            }
+          },
+          "validation": {
+            "qiangxix": {
+              "level": "已验证无问题",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": false,
+              "note": "沿用第二批完整回合证据，本轮回归仍通过。"
+            },
+            "quhu": {
+              "level": "正反向决策验证通过",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true
+            },
+            "jieming": {
+              "level": "正反向决策验证通过",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true
+            },
+            "lianhuan": {
+              "level": "验证无问题",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true,
+              "note": "原生 get.effect 已区分解除友方/自身横置的保护收益与解除敌方的损失；10 个固定局面（7 个新增边界 + 3 个首轮）由原生与扩展逐场景对照，未保留任何 ai2 覆盖。"
+            },
+            "oldniepan": {
+              "level": "正反向决策验证通过",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true
+            },
+            "tianyi": {
+              "level": "正反向决策验证通过",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true
+            },
+            "shuangxiong": {
+              "level": "正反向决策验证通过",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true
+            },
+            "luanji": {
+              "level": "确认存在质量提升并已实现",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true,
+              "note": "1血空手无防具队友被万箭打入濒死时拒绝发动；全敌方反向场景仍发动。"
+            },
+            "huoji": {
+              "level": "AI决策验证通过",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true
+            },
+            "kanpo": {
+              "level": "正反向决策验证通过",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true
+            },
+            "bazhen": {
+              "level": "规则结算验证通过",
+              "rule_settlement": true,
+              "ai_decision": false,
+              "positive_negative": true,
+              "note": "八卦为自动响应规则，无独立目标 AI；正反向验证判定成功与护甲槽占用后的失效。"
+            },
+            "mashu": {
+              "level": "规则结算验证通过",
+              "rule_settlement": true,
+              "ai_decision": false,
+              "positive_negative": false,
+              "note": "纯被动距离规则。"
+            },
+            "xueyi": {
+              "level": "规则结算验证通过",
+              "rule_settlement": true,
+              "ai_decision": false,
+              "positive_negative": false,
+              "note": "纯被动手牌上限规则。"
+            },
+            "jianchu": {
+              "level": "AI决策验证通过",
+              "rule_settlement": true,
+              "ai_decision": true,
+              "positive_negative": true,
+              "note": "无装备分支按技能文本交换目标一张手牌并令其获得此杀，未发现非法目标或隐藏信息读取，只记录真实结算。"
+            }
+          }
+        },
+        "shenhua_lei": {
+          "packId": "shenhua_lei",
+          "checks": [
+            {
+              "name": "policy-counters",
+              "passed": true,
+              "detail": {
+                "olkongshengCostCalls": 3,
+                "selected": [
+                  "wuxie"
+                ],
+                "runs": [
+                  1,
+                  1
+                ]
+              }
+            }
+          ],
+          "signature": {
+            "olkongshengCostCalls": 3,
+            "olkongshengCompatible": true,
+            "selected": [
+              "wuxie"
+            ],
+            "runs": [
+              1,
+              1
+            ],
+            "scopeRestored": true
+          }
+        },
+        "out_of_scope": {
+          "packId": "out_of_scope",
+          "checks": [
+            {
+              "name": "hidden-settlement",
+              "passed": true,
+              "detail": {
+                "mixed": [
+                  "sha",
+                  "shan",
+                  "tao",
+                  "wuzhong"
+                ],
+                "gained": [
+                  [
+                    "sha",
+                    "tao"
+                  ],
+                  [
+                    "shan",
+                    "wuzhong"
+                  ]
+                ]
+              }
+            },
+            {
+              "name": "permute-invariance",
+              "passed": true,
+              "detail": {
+                "indices": [
+                  [
+                    [
+                      0,
+                      1
+                    ],
+                    [
+                      2,
+                      3
+                    ]
+                  ],
+                  [
+                    [
+                      0,
+                      1
+                    ],
+                    [
+                      2,
+                      3
+                    ]
+                  ]
+                ],
+                "fairRedimeng": 13,
+                "redimengMaskFailed": 0
+              }
+            },
+            {
+              "name": "target-legal",
+              "passed": true,
+              "detail": {
+                "targets": [
+                  "50265723591",
+                  "74695553592"
+                ],
+                "cost": 2,
+                "total": 4
+              }
+            },
+            {
+              "name": "target-zero-cost",
+              "passed": true,
+              "detail": {
+                "targets": [
+                  "50265723591",
+                  "74695553592"
+                ],
+                "cost": 0,
+                "total": 2
+              }
+            },
+            {
+              "name": "target-infeasible",
+              "passed": true,
+              "detail": {
+                "choice": {
+                  "bool": false,
+                  "skill": null,
+                  "cards": [],
+                  "targets": []
+                },
+                "usedTargets": []
+              }
+            },
+            {
+              "name": "redimeng-lifecycle",
+              "passed": true,
+              "detail": {
+                "before": {
+                  "rezhiheng": true,
+                  "qimou": true,
+                  "reqimouContent": true,
+                  "reqimouGate": true,
+                  "jushou": true,
+                  "shensu1": true,
+                  "guhuo": true,
+                  "huangtian": true,
+                  "redimengFind": true,
+                  "redimengChooseButton": false
+                },
+                "afterUninstall": {
+                  "rezhiheng": false,
+                  "qimou": false,
+                  "reqimouContent": false,
+                  "reqimouGate": false,
+                  "jushou": false,
+                  "shensu1": false,
+                  "guhuo": false,
+                  "huangtian": false,
+                  "redimengFind": false,
+                  "redimengChooseButton": false
+                },
+                "afterReinstall": {
+                  "rezhiheng": true,
+                  "qimou": true,
+                  "reqimouContent": true,
+                  "reqimouGate": true,
+                  "jushou": true,
+                  "shensu1": true,
+                  "guhuo": true,
+                  "huangtian": true,
+                  "redimengFind": true,
+                  "redimengChooseButton": true
+                }
+              }
+            }
+          ],
+          "signature": {
+            "hiddenMixed": [
+              "sha",
+              "shan",
+              "tao",
+              "wuzhong"
+            ],
+            "hiddenGainedPools": [
+              [
+                "sha",
+                "tao"
+              ],
+              [
+                "shan",
+                "wuzhong"
+              ]
+            ],
+            "permuteIndices": [
+              [
+                [
+                  0,
+                  1
+                ],
+                [
+                  2,
+                  3
+                ]
+              ],
+              [
+                [
+                  0,
+                  1
+                ],
+                [
+                  2,
+                  3
+                ]
+              ]
+            ],
+            "fairRedimeng": 13,
+            "redimengMaskFailed": 0,
+            "redimengFindCalls": 4,
+            "redimengFindFixed": 4,
+            "redimengFindFallbacks": 0
+          }
+        }
+      },
+      "output": [
+        "host-combined-installed-refresh_standard.json",
+        "host-combined-installed-refresh_feng.json",
+        "host-combined-installed-shenhua_feng-qimou.json",
+        "host-combined-installed-shenhua_feng-review.json",
+        "host-combined-installed-shenhua_huo-review.json",
+        "host-combined-installed-shenhua_huo-luanji-positive.json",
+        "host-combined-installed-shenhua_huo-huoji-positive.json",
+        "host-combined-installed-shenhua_lei.json",
+        "host-combined-installed-out_of_scope.json"
+      ]
+    },
+    {
+      "step": "rollback-coexist",
+      "pack": "out_of_scope",
+      "status": "passed",
+      "remaining": [
+        "refresh_standard",
+        "refresh_feng",
+        "shenhua_feng",
+        "shenhua_huo",
+        "shenhua_lei"
+      ]
+    },
+    {
+      "step": "rollback-coexist",
+      "pack": "shenhua_lei",
+      "status": "passed",
+      "remaining": [
+        "refresh_standard",
+        "refresh_feng",
+        "shenhua_feng",
+        "shenhua_huo"
+      ]
+    },
+    {
+      "step": "rollback-coexist",
+      "pack": "shenhua_huo",
+      "status": "passed",
+      "remaining": [
+        "refresh_standard",
+        "refresh_feng",
+        "shenhua_feng"
+      ]
+    },
+    {
+      "step": "rollback-coexist",
+      "pack": "shenhua_feng",
+      "status": "passed",
+      "remaining": [
+        "refresh_standard",
+        "refresh_feng"
+      ]
+    },
+    {
+      "step": "rollback-coexist",
+      "pack": "refresh_feng",
+      "status": "passed",
+      "remaining": [
+        "refresh_standard"
+      ]
+    },
+    {
+      "step": "rollback-coexist",
+      "pack": "refresh_standard",
+      "status": "passed",
+      "remaining": []
+    },
+    {
+      "step": "host-load-rolledback",
+      "pack": "combined",
+      "status": "passed",
+      "scenes": [
+        "rezhiheng-3hp",
+        "new-retuxi-order",
+        "hp-reqimou-distance4-hp2",
+        "hp-reqimou-distance4-hp3",
+        "hp-qimou-distance4-hp3",
+        "hp-qimou-distance4-hp4-negative",
+        "hp-qimou-distance3-hp2",
+        "shenhua-releiji-target",
+        "shenhua-guidao-replace",
+        "shenhua-guidao-decline",
+        "shenhua-huangtian-give",
+        "shenhua-huangtian-negative",
+        "shenhua-guhuo-claim",
+        "shenhua-guhuo-real-questioned",
+        "shenhua-guhuo-fake-questioned",
+        "shenhua-guhuo-phase",
+        "shenhua-shensu-skip",
+        "shenhua-shensu-negative",
+        "quality-shensu1-lowhand-lebu",
+        "quality-shensu1-reverse-lowvalue",
+        "shenhua-tianxiang-redirect",
+        "shenhua-tianxiang-negative",
+        "shenhua-hongyan-suit",
+        "shenhua-kuanggu-draw-fullhp",
+        "shenhua-kuanggu-recover",
+        "quality-kuanggu-lowhp",
+        "quality-kuanggu-midhp-recover",
+        "quality-jushou-turned",
+        "quality-jushou-normal",
+        "quality-guhuo-bluff-lowhp",
+        "quality-guhuo-bluff-midhp",
+        "quality-guhuo-full-lowhp-fake-lastshan",
+        "quality-guhuo-full-lowhp-true-sha-forced",
+        "quality-guhuo-full-lowhp-fake-expendable",
+        "quality-guhuo-full-midhp-fake-expendable",
+        "quality-huangtian-last-shan",
+        "quality-huangtian-midhp",
+        "quality-huangtian-last-shan-with-shandian",
+        "quality-huangtian-forced-shan-with-shandian",
+        "shenhua-jushou-4hp-empty",
+        "shenhua-jushou-lowhp",
+        "shenhua-buqu-damage",
+        "shenhua-buqu-negative",
+        "shenhua-buqu-recover-choice",
+        "shenhua-liegong-hit",
+        "shenhua-liegong-negative",
+        "hp-qiangxix-2hp-target1",
+        "hp-qiangxix-2hp-weapon-target2",
+        "shenhua-huo-quhu-compare",
+        "shenhua-huo-quhu-no-target",
+        "shenhua-huo-quhu-risky-decline",
+        "shenhua-huo-jieming-damage",
+        "shenhua-huo-jieming-no-benefit",
+        "shenhua-huo-lianhuan-tiesuo",
+        "shenhua-huo-lianhuan-ally-risk",
+        "shenhua-huo-lianhuan-recast",
+        "shenhua-huo-lianhuan-unlink-ally-risk",
+        "shenhua-huo-lianhuan-keep-enemy-linked",
+        "shenhua-huo-lianhuan-full-linked-recast",
+        "shenhua-huo-lianhuan-link-enemies",
+        "shenhua-huo-lianhuan-unlinked-ally-only",
+        "shenhua-huo-lianhuan-self-linked",
+        "shenhua-huo-lianhuan-recast-blocked",
+        "shenhua-huo-oldniepan-dying",
+        "shenhua-huo-oldniepan-tao",
+        "shenhua-huo-tianyi-compare",
+        "shenhua-huo-tianyi-win-sha",
+        "shenhua-huo-tianyi-lose-sha",
+        "shenhua-huo-tianyi-lose-content",
+        "shenhua-huo-shuangxiong-judge",
+        "shenhua-huo-shuangxiong-duel",
+        "shenhua-huo-shuangxiong-no-judge",
+        "shenhua-huo-luanji-wanjian",
+        "shenhua-huo-luanji-wanjian-use",
+        "shenhua-huo-luanji-no-pair",
+        "quality-luanji-ally-lethal",
+        "shenhua-huo-huoji-red",
+        "shenhua-huo-huoji-use",
+        "shenhua-huo-huoji-no-red",
+        "shenhua-huo-kanpo-response",
+        "shenhua-huo-kanpo-no-black",
+        "shenhua-huo-bazhen-bagua",
+        "shenhua-huo-bazhen-armor-negative",
+        "shenhua-huo-jianchu-sha",
+        "shenhua-huo-jianchu-no-equip",
+        "shenhua-huo-passive-rules",
+        "olkongsheng-array-count",
+        "olkongsheng-repeat",
+        "redimeng-hidden-info",
+        "redimeng-permute-values"
+      ],
+      "policyStats": {
+        "installed": true,
+        "packs": {},
+        "installation": {
+          "state": "installed",
+          "reason": null
+        }
+      },
+      "skillChecks": {},
+      "output": [
+        "host-combined-rolledback-refresh_standard.json",
+        "host-combined-rolledback-refresh_feng.json",
+        "host-combined-rolledback-shenhua_feng-qimou.json",
+        "host-combined-rolledback-shenhua_feng-review.json",
+        "host-combined-rolledback-shenhua_huo-review.json",
+        "host-combined-rolledback-shenhua_huo-luanji-positive.json",
+        "host-combined-rolledback-shenhua_huo-huoji-positive.json",
+        "host-combined-rolledback-shenhua_lei.json",
+        "host-combined-rolledback-out_of_scope.json"
+      ]
+    }
+  ],
+  "skipped_checks": [
+    {
+      "pack": "refresh_standard",
+      "check": "package-tests",
+      "reason": "ZIP 不含 tests/run-pack-tests.mjs"
+    },
+    {
+      "pack": "refresh_standard",
+      "check": "verify-cross-platform",
+      "reason": "ZIP 不含 tests/test-verify-zip.py"
+    },
+    {
+      "pack": "refresh_feng",
+      "check": "package-tests",
+      "reason": "ZIP 不含 tests/run-pack-tests.mjs"
+    },
+    {
+      "pack": "refresh_feng",
+      "check": "verify-cross-platform",
+      "reason": "ZIP 不含 tests/test-verify-zip.py"
+    },
+    {
+      "pack": "shenhua_feng",
+      "check": "package-tests",
+      "reason": "ZIP 不含 tests/run-pack-tests.mjs"
+    },
+    {
+      "pack": "shenhua_feng",
+      "check": "verify-cross-platform",
+      "reason": "ZIP 不含 tests/test-verify-zip.py"
+    }
+  ],
+  "pass": true,
+  "workdir": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT",
+  "native_scenes": [
+    "rezhiheng-3hp",
+    "new-retuxi-order",
+    "hp-reqimou-distance4-hp2",
+    "hp-reqimou-distance4-hp3",
+    "hp-qimou-distance4-hp3",
+    "hp-qimou-distance4-hp4-negative",
+    "hp-qimou-distance3-hp2",
+    "shenhua-releiji-target",
+    "shenhua-guidao-replace",
+    "shenhua-guidao-decline",
+    "shenhua-huangtian-give",
+    "shenhua-huangtian-negative",
+    "shenhua-guhuo-claim",
+    "shenhua-guhuo-real-questioned",
+    "shenhua-guhuo-fake-questioned",
+    "shenhua-guhuo-phase",
+    "shenhua-shensu-skip",
+    "shenhua-shensu-negative",
+    "quality-shensu1-lowhand-lebu",
+    "quality-shensu1-reverse-lowvalue",
+    "shenhua-tianxiang-redirect",
+    "shenhua-tianxiang-negative",
+    "shenhua-hongyan-suit",
+    "shenhua-kuanggu-draw-fullhp",
+    "shenhua-kuanggu-recover",
+    "quality-kuanggu-lowhp",
+    "quality-kuanggu-midhp-recover",
+    "quality-jushou-turned",
+    "quality-jushou-normal",
+    "quality-guhuo-bluff-lowhp",
+    "quality-guhuo-bluff-midhp",
+    "quality-guhuo-full-lowhp-fake-lastshan",
+    "quality-guhuo-full-lowhp-true-sha-forced",
+    "quality-guhuo-full-lowhp-fake-expendable",
+    "quality-guhuo-full-midhp-fake-expendable",
+    "quality-huangtian-last-shan",
+    "quality-huangtian-midhp",
+    "quality-huangtian-last-shan-with-shandian",
+    "quality-huangtian-forced-shan-with-shandian",
+    "shenhua-jushou-4hp-empty",
+    "shenhua-jushou-lowhp",
+    "shenhua-buqu-damage",
+    "shenhua-buqu-negative",
+    "shenhua-buqu-recover-choice",
+    "shenhua-liegong-hit",
+    "shenhua-liegong-negative",
+    "hp-qiangxix-2hp-target1",
+    "hp-qiangxix-2hp-weapon-target2",
+    "shenhua-huo-quhu-compare",
+    "shenhua-huo-quhu-no-target",
+    "shenhua-huo-quhu-risky-decline",
+    "shenhua-huo-jieming-damage",
+    "shenhua-huo-jieming-no-benefit",
+    "shenhua-huo-lianhuan-tiesuo",
+    "shenhua-huo-lianhuan-ally-risk",
+    "shenhua-huo-lianhuan-recast",
+    "shenhua-huo-lianhuan-unlink-ally-risk",
+    "shenhua-huo-lianhuan-keep-enemy-linked",
+    "shenhua-huo-lianhuan-full-linked-recast",
+    "shenhua-huo-lianhuan-link-enemies",
+    "shenhua-huo-lianhuan-unlinked-ally-only",
+    "shenhua-huo-lianhuan-self-linked",
+    "shenhua-huo-lianhuan-recast-blocked",
+    "shenhua-huo-oldniepan-dying",
+    "shenhua-huo-oldniepan-tao",
+    "shenhua-huo-tianyi-compare",
+    "shenhua-huo-tianyi-win-sha",
+    "shenhua-huo-tianyi-lose-sha",
+    "shenhua-huo-tianyi-lose-content",
+    "shenhua-huo-shuangxiong-judge",
+    "shenhua-huo-shuangxiong-duel",
+    "shenhua-huo-shuangxiong-no-judge",
+    "shenhua-huo-luanji-wanjian",
+    "shenhua-huo-luanji-wanjian-use",
+    "shenhua-huo-luanji-no-pair",
+    "quality-luanji-ally-lethal",
+    "shenhua-huo-huoji-red",
+    "shenhua-huo-huoji-use",
+    "shenhua-huo-huoji-no-red",
+    "shenhua-huo-kanpo-response",
+    "shenhua-huo-kanpo-no-black",
+    "shenhua-huo-bazhen-bagua",
+    "shenhua-huo-bazhen-armor-negative",
+    "shenhua-huo-jianchu-sha",
+    "shenhua-huo-jianchu-no-equip",
+    "shenhua-huo-passive-rules",
+    "olkongsheng-array-count",
+    "olkongsheng-repeat",
+    "redimeng-hidden-info",
+    "redimeng-permute-values"
+  ],
+  "target": "C:\\Users\\32360\\AppData\\Local\\Temp\\djsc-pack-accept-XHy7WT\\targets\\combined"
+}

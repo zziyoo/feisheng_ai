@@ -963,6 +963,21 @@ export async function runSkillAiScenes(page, options = {}) {
 			await phaseTurn(rec);
 			rec.target = { hp: roster[4]?.hp, dead: !!roster[4]?.dead };
 		});
+		/* 可行击杀局面：目标 2 血、手杀 2 张，支付 3 点体力后距离/次数足够兑现击杀；
+		 * 旧 3 血目标超过手杀预算，当前保守策略记录为 infeasible。 */
+		await scene('hp-reqimou-distance4-hp2', async () => {
+			blockNeighborSha();
+			const target = hpTarget(4, 2, 4);
+			actor.addSkill('reqimou');
+			actor.addSkill('xinkuanggu');
+			actor.hp = 4; actor.maxHp = 4;
+			await give(actor, [['sha', 'spade', 2271], ['sha', 'heart', 2272]]);
+			actor.update();
+			target.update();
+		}, async rec => {
+			await phaseTurn(rec);
+			rec.target = { hp: roster[4]?.hp, dead: !!roster[4]?.dead };
+		});
 		await scene('hp-reqimou-distance4-hp4-defense', async () => {
 			blockNeighborSha();
 			const target = hpTarget(4, 4, 4);
@@ -1650,6 +1665,97 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.colors = { spade: get.color(spade, actor), heart: get.color(heart, actor) };
 		}, async rec => {});
 
+		/* 狂骨专项探针：只读取宿主 get 的真实返回值，不替换技能或 AI。
+		 * 在 chooseDrawRecover 创建时记录技能实际消费的回复/摸牌收益与杀资源。 */
+		const probeKuanggu = async (rec, action) => {
+			const calls = [], atChoose = [];
+			const originalRecover = get.recoverEffect;
+			const originalEffect = get.effect;
+			const originalChoose = actor.chooseDrawRecover;
+			let suppress = false;
+			const measure = fn => { suppress = true; try { return fn(); } finally { suppress = false; } };
+			get.recoverEffect = function (target, player, viewer) {
+				const value = originalRecover.apply(this, arguments);
+				if (!suppress && target === actor) calls.push({
+					call: 'recoverEffect', hp: actor.hp, maxHp: actor.maxHp,
+					source: player && player.playerid != null ? player.playerid : null,
+					viewer: viewer && viewer.playerid != null ? viewer.playerid : null,
+					value: Number(value),
+				});
+				return value;
+			};
+			get.effect = function (target, cardArg, playerArg, player2) {
+				const value = originalEffect.apply(this, arguments);
+				const name = cardArg && typeof cardArg === 'object' ? cardArg.name : cardArg;
+				if (!suppress && target === actor && (name === 'draw' || name === 'recover')) calls.push({
+					call: 'effect', card: name, hp: actor.hp, maxHp: actor.maxHp,
+					source: playerArg && playerArg.playerid != null ? playerArg.playerid : null,
+					viewer: player2 && player2.playerid != null ? player2.playerid : null,
+					value: Number(value),
+				});
+				return value;
+			};
+			actor.chooseDrawRecover = function (...args) {
+				const state = {
+					hp: actor.hp, maxHp: actor.maxHp, isDamaged: actor.isDamaged(),
+					recoverEffect: measure(() => originalRecover.call(get, actor, actor, actor)),
+					drawEffect: measure(() => originalEffect.call(get, actor, { name: 'draw' }, actor, actor)),
+					shaReady: actor.countCards('hs', c => c.name === 'sha' && actor.hasValueTarget(c)),
+					shaUsable: actor.getCardUsable('sha'),
+					hand: hand(actor), handCount: actor.countCards('h'),
+					distanceToEnemy1: get.distance(actor, enemy1), enemy1Hp: enemy1.hp,
+				};
+				const event = originalChoose.apply(this, args);
+				try {
+					state.presetChoice = event.choice == null ? null : event.choice;
+					const set = event.set;
+					event.set = function (key, value) { if (key === 'choice') state.choiceSet = value; return set.call(this, key, value); };
+					const forResult = event.forResult;
+					event.forResult = async function (...rest) {
+						const result = await forResult.apply(this, rest);
+						state.control = result && result.control;
+						return result;
+					};
+				} catch (e) { state.wrapError = String(e && e.message || e); }
+				atChoose.push(state);
+				return event;
+			};
+			const damage = captureDamage(enemy1);
+			const probe = instrument(actor);
+			try { await action(); }
+			finally {
+				get.recoverEffect = originalRecover;
+				get.effect = originalEffect;
+				actor.chooseDrawRecover = originalChoose;
+				damage.restore();
+				probe.restore();
+			}
+			rec.probe = {
+				calls, atChoose, ops: probe.log,
+				damage: damage.events.map(item => ({
+					checkKuanggu: item && item.checkKuanggu, num: item && item.num,
+					source: item && item.source && item.source.playerid,
+					player: item && item.player && item.player.playerid,
+				})),
+				after: { actorHp: actor.hp, actorHand: hand(actor), enemyHp: enemy1.hp },
+			};
+		};
+		const setupKuanggu = async (rec, options = {}) => {
+			actor.addSkill('xinkuanggu');
+			actor.maxHp = 4; actor.hp = options.hp == null ? 3 : options.hp;
+			if (options.zhuge) await actor.equip(card('zhuge', 'spade', 3601));
+			await actor.equip(card('chitu', 'heart', 3602));
+			await give(actor, options.hand || []);
+			enemy1.hp = options.enemyHp == null ? 3 : options.enemyHp;
+			enemy1.maxHp = 4; enemy1.update();
+			actor.update();
+			rec.setup = {
+				hp: actor.hp, maxHp: actor.maxHp, hand: hand(actor),
+				distance: get.distance(actor, enemy1), enemyHp: enemy1.hp,
+				zhuge: !!options.zhuge,
+			};
+		};
+
 		await scene('shenhua-kuanggu-draw', async rec => {
 			actor.addSkill('xinkuanggu');
 			actor.hp = 3; actor.maxHp = 4;
@@ -1674,6 +1780,16 @@ export async function runSkillAiScenes(page, options = {}) {
 			rec.kuangguAfter = { actorHp: actor.hp, actorHand: hand(actor), enemyHp: enemy1.hp };
 		});
 
+		/* 正式双风原生补丁在满血时回复收益为 0，仍走摸牌；此场景替代旧 3 血连弩场景作为摸牌分支验收。 */
+		await scene('shenhua-kuanggu-draw-fullhp', async rec => {
+			await setupKuanggu(rec, { hp: 4, zhuge: true, hand: [['sha', 'spade', 3619]], enemyHp: 3 });
+		}, async rec => {
+			await probeKuanggu(rec, () => actor.useCard(actor.getCards('h', 'sha')[0], enemy1));
+			rec.choices = (rec.probe.atChoose || []).map(item => item.control).filter(Boolean);
+			rec.ops = rec.probe.ops;
+			rec.kuangguAfter = rec.probe.after;
+		});
+
 		await scene('shenhua-kuanggu-recover', async rec => {
 			actor.addSkill('xinkuanggu');
 			actor.hp = 3; actor.maxHp = 4;
@@ -1694,6 +1810,44 @@ export async function runSkillAiScenes(page, options = {}) {
 				player: item && item.player && item.player.playerid,
 			}));
 			rec.kuangguAfter = { actorHp: actor.hp, actorHand: hand(actor), enemyHp: enemy1.hp };
+		});
+
+		await scene('kuanggu-probe-original', async rec => {
+			await setupKuanggu(rec, { hp: 3, hand: [['sha', 'club', 3611], ['sha', 'spade', 3612]], enemyHp: 3 });
+		}, async rec => { await probeKuanggu(rec, () => actor.useCard(actor.getCards('h', 'sha')[0], enemy1)); });
+
+		await scene('kuanggu-probe-draw-zhuge', async rec => {
+			await setupKuanggu(rec, { hp: 3, zhuge: true, hand: [['sha', 'spade', 3613]], enemyHp: 3 });
+		}, async rec => { await probeKuanggu(rec, () => actor.useCard(actor.getCards('h', 'sha')[0], enemy1)); });
+
+		await scene('kuanggu-probe-fullhp', async rec => {
+			await setupKuanggu(rec, { hp: 4, hand: [['sha', 'club', 3614], ['sha', 'spade', 3615]], enemyHp: 3 });
+		}, async rec => { await probeKuanggu(rec, () => actor.useCard(actor.getCards('h', 'sha')[0], enemy1)); });
+
+		await scene('kuanggu-probe-lowhp', async rec => {
+			await setupKuanggu(rec, { hp: 1, hand: [['sha', 'club', 3616], ['sha', 'spade', 3617]], enemyHp: 3 });
+		}, async rec => { await probeKuanggu(rec, () => actor.useCard(actor.getCards('h', 'sha')[0], enemy1)); });
+
+		await scene('kuanggu-probe-nosha', async rec => {
+			await setupKuanggu(rec, { hp: 3, hand: [['sha', 'club', 3618]], enemyHp: 3 });
+		}, async rec => { await probeKuanggu(rec, () => actor.useCard(actor.getCards('h', 'sha')[0], enemy1)); });
+
+		await scene('kuanggu-probe-midhp-direct', async rec => {
+			await setupKuanggu(rec, { hp: 3, hand: [], enemyHp: 3 });
+		}, async rec => { await probeKuanggu(rec, () => enemy1.damage(1, actor)); });
+
+		await scene('kuanggu-probe-multihit', async rec => {
+			await setupKuanggu(rec, { hp: 2, hand: [], enemyHp: 4 });
+		}, async rec => { await probeKuanggu(rec, async () => { await enemy1.damage(1, actor); await enemy1.damage(1, actor); }); });
+
+		/* 与旧 quality-kuanggu-midhp 相同局面；正式双风原生补丁的收益比较为回复，保留为旧断言对照。 */
+		await scene('quality-kuanggu-midhp-recover', async rec => {
+			await setupKuanggu(rec, { hp: 3, hand: [], enemyHp: 3 });
+		}, async rec => {
+			await probeKuanggu(rec, () => enemy1.damage(1, actor));
+			rec.choices = (rec.probe.atChoose || []).map(item => item.control).filter(Boolean);
+			rec.ops = rec.probe.ops;
+			rec.kuangguAfter = rec.probe.after;
 		});
 
 		await scene('shenhua-jushou-4hp-empty', async rec => {

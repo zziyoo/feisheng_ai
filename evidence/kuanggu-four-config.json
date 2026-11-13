@@ -1,0 +1,2659 @@
+{
+  "schema_version": "1.0",
+  "host": {
+    "version": "1.11.7",
+    "browser": "157.0.8103.78",
+    "mode": "identity",
+    "seed": "20261030"
+  },
+  "configs": {
+    "A": {
+      "label": "native 1.11.7 baseline"
+    },
+    "B": {
+      "label": "formal dual-feng native patch",
+      "hashes": {
+        "shenhua": "c407d23b26f8e7979a37d1921bde5586feff86bd3f060d1ead99de528c8620a7",
+        "refresh": "3f7c4e0f6b7b70ccb04db47f5076394bf5820847cf6015b8ba1e94e22db3ada6"
+      }
+    },
+    "C": {
+      "label": "sealed shenhua_feng extension",
+      "hashes": {
+        "rules": "0b2f233f928ea72490c07aad5ab0c5555d7eff6eed7a39b332245a0f2904957e",
+        "pack": "fa549b1065aa01566657121b9cf5b4f2cfef5cdc72d2f029622952ac1a050250"
+      }
+    },
+    "D": {
+      "label": "new extension LF source (= final ZIP source)",
+      "hashes": {
+        "rules": "43885bfef36d14ddb144d0ef13cd98385e1ebb28a2b47e968a515079eb3fd53e",
+        "pack": "deb67719192d27dcf057d670d822f31e734cb53490a44d197f5ad9cdb7577ffd",
+        "head": "25b950356627b9c236c4faf3be82e3481ad09111"
+      }
+    }
+  },
+  "scenes": {
+    "kuanggu-probe-original": {
+      "A": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [
+            "sha",
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 19.5,
+            "drawEffect": 13,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [
+            "sha"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 19.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 19.5
+          }
+        ]
+      },
+      "B": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [
+            "sha",
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 19.5,
+            "drawEffect": 13,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [
+            "sha"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 19.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 19.5
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 13
+          }
+        ]
+      },
+      "C": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [
+            "sha",
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 19.5,
+            "drawEffect": 13,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "shan"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 3,
+          "actorHand": [
+            "shan",
+            "sha"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 19.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 19.5
+          }
+        ]
+      },
+      "D": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [
+            "sha",
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 19.5,
+            "drawEffect": 13,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [
+            "sha"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 19.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 19.5
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 13
+          }
+        ]
+      }
+    },
+    "kuanggu-probe-draw-zhuge": {
+      "A": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": true
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": null,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "shan"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 3,
+          "actorHand": [
+            "shan"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 22.5
+          }
+        ]
+      },
+      "B": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": true
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": null,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 15
+          }
+        ]
+      },
+      "C": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": true
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": null,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "wuxie"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 3,
+          "actorHand": [
+            "wuxie"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 22.5
+          }
+        ]
+      },
+      "D": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": true
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": null,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 15
+          }
+        ]
+      }
+    },
+    "kuanggu-probe-fullhp": {
+      "A": {
+        "setup": {
+          "hp": 4,
+          "maxHp": 4,
+          "hand": [
+            "sha",
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 4,
+            "maxHp": 4,
+            "isDamaged": false,
+            "recoverEffect": 0,
+            "drawEffect": 11.700000000000001,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "wuxie"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [
+            "wuxie",
+            "sha"
+          ],
+          "enemyHp": 2
+        },
+        "calls": []
+      },
+      "B": {
+        "setup": {
+          "hp": 4,
+          "maxHp": 4,
+          "hand": [
+            "sha",
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 4,
+            "maxHp": 4,
+            "isDamaged": false,
+            "recoverEffect": 0,
+            "drawEffect": 11.700000000000001,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "shan"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [
+            "shan",
+            "sha"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "recoverEffect",
+            "hp": 4,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 0
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 4,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 11.700000000000001
+          }
+        ]
+      },
+      "C": {
+        "setup": {
+          "hp": 4,
+          "maxHp": 4,
+          "hand": [
+            "sha",
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 4,
+            "maxHp": 4,
+            "isDamaged": false,
+            "recoverEffect": 0,
+            "drawEffect": 11.700000000000001,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "sha"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [
+            "sha",
+            "sha"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "recoverEffect",
+            "hp": 4,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 0
+          }
+        ]
+      },
+      "D": {
+        "setup": {
+          "hp": 4,
+          "maxHp": 4,
+          "hand": [
+            "sha",
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 4,
+            "maxHp": 4,
+            "isDamaged": false,
+            "recoverEffect": 0,
+            "drawEffect": 11.700000000000001,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "shan"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [
+            "shan",
+            "sha"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "recoverEffect",
+            "hp": 4,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 0
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 4,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 11.700000000000001
+          }
+        ]
+      }
+    },
+    "kuanggu-probe-lowhp": {
+      "A": {
+        "setup": {
+          "hp": 1,
+          "maxHp": 4,
+          "hand": [
+            "sha",
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 1,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 58.50000000000001,
+            "drawEffect": 39,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 2,
+          "actorHand": [
+            "sha"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 1,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 58.50000000000001
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 1,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 58.50000000000001
+          }
+        ]
+      },
+      "B": {
+        "setup": {
+          "hp": 1,
+          "maxHp": 4,
+          "hand": [
+            "sha",
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 1,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 58.50000000000001,
+            "drawEffect": 39,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 2,
+          "actorHand": [
+            "sha"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 1,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 58.50000000000001
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 1,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 58.50000000000001
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 1,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 39
+          }
+        ]
+      },
+      "C": {
+        "setup": {
+          "hp": 1,
+          "maxHp": 4,
+          "hand": [
+            "sha",
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 1,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 58.50000000000001,
+            "drawEffect": 39,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 2,
+          "actorHand": [
+            "sha"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 1,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 58.50000000000001
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 1,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 58.50000000000001
+          }
+        ]
+      },
+      "D": {
+        "setup": {
+          "hp": 1,
+          "maxHp": 4,
+          "hand": [
+            "sha",
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 1,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 58.50000000000001,
+            "drawEffect": 39,
+            "shaReady": 1,
+            "shaUsable": 0,
+            "hand": [
+              "sha"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 2,
+          "actorHand": [
+            "sha"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 1,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 58.50000000000001
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 1,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 58.50000000000001
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 1,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 39
+          }
+        ]
+      }
+    },
+    "kuanggu-probe-nosha": {
+      "A": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": 0,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 22.5
+          }
+        ]
+      },
+      "B": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": 0,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 15
+          }
+        ]
+      },
+      "C": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": 0,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "shan"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 3,
+          "actorHand": [
+            "shan"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 22.5
+          }
+        ]
+      },
+      "D": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [
+            "sha"
+          ],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": 0,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "useCard",
+            "args": [
+              "sha",
+              "P:74695553592"
+            ]
+          },
+          {
+            "op": "lose",
+            "args": [
+              [
+                "sha"
+              ],
+              "visible",
+              "ref: <Node>"
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 15
+          }
+        ]
+      }
+    },
+    "kuanggu-probe-midhp-direct": {
+      "A": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "sha"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 3,
+          "actorHand": [
+            "sha"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 22.5
+          }
+        ]
+      },
+      "B": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 15
+          }
+        ]
+      },
+      "C": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "fangtian"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 3,
+          "actorHand": [
+            "fangtian"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 22.5
+          }
+        ]
+      },
+      "D": {
+        "setup": {
+          "hp": 3,
+          "maxHp": 4,
+          "hand": [],
+          "distance": 1,
+          "enemyHp": 3,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 15
+          }
+        ]
+      }
+    },
+    "kuanggu-probe-multihit": {
+      "A": {
+        "setup": {
+          "hp": 2,
+          "maxHp": 4,
+          "hand": [],
+          "distance": 1,
+          "enemyHp": 4,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 2,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 40.50000000000001,
+            "drawEffect": 27,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 3,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          },
+          {
+            "hp": 2,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 35.1,
+            "drawEffect": 23.400000000000002,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [
+              "shan"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "shan"
+              ],
+              "draw"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "fangtian"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 2,
+          "actorHand": [
+            "fangtian",
+            "shan"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 2,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 40.50000000000001
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 2,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 40.50000000000001
+          },
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 2,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 35.1
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 2,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 35.1
+          }
+        ]
+      },
+      "B": {
+        "setup": {
+          "hp": 2,
+          "maxHp": 4,
+          "hand": [],
+          "distance": 1,
+          "enemyHp": 4,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 2,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 40.50000000000001,
+            "drawEffect": 27,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 3,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          },
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 2,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 40.50000000000001
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 2,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 40.50000000000001
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 2,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 27
+          },
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 15
+          }
+        ]
+      },
+      "C": {
+        "setup": {
+          "hp": 2,
+          "maxHp": 4,
+          "hand": [],
+          "distance": 1,
+          "enemyHp": 4,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 2,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 40.50000000000001,
+            "drawEffect": 27,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 3,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          },
+          {
+            "hp": 2,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 35.1,
+            "drawEffect": 23.400000000000002,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [
+              "zhangba"
+            ],
+            "handCount": 1,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "draw_card",
+            "control": "draw_card"
+          }
+        ],
+        "ops": [
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "zhangba"
+              ],
+              "draw"
+            ]
+          },
+          {
+            "op": "draw",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "gain",
+            "args": [
+              [
+                "sha"
+              ],
+              "draw"
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 2,
+          "actorHand": [
+            "sha",
+            "zhangba"
+          ],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 2,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 40.50000000000001
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 2,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 40.50000000000001
+          },
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 2,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 35.1
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 2,
+            "maxHp": 4,
+            "source": null,
+            "viewer": null,
+            "value": 35.1
+          }
+        ]
+      },
+      "D": {
+        "setup": {
+          "hp": 2,
+          "maxHp": 4,
+          "hand": [],
+          "distance": 1,
+          "enemyHp": 4,
+          "zhuge": false
+        },
+        "atChoose": [
+          {
+            "hp": 2,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 40.50000000000001,
+            "drawEffect": 27,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 3,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          },
+          {
+            "hp": 3,
+            "maxHp": 4,
+            "isDamaged": true,
+            "recoverEffect": 22.5,
+            "drawEffect": 15,
+            "shaReady": 0,
+            "shaUsable": 1,
+            "hand": [],
+            "handCount": 0,
+            "distanceToEnemy1": 1,
+            "enemy1Hp": 2,
+            "presetChoice": null,
+            "choiceSet": "recover_hp",
+            "control": "recover_hp"
+          }
+        ],
+        "ops": [
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          },
+          {
+            "op": "recover",
+            "args": [
+              1
+            ]
+          }
+        ],
+        "after": {
+          "actorHp": 4,
+          "actorHand": [],
+          "enemyHp": 2
+        },
+        "calls": [
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 2,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 40.50000000000001
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 2,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 40.50000000000001
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 2,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 27
+          },
+          {
+            "call": "effect",
+            "card": "recover",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "recoverEffect",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 22.5
+          },
+          {
+            "call": "effect",
+            "card": "draw",
+            "hp": 3,
+            "maxHp": 4,
+            "source": "75027863590",
+            "viewer": "75027863590",
+            "value": 15
+          }
+        ]
+      }
+    }
+  },
+  "legacy_scenes": {
+    "shenhua-kuanggu-draw": {
+      "choice": [
+        "recover_hp"
+      ],
+      "ops": [
+        {
+          "op": "useCard",
+          "args": [
+            "sha",
+            "P:74695553592"
+          ]
+        },
+        {
+          "op": "lose",
+          "args": [
+            [
+              "sha"
+            ],
+            "visible",
+            "ref: <Node>"
+          ]
+        },
+        {
+          "op": "recover",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "after": {
+        "actorHp": 4,
+        "actorHand": [],
+        "enemyHp": 2
+      },
+      "old_acceptance_expectation": "draw_card",
+      "new_policy_choice": "recover_hp"
+    },
+    "quality-kuanggu-midhp": {
+      "choice": null,
+      "ops": [
+        {
+          "op": "recover",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "after": {
+        "hp": 4
+      },
+      "old_acceptance_expectation": "draw_card",
+      "new_policy_choice": "recover_hp"
+    }
+  },
+  "conclusion": {
+    "original_scene": {
+      "A": "recover_hp",
+      "B": "recover_hp",
+      "C": "draw_card",
+      "D": "recover_hp",
+      "real": {
+        "recoverEffect": 19.5,
+        "drawEffect": 13,
+        "shaReady": 1,
+        "shaUsable": 0
+      }
+    },
+    "p1_real": true,
+    "p1_closed": true,
+    "new_matches_native_patch": true,
+    "changed_vs_old_extension": [
+      "original",
+      "draw-zhuge",
+      "nosha",
+      "midhp-direct",
+      "multihit"
+    ],
+    "draw_branch_real_host": "fullhp only (recoverEffect=0); draw>recover values not constructible with default host effects",
+    "notes": "A/B are native-only; C/D are extension-only. Values are real host get.effect outputs, threat-scaled; ratio recover:draw = 1.5:1. D uses LF source matching final ZIP."
+  }
+}

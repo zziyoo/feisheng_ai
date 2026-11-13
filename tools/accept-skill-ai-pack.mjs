@@ -35,8 +35,8 @@ const DEFAULT_SCENES = {
 		'shenhua-shensu-skip', 'shenhua-shensu-negative', 'quality-shensu1-lowhand-lebu',
 		'quality-shensu1-reverse-lowvalue',
 		'shenhua-tianxiang-redirect', 'shenhua-tianxiang-negative', 'shenhua-hongyan-suit',
-		'shenhua-kuanggu-draw', 'shenhua-kuanggu-recover',
-		'quality-kuanggu-lowhp', 'quality-kuanggu-midhp',
+		'shenhua-kuanggu-draw-fullhp', 'shenhua-kuanggu-recover',
+		'quality-kuanggu-lowhp', 'quality-kuanggu-midhp-recover',
 		'quality-jushou-turned', 'quality-jushou-normal',
 		'quality-guhuo-bluff-lowhp', 'quality-guhuo-bluff-midhp',
 		'quality-guhuo-full-lowhp-fake-lastshan', 'quality-guhuo-full-lowhp-true-sha-forced',
@@ -67,7 +67,7 @@ const DEFAULT_SCENES = {
 		'shenhua-huo-jianchu-sha', 'shenhua-huo-jianchu-no-equip',
 		'shenhua-huo-passive-rules',
 	],
-	refresh_feng: ['hp-reqimou-distance4-hp3'],
+	refresh_feng: ['hp-reqimou-distance4-hp2', 'hp-reqimou-distance4-hp3'],
 	shenhua_lei: ['olkongsheng-array-count', 'olkongsheng-repeat'],
 	out_of_scope: ['redimeng-hidden-info', 'redimeng-permute-values', 'redimeng-target-legal', 'redimeng-target-zero-cost', 'redimeng-target-infeasible'],
 };
@@ -495,6 +495,9 @@ function analyzeShenhuaFengScenes(report, requestedScenes, stats) {
 		signature.hongyan = { spadeAsHeart: true, spadeAsRed: true };
 	}
 
+	/* 历史封版断言：3血连弩+1杀期望摸牌。正式双风原生补丁 B 与新扩展 D 在该状态选择回复
+	 * （真实宿主回复收益 1.5:1），故旧断言只保留为显式对照，不再进入默认场景；
+	 * 默认摸牌分支改由满血场景覆盖（回复收益为 0）。 */
 	if (want('shenhua-kuanggu-draw')) {
 		const scene = findScene(report, 'shenhua-kuanggu-draw');
 		const damage = damageEvent(scene);
@@ -517,6 +520,19 @@ function analyzeShenhuaFengScenes(report, requestedScenes, stats) {
 		pass('kuanggu-recover-settlement', { choice: 'recover_hp', hpDelta: 1, draw: 0 });
 		signature.kuanggu = { drawChoice: 'draw_card', recoverChoice: 'recover_hp', draw: 1, recover: 1 };
 	}
+	if (want('shenhua-kuanggu-draw-fullhp')) {
+		const scene = findScene(report, 'shenhua-kuanggu-draw-fullhp');
+		const measure = (scene.probe && scene.probe.atChoose || [])[0];
+		if (!measure) fail('狂骨满血摸牌场景未记录收益');
+		if (!(scene.choices || []).includes('draw_card')) fail('狂骨满血未选择摸牌');
+		if (!opUsed(scene, 'draw', item => Number(item.args && item.args[0]) === 1)) fail('狂骨满血摸牌未实际摸 1 张');
+		if (opUsed(scene, 'recover', item => Number(item.args && item.args[0]) > 0)) fail('狂骨满血错误回复');
+		if (Number(measure.recoverEffect) !== 0) fail('狂骨满血回复收益不是 0');
+		if (!(Number(measure.drawEffect) > 0)) fail('狂骨满血摸牌收益不为正');
+		pass('kuanggu-draw-fullhp-settlement', { choice: 'draw_card', recoverEffect: measure.recoverEffect, drawEffect: measure.drawEffect, draw: 1 });
+		signature.kuanggu = Object.assign(signature.kuanggu || {}, { fullHpDraw: true });
+		validation.xinkuanggu = { level: '正反向决策验证通过', rule_settlement: true, ai_decision: true, positive_negative: true, note: '满血无回复收益时摸牌；受伤且回复收益高于摸牌时回复；与正式双风原生补丁公式一致。' };
+	}
 
 	if (want('quality-kuanggu-lowhp')) {
 		const scene = findScene(report, 'quality-kuanggu-lowhp');
@@ -529,6 +545,9 @@ function analyzeShenhuaFengScenes(report, requestedScenes, stats) {
 		signature.kuanggu = Object.assign(signature.kuanggu || {}, { lowHpRecover: true });
 		validation.xinkuanggu = { level: '确认存在质量提升并已实现', rule_settlement: true, ai_decision: true, positive_negative: true, note: '1血可回复时优先回复；反向场景保持原生摸牌。' };
 	}
+	/* 历史封版断言：3血无手牌、杀次数1、直伤来源，旧规则期望摸牌。
+	 * 正式双风原生补丁 B 与新扩展 D 在该状态回复体力（真实宿主回复收益 1.5:1）；
+	 * 旧断言只保留为显式对照，默认场景改由 quality-kuanggu-midhp-recover 覆盖同一局面的新决策。 */
 	if (want('quality-kuanggu-midhp')) {
 		const scene = findScene(report, 'quality-kuanggu-midhp');
 		const data = dataOf(scene);
@@ -538,6 +557,19 @@ function analyzeShenhuaFengScenes(report, requestedScenes, stats) {
 		if (Number(data.hp) !== Number(scene.before.hp[actor])) fail('狂骨3血场景体力被错误改变');
 		pass('kuanggu-midhp-draw', { hp: data.hp, draw: 1 });
 		signature.kuanggu = Object.assign(signature.kuanggu || {}, { midHpDraw: true });
+	}
+	if (want('quality-kuanggu-midhp-recover')) {
+		const scene = findScene(report, 'quality-kuanggu-midhp-recover');
+		const actor = actorId(scene);
+		const measure = (scene.probe && scene.probe.atChoose || [])[0];
+		if (!measure) fail('狂骨3血场景未记录收益');
+		if (!(scene.choices || []).includes('recover_hp')) fail('狂骨3血场景未选择回复');
+		if (!opUsed(scene, 'recover', item => Number(item.args && item.args[0]) === 1)) fail('狂骨3血场景未实际回复 1 点体力');
+		if (opUsed(scene, 'draw', item => Number(item.args && item.args[0]) > 0)) fail('狂骨3血回复分支错误摸牌');
+		if (!(Number(measure.recoverEffect) > Number(measure.drawEffect))) fail('狂骨3血场景回复收益未高于摸牌收益');
+		if (scene.after.hp[actor] !== scene.before.hp[actor] + 1) fail('狂骨3血回复后体力未增加 1');
+		pass('kuanggu-midhp-recover-settlement', { hp: scene.after.hp[actor], recoverEffect: measure.recoverEffect, drawEffect: measure.drawEffect, recovered: true });
+		signature.kuanggu = Object.assign(signature.kuanggu || {}, { midHpRecover: true });
 	}
 
 	if (want('shenhua-jushou-4hp-empty')) {
@@ -1265,12 +1297,18 @@ function analyzePackScenes(packId, report, requestedScenes) {
 		return { packId, checks, ...detailed };
 	}
 	if (packId === 'refresh_feng') {
-		const scene = findScene(report, 'hp-reqimou-distance4-hp3');
-		if (!(Number(stats.reqimouClampCalls) > 0)) throw new Error('reqimou 策略未执行');
-		if (!opUsesSkill(scene, 'reqimou')) throw new Error('reqimou 场景未实际发动技能');
+		/* 旧断言使用 target hp3 / 手杀2：当前界风包将其定义为“无法保证击杀，保守放弃”
+		 * （见 pack 内 FULL-SKILL-ACCEPTANCE-HANDOFF）。正向检查改用可兑现击杀的 hp2 局面；
+		 * hp3 局面保留为负向检查，要求实际不发动、不支付体力。 */
+		const scene = findScene(report, 'hp-reqimou-distance4-hp2');
+		if (!(Number(stats.reqimouClampCalls) > 0)) throw new Error('reqimou 策略未在可行击杀局面执行');
+		if (!opUsesSkill(scene, 'reqimou')) throw new Error('reqimou 可行局面未实际发动技能');
 		const paid = opLoseHp(scene);
-		if (!(paid > 0)) throw new Error('reqimou 场景未实际支付体力');
-		pass('policy-counters', { reqimouClampCalls: stats.reqimouClampCalls, reqimouClamp: stats.reqimouClamp, paid });
+		if (!(paid > 0)) throw new Error('reqimou 可行局面未实际支付体力');
+		const negative = findScene(report, 'hp-reqimou-distance4-hp3');
+		if (opUsesSkill(negative, 'reqimou')) throw new Error('reqimou 在不可保证击杀局面仍发动');
+		if (!(Number(stats.reqimouInfeasible) > 0)) throw new Error('reqimou 保守放弃未记录');
+		pass('policy-counters', { reqimouClampCalls: stats.reqimouClampCalls, reqimouClamp: stats.reqimouClamp, paid, reqimouInfeasible: stats.reqimouInfeasible });
 		return {
 			packId, checks,
 			signature: {
@@ -1631,7 +1669,12 @@ try {
 				const packJson = prepared.find(item => item.id === id).packJson;
 				if (!imports.some(item => item.module === packJson.module)) throw new Error('回滚误删其他分包：' + id);
 			}
-			for (const file of Object.keys(pack.packJson.pack_files || {})) if (exists(path.join(target, 'score/decision/skills', ...file.split('/')))) throw new Error('回滚后文件仍存在：' + pack.id + '/' + file);
+			for (const file of Object.keys(pack.packJson.pack_files || {})) {
+				/* skillPlanHints.js 是完整引擎共享软建议；标准包回滚按设计保留，不能当残留。 */
+				if (file === 'skillPlanHints.js') continue;
+				if (exists(path.join(target, 'score/decision/skills', ...file.split('/')))) throw new Error('回滚后文件仍存在：' + pack.id + '/' + file);
+			}
+			if (pack.id === 'refresh_standard' && !exists(path.join(target, 'score/decision/skills/skillPlanHints.js'))) throw new Error('回滚误删完整引擎共享软建议文件：skillPlanHints.js');
 			assertRolledBack(target, pack, []);
 			result.steps.push({ step: 'rollback-coexist', pack: pack.id, status: 'passed', remaining: [...remaining] });
 		}

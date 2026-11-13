@@ -1,0 +1,408 @@
+{
+  "completedAt": "2026-11-13T02:51:51.758Z",
+  "status": "passed",
+  "scope": "真实身份局宿主、固定公开局面、技能AI选择与结算观察；已安装无名AI决策引擎",
+  "seed": "20261030",
+  "browserVersion": "157.0.8103.78",
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "players": 8,
+  "extensionInstalled": true,
+  "policyStats": {
+    "installed": true,
+    "keptTao": 0,
+    "keptShan": 0,
+    "skippedExchange": 0,
+    "skippedOrder": 0,
+    "retuxiTargetBonus": 0,
+    "calls": 0,
+    "last": [],
+    "luanjiAllyVeto": 0,
+    "luanjiNetVeto": 0,
+    "tianyiDecline": 0,
+    "tianyiKnownWinPass": 0,
+    "tianyiEngineVeto": 0,
+    "jianchuSkip": 0,
+    "olkongshengCostCalls": 0,
+    "olkongshengCompatible": true,
+    "zhenguCompatible": true,
+    "zhenguEngineHook": true,
+    "zhenguScoreCalls": 0,
+    "zhenguFallbacks": 0,
+    "zhenguHookConflict": 0,
+    "fairRedimeng": 0,
+    "redimengMaskFailed": 0,
+    "redimengFindCalls": 0,
+    "redimengFindFixed": 0,
+    "redimengFindFallbacks": 0,
+    "redimengTrace": [],
+    "reqimouGateSkip": 0,
+    "reqimouInfeasible": 1,
+    "reqimouClamp": 0,
+    "reqimouClampCalls": 0,
+    "reqimouSelfRescue": 0,
+    "reqimouInfiniteUses": 0,
+    "packs": {
+      "refresh_standard": {
+        "keptTao": 0,
+        "keptShan": 0,
+        "skippedExchange": 0,
+        "skippedOrder": 0,
+        "retuxiTargetBonus": 0,
+        "calls": 0,
+        "last": []
+      },
+      "shenhua_huo": {
+        "luanjiAllyVeto": 0,
+        "luanjiNetVeto": 0,
+        "tianyiDecline": 0,
+        "tianyiKnownWinPass": 0,
+        "tianyiEngineVeto": 0,
+        "jianchuSkip": 0
+      },
+      "shenhua_lei": {
+        "olkongshengCostCalls": 0,
+        "olkongshengCompatible": true,
+        "zhenguCompatible": true,
+        "zhenguEngineHook": true,
+        "zhenguScoreCalls": 0,
+        "zhenguFallbacks": 0,
+        "zhenguHookConflict": 0
+      },
+      "out_of_scope": {
+        "fairRedimeng": 0,
+        "redimengMaskFailed": 0,
+        "redimengFindCalls": 0,
+        "redimengFindFixed": 0,
+        "redimengFindFallbacks": 0,
+        "redimengTrace": []
+      },
+      "refresh_feng": {
+        "reqimouGateSkip": 0,
+        "reqimouInfeasible": 1,
+        "reqimouClamp": 0,
+        "reqimouClampCalls": 0,
+        "reqimouSelfRescue": 0,
+        "reqimouInfiniteUses": 0
+      }
+    },
+    "installation": {
+      "state": "installed",
+      "reason": null
+    }
+  },
+  "scenes": [
+    {
+      "name": "hp-reqimou-distance4-hp3",
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 3,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [
+            "tao"
+          ],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "reqimou",
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "relations": {
+        "actorToAlly": 6,
+        "actorToEnemy1": -4,
+        "actorToEnemy2": -4
+      },
+      "ops": [],
+      "turn": {
+        "hand": [
+          "sha",
+          "sha"
+        ],
+        "hp": 4,
+        "maxHp": 4,
+        "armor": null,
+        "dead": []
+      },
+      "target": {
+        "hp": 3,
+        "dead": false
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 3,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [
+            "tao"
+          ],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "reqimou",
+            "xinkuanggu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "uiSelected": {
+        "cards": [],
+        "targets": []
+      },
+      "durationMs": 4629.5
+    },
+    {
+      "name": "engine-disabled-gate",
+      "before": true,
+      "off": false,
+      "on": true
+    },
+    {
+      "name": "policy-lifecycle",
+      "before": {
+        "rezhiheng": true,
+        "qimou": false,
+        "reqimouContent": true,
+        "reqimouGate": true,
+        "jushou": false,
+        "shensu1": false,
+        "guhuo": false,
+        "huangtian": false,
+        "redimengFind": true,
+        "redimengChooseButton": false
+      },
+      "afterUninstall": {
+        "rezhiheng": false,
+        "qimou": false,
+        "reqimouContent": false,
+        "reqimouGate": false,
+        "jushou": false,
+        "shensu1": false,
+        "guhuo": false,
+        "huangtian": false,
+        "redimengFind": false,
+        "redimengChooseButton": false
+      },
+      "afterReinstall": {
+        "rezhiheng": true,
+        "qimou": false,
+        "reqimouContent": true,
+        "reqimouGate": true,
+        "jushou": false,
+        "shensu1": false,
+        "guhuo": false,
+        "huangtian": false,
+        "redimengFind": true,
+        "redimengChooseButton": true
+      },
+      "stats": {
+        "installed": true,
+        "keptTao": 0,
+        "keptShan": 0,
+        "skippedExchange": 0,
+        "skippedOrder": 0,
+        "retuxiTargetBonus": 0,
+        "calls": 0,
+        "last": [],
+        "luanjiAllyVeto": 0,
+        "luanjiNetVeto": 0,
+        "tianyiDecline": 0,
+        "tianyiKnownWinPass": 0,
+        "tianyiEngineVeto": 0,
+        "jianchuSkip": 0,
+        "olkongshengCostCalls": 0,
+        "olkongshengCompatible": true,
+        "zhenguCompatible": true,
+        "zhenguEngineHook": true,
+        "zhenguScoreCalls": 0,
+        "zhenguFallbacks": 0,
+        "zhenguHookConflict": 0,
+        "fairRedimeng": 0,
+        "redimengMaskFailed": 0,
+        "redimengFindCalls": 0,
+        "redimengFindFixed": 0,
+        "redimengFindFallbacks": 0,
+        "redimengTrace": [],
+        "reqimouGateSkip": 0,
+        "reqimouInfeasible": 1,
+        "reqimouClamp": 0,
+        "reqimouClampCalls": 0,
+        "reqimouSelfRescue": 0,
+        "reqimouInfiniteUses": 0,
+        "packs": {
+          "refresh_standard": {
+            "keptTao": 0,
+            "keptShan": 0,
+            "skippedExchange": 0,
+            "skippedOrder": 0,
+            "retuxiTargetBonus": 0,
+            "calls": 0,
+            "last": []
+          },
+          "shenhua_huo": {
+            "luanjiAllyVeto": 0,
+            "luanjiNetVeto": 0,
+            "tianyiDecline": 0,
+            "tianyiKnownWinPass": 0,
+            "tianyiEngineVeto": 0,
+            "jianchuSkip": 0
+          },
+          "shenhua_lei": {
+            "olkongshengCostCalls": 0,
+            "olkongshengCompatible": true,
+            "zhenguCompatible": true,
+            "zhenguEngineHook": true,
+            "zhenguScoreCalls": 0,
+            "zhenguFallbacks": 0,
+            "zhenguHookConflict": 0
+          },
+          "out_of_scope": {
+            "fairRedimeng": 0,
+            "redimengMaskFailed": 0,
+            "redimengFindCalls": 0,
+            "redimengFindFixed": 0,
+            "redimengFindFallbacks": 0,
+            "redimengTrace": []
+          },
+          "refresh_feng": {
+            "reqimouGateSkip": 0,
+            "reqimouInfeasible": 1,
+            "reqimouClamp": 0,
+            "reqimouClampCalls": 0,
+            "reqimouSelfRescue": 0,
+            "reqimouInfiniteUses": 0
+          }
+        },
+        "installation": {
+          "state": "installed",
+          "reason": null
+        }
+      },
+      "statsAfterReinstall": {
+        "installed": true,
+        "keptTao": 0,
+        "keptShan": 0,
+        "skippedExchange": 0,
+        "skippedOrder": 0,
+        "retuxiTargetBonus": 0,
+        "calls": 0,
+        "last": [],
+        "luanjiAllyVeto": 0,
+        "luanjiNetVeto": 0,
+        "tianyiDecline": 0,
+        "tianyiKnownWinPass": 0,
+        "tianyiEngineVeto": 0,
+        "jianchuSkip": 0,
+        "olkongshengCostCalls": 0,
+        "olkongshengCompatible": true,
+        "zhenguCompatible": true,
+        "zhenguEngineHook": true,
+        "zhenguScoreCalls": 0,
+        "zhenguFallbacks": 0,
+        "zhenguHookConflict": 0,
+        "fairRedimeng": 0,
+        "redimengMaskFailed": 0,
+        "redimengFindCalls": 0,
+        "redimengFindFixed": 0,
+        "redimengFindFallbacks": 0,
+        "redimengTrace": [],
+        "reqimouGateSkip": 0,
+        "reqimouInfeasible": 0,
+        "reqimouClamp": 0,
+        "reqimouClampCalls": 0,
+        "reqimouSelfRescue": 0,
+        "reqimouInfiniteUses": 0,
+        "packs": {
+          "refresh_standard": {
+            "keptTao": 0,
+            "keptShan": 0,
+            "skippedExchange": 0,
+            "skippedOrder": 0,
+            "retuxiTargetBonus": 0,
+            "calls": 0,
+            "last": []
+          },
+          "shenhua_huo": {
+            "luanjiAllyVeto": 0,
+            "luanjiNetVeto": 0,
+            "tianyiDecline": 0,
+            "tianyiKnownWinPass": 0,
+            "tianyiEngineVeto": 0,
+            "jianchuSkip": 0
+          },
+          "shenhua_lei": {
+            "olkongshengCostCalls": 0,
+            "olkongshengCompatible": true,
+            "zhenguCompatible": true,
+            "zhenguEngineHook": true,
+            "zhenguScoreCalls": 0,
+            "zhenguFallbacks": 0,
+            "zhenguHookConflict": 0
+          },
+          "out_of_scope": {
+            "fairRedimeng": 0,
+            "redimengMaskFailed": 0,
+            "redimengFindCalls": 0,
+            "redimengFindFixed": 0,
+            "redimengFindFallbacks": 0,
+            "redimengTrace": []
+          },
+          "refresh_feng": {
+            "reqimouGateSkip": 0,
+            "reqimouInfeasible": 0,
+            "reqimouClamp": 0,
+            "reqimouClampCalls": 0,
+            "reqimouSelfRescue": 0,
+            "reqimouInfiniteUses": 0
+          }
+        },
+        "installation": {
+          "state": "installed",
+          "reason": null
+        }
+      }
+    }
+  ],
+  "errors": []
+}
