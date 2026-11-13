@@ -1,0 +1,21 @@
+--- a/character/standard.js
++++ b/character/standard.js
+@@ -2574,6 +2574,9 @@
+             }
+             return -att;
+           }
++          if (target.hasSkillTag("nogain")) {
++            return 0;
++          }
+           if (att > 0) {
+             if (_status.event.player != target) {
+               att += 2;
+@@ -2632,7 +2635,7 @@
+       return target;
+     },
+     check(event, player, triggername, target) {
+-      return get.attitude(player, target) > 0;
++      return get.attitude(player, target) > 0 && (event.name === "dying" || !target.hasSkillTag("nogain"));
+     },
+     async content(event, trigger, player) {
+       await event.targets[0].draw();
