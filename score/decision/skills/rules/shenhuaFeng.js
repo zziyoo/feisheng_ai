@@ -48,13 +48,14 @@ export function shouldBypassQimouCountBlock(input) {
  * hp<=1 回复（与宿主 chooseDrawRecover 对 hp==1 的处理一致）；
  * 杀充足时回复；其余摸牌。 */
 export function kuangguChoice(input) {
-	const { hp, isDamaged, recoverEffect, shaReady, shaUsable } = input || {};
+	const { hp, isDamaged, recoverEffect, drawEffect, shaReady, shaUsable } = input || {};
 	if (!isDamaged || !(Number(recoverEffect) > 0)) return 'draw_card';
 	const life = Number(hp);
 	if (Number.isFinite(life) && life <= 1) return 'recover_hp';
 	const ready = Number(shaReady);
 	const usable = Number(shaUsable);
 	if (Number.isFinite(usable) && usable > 0 && Number.isFinite(ready) && ready >= usable) return 'recover_hp';
+	if (typeof drawEffect === 'number' && Number.isFinite(drawEffect) && Number(recoverEffect) > drawEffect) return 'recover_hp';
 	return 'draw_card';
 }
 

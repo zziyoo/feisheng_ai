@@ -74,9 +74,10 @@ function installKuanggu(host, stats) {
 	const info = lib.skill && lib.skill.xinkuanggu;
 	if (!info || typeof info.cost !== 'function') return;
 	host.wrap(info, 'cost', 'xinkuanggu:cost', () => async function (event, trigger, player) {
-		let recoverEffect = 0;
+		let recoverEffect = 0, drawEffect;
 		try {
-			recoverEffect = get.recoverEffect(player);
+			recoverEffect = get.recoverEffect(player, player, player);
+			drawEffect = get.effect(player, { name: 'draw' }, player, player);
 		} catch (e) {}
 		const shaReady = player.countCards('hs', card => card.name === 'sha' && player.hasValueTarget(card));
 		const shaUsable = player.getCardUsable('sha');
@@ -84,6 +85,7 @@ function installKuanggu(host, stats) {
 			hp: player.hp,
 			isDamaged: player.isDamaged(),
 			recoverEffect,
+			drawEffect,
 			shaReady,
 			shaUsable,
 		});
