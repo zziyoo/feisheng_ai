@@ -34,12 +34,14 @@
 
 | 修复 | 路线 | 结论 | 真实宿主关键证据 |
 | --- | --- | --- | --- |
-| 雄乱 `drlt_xiongluan` | 仅扩展 | PASS | 完整引擎自动 `chooseToUse`：一杀八卦均放弃；两杀八卦选敌方并施加封锁；无友方目标。v3 泛用评分为敌 `-116`/友 `+15`，v4 为 `0/0`；一杀回调权重 `-1`，两杀袋甲仍为 `-1`（v3 为 `-2`），八卦 0.5/改八卦 0.25 小数权重保留。 |
-| 强袭 `qiangxix` | 仅扩展 | PASS | v3 实际选择弃连弩：己方 4HP、连弩离开装备区；v4 选择空材料并失去 1HP，保留连弩，随后真实使用 2 张杀（目标 HP 4→1），再一阶段补杀至 0。后置状态 `canUse=[true,true]`，距离 1。 |
+| 雄乱 `drlt_xiongluan` | 仅扩展 | PASS（方向偏置与权重；窄场景） | 完整引擎自动 `chooseToUse`：一杀八卦均放弃；两杀八卦选敌方并施加封锁；无友方目标。v3 泛用评分为敌 `-116`/友 `+15`，v4 为 `0/0`；一杀回调权重 `-1`，两杀袋甲仍为 `-1`（v3 为 `-2`），八卦 0.5/改八卦 0.25 小数权重保留。 |
+| 强袭 `qiangxix` | 仅扩展 | PASS（窄场景） | v3 实际选择弃连弩：己方 4HP、连弩离开装备区；v4 选择空材料并失去 1HP，保留连弩，随后真实使用 2 张杀（目标 HP 4→1），再一阶段补杀至 0。后置状态 `canUse=[true,true]`，距离 1。 |
 | 罪论 `xinfu_zuilun` | 仅扩展 | PASS（附注） | 真实 `phaseJieshu`/`chooseToMove`：`num=2`，实际移动 `[sha,tao]` 回牌堆顶、保留 `shan`；两种不同暗手牌得到相同结果，未读隐藏手牌。v3 在该固定公开局面结果相同，故该 fixture 不能单独区分 v3/v4；隐藏读取陷阱由确定性测试覆盖。 |
-| 踞襄 `twjuxiang` | 仅扩展 | PASS | v3 自动选择把八卦交给主公；v4 同样一血空手、唯一八卦、健康主公空防具栏、敌人在攻击范围时保留八卦。武器 `zhangba` 与低血主公反例仍按原逻辑赠送。 |
-| 界奇谋 `reqimou` | 仅扩展 | PASS | v4 真实宿主 `playerResult=1`，支付 2、摸 2、两张杀将目标 2HP 打至 0；v3 同局面 `playerResult=0`、零支付、目标仍 2HP。3HP 目标保守阈值和“无明确击杀不发动”保留。 |
+| 踞襄 `twjuxiang` | 仅扩展 | PASS（窄场景） | v3 自动选择把八卦交给主公；v4 同样一血空手、唯一八卦、健康主公空防具栏、敌人在攻击范围时保留八卦。武器 `zhangba` 与低血主公反例仍按原逻辑赠送。 |
+| 界奇谋 `reqimou` | 仅扩展 | PASS（仅长兵器射程漏判） | v4 真实宿主 `playerResult=1`，支付 2、摸 2、两张杀将目标 2HP 打至 0；v3 同局面 `playerResult=0`、零支付、目标仍 2HP。3HP 目标保守阈值和“无明确击杀不发动”保留。 |
 | 奇制 `qizhi` | 原生 | 保持（未改） | v3 的 AI 全保护跳过修复保留；7 项目标过滤断言通过。玩家手选后“不弃牌仍摸牌”仍是宿主结算残项，本轮不修改。 |
+
+表中 PASS 仅表示对应具名缺陷在所列真实宿主/确定性证据范围内关闭；不代表同技能全部策略、所有武器/血量/距离分支或未测模式均已解决。残项见第 6 节与 `P2-RESOLUTION.md`。
 
 ### 2.1 雄乱补充
 
@@ -76,7 +78,7 @@
 
 ## 3. 构建与归档验证
 
-- 六份最终 ZIP 均由 v3 封版 ZIP 派生的可复算脚本构建；`source/` 运行文件与开发 HEAD `b1719c3` 或神话风 `25b9503` 的 Git blob 一致。
+- 六份最终 ZIP 均由 v3 封版 ZIP 派生的可复算脚本构建；`source/` 运行文件与开发 HEAD `b1719c3` 或神话风 `25b9503` 的 Git blob 一致。五项修复的提交、文件、最终 blob 与 ZIP SHA256 映射见 `PROVENANCE.md` 的“运行源码与五项修复提交”；`69ed074` 仅为最后一笔运行源码（踞襄），不代表全部运行代码。
 - 六份 ZIP 自带 `verify.py --zip` 全部 PASS：38/38、32/32、33/33、29/29、52/52、54/54。
 - manifest 所有条目与 ZIP 字节一致；所有 `git-blob` 条目与声明构建提交一致；最终 ZIP 的 `source/` 与已测候选逐字节一致（`evidence/source-consistency.json`）。
 - 神话风本次仅更新双风 `peer_sha256` 元数据，运行 `source/` 未变；`sha256` 从 `dcfac0a3…` 变为 `3b0536f4…`。
@@ -86,7 +88,7 @@
 
 - 界风 v4 `packs/refreshFeng.js`：`5ee2bac6f5454db7670c564aa98b3565c5ab6c3ba54fb7881a6e2d17a674288c`。
 - 神话风 `packs/shenhuaFeng.js`：`deb67719192d27dcf057d670d822f31e734cb53490a44d197f5ad9cdb7577ffd`。
-- 界风 `wind_compatibility.peer_sha256` 已更新为神话风 pack 文件哈希；神话风 peer 已更新为界风 v4 pack 文件哈希。
+- 界风 `wind_compatibility.peer_sha256` 已更新为神话风 pack 文件哈希；神话风 peer 已更新为界风 v4 pack 文件哈希。上述 peer 哈希分别指向本组 v4 的 `refreshFeng.js`/`shenhuaFeng.js` pack 文件；最终交付目录不含旧界风或旧神话风哈希。
 - 正式支持顺序仍为 `refresh_standard → refresh_feng → shenhua_feng → shenhua_huo → shenhua_lei → out_of_scope`；安装事务电池 9/9 PASS。
 - 隔离反序 `refresh_standard → shenhua_feng → refresh_feng` 也实际通过；旧界风包对包哈希不匹配时安装器安全拒绝、零写入（`evidence/double-wind.json`）。正式文档仍以先界风后神话风为支持顺序。
 - 六包安装后注册表 7 条导入（六包 + developer），共享核心/`skillPlanHints` 保留；单包回滚、全量逆序回滚、重装、故障注入、共享核心冲突均通过。
@@ -112,5 +114,5 @@
 
 - 最终交付目录：`C:/Users/32360/Desktop/feisheng-ai-sixteen-packs-final-v4/`。
 - 旧 v3 目录 `C:/Users/32360/Desktop/feisheng-ai-sixteen-packs-final-v3/` 原样保留。
-- 验收分支：`codex/sixteen-packs-v4-acceptance`；最终验收提交见该分支 `docs/sixteen-packs-p2-v4` 所在提交。
+- 验收分支：`codex/sixteen-packs-v4-acceptance`；最终验收提交 `5206c5eb170f715432a7cbf259896a9fbf57670e`。其后若仅有来源澄清/推送审查文档提交，属 docs-only，不改变 ZIP 或运行代码。
 - 未 push、未 PR、未 Release、未标签；未修改在线腾讯文档。
