@@ -5,7 +5,7 @@ export const pack = {
 	id: 'shenhua_lei',
 	name: '神话再临·雷',
 	group: 'shenhua',
-	skills: ['olkongsheng', 'xinfu_fuyin', 'drlt_qianjie', 'drlt_zhengu', 'drlt_xiongluan'],
+	skills: ['olkongsheng', 'xinfu_fuyin', 'drlt_qianjie', 'drlt_zhengu', 'drlt_xiongluan', 'xinfu_zuilun'],
 	statsDefaults: { olkongshengCostCalls: 0, olkongshengCompatible: null, zhenguCompatible: null, zhenguEngineHook: null, zhenguScoreCalls: 0, zhenguFallbacks: 0, zhenguHookConflict: 0 },
 	install,
 };
@@ -22,6 +22,7 @@ function install(host, stats) {
 	installQianjie(host);
 	installZhengu(host, stats);
 	installXiongluan(host);
+	installZuilun(host);
 	const info = lib.skill && lib.skill.olkongsheng;
 	if (!info || typeof info.cost !== 'function') return;
 	const original = info.cost;
@@ -94,6 +95,72 @@ function installXiongluan(host) {
 	host.addCleanup(() => {
 		if (ai.effect === effect) delete ai.effect;
 	});
+}
+
+/* 罪论事件的 onNextChooseToMove 由 1.11.7 宿主在创建子事件时传递。 */
+function installZuilun(host) {
+	const handlers = game.globalEventHandlers;
+	if (!lib.skill?.xinfu_zuilun || typeof handlers?.pushHandler !== 'function' || typeof handlers.removeHandler !== 'function') return;
+	const skill = 'xinfu_zuilun';
+	const type = 'onNextChooseToMove';
+	const scoped = new WeakSet();
+	let active = true;
+	const handle = (event, option) => {
+		if (!active || option?.state !== 'begin' || event.name !== 'chooseToMove' || event.forced !== true || scoped.has(event)) return;
+		const parent = event.getParent?.();
+		if (parent?.name !== skill || parent.player !== event.player || parent.triggername !== 'phaseJieshuBegin') return;
+		const original = event.processAI;
+		if (typeof original !== 'function') return;
+		const source = Function.prototype.toString.call(original).replace(/\s+/g, '');
+		if (!source.includes('constcards3=list[0][1].slice(0),tops=[];') ||
+			!source.includes('list.sort(function(a,b){returncheck(b)-check(a);});tops.push(cards3.shift());')) return;
+		scoped.add(event);
+		event.processAI = function (list) {
+			if (active) {
+				try {
+					const num = event.num;
+					const cards = list?.[0]?.[1];
+					if (Number.isInteger(num) && num >= 1 && num <= 3 && cards?.length === 3 &&
+						Array.isArray(cards) && list.length === (num < 3 ? 2 : 1)) {
+						const next = event.player.next;
+						const observed = next ? get.attitude(event.player, next) : 0;
+						const attitude = Number.isFinite(observed) ? observed : 0;
+						const judges = attitude ? next.getCards('j').filter(card => !lib.card[card.name]?.noEffect) : [];
+						const staticValue = card => {
+							const ai = lib.card[card.name]?.ai;
+							const value = ai?.value ?? ai?.basic?.value;
+							const base = Array.isArray(value) ? value[0] : value;
+							return Number.isFinite(base) ? base : 0;
+						};
+						const remaining = cards.slice();
+						const tops = [];
+						for (let i = 0; i < num; i++) {
+							const name = judges[i]?.viewAs || judges[i]?.name;
+							remaining.sort((a, b) => (zuilunJudgment(name, b) - zuilunJudgment(name, a)) * attitude || staticValue(a) - staticValue(b));
+							tops.push(remaining.shift());
+						}
+						return [tops, cards.filter(card => !tops.includes(card))];
+					}
+				} catch (_) {}
+			}
+			return original.apply(this, arguments);
+		};
+	};
+	handlers.pushHandler(skill, type, handle);
+	host.addCleanup(() => {
+		active = false;
+		handlers.removeHandler(skill, type, handle);
+	});
+}
+
+// Only fixed stock delayed-trick outcomes. Dynamic evaluation can inspect the next player's hand.
+function zuilunJudgment(name, card) {
+	if (name !== 'lebu' && name !== 'bingliang' && name !== 'shandian') return 0;
+	const suit = get.suit(card, false);
+	if (name === 'lebu') return suit === 'heart' ? 1 : -2;
+	if (name === 'bingliang') return suit === 'club' ? 1 : -2;
+	const number = get.number(card, false);
+	return suit === 'spade' && number >= 2 && number <= 9 ? -5 : 1;
 }
 
 /* 父荫以被指定者为准检查本回合历史；仅替换宿主同形态评分。 */
