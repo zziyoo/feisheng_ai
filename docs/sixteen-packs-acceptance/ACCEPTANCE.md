@@ -152,6 +152,7 @@
 | `phase3/native-scenes-patched.json` | 仅十补丁的十包固定场景 |
 | `phase3/native-scenes-extension.json` | 组合宿主的十包固定场景 |
 | `phase3/native-scene-compare.json` | 16 项确定性签名对照 + tuntian 随机说明 |
+| `phase3/edge-patched.json` | 仅十补丁的四项未决技能与三项边界基线 |
 | `phase3/native-edge-extension.json` | 组合宿主四项未决技能与三项边界 |
 | `phase3/edge-scene-compare.json` | 组合与仅补丁的边界不变量对照 |
 | `phase3/shared-base-skills-extension.json` | `qingguo`/`jijiu`/`lijian` 共享基类场景 |
