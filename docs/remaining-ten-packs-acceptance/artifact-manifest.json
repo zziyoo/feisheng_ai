@@ -171,13 +171,18 @@
     },
     {
       "file": "docs/remaining-ten-packs-acceptance/phase2b/real-host-edge-report.md",
-      "size": 15549,
-      "sha256": "1468637ceda0c4ce641f3daeb0dec2ebb8a4bab462060d39309ad11cfecdb2fe"
+      "size": 15748,
+      "sha256": "9d673a0cfb3d25e6e7be3a349d26128f826182149ba8342f5a07265cd01ba890"
     },
     {
       "file": "docs/remaining-ten-packs-acceptance/phase2b/real-host-edge-summary.json",
-      "size": 25194,
-      "sha256": "c9cc74bb7485579908732f2b37f5033c1433c3e03b76d68395351397d2c5886d"
+      "size": 25307,
+      "sha256": "64a54ea3276fe9766b19e2361c27ae4f23128368ccfde76d1d29475ad460dc32"
+    },
+    {
+      "file": "docs/remaining-ten-packs-acceptance/phase2b/build-edge-report.mjs",
+      "size": 9248,
+      "sha256": "b02c30fc8cc0bb996724e028d4898294414f0cb1787a45c1da31c959a08ed0a2"
     }
   ],
   "blockers": [],
@@ -195,10 +200,10 @@
     ],
     "openP0P1": [],
     "p2": [
-      "qizhi protected-only free draw (host-native)",
-      "reqiaobian judge-context filter mismatch (host-native)",
-      "feijun pre-payment AI underestimate (host-native)",
-      "rehuashen empty pool artificial/unreachable via phase trigger",
+      "qizhi protected-only free draw (host-native, unchanged)",
+      "reqiaobian judge-context filter mismatch; draw reproduced, use/discard not individually constructed (host-native, unchanged)",
+      "feijun pre-payment AI underestimate (host-native, unchanged)",
+      "rehuashen empty pool constructed only artificially; normal init drew 3; pool-exhaustion path not verified",
       "other ledger P2 not re-audited"
     ],
     "combinationGate": "ready to enter; not executed"

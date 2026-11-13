@@ -85,7 +85,7 @@ const summary = {
       clean: {legal: rehuashenClean, empty: rehuashenEmptyClean},
       patched: {legal: rehuashenPatched, empty: rehuashenEmptyPatched},
       evidenceLevel: 'A/B',
-      verdict: 'PASS：合法化身池两轮 phaseBegin/phaseEnd 均完成，补丁使用 in/out 排名且只选合法地图技能；空池阶段过滤器为 false，人工空态下补丁安全 cancel2（空池不可由阶段触发合法到达）。',
+      verdict: 'PASS：合法化身池两轮 phaseBegin/phaseEnd 均完成，补丁使用 in/out 排名且只选合法地图技能；空池阶段过滤器为 false，人工空态下补丁安全 cancel2（本轮未验证角色池耗尽路径）。',
     },
   },
   boundaries: {
@@ -102,7 +102,7 @@ const summary = {
     reqiaobian: {
       clean: reqiaobianClean,
       patched: reqiaobianPatched,
-      conclusion: '宿主原生 P2：过滤器固定使用 reqiaobian_judge 上下文。仅弃牌上下文为 draw 的牌可弃时过滤器 false，合法跳过机会被漏掉；仅 judge 可弃时过滤器通过但只提供取消，无非法跳过。',
+      conclusion: '宿主原生 P2：过滤器固定使用 reqiaobian_judge 上下文。draw 子技已复现：仅 draw 上下文可弃时过滤器 false，合法跳过机会被漏掉；仅 judge 可弃时过滤器通过但只提供取消，无非法跳过。use/discard 子技未逐项构造。',
     },
     feijun: {
       clean: {postpay: feijunPostpayClean, noTarget: feijunNoTargetClean},
@@ -125,9 +125,9 @@ const summary = {
   openP0P1: [],
   p2: [
     'qizhi：全部牌受保护时仍摸一张（宿主原生，未改）',
-    'reqiaobian：filter 使用 reqiaobian_judge 上下文，draw 上下文可弃时可能漏触发（宿主原生，未改）',
+    'reqiaobian：filter 使用 reqiaobian_judge 上下文；draw 子技已复现漏触发，use/discard 未逐项构造（宿主原生，未改）',
     'feijun：AI 发动评分用支付前张数，支付后合法的目标被漏估（宿主原生，未改）',
-    'rehuashen：空化身池仅能由人工破坏状态构造；阶段过滤器阻断，补丁为防御性 cancel2',
+    'rehuashen：空化身池本轮仅由人工破坏构造；正常 init 抽 3 成功；角色池耗尽未验证；阶段过滤器阻断，补丁为防御性 cancel2',
     '其他开发台账 P2 未在本轮逐项重审',
   ],
   combinationGate: {

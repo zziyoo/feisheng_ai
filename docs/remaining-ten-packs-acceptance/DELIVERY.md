@@ -50,8 +50,9 @@ git -c core.autocrlf=false apply -R <补丁>
 | `docs/remaining-ten-packs-acceptance/host/edge-scenes.mjs` | 38000 | `11dafe48607958a70551cfef366f28edce8991da426a6ed0ec38b1c0e7d42434` |
 | `docs/remaining-ten-packs-acceptance/host/evidence/edge-clean.json` | 56362 | `0174f815389c1ece87e4a325c2f8836194917acb0993a671a3778c3d8b9ddcf1` |
 | `docs/remaining-ten-packs-acceptance/host/evidence/edge-patched.json` | 53734 | `6fd065b1979b6af83a39aa61df165471d6069d75901497c70d7d8c7db470b810` |
-| `docs/remaining-ten-packs-acceptance/phase2b/real-host-edge-report.md` | 15549 | `1468637ceda0c4ce641f3daeb0dec2ebb8a4bab462060d39309ad11cfecdb2fe` |
-| `docs/remaining-ten-packs-acceptance/phase2b/real-host-edge-summary.json` | 25194 | `c9cc74bb7485579908732f2b37f5033c1433c3e03b76d68395351397d2c5886d` |
+| `docs/remaining-ten-packs-acceptance/phase2b/real-host-edge-report.md` | 15748 | `9d673a0cfb3d25e6e7be3a349d26128f826182149ba8342f5a07265cd01ba890` |
+| `docs/remaining-ten-packs-acceptance/phase2b/real-host-edge-summary.json` | 25307 | `64a54ea3276fe9766b19e2361c27ae4f23128368ccfde76d1d29475ad460dc32` |
+| `docs/remaining-ten-packs-acceptance/phase2b/build-edge-report.mjs` | 9248 | `b02c30fc8cc0bb996724e028d4898294414f0cb1787a45c1da31c959a08ed0a2` |
 
 ## 第二阶段专项验收（2026-11-13）
 
@@ -72,7 +73,7 @@ git -c core.autocrlf=false apply -R <补丁>
 - Phase 1：十份补丁独立/累计应用、四文件语法、逆向恢复、原始字节恢复、HEAD 一致性、LF 检查全部 PASS。
 - 真实宿主第一阶段：16 项 PASS、2 项 INCONCLUSIVE、2 项 NOT TESTED；第二阶段专项验收已解决四项阻塞。
 - 十包原生 AI 补丁范围：**10/10 PASS**；无未关闭 P0/P1；`shenhua_lin`、`shenhua_shan`、`refresh_lin`、`refresh_shan` 已从 PARTIAL 更新为 PASS。
-- **P2 未清零**：`qizhi`、`reqiaobian`、`feijun` 三项宿主原生 P2 保留；`rehuashen` 空池仅人工可达；开发台账其他 P2 未逐项重审。
+- **P2 未清零**：`qizhi`、`reqiaobian`、`feijun` 三项宿主原生 P2 保留；`rehuashen` 空池本轮仅人工构造、正常 init 抽 3 成功、角色池耗尽未验证；开发台账其他 P2 未逐项重审。
 - **未执行十包原生 + 旧六包扩展的受支持组合测试；不宣布十六包全量兼容 PASS。**
 - 未 push、未合并、未创建 Release/Tag；开发分支未被修改。
 
