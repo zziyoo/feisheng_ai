@@ -1,0 +1,59 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -5829,6 +5829,9 @@
+             list.sort(function(a, b) {
+               return b.countCards("h") - a.countCards("h");
+             });
++            if (!list.length) {
++              return 0;
++            }
+             if (from.countCards("h") >= list[0].countCards("h")) {
+               return -get.attitude(player, target);
+             }
+@@ -6060,16 +6063,7 @@
+       }
+     },
+     ai: {
+-      halfneg: true,
+-      directHit_ai: true,
+-      skillTagFilter(player, tag, arg) {
+-        if (tag === "directHit_ai") {
+-          return;
+-        }
+-        if (arg.card.name != "sha" || !arg.target.hasSex("female") || arg.target.countCards("h", "shan") > 1) {
+-          return false;
+-        }
+-      }
++      halfneg: true
+     }
+   },
+   benghuai: {
+@@ -6197,7 +6191,7 @@
+       order: 1,
+       result: {
+         player(player) {
+-          if (lib.config.mode == "identity" && game.zhu.isZhu && player.identity == "fan") {
++          if (lib.config.mode == "identity" && game.zhu?.isZhu && player.identity == "fan") {
+             if (game.zhu.hp == 1 && game.zhu.countCards("h") <= 2) {
+               return 1;
+             }
+@@ -6205,6 +6199,9 @@
+           const players = game.filterPlayer();
+           let num = 0;
+           for (let i2 = 0; i2 < players.length; i2++) {
++            if (players[i2] == player || players[i2].hp <= 0) {
++              continue;
++            }
+             let att = get.attitude(player, players[i2]);
+             if (att > 0) {
+               att = 1;
+@@ -6212,7 +6209,7 @@
+             if (att < 0) {
+               att = -1;
+             }
+-            if (players[i2] != player && players[i2].hp <= 3) {
++            if (players[i2].hp <= 3) {
+               const hs = players[i2].countCards("hs");
+               if (hs === 0) {
+                 num += att / players[i2].hp;
