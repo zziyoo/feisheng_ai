@@ -19,7 +19,7 @@ STATUS = {
     "delivery_status": "候选待验收",
     "can_mark_deliverable": False,
 }
-STAGE = {"delivery_stage": "v3 候选", "complete_delivery": False}
+STAGE = {"delivery_stage": "阶段性", "complete_delivery": False}
 
 
 def git(*args):
