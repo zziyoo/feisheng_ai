@@ -121,15 +121,45 @@ try {
       const policyOnly=args.includes('--skill-ai-policy');
       const fullLifecycle=args.includes('--skill-ai-full-lifecycle');
       const scenes=option('scenes')?option('scenes').split(',').map(item=>item.trim()).filter(Boolean):null;
+      let extensionReport=null;
+      if(args.includes('--install-extension')){
+        extensionReport=await page.evaluate(async()=>{
+          const score=await import('/extension/无名AI/score/index.js?v=41a');
+          score.installScoreEngine();
+          for(let i=0;i<100;i++){
+            const policies=await import('/extension/无名AI/score/decision/skills/skillAIPolicies.js?v=41a');
+            const stats=policies.skillAIPolicyStats();
+            if(stats.installed)return {engineEnabled:score.isScoreEngineEnabled(),policyStats:stats};
+            await new Promise(resolve=>setTimeout(resolve,50));
+          }
+          const policies=await import('/extension/无名AI/score/decision/skills/skillAIPolicies.js?v=41a');
+          return {engineEnabled:score.isScoreEngineEnabled(),policyStats:policies.skillAIPolicyStats()};
+        });
+      }
       const report=await runSkillAiScenes(page,{installExtension:withExtension,policyOnly,fullLifecycle,scenes});
-      const result={completedAt:new Date().toISOString(),status:errors.length?'failed':'passed',scope:'真实身份局宿主、固定公开局面、技能AI选择与结算观察；'+(withExtension?'已安装无名AI决策引擎':(policyOnly?'仅技能AI薄策略层':'原生AI基线'))+(fullLifecycle?'；含完整引擎卸载/重装':'') ,seed,browserVersion:await browser.version(),...report,errors};
+      const result={completedAt:new Date().toISOString(),status:errors.length?'failed':'passed',scope:'真实身份局宿主、固定公开局面、技能AI选择与结算观察；'+(withExtension?'已安装无名AI决策引擎':(policyOnly?'仅技能AI薄策略层':'原生AI基线'))+(fullLifecycle?'；含完整引擎卸载/重装':'')+(extensionReport?'；完整扩展引擎与六包策略已加载':''),seed,browserVersion:await browser.version(),extension:extensionReport,...report,errors};
       if(option('output'))await fs.writeFile(option('output'),JSON.stringify(result,null,2)+'\n');
       console.log(JSON.stringify(result,null,2));assert.deepEqual(errors,[]);
     }else if(args.includes('--edge')){
       const {runEdgeScenes}=await import('./edge-scenes.mjs');
       const scenes=option('scenes')?option('scenes').split(',').map(item=>item.trim()).filter(Boolean):null;
+      let extensionReport=null;
+      if(args.includes('--install-extension')){
+        extensionReport=await page.evaluate(async()=>{
+          const score=await import('/extension/无名AI/score/index.js?v=41a');
+          score.installScoreEngine();
+          for(let i=0;i<100;i++){
+            const policies=await import('/extension/无名AI/score/decision/skills/skillAIPolicies.js?v=41a');
+            const stats=policies.skillAIPolicyStats();
+            if(stats.installed)return {engineEnabled:score.isScoreEngineEnabled(),policyStats:stats};
+            await new Promise(resolve=>setTimeout(resolve,50));
+          }
+          const policies=await import('/extension/无名AI/score/decision/skills/skillAIPolicies.js?v=41a');
+          return {engineEnabled:score.isScoreEngineEnabled(),policyStats:policies.skillAIPolicyStats()};
+        });
+      }
       const report=await runEdgeScenes(page,{scenes});
-      const result={completedAt:new Date().toISOString(),status:errors.length?(args.includes('--allow-errors')?'recorded-errors':'failed'):'passed',scope:'真实身份局宿主边界专场；真实技能content/trigger与结算；干净宿主预期异常单独记录',seed,browserVersion:await browser.version(),...report,errors};
+      const result={completedAt:new Date().toISOString(),status:errors.length?(args.includes('--allow-errors')?'recorded-errors':'failed'):'passed',scope:'真实身份局宿主边界专场；真实技能content/trigger与结算；干净宿主预期异常单独记录'+(extensionReport?'；完整扩展引擎与六包策略已加载':''),seed,browserVersion:await browser.version(),extension:extensionReport,...report,errors};
       if(option('output'))await fs.writeFile(option('output'),JSON.stringify(result,null,2)+'\n');
       console.log(JSON.stringify(result,null,2));
       if(!args.includes('--allow-errors'))assert.deepEqual(errors,[]);
