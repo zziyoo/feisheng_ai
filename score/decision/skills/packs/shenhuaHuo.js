@@ -8,7 +8,7 @@ export const pack = {
 	id: 'shenhua_huo',
 	name: '神话再临·火',
 	group: 'shenhua',
-	skills: ['luanji', 'tianyi', 'jianchu'],
+	skills: ['luanji', 'tianyi', 'jianchu', 'qiangxix'],
 	statsDefaults: {
 		luanjiAllyVeto: 0,
 		luanjiNetVeto: 0,
@@ -207,9 +207,58 @@ function installJianchu(host, stats) {
 	});
 }
 
-/* 强袭：原生AI会在体力>2且有杀时优先弃武器；真实宿主复现连弩被弃、
- * 之后只能用一张杀。但宿主没有稳定的“选哪张武器”AI入口：给 check 或 ai1
- * 加评分会连丈八也改为保留，属于过度优化，因此本分包不接管，保留原生。 */
+/* 宿主 Basic.chooseCard 选中强袭后用 check 评估可选武器。只有原生连弩
+ * 确实提供多次后续有效攻击，且健康时可走原有失去体力分支，才保留它。 */
+function installQiangxix(host) {
+	const info = lib.skill?.qiangxix;
+	if (!info || 'check' in info || info.ai1 != null || info.enable !== 'phaseUse' || info.usable !== 2
+		|| typeof info.filterTarget !== 'function' || typeof info.selectCard !== 'function') return;
+	const scoreWeapon = function (weapon) {
+		const native = get.unuseful2.apply(this, arguments);
+		try {
+			const event = _status.event;
+			const player = event?.player;
+			if (!(native > 0) || event?.name !== 'chooseToUse' || event.type !== 'phase' || event.skill !== 'qiangxix'
+				|| !player || _status.currentPhase !== player || !player.isPhaseUsing() || player.hp < 4
+				|| get.name(weapon, false) !== 'zhuge' || get.name(weapon, player) !== 'zhuge'
+				|| player.hasSkill('zhuge_skill', null, false)) return native;
+			const crossbows = player.getCards('e', card => get.name(card, player) === 'zhuge');
+			if (crossbows.length !== 1 || crossbows[0] !== weapon) return native;
+			const mods = player.getModableSkills();
+			if (!mods.includes('zhuge_skill')) return native;
+			const sha = { name: 'sha', isCard: true };
+			const base = get.info(sha).usable;
+			const quota = game.checkMod(get.autoViewAs(sha), player, base, 'cardUsable', mods.filter(id => id !== 'zhuge_skill'));
+			const used = player.countUsed(sha);
+			if (!Number.isInteger(quota) || !Number.isInteger(used)) return native;
+			const without = Math.max(0, quota - used);
+			const withCrossbow = player.getCardUsable(sha);
+			if (!(withCrossbow >= without + 2)) return native;
+			const cost = -get.effect(player, { name: 'losehp' }, player, player);
+			if (!Number.isFinite(cost) || cost < 0) return native;
+			const hand = player.getCards('h', card => get.name(card, player) === 'sha');
+			return game.hasPlayer(target => {
+				if (!info.filterTarget(null, player, target) || !(get.attitude(player, target) < 0)
+					|| target.hp <= 1 || target.hp > player.hp || target.hujia > 0 || target.countCards('h')
+					|| target.getVEquips(2).length || target.hasSkillTag('respondShan', true)
+					|| target.hasSkillTag('freeShan', true) || !(get.effect_use(target, 'qiangxix', player, player) > 0)) return false;
+				const effects = hand.filter(card => player.canUse(card, target)
+					&& player.getCardUsable(card) >= without + 2
+					&& !game.checkMod(card, player, target, false, 'cardUsableTarget', player))
+					.map(card => get.effect_use(target, card, player, player))
+					.filter(score => Number.isFinite(score) && score > 0)
+					.sort((a, b) => a - b);
+				// 强袭先造成一点伤害，后续杀的价值只算目标尚可承受的次数。
+				const extra = Math.min(effects.length, withCrossbow, target.hp - 1) - without;
+				return extra >= 2 && effects.slice(0, extra).reduce((sum, score) => sum + score, 0) > cost;
+			}) ? 0 : native;
+		} catch (_) {
+			return native;
+		}
+	};
+	info.check = scoreWeapon;
+	host.addCleanup(() => { if (info.check === scoreWeapon) delete info.check; });
+}
 
 /* 双雄：3张手牌时改判定可多一次决斗，但宿主固定局面里决斗可被响应，
  * 并非严格优于摸两张牌；保留原生“手牌>体力或>3”阈值，不接管。 */
@@ -220,4 +269,5 @@ function install(host, stats) {
 	installLuanji(host, stats);
 	installTianyi(host, stats);
 	installJianchu(host, stats);
+	installQiangxix(host);
 }

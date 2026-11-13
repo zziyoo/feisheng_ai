@@ -8,14 +8,15 @@ import {
 let passed = 0;
 const check = (name, fn) => { fn(); passed++; console.log('PASS', name); };
 
-check('火包清单登记乱击/天义/鞬出三项AI优化（区分缺陷修复与质量提升）', () => {
+check('火包清单登记乱击/天义/鞬出/强袭AI优化（区分缺陷修复与质量提升）', () => {
 	const meta = JSON.parse(fs.readFileSync('pack.json', 'utf8'));
 	assert.equal(meta.id, 'shenhua_huo');
-	assert.deepEqual(meta.implemented_skills, ['luanji', 'tianyi', 'jianchu']);
+	assert.deepEqual(meta.implemented_skills, ['luanji', 'tianyi', 'jianchu', 'qiangxix']);
 	assert.deepEqual(meta.optimization_types, {
 		luanji: '缺陷修复',
 		tianyi: '质量提升',
 		jianchu: '质量提升',
+		qiangxix: '质量提升',
 	});
 	assert.equal(meta.review_only, false);
 });

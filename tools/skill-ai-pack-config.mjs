@@ -115,12 +115,13 @@ export const CODE_PACKS = [
 		id: 'shenhua_huo',
 		module: 'shenhuaHuo',
 		rules: 'shenhuaHuo',
-		implementedSkills: ['luanji', 'tianyi', 'jianchu'],
+		implementedSkills: ['luanji', 'tianyi', 'jianchu', 'qiangxix'],
 		/* 区分缺陷修复（原生行为对己方明显错误）与质量提升（原生合法但次优）。 */
 		optimizationTypes: {
 			luanji: '缺陷修复',
 			tianyi: '质量提升',
 			jianchu: '质量提升',
+			qiangxix: '质量提升',
 		},
 		auditedSkills: [
 			'qiangxix', 'quhu', 'jieming', 'lianhuan', 'oldniepan', 'tianyi',
