@@ -1,7 +1,33 @@
 diff --git a/character/refresh.js b/character/refresh.js
-index f46cad1..de3785e 100644
 --- a/character/refresh.js
 +++ b/character/refresh.js
+@@ -4750,7 +4750,7 @@
+         trigger: { player: "phaseDrawBefore" },
+         direct: true,
+         filter(event, player) {
+-          return player.hasMark("reqiaobian") || player.hasCard((card) => lib.filter.cardDiscardable(card, player, "reqiaobian_judge"), "he");
++          return player.hasMark("reqiaobian") || player.hasCard((card) => lib.filter.cardDiscardable(card, player, "reqiaobian_draw"), "he");
+         },
+         check(event, player) {
+           return game.countPlayer(function(current) {
+@@ -4814,7 +4814,7 @@
+         trigger: { player: "phaseUseBefore" },
+         direct: true,
+         filter(event, player) {
+-          return player.hasMark("reqiaobian") || player.hasCard((card) => lib.filter.cardDiscardable(card, player, "reqiaobian_judge"), "he");
++          return player.hasMark("reqiaobian") || player.hasCard((card) => lib.filter.cardDiscardable(card, player, "reqiaobian_use"), "he");
+         },
+         check(event, player) {
+           if (player.countCards("h", function(card) {
+@@ -4902,7 +4902,7 @@
+         trigger: { player: "phaseDiscardBefore" },
+         direct: true,
+         filter(event, player) {
+-          return player.hasMark("reqiaobian") || player.hasCard((card) => lib.filter.cardDiscardable(card, player, "reqiaobian_judge"), "he");
++          return player.hasMark("reqiaobian") || player.hasCard((card) => lib.filter.cardDiscardable(card, player, "reqiaobian_discard"), "he");
+         },
+         check(event, player) {
+           return player.needsToDiscard();
 @@ -12188,7 +12188,7 @@ const skills = {
                return 0;
              }
