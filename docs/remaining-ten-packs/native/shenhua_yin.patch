@@ -1,7 +1,59 @@
 diff --git a/character/shenhua.js b/character/shenhua.js
 --- a/character/shenhua.js
 +++ b/character/shenhua.js
-@@ -2557,7 +2557,7 @@
+@@ -2283,7 +2283,24 @@
+     },
+     filterCard: true,
+     check(card) {
+-      return 5 - get.value(card);
++      return lib.skill.nzry_feijun.getDiscardScore(get.player(), card);
++    },
++    canDiscardEquipment(target) {
++      return target.hasCard((card) => get.type(card) === "equip" && lib.filter.cardDiscardable(card, target, "nzry_feijun"), "e");
++    },
++    getDiscardScore(player, card) {
++      const position = get.position(card);
++      if ((position !== "h" && position !== "e") || !lib.filter.cardDiscardable(card, player, "nzry_feijun")) {
++        return 0;
++      }
++      const hand = player.countCards("h") - Number(position === "h");
++      const equips = player.countCards("e") - Number(position === "e");
++      if (!game.hasPlayer((target) => target !== player && get.attitude(player, target) < 0 &&
++        (target.countCards("h") > hand || (target.countCards("e") > equips && lib.skill.nzry_feijun.canDiscardEquipment(target))))) {
++        return 0;
++      }
++      const score = 5 - get.value(card, player);
++      return Number.isFinite(score) ? score : 0;
+     },
+     async content(event, trigger, player) {
+       const list = [];
+@@ -2331,7 +2348,7 @@
+           return target2.countCards("e") > player2.countCards("e") && target2 != player2;
+         }, "选择一名装备区里牌数大于你的角色");
+         next.ai = function(target2) {
+-          return -get.attitude(player, target2);
++          return lib.skill.nzry_feijun.canDiscardEquipment(target2) ? -get.attitude(player, target2) : 0;
+         };
+         result = await next.forResult();
+       }
+@@ -2360,15 +2377,7 @@
+       order: 11,
+       result: {
+         player(player) {
+-          if (game.hasPlayer(function(current) {
+-            return (current.countCards("h") > player.countCards("h") || current.countCards("e") > player.countCards("e")) && get.attitude(player, current) < 0 && player.getStorage("nzry_feijun").includes(current);
+-          }) || game.hasPlayer(function(current) {
+-            return current.countCards("h") > player.countCards("h") && get.attitude(player, current) < 0;
+-          }) || player.countCards("h") >= 2 && game.hasPlayer(function(current) {
+-            return current.countCards("e") > player.countCards("e") && get.attitude(player, current) < 0;
+-          })) {
+-            return 1;
+-          }
++          return player.hasCard((card) => lib.skill.nzry_feijun.getDiscardScore(player, card) > 0, "he") ? 1 : 0;
+         }
+       }
+     }
+@@ -2557,7 +2566,7 @@
            if (ui.selected.targets[0] != void 0) {
              return -1;
            }
@@ -10,7 +62,7 @@ diff --git a/character/shenhua.js b/character/shenhua.js
          }).set("complexTarget", true).set("promptbar", "none").set("num", event.num).set("selectTarget", [1, Infinity]).forResult();
          event.result.cost_data = "damage";
        } else {
-@@ -2998,7 +2998,7 @@
+@@ -2998,7 +3007,7 @@
              let num = 0;
              const list = [];
              player2.countCards("h", function(cardx) {
