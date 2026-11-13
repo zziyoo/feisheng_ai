@@ -1,0 +1,13 @@
+diff --git a/character/refresh.js b/character/refresh.js
+index f46cad1..450cc48 100644
+--- a/character/refresh.js
++++ b/character/refresh.js
+@@ -3720,7 +3720,7 @@ const skills = {
+             var players = game.filterPlayer();
+             for (var i = 0; i < players.length; i++) {
+               if (get.attitude(target, players[i]) > 0) {
+-                max = Math.max(Math.min(5, players[i].hp) - players[i].countCards("h"), max);
++                max = Math.max(Math.min(5, players[i].maxHp) - players[i].countCards("h"), max);
+               }
+             }
+             switch (max) {
