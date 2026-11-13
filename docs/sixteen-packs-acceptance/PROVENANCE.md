@@ -45,7 +45,7 @@
 ## 宿主
 
 - 无名杀 1.11.7，Windows x64，LF 检出。
-- 干净五文件哈希与补丁后哈希见 `evidence/phase1/artifacts-baseline.json`。
+- 干净五文件哈希与补丁后哈希见 `phase1/artifacts-baseline.json`。
 
 ## 未做
 

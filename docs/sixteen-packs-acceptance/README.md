@@ -20,13 +20,17 @@
 feisheng-ai-sixteen-packs-final/
 ├─ packs/                 六份既有扩展 ZIP（字节与六包封版一致）
 ├─ native/                十份剩余分包原生 AI 补丁
-├─ docs/                  验收报告、接管矩阵、部署/升级说明、证据索引
-├─ evidence/              本轮真实宿主证据（phase1/phase3/phase4）
+├─ phase1/                基线、ZIP/补丁/宿主哈希
+├─ phase3/                组合真实宿主证据与对照
+├─ phase4/                补丁往返、扩展回滚、继承事务电池
 ├─ README.md              本文件
 ├─ ACCEPTANCE.md          统一验收报告与十问回答
 ├─ UPGRADE.md             从六包/十包单独部署迁移
 ├─ DEPLOYMENT.md          受支持安装/回滚流程
 ├─ skill-takeover-matrix.md 技能接管矩阵与不支持混装
+├─ PROVENANCE.md          Git 版本、来源与产物对应
+├─ P2.md                  保留的 P2 清单
+├─ GIT-HEAD.txt           最终集成分支 HEAD
 └─ SHA256SUMS.txt         全部交付文件哈希
 ```
 
