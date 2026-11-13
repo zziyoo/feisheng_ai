@@ -1,0 +1,79 @@
+diff --git a/character/refresh.js b/character/refresh.js
+index f46cad1..f676471 100644
+--- a/character/refresh.js
++++ b/character/refresh.js
+@@ -6429,13 +6429,8 @@ const skills = {
+             prompt: "将" + get.cnNumber(num) + "张手牌交给一名手牌数最少的其他角色",
+             forced: true,
+             ai1(card) {
+-              var goon = false, player2 = _status.event.player;
+-              for (var i of _status.event.targets) {
+-                if (get.attitude(i, player2) > 0 && get.attitude(player2, i) > 0) {
+-                  goon = true;
+-                }
+-                break;
+-              }
++              const player2 = _status.event.player;
++              const goon = _status.event.targets.some((target2) => get.attitude(target2, player2) > 0 && get.attitude(player2, target2) > 0);
+               if (goon) {
+                 if (!player2.hasValueTarget(card) || card.name == "sha" && player2.countCards("h", function(cardx) {
+                   return cardx.name == "sha" && !ui.selected.cards.includes(cardx);
+@@ -6489,25 +6484,26 @@ const skills = {
+             if (!targets.length) break;
+             target = targets.shift();
+             result = await target.chooseCard("h", "好施：是否将一张手牌交给" + get.translation(player) + "？").set("ai", function(card) {
+-              var player2 = _status.event.player, target2 = _status.event.getTrigger().player;
++              const player2 = _status.event.player;
++              const value = get.value(card, player2);
++              if (value < 0) {
++                return 1;
++              }
+               if (!_status.event.goon) {
+-                if (get.value(card, player2) < 0 || get.value(card, target2) < 0) {
+-                  return 1;
+-                }
+                 return 0;
+               }
+-              var cardx = _status.event.getTrigger().card;
+-              if (card.name == "shan" && get.tag(cardx, "respondShan") && target2.countCards("h", "shan") < player2.countCards("h", "shan")) {
+-                return 2;
+-              }
+-              if (card.name == "sha" && (cardx.name == "juedou" || get.tag(card, "respondSha") && target2.countCards("h", "sha") < player2.countCards("h", "sha"))) {
+-                return 2;
+-              }
+-              if (get.value(card, target2) > get.value(card, player2) || target2.getUseValue(card) > player2.getUseValue(card)) {
+-                return 1;
++              const incoming = _status.event.getTrigger();
++              const name = get.name(card, player2);
++              const response = name == "shan" ? "respondShan" : name == "sha" ? "respondSha" : null;
++              if (response && incoming?.card && incoming.target && get.tag(incoming.card, response)) {
++                const recipient = incoming.target;
++                const known = recipient.countKnownCards(player2, (knownCard) => get.name(knownCard, recipient) == name);
++                if (known < player2.countCards("h", name)) {
++                  return 2;
++                }
+               }
+               if (player2.hasSkillTag("noh")) {
+-                return 0.5 / Math.max(1, get.value(card, player2));
++                return 0.5 / Math.max(1, value);
+               }
+               return 0;
+             }).set("goon", get.attitude(target, player) > 0).forResult();
+@@ -6566,15 +6562,8 @@ const skills = {
+           if (!ui.selected.targets.length) {
+             return -Math.sqrt(target.countCards("h"));
+           }
+-          var h1 = ui.selected.targets[0].getCards("h"), h2 = target.getCards("h");
+-          if (h2.length > h1.length) {
+-            return 0;
+-          }
+-          var delval = get.value(h2, target) - get.value(h1, ui.selected.targets[0]);
+-          if (delval >= 0) {
+-            return 0;
+-          }
+-          return -delval * (h1.length - h2.length);
++          const first = ui.selected.targets[0].countCards("h");
++          return Math.max(0, first - target.countCards("h"));
+         }
+       }
+     },
