@@ -66,7 +66,15 @@ diff --git a/character/refresh.js b/character/refresh.js
        const control = result.control;
        event.result = { bool: typeof control === "string" && control !== "cancel2", cost_data: control };
      },
-@@ -12428,6 +12429,7 @@ const skills = {
+@@ -12348,6 +12349,7 @@ const skills = {
+       let choice = event.cost_data;
+       if (Array.isArray(choice)) {
+         lib.skill.rehuashen.addHuashens(player, 3);
++        if (!player.storage.rehuashen.character.length) return;
+         [choice] = choice;
+       }
+       _status.noclearcountdown = true;
+@@ -12428,6 +12430,7 @@ const skills = {
            game.stopCountChoose();
          }
        };
@@ -74,7 +82,7 @@ diff --git a/character/refresh.js b/character/refresh.js
        while (true) {
          const next = player.chooseButton(true).set("dialog", id);
          if (choice === "制衡其他化身") {
-@@ -12437,12 +12439,17 @@ const skills = {
+@@ -12437,12 +12440,17 @@ const skills = {
          } else {
            next.set("ai", (button) => {
              const { player: player2, cond } = get.event();
@@ -95,7 +103,7 @@ diff --git a/character/refresh.js b/character/refresh.js
          }
          const result = await next.forResult();
          if (choice === "制衡其他化身") {
-@@ -12474,12 +12481,12 @@ const skills = {
+@@ -12474,12 +12482,12 @@ const skills = {
              func(card, id);
            }
            const result2 = await player.chooseControl(player.storage.rehuashen.map[card], "返回").set("ai", () => {
