@@ -1,0 +1,21 @@
+diff --git a/character/shenhua.js b/character/shenhua.js
+--- a/character/shenhua.js
++++ b/character/shenhua.js
+@@ -2557,7 +2557,7 @@
+           if (ui.selected.targets[0] != void 0) {
+             return -1;
+           }
+-          return get.attitude(player2, target) < 0;
++          return target.hp == _status.event.num && get.attitude(player2, target) < 0;
+         }).set("complexTarget", true).set("promptbar", "none").set("num", event.num).set("selectTarget", [1, Infinity]).forResult();
+         event.result.cost_data = "damage";
+       } else {
+@@ -2998,7 +2998,7 @@
+             let num = 0;
+             const list = [];
+             player2.countCards("h", function(cardx) {
+-              if (cardx != card || get.color(cardx) != color) {
++              if (cardx == card || get.color(cardx) != color) {
+                 return false;
+               }
+               if (list.includes(cardx.name)) {
