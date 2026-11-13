@@ -1,0 +1,38 @@
+{
+  "browser": "157.0.8103.78",
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "players": 8,
+  "doubleCharacter": true,
+  "roster": [
+    "re_weiyan",
+    "dc_jsp_guanyu"
+  ],
+  "skills": [
+    "xinkuanggu",
+    "qimou",
+    "new_rewusheng",
+    "dcdanji"
+  ],
+  "choices": [
+    {
+      "hp": 3,
+      "maxHp": 4,
+      "hand": 0,
+      "recoverEffect": 22.5,
+      "drawEffect": 24.000000000000004,
+      "shaReady": 0,
+      "shaUsable": 1,
+      "distance": 1,
+      "selected": "draw_card",
+      "actualControl": "draw_card"
+    }
+  ],
+  "after": {
+    "actorHp": 3,
+    "actorHand": 1,
+    "targetHp": 3
+  },
+  "policy": true,
+  "errors": []
+}

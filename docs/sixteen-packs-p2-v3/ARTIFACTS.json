@@ -1,0 +1,347 @@
+{
+  "base": "312adf3cc56421708cc46a5566d9b41fd1236783",
+  "historical_integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5",
+  "independent_runtime_head": "235aea098d8c957ea4ccf6b318288c784011b188",
+  "delivery_gate": "内部集成 PASS（限定配置）",
+  "artifacts": [
+    {
+      "file": "native/standard_2008.patch",
+      "pack_id": "standard_2008",
+      "changed": false,
+      "old": {
+        "size": 828,
+        "sha256": "d0e233259a1db09c9bfa3e4c686ea4a361bff6956edbadaca1c5341bcea410db",
+        "source_head": "404e305dc58f8ad964a9764ecc433320af17f6e4",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 828,
+        "sha256": "d0e233259a1db09c9bfa3e4c686ea4a361bff6956edbadaca1c5341bcea410db",
+        "source_head": "404e305dc58f8ad964a9764ecc433320af17f6e4",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "native/standard_2013.patch",
+      "pack_id": "standard_2013",
+      "changed": false,
+      "old": {
+        "size": 803,
+        "sha256": "a70a185ecebb78f2e30afeeea3009b665914fa59f169857081500e9860f8558f",
+        "source_head": "eba7ded6c925da6b0f8f5ed1812d81d340f0a7e6",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 803,
+        "sha256": "a70a185ecebb78f2e30afeeea3009b665914fa59f169857081500e9860f8558f",
+        "source_head": "eba7ded6c925da6b0f8f5ed1812d81d340f0a7e6",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "native/standard_2019.patch",
+      "pack_id": "standard_2019",
+      "changed": false,
+      "old": {
+        "size": 666,
+        "sha256": "bf843e22e9c7085019bb87f94865d29a6873a1b95c4390a24b576f949a931521",
+        "source_head": "959661831683211f3266f8efa4a05a4c91e4e4fa",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 666,
+        "sha256": "bf843e22e9c7085019bb87f94865d29a6873a1b95c4390a24b576f949a931521",
+        "source_head": "959661831683211f3266f8efa4a05a4c91e4e4fa",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "native/standard_2023.patch",
+      "pack_id": "standard_2023",
+      "changed": false,
+      "old": {
+        "size": 1554,
+        "sha256": "d1b7fa5430b9050e7fbf7b405702c45e4883848619ac7c4633508414940e8074",
+        "source_head": "64df8e6dfb09a56430c487b4edd378edd973fef7",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 1554,
+        "sha256": "d1b7fa5430b9050e7fbf7b405702c45e4883848619ac7c4633508414940e8074",
+        "source_head": "64df8e6dfb09a56430c487b4edd378edd973fef7",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "native/shenhua_lin.patch",
+      "pack_id": "shenhua_lin",
+      "changed": false,
+      "old": {
+        "size": 1953,
+        "sha256": "ae017875df282cc852cf3a11d4530fb15d906b6c7cdbf87b44a5ea9d09f0bc67",
+        "source_head": "22e19db1a82c8555a5fa22332a1a409d48be90fe",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 1953,
+        "sha256": "ae017875df282cc852cf3a11d4530fb15d906b6c7cdbf87b44a5ea9d09f0bc67",
+        "source_head": "22e19db1a82c8555a5fa22332a1a409d48be90fe",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "native/shenhua_shan.patch",
+      "pack_id": "shenhua_shan",
+      "changed": false,
+      "old": {
+        "size": 2240,
+        "sha256": "b74fd8d3eec392e7fa9b4e491ad86646705b3b072aea08f5f44d14b19c6abf15",
+        "source_head": "f091f79ecdd1cd0a4c527a81936f41e1cafba2e7",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 2240,
+        "sha256": "b74fd8d3eec392e7fa9b4e491ad86646705b3b072aea08f5f44d14b19c6abf15",
+        "source_head": "f091f79ecdd1cd0a4c527a81936f41e1cafba2e7",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "native/shenhua_yin.patch",
+      "pack_id": "shenhua_yin",
+      "changed": true,
+      "old": {
+        "size": 914,
+        "sha256": "f83fb96114f9b2aa20672f14f6f901c40e71fbcbb4e9a6f620eb4ac9b86b3747",
+        "source_head": "b79ce0ce3db1d136ec8d8e2e78017d31454b2527",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 3910,
+        "sha256": "1db10db4b940a0d92970dc7b445fc1e21d44e794dd9b50264ba5aa2aa8a5c760",
+        "source_head": "47228bd31e1f11dd698d64609a5750527fe04219",
+        "build_head": null,
+        "pack_acceptance_head": null,
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188",
+        "independent_test_input_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "native/refresh_huo.patch",
+      "pack_id": "refresh_huo",
+      "changed": false,
+      "old": {
+        "size": 596,
+        "sha256": "7d7cf2c6b83623deb2e9b7ec10e60d17d26ca949efd1f849a996254f7c707d88",
+        "source_head": "dcf0dd3d2d9b031c60521ce50ed98cb32e9bef52",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 596,
+        "sha256": "7d7cf2c6b83623deb2e9b7ec10e60d17d26ca949efd1f849a996254f7c707d88",
+        "source_head": "dcf0dd3d2d9b031c60521ce50ed98cb32e9bef52",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "native/refresh_lin.patch",
+      "pack_id": "refresh_lin",
+      "changed": false,
+      "old": {
+        "size": 4031,
+        "sha256": "8c3e6c8c138460bb7ef920934a526cf47a7d0029414cce0e3a460abe820ef26c",
+        "source_head": "92214435d6e98410808eb75613d9028ec91f51fc",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 4031,
+        "sha256": "8c3e6c8c138460bb7ef920934a526cf47a7d0029414cce0e3a460abe820ef26c",
+        "source_head": "92214435d6e98410808eb75613d9028ec91f51fc",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "native/refresh_shan.patch",
+      "pack_id": "refresh_shan",
+      "changed": true,
+      "old": {
+        "size": 4570,
+        "sha256": "306431fa8e7246d2eb3225fc49fbda7a1071cc7940b7ce25708f7549bad54a6e",
+        "source_head": "a9031aade343ef3e219e733297708ada59a8383b",
+        "build_head": null,
+        "pack_acceptance_head": "d6fffc7fb2b4ae34e4bd49fd60d18e270cdc2a94",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 6380,
+        "sha256": "1ab04891fe444a7302e2db6e33756f00e2bb1418b100958122e9744c9bf8a599",
+        "source_head": "235aea098d8c957ea4ccf6b318288c784011b188",
+        "build_head": null,
+        "pack_acceptance_head": null,
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188",
+        "independent_test_input_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "packs/feisheng-ai-shenhua-feng.zip",
+      "pack_id": "shenhua_feng",
+      "changed": false,
+      "old": {
+        "size": 92235,
+        "sha256": "dcfac0a35ea231c3838912a1681e27006530e5b0d549e94f4a62376e555c658c",
+        "source_head": "25b950356627b9c236c4faf3be82e3481ad09111",
+        "build_head": "25b950356627b9c236c4faf3be82e3481ad09111",
+        "pack_acceptance_head": "ac4c4b42e41257eefc78690c3d5a40fb56c9587a",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 92235,
+        "sha256": "dcfac0a35ea231c3838912a1681e27006530e5b0d549e94f4a62376e555c658c",
+        "source_head": "25b950356627b9c236c4faf3be82e3481ad09111",
+        "build_head": "25b950356627b9c236c4faf3be82e3481ad09111",
+        "pack_acceptance_head": "ac4c4b42e41257eefc78690c3d5a40fb56c9587a",
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "packs/feisheng-ai-refresh-feng.zip",
+      "pack_id": "refresh_feng",
+      "changed": false,
+      "old": {
+        "size": 90676,
+        "sha256": "193085553119f7cc56769b474994b4f1868439413de7e657811dc1e73b7f70ef",
+        "source_head": "7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e",
+        "build_head": "7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e",
+        "pack_acceptance_head": "7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 90676,
+        "sha256": "193085553119f7cc56769b474994b4f1868439413de7e657811dc1e73b7f70ef",
+        "source_head": "7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e",
+        "build_head": "7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e",
+        "pack_acceptance_head": "7d79d8ce218f4ed37eed0dffa2c2c1ac81cfe93e",
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "packs/feisheng-ai-shenhua-huo.zip",
+      "pack_id": "shenhua_huo",
+      "changed": false,
+      "old": {
+        "size": 253547,
+        "sha256": "68a180f26cb47f33ffe6ff7af95ff3cb2767d1dfd0de829611f6380173e43f0d",
+        "source_head": "4fb57e10dd4077cf2cfa39f5ad2783e61ce69cd3",
+        "build_head": "4fb57e10dd4077cf2cfa39f5ad2783e61ce69cd3",
+        "pack_acceptance_head": "3087c02f9d0ae60ab8793b345a8a080fc51395da",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 253547,
+        "sha256": "68a180f26cb47f33ffe6ff7af95ff3cb2767d1dfd0de829611f6380173e43f0d",
+        "source_head": "4fb57e10dd4077cf2cfa39f5ad2783e61ce69cd3",
+        "build_head": "4fb57e10dd4077cf2cfa39f5ad2783e61ce69cd3",
+        "pack_acceptance_head": "3087c02f9d0ae60ab8793b345a8a080fc51395da",
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "packs/feisheng-ai-shenhua-lei.zip",
+      "pack_id": "shenhua_lei",
+      "changed": true,
+      "old": {
+        "size": 257628,
+        "sha256": "c8fc8befd55f03734e10429bb85785a977f4860afde1a6b4bc7d66f99783f277",
+        "source_head": "ca9d2d221a02920f34aef99614245f2e20a4a8c1",
+        "build_head": "ca9d2d221a02920f34aef99614245f2e20a4a8c1",
+        "pack_acceptance_head": "8869f1dbdd4ea53969d1711455b4299515e81ade",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 260363,
+        "sha256": "40d9ef55299319e9337c2b767e6220536ba32c3de0d0f05e8681611a0db9a6f4",
+        "source_head": "ce04040726e23e02fd4903eed5158f2ee72da395",
+        "build_head": "77234ac782d492f6a851792fa5af38f06231c825",
+        "pack_acceptance_head": null,
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188",
+        "independent_test_input_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "packs/feisheng-ai-refresh-standard.zip",
+      "pack_id": "refresh_standard",
+      "changed": false,
+      "old": {
+        "size": 114963,
+        "sha256": "b148f29c94768347eaf24984b6e14c73174bf482fd96d72ce717b4e9afa4ccd0",
+        "source_head": "0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea",
+        "build_head": "0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea",
+        "pack_acceptance_head": "0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 114963,
+        "sha256": "b148f29c94768347eaf24984b6e14c73174bf482fd96d72ce717b4e9afa4ccd0",
+        "source_head": "0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea",
+        "build_head": "0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea",
+        "pack_acceptance_head": "0fa2c075aa9bcb86c9c6c34f65d8c62b0b3845ea",
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    },
+    {
+      "file": "packs/feisheng-ai-out-of-scope.zip",
+      "pack_id": "out_of_scope",
+      "changed": false,
+      "old": {
+        "size": 200828,
+        "sha256": "f1d06169b53dd908205224e46f403ac97c2db0f6717d47fad1897e0fe1b7a79d",
+        "source_head": "56735aea155040c70ee621e232ed96dce021b57a",
+        "build_head": "56735aea155040c70ee621e232ed96dce021b57a",
+        "pack_acceptance_head": "a863553cdfae1b997a2fb4e2899ea84323903bcd",
+        "integration_acceptance_head": "640b736a9e1872fdd63eac443b2596ca7bb8b1b5"
+      },
+      "v3": {
+        "size": 200828,
+        "sha256": "f1d06169b53dd908205224e46f403ac97c2db0f6717d47fad1897e0fe1b7a79d",
+        "source_head": "56735aea155040c70ee621e232ed96dce021b57a",
+        "build_head": "56735aea155040c70ee621e232ed96dce021b57a",
+        "pack_acceptance_head": "a863553cdfae1b997a2fb4e2899ea84323903bcd",
+        "integration_acceptance_head": "235aea098d8c957ea4ccf6b318288c784011b188"
+      }
+    }
+  ]
+}

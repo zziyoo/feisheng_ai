@@ -1,0 +1,49 @@
+{
+  "completedAt": "2026-11-13T12:36:28.740Z",
+  "status": "passed",
+  "scope": "实际模式初始化、固定公开局面与原生结算；非完整对局或联机测试",
+  "browserVersion": "157.0.8103.78",
+  "hostVersion": "1.11.7",
+  "mode": "doudizhu",
+  "submode": "normal",
+  "players": 3,
+  "scenes": [
+    {
+      "name": "policy-scope",
+      "enabled": true,
+      "stripUndefined": false,
+      "borrowedPairResolved": true,
+      "allyRelation": -1
+    },
+    {
+      "name": "optimized-window-expiry",
+      "distinctHostEvent": true,
+      "before": 9.8,
+      "after": -9,
+      "prototypeRestored": true,
+      "auxiliaryReleased": true
+    },
+    {
+      "name": "legacy-window-expiry",
+      "distinctHostEvent": true,
+      "before": 15.35,
+      "after": -9,
+      "prototypeRestored": true,
+      "auxiliaryReleased": true
+    },
+    {
+      "name": "duel-low-sha",
+      "enemyHpLost": 1,
+      "allyHp": 4
+    },
+    {
+      "name": "legacy-judge-rescue",
+      "remainingJudges": [
+        "lebu"
+      ],
+      "armor": null
+    }
+  ],
+  "fixtureAssertionStatus": "observation-only; cross-mode assertions exclude classic Doudizhu",
+  "errors": []
+}

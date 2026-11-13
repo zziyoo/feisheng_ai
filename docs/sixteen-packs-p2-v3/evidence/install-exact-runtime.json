@@ -1,0 +1,569 @@
+{
+  "base": "1fe5292eb3022dd8d1db494617b21a12be912e61",
+  "leiRuntime": "ce04040726e23e02fd4903eed5158f2ee72da395",
+  "baseArchiveSha256": "f918bdd7a3d8785acf570a27fbb9600259d9946e8c99eae8f58e66076ceb5c70",
+  "installedModules": {
+    "score/decision/skills/packs/shenhuaLei.js": "129340c3acc7c1f41d8c8cdf0f79bfb2b2317d1cff2d21f9ea06c9e76f289c56",
+    "score/decision/skills/rules/shenhuaLei.js": "4fb832acd9be2d6265d260299faedcc4368344b4376e1109a8b6478ccc431841"
+  },
+  "order": [
+    "refresh-standard",
+    "refresh-feng",
+    "shenhua-feng",
+    "shenhua-huo",
+    "shenhua-lei",
+    "out-of-scope"
+  ],
+  "pack": {
+    "refresh-standard": {
+      "zipPath": "C:\\Users\\32360\\Desktop\\feisheng-ai-sixteen-packs-final\\packs\\feisheng-ai-refresh-standard.zip",
+      "zipSha256": "b148f29c94768347eaf24984b6e14c73174bf482fd96d72ce717b4e9afa4ccd0",
+      "dryRun": {
+        "pack": "refresh_standard",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\feisheng-v3-independent-5ff77a77\\six-install\\extension",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/policyCore.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillAIPolicies.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillVetoRegistry.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/refreshStandard.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/refreshStandard.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillPlanHints.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/boundedSkillUtility.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/refreshStandardPlans.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-created",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [],
+        "registry": "created",
+        "fullEngineHintWired": false,
+        "hintNotice": "未确认完整引擎软建议接线；宿主策略可独立使用，完整引擎需另行迁移接线。",
+        "status": "planned"
+      },
+      "applied": {
+        "pack": "refresh_standard",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\feisheng-v3-independent-5ff77a77\\six-install\\extension",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/policyCore.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillAIPolicies.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillVetoRegistry.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/refreshStandard.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/refreshStandard.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/skillPlanHints.js",
+            "kind": "共享核心"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/boundedSkillUtility.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/refreshStandardPlans.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-created",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [],
+        "registry": "created",
+        "fullEngineHintWired": false,
+        "hintNotice": "未确认完整引擎软建议接线；宿主策略可独立使用，完整引擎需另行迁移接线。",
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\refresh_standard"
+      }
+    },
+    "refresh-feng": {
+      "zipPath": "C:\\Users\\32360\\Desktop\\feisheng-ai-sixteen-packs-final\\packs\\feisheng-ai-refresh-feng.zip",
+      "zipSha256": "193085553119f7cc56769b474994b4f1868439413de7e657811dc1e73b7f70ef",
+      "dryRun": {
+        "pack": "refresh_feng",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\feisheng-v3-independent-5ff77a77\\six-install\\extension",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/refreshFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/refreshFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "planned"
+      },
+      "applied": {
+        "pack": "refresh_feng",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\feisheng-v3-independent-5ff77a77\\six-install\\extension",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/refreshFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/refreshFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\refresh_feng"
+      }
+    },
+    "shenhua-feng": {
+      "zipPath": "C:\\Users\\32360\\Desktop\\feisheng-ai-sixteen-packs-final\\packs\\feisheng-ai-shenhua-feng.zip",
+      "zipSha256": "dcfac0a35ea231c3838912a1681e27006530e5b0d549e94f4a62376e555c658c",
+      "dryRun": {
+        "pack": "shenhua_feng",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\feisheng-v3-independent-5ff77a77\\six-install\\extension",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/shenhuaFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/shenhuaFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "planned"
+      },
+      "applied": {
+        "pack": "shenhua_feng",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\feisheng-v3-independent-5ff77a77\\six-install\\extension",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/shenhuaFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/shenhuaFeng.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\shenhua_feng"
+      }
+    },
+    "shenhua-huo": {
+      "zipPath": "C:\\Users\\32360\\Desktop\\feisheng-ai-sixteen-packs-final\\packs\\feisheng-ai-shenhua-huo.zip",
+      "zipSha256": "68a180f26cb47f33ffe6ff7af95ff3cb2767d1dfd0de829611f6380173e43f0d",
+      "dryRun": {
+        "pack": "shenhua_huo",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\feisheng-v3-independent-5ff77a77\\six-install\\extension",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/shenhuaHuo.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/shenhuaHuo.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "planned"
+      },
+      "applied": {
+        "pack": "shenhua_huo",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\feisheng-v3-independent-5ff77a77\\six-install\\extension",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/shenhuaHuo.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/shenhuaHuo.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\shenhua_huo"
+      }
+    },
+    "shenhua-lei": {
+      "zipPath": "C:\\Users\\32360\\AppData\\Local\\Temp\\feisheng-v3-artifacts-9e7c621e\\feisheng-ai-shenhua-lei.zip",
+      "zipSha256": "85ed63a68f0bb7b7970a8d05409bba1624944700e6b61667d665789ba1f39001",
+      "dryRun": {
+        "pack": "shenhua_lei",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\feisheng-v3-independent-5ff77a77\\six-install\\extension",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/shenhuaLei.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/shenhuaLei.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "planned"
+      },
+      "applied": {
+        "pack": "shenhua_lei",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\feisheng-v3-independent-5ff77a77\\six-install\\extension",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/shenhuaLei.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/shenhuaLei.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\shenhua_lei"
+      }
+    },
+    "out-of-scope": {
+      "zipPath": "C:\\Users\\32360\\Desktop\\feisheng-ai-sixteen-packs-final\\packs\\feisheng-ai-out-of-scope.zip",
+      "zipSha256": "f1d06169b53dd908205224e46f403ac97c2db0f6717d47fad1897e0fe1b7a79d",
+      "dryRun": {
+        "pack": "out_of_scope",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\feisheng-v3-independent-5ff77a77\\six-install\\extension",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/outOfScope.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/outOfScope.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "planned"
+      },
+      "applied": {
+        "pack": "out_of_scope",
+        "root": "C:\\Users\\32360\\AppData\\Local\\Temp\\feisheng-v3-independent-5ff77a77\\six-install\\extension",
+        "actions": [
+          {
+            "type": "create",
+            "target": "score/decision/skills/packs/outOfScope.js",
+            "kind": "分包"
+          },
+          {
+            "type": "create",
+            "target": "score/decision/skills/rules/outOfScope.js",
+            "kind": "分包"
+          },
+          {
+            "type": "registry-updated",
+            "target": "score/decision/skills/skillAIPolicyPacks.js"
+          }
+        ],
+        "skips": [
+          {
+            "targetRel": "score/decision/skills/policyCore.js",
+            "hash": "545ee71d2b0affee2cbf561f16cd0ff30db07b170353ccc018db47e1fba49b19",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillAIPolicies.js",
+            "hash": "46b47ef904eaf7ae56a818816ecc042c351747b5a69594f1ce4b938af4aa42ad",
+            "kind": "共享核心"
+          },
+          {
+            "targetRel": "score/decision/skills/skillVetoRegistry.js",
+            "hash": "ed8f6022db879b133447077cf712bad9e955fae2ebdf27fd14d38680c997aac2",
+            "kind": "共享核心"
+          }
+        ],
+        "registry": "updated",
+        "fullEngineHintWired": false,
+        "hintNotice": null,
+        "status": "applied",
+        "backup": ".djsc-pack-backups\\out_of_scope"
+      }
+    }
+  }
+}

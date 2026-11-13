@@ -1,0 +1,93 @@
+{
+  "completedAt": "2026-11-13T12:39:31.619Z",
+  "status": "passed",
+  "scope": "真实宿主固定局面、浏览器点击输入的本地手动用牌验证；非远端联机",
+  "browserVersion": "157.0.8103.78",
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "count": 8,
+  "engineEnabled": true,
+  "installed": true,
+  "hookType": "function",
+  "prompt": {
+    "isManual": true,
+    "event": "chooseTarget",
+    "parent": "drlt_zhengu",
+    "hook": true,
+    "selected": [],
+    "stored": [],
+    "firstCount": 1,
+    "secondCount": 5,
+    "done": false
+  },
+  "cancelled": {
+    "isManual": true,
+    "event": "phaseJieshu",
+    "hook": false,
+    "selected": [],
+    "stored": [],
+    "firstCount": 1,
+    "secondCount": 5,
+    "done": true
+  },
+  "first": {
+    "isManual": true,
+    "event": "chooseTarget",
+    "parent": "drlt_zhengu",
+    "hook": true,
+    "selected": [
+      "first"
+    ],
+    "stored": [],
+    "firstCount": 1,
+    "secondCount": 5,
+    "done": false
+  },
+  "unselected": {
+    "isManual": true,
+    "event": "chooseTarget",
+    "parent": "drlt_zhengu",
+    "hook": true,
+    "selected": [],
+    "stored": [],
+    "firstCount": 1,
+    "secondCount": 5,
+    "done": false
+  },
+  "reselected": {
+    "isManual": true,
+    "event": "chooseTarget",
+    "parent": "drlt_zhengu",
+    "hook": true,
+    "selected": [
+      "second"
+    ],
+    "stored": [],
+    "firstCount": 1,
+    "secondCount": 5,
+    "done": false
+  },
+  "confirmed": {
+    "isManual": true,
+    "event": "phaseJieshu",
+    "hook": false,
+    "selected": [],
+    "stored": [
+      "second"
+    ],
+    "firstCount": 1,
+    "secondCount": 5,
+    "done": true
+  },
+  "settled": {
+    "isManual": false,
+    "event": "phase",
+    "hook": false,
+    "selected": [],
+    "stored": [],
+    "firstCount": 1,
+    "secondCount": 3,
+    "done": true
+  },
+  "errors": []
+}

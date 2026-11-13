@@ -1,0 +1,42 @@
+{
+  "stable_sha256_count": 45,
+  "v3_artifacts": 16,
+  "changed_artifacts": 3,
+  "zip": [
+    {
+      "file": "packs/feisheng-ai-shenhua-feng.zip",
+      "archive_members": 30,
+      "git_blob_sources": 5
+    },
+    {
+      "file": "packs/feisheng-ai-refresh-feng.zip",
+      "archive_members": 33,
+      "git_blob_sources": 5
+    },
+    {
+      "file": "packs/feisheng-ai-shenhua-huo.zip",
+      "archive_members": 53,
+      "git_blob_sources": 5
+    },
+    {
+      "file": "packs/feisheng-ai-shenhua-lei.zip",
+      "archive_members": 55,
+      "git_blob_sources": 5
+    },
+    {
+      "file": "packs/feisheng-ai-refresh-standard.zip",
+      "archive_members": 34,
+      "git_blob_sources": 8
+    },
+    {
+      "file": "packs/feisheng-ai-out-of-scope.zip",
+      "archive_members": 39,
+      "git_blob_sources": 5
+    }
+  ],
+  "installer_steps": 9,
+  "native_apply_count": 10,
+  "native_restore_count": 5,
+  "planned_tencent_cells": 237,
+  "written_tencent_cells": 0
+}

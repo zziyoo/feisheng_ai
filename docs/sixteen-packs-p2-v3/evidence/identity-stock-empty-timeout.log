@@ -1,0 +1,8 @@
+[smoke] browser ready
+[smoke] phase hook ready
+[smoke] startup state null
+[smoke] retry startup after page.waitForFunction: Timeout 30000ms exceeded.
+[smoke] phase hook ready
+[smoke] game initialized
+[v3-probe] start edge-rehuashen-exhausted-real
+[v3-probe] real exhaustion pool []

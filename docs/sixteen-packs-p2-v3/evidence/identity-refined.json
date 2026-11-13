@@ -1,0 +1,2218 @@
+{
+  "completedAt": "2026-11-13T12:41:44.760Z",
+  "status": "passed",
+  "scope": "真实身份局宿主边界专场；真实技能content/trigger与结算；干净宿主预期异常单独记录；完整扩展引擎与六包策略已加载",
+  "seed": "20261030",
+  "browserVersion": "157.0.8103.78",
+  "extension": {
+    "engineEnabled": true,
+    "policyStats": {
+      "installed": true,
+      "keptTao": 0,
+      "keptShan": 0,
+      "skippedExchange": 0,
+      "skippedOrder": 0,
+      "retuxiTargetBonus": 0,
+      "calls": 0,
+      "last": [],
+      "reqimouGateSkip": 0,
+      "reqimouInfeasible": 0,
+      "reqimouClamp": 0,
+      "reqimouClampCalls": 0,
+      "reqimouSelfRescue": 0,
+      "reqimouInfiniteUses": 0,
+      "qimouBypass": 0,
+      "kuangguRecover": 0,
+      "kuangguHp2": 0,
+      "jushouTurned": 0,
+      "jushouThreatHold": 0,
+      "shensuSkipJudge": 0,
+      "shensuCostBlock": 0,
+      "shensu4Restrict": 0,
+      "shensu2ArmorKeep": 0,
+      "guhuoLowHpGuard": 0,
+      "guhuoMaterialGate": 0,
+      "huangtianLastShan": 0,
+      "guhuoCalls": 0,
+      "guidaoHongyanFix": 0,
+      "releijiWeighted": 0,
+      "retianxiangJoint": 0,
+      "liegongDrawUnlock": 0,
+      "liegongExtra": 0,
+      "qimouMinPay": 0,
+      "buquHeuristic": 0,
+      "luanjiAllyVeto": 0,
+      "luanjiNetVeto": 0,
+      "tianyiDecline": 0,
+      "tianyiKnownWinPass": 0,
+      "tianyiEngineVeto": 0,
+      "jianchuSkip": 0,
+      "olkongshengCostCalls": 0,
+      "olkongshengCompatible": true,
+      "zhenguCompatible": true,
+      "zhenguEngineHook": true,
+      "zhenguScoreCalls": 0,
+      "zhenguFallbacks": 0,
+      "zhenguHookConflict": 0,
+      "fairRedimeng": 0,
+      "redimengMaskFailed": 0,
+      "redimengFindCalls": 0,
+      "redimengFindFixed": 0,
+      "redimengFindFallbacks": 0,
+      "redimengTrace": [],
+      "packs": {
+        "refresh_standard": {
+          "keptTao": 0,
+          "keptShan": 0,
+          "skippedExchange": 0,
+          "skippedOrder": 0,
+          "retuxiTargetBonus": 0,
+          "calls": 0,
+          "last": []
+        },
+        "refresh_feng": {
+          "reqimouGateSkip": 0,
+          "reqimouInfeasible": 0,
+          "reqimouClamp": 0,
+          "reqimouClampCalls": 0,
+          "reqimouSelfRescue": 0,
+          "reqimouInfiniteUses": 0
+        },
+        "shenhua_feng": {
+          "qimouBypass": 0,
+          "kuangguRecover": 0,
+          "kuangguHp2": 0,
+          "jushouTurned": 0,
+          "jushouThreatHold": 0,
+          "shensuSkipJudge": 0,
+          "shensuCostBlock": 0,
+          "shensu4Restrict": 0,
+          "shensu2ArmorKeep": 0,
+          "guhuoLowHpGuard": 0,
+          "guhuoMaterialGate": 0,
+          "huangtianLastShan": 0,
+          "guhuoCalls": 0,
+          "guidaoHongyanFix": 0,
+          "releijiWeighted": 0,
+          "retianxiangJoint": 0,
+          "liegongDrawUnlock": 0,
+          "liegongExtra": 0,
+          "qimouMinPay": 0,
+          "buquHeuristic": 0
+        },
+        "shenhua_huo": {
+          "luanjiAllyVeto": 0,
+          "luanjiNetVeto": 0,
+          "tianyiDecline": 0,
+          "tianyiKnownWinPass": 0,
+          "tianyiEngineVeto": 0,
+          "jianchuSkip": 0
+        },
+        "shenhua_lei": {
+          "olkongshengCostCalls": 0,
+          "olkongshengCompatible": true,
+          "zhenguCompatible": true,
+          "zhenguEngineHook": true,
+          "zhenguScoreCalls": 0,
+          "zhenguFallbacks": 0,
+          "zhenguHookConflict": 0
+        },
+        "out_of_scope": {
+          "fairRedimeng": 0,
+          "redimengMaskFailed": 0,
+          "redimengFindCalls": 0,
+          "redimengFindFixed": 0,
+          "redimengFindFallbacks": 0,
+          "redimengTrace": []
+        }
+      },
+      "installation": {
+        "state": "installed",
+        "reason": null
+      }
+    }
+  },
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "scenes": [
+    {
+      "name": "edge-rehuashen-initial-real",
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rehuashen"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "initialResult": {
+        "names": [
+          "dc_xiahouba",
+          "mb_sp_zhenji",
+          "re_caopi"
+        ],
+        "current": "dc_xiahouba",
+        "current2": "rebaobian",
+        "owned": [],
+        "countdown": false
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rehuashen",
+            "rebaobian"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 4815.9
+    },
+    {
+      "name": "edge-rehuashen-exhausted-real",
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rehuashen"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "pool": [],
+      "triggerCompleted": true,
+      "afterTrigger": {
+        "count": 0,
+        "event": "edgeScene",
+        "countdown": false
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rehuashen"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 60.6
+    },
+    {
+      "name": "v3-xiongluan-ab-bagua-one",
+      "targetId": "74695553592",
+      "rescueCount": 0,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 1,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "bagua"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "drlt_xiongluan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "bagua_skill"
+          ],
+          "60505463593": []
+        }
+      },
+      "fixedIsInstalled": true,
+      "stockAll": {
+        "publicScores": [
+          {
+            "id": "50265723591",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "74695553592",
+            "identity": "fan",
+            "att": -4,
+            "fromTarget": -7,
+            "result": -1,
+            "rawEffect": -116,
+            "shaEffects": [
+              25.515000000000004
+            ]
+          },
+          {
+            "id": "60505463593",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75331523594",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75565313595",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "61294103596",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "56869603597",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          }
+        ],
+        "choice": {
+          "bool": true,
+          "targets": [
+            "50265723591"
+          ]
+        }
+      },
+      "fixedAll": {
+        "publicScores": [
+          {
+            "id": "50265723591",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "74695553592",
+            "identity": "fan",
+            "att": -4,
+            "fromTarget": -7,
+            "result": 0,
+            "rawEffect": -120,
+            "shaEffects": [
+              25.515000000000004
+            ]
+          },
+          {
+            "id": "60505463593",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75331523594",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75565313595",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "61294103596",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "56869603597",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          }
+        ],
+        "choice": {
+          "bool": true,
+          "targets": [
+            "61294103596"
+          ]
+        }
+      },
+      "stockEnemyOnly": {
+        "publicScores": [
+          {
+            "id": "50265723591",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "74695553592",
+            "identity": "fan",
+            "att": -4,
+            "fromTarget": -7,
+            "result": -1,
+            "rawEffect": -116,
+            "shaEffects": [
+              25.515000000000004
+            ]
+          },
+          {
+            "id": "60505463593",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75331523594",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75565313595",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "61294103596",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "56869603597",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          }
+        ],
+        "choice": {
+          "bool": false,
+          "targets": []
+        }
+      },
+      "fixedEnemyOnly": {
+        "publicScores": [
+          {
+            "id": "50265723591",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "74695553592",
+            "identity": "fan",
+            "att": -4,
+            "fromTarget": -7,
+            "result": 0,
+            "rawEffect": -120,
+            "shaEffects": [
+              25.515000000000004
+            ]
+          },
+          {
+            "id": "60505463593",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75331523594",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75565313595",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "61294103596",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "56869603597",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          }
+        ],
+        "choice": {
+          "bool": false,
+          "targets": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 1,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "bagua"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "drlt_xiongluan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "bagua_skill"
+          ],
+          "60505463593": []
+        }
+      },
+      "durationMs": 476.9
+    },
+    {
+      "name": "v3-xiongluan-ab-bagua-two",
+      "targetId": "74695553592",
+      "rescueCount": 0,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 1,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "bagua"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "drlt_xiongluan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "bagua_skill"
+          ],
+          "60505463593": []
+        }
+      },
+      "fixedIsInstalled": true,
+      "stockAll": {
+        "publicScores": [
+          {
+            "id": "50265723591",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "74695553592",
+            "identity": "fan",
+            "att": -4,
+            "fromTarget": -7,
+            "result": -2,
+            "rawEffect": -112,
+            "shaEffects": [
+              25.515000000000004,
+              25.515000000000004
+            ]
+          },
+          {
+            "id": "60505463593",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75331523594",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75565313595",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "61294103596",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "56869603597",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          }
+        ],
+        "choice": {
+          "bool": true,
+          "targets": [
+            "56869603597"
+          ]
+        }
+      },
+      "fixedAll": {
+        "publicScores": [
+          {
+            "id": "50265723591",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "74695553592",
+            "identity": "fan",
+            "att": -4,
+            "fromTarget": -7,
+            "result": -1,
+            "rawEffect": -116,
+            "shaEffects": [
+              25.515000000000004,
+              25.515000000000004
+            ]
+          },
+          {
+            "id": "60505463593",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75331523594",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75565313595",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "61294103596",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "56869603597",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          }
+        ],
+        "choice": {
+          "bool": true,
+          "targets": [
+            "50265723591"
+          ]
+        }
+      },
+      "stockEnemyOnly": {
+        "publicScores": [
+          {
+            "id": "50265723591",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "74695553592",
+            "identity": "fan",
+            "att": -4,
+            "fromTarget": -7,
+            "result": -2,
+            "rawEffect": -112,
+            "shaEffects": [
+              25.515000000000004,
+              25.515000000000004
+            ]
+          },
+          {
+            "id": "60505463593",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75331523594",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75565313595",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "61294103596",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "56869603597",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          }
+        ],
+        "choice": {
+          "bool": false,
+          "targets": []
+        }
+      },
+      "fixedEnemyOnly": {
+        "publicScores": [
+          {
+            "id": "50265723591",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "74695553592",
+            "identity": "fan",
+            "att": -4,
+            "fromTarget": -7,
+            "result": -1,
+            "rawEffect": -116,
+            "shaEffects": [
+              25.515000000000004,
+              25.515000000000004
+            ]
+          },
+          {
+            "id": "60505463593",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75331523594",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75565313595",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "61294103596",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "56869603597",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007,
+              -22.963500000000007
+            ]
+          }
+        ],
+        "choice": {
+          "bool": false,
+          "targets": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 1,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "bagua"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "drlt_xiongluan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "bagua_skill"
+          ],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1633.8
+    },
+    {
+      "name": "v3-xiongluan-ab-unarmored",
+      "targetId": "74695553592",
+      "rescueCount": 0,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 1,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "drlt_xiongluan"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "fixedIsInstalled": true,
+      "stockAll": {
+        "publicScores": [
+          {
+            "id": "50265723591",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "74695553592",
+            "identity": "fan",
+            "att": -4,
+            "fromTarget": -7,
+            "result": -1,
+            "rawEffect": -116,
+            "shaEffects": [
+              51.03000000000001
+            ]
+          },
+          {
+            "id": "60505463593",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75331523594",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75565313595",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "61294103596",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "56869603597",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          }
+        ],
+        "choice": {
+          "bool": true,
+          "targets": [
+            "75565313595"
+          ]
+        }
+      },
+      "fixedAll": {
+        "publicScores": [
+          {
+            "id": "50265723591",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "74695553592",
+            "identity": "fan",
+            "att": -4,
+            "fromTarget": -7,
+            "result": -1,
+            "rawEffect": -116,
+            "shaEffects": [
+              51.03000000000001
+            ]
+          },
+          {
+            "id": "60505463593",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75331523594",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75565313595",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "61294103596",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "56869603597",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          }
+        ],
+        "choice": {
+          "bool": true,
+          "targets": [
+            "56869603597"
+          ]
+        }
+      },
+      "stockEnemyOnly": {
+        "publicScores": [
+          {
+            "id": "50265723591",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "74695553592",
+            "identity": "fan",
+            "att": -4,
+            "fromTarget": -7,
+            "result": -1,
+            "rawEffect": -116,
+            "shaEffects": [
+              51.03000000000001
+            ]
+          },
+          {
+            "id": "60505463593",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75331523594",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75565313595",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "61294103596",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "56869603597",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          }
+        ],
+        "choice": {
+          "bool": false,
+          "targets": []
+        }
+      },
+      "fixedEnemyOnly": {
+        "publicScores": [
+          {
+            "id": "50265723591",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "74695553592",
+            "identity": "fan",
+            "att": -4,
+            "fromTarget": -7,
+            "result": -1,
+            "rawEffect": -116,
+            "shaEffects": [
+              51.03000000000001
+            ]
+          },
+          {
+            "id": "60505463593",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75331523594",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "75565313595",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "61294103596",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          },
+          {
+            "id": "56869603597",
+            "identity": "zhong",
+            "att": 6,
+            "fromTarget": 4,
+            "result": 0,
+            "rawEffect": 15,
+            "shaEffects": [
+              -22.963500000000007
+            ]
+          }
+        ],
+        "choice": {
+          "bool": false,
+          "targets": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 1,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "drlt_xiongluan"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1358.1
+    },
+    {
+      "name": "v3-feijun-cheap-hand",
+      "enemy": "74695553592",
+      "rated": [
+        [
+          "wugu",
+          0
+        ],
+        [
+          "taoyuan",
+          0
+        ],
+        [
+          "shandian",
+          0
+        ],
+        [
+          "jiedao",
+          2
+        ],
+        [
+          "huogong",
+          3
+        ],
+        [
+          "tiesuo",
+          4
+        ],
+        [
+          "sha",
+          5
+        ]
+      ],
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wugu"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "tao"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_feijun",
+            "nzry_binglve"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "prePay": {
+        "attacker": 1,
+        "target": 1,
+        "targetAtt": -4,
+        "attackerHand": 1,
+        "targetHand": 1,
+        "attackerEquip": 0,
+        "targetEquip": 0,
+        "ai": 1,
+        "cards": [
+          {
+            "name": "wugu",
+            "value": 0,
+            "score": 5,
+            "position": "h",
+            "ownDiscardable": true
+          }
+        ]
+      },
+      "choice": {
+        "bool": true,
+        "cards": [
+          "wugu"
+        ]
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "shan",
+            "wuxie",
+            "tao"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_feijun",
+            "nzry_binglve"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1133.5
+    },
+    {
+      "name": "v3-feijun-equal-equip",
+      "enemy": "74695553592",
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [
+            "qinggang"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "bagua"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_feijun",
+            "nzry_binglve",
+            "qinggang_skill"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "bagua_skill"
+          ],
+          "60505463593": []
+        }
+      },
+      "prePay": {
+        "attacker": 1,
+        "target": 1,
+        "targetAtt": -4,
+        "attackerHand": 0,
+        "targetHand": 0,
+        "attackerEquip": 1,
+        "targetEquip": 1,
+        "ai": 1,
+        "cards": [
+          {
+            "name": "qinggang",
+            "value": 2,
+            "score": 3,
+            "position": "e",
+            "ownDiscardable": true
+          }
+        ]
+      },
+      "choice": {
+        "bool": true,
+        "cards": [
+          "qinggang"
+        ]
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_feijun",
+            "nzry_binglve"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1406
+    },
+    {
+      "name": "v3-feijun-protected-equip",
+      "enemy": "74695553592",
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [
+            "qinggang"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "bagua"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_feijun",
+            "nzry_binglve",
+            "qinggang_skill"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "bagua_skill"
+          ],
+          "60505463593": []
+        }
+      },
+      "prePay": {
+        "attacker": 1,
+        "target": 1,
+        "targetAtt": -4,
+        "attackerHand": 0,
+        "targetHand": 0,
+        "attackerEquip": 1,
+        "targetEquip": 1,
+        "ai": 0,
+        "cards": [
+          {
+            "name": "qinggang",
+            "value": 2,
+            "score": 0,
+            "position": "e",
+            "ownDiscardable": true
+          }
+        ]
+      },
+      "choice": {
+        "bool": false,
+        "cards": []
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [
+            "qinggang"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "bagua"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_feijun",
+            "nzry_binglve",
+            "qinggang_skill"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "bagua_skill"
+          ],
+          "60505463593": []
+        }
+      },
+      "durationMs": 592.6
+    },
+    {
+      "name": "v3-feijun-no-target",
+      "enemy": "74695553592",
+      "rated": [
+        [
+          "wugu",
+          0
+        ],
+        [
+          "taoyuan",
+          0
+        ],
+        [
+          "shandian",
+          0
+        ],
+        [
+          "jiedao",
+          2
+        ],
+        [
+          "huogong",
+          3
+        ],
+        [
+          "tiesuo",
+          4
+        ],
+        [
+          "sha",
+          5
+        ]
+      ],
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wugu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_feijun",
+            "nzry_binglve"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "prePay": {
+        "attacker": 1,
+        "target": 0,
+        "targetAtt": -4,
+        "attackerHand": 1,
+        "targetHand": 0,
+        "attackerEquip": 0,
+        "targetEquip": 0,
+        "ai": 0,
+        "cards": [
+          {
+            "name": "wugu",
+            "value": 0,
+            "score": 0,
+            "position": "h",
+            "ownDiscardable": true
+          }
+        ]
+      },
+      "choice": {
+        "bool": false,
+        "cards": []
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wugu"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_feijun",
+            "nzry_binglve"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1199.7
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,163 @@
+{
+  "head": "235aea098d8c957ea4ccf6b318288c784011b188",
+  "hostFixture": "C:\\Users\\32360\\AppData\\Local\\Temp\\shv-accept\\host-a",
+  "utc": "2026-11-13T12:37:53.114980+00:00",
+  "applyOrder": [
+    "standard_2008",
+    "standard_2013",
+    "standard_2019",
+    "standard_2023",
+    "shenhua_lin",
+    "shenhua_shan",
+    "shenhua_yin",
+    "refresh_huo",
+    "refresh_lin",
+    "refresh_shan"
+  ],
+  "reverseOrder": [
+    "refresh_shan",
+    "refresh_lin",
+    "refresh_huo",
+    "shenhua_yin",
+    "shenhua_shan",
+    "shenhua_lin",
+    "standard_2023",
+    "standard_2019",
+    "standard_2013",
+    "standard_2008"
+  ],
+  "patchSha256": {
+    "standard_2008": "d0e233259a1db09c9bfa3e4c686ea4a361bff6956edbadaca1c5341bcea410db",
+    "standard_2013": "a70a185ecebb78f2e30afeeea3009b665914fa59f169857081500e9860f8558f",
+    "standard_2019": "bf843e22e9c7085019bb87f94865d29a6873a1b95c4390a24b576f949a931521",
+    "standard_2023": "d1b7fa5430b9050e7fbf7b405702c45e4883848619ac7c4633508414940e8074",
+    "shenhua_lin": "ae017875df282cc852cf3a11d4530fb15d906b6c7cdbf87b44a5ea9d09f0bc67",
+    "shenhua_shan": "b74fd8d3eec392e7fa9b4e491ad86646705b3b072aea08f5f44d14b19c6abf15",
+    "shenhua_yin": "1db10db4b940a0d92970dc7b445fc1e21d44e794dd9b50264ba5aa2aa8a5c760",
+    "refresh_huo": "7d7cf2c6b83623deb2e9b7ec10e60d17d26ca949efd1f849a996254f7c707d88",
+    "refresh_lin": "8c3e6c8c138460bb7ef920934a526cf47a7d0029414cce0e3a460abe820ef26c",
+    "refresh_shan": "1ab04891fe444a7302e2db6e33756f00e2bb1418b100958122e9744c9bf8a599"
+  },
+  "syntax": {
+    "standard.js": "ok",
+    "shenhua.js": "ok",
+    "refresh.js": "ok",
+    "sp.js": "ok",
+    "tw.js": "ok"
+  },
+  "duplicatesRejected": {
+    "standard_2008": [
+      "error: patch failed: character/standard.js:924",
+      "error: character/standard.js: patch does not apply"
+    ],
+    "standard_2013": [
+      "error: patch failed: character/standard.js:415",
+      "error: character/standard.js: patch does not apply"
+    ],
+    "standard_2019": [
+      "error: patch failed: character/standard.js:2574",
+      "error: character/standard.js: patch does not apply"
+    ],
+    "standard_2023": [
+      "error: patch failed: character/standard.js:259",
+      "error: character/standard.js: patch does not apply",
+      "error: patch failed: character/sp.js:43026",
+      "error: character/sp.js: patch does not apply"
+    ],
+    "shenhua_lin": [
+      "error: patch failed: character/shenhua.js:5829",
+      "error: character/shenhua.js: patch does not apply"
+    ],
+    "shenhua_shan": [
+      "error: patch failed: character/shenhua.js:4286",
+      "error: character/shenhua.js: patch does not apply"
+    ],
+    "shenhua_yin": [
+      "error: patch failed: character/shenhua.js:2283",
+      "error: character/shenhua.js: patch does not apply",
+      "error: patch failed: character/sp.js:38452",
+      "error: character/sp.js: patch does not apply"
+    ],
+    "refresh_huo": [
+      "error: patch failed: character/refresh.js:3720",
+      "error: character/refresh.js: patch does not apply"
+    ],
+    "refresh_lin": [
+      "error: patch failed: character/refresh.js:6429",
+      "error: character/refresh.js: patch does not apply"
+    ],
+    "refresh_shan": [
+      "error: patch failed: character/refresh.js:4750",
+      "error: character/refresh.js: patch does not apply"
+    ]
+  },
+  "crlfRejected": {
+    "standard_2008": [
+      "error: patch failed: character/standard.js:924",
+      "error: character/standard.js: patch does not apply"
+    ],
+    "standard_2013": [
+      "error: patch failed: character/standard.js:415",
+      "error: character/standard.js: patch does not apply"
+    ],
+    "standard_2019": [
+      "error: patch failed: character/standard.js:2574",
+      "error: character/standard.js: patch does not apply"
+    ],
+    "standard_2023": [
+      "error: patch failed: character/standard.js:259",
+      "error: character/standard.js: patch does not apply",
+      "error: patch failed: character/sp.js:43026",
+      "error: character/sp.js: patch does not apply"
+    ],
+    "shenhua_lin": [
+      "error: patch failed: character/shenhua.js:5829",
+      "error: character/shenhua.js: patch does not apply"
+    ],
+    "shenhua_shan": [
+      "error: patch failed: character/shenhua.js:4286",
+      "error: character/shenhua.js: patch does not apply"
+    ],
+    "shenhua_yin": [
+      "error: patch failed: character/shenhua.js:2283",
+      "error: character/shenhua.js: patch does not apply",
+      "error: patch failed: character/sp.js:38452",
+      "error: character/sp.js: patch does not apply"
+    ],
+    "refresh_huo": [
+      "error: patch failed: character/refresh.js:3720",
+      "error: character/refresh.js: patch does not apply"
+    ],
+    "refresh_lin": [
+      "error: patch failed: character/refresh.js:6429",
+      "error: character/refresh.js: patch does not apply"
+    ],
+    "refresh_shan": [
+      "error: patch failed: character/refresh.js:4750",
+      "error: character/refresh.js: patch does not apply"
+    ]
+  },
+  "cleanSha256": {
+    "standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+    "shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+    "refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+    "sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+    "tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+  },
+  "patchedSha256": {
+    "standard.js": "614be8c1ee9bcf82e37477ab9a09f1e781dbe2f32c77aa9725446e1689bc9b48",
+    "shenhua.js": "6b1a258d034b4195c6dce86ee24c963a094450b78f214de4b5a9a4e9b2732440",
+    "refresh.js": "bb0dc2e5b6fcd794ef7deb0ead7c08bf85830b354458ab678b7a300d826b4509",
+    "sp.js": "3b064041ee6dc14a8b3434834c0864bd43b18d041c41f247950451d22b6efec8",
+    "tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+  },
+  "restoredSha256": {
+    "standard.js": "2b033c6e832fbfa72f477bf65739f63d5f9c986fe4b93c61c8d12b9a3b06bf63",
+    "shenhua.js": "62f789e336a11a0613c68f3309ebc81640f53b4baf6c07cacde99992284e813e",
+    "refresh.js": "25c573b2c86baad3d3dc75cbb535794d4c27b6b22b52055a914bca1f2ddbd0e0",
+    "sp.js": "f533db6e050937c406153b73deb51bd2b94ca5b1b868c3b0764956a0b66284ea",
+    "tw.js": "356ab5d74342073f891981fce7014e76d1c59a3ebf2da35315a1f222baf3cb20"
+  },
+  "crlfSha256Unchanged": true,
+  "status": "passed"
+}

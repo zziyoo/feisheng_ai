@@ -1,0 +1,2584 @@
+{
+  "completedAt": "2026-11-13T12:39:14.698Z",
+  "status": "passed",
+  "scope": "真实身份局宿主边界专场；真实技能content/trigger与结算；干净宿主预期异常单独记录；完整扩展引擎与六包策略已加载",
+  "seed": "20261030",
+  "browserVersion": "157.0.8103.78",
+  "extension": {
+    "engineEnabled": true,
+    "policyStats": {
+      "installed": true,
+      "keptTao": 0,
+      "keptShan": 0,
+      "skippedExchange": 0,
+      "skippedOrder": 0,
+      "retuxiTargetBonus": 0,
+      "calls": 0,
+      "last": [],
+      "reqimouGateSkip": 0,
+      "reqimouInfeasible": 0,
+      "reqimouClamp": 0,
+      "reqimouClampCalls": 0,
+      "reqimouSelfRescue": 0,
+      "reqimouInfiniteUses": 0,
+      "qimouBypass": 0,
+      "kuangguRecover": 0,
+      "kuangguHp2": 0,
+      "jushouTurned": 0,
+      "jushouThreatHold": 0,
+      "shensuSkipJudge": 0,
+      "shensuCostBlock": 0,
+      "shensu4Restrict": 0,
+      "shensu2ArmorKeep": 0,
+      "guhuoLowHpGuard": 0,
+      "guhuoMaterialGate": 0,
+      "huangtianLastShan": 0,
+      "guhuoCalls": 0,
+      "guidaoHongyanFix": 0,
+      "releijiWeighted": 0,
+      "retianxiangJoint": 0,
+      "liegongDrawUnlock": 0,
+      "liegongExtra": 0,
+      "qimouMinPay": 0,
+      "buquHeuristic": 0,
+      "luanjiAllyVeto": 0,
+      "luanjiNetVeto": 0,
+      "tianyiDecline": 0,
+      "tianyiKnownWinPass": 0,
+      "tianyiEngineVeto": 0,
+      "jianchuSkip": 0,
+      "olkongshengCostCalls": 0,
+      "olkongshengCompatible": true,
+      "zhenguCompatible": true,
+      "zhenguEngineHook": true,
+      "zhenguScoreCalls": 0,
+      "zhenguFallbacks": 0,
+      "zhenguHookConflict": 0,
+      "fairRedimeng": 0,
+      "redimengMaskFailed": 0,
+      "redimengFindCalls": 0,
+      "redimengFindFixed": 0,
+      "redimengFindFallbacks": 0,
+      "redimengTrace": [],
+      "packs": {
+        "refresh_standard": {
+          "keptTao": 0,
+          "keptShan": 0,
+          "skippedExchange": 0,
+          "skippedOrder": 0,
+          "retuxiTargetBonus": 0,
+          "calls": 0,
+          "last": []
+        },
+        "refresh_feng": {
+          "reqimouGateSkip": 0,
+          "reqimouInfeasible": 0,
+          "reqimouClamp": 0,
+          "reqimouClampCalls": 0,
+          "reqimouSelfRescue": 0,
+          "reqimouInfiniteUses": 0
+        },
+        "shenhua_feng": {
+          "qimouBypass": 0,
+          "kuangguRecover": 0,
+          "kuangguHp2": 0,
+          "jushouTurned": 0,
+          "jushouThreatHold": 0,
+          "shensuSkipJudge": 0,
+          "shensuCostBlock": 0,
+          "shensu4Restrict": 0,
+          "shensu2ArmorKeep": 0,
+          "guhuoLowHpGuard": 0,
+          "guhuoMaterialGate": 0,
+          "huangtianLastShan": 0,
+          "guhuoCalls": 0,
+          "guidaoHongyanFix": 0,
+          "releijiWeighted": 0,
+          "retianxiangJoint": 0,
+          "liegongDrawUnlock": 0,
+          "liegongExtra": 0,
+          "qimouMinPay": 0,
+          "buquHeuristic": 0
+        },
+        "shenhua_huo": {
+          "luanjiAllyVeto": 0,
+          "luanjiNetVeto": 0,
+          "tianyiDecline": 0,
+          "tianyiKnownWinPass": 0,
+          "tianyiEngineVeto": 0,
+          "jianchuSkip": 0
+        },
+        "shenhua_lei": {
+          "olkongshengCostCalls": 0,
+          "olkongshengCompatible": true,
+          "zhenguCompatible": true,
+          "zhenguEngineHook": true,
+          "zhenguScoreCalls": 0,
+          "zhenguFallbacks": 0,
+          "zhenguHookConflict": 0
+        },
+        "out_of_scope": {
+          "fairRedimeng": 0,
+          "redimengMaskFailed": 0,
+          "redimengFindCalls": 0,
+          "redimengFindFixed": 0,
+          "redimengFindFallbacks": 0,
+          "redimengTrace": []
+        }
+      },
+      "installation": {
+        "state": "installed",
+        "reason": null
+      }
+    }
+  },
+  "hostVersion": "1.11.7",
+  "mode": "identity",
+  "scenes": [
+    {
+      "name": "edge-preflight",
+      "hostVersion": "1.11.7",
+      "mode": "identity",
+      "auto": true,
+      "gameMe": "75027863590",
+      "players": [
+        "75027863590",
+        "50265723591",
+        "74695553592",
+        "60505463593",
+        "75331523594",
+        "75565313595",
+        "61294103596",
+        "56869603597"
+      ],
+      "count": 8,
+      "skills": {
+        "dimeng": true,
+        "olhaoshi": true,
+        "olhaoshi_give": true,
+        "olhaoshi_help": true,
+        "rehuashen": true,
+        "qizhi": true,
+        "reqiaobian": true,
+        "reqiaobian_draw": true,
+        "nzry_feijun": true,
+        "nzry_binglve": true,
+        "tuntian": true
+      },
+      "uiSame": true,
+      "selectedSame": true,
+      "cardTags": {
+        "juedouRespondSha": 2,
+        "shaRespondShan": 1
+      },
+      "dimengHasGuard": true,
+      "phaseNumber": 0,
+      "olhaoshiGive": {
+        "exists": true,
+        "keys": [
+          "trigger",
+          "forced",
+          "charlotte",
+          "popup",
+          "filter",
+          "content",
+          "skill_id",
+          "sub",
+          "sourceSkill",
+          "_priority"
+        ],
+        "contentType": "function",
+        "trigger": {
+          "player": "phaseDrawEnd"
+        },
+        "subContentType": "function"
+      },
+      "playerAi": [
+        {
+          "id": "75027863590",
+          "ai": true,
+          "shown": 0,
+          "identity": "zhu",
+          "identityShown": true,
+          "out": false,
+          "removed": false
+        },
+        {
+          "id": "50265723591",
+          "ai": true,
+          "shown": 0,
+          "identity": "zhong",
+          "identityShown": true,
+          "out": false,
+          "removed": false
+        },
+        {
+          "id": "74695553592",
+          "ai": true,
+          "shown": 0,
+          "identity": "fan",
+          "identityShown": true,
+          "out": false,
+          "removed": false
+        },
+        {
+          "id": "60505463593",
+          "ai": true,
+          "shown": 0,
+          "identity": "fan",
+          "identityShown": true,
+          "out": false,
+          "removed": false
+        },
+        {
+          "id": "75331523594",
+          "ai": true,
+          "shown": 1,
+          "identity": "fan",
+          "identityShown": true,
+          "out": false,
+          "removed": false
+        },
+        {
+          "id": "75565313595",
+          "ai": true,
+          "shown": 0,
+          "identity": "fan",
+          "identityShown": true,
+          "out": false,
+          "removed": false
+        },
+        {
+          "id": "61294103596",
+          "ai": true,
+          "shown": 0,
+          "identity": "fan",
+          "identityShown": true,
+          "out": false,
+          "removed": false
+        },
+        {
+          "id": "56869603597",
+          "ai": true,
+          "shown": 0,
+          "identity": "fan",
+          "identityShown": true,
+          "out": false,
+          "removed": false
+        }
+      ],
+      "dead": [],
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 4720
+    },
+    {
+      "name": "edge-dimeng-legal-event",
+      "attitudes": [
+        [
+          "50265723591",
+          6
+        ],
+        [
+          "74695553592",
+          -4
+        ]
+      ],
+      "selectedCards": 2,
+      "uiSame": true,
+      "playerAiAtSetup": [
+        {
+          "id": "75027863590",
+          "ai": true,
+          "shown": 0,
+          "identity": "zhu",
+          "identityShown": true,
+          "out": false
+        },
+        {
+          "id": "50265723591",
+          "ai": true,
+          "shown": 0,
+          "identity": "zhong",
+          "identityShown": true,
+          "out": false
+        },
+        {
+          "id": "74695553592",
+          "ai": true,
+          "shown": 0,
+          "identity": "fan",
+          "identityShown": true,
+          "out": false
+        },
+        {
+          "id": "60505463593",
+          "ai": true,
+          "shown": 0,
+          "identity": "fan",
+          "identityShown": true,
+          "out": false
+        },
+        {
+          "id": "75331523594",
+          "ai": true,
+          "shown": 1,
+          "identity": "fan",
+          "identityShown": true,
+          "out": false
+        },
+        {
+          "id": "75565313595",
+          "ai": true,
+          "shown": 0,
+          "identity": "fan",
+          "identityShown": true,
+          "out": false
+        },
+        {
+          "id": "61294103596",
+          "ai": true,
+          "shown": 0,
+          "identity": "fan",
+          "identityShown": true,
+          "out": false
+        },
+        {
+          "id": "56869603597",
+          "ai": true,
+          "shown": 0,
+          "identity": "fan",
+          "identityShown": true,
+          "out": false
+        }
+      ],
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "wuxie",
+            "wuxie"
+          ],
+          "50265723591": [
+            "sha"
+          ],
+          "74695553592": [
+            "tao",
+            "shan",
+            "sha"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "dimeng"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "result": {
+        "bool": true,
+        "targets": [
+          "50265723591:jiachong",
+          "74695553592:weizi"
+        ],
+        "targetHands": [
+          1,
+          3
+        ]
+      },
+      "ok": true,
+      "filterLog": [
+        {
+          "cards": 2,
+          "targets": 0,
+          "hand": 2
+        },
+        {
+          "cards": 2,
+          "targets": 0,
+          "hand": 1
+        },
+        {
+          "cards": 2,
+          "targets": 0,
+          "hand": 3
+        },
+        {
+          "cards": 2,
+          "targets": 0,
+          "hand": 0
+        },
+        {
+          "cards": 2,
+          "targets": 0,
+          "hand": 0
+        },
+        {
+          "cards": 2,
+          "targets": 0,
+          "hand": 0
+        },
+        {
+          "cards": 2,
+          "targets": 0,
+          "hand": 0
+        },
+        {
+          "cards": 2,
+          "targets": 0,
+          "hand": 0
+        },
+        {
+          "cards": 2,
+          "targets": 1,
+          "hand": 2
+        },
+        {
+          "cards": 2,
+          "targets": 1,
+          "hand": 1
+        },
+        {
+          "cards": 2,
+          "targets": 1,
+          "hand": 3
+        },
+        {
+          "cards": 2,
+          "targets": 1,
+          "hand": 0
+        },
+        {
+          "cards": 2,
+          "targets": 1,
+          "hand": 0
+        },
+        {
+          "cards": 2,
+          "targets": 1,
+          "hand": 0
+        },
+        {
+          "cards": 2,
+          "targets": 1,
+          "hand": 0
+        },
+        {
+          "cards": 2,
+          "targets": 1,
+          "hand": 0
+        },
+        {
+          "cards": 2,
+          "targets": 2,
+          "hand": 2
+        },
+        {
+          "cards": 2,
+          "targets": 2,
+          "hand": 1
+        },
+        {
+          "cards": 2,
+          "targets": 2,
+          "hand": 3
+        },
+        {
+          "cards": 2,
+          "targets": 2,
+          "hand": 0
+        },
+        {
+          "cards": 2,
+          "targets": 2,
+          "hand": 0
+        },
+        {
+          "cards": 2,
+          "targets": 2,
+          "hand": 0
+        },
+        {
+          "cards": 2,
+          "targets": 2,
+          "hand": 0
+        },
+        {
+          "cards": 2,
+          "targets": 2,
+          "hand": 0
+        }
+      ],
+      "settlement": {
+        "before": [
+          [
+            "sha"
+          ],
+          [
+            "tao",
+            "shan",
+            "sha"
+          ]
+        ],
+        "after": [
+          [
+            "tao",
+            "shan",
+            "sha"
+          ],
+          [
+            "sha"
+          ]
+        ],
+        "actorHand": []
+      },
+      "settlementOk": true,
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [
+            "tao",
+            "shan",
+            "sha"
+          ],
+          "74695553592": [
+            "sha"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "dimeng"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 607.9
+    },
+    {
+      "name": "edge-tuntian-hidden",
+      "attitudeActorTarget": -7,
+      "attitudeViewerTarget": -7,
+      "attitudeFriendTarget": 4,
+      "hasFriend": true,
+      "isControlledByActor": false,
+      "isControlledByViewer": false,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "tuntian"
+          ],
+          "60505463593": []
+        }
+      },
+      "caseShaTao": {
+        "hand": [
+          "sha",
+          "tao"
+        ],
+        "knownByActor": 0,
+        "knownByViewer": 0,
+        "fixedRng": 0.37,
+        "publicCount": 2,
+        "viewer": "50265723591",
+        "juedou": [
+          0.5,
+          0.9880952380952381
+        ],
+        "juedouOk": true,
+        "sha": [
+          0.6,
+          0.75
+        ],
+        "shaOk": true,
+        "effectJuedou": -1.1667261889578038,
+        "effectOk": true,
+        "randCache": {
+          "mayHaveShan274695553592": 0.37
+        }
+      },
+      "caseShaSha": {
+        "hand": [
+          "sha",
+          "sha"
+        ],
+        "knownByActor": 0,
+        "knownByViewer": 0,
+        "fixedRng": 0.37,
+        "publicCount": 2,
+        "viewer": "50265723591",
+        "juedou": [
+          0.5,
+          0.9880952380952381
+        ],
+        "juedouOk": true,
+        "sha": [
+          0.6,
+          0.75
+        ],
+        "shaOk": true,
+        "effectJuedou": -1.1667261889578038,
+        "effectOk": true,
+        "randCache": {
+          "mayHaveShan274695553592": 0.37
+        }
+      },
+      "caseShanTao": {
+        "hand": [
+          "shan",
+          "tao"
+        ],
+        "knownByActor": 0,
+        "knownByViewer": 0,
+        "fixedRng": 0.37,
+        "publicCount": 2,
+        "viewer": "50265723591",
+        "juedou": [
+          0.5,
+          0.9880952380952381
+        ],
+        "juedouOk": true,
+        "sha": [
+          0.6,
+          0.75
+        ],
+        "shaOk": true,
+        "effectJuedou": -1.1667261889578038,
+        "effectOk": true,
+        "randCache": {
+          "mayHaveShan274695553592": 0.37
+        }
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "shan",
+            "tao"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "tuntian"
+          ],
+          "60505463593": []
+        }
+      },
+      "durationMs": 2482.1
+    },
+    {
+      "name": "edge-rehuashen-legal",
+      "character": [
+        "sb_guohuai",
+        "sb_sunquan",
+        "zhangchunhua"
+      ],
+      "map": {
+        "sb_guohuai": [
+          "sbjingce"
+        ],
+        "sb_sunquan": [
+          "sbzhiheng",
+          "sbtongye"
+        ],
+        "zhangchunhua": [
+          "jueqing",
+          "shangshi"
+        ]
+      },
+      "characterCount": 3,
+      "filter": true,
+      "ranks": {
+        "sb_guohuai": [
+          [
+            "sbjingce",
+            2.05,
+            1.35
+          ]
+        ],
+        "sb_sunquan": [
+          [
+            "sbzhiheng",
+            1.7489995996796797,
+            1
+          ],
+          [
+            "sbtongye",
+            1.5,
+            1
+          ]
+        ],
+        "zhangchunhua": [
+          [
+            "jueqing",
+            1.3,
+            1
+          ],
+          [
+            "shangshi",
+            1,
+            1.9000000000000001
+          ]
+        ]
+      },
+      "rawVsMap": {
+        "sb_guohuai": {
+          "raw": [
+            "sbjingce"
+          ],
+          "mapped": [
+            "sbjingce"
+          ],
+          "excluded": []
+        },
+        "sb_sunquan": {
+          "raw": [
+            "sbzhiheng",
+            "sbtongye",
+            "sbjiuyuan"
+          ],
+          "mapped": [
+            "sbzhiheng",
+            "sbtongye"
+          ],
+          "excluded": [
+            "sbjiuyuan"
+          ]
+        },
+        "zhangchunhua": {
+          "raw": [
+            "jueqing",
+            "shangshi"
+          ],
+          "mapped": [
+            "jueqing",
+            "shangshi"
+          ],
+          "excluded": []
+        }
+      },
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rehuashen"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "costResult": {
+        "bool": true,
+        "cost_data": "替换当前化身"
+      },
+      "ok": true,
+      "cycles": [
+        {
+          "triggername": "phaseBegin",
+          "costResult": {
+            "bool": true,
+            "cost_data": "替换当前化身"
+          },
+          "controls": [
+            {
+              "cond": "in",
+              "controls": [
+                "替换当前化身",
+                "制衡其他化身",
+                "cancel2"
+              ]
+            },
+            {
+              "cond": "in",
+              "controls": [
+                "sbjingce",
+                "返回"
+              ]
+            }
+          ],
+          "storage": {
+            "character": [
+              "sb_guohuai",
+              "sb_sunquan",
+              "zhangchunhua"
+            ],
+            "current": "sb_guohuai",
+            "current2": "sbjingce",
+            "choosed": [
+              "sb_guohuai"
+            ],
+            "currentLegal": true
+          }
+        },
+        {
+          "triggername": "phaseEnd",
+          "costResult": {
+            "bool": true,
+            "cost_data": "替换当前化身"
+          },
+          "controls": [
+            {
+              "cond": "out",
+              "controls": [
+                "替换当前化身",
+                "制衡其他化身",
+                "cancel2"
+              ]
+            },
+            {
+              "cond": "out",
+              "controls": [
+                "jueqing",
+                "shangshi",
+                "返回"
+              ]
+            }
+          ],
+          "storage": {
+            "character": [
+              "sb_guohuai",
+              "sb_sunquan",
+              "zhangchunhua"
+            ],
+            "current": "zhangchunhua",
+            "current2": "shangshi",
+            "choosed": [
+              "sb_guohuai",
+              "zhangchunhua"
+            ],
+            "currentLegal": true
+          }
+        }
+      ],
+      "controls": [
+        {
+          "cond": "in",
+          "controls": [
+            "替换当前化身",
+            "制衡其他化身",
+            "cancel2"
+          ]
+        },
+        {
+          "cond": "in",
+          "controls": [
+            "sbjingce",
+            "返回"
+          ]
+        },
+        {
+          "cond": "out",
+          "controls": [
+            "替换当前化身",
+            "制衡其他化身",
+            "cancel2"
+          ]
+        },
+        {
+          "cond": "out",
+          "controls": [
+            "jueqing",
+            "shangshi",
+            "返回"
+          ]
+        }
+      ],
+      "afterStorage": {
+        "character": [
+          "sb_guohuai",
+          "sb_sunquan",
+          "zhangchunhua"
+        ],
+        "current": "zhangchunhua",
+        "current2": "shangshi",
+        "choosed": [
+          "sb_guohuai",
+          "zhangchunhua"
+        ],
+        "currentLegal": true
+      },
+      "additional": [],
+      "currentLegal": true,
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rehuashen",
+            "shangshi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 637.1
+    },
+    {
+      "name": "edge-rehuashen-empty",
+      "legalCharacterCount": 3,
+      "legalFilter": true,
+      "artificial": "cleared storage after real init to test defensive empty state",
+      "emptyFilter": false,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rehuashen"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "result": {
+        "bool": false,
+        "cost_data": "cancel2"
+      },
+      "ok": true,
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rehuashen"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 19.4
+    },
+    {
+      "name": "edge-rehuashen-legal-exhaustion",
+      "initialStorageCount": 0,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rehuashen"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "current": [
+        "shen_jiangwei",
+        "jiachong",
+        "weizi",
+        "hm_shen_zhangbao",
+        "hl_shen_lvbu",
+        "yangfeng",
+        "zhouqun",
+        "dc_xiahouxuan"
+      ],
+      "unbanned": [
+        "yangfeng",
+        "zhouqun",
+        "dc_xiahouxuan",
+        "shen_jiangwei",
+        "jiachong",
+        "weizi",
+        "hl_shen_lvbu",
+        "hm_shen_zhangbao"
+      ],
+      "realInitList": [],
+      "filterBefore": true,
+      "cost": {
+        "bool": true,
+        "cost_data": [
+          "替换当前化身"
+        ]
+      },
+      "beforeCount": 0,
+      "afterDrawCount": 0,
+      "filterBegin": false,
+      "filterEnd": false,
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rehuashen"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 42.5
+    },
+    {
+      "name": "edge-rehuashen-initial-real",
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rehuashen"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "initialResult": {
+        "names": [
+          "sp_xinpi",
+          "ol_pangtong",
+          "sb_zhaoyun"
+        ],
+        "current": "sb_zhaoyun",
+        "current2": "sblongdan",
+        "owned": [
+          "sblongdan"
+        ],
+        "countdown": false
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rehuashen",
+            "sblongdan"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 61.9
+    },
+    {
+      "name": "edge-rehuashen-exhausted-real",
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rehuashen"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "pool": [],
+      "triggerCompleted": true,
+      "afterTrigger": {
+        "count": 0,
+        "event": "edgeScene",
+        "countdown": false
+      },
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "rehuashen"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 40.3,
+      "timeout": true
+    },
+    {
+      "name": "edge-feijun-postpay",
+      "beforeActorHand": 1,
+      "beforeEnemyHand": 1,
+      "aiBefore": 0,
+      "filterBefore": true,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "tao"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_feijun",
+            "nzry_binglve"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "ok": true,
+      "afterActorHand": 3,
+      "afterEnemyHand": 0,
+      "storage": [
+        "74695553592"
+      ],
+      "binglveMarker": true,
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "shan",
+            "wuxie",
+            "tao"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_feijun",
+            "nzry_binglve"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 706.7
+    },
+    {
+      "name": "edge-feijun-no-target",
+      "filter": true,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_feijun",
+            "nzry_binglve"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "ok": true,
+      "afterActorHand": 0,
+      "storage": [],
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "nzry_feijun",
+            "nzry_binglve"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 723.4
+    },
+    {
+      "name": "v3-qizhi-protected-real",
+      "historyBefore": 0,
+      "legal": [],
+      "enemy": "60505463593",
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "bagua"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "qizhi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "bagua_skill"
+          ]
+        }
+      },
+      "parentSkill": "qizhi",
+      "scores": [
+        [
+          "60505463593",
+          0
+        ],
+        [
+          "60505463593",
+          0
+        ]
+      ],
+      "choice": {
+        "bool": false,
+        "targets": []
+      },
+      "history": 0,
+      "enemyHand": [],
+      "enemyEquip": [
+        "bagua"
+      ],
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 3,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "bagua"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "qizhi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "bagua_skill"
+          ]
+        }
+      },
+      "durationMs": 674.4
+    },
+    {
+      "name": "v3-qizhi-mixed-real",
+      "historyBefore": 0,
+      "legal": [
+        "tao"
+      ],
+      "enemy": "60505463593",
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "tao"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "bagua"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "qizhi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "bagua_skill"
+          ]
+        }
+      },
+      "parentSkill": "qizhi",
+      "scores": [
+        [
+          "60505463593",
+          1
+        ],
+        [
+          "60505463593",
+          1
+        ]
+      ],
+      "choice": {
+        "bool": true,
+        "targets": [
+          "60505463593"
+        ]
+      },
+      "history": 1,
+      "enemyHand": [
+        "sha"
+      ],
+      "enemyEquip": [
+        "bagua"
+      ],
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 3,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "sha"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "bagua"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "qizhi"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [
+            "bagua_skill"
+          ]
+        }
+      },
+      "durationMs": 1880.4
+    },
+    {
+      "name": "v3-reqiaobian-real",
+      "enemyIds": [
+        "74695553592",
+        "60505463593"
+      ],
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "shan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "tao"
+          ],
+          "60505463593": [
+            "shan"
+          ],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "reqiaobian"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "gates": {
+        "judge": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "draw": [
+          false,
+          true,
+          false,
+          false
+        ],
+        "use": [
+          false,
+          false,
+          true,
+          false
+        ],
+        "discard": [
+          false,
+          false,
+          false,
+          true
+        ]
+      },
+      "mark": false,
+      "controls": [
+        {
+          "parent": "reqiaobian_draw",
+          "controls": [
+            "弃置牌",
+            "cancel2"
+          ]
+        }
+      ],
+      "payment": {
+        "parent": "reqiaobian_draw",
+        "expectedContextAllowed": true,
+        "result": true,
+        "names": [
+          "shan"
+        ]
+      },
+      "triggerCancelled": true,
+      "afterHands": [
+        [
+          "shan",
+          "tao"
+        ],
+        [],
+        []
+      ],
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 4,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "shan",
+            "tao"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "reqiaobian"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1493.3
+    },
+    {
+      "name": "v3-xiongluan-bagua-one-real",
+      "targetId": "74695553592",
+      "armor": [
+        "bagua"
+      ],
+      "cardEffects": [
+        25.515000000000004
+      ],
+      "rescueCount": 0,
+      "policyMarker": true,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 1,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "bagua"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "drlt_xiongluan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "bagua_skill"
+          ],
+          "60505463593": []
+        }
+      },
+      "score": 0,
+      "skillFilter": true,
+      "scores": [
+        [
+          "74695553592",
+          -120
+        ],
+        [
+          "50265723591",
+          15
+        ],
+        [
+          "56869603597",
+          15
+        ],
+        [
+          "75565313595",
+          15
+        ],
+        [
+          "75331523594",
+          15
+        ],
+        [
+          "60505463593",
+          15
+        ],
+        [
+          "61294103596",
+          15
+        ],
+        [
+          "50265723591",
+          15
+        ]
+      ],
+      "result": {
+        "bool": true,
+        "targets": [
+          "50265723591"
+        ]
+      },
+      "didAwaken": true,
+      "targetBanned": false,
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 1,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "bagua"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "bagua_skill"
+          ],
+          "60505463593": []
+        }
+      },
+      "durationMs": 871.7
+    },
+    {
+      "name": "v3-xiongluan-unarmored-one-real",
+      "targetId": "74695553592",
+      "armor": [],
+      "cardEffects": [
+        51.03000000000001
+      ],
+      "rescueCount": 0,
+      "policyMarker": true,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 1,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "drlt_xiongluan"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "score": -1,
+      "skillFilter": true,
+      "scores": [
+        [
+          "50265723591",
+          15
+        ],
+        [
+          "61294103596",
+          15
+        ],
+        [
+          "56869603597",
+          15
+        ],
+        [
+          "75565313595",
+          15
+        ],
+        [
+          "75331523594",
+          15
+        ],
+        [
+          "60505463593",
+          15
+        ],
+        [
+          "74695553592",
+          -116
+        ],
+        [
+          "50265723591",
+          15
+        ]
+      ],
+      "result": {
+        "bool": true,
+        "targets": [
+          "50265723591"
+        ]
+      },
+      "didAwaken": true,
+      "targetBanned": false,
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 1,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1422.8
+    },
+    {
+      "name": "v3-xiongluan-bagua-two-real",
+      "targetId": "74695553592",
+      "armor": [
+        "bagua"
+      ],
+      "cardEffects": [
+        25.515000000000004,
+        25.515000000000004
+      ],
+      "rescueCount": 0,
+      "policyMarker": true,
+      "before": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 1,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "bagua"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [
+            "drlt_xiongluan"
+          ],
+          "50265723591": [],
+          "74695553592": [
+            "bagua_skill"
+          ],
+          "60505463593": []
+        }
+      },
+      "score": -1,
+      "skillFilter": true,
+      "scores": [
+        [
+          "74695553592",
+          -116
+        ],
+        [
+          "75331523594",
+          15
+        ],
+        [
+          "61294103596",
+          15
+        ],
+        [
+          "50265723591",
+          15
+        ],
+        [
+          "56869603597",
+          15
+        ],
+        [
+          "60505463593",
+          15
+        ],
+        [
+          "75565313595",
+          15
+        ],
+        [
+          "75331523594",
+          15
+        ]
+      ],
+      "result": {
+        "bool": true,
+        "targets": [
+          "75331523594"
+        ]
+      },
+      "didAwaken": true,
+      "targetBanned": false,
+      "after": {
+        "hp": {
+          "75027863590": 4,
+          "50265723591": 4,
+          "74695553592": 1,
+          "60505463593": 4,
+          "75331523594": 4,
+          "75565313595": 4,
+          "61294103596": 4,
+          "56869603597": 4
+        },
+        "hand": {
+          "75027863590": [
+            "sha",
+            "sha"
+          ],
+          "50265723591": [],
+          "74695553592": [],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "equip": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "bagua"
+          ],
+          "60505463593": [],
+          "75331523594": [],
+          "75565313595": [],
+          "61294103596": [],
+          "56869603597": []
+        },
+        "skills": {
+          "75027863590": [],
+          "50265723591": [],
+          "74695553592": [
+            "bagua_skill"
+          ],
+          "60505463593": []
+        }
+      },
+      "durationMs": 1008.7
+    }
+  ],
+  "errors": []
+}

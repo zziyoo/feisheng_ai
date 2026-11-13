@@ -1,0 +1,238 @@
+﻿拟新增工作表,拟坐标,旧值,新值,来源/验收证据,执行状态
+十六包P2整改追踪,A1,未读取,问题ID,本地台账表头,未写入
+十六包P2整改追踪,B1,未读取,分包,本地台账表头,未写入
+十六包P2整改追踪,C1,未读取,技能或组件,本地台账表头,未写入
+十六包P2整改追踪,D1,未读取,复核优先级,本地台账表头,未写入
+十六包P2整改追踪,E1,未读取,同步建议,本地台账表头,未写入
+十六包P2整改追踪,F1,未读取,证据状态,本地台账表头,未写入
+十六包P2整改追踪,G1,未读取,验证或保留依据,本地台账表头,未写入
+十六包P2整改追踪,H1,未读取,修复提交,本地台账表头,未写入
+十六包P2整改追踪,I1,未读取,产物 SHA256,本地台账表头,未写入
+十六包P2整改追踪,J1,未读取,证据位置,本地台账表头,未写入
+十六包P2整改追踪,A2,未读取,P2-01,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,B2,未读取,shenhua_yin,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,C2,未读取,qizhi,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,D2,未读取,P2,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,E2,未读取,已修复并验收,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,F2,未读取,已修复并验收,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,G2,未读取,旧全保护分 1 并摸牌；新分 0、AI 拒绝、无摸牌。合法桃可弃场景选择并结算，保护八卦保留。Node 7/7。,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,H2,未读取,500d5e7,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,I2,未读取,1db10db4b940a0d92970dc7b445fc1e21d44e794dd9b50264ba5aa2aa8a5c760,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,J2,未读取,"identity-stock.json, identity-final.json","identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,A3,未读取,P2-02,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,B3,未读取,refresh_shan,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,C3,未读取,reqiaobian,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,D3,未读取,P2,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,E3,未读取,已修复并验收,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,F3,未读取,已修复并验收,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,G3,未读取,四阶段弃牌权限 4×4，旧 draw-only 无提示；新 phaseDrawBefore 真弃牌、跳过、向两敌获得牌。Node 24/24 还覆盖标记与禁弃反例。,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,H3,未读取,cf69734,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,I3,未读取,1ab04891fe444a7302e2db6e33756f00e2bb1418b100958122e9744c9bf8a599,"identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,J3,未读取,"identity-stock.json, identity-final.json","identity-stock.json, identity-final.json",未写入
+十六包P2整改追踪,A4,未读取,P2-03,"identity-refined.json, identity-feijun-old.json",未写入
+十六包P2整改追踪,B4,未读取,shenhua_yin,"identity-refined.json, identity-feijun-old.json",未写入
+十六包P2整改追踪,C4,未读取,nzry_feijun,"identity-refined.json, identity-feijun-old.json",未写入
+十六包P2整改追踪,D4,未读取,P2,"identity-refined.json, identity-feijun-old.json",未写入
+十六包P2整改追踪,E4,未读取,已修复并验收,"identity-refined.json, identity-feijun-old.json",未写入
+十六包P2整改追踪,F4,未读取,已修复并验收,"identity-refined.json, identity-feijun-old.json",未写入
+十六包P2整改追踪,G4,未读取,真实同手或同装备，旧发动分为空，新分 1。价值 0 五谷和价值 2 青釭实际支付，交付/敌八卦弃置及兵略+2 正常。保护装备和无目标均取消且不支付。Node 16/16。,"identity-refined.json, identity-feijun-old.json",未写入
+十六包P2整改追踪,H4,未读取,47228bd,"identity-refined.json, identity-feijun-old.json",未写入
+十六包P2整改追踪,I4,未读取,1db10db4b940a0d92970dc7b445fc1e21d44e794dd9b50264ba5aa2aa8a5c760,"identity-refined.json, identity-feijun-old.json",未写入
+十六包P2整改追踪,J4,未读取,"identity-refined.json, identity-feijun-old.json","identity-refined.json, identity-feijun-old.json",未写入
+十六包P2整改追踪,A5,未读取,P2-04,历史六包 P2、界风奇谋验收,未写入
+十六包P2整改追踪,B5,未读取,refresh_feng,历史六包 P2、界风奇谋验收,未写入
+十六包P2整改追踪,C5,未读取,reqimou,历史六包 P2、界风奇谋验收,未写入
+十六包P2整改追踪,D5,未读取,P2,历史六包 P2、界风奇谋验收,未写入
+十六包P2整改追踪,E5,未读取,仍待修复,历史六包 P2、界风奇谋验收,未写入
+十六包P2整改追踪,F5,未读取,仍待修复,历史六包 P2、界风奇谋验收,未写入
+十六包P2整改追踪,G5,未读取,历史 3HP/两杀弃用已复现。未证实存在确定收益且当前必然错误的状态。,历史六包 P2、界风奇谋验收,未写入
+十六包P2整改追踪,J5,未读取,历史六包 P2、界风奇谋验收,历史六包 P2、界风奇谋验收,未写入
+十六包P2整改追踪,A6,未读取,P2-05,历史火包验收；宿主 check 入口审查,未写入
+十六包P2整改追踪,B6,未读取,shenhua_huo,历史火包验收；宿主 check 入口审查,未写入
+十六包P2整改追踪,C6,未读取,qiangxix,历史火包验收；宿主 check 入口审查,未写入
+十六包P2整改追踪,D6,未读取,P2,历史火包验收；宿主 check 入口审查,未写入
+十六包P2整改追踪,E6,未读取,仍待修复,历史火包验收；宿主 check 入口审查,未写入
+十六包P2整改追踪,F6,未读取,仍待修复,历史火包验收；宿主 check 入口审查,未写入
+十六包P2整改追踪,G6,未读取,历史强袭武器机会成本观察仍有效。旧方案改变其他武器使用，保留基线。,历史火包验收；宿主 check 入口审查,未写入
+十六包P2整改追踪,J6,未读取,历史火包验收；宿主 check 入口审查,历史火包验收；宿主 check 入口审查,未写入
+十六包P2整改追踪,A7,未读取,P2-06,源码审查、神话雷验收侧枝,未写入
+十六包P2整改追踪,B7,未读取,shenhua_lei,源码审查、神话雷验收侧枝,未写入
+十六包P2整改追踪,C7,未读取,xinfu_zuilun,源码审查、神话雷验收侧枝,未写入
+十六包P2整改追踪,D7,未读取,P2,源码审查、神话雷验收侧枝,未写入
+十六包P2整改追踪,E7,未读取,仍待修复,源码审查、神话雷验收侧枝,未写入
+十六包P2整改追踪,F7,未读取,仍待修复,源码审查、神话雷验收侧枝,未写入
+十六包P2整改追踪,G7,未读取,已定位原排序列表问题。正式扩展安全入口缺失，未触碰结算。,源码审查、神话雷验收侧枝,未写入
+十六包P2整改追踪,J7,未读取,源码审查、神话雷验收侧枝,源码审查、神话雷验收侧枝,未写入
+十六包P2整改追踪,A8,未读取,P2-07,"identity-xiongluan-actual.json, identity-refined.json",未写入
+十六包P2整改追踪,B8,未读取,shenhua_lei,"identity-xiongluan-actual.json, identity-refined.json",未写入
+十六包P2整改追踪,C8,未读取,drlt_xiongluan,"identity-xiongluan-actual.json, identity-refined.json",未写入
+十六包P2整改追踪,D8,未读取,P2,"identity-xiongluan-actual.json, identity-refined.json",未写入
+十六包P2整改追踪,E8,未读取,已修复并验收,"identity-xiongluan-actual.json, identity-refined.json",未写入
+十六包P2整改追踪,F8,未读取,已修复并验收,"identity-xiongluan-actual.json, identity-refined.json",未写入
+十六包P2整改追踪,G8,未读取,实际阶段 chooseToUse 同引擎 A/B：一杀对 1HP 八卦原评分 -1→0，两杀 -2→-1，两杀照常对敌人发动并施加封锁。一杀两边均不发动，六场均未选择友方。,"identity-xiongluan-actual.json, identity-refined.json",未写入
+十六包P2整改追踪,H8,未读取,ce04040,"identity-xiongluan-actual.json, identity-refined.json",未写入
+十六包P2整改追踪,I8,未读取,40d9ef55299319e9337c2b767e6220536ba32c3de0d0f05e8681611a0db9a6f4,"identity-xiongluan-actual.json, identity-refined.json",未写入
+十六包P2整改追踪,J8,未读取,"identity-xiongluan-actual.json, identity-refined.json","identity-xiongluan-actual.json, identity-refined.json",未写入
+十六包P2整改追踪,A9,未读取,P2-08,宿主源码及神话雷历史 P2,未写入
+十六包P2整改追踪,B9,未读取,shenhua_lei,宿主源码及神话雷历史 P2,未写入
+十六包P2整改追踪,C9,未读取,twjuxiang,宿主源码及神话雷历史 P2,未写入
+十六包P2整改追踪,D9,未读取,P2,宿主源码及神话雷历史 P2,未写入
+十六包P2整改追踪,E9,未读取,仍待修复,宿主源码及神话雷历史 P2,未写入
+十六包P2整改追踪,F9,未读取,仍待修复,宿主源码及神话雷历史 P2,未写入
+十六包P2整改追踪,G9,未读取,真实送装有多方后续收益，未确认可独立安全调整的代价公式。,宿主源码及神话雷历史 P2,未写入
+十六包P2整改追踪,J9,未读取,宿主源码及神话雷历史 P2,宿主源码及神话雷历史 P2,未写入
+十六包P2整改追踪,A10,未读取,P2-09,"历史 phase3/zhengu-combined.json, identity-zhengu-manual.json",未写入
+十六包P2整改追踪,B10,未读取,shenhua_lei,"历史 phase3/zhengu-combined.json, identity-zhengu-manual.json",未写入
+十六包P2整改追踪,C10,未读取,drlt_zhengu 第三方,"历史 phase3/zhengu-combined.json, identity-zhengu-manual.json",未写入
+十六包P2整改追踪,D10,未读取,P2,"历史 phase3/zhengu-combined.json, identity-zhengu-manual.json",未写入
+十六包P2整改追踪,E10,未读取,接受的部署约束,"历史 phase3/zhengu-combined.json, identity-zhengu-manual.json",未写入
+十六包P2整改追踪,F10,未读取,接受的部署约束,"历史 phase3/zhengu-combined.json, identity-zhengu-manual.json",未写入
+十六包P2整改追踪,G10,未读取,钩子冲突时安全降级。代码身份校验及旧镇骨 19 场景证据继承；本版人工点击另行实测。,"历史 phase3/zhengu-combined.json, identity-zhengu-manual.json",未写入
+十六包P2整改追踪,J10,未读取,"历史 phase3/zhengu-combined.json, identity-zhengu-manual.json","历史 phase3/zhengu-combined.json, identity-zhengu-manual.json",未写入
+十六包P2整改追踪,A11,未读取,P2-10,正式 ZIP 入口、宿主与历史原生补丁静态核对,未写入
+十六包P2整改追踪,B11,未读取,shenhua_feng / refresh_feng,正式 ZIP 入口、宿主与历史原生补丁静态核对,未写入
+十六包P2整改追踪,C11,未读取,retianxiang,正式 ZIP 入口、宿主与历史原生补丁静态核对,未写入
+十六包P2整改追踪,D11,未读取,P2,正式 ZIP 入口、宿主与历史原生补丁静态核对,未写入
+十六包P2整改追踪,E11,未读取,经验证不可达,正式 ZIP 入口、宿主与历史原生补丁静态核对,未写入
+十六包P2整改追踪,F11,未读取,经验证不可达,正式 ZIP 入口、宿主与历史原生补丁静态核对,未写入
+十六包P2整改追踪,G11,未读取,在正式 6+10 输入路径中无相关 aiOptions 调用；历史备选原生与第三方叠加仍不支持。,正式 ZIP 入口、宿主与历史原生补丁静态核对,未写入
+十六包P2整改追踪,J11,未读取,正式 ZIP 入口、宿主与历史原生补丁静态核对,正式 ZIP 入口、宿主与历史原生补丁静态核对,未写入
+十六包P2整改追踪,A12,未读取,P2-11,"identity-stock-empty-timeout.log, identity-stock-legal-initial.json, identity-refined.json",未写入
+十六包P2整改追踪,B12,未读取,refresh_shan,"identity-stock-empty-timeout.log, identity-stock-legal-initial.json, identity-refined.json",未写入
+十六包P2整改追踪,C12,未读取,rehuashen,"identity-stock-empty-timeout.log, identity-stock-legal-initial.json, identity-refined.json",未写入
+十六包P2整改追踪,D12,未读取,P0,"identity-stock-empty-timeout.log, identity-stock-legal-initial.json, identity-refined.json",未写入
+十六包P2整改追踪,E12,未读取,已修复并验收,"identity-stock-empty-timeout.log, identity-stock-legal-initial.json, identity-refined.json",未写入
+十六包P2整改追踪,F12,未读取,已修复并验收,"identity-stock-empty-timeout.log, identity-stock-legal-initial.json, identity-refined.json",未写入
+十六包P2整改追踪,G12,未读取,同一真实禁将条件，旧强制空选择外部 watchdog 中止；新正常退出且无倒计时。正常池 3 张、合法切换，阶段循环和人工清空防御用例通过。,"identity-stock-empty-timeout.log, identity-stock-legal-initial.json, identity-refined.json",未写入
+十六包P2整改追踪,H12,未读取,235aea0,"identity-stock-empty-timeout.log, identity-stock-legal-initial.json, identity-refined.json",未写入
+十六包P2整改追踪,I12,未读取,1ab04891fe444a7302e2db6e33756f00e2bb1418b100958122e9744c9bf8a599,"identity-stock-empty-timeout.log, identity-stock-legal-initial.json, identity-refined.json",未写入
+十六包P2整改追踪,J12,未读取,"identity-stock-empty-timeout.log, identity-stock-legal-initial.json, identity-refined.json","identity-stock-empty-timeout.log, identity-stock-legal-initial.json, identity-refined.json",未写入
+十六包P2整改追踪,A13,未读取,P2-12,"identity-initial-native.json, identity-final.json",未写入
+十六包P2整改追踪,B13,未读取,shenhua_shan,"identity-initial-native.json, identity-final.json",未写入
+十六包P2整改追踪,C13,未读取,tuntian-viewer,"identity-initial-native.json, identity-final.json",未写入
+十六包P2整改追踪,D13,未读取,P2,"identity-initial-native.json, identity-final.json",未写入
+十六包P2整改追踪,E13,未读取,已证明无缺陷,"identity-initial-native.json, identity-final.json",未写入
+十六包P2整改追踪,F13,未读取,已证明无缺陷,"identity-initial-native.json, identity-final.json",未写入
+十六包P2整改追踪,G13,未读取,固定 0.37，公开手牌数 2、已知 0，三种暗牌组合下同一事件沙/决斗评分、实际 get.effect 与 RNG 缓存一致。继承公开已知牌对照。,"identity-initial-native.json, identity-final.json",未写入
+十六包P2整改追踪,J13,未读取,"identity-initial-native.json, identity-final.json","identity-initial-native.json, identity-final.json",未写入
+十六包P2整改追踪,A14,未读取,P2-13,"install-exact-runtime.json, installer-battery.json",未写入
+十六包P2整改追踪,B14,未读取,refresh_standard,"install-exact-runtime.json, installer-battery.json",未写入
+十六包P2整改追踪,C14,未读取,skillPlanHints.js,"install-exact-runtime.json, installer-battery.json",未写入
+十六包P2整改追踪,D14,未读取,P2,"install-exact-runtime.json, installer-battery.json",未写入
+十六包P2整改追踪,E14,未读取,接受的部署约束,"install-exact-runtime.json, installer-battery.json",未写入
+十六包P2整改追踪,F14,未读取,接受的部署约束,"install-exact-runtime.json, installer-battery.json",未写入
+十六包P2整改追踪,G14,未读取,1fe5292 源码无调用点。完整扩展已安装模块并加载六 owner，分包策略独立；新版能力探测与回滚保留模块均通过。,"install-exact-runtime.json, installer-battery.json",未写入
+十六包P2整改追踪,J14,未读取,"install-exact-runtime.json, installer-battery.json","install-exact-runtime.json, installer-battery.json",未写入
+十六包P2整改追踪,A15,未读取,P2-14,installer-battery.json；历史 phase4/inherited-six-pack/install-order-reject.json,未写入
+十六包P2整改追踪,B15,未读取,refresh_feng / shenhua_feng,installer-battery.json；历史 phase4/inherited-six-pack/install-order-reject.json,未写入
+十六包P2整改追踪,C15,未读取,wind_compatibility,installer-battery.json；历史 phase4/inherited-six-pack/install-order-reject.json,未写入
+十六包P2整改追踪,D15,未读取,P2,installer-battery.json；历史 phase4/inherited-six-pack/install-order-reject.json,未写入
+十六包P2整改追踪,E15,未读取,接受的部署约束,installer-battery.json；历史 phase4/inherited-six-pack/install-order-reject.json,未写入
+十六包P2整改追踪,F15,未读取,接受的部署约束,installer-battery.json；历史 phase4/inherited-six-pack/install-order-reject.json,未写入
+十六包P2整改追踪,G15,未读取,本次正式顺序安装通过；旧归档的界风与神话风 SHA 均不变，旧反序零写入证据可继承。,installer-battery.json；历史 phase4/inherited-six-pack/install-order-reject.json,未写入
+十六包P2整改追踪,J15,未读取,installer-battery.json；历史 phase4/inherited-six-pack/install-order-reject.json,installer-battery.json；历史 phase4/inherited-six-pack/install-order-reject.json,未写入
+十六包P2整改追踪,A16,未读取,P2-15,"installer-battery.json, UPGRADE.md",未写入
+十六包P2整改追踪,B16,未读取,six-pack,"installer-battery.json, UPGRADE.md",未写入
+十六包P2整改追踪,C16,未读取,policyCore.js,"installer-battery.json, UPGRADE.md",未写入
+十六包P2整改追踪,D16,未读取,P2,"installer-battery.json, UPGRADE.md",未写入
+十六包P2整改追踪,E16,未读取,接受的部署约束,"installer-battery.json, UPGRADE.md",未写入
+十六包P2整改追踪,F16,未读取,接受的部署约束,"installer-battery.json, UPGRADE.md",未写入
+十六包P2整改追踪,G16,未读取,冲突核心拒绝、故障注入零残留；兼容基线回滚和重装通过。手工迁移按升级说明。,"installer-battery.json, UPGRADE.md",未写入
+十六包P2整改追踪,J16,未读取,"installer-battery.json, UPGRADE.md","installer-battery.json, UPGRADE.md",未写入
+十六包P2整改追踪,A17,未读取,P2-16,ARTIFACTS.json；0fa2c07 界标验收,未写入
+十六包P2整改追踪,B17,未读取,refresh_standard,ARTIFACTS.json；0fa2c07 界标验收,未写入
+十六包P2整改追踪,C17,未读取,manifest,ARTIFACTS.json；0fa2c07 界标验收,未写入
+十六包P2整改追踪,D17,未读取,P2,ARTIFACTS.json；0fa2c07 界标验收,未写入
+十六包P2整改追踪,E17,未读取,接受的部署约束,ARTIFACTS.json；0fa2c07 界标验收,未写入
+十六包P2整改追踪,F17,未读取,接受的部署约束,ARTIFACTS.json；0fa2c07 界标验收,未写入
+十六包P2整改追踪,G17,未读取,冻结界标 ZIP 与旧 SHA 一致，继续由哈希绑定独立报告提供验收权威。,ARTIFACTS.json；0fa2c07 界标验收,未写入
+十六包P2整改追踪,J17,未读取,ARTIFACTS.json；0fa2c07 界标验收,ARTIFACTS.json；0fa2c07 界标验收,未写入
+十六包P2整改追踪,A18,未读取,P2-17,COMPATIBILITY.md；历史 skill-takeover-matrix.md,未写入
+十六包P2整改追踪,B18,未读取,refresh_standard / refresh_feng,COMPATIBILITY.md；历史 skill-takeover-matrix.md,未写入
+十六包P2整改追踪,C18,未读取,native-only,COMPATIBILITY.md；历史 skill-takeover-matrix.md,未写入
+十六包P2整改追踪,D18,未读取,P2,COMPATIBILITY.md；历史 skill-takeover-matrix.md,未写入
+十六包P2整改追踪,E18,未读取,接受的部署约束,COMPATIBILITY.md；历史 skill-takeover-matrix.md,未写入
+十六包P2整改追踪,F18,未读取,接受的部署约束,COMPATIBILITY.md；历史 skill-takeover-matrix.md,未写入
+十六包P2整改追踪,G18,未读取,七项与五项的 ID 均在支持矩阵，旧路线上下文与扩展覆盖分开。,COMPATIBILITY.md；历史 skill-takeover-matrix.md,未写入
+十六包P2整改追踪,J18,未读取,COMPATIBILITY.md；历史 skill-takeover-matrix.md,COMPATIBILITY.md；历史 skill-takeover-matrix.md,未写入
+十六包P2整改追踪,A19,未读取,P2-18,"native-roundtrip.json, installer-battery.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,B19,未读取,all,"native-roundtrip.json, installer-battery.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,C19,未读取,native-patches,"native-roundtrip.json, installer-battery.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,D19,未读取,P2,"native-roundtrip.json, installer-battery.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,E19,未读取,接受的部署约束,"native-roundtrip.json, installer-battery.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,F19,未读取,接受的部署约束,"native-roundtrip.json, installer-battery.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,G19,未读取,十补丁和六扩展正式组合复验；六包历史原生路线未加入。文档要求人工识别所有已应用补丁。,"native-roundtrip.json, installer-battery.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,J19,未读取,"native-roundtrip.json, installer-battery.json, COMPATIBILITY.md","native-roundtrip.json, installer-battery.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,A20,未读取,P2-19,identity-zhengu-manual.json,未写入
+十六包P2整改追踪,B20,未读取,shenhua_lei,identity-zhengu-manual.json,未写入
+十六包P2整改追踪,C20,未读取,drlt_zhengu 人工,identity-zhengu-manual.json,未写入
+十六包P2整改追踪,D20,未读取,P2,identity-zhengu-manual.json,未写入
+十六包P2整改追踪,E20,未读取,已证明无缺陷,identity-zhengu-manual.json,未写入
+十六包P2整改追踪,F20,未读取,已证明无缺陷,identity-zhengu-manual.json,未写入
+十六包P2整改追踪,G20,未读取,真实浏览器点击：取消后无存储，复选第二人后生效，两次 sync 结算结束，零页错误。,identity-zhengu-manual.json,未写入
+十六包P2整改追踪,J20,未读取,identity-zhengu-manual.json,identity-zhengu-manual.json,未写入
+十六包P2整改追踪,A21,未读取,P2-20,"guozhan-smoke.json, versus-two-smoke.json, doudizhu-observation.json",未写入
+十六包P2整改追踪,B21,未读取,all,"guozhan-smoke.json, versus-two-smoke.json, doudizhu-observation.json",未写入
+十六包P2整改追踪,C21,未读取,Android / 联机 / 斗地主 / 国战 / 2v2,"guozhan-smoke.json, versus-two-smoke.json, doudizhu-observation.json",未写入
+十六包P2整改追踪,D21,未读取,P2,"guozhan-smoke.json, versus-two-smoke.json, doudizhu-observation.json",未写入
+十六包P2整改追踪,E21,未读取,待验证,"guozhan-smoke.json, versus-two-smoke.json, doudizhu-observation.json",未写入
+十六包P2整改追踪,F21,未读取,未覆盖/未通过,"guozhan-smoke.json, versus-two-smoke.json, doudizhu-observation.json",未写入
+十六包P2整改追踪,G21,未读取,Windows 1.11.7 Chrome 国战 8 人、2v2 4 人各 5 项宿主/响应模块检查；斗地主 3 人启动与响应窗口观察。完整六加十组合、Android、联机仍未覆盖。,"guozhan-smoke.json, versus-two-smoke.json, doudizhu-observation.json",未写入
+十六包P2整改追踪,J21,未读取,"guozhan-smoke.json, versus-two-smoke.json, doudizhu-observation.json","guozhan-smoke.json, versus-two-smoke.json, doudizhu-observation.json",未写入
+十六包P2整改追踪,A22,未读取,P2-21,native-roundtrip.json,未写入
+十六包P2整改追踪,B22,未读取,all / 历史火雷原生,native-roundtrip.json,未写入
+十六包P2整改追踪,C22,未读取,LF / CRLF,native-roundtrip.json,未写入
+十六包P2整改追踪,D22,未读取,P2,native-roundtrip.json,未写入
+十六包P2整改追踪,E22,未读取,接受的部署约束,native-roundtrip.json,未写入
+十六包P2整改追踪,F22,未读取,接受的部署约束,native-roundtrip.json,未写入
+十六包P2整改追踪,G22,未读取,十补丁在真实五文件 LF 副本累计应用、逆序撤销、字节恢复。每份 CRLF 实际应用拒绝，哈希未变；重复应用也拒绝。,native-roundtrip.json,未写入
+十六包P2整改追踪,J22,未读取,native-roundtrip.json,native-roundtrip.json,未写入
+十六包P2整改追踪,A23,未读取,P2-22,kuanggu-draw-over-recovery.json,未写入
+十六包P2整改追踪,B23,未读取,shenhua_feng,kuanggu-draw-over-recovery.json,未写入
+十六包P2整改追踪,C23,未读取,xinkuanggu,kuanggu-draw-over-recovery.json,未写入
+十六包P2整改追踪,D23,未读取,P2,kuanggu-draw-over-recovery.json,未写入
+十六包P2整改追踪,E23,未读取,已证明无缺陷,kuanggu-draw-over-recovery.json,未写入
+十六包P2整改追踪,F23,未读取,已证明无缺陷,kuanggu-draw-over-recovery.json,未写入
+十六包P2整改追踪,G23,未读取,未替换宿主 get 估值，真实 damage→狂骨在摸牌大于正回复时确实摸牌，且已核对风包运行字节。,kuanggu-draw-over-recovery.json,未写入
+十六包P2整改追踪,J23,未读取,kuanggu-draw-over-recovery.json,kuanggu-draw-over-recovery.json,未写入
+十六包P2整改追踪,A24,未读取,P2-23,"PROVENANCE.md, ARTIFACTS.json",未写入
+十六包P2整改追踪,B24,未读取,all,"PROVENANCE.md, ARTIFACTS.json",未写入
+十六包P2整改追踪,C24,未读取,builder,"PROVENANCE.md, ARTIFACTS.json",未写入
+十六包P2整改追踪,D24,未读取,P2,"PROVENANCE.md, ARTIFACTS.json",未写入
+十六包P2整改追踪,E24,未读取,接受的部署约束,"PROVENANCE.md, ARTIFACTS.json",未写入
+十六包P2整改追踪,F24,未读取,接受的部署约束,"PROVENANCE.md, ARTIFACTS.json",未写入
+十六包P2整改追踪,G24,未读取,历史 ZIP 不统一重打。六包 Git blob 与生成注册表已核对，新雷 ZIP 可按旧 SHA 与指定提交复现。,"PROVENANCE.md, ARTIFACTS.json",未写入
+十六包P2整改追踪,H24,未读取,11232f8 / 77234ac,"PROVENANCE.md, ARTIFACTS.json",未写入
+十六包P2整改追踪,J24,未读取,"PROVENANCE.md, ARTIFACTS.json","PROVENANCE.md, ARTIFACTS.json",未写入
+十六包P2整改追踪,A25,未读取,P2-24,ACCEPTANCE.md；历史 phase3 证据,未写入
+十六包P2整改追踪,B25,未读取,all,ACCEPTANCE.md；历史 phase3 证据,未写入
+十六包P2整改追踪,C25,未读取,history tests,ACCEPTANCE.md；历史 phase3 证据,未写入
+十六包P2整改追踪,D25,未读取,P2,ACCEPTANCE.md；历史 phase3 证据,未写入
+十六包P2整改追踪,E25,未读取,待验证,ACCEPTANCE.md；历史 phase3 证据,未写入
+十六包P2整改追踪,F25,未读取,未覆盖/未通过,ACCEPTANCE.md；历史 phase3 证据,未写入
+十六包P2整改追踪,G25,未读取,实际只跑受影响路径和关键同宿主冒烟。历史 93 默认场景、89 技能检查和独立十包固定场景继续按范围引用。,ACCEPTANCE.md；历史 phase3 证据,未写入
+十六包P2整改追踪,J25,未读取,ACCEPTANCE.md；历史 phase3 证据,ACCEPTANCE.md；历史 phase3 证据,未写入
+十六包P2整改追踪,A26,未读取,P2-25,"identity-final.json, identity-critical.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,B26,未读取,out_of_scope,"identity-final.json, identity-critical.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,C26,未读取,redimeng,"identity-final.json, identity-critical.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,D26,未读取,P2,"identity-final.json, identity-critical.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,E26,未读取,接受的部署约束,"identity-final.json, identity-critical.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,F26,未读取,接受的部署约束,"identity-final.json, identity-critical.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,G26,未读取,原生 find(2) 不支持。正式扩展二目标合法路径和隐藏牌不变量重新核对，原生 dimeng 独立真实事件通过。,"identity-final.json, identity-critical.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,J26,未读取,"identity-final.json, identity-critical.json, COMPATIBILITY.md","identity-final.json, identity-critical.json, COMPATIBILITY.md",未写入
+十六包P2整改追踪,A27,未读取,P2-01b,"identity-stock.json, P2-01",未写入
+十六包P2整改追踪,B27,未读取,shenhua_yin,"identity-stock.json, P2-01",未写入
+十六包P2整改追踪,C27,未读取,qizhi 人工强制选择,"identity-stock.json, P2-01",未写入
+十六包P2整改追踪,D27,未读取,P2,"identity-stock.json, P2-01",未写入
+十六包P2整改追踪,E27,未读取,仍待修复,"identity-stock.json, P2-01",未写入
+十六包P2整改追踪,F27,未读取,仍待修复,"identity-stock.json, P2-01",未写入
+十六包P2整改追踪,G27,未读取,旧真实事件证明保护装备留存却摸牌。AI 防止此收益进入决策，手选规则维持。,"identity-stock.json, P2-01",未写入
+十六包P2整改追踪,J27,未读取,"identity-stock.json, P2-01","identity-stock.json, P2-01",未写入
+十六包P2整改追踪,A28,未读取,P2-07b,"identity-refined.json, identity-xiongluan-actual.json",未写入
+十六包P2整改追踪,B28,未读取,shenhua_lei / 完整引擎,"identity-refined.json, identity-xiongluan-actual.json",未写入
+十六包P2整改追踪,C28,未读取,drlt_xiongluan 通用 get.effect,"identity-refined.json, identity-xiongluan-actual.json",未写入
+十六包P2整改追踪,D28,未读取,P2,"identity-refined.json, identity-xiongluan-actual.json",未写入
+十六包P2整改追踪,E28,未读取,仍待修复,"identity-refined.json, identity-xiongluan-actual.json",未写入
+十六包P2整改追踪,F28,未读取,仍待修复,"identity-refined.json, identity-xiongluan-actual.json",未写入
+十六包P2整改追踪,G28,未读取,同一完整引擎换旧/新技能评分，泛用 get.effect 均存在友方 +15、敌方惩罚。实际出牌阶段 AI 目标未复现，未提升为 P1。,"identity-refined.json, identity-xiongluan-actual.json",未写入
+十六包P2整改追踪,J28,未读取,"identity-refined.json, identity-xiongluan-actual.json","identity-refined.json, identity-xiongluan-actual.json",未写入
